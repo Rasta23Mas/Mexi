@@ -202,10 +202,8 @@ function arqueo() {
 function confirmarGuardarCaja() {
     var usuarioCaja = $("#idUsuarioCaja").val();
     var saldoCajaSistema = $("#idSaldoCajaSistema").val();
-    alert(totalArqueoGlobal)
-    alert(saldoCajaSistema)
     diferenciaGbl = totalArqueoGlobal - saldoCajaSistema;
-    alert(diferenciaGbl)
+    diferenciaGbl = Math.round(diferenciaGbl * 100) / 100;
     var diferencia = "";
     if (calculado == 0) {
         alert("Debe calcular el arqueo.");
@@ -307,6 +305,8 @@ function validarAjustes() {
             var entradasConCaja = entradas + dotacionCaja;
             saldoCajaGlobal += entradasConCaja;
             saldoCajaGlobal -= salidas;
+            saldoCajaGlobal = Math.round(saldoCajaGlobal * 100) / 100;
+
             $("#idSaldoCajaSistema").val(saldoCajaGlobal);
         }
     })

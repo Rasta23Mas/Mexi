@@ -42,6 +42,7 @@ $cantCostoContrato = $_POST['cantCostoContrato'];
 $costoContrato = $_POST['costoContrato'];
 $total_Salida = $_POST['total_Salida'];
 $total_Entrada = $_POST['total_Entrada'];
+$total_Iva = $_POST['total_Iva'];
 $saldo_Caja = $_POST['saldo_Caja'];
 $efectivo_Caja = $_POST['efectivo_Caja'];
 
@@ -94,6 +95,7 @@ $cantCostoContrato,
 $costoContrato,
 $total_Salida,
 $total_Entrada,
+$total_Iva,
 $saldo_Caja,
 $efectivo_Caja,
 $cantAjustes,

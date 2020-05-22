@@ -54,6 +54,7 @@ var NombreUsuarioGlb = "";
 var cerradoPorGerenteGlb = 0;
 var efectivoGlobalNuevo = 0;
 var idMaxArqueoGlb = 0;
+var TotalIvaGlb = 0;
 
 function validarEsatusCaja() {
 //1 llena movimientos de dotacion y retiro
@@ -467,7 +468,8 @@ function entradasSalidas() {
             TotalEntradaGlb = totalEntrada;
             SaldoCajaGlb = saldoCajaGlobal;
             EfectivoCajaGlb = prestamoNuevo;
-
+            TotalIvaGlb = ivaGlb +ivaVentaGlb;
+            var totalIvaFormato = formatoMoneda(TotalIvaGlb);
             capitalRecuperado = formatoMoneda(capitalRecuperado);
             costoContrato = formatoMoneda(costoContrato);
             abonoCapital = formatoMoneda(abonoCapital);
@@ -477,12 +479,11 @@ function entradasSalidas() {
             prestamoNuevo = formatoMoneda(prestamoNuevo);
             totalSalidas = formatoMoneda(totalSalidas);
             totalEntrada = formatoMoneda(totalEntrada);
-
+            //AUTO
             gps = formatoMoneda(gps);
             poliza = formatoMoneda(poliza);
             pension = formatoMoneda(pension);
-
-
+            //Venta
             venta = formatoMoneda(venta);
             ventaIVA = formatoMoneda(ventaIVA);
             ventaDescuento = formatoMoneda(ventaDescuento);
@@ -518,6 +519,8 @@ function entradasSalidas() {
             document.getElementById('prestamosNuevos').innerHTML = prestamoNuevo;
             //TOTAL ENTRADAS
             document.getElementById('totalEntradas').innerHTML = totalEntrada;
+            //TOTAL IVA
+            document.getElementById('totalIVA').innerHTML = totalIvaFormato;
             //TOTAL SALIDAS
             document.getElementById('totalSalidas').innerHTML = totalSalidas;
             //SALDO EN CAJA
@@ -583,7 +586,6 @@ function movimientosCaja() {
 
 function cajaAjustes() {
     //1 llena movimientos de dotacion y retiro
-    alert("ajustes");
     var tipo = 7;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var idCierreCaja = $("#idCierreCaja").text();
@@ -600,7 +602,6 @@ function cajaAjustes() {
         dataType: "json",
 
         success: function (datos) {
-            alert("ajustews");
             var i = 0;
             var CantAjustes = 0;
             var CantIncremento = 0;
@@ -804,6 +805,7 @@ function guardarCierreCaja() {
         "costoContrato": costoContratoGlb,
         "total_Salida": TotalSalidaGlb,
         "total_Entrada": TotalEntradaGlb,
+        "total_Iva": TotalIvaGlb,
         "saldo_Caja": SaldoCajaGlb,
         "efectivo_Caja": efectivoGlobalNuevo,
         "cantRefrendos": CantRefrendosGlb,

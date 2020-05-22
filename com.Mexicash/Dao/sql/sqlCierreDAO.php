@@ -295,7 +295,7 @@ class sqlCierreDAO
                                $cantIva, $iva, $cantMostrador, $mostrador, $cantIvaVenta, $iva_venta, $cantApartados,$apartadosVenta,$cantAbonoVenta,$abonoVentas,
                                $cantGps, $gps,
                                $cantPoliza, $poliza, $cantPension, $pension, $cantRetiros, $retirosCaja, $cantPrestamos, $prestamosNuevos, $cantDescuentos, $descuentosAplicados,
-                               $cantDescuentosVentas, $descuento_Ventas, $cantCostoContrato, $costoContrato, $total_Salida, $total_Entrada, $saldo_Caja, $efectivo_Caja,
+                               $cantDescuentosVentas, $descuento_Ventas, $cantCostoContrato, $costoContrato, $total_Salida, $total_Entrada, $total_Iva,$saldo_Caja, $efectivo_Caja,
                                $cantAjustes, $ajuste,$CantIncremento, $incrementoPatrimonio, $cantRefrendos, $informeRefrendo, $idCierreCaja, $cerradoPorGerenteGlb)
     {
         try {
@@ -310,7 +310,7 @@ class sqlCierreDAO
                             pension=$pension,cantRetiros=$cantRetiros,retirosCaja=$retirosCaja,cantPrestamos=$cantPrestamos,prestamosNuevos=$prestamosNuevos,
                             cantDescuentos=$cantDescuentos,descuentosAplicados=$descuentosAplicados,cantDescuentosVentas=$cantDescuentosVentas,
                             descuento_Ventas=$descuento_Ventas,cantCostoContrato=$cantCostoContrato,costoContrato=$costoContrato,total_Salida=$total_Salida,
-                            total_Entrada=$total_Entrada,saldo_Caja=$saldo_Caja,efectivo_Caja=$efectivo_Caja,cantAjustes=$cantAjustes,ajuste=$ajuste,cantIncremento=$CantIncremento,incremento=$incrementoPatrimonio,
+                            total_Entrada=$total_Entrada,total_Iva=$total_Iva,saldo_Caja=$saldo_Caja,efectivo_Caja=$efectivo_Caja,cantAjustes=$cantAjustes,ajuste=$ajuste,cantIncremento=$CantIncremento,incremento=$incrementoPatrimonio,
                             cantRefrendos=$cantRefrendos,informeRefrendo=$informeRefrendo,fecha_Creacion='$fechaCreacion',estatus=2, CerradoPorGerente=$cerradoPorGerenteGlb WHERE id_CierreCaja=$idCierreCaja and estatus =1";
             if ($ps = $this->conexion->prepare($updateArqueo)) {
                 if ($ps->execute()) {

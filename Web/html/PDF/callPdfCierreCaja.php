@@ -91,6 +91,7 @@ foreach ($resultado as $row) {
     $costoContrato = $row["costoContrato"];
     $total_Salida = $row["total_Salida"];
     $total_Entrada = $row["total_Entrada"];
+    $total_Iva = $row["total_Iva"];
     $saldo_Caja = $row["saldo_Caja"];
     $efectivo_Caja = $row["efectivo_Caja"];
     $cantAjustes = $row["cantAjustes"];
@@ -128,6 +129,7 @@ $descuento_Ventas = number_format($descuento_Ventas, 2, '.', ',');
 $costoContrato = number_format($costoContrato, 2, '.', ',');
 $total_Salida = number_format($total_Salida, 2, '.', ',');
 $total_Entrada = number_format($total_Entrada, 2, '.', ',');
+$total_Iva = number_format($total_Iva, 2, '.', ',');
 $saldo_Caja = number_format($saldo_Caja, 2, '.', ',');
 $efectivo_Caja = number_format($efectivo_Caja, 2, '.', ',');
 $ajuste = number_format($ajuste, 2, '.', ',');
@@ -154,6 +156,7 @@ $descuento_Ventas = "$" . $descuento_Ventas;
 $costoContrato = "$" . $costoContrato;
 $total_Salida = "$" . $total_Salida;
 $total_Entrada = "$" . $total_Entrada;
+$total_Iva = "$" . $total_Iva;
 $saldo_Caja = "$" . $saldo_Caja;
 $efectivo_Caja = "$" . $efectivo_Caja;
 $ajuste = "$" . $ajuste;
@@ -588,11 +591,11 @@ if (!isset($_GET['pdf'])) {
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
+                         <td class="primeraColTotales tableTDCierre" colspan="2">
+                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
-                               <label >' . $total_Salida . '</label>
+                              <label >' . $total_Iva . '</label>
                         </td>
                     </tr>
                 <tr>
@@ -609,16 +612,16 @@ if (!isset($_GET['pdf'])) {
                             <br>
                         </td>
                         <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
-                              <label >' . $saldo_Caja . '</label>
+                               <label >' . $total_Salida . '</label>
+                        </td>
+    
                         </td>
                     </tr>
                 <tr>
-                    <td colspan="3" >
-
-                        </td>
+                        <td colspan="3" ></td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -630,13 +633,18 @@ if (!isset($_GET['pdf'])) {
                         </td>
                     </tr>
                 <tr>
-                                        <td colspan="3" class="titleTable tableTDCierre">
+                        <td colspan="3" class="titleTable tableTDCierre">
                             <label>&nbsp;&nbsp;&nbsp;VENTAS</label>
                         </td>
                        
-                        <td colspan="4">
+                        <td colspan="1">
                             <br>
                         </td>
+                        <td class="primeraColTotales tableTDCierre" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
+                        </td>
+                        <td class="terceraCol tableTDCierre">
+                              <label >' . $saldo_Caja . '</label>
                     </tr>
                 <tr>
                 <td class="primeraCol tableTDCierre">
@@ -1105,11 +1113,11 @@ $contenido .= '<table align="center" border="0" class="letraGrandeNegrita">
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                         <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
+                        <td class="primeraColTotales tableTDCierre" colspan="2">
+                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
-                               <label >' . $total_Salida . '</label>
+                              <label >' . $total_Iva . '</label>
                         </td>
                     </tr>
                 <tr>
@@ -1126,12 +1134,12 @@ $contenido .= '<table align="center" border="0" class="letraGrandeNegrita">
                             <br>
                         </td>
                         <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
-                              <label >' . $saldo_Caja . '</label>
+                               <label >' . $total_Salida . '</label>
                         </td>
-                       
+                     
                     </tr>
                 <tr>
                        <td colspan="3" >
@@ -1140,18 +1148,24 @@ $contenido .= '<table align="center" border="0" class="letraGrandeNegrita">
                             <br>
                         </td>
                         <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
-                              <label >' . $efectivo_Caja . '</label>
+                              <label >' . $saldo_Caja . '</label>
                         </td>
                     </tr>
                 <tr>
                        <td colspan="3" class="titleTable tableTDCierre">
                             <label>&nbsp;&nbsp;&nbsp;VENTAS</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="1">
                             <br>
+                        </td>
+                        <td class="primeraColTotales tableTDCierre" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
+                        </td>
+                        <td class="terceraCol tableTDCierre">
+                              <label >' . $efectivo_Caja . '</label>
                         </td>
                     </tr>
                 <tr>
