@@ -37,6 +37,7 @@ var descuentosVentasGlb = 0;
 var CantCostoContratoGbl = 0;
 var costoContratoGbl = 0;
 var totalEntradasGlb = 0;
+var totalIVAGLB = 0;
 var totalSalidasGlb = 0;
 var saldoFinalGlb = 0;
 
@@ -113,7 +114,6 @@ function llenarSaldosSucursal() {
 }
 
 function llenarEntradasSalidas() {
-    alert("entradasSAl");
     var tipo = 3;
     var dataEnviar = {
         "tipo": tipo,
@@ -160,6 +160,7 @@ function llenarEntradasSalidas() {
             var costoContratoSuma = 0;
             var total_SalidaSuma = 0;
             var total_EntradaSuma = 0;
+            var total_IVASuma = 0;
 
             for (i; i < datos.length; i++) {
                 var dotacionesA_Caja = datos[i].dotacionesA_Caja;
@@ -195,6 +196,9 @@ function llenarEntradasSalidas() {
                 var costoContrato = datos[i].costoContrato;
                 var total_Salida = datos[i].total_Salida;
                 var total_Entrada = datos[i].total_Entrada;
+                var total_Iva = datos[i].totalIVA;
+
+
                 dotacionesA_Caja = Math.round(dotacionesA_Caja * 100) / 100;
                 cantCapitalRecuperado = Math.round(cantCapitalRecuperado * 100) / 100;
                 capitalRecuperado = Math.round(capitalRecuperado * 100) / 100;
@@ -261,7 +265,7 @@ function llenarEntradasSalidas() {
                 costoContratoSuma += costoContrato;
                 total_EntradaSuma += total_Entrada;
                 total_SalidaSuma += total_Salida;
-
+                total_IVASuma += total_Iva;
             }
 
             DotacionesCajaGlb += dotacionesA_CajaSuma;
@@ -296,6 +300,7 @@ function llenarEntradasSalidas() {
             CantCostoContratoGbl += cantCostoContratoSuma;
             costoContratoGbl += costoContratoSuma;
             totalEntradasGlb += total_EntradaSuma;
+            totalIVAGLB += total_IVASuma;
             totalSalidasGlb += total_SalidaSuma;
             saldoFinalGlb = totalEntradasGlb - totalSalidasGlb;
             var saldoFinal = saldoFinalGlb;
@@ -320,6 +325,8 @@ function llenarEntradasSalidas() {
             descuento_VentasSuma = formatoMoneda(descuento_VentasSuma);
             costoContratoSuma = formatoMoneda(costoContratoSuma);
             total_EntradaSuma = formatoMoneda(total_EntradaSuma);
+            total_IVASuma = formatoMoneda(total_IVASuma);
+
             total_SalidaSuma = formatoMoneda(total_SalidaSuma);
             saldoFinal = formatoMoneda(saldoFinal);
 
@@ -355,6 +362,7 @@ function llenarEntradasSalidas() {
             document.getElementById('CantPatrimonio').innerHTML = "( " + CantIncrementoSuma + " )";
             document.getElementById('patrimonio').innerHTML = incrementoSuma;
             document.getElementById('totalEntrados').innerHTML = total_EntradaSuma;
+            document.getElementById('totalIVA').innerHTML = total_IVASuma;
             document.getElementById('totalSalidas').innerHTML = total_SalidaSuma;
             document.getElementById('saldoFinal').innerHTML = saldoFinal;
             llenarGeneral();

@@ -554,7 +554,7 @@ class sqlCierreDAO
                         cantMostrador, mostrador, cantIvaVenta, iva_venta, cantApartados,apartadosVentas,cantAbonoVentas,abonoVentas,gps, poliza,pension,cantAjustes, ajuste,
                         CantIncremento,incremento,
                         cantRetiros,retirosCaja, cantPrestamos,prestamosNuevos,cantDescuentos,descuentosAplicados,cantDescuentosVentas,descuento_Ventas,cantCostoContrato,
-                        costoContrato,total_Salida,total_Entrada
+                        costoContrato,total_Salida,total_Entrada,total_Iva
                         FROM bit_cierrecaja
                         WHERE id_CierreSucursal= $idCierreSucursal AND estatus=2";
             $rs = $this->conexion->query($buscar);
@@ -595,6 +595,8 @@ class sqlCierreDAO
                         "costoContrato" => $row["costoContrato"],
                         "total_Salida" => $row["total_Salida"],
                         "total_Entrada" => $row["total_Entrada"],
+                        "totalIVA" => $row["total_Iva"],
+
                     ];
                     array_push($datos, $data);
                 }

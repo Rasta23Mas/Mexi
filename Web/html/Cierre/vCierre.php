@@ -386,12 +386,11 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <br>
                         </td>
                         <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="totalSalidas"></label>
+                            <label id="totalIVA"></label>
                         </td>
-
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -407,13 +406,11 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <br>
                         </td>
                         <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="saldoFinal"></label>
+                            <label id="totalSalidas"></label>
                         </td>
-
-
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -428,9 +425,12 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3">
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
                         </td>
-
+                        <td class="terceraCol border border-primary">
+                            <label id="saldoFinal"></label>
+                        </td>
 
                     </tr>
                     <tr>
@@ -444,14 +444,9 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <label id="gps"></label>
                         </td>
 
-                        <td class="espacioEnmedio ">
+                        <td class="espacioEnmedio " colspan="4">
                             <br>
                         </td>
-                        <td colspan="3" class="titleTable border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;DEPOSITARÍA</label>
-                        </td>
-
-
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -466,6 +461,10 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
 
                         <td class="espacioEnmedio ">
                             <br>
+                        </td>
+
+                        <td colspan="3" class="titleTable border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;INFORMATIVOS</label>
                         </td>
                         <td class="primeraColTotales  border border-primary" colspan="2">
                             <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
