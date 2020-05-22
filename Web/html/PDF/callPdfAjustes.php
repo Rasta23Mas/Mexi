@@ -50,7 +50,6 @@ $buscarAjustes = "
 FROM
     bit_arqueo
     WHERE id_Arqueo = $idArqueo ";
-echo $buscarAjustes;
 $arqueo = $mysql->query($buscarAjustes);
 foreach ($arqueo as $fila) {
     $incremento_pat = $fila['incremento_pat'];

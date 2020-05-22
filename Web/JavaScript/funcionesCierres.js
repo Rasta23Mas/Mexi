@@ -53,6 +53,7 @@ var folioCierreCaja = 0;
 var NombreUsuarioGlb = "";
 var cerradoPorGerenteGlb = 0;
 var efectivoGlobalNuevo = 0;
+var idMaxArqueoGlb = 0;
 
 function validarEsatusCaja() {
 //1 llena movimientos de dotacion y retiro
@@ -78,20 +79,55 @@ function validarEsatusCaja() {
                 if (estatus == 2) {
                     alert("El proceso de Cierre de Caja ya fue realizado.");
                 } else {
-                    $("#guardarCaja").prop('disabled', false);
-                    movimientosEfectivo();
+                    validarArqueoCierre();
                 }
             }
         },
     })
 }
 
+function validarArqueoCierre() {
+//1 llena movimientos de dotacion y retiro
+    var tipo = 8;
+    var idUsuarioSelect = $("#idUsuarioCaja").val();
+    var idCierreCaja = $("#idCierreCaja").text();
+    NombreUsuarioGlb = $('select[name="usuarioCaja"] option:selected').text();
+    var dataEnviar = {
+        "tipo": tipo,
+        "idUsuarioSelect": idUsuarioSelect,
+        "idCierreCaja": idCierreCaja,
+
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreCaja.php',
+        type: 'post',
+        dataType: "json",
+        success: function (response) {
+            if (response.status == 'ok') {
+                idMaxArqueoGlb = response.result.idArqueo;
+                if(idMaxArqueoGlb!=null){
+                    $("#guardarCaja").prop('disabled', false);
+                    movimientosEfectivo();
+                }else{
+                    alert("El usuario: " + NombreUsuarioGlb + ", no tiene guardado el arqueo a caja.");
+                    location.href = '../Cierre/vArqueo.php'
+                }
+            }else{
+                alert("El usuario: " + NombreUsuarioGlb + ", no tiene guardado el arqueo a caja.");
+                location.href = '../Cierre/vArqueo.php'
+            }
+        },
+    })
+}
+
+
 function movimientosEfectivo() {
     //1 llena movimientos de dotacion y retiro
     var tipo = 1;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var validaFlujo = 0;
-    NombreUsuarioGlb = $('select[name="usuarioCaja"] option:selected').text();
+
     var idCierreCaja = $("#idCierreCaja").text();
     var dataEnviar = {
         "tipo": tipo,
@@ -524,7 +560,6 @@ function movimientosCaja() {
             var i = 0;
             var efectivoSinRetiros = 0;
             var validaArqueo = 0;
-
             for (i; i < datos.length; i++) {
                 validaArqueo = 1;
                 var total_Cierre = datos[i].total_Cierre;
@@ -548,6 +583,7 @@ function movimientosCaja() {
 
 function cajaAjustes() {
     //1 llena movimientos de dotacion y retiro
+    alert("ajustes");
     var tipo = 7;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var idCierreCaja = $("#idCierreCaja").text();
@@ -564,6 +600,7 @@ function cajaAjustes() {
         dataType: "json",
 
         success: function (datos) {
+            alert("ajustews");
             var i = 0;
             var CantAjustes = 0;
             var CantIncremento = 0;

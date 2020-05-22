@@ -23,6 +23,8 @@ if($tipo==1){
     $sqlTblCierre->llenarInformeRefrendo($idCierreCaja);
 }else if($tipo==7){
     $sqlTblCierre->llenarAjustesCaja($idCierreCaja);
+}else if($tipo==8){
+    $sqlTblCierre->validaCierreCajaArqueo($idCierreCaja);
 }
 
 

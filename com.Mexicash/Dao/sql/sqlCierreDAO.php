@@ -115,6 +115,27 @@ class sqlCierreDAO
         echo json_encode($data);
     }
 
+    function validaCierreCajaArqueo($idCierreCaja)
+    {
+        try {
+            $buscarMaxArqueo = "SELECT max(id_Arqueo) as idArqueo 
+                                    FROM bit_arqueo WHERE id_cierreCaja= $idCierreCaja";
+            $rs = $this->conexion->query($buscarMaxArqueo);
+            if ($rs->num_rows > 0) {
+                $consulta = $rs->fetch_assoc();
+                $data['status'] = 'ok';
+                $data['result'] = $consulta;
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        //return  json_encode($data);
+        echo json_encode($data);
+    }
+
     function traerCierreCaja($idUsuarioSelect)
     {
         try {
@@ -234,8 +255,8 @@ class sqlCierreDAO
                         array_push($datos, $data);
                     }
                 }
-            } else {
-                $id_flujo = 0;
+            }else{
+                echo -1;
             }
         } catch (Exception $exc) {
             echo $exc->getMessage();
@@ -354,7 +375,8 @@ class sqlCierreDAO
         try {
             $buscar = "SELECT s_prestamo_nuevo AS Prestamo
                         FROM contratomovimientos_tbl AS Mov 
-                        WHERE Mov.tipo_movimiento = 3 AND Mov.id_CierreCaja=$idCierreCaja";
+                        WHERE Mov.id_CierreCaja=$idCierreCaja AND 
+                         Mov.tipo_movimiento = 4 || Mov.tipo_movimiento = 8";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
