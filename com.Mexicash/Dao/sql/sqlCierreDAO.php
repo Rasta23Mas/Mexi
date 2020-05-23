@@ -663,10 +663,8 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
-            $idCierreSucursal = $_SESSION["idCierreSucursal"];
-
             $buscar = "SELECT prestamo_Informativo  FROM contratomovimientos_tbl
-                        WHERE id_cierreSucursal= $idCierreSucursal and tipo_movimiento=4";
+                        WHERE tipo_movimiento=24";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
