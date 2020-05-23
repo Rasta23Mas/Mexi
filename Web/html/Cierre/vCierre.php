@@ -465,13 +465,6 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         <td colspan="3" class="titleTable border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;INFORMATIVOS</label>
                         </td>
-                        <td class="primeraColTotales  border border-primary" colspan="2">
-                            <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
-                        </td>
-                        <td class="terceraCol  border border-primary">
-                            <label id="saldoInicialDepo"></label>
-                        </td>
-
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -486,11 +479,11 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales  border border-primary"  colspan="2">
-                            <label>&nbsp;&nbsp;&nbsp;ENTRADAS:</label>
+                        <td class="primeraColTotales  border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="entradas"></label>
+                            <label id="saldoInicialDepo"></label>
                         </td>
                     </tr>
                     <tr>
@@ -507,10 +500,10 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <br>
                         </td>
                         <td class="primeraColTotales  border border-primary"  colspan="2">
-                            <label>&nbsp;&nbsp;&nbsp;SALIDAS:</label>
+                            <label>&nbsp;&nbsp;&nbsp;ENTRADAS:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="salidas"></label>
+                            <label id="entradas"></label>
                         </td>
                     </tr>
                     <tr>
@@ -522,6 +515,20 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         </td>
                         <td class="terceraCol  border border-primary">
                             <label id="ajustes"></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALIDAS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="salidas"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -545,18 +552,6 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         </td>
                         <td class="terceraCol  border border-primary">
                             <label id="depositariaVigente"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="primeraCol" colspan="3">
-                            <label></label>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-
-                        <td class="primeraCol" colspan="3">
-                            <label></label>
                         </td>
                     </tr>
                     <tr>

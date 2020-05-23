@@ -276,7 +276,7 @@ function saldosSucursal() {
             if (response == 1) {
                 buscaridCaja()
             } else {
-                alertify.error("Error en al conectar con el servidor. (FLErr09)")
+                alertify.error("Error en al conectar con el servidor. (FLErr091)")
             }
         }
     });
