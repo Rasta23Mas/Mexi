@@ -547,11 +547,17 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                   <!--     <td class="primeraColTotales  border border-primary"  colspan="2">
                             <label>&nbsp;&nbsp;&nbsp;DEPOSITARIA VIGENTE:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
                             <label id="depositariaVigente"></label>
+                        </td>-->
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="apartadosInfo"></label>
                         </td>
                     </tr>
                     <tr>
@@ -561,8 +567,25 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;ABONOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="abonosInfo"></label>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="primeraCol" colspan="3">
                             <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;TOTAL INVENTARIO:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="totalInventarioInfo"></label>
                         </td>
                     </tr>
                     <tr>

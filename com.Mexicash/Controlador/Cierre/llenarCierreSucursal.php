@@ -18,6 +18,8 @@ if($tipo==1){
     $sqlTblCierre->llenarGenerales($idCierreSucursal);
 }else if($tipo==5){
     $sqlTblCierre->llenarInformativo();
+}else if($tipo==6){
+    $sqlTblCierre->ventasInfo();
 }
 
 

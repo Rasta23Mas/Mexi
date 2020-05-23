@@ -50,6 +50,11 @@ var DepositariaVencidaGbl = 0;
 var DepositariaVigenteGbl = 0;
 var TotalDepositariaGbl = 0;
 
+var totalAbonosGbl = 0;
+var totalApartadosGbl = 0;
+var totalInventarioGbl = 0;
+var utilidadVentaGlb = 0;
+
 function validarEsatusSucursal() {
     var tipo = 1;
     idCierreSucursalGlb = $("#idCierreSucursal").text();
@@ -431,7 +436,9 @@ function llenarInformativo() {
 
         success: function (datos) {
             var i = 0;
-            var saldoInicial = 0;
+            var abonosTotal = 0;
+            var apartadosTotal = 0;
+            var totalInventario= 0;
 
 
             for (i; i < datos.length; i++) {
@@ -441,23 +448,133 @@ function llenarInformativo() {
                 prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
 
                 if(tipo_movimiento==22){
-                    saldoInicial += prestamo_Informativo;
+                    apartadosTotal += prestamo_Informativo;
                 }
                 else if(tipo_movimiento==23){
-                    saldoInicial += prestamo_Informativo;
+                    abonosTotal += prestamo_Informativo;
                 }
-                else if(tipo_movimiento==24){
-                    saldoInicial += prestamo_Informativo;
+                else if(tipo_movimiento==3){
+                    totalInventario += prestamo_Informativo;
                 }
-            }
-            entradasDepositariaGbl = depositariaVigente;
-            depositariaVigente = formatoMoneda(depositariaVigente);
 
-            document.getElementById('depositariaVigente').innerHTML = depositariaVigente;
+            }
+            apartadosTotal = Math.round(apartadosTotal * 100) / 100;
+            abonosTotal = Math.round(abonosTotal * 100) / 100;
+            totalInventario = Math.round(totalInventario * 100) / 100;
+
+
+
+            totalAbonosGbl = abonosTotal;
+             totalApartadosGbl = apartadosTotal;
+            totalInventarioGbl = totalInventario;
+
+
+            abonosTotal = formatoMoneda(abonosTotal);
+            apartadosTotal = formatoMoneda(apartadosTotal);
+            totalInventario = formatoMoneda(totalInventario);
+
+
+            document.getElementById('apartadosInfo').innerHTML = apartadosTotal;
+            document.getElementById('abonosInfo').innerHTML = abonosTotal;
+            document.getElementById('totalInventarioInfo').innerHTML = totalInventario;
+
+            llenarVentas();
+        }
+    })
+}
+function llenarVentas() {
+    var tipo = 6;
+    var dataEnviar = {
+        "tipo": tipo,
+        "idCierreSucursal": idCierreSucursalGlb,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            var salidasInfo = 0;
+            var utilidadVenta = 0;
+
+
+            for (i; i < datos.length; i++) {
+                var prestamo_Informativo = datos[i].prestamo_Informativo;
+                var v_PrecioVenta = datos[i].v_PrecioVenta;
+
+                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                v_PrecioVenta = Math.round(v_PrecioVenta * 100) / 100;
+
+                salidasInfo += prestamo_Informativo;
+                var utilidad = v_PrecioVenta-prestamo_Informativo;
+
+                utilidadVenta+=utilidad;
+            }
+            utilidadVenta = Math.round(utilidadVenta * 100) / 100;
+            salidasInfo = Math.round(salidasInfo * 100) / 100;
+
+            utilidadVentaGlb = utilidadVenta;
+            salidasDepositariaGbl = salidasInfo;
+
+            utilidadVenta = formatoMoneda(utilidadVenta);
+            salidasInfo = formatoMoneda(salidasInfo);
+
+
+            document.getElementById('utilidad').innerHTML = utilidadVenta;
+            document.getElementById('salidas').innerHTML = salidasInfo;
+            pasarBazar();
         }
     })
 }
 
+function pasarBazar() {
+    var tipo = 7;
+    var dataEnviar = {
+        "tipo": tipo,
+        "idCierreSucursal": idCierreSucursalGlb,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            var salidasInfo = 0;
+            var utilidadVenta = 0;
+
+
+            for (i; i < datos.length; i++) {
+                var prestamo_Informativo = datos[i].prestamo_Informativo;
+                var v_PrecioVenta = datos[i].v_PrecioVenta;
+
+                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                v_PrecioVenta = Math.round(v_PrecioVenta * 100) / 100;
+
+                salidasInfo += prestamo_Informativo;
+                var utilidad = v_PrecioVenta-prestamo_Informativo;
+
+                utilidadVenta+=utilidad;
+            }
+            utilidadVenta = Math.round(utilidadVenta * 100) / 100;
+            salidasInfo = Math.round(salidasInfo * 100) / 100;
+
+            utilidadVentaGlb = utilidadVenta;
+            salidasDepositariaGbl = salidasInfo;
+
+            utilidadVenta = formatoMoneda(utilidadVenta);
+            salidasInfo = formatoMoneda(salidasInfo);
+
+
+            document.getElementById('utilidad').innerHTML = utilidadVenta;
+            document.getElementById('salidas').innerHTML = salidasInfo;
+
+        }
+    })
+}
 
 function confirmarCierreSucursal() {
     alertify.confirm('Cierre de Sucursal',

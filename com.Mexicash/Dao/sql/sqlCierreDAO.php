@@ -639,14 +639,42 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $id_CierreSucursal = $_SESSION["idCierreSucursal"];
+
             $buscar = "SELECT prestamo_Informativo,tipo_movimiento  FROM contratomovimientos_tbl
-                        WHERE id_cierreSucursal= ";
+                        WHERE id_cierreSucursal= $id_CierreSucursal and tipo_movimiento=23 || tipo_movimiento=22|| tipo_movimiento=3";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "prestamo_Informativo" => $row["prestamo_Informativo"],
                         "tipo_movimiento" => $row["tipo_movimiento"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    function ventasInfo()
+    {
+        $datos = array();
+        try {
+            $fechaCreacion = date('Y-m-d');
+            $buscar = "SELECT prestamo_Informativo,v_PrecioVenta
+                        FROM contratomovimientos_tbl
+                        WHERE  fecha_Venta='$fechaCreacion' and tipo_movimiento = 6";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "prestamo_Informativo" => $row["prestamo_Informativo"],
+                        "v_PrecioVenta" => $row["v_PrecioVenta"],
                     ];
                     array_push($datos, $data);
                 }
