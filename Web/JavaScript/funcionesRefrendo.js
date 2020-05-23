@@ -40,7 +40,7 @@ var token_poliza = 0;
 var token_movimiento = 1;
 //
 var totalAvaluoGbl = 0;
-
+var prestamoInfoGbl = 0;
 //tipo de contrato 1 normal; 2 auto
 //tipo de formulario 1 refrendo normal, 2 refrendo auto; 3 desempeño normal, 4 desempeño auto
 
@@ -229,6 +229,7 @@ function buscarDatosContrato() {
                     var DiasContrato = datos[i].Dias;
                     var TotalInteresPrestamo = datos[i].TotalInteresPrestamo;
                     totalAvaluoGbl = datos[i].TotalAvaluo;
+                    prestamoInfoGbl = datos[i].PrestamoInfo;
                     var TotalPrestamo = datos[i].TotalPrestamoMovimiento;
                     prestamoPDF = TotalPrestamo;
                     var Abono = datos[i].AbonoMovimiento;
@@ -1157,6 +1158,8 @@ function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, ne
         "abonoFinal": abonoFinal,
         "descuentoFinal": descuentoFinal,
         "costo_Contrato": costo_Contrato,
+        "prestamo_Informativo": prestamoInfoGbl,
+
     };
 
     $.ajax({
@@ -1174,7 +1177,6 @@ function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, ne
 }
 
 function MovimientosRefrendoSinInteres() {
-    alert("sin interes")
     //tipo_movimiento = 3 cat_movimientos-->Operacion-->Empeño
     var id_contrato = contratoGbl;
     var plazo = '';
@@ -1237,7 +1239,7 @@ function MovimientosRefrendoSinInteres() {
         "abonoFinal": abonoFinal,
         "descuentoFinal": descuentoFinal,
         "costo_Contrato": costo_Contrato,
-
+        "prestamo_Informativo": prestamoInfoGbl,
     };
 
     $.ajax({

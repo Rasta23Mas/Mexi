@@ -145,7 +145,8 @@ class sqlDesempenoDAO
                         Con.polizaSeguro AS PolizaSeguro,
                         Con.gps AS GPS,
                         Con.pension AS Pension,
-                        ConMov.total_Avaluo as TotalAvaluo
+                        ConMov.total_Avaluo as TotalAvaluo,                        
+                        ConMov.prestamo_Informativo as PrestamoInfo
                         From contratomovimientos_tbl AS ConMov
                         INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato
 						WHERE ConMov.id_movimiento = $IdMovimiento";
@@ -172,6 +173,8 @@ class sqlDesempenoDAO
                         "GPS" => $row["GPS"],
                         "Pension" => $row["Pension"],
                         "TotalAvaluo" => $row["TotalAvaluo"],
+                        "PrestamoInfo" => $row["PrestamoInfo"],
+
 
                     ];
                     array_push($datos, $data);
