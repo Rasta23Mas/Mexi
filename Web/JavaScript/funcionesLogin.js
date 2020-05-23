@@ -280,7 +280,9 @@ function saldoInicialInformativo() {
             var saldoInicial = 0;
 
             for (i; i < datos.length; i++) {
+
                 var prestamo_Informativo = datos[i].prestamo_Informativo;
+                alert(prestamo_Informativo)
                 prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
                 saldoInicial += prestamo_Informativo;
             }
