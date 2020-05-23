@@ -379,6 +379,8 @@ function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, t
         "abonoFinal": 0,
         "descuentoFinal": 0,
         "costo_Contrato": costo_Contrato,
+        "prestamo_Informativo": s_prestamo_nuevo,
+
     };
 
     $.ajax({

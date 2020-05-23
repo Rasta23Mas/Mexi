@@ -29,6 +29,7 @@ $tipo_movimiento = $_POST['tipo_movimiento'];
 $abonoFinal = $_POST['abonoFinal'];
 $descuentoFinal = $_POST['descuentoFinal'];
 $costo_Contrato = $_POST['costo_Contrato'];
+$prestamo_Informativo = $_POST['prestamo_Informativo'];
 $e_iva = $_POST['e_iva'];
 
 
@@ -60,6 +61,7 @@ $sqlMovimientos->insertarMovimiento(
     $abonoFinal,
     $descuentoFinal,
     $costo_Contrato,
+    $prestamo_Informativo,
     $e_iva
 );
 
