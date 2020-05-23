@@ -412,12 +412,12 @@ function llenarGeneral() {
             document.getElementById('aportaciones').innerHTML = aportacionesBovedaGlb;
             document.getElementById('CantRetiros').innerHTML = "( " + CantRetirosBovedaGlb + " )";
             document.getElementById('retiros').innerHTML = retirosBovedaGlb;
-            llenarDepositaria();
+            llenarInformativo();
         }
     })
 }
 
-function llenarDepositaria() {
+function llenarInformativo() {
     var tipo = 5;
     var dataEnviar = {
         "tipo": tipo,
@@ -431,13 +431,24 @@ function llenarDepositaria() {
 
         success: function (datos) {
             var i = 0;
-            var depositariaVigente = 0;
+            var saldoInicial = 0;
+
 
             for (i; i < datos.length; i++) {
-                var precio_venta = datos[i].precio_venta;
+                var prestamo_Informativo = datos[i].prestamo_Informativo;
+                var tipo_movimiento = datos[i].tipo_movimiento;
 
-                precio_venta = Math.round(precio_venta * 100) / 100;
-                depositariaVigente += precio_venta;
+                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+
+                if(tipo_movimiento==22){
+                    saldoInicial += prestamo_Informativo;
+                }
+                else if(tipo_movimiento==23){
+                    saldoInicial += prestamo_Informativo;
+                }
+                else if(tipo_movimiento==24){
+                    saldoInicial += prestamo_Informativo;
+                }
             }
             entradasDepositariaGbl = depositariaVigente;
             depositariaVigente = formatoMoneda(depositariaVigente);

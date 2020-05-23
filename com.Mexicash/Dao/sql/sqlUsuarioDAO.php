@@ -374,21 +374,14 @@ class sqlUsuarioDAO
         try {
             $retorna = 0;
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
-            $sucursal = $_SESSION["sucursal"];
-            $importeSaldoBoveda = 0;
-            $DepositariaSaldoInicial = 0;
 
             $saldoBoveda = "SELECT importe FROM flujototales_tbl where id_flujoAgente=3";
             $statement = $this->conexion->query($saldoBoveda);
             $fila = $statement->fetch_object();
             $importeSaldoBoveda = $fila->importe;
 
-            $BuscarSaldoInicial = "SELECT s_prestamo_nuevo FROM contratomovimientos_tbl where sucursal=$sucursal and tipo_movimiento==3 || tipo_movimiento===7";
-            $statement = $this->conexion->query($BuscarSaldoInicial);
-            $fila = $statement->fetch_object();
-            $DepositariaSaldoInicial = $fila->s_prestamo_nuevo;
 
-            $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda, DepoSaldoInicial=$DepositariaSaldoInicial
+            $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda
                 WHERE id_CierreSucursal=$id_CierreSucursal and estatus=1";
             if ($ps = $this->conexion->prepare($updateSaldoInicial)) {
                 if ($ps->execute()) {

@@ -336,7 +336,6 @@ class sqlCierreDAO
 
         try {
             $sucursal = $_SESSION["sucursal"];
-            $idCierreSucursal = $_SESSION["idCierreSucursal"];
             $tipoUsuario = $_SESSION['tipoUsuario'];
             $usuario = $_SESSION["idUsuario"];
 
@@ -636,17 +635,43 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function llenarDepositaria($idCierreSucursal)
+    function llenarInformativo()
     {
         $datos = array();
         try {
-            $buscar = "SELECT precio_venta  FROM bazar_articulos
-                        WHERE id_CierreSucursal= $idCierreSucursal";
+            $buscar = "SELECT prestamo_Informativo,tipo_movimiento  FROM contratomovimientos_tbl
+                        WHERE id_cierreSucursal= ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "precio_venta" => $row["precio_venta"],
+                        "prestamo_Informativo" => $row["prestamo_Informativo"],
+                        "tipo_movimiento" => $row["tipo_movimiento"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    function saldoInicialInformativo()
+    {
+        $datos = array();
+        try {
+            $idCierreSucursal = $_SESSION["idCierreSucursal"];
+
+            $buscar = "SELECT prestamo_Informativo  FROM contratomovimientos_tbl
+                        WHERE id_cierreSucursal= $idCierreSucursal and tipo_movimiento=4";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "prestamo_Informativo" => $row["prestamo_Informativo"],
                     ];
                     array_push($datos, $data);
                 }
