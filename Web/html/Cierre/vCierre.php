@@ -394,13 +394,13 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantApartados"></label>
+                        <!--<label id="CantIvaUtilidad"></label>-->
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+                            <label>&nbsp;&nbsp;&nbsp;UTILIDAD VENTA:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="apartadoVenta"></label>
+                            <label id="utilidad"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -414,13 +414,13 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantAbonoVenta"></label>
+                            <label id="CantApartados"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;ABONO:</label>
+                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="abonoVenta"></label>
+                            <label id="apartadoVenta"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -435,13 +435,13 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantGPS"></label>
+                            <label id="CantAbonoVenta"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;GPS:</label>
+                            <label>&nbsp;&nbsp;&nbsp;ABONO:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="gps"></label>
+                            <label id="abonoVenta"></label>
                         </td>
 
                         <td class="espacioEnmedio " colspan="4">
@@ -450,15 +450,14 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantPoliza"></label>
+                            <label id="CantGPS"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
+                            <label>&nbsp;&nbsp;&nbsp;GPS:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="poliza"></label>
+                            <label id="gps"></label>
                         </td>
-
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -476,13 +475,13 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantPension"></label>
+                            <label id="CantPoliza"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;PENSION:</label>
+                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="pension"></label>
+                            <label id="poliza"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -496,13 +495,13 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantAjustes"></label>
+                            <label id="CantPension"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+                            <label>&nbsp;&nbsp;&nbsp;PENSION:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="ajustes"></label>
+                            <label id="pension"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -515,8 +514,14 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         </td>
                     </tr>
                     <tr>
-                        <td class="primeraCol" colspan="3">
-                            <label></label>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantAjustes"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="ajustes"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
