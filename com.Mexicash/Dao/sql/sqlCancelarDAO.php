@@ -198,36 +198,47 @@ class sqlCancelarDAO
         echo json_encode($datos);
     }
 
-    function cancelarMovimiento($tipo_movimiento, $movimientoCancelado, $IdMovimiento)
+    function cancelarMovimiento($tipo_movimiento, $movimientoCancelado, $IdMovimiento, $fechaAlmoneda, $id_movimientoAnterior)
     {
         try {
             $updateMovimiento = "UPDATE contratomovimientos_tbl SET
-            tipo_movimiento = $movimientoCancelado
+            tipo_movimiento = $movimientoCancelado,fecha_Bazar=''
             WHERE id_movimiento = $IdMovimiento";
             if ($ps = $this->conexion->prepare($updateMovimiento)) {
                 if ($ps->execute()) {
                     if ($tipo_movimiento == 3 || $tipo_movimiento == 7) {
                         $verdad = mysqli_stmt_affected_rows($ps);
                     } else {
-                        $updatePagos = "UPDATE bit_pagos SET
-                        estatus = $movimientoCancelado
-                        WHERE ultimoMovimiento=$IdMovimiento";
-                        if ($ps = $this->conexion->prepare($updatePagos)) {
+                        $updateFechaBazar = "UPDATE contratomovimientos_tbl SET
+                                            fecha_Bazar = '$fechaAlmoneda'
+                                            WHERE id_movimiento = $id_movimientoAnterior";
+                        if ($ps = $this->conexion->prepare($updateFechaBazar)) {
                             if ($ps->execute()) {
-                                $verdad = mysqli_stmt_affected_rows($ps);
+                                $updatePagos = "UPDATE bit_pagos SET
+                                                estatus = $movimientoCancelado
+                                                WHERE ultimoMovimiento=$IdMovimiento";
+                                if ($ps = $this->conexion->prepare($updatePagos)) {
+                                    if ($ps->execute()) {
+                                        $verdad = mysqli_stmt_affected_rows($ps);
+                                    } else {
+                                        $verdad = -1;
+                                    }
+                                } else {
+                                    $verdad = -2;
+                                }
                             } else {
-                                $verdad = -1;
+                                $verdad = -3;
                             }
                         } else {
-                            $verdad = -1;
+                            $verdad = -4;
                         }
                     }
                 } else {
-                    $verdad = -1;
+                    $verdad = -5;
                 }
 
             } else {
-                $verdad = -1;
+                $verdad = -6;
             }
         } catch
         (Exception $exc) {
@@ -238,6 +249,34 @@ class sqlCancelarDAO
         }
         //return $verdad;
         echo $verdad;
+    }
+
+    function recuperaFechaAlm($ContratoCancelar, $IdMovimiento)
+    {
+        $datos = array();
+        try {
+            $buscar = "SELECT id_movimiento,fechaAlmoneda
+                         FROM contratomovimientos_tbl 
+                         WHERE id_movimiento = 
+                         (select Max(id_movimiento) from contratomovimientos_tbl 
+                         where id_contrato = $ContratoCancelar and id_movimiento != $IdMovimiento) ";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_movimiento" => $row["id_movimiento"],
+                        "fechaAlmoneda" => $row["fechaAlmoneda"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
     }
 
     function cancelarContrato($Contrato, $tipoContratoGlobal)

@@ -279,7 +279,7 @@ function tokenCancelar() {
                 }
                 alertify.success("Código correcto.");
 
-                cancelacionMovimiento();
+                busquedaContrato();
             } else {
                 if (errorToken < 3) {
                     errorToken += 1;
@@ -293,13 +293,50 @@ function tokenCancelar() {
     })
 
 }
-function cancelacionMovimiento() {
+
+function busquedaContrato() {
+    var fechaAlmoneda = '';
+    var id_movimiento = '';
+    if(tipoCancelar==3||tipoCancelar==7){
+        cancelacionMovimiento(id_movimiento,fechaAlmoneda);
+    }else{
+        //CancelaMovimiento y Bit Pagos
+        var dataEnviar = {
+            "ContratoCancelar":ContratoCancelar,
+            "IdMovimiento": idMovimientoCancelar
+
+        };
+        $.ajax({
+            type: "POST",
+            url: '../../../com.Mexicash/Controlador/Cancelar/recuperarFechaAlm.php',
+            data: dataEnviar,
+            dataType: "json",
+            success: function (datos) {
+                var i = 0;
+                if (datos.length > 0) {
+                    for (i; i < datos.length; i++) {
+                        id_movimiento = datos[i].id_movimiento;
+                        fechaAlmoneda = datos[i].fechaAlmoneda;
+                        cancelacionMovimiento(id_movimiento,fechaAlmoneda);
+                        }
+                } else {
+                    alertify.error("No hay registros para mostrar.")
+                }
+            }
+        });
+    }
+
+
+}
+
+function cancelacionMovimiento(id_movimientoAnterior,fechaAlmoneda) {
     //CancelaMovimiento y Bit Pagos
     var dataEnviar = {
         "tipo_movimiento":tipoCancelar,
         "movimientoCancelado": movimientoCancelado,
-        "IdMovimiento": idMovimientoCancelar
-
+        "IdMovimiento": idMovimientoCancelar,
+        "fechaAlmoneda": fechaAlmoneda,
+        "id_movimientoAnterior": id_movimientoAnterior
     };
     $.ajax({
         type: "POST",
