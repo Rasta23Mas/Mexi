@@ -121,7 +121,7 @@ function buscarDatosPorContrato() {
         }
     });
 }
-
+/*
 function buscarDatosPorNombres() {
     //var idClienteConsulta = $("#idClienteConsulta").val();
     var idClienteConsulta = 90;
@@ -260,7 +260,7 @@ function cargarTablaDetalleContrato(idContratoBusqueda) {
     });
     $("#divContrato").load('tablaDetalleContrato.php');
 
-}
+}*/
 
 function cargarTablaContrato(idContratoBusqueda) {
     var dataEnviar = {
