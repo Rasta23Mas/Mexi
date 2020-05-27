@@ -701,7 +701,6 @@ class sqlCierreDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "prestamo_Informativo" => $row["prestamo_Informativo"],
-                        "v_PrecioVenta" => $row["v_PrecioVenta"],
                     ];
                     array_push($datos, $data);
                 }

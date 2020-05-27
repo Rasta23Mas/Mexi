@@ -1,6 +1,6 @@
 var idCierreSucursalGlb = 0;
 var saldoInicialGbl = 0;
-var DepoSaldoInicialGbl = 0;
+
 var CantAportacionesBovedaGlb = 0;
 var aportacionesBovedaGlb = 0;
 var CantRetirosBovedaGlb = 0;
@@ -42,9 +42,11 @@ var totalSalidasGlb = 0;
 var saldoFinalGlb = 0;
 
 //Depositaria
+var DepoSaldoInicialGbl = 0;
 var entradasDepositariaGbl = 0;
 var salidasDepositariaGbl = 0;
 var DepoSaldoFinalGbl = 0;
+
 
 var DepositariaVencidaGbl = 0;
 var DepositariaVigenteGbl = 0;
@@ -81,7 +83,6 @@ function validarEsatusSucursal() {
         },
     })
 }
-
 function llenarSaldosSucursal() {
     var tipo = 2;
     var saldo_Inicial = 0;
@@ -117,7 +118,6 @@ function llenarSaldosSucursal() {
         },
     })
 }
-
 function llenarEntradasSalidas() {
     var tipo = 3;
     var dataEnviar = {
@@ -374,7 +374,6 @@ function llenarEntradasSalidas() {
         }
     })
 }
-
 function llenarGeneral() {
     var tipo = 4;
     var dataEnviar = {
@@ -421,7 +420,6 @@ function llenarGeneral() {
         }
     })
 }
-
 function llenarInformativo() {
     var tipo = 5;
     var dataEnviar = {
@@ -528,7 +526,6 @@ function llenarVentas() {
         }
     })
 }
-
 function pasarBazar() {
     var tipo = 7;
     var dataEnviar = {
@@ -543,34 +540,29 @@ function pasarBazar() {
 
         success: function (datos) {
             var i = 0;
-            var salidasInfo = 0;
-            var utilidadVenta = 0;
+            var entradasInfo = 0;
 
 
             for (i; i < datos.length; i++) {
                 var prestamo_Informativo = datos[i].prestamo_Informativo;
-                var v_PrecioVenta = datos[i].v_PrecioVenta;
 
                 prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
-                v_PrecioVenta = Math.round(v_PrecioVenta * 100) / 100;
-
-                salidasInfo += prestamo_Informativo;
-                var utilidad = v_PrecioVenta-prestamo_Informativo;
-
-                utilidadVenta+=utilidad;
+                entradasInfo += prestamo_Informativo;
             }
-            utilidadVenta = Math.round(utilidadVenta * 100) / 100;
-            salidasInfo = Math.round(salidasInfo * 100) / 100;
+            entradasInfo = Math.round(entradasInfo * 100) / 100;
 
-            utilidadVentaGlb = utilidadVenta;
-            salidasDepositariaGbl = salidasInfo;
+            entradasDepositariaGbl = entradasInfo;
 
-            utilidadVenta = formatoMoneda(utilidadVenta);
-            salidasInfo = formatoMoneda(salidasInfo);
+            var saldofinal = DepoSaldoInicialGbl +entradasDepositariaGbl;
+            saldofinal = saldofinal - salidasDepositariaGbl;
+            saldofinal = Math.round(saldofinal * 100) / 100;
+            DepoSaldoFinalGbl = saldofinal;
 
+            entradasInfo = formatoMoneda(entradasInfo);
+            saldofinal = formatoMoneda(saldofinal);
 
-            document.getElementById('utilidad').innerHTML = utilidadVenta;
-            document.getElementById('salidas').innerHTML = salidasInfo;
+            document.getElementById('entradas').innerHTML = entradasInfo;
+            document.getElementById('saldoFinalDepo').innerHTML = saldofinal;
 
         }
     })
