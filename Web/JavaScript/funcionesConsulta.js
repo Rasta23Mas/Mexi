@@ -90,7 +90,6 @@ function BusquedaConsulta() {
 
 function buscarDatosPorContrato() {
     var idContratoBusqueda = $("#idContratoConsulta").val();
-
     var dataEnviar = {
         "idContratoBusqueda": idContratoBusqueda,
         "tipoContratoGlobal": tipoContratoGlobal
@@ -113,7 +112,6 @@ function buscarDatosPorContrato() {
                     $("#idDireccionConsulta").val(direccionCompleta);
                     $("#idContratoBusqueda").val(idContratoBusqueda);
                 }
-                // cargarTablaDetalleContrato(idContratoBusqueda);
                 cargarTablaContrato(idContratoBusqueda);
 
             } else {
@@ -125,7 +123,8 @@ function buscarDatosPorContrato() {
 }
 
 function buscarDatosPorNombres() {
-    var idClienteConsulta = $("#idClienteConsulta").val();
+    //var idClienteConsulta = $("#idClienteConsulta").val();
+    var idClienteConsulta = 90;
 
     var dataEnviar = {
         "idClienteConsulta": idClienteConsulta

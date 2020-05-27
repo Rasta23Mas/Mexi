@@ -136,14 +136,12 @@ class sqlContratoDAO
     {
         $datos = array();
         try {
-            $usuario = $_SESSION["idUsuario"];
-            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT  Cli.id_Cliente AS Cliente, CONCAT (Cli.apellido_Pat, '/',Cli.apellido_Mat,'/', Cli.nombre) as NombreCompleto,
                         CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS direccionCompleta
                         FROM contrato_tbl as Con 
                         INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
                          INNER JOIN cat_estado as CatEst on Cli.estado = CatEst.id_Estado
-                        WHERE Con.id_Contrato =" . $idContratoBusqueda . " AND Con.tipoContrato =" . $tipoContratoGlobal . " AND Con.sucursal=" . $sucursal;
+                        WHERE Con.id_Contrato =" . $idContratoBusqueda . " AND Con.tipoContrato =" . $tipoContratoGlobal;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -185,8 +183,7 @@ class sqlContratoDAO
                         LEFT JOIN cat_tipoarticulo as TA on Art.tipo = TA.id_tipo
                         LEFT JOIN cat_kilataje as TK on Art.kilataje = TK.id_Kilataje
                         LEFT JOIN cat_calidad as TC on Art.calidad = TC.id_calidad
-                        WHERE Con.id_Contrato =" . $idContratoBusqueda . " AND Con.tipoContrato =" . $tipoContratoGlobal . " AND Con.sucursal=" . $sucursal;
-
+                        WHERE Con.id_Contrato =" . $idContratoBusqueda . " AND Con.tipoContrato =" . $tipoContratoGlobal;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
