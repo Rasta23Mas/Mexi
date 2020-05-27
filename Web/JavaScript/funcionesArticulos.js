@@ -69,6 +69,7 @@ function LimpiarSinResetearIdArticulo() {
 }
 //Agrega articulos a la tabla
 function Agregar() {
+    alert(idArticuloGlb);
     var clienteEmpeno = $("#idClienteEmpeno").val();
     var tipoInteres = $("#tipoInteresEmpeno").val();
     var vitrina = $("#idVitrina").val();
@@ -86,11 +87,13 @@ function Agregar() {
                         var interesMetal = calcularInteresMetal(metalPrestamo);
                         var idArticulo = 0;
                         idArticuloGlb ++;
-                        if(idArticuloGlb<9){
-                            idArticulo = "0" + idArticuloGlb;
-                        }else{
-                            idArticulo = idArticuloGlb;
-                        }
+                        alert(idArticuloGlb);
+
+
+                        var idArticulo = String(idArticuloGlb);
+                        var idArticulo = idArticulo.padStart(2,"0");
+                        alert(idArticulo);
+
                         var dataEnviar = {
                             "$idTipoEnviar": 1,
                             "idTipoMetal": formMetal,
@@ -132,11 +135,10 @@ function Agregar() {
                         var interesArti = calcularInteresArticulo(artiPrestamo);
                         var idArticulo = 0;
                         idArticuloGlb ++;
-                        if(idArticuloGlb<9){
-                            idArticulo = "0" + idArticuloGlb;
-                        }else{
-                            idArticulo = idArticuloGlb;
-                        }
+
+                        var idArticulo = String(idArticuloGlb);
+                        var idArticulo = idArticulo.padStart(2,"0");
+
                         //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
                         var dataEnviar = {
                             "$idTipoEnviar": 2,
@@ -341,6 +343,7 @@ function confirmarEliminarMetales($idArticulo) {
     alertify.confirm('Eliminar',
         'Confirme eliminacion de articulo seleccionado.',
         function () {
+
             eliminarMetales($idArticulo)
         },
         function () {
@@ -350,6 +353,8 @@ function confirmarEliminarMetales($idArticulo) {
 
 //Elimina articulos
 function eliminarArticulo($idArticulo) {
+    idArticuloGlb --;
+    alert(idArticuloGlb);
     var dataEnviar = {
         "$idArticulo": $idArticulo
     };
@@ -371,6 +376,8 @@ function eliminarArticulo($idArticulo) {
 }
 
 function eliminarMetales($idArticulo) {
+    idArticuloGlb --;
+    alert(idArticuloGlb);
     var dataEnviar = {
         "$idArticulo": $idArticulo
     };
