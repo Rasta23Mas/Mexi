@@ -7,6 +7,8 @@ include_once(MODELO_PATH . "Articulo.php");
 include_once(BASE_PATH . "Conexion.php");
 date_default_timezone_set('America/Mexico_City');
 
+
+
 class sqlArticulosDAO
 {
 
@@ -20,7 +22,7 @@ class sqlArticulosDAO
         $this->conexion = $this->db->connectDB();
     }
 
-    public function guardarArticulo($tipoPost, Articulo $articulo)
+    public function guardarArticulo($tipoPost,$idArticulo, Articulo $articulo)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -31,6 +33,10 @@ class sqlArticulosDAO
 
             $idVitrina = $articulo->getVitrina();
             $interes = $articulo->getInteres();
+            $sucursal = "0";
+            $sucursal .= $_SESSION["sucursal"];
+
+
 
             if ($tipoPost == "1") {
                 $idTipoM = $articulo->getTipoM();
@@ -49,9 +55,9 @@ class sqlArticulosDAO
                 $idDetallePrenda = mb_strtoupper($idDetallePrenda, 'UTF-8');
 
                 $insert = "INSERT INTO articulo_tbl " .
-                    "(tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, ubicacion," .
+                    "(id_SerieSucursal,id_SerieArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, ubicacion," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
-                    "('" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
+                    "('$sucursal','$idArticulo','" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
                     . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "', '" . $interes . "','" . $idUbicacion . "','"
                     . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . " )";
 
@@ -72,9 +78,9 @@ class sqlArticulosDAO
 
 
                 $insert = "INSERT INTO articulo_tbl " .
-                    "(tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  ubicacion," .
+                    "(id_SerieSucursal,id_SerieArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  ubicacion," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
-                    "('" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
+                    "('$sucursal','$idArticulo','" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
                     . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $interes . "','" . $idUbicacionE . "','"
                     . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . "  )";
             }

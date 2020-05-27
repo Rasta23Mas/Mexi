@@ -78,15 +78,16 @@ class sqlContratoDAO
         echo $verdad;
     }
 
-    public function actualizarArticulo($contrato)
+    public function actualizarArticulo($contrato,$idSerieContrato)
     {
         //Funcion Verificada
         // TODO: Implement guardaCiente() method.
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
 
-            $updateArticulo = "UPDATE articulo_tbl SET id_Contrato=$contrato WHERE id_Contrato='' and id_cierreCaja=$idCierreCaja";
-
+            $updateArticulo = "UPDATE articulo_tbl SET id_Contrato=$contrato,
+                                id_SerieContrato = '$idSerieContrato' 
+                                WHERE id_Contrato='' and id_cierreCaja=$idCierreCaja";
             if ($ps = $this->conexion->prepare($updateArticulo)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

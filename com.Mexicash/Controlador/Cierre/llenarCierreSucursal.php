@@ -20,6 +20,8 @@ if($tipo==1){
     $sqlTblCierre->llenarInformativo();
 }else if($tipo==6){
     $sqlTblCierre->ventasInfo();
+}else if($tipo==7){
+    $sqlTblCierre->pasarBazar();
 }
 
 

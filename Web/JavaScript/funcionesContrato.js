@@ -253,10 +253,15 @@ function consultarContratos() {
 }
 
 //Agrega articulos a la tabla
-function actualizarArticulo($ultimoContrato) {
+function actualizarArticulo(ultimoContrato) {
     //FEErr03
+    var serie = ultimoContrato.trim();
+    var idSerieContrato = serie.padStart(6,"0");
+
     var dataEnviar = {
-        "contrato": $ultimoContrato
+        "contrato": ultimoContrato,
+        "idSerieContrato": idSerieContrato
+
     };
     $.ajax({
         data: dataEnviar,
@@ -267,6 +272,7 @@ function actualizarArticulo($ultimoContrato) {
             if (response == -1 || response == 0) {
                 alertify.error("Error al agregar articulos al contrato. (FEErr03)");
             } else {
+
                 $("#idFormEmpeno")[0].reset();
                 alertify.success("Articulos agregados al contrato.");
                 setTimeout('location.reload();', 700)
@@ -440,4 +446,3 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
         }
     });
 }
-

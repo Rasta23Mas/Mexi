@@ -4,6 +4,8 @@ include_once(MODELO_PATH . "Articulo.php");
 include_once(SQL_PATH . "sqlArticulosDAO.php");
 
 $idTipoEnviar = $_POST['$idTipoEnviar'];
+$idArticulo = $_POST['idArticulo'];
+
 
 if ($idTipoEnviar == 1) {
 
@@ -92,7 +94,7 @@ $articulo = new Articulo(
 );
 
 $sqlArticulo = new sqlArticulosDAO();
-$sqlArticulo->guardarArticulo($idTipoEnviar, $articulo);
+$sqlArticulo->guardarArticulo($idTipoEnviar,$idArticulo, $articulo);
 
 ?>
 

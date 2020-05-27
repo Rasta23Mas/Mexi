@@ -596,7 +596,6 @@ include_once(HTML_PATH . "Empeno/menuEmpeno.php")
                 <!--input type="button" class="btn btn-info" value="Reimprimir" onclick=" window.open('../PDF/callPdfContrato.php')">&nbsp;-->
                 <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
-
             </div>
         </div>
     </div>

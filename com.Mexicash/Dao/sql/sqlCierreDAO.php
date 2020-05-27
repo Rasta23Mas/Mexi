@@ -687,6 +687,34 @@ class sqlCierreDAO
 
         echo json_encode($datos);
     }
+
+    function pasarBazar()
+    {
+        $datos = array();
+        try {
+            $fechaCreacion = date('Y-m-d');
+            $buscar = "SELECT prestamo_Informativo
+                        FROM contratomovimientos_tbl
+                        WHERE  fecha_Bazar='$fechaCreacion'";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "prestamo_Informativo" => $row["prestamo_Informativo"],
+                        "v_PrecioVenta" => $row["v_PrecioVenta"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
     function saldoInicialInformativo()
     {
         $datos = array();

@@ -2,6 +2,7 @@
 var Avaluo = 0.00;
 var Prestamo = 0.00;
 var Interes = 0.00;
+var idArticuloGlb = 0;
 
 
 //Limpia la tabla de Articulos
@@ -34,8 +35,38 @@ function Limpiar() {
     $("#idPeso").val(0);
     $("#idPiedras").val(0);
     $("#idPesoPiedra").val(0);
+    idArticuloGlb=0;
 }
-
+function LimpiarSinResetearIdArticulo() {
+    <!--   Limpiar Metales-->
+    $("#idTipoMetal").val(0);
+    $("#idKilataje").val(0);
+    $("#idCalidad").val(0);
+    $("#idCantidad").val("");
+    $("#idPeso").val("");
+    $("#idPesoPiedra").val("");
+    $("#idPiedras").val("");
+    $("#idPrestamo").val("");
+    $("#idAvaluo").val("");
+    $("#idUbicacion").val("");
+    $("#idDetallePrenda").val("");
+    <!--   Limpiar Electronicos-->
+    $("#idTipoElectronico").val(0);
+    $("#idMarca").val("");
+    $("#idVitrina").val("");
+    $("#idVitrinaElectronico").val(0);
+    $("#idModelo").val("");
+    $("#idSerie").val("");
+    $("#idPrecioCat").val("");
+    $("#idPrestamoElectronico").val("");
+    $("#idAvaluoElectronico").val("");
+    $("#idUbicacionElectronico").val("");
+    $("#idDetallePrendaElectronico").val("");
+    $("#idCantidad").val(0);
+    $("#idPeso").val(0);
+    $("#idPiedras").val(0);
+    $("#idPesoPiedra").val(0);
+}
 //Agrega articulos a la tabla
 function Agregar() {
     var clienteEmpeno = $("#idClienteEmpeno").val();
@@ -53,7 +84,13 @@ function Agregar() {
                         var metalAvaluo = $("#idAvaluo").val();
                         var metalPrestamo = $("#idPrestamo").val();
                         var interesMetal = calcularInteresMetal(metalPrestamo);
-
+                        var idArticulo = 0;
+                        idArticuloGlb ++;
+                        if(idArticuloGlb<9){
+                            idArticulo = "0" + idArticuloGlb;
+                        }else{
+                            idArticulo = idArticuloGlb;
+                        }
                         var dataEnviar = {
                             "$idTipoEnviar": 1,
                             "idTipoMetal": formMetal,
@@ -69,6 +106,8 @@ function Agregar() {
                             "idUbicacion": $("#idUbicacion").val(),
                             "idDetallePrenda": $("#idDetallePrenda").val(),
                             "interes": interesMetal,
+                            "idArticulo": idArticulo,
+
 
                         };
                         $.ajax({
@@ -79,7 +118,7 @@ function Agregar() {
                                 if (response == 1) {
                                     cargarTablaMetales();
                                     $("#divTablaMetales").load('tablaMetales.php');
-                                    Limpiar();
+                                    LimpiarSinResetearIdArticulo();
                                     sumarTotalesMetal(metalPrestamo, metalAvaluo);
                                     alertify.success("Articulo agregado exitosamente.");
                                 } else {
@@ -91,6 +130,13 @@ function Agregar() {
                         var artiAvaluo = $("#idAvaluoElectronico").val();
                         var artiPrestamo = $("#idPrestamoElectronico").val();
                         var interesArti = calcularInteresArticulo(artiPrestamo);
+                        var idArticulo = 0;
+                        idArticuloGlb ++;
+                        if(idArticuloGlb<9){
+                            idArticulo = "0" + idArticuloGlb;
+                        }else{
+                            idArticulo = idArticuloGlb;
+                        }
                         //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
                         var dataEnviar = {
                             "$idTipoEnviar": 2,
@@ -106,6 +152,8 @@ function Agregar() {
                             "idUbicacionElectronico": $("#idUbicacionElectronico").val(),
                             "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
                             "interes": interesArti,
+                            "idArticulo": idArticulo,
+
                         };
                         $.ajax({
                             data: dataEnviar,
@@ -115,7 +163,7 @@ function Agregar() {
                                 if (response == 1) {
                                     cargarTablaArticulo();
                                     $("#divTablaArticulos").load('tablaArticulos.php');
-                                    Limpiar();
+                                    LimpiarSinResetearIdArticulo();
                                     sumarTotalesArticulo(artiPrestamo, artiAvaluo);
                                     alertify.success("Articulo agregado exitosamente.");
                                 } else {
