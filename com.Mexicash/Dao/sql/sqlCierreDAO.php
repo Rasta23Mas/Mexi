@@ -527,7 +527,7 @@ class sqlCierreDAO
     function llenarSaldosSucursal($idCierreSucursal)
     {
         try {
-            $buscar = "SELECT saldo_Inicial, DepoSaldoInicial FROM bit_cierresucursal
+            $buscar = "SELECT saldo_Inicial, InfoSaldoInicial FROM bit_cierresucursal
                        WHERE id_CierreSucursal= $idCierreSucursal AND estatus=1";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -822,6 +822,37 @@ class sqlCierreDAO
         }
 
         echo json_encode($datos);
+    }
+
+    function guardarBazar()
+    {
+        try {
+            $fechaCreacion = date('Y-m-d');
+            $insertaBazar = "INSERT INTO bazar_articulos 
+                       (id_Contrato, id_serie, fecha_Bazar,precio_venta,tipo_movimiento)
+                        SELECT Art.id_Contrato, CONCAT (Art.id_SerieSucursal, 
+                        Art.id_SerieContrato,Art.id_SerieArticulo) as idSerie,
+                        Con.fecha_Bazar,Con.prestamo_Informativo)
+                        FROM articulo_tbl as Art
+                        INNER JOIN contratomovimientos_tbl as Con on Art.id_Contrato = Con.id_contrato
+                        WHERE  Con.fecha_Bazar='$fechaCreacion'";
+            if ($ps = $this->conexion->prepare($insertaBazar)) {
+                if ($ps->execute()) {
+                    $respuesta = 1;
+                } else {
+                    $respuesta = 2;
+                }
+            } else {
+                $respuesta = 3;
+            }
+        } catch (Exception $exc) {
+            $respuesta = 4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $respuesta;
     }
 
 }

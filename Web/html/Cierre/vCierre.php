@@ -483,7 +483,7 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="saldoInicialDepo"></label>
+                            <label id="saldoInicialInfo"></label>
                         </td>
                     </tr>
                     <tr>
@@ -503,7 +503,7 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <label>&nbsp;&nbsp;&nbsp;ENTRADAS:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="entradas"></label>
+                            <label id="entradasInfo"></label>
                         </td>
                     </tr>
                     <tr>
@@ -523,7 +523,7 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <label>&nbsp;&nbsp;&nbsp;SALIDAS:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="salidas"></label>
+                            <label id="salidasInfo"></label>
                         </td>
                     </tr>
                     <tr>
@@ -537,7 +537,7 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="saldoFinalDepo"></label>
+                            <label id="saldoFinalInfo"></label>
                         </td>
                     </tr>
                     <tr>
@@ -589,6 +589,8 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                     </tr>
                         <tr>
                         <td colspan="7"  align="right">
+                            <input type="button" class="btn btn-warning w-25" value="test" id="prueba" onclick="guardarBazar()"/>
+
                             <input type="button" class="btn btn-warning w-25" value="Limpiar" id="idLimpiarCaja" onclick="limpiarCierreCaja()"/>
                             &nbsp;&nbsp;&nbsp;
                             <input type="button" class="btn btn-primary w-25" value="Guardar" id="guardarCaja" onclick="confirmarCierreSucursal()"/>

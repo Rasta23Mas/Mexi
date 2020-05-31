@@ -41,16 +41,12 @@ var totalIVAGLB = 0;
 var totalSalidasGlb = 0;
 var saldoFinalGlb = 0;
 
-//Depositaria
-var DepoSaldoInicialGbl = 0;
-var entradasDepositariaGbl = 0;
-var salidasDepositariaGbl = 0;
+//INFORMATIVOS
+var InfoSaldoInicialGbl = 0;
+var InfoEntradasGbl = 0;
+var InfoSalidasGbl = 0;
 var DepoSaldoFinalGbl = 0;
 
-
-var DepositariaVencidaGbl = 0;
-var DepositariaVigenteGbl = 0;
-var TotalDepositariaGbl = 0;
 
 var totalAbonosGbl = 0;
 var totalApartadosGbl = 0;
@@ -86,7 +82,7 @@ function validarEsatusSucursal() {
 function llenarSaldosSucursal() {
     var tipo = 2;
     var saldo_Inicial = 0;
-    var DepoSaldoInicial = 0;
+    var InfoSaldoInicial = 0;
     var dataEnviar = {
         "tipo": tipo,
         "idCierreSucursal": idCierreSucursalGlb,
@@ -99,17 +95,17 @@ function llenarSaldosSucursal() {
         success: function (response) {
             if (response.status == 'ok') {
                 saldoInicialGbl = response.result.saldo_Inicial;
-                DepoSaldoInicialGbl = response.result.DepoSaldoInicial;
+                InfoSaldoInicialGbl = response.result.InfoSaldoInicial;
 
                 saldoInicialGbl = Math.round(saldoInicialGbl * 100) / 100;
-                DepoSaldoInicialGbl = Math.round(DepoSaldoInicialGbl * 100) / 100;
+                InfoSaldoInicialGbl = Math.round(InfoSaldoInicialGbl * 100) / 100;
 
 
                 saldo_Inicial = formatoMoneda(saldoInicialGbl);
-                DepoSaldoInicial = formatoMoneda(DepoSaldoInicialGbl);
+                InfoSaldoInicial = formatoMoneda(InfoSaldoInicialGbl);
 
                 document.getElementById('saldoInicial').innerHTML = saldo_Inicial;
-                document.getElementById('saldoInicialDepo').innerHTML = DepoSaldoInicial;
+                document.getElementById('saldoInicialInfo').innerHTML = InfoSaldoInicial;
 
                 llenarEntradasSalidas()
             } else {
@@ -514,14 +510,14 @@ function llenarVentas() {
             salidasInfo = Math.round(salidasInfo * 100) / 100;
 
             utilidadVentaGlb = utilidadVenta;
-            salidasDepositariaGbl = salidasInfo;
+            InfoSalidasGbl = salidasInfo;
 
             utilidadVenta = formatoMoneda(utilidadVenta);
             salidasInfo = formatoMoneda(salidasInfo);
 
 
             document.getElementById('utilidad').innerHTML = utilidadVenta;
-            document.getElementById('salidas').innerHTML = salidasInfo;
+            document.getElementById('salidasInfo').innerHTML = salidasInfo;
             pasarBazar();
         }
     })
@@ -551,23 +547,22 @@ function pasarBazar() {
             }
             entradasInfo = Math.round(entradasInfo * 100) / 100;
 
-            entradasDepositariaGbl = entradasInfo;
+            InfoEntradasGbl = entradasInfo;
 
-            var saldofinal = DepoSaldoInicialGbl +entradasDepositariaGbl;
-            saldofinal = saldofinal - salidasDepositariaGbl;
+            var saldofinal = InfoSaldoInicialGbl +InfoEntradasGbl;
+            saldofinal = saldofinal - InfoSalidasGbl;
             saldofinal = Math.round(saldofinal * 100) / 100;
             DepoSaldoFinalGbl = saldofinal;
 
             entradasInfo = formatoMoneda(entradasInfo);
             saldofinal = formatoMoneda(saldofinal);
 
-            document.getElementById('entradas').innerHTML = entradasInfo;
-            document.getElementById('saldoFinalDepo').innerHTML = saldofinal;
+            document.getElementById('entradasInfo').innerHTML = entradasInfo;
+            document.getElementById('saldoFinalInfo').innerHTML = saldofinal;
 
         }
     })
 }
-
 function confirmarCierreSucursal() {
     alertify.confirm('Cierre de Sucursal',
         'Al realizar el cierre de la sucursal, no podran volver a iniciar sesión el día de hoy. ' + '<br>' + '\n¿Desea continuar?',
@@ -578,7 +573,6 @@ function confirmarCierreSucursal() {
             alertify.error('Cierre cancelado.')
         });
 }
-
 function guardarCierreSucursal() {
     var dataEnviar = {
         "dotacionesA_Caja": DotacionesCajaGlb,
@@ -589,19 +583,22 @@ function guardarCierreSucursal() {
         "CantAbono": CantAbonoCapitalGlb,
         "abonoCapital": abonoCapitalGlb,
         "intereses": interesesGlb,
+        "cantCostoContrato": CantCostoContratoGbl,
+        "costoContrato": costoContratoGbl,
         "iva": ivaGlb,
         "CantVentasMostrador": CantVentasMostradorGlb,
         "mostrador": ventasMostradorGlb,
         "iva_venta": ivaVentasGlb,
-        "CantAbonoApartados": CantAbonosApartadoGlb,
-        "abonoApartados": abonosApartadoGlb,
+        "utilidadVenta": utilidadVentaGlb,
+        "CantApartados": CantApartadoGlb,
+        "apartados": apartadosVentasGlb,
+        "CantAbonosVenta": CantAbonoGlb,
+        "abonoVenta": abonoVentaGlb,
         "gps": gpsGlb,
         "poliza": polizaGlb,
         "pension": pensionGlb,
         "cantAjustes": CantAjustesGlb,
         "ajustes": ajustesGlb,
-        "cantIncremento": CantIncrementoGlb,
-        "incrementoPatrimonio": incrementoGlb,
         "CantRetirosCaja": CantRetirosCajaGlb,
         "retirosCaja": retirosCajaGlb,
         "CantRetirosBoveda": CantRetirosBovedaGlb,
@@ -612,19 +609,19 @@ function guardarCierreSucursal() {
         "descuentosAplicados": descuentosGlb,
         "CantDescuentosVentas": CantDescuentosVentasGlb,
         "descuentos_ventas": descuentosVentasGlb,
-        "cantCostoContrato": CantCostoContratoGbl,
-        "costoContrato": costoContratoGbl,
+        "cantIncremento": CantIncrementoGlb,
+        "incrementoPatrimonio": incrementoGlb,
         "total_Entrada": totalEntradasGlb,
+        "total_Iva": totalIVAGLB,
         "total_Salida": totalSalidasGlb,
         "saldo_final": saldoFinalGlb,
-        "DepoEntradas": entradasDepositariaGbl,
-        "DepoSalidas": salidasDepositariaGbl,
-        "DepoSaldoFinal": DepoSaldoFinalGbl,
-        "DepoVencida": DepositariaVencidaGbl,
-        "DepoVigente": DepositariaVigenteGbl,
-        "DepoTotal": TotalDepositariaGbl,
+        "InfoSaldoInicial": InfoSaldoInicialGbl,
+        "InfoEntradas": InfoEntradasGbl,
+        "InfoSalidas": InfoSalidasGbl,
+        "InfoApartados": xxxxx,
+        "InfoAbono": xxxxx,
+        "InfoTotalInventario": xxxxx,
         "idCierreSucursal": idCierreSucursalGlb,
-
     };
     $.ajax({
         type: "POST",
@@ -632,13 +629,30 @@ function guardarCierreSucursal() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                BitacoraUsuarioCierreSucursal();
+                guardarBazar();
             } else {
                 alertify.error("Error de conexion, intente más tarde.")
             }
         }
 
     });
+}
+
+function guardarBazar() {
+    //1 llena movimientos de dotacion y retiro
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Cierre/GuardarBazar.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (response) {
+            alert(response);
+            if(response==1){
+                alertify.success("Se guardaron en bazar los articulos.")
+                BitacoraUsuarioCierreSucursal();
+            }
+        },
+    })
 }
 
 function BitacoraUsuarioCierreSucursal() {
@@ -684,15 +698,13 @@ function BitacoraUsuarioCierreSucursal() {
         }
     });
 }
-
 function cargarPDFCaja() {
     window.open('../PDF/callPdfCierreCaja.php?folioCierreCaja=' + folioCierreCaja);
 }
-
 function cargarPDFCajaDesdeBusqueda(folio) {
     window.open('../PDF/callPdfCierreCaja.php?folioCierreCaja=' + folio);
 }
-
 function verPDFCaja(folio) {
     window.open('../PDF/callPdfCierreCaja.php?pdf=1&folioCierreCaja=' + folio);
 }
+

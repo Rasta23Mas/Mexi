@@ -668,8 +668,10 @@ function informeRefrendos() {
                 CantInformaRefrendo++;
                 informeRefrendo += Prestamo;
             }
+
             CantRefrendosGlb = CantInformaRefrendo;
             refrendosGlb = informeRefrendo;
+            alert(refrendosGlb)
             informeRefrendo = formatoMoneda(informeRefrendo);
 
             //INFORMES REFRENDOS
@@ -926,3 +928,5 @@ function cambioDeCaja() {
 
     }
 }
+
+
