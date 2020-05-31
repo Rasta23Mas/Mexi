@@ -547,12 +547,6 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                   <!--     <td class="primeraColTotales  border border-primary"  colspan="2">
-                            <label>&nbsp;&nbsp;&nbsp;DEPOSITARIA VIGENTE:</label>
-                        </td>
-                        <td class="terceraCol  border border-primary">
-                            <label id="depositariaVigente"></label>
-                        </td>-->
                         <td class="primeraColTotales  border border-primary"  colspan="2">
                             <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
                         </td>
