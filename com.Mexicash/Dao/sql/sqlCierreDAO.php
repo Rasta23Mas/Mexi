@@ -767,26 +767,37 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function guardarCierreSucursal($dotacionesA_Caja, $CantAportacionesBoveda, $aportaciones_Boveda, $CantCapitalRecuperado, $capitalRecuperado, $CantAbono, $abonoCapital, $intereses,
-                                   $iva, $CantVentasMostrador, $mostrador, $iva_venta, $CantAbonoApartados, $abonoApartados, $gps, $poliza, $pension, $CantAjustes, $ajustes, $CantRetirosCaja,
-                                   $retirosCaja, $retiros_boveda, $CantPrestamosNuevos, $prestamosNuevos, $CantDescuentos, $descuentosAplicados, $CantDescuentosVentas, $descuentos_ventas,
-                                   $total_Entrada, $total_Salida, $saldo_final, $DepoEntradas, $DepoSalidas, $DepoSaldoFinal, $DepoVencida, $DepoVigente, $DepoTotal, $idCierreSucursal)
+    function guardarCierreSucursal($dotacionesA_Caja,$CantAportacionesBoveda,$aportaciones_Boveda,$CantCapitalRecuperado,$capitalRecuperado,$CantAbono,
+                                   $abonoCapital,$intereses, $iva,$CantVentasMostrador,$mostrador,$iva_venta, $cantCostoContrato, $costoContrato,
+                                   $utilidadVenta, $CantApartados, $apartados, $CantAbonosVenta, $abonoVenta, $gps,$poliza,$pension,$CantAjustes,
+                                   $ajustes,$CantRetirosCaja, $retirosCaja,$retiros_boveda,$CantPrestamosNuevos,$prestamosNuevos,$CantDescuentos,
+                                   $descuentosAplicados,$CantDescuentosVentas,$descuentos_ventas, $cantIncremento, $incrementoPatrimonio,
+                                   $total_Entrada,$total_Iva,$total_Salida,$saldo_final, $InfoSaldoInicial, $InfoEntradas, $InfoSalidas,$InfoSaldoFinal,
+                                   $InfoApartados, $InfoAbono, $InfoTotalInventario, $idCierreSucursal)
     {
         try {
             $fechaCreacion = date('Y-m-d H:i:s');
             $estatus = 2;
 
             $updateCierreSucursal = "UPDATE bit_cierresucursal SET 
-                             dotacionesA_Caja = $dotacionesA_Caja, CantAportacionesBoveda = $CantAportacionesBoveda, aportaciones_Boveda = $aportaciones_Boveda,
-                             CantCapitalRecuperado = $CantCapitalRecuperado, capitalRecuperado = $capitalRecuperado, CantAbono = $CantAbono, abonoCapital = $abonoCapital,
-                             intereses = $intereses, iva = $iva, CantVentasMostrador = $CantVentasMostrador, mostrador = $mostrador, iva_venta = $iva_venta, 
-                             CantAbonoApartados = $CantAbonoApartados, abonoApartados = $abonoApartados, gps = $gps, poliza = $poliza, pension = $pension, 
-                             CantAjustes = $CantAjustes, ajustes = $ajustes, CantRetirosCaja = $CantRetirosCaja, retirosCaja = $retirosCaja, retiros_boveda = $retiros_boveda,
-                             CantPrestamosNuevos = $CantPrestamosNuevos, prestamosNuevos = $prestamosNuevos, CantDescuentos = $CantDescuentos, descuentosAplicados = $descuentosAplicados,
-                             CantDescuentosVentas = $CantDescuentosVentas, descuentos_ventas = $descuentos_ventas, total_Entrada = $total_Entrada, total_Salida = $total_Salida, 
-                             saldo_final = $saldo_final, DepoEntradas = $DepoEntradas, DepoSalidas = $DepoSalidas, DepoSaldoFinal = $DepoSaldoFinal, DepoVencida = $DepoVencida,
-                             DepoVigente = $DepoVigente, DepoTotal = $DepoTotal, fecha_Creacion = '$fechaCreacion', estatus = $estatus 
+                             dotacionesA_Caja = $dotacionesA_Caja, CantAportacionesBoveda = $CantAportacionesBoveda,
+                             aportaciones_Boveda = $aportaciones_Boveda,CantCapitalRecuperado = $CantCapitalRecuperado, 
+                             capitalRecuperado = $capitalRecuperado, CantAbono = $CantAbono, abonoCapital = $abonoCapital,intereses = $intereses, 
+                             CantCostoContrato = $cantCostoContrato,costoContrato = $costoContrato, 
+                             iva = $iva, CantVentasMostrador = $CantVentasMostrador, mostrador = $mostrador, iva_venta = $iva_venta, 
+                             utilidadVenta = $utilidadVenta,CantApartados = $CantApartados, apartados = $apartados, CantAbonoVentas = $CantAbonosVenta,
+                             abonoVentas = $abonoVenta, gps = $gps, poliza = $poliza, pension = $pension, CantAjustes = $CantAjustes, ajustes = $ajustes,
+                             CantRetirosCaja = $CantRetirosCaja, retirosCaja = $retirosCaja, retiros_boveda = $retiros_boveda,
+                             CantPrestamosNuevos = $CantPrestamosNuevos, prestamosNuevos = $prestamosNuevos, CantDescuentos = $CantDescuentos, 
+                             descuentosAplicados = $descuentosAplicados,CantDescuentosVentas = $CantDescuentosVentas, 
+                             descuentos_ventas = $descuentos_ventas, CantIncremento = $cantIncremento, incrementoPatrimonio = $incrementoPatrimonio, 
+                             total_Entrada = $total_Entrada,totalIVA = $total_Iva, total_Salida = $total_Salida, 
+                             saldo_final = $saldo_final,
+                             InfoSaldoInicial = $InfoSaldoInicial,InfoEntradas = $InfoEntradas,InfoSalidas = $InfoSalidas,InfoSaldoFinal = $InfoSaldoFinal,
+                             InfoApartados = $InfoApartados,InfoAbono = $InfoAbono,InfoTotalInventario = $InfoTotalInventario,
+                             fecha_Creacion = '$fechaCreacion', estatus = $estatus 
                              WHERE id_CierreSucursal=$idCierreSucursal and estatus =1";
+
             if ($ps = $this->conexion->prepare($updateCierreSucursal)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

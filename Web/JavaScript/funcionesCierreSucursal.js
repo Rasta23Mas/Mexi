@@ -45,7 +45,7 @@ var saldoFinalGlb = 0;
 var InfoSaldoInicialGbl = 0;
 var InfoEntradasGbl = 0;
 var InfoSalidasGbl = 0;
-var DepoSaldoFinalGbl = 0;
+var InfoSaldoFinalGbl = 0;
 
 
 var totalAbonosGbl = 0;
@@ -80,6 +80,7 @@ function validarEsatusSucursal() {
     })
 }
 function llenarSaldosSucursal() {
+    $("#guardarCaja").prop('disabled', false);
     var tipo = 2;
     var saldo_Inicial = 0;
     var InfoSaldoInicial = 0;
@@ -576,7 +577,7 @@ function pasarBazar() {
             var saldofinal = InfoSaldoInicialGbl +InfoEntradasGbl;
             saldofinal = saldofinal - InfoSalidasGbl;
             saldofinal = Math.round(saldofinal * 100) / 100;
-            DepoSaldoFinalGbl = saldofinal;
+            InfoSaldoFinalGbl = saldofinal;
 
             entradasInfo = formatoMoneda(entradasInfo);
             saldofinal = formatoMoneda(saldofinal);
@@ -607,12 +608,12 @@ function guardarCierreSucursal() {
         "CantAbono": CantAbonoCapitalGlb,
         "abonoCapital": abonoCapitalGlb,
         "intereses": interesesGlb,
-        "cantCostoContrato": CantCostoContratoGbl,
-        "costoContrato": costoContratoGbl,
         "iva": ivaGlb,
         "CantVentasMostrador": CantVentasMostradorGlb,
         "mostrador": ventasMostradorGlb,
         "iva_venta": ivaVentasGlb,
+        "cantCostoContrato": CantCostoContratoGbl,
+        "costoContrato": costoContratoGbl,
         "utilidadVenta": utilidadVentaGlb,
         "CantApartados": CantApartadoGlb,
         "apartados": apartadosVentasGlb,
@@ -642,6 +643,7 @@ function guardarCierreSucursal() {
         "InfoSaldoInicial": InfoSaldoInicialGbl,
         "InfoEntradas": InfoEntradasGbl,
         "InfoSalidas": InfoSalidasGbl,
+        "InfoSaldoFinal": InfoSaldoFinalGbl,
         "InfoApartados": totalAbonosGbl,
         "InfoAbono": totalAbonosGbl,
         "InfoTotalInventario": totalInventarioGbl,

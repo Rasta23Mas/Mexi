@@ -15,8 +15,13 @@ $iva = $_POST['iva'];
 $CantVentasMostrador = $_POST['CantVentasMostrador'];
 $mostrador = $_POST['mostrador'];
 $iva_venta = $_POST['iva_venta'];
-$CantAbonoApartados = $_POST['CantAbonoApartados'];
-$abonoApartados = $_POST['abonoApartados'];
+$cantCostoContrato = $_POST['cantCostoContrato'];
+$costoContrato = $_POST['costoContrato'];
+$utilidadVenta = $_POST['utilidadVenta'];
+$CantApartados = $_POST['CantApartados'];
+$apartados = $_POST['apartados'];
+$CantAbonosVenta = $_POST['CantAbonosVenta'];
+$abonoVenta = $_POST['abonoVenta'];
 $gps = $_POST['gps'];
 $poliza = $_POST['poliza'];
 $pension = $_POST['pension'];
@@ -31,24 +36,30 @@ $CantDescuentos = $_POST['CantDescuentos'];
 $descuentosAplicados = $_POST['descuentosAplicados'];
 $CantDescuentosVentas = $_POST['CantDescuentosVentas'];
 $descuentos_ventas = $_POST['descuentos_ventas'];
+$cantIncremento = $_POST['cantIncremento'];
+$incrementoPatrimonio = $_POST['incrementoPatrimonio'];
 $total_Entrada = $_POST['total_Entrada'];
+$total_Iva = $_POST['total_Iva'];
 $total_Salida = $_POST['total_Salida'];
 $saldo_final = $_POST['saldo_final'];
-$DepoEntradas = $_POST['DepoEntradas'];
-$DepoSalidas = $_POST['DepoSalidas'];
-$DepoSaldoFinal = $_POST['DepoSaldoFinal'];
-$DepoVencida = $_POST['DepoVencida'];
-$DepoVigente = $_POST['DepoVigente'];
-$DepoTotal = $_POST['DepoTotal'];
+$InfoSaldoInicial = $_POST['InfoSaldoInicial'];
+$InfoEntradas = $_POST['InfoEntradas'];
+$InfoSalidas = $_POST['InfoSalidas'];
+$InfoSaldoFinal = $_POST['InfoSaldoFinal'];
+$InfoApartados = $_POST['InfoApartados'];
+$InfoAbono = $_POST['InfoAbono'];
+$InfoTotalInventario = $_POST['InfoTotalInventario'];
 $idCierreSucursal = $_POST['idCierreSucursal'];
 
 
 
 $sqlTblCierre = new sqlCierreDAO();
 $sqlTblCierre->guardarCierreSucursal($dotacionesA_Caja,$CantAportacionesBoveda,$aportaciones_Boveda,$CantCapitalRecuperado,$capitalRecuperado,$CantAbono,$abonoCapital,$intereses,
-    $iva,$CantVentasMostrador,$mostrador,$iva_venta,$CantAbonoApartados,$abonoApartados,$gps,$poliza,$pension,$CantAjustes,$ajustes,$CantRetirosCaja,
+    $iva,$CantVentasMostrador,$mostrador,$iva_venta, $cantCostoContrato, $costoContrato, $utilidadVenta, $CantApartados, $apartados, $CantAbonosVenta, $abonoVenta,
+    $gps,$poliza,$pension,$CantAjustes,$ajustes,$CantRetirosCaja,
     $retirosCaja,$retiros_boveda,$CantPrestamosNuevos,$prestamosNuevos,$CantDescuentos,$descuentosAplicados,$CantDescuentosVentas,$descuentos_ventas,
-    $total_Entrada,$total_Salida,$saldo_final,$DepoEntradas,$DepoSalidas,$DepoSaldoFinal,$DepoVencida,$DepoVigente,$DepoTotal,$idCierreSucursal);
+    $cantIncremento, $incrementoPatrimonio, $total_Entrada,$total_Iva,$total_Salida,$saldo_final,
+    $InfoSaldoInicial, $InfoEntradas, $InfoSalidas,$InfoSaldoFinal, $InfoApartados, $InfoAbono, $InfoTotalInventario, $idCierreSucursal);
 
 ?>
 
