@@ -797,7 +797,6 @@ class sqlCierreDAO
                              InfoApartados = $InfoApartados,InfoAbono = $InfoAbono,InfoTotalInventario = $InfoTotalInventario,
                              fecha_Creacion = '$fechaCreacion', estatus = $estatus 
                              WHERE id_CierreSucursal=$idCierreSucursal and estatus =1";
-
             if ($ps = $this->conexion->prepare($updateCierreSucursal)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

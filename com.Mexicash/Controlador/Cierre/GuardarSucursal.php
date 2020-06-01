@@ -4,7 +4,7 @@ include_once(SQL_PATH . "sqlCierreDAO.php");
 
 
 $dotacionesA_Caja = $_POST['dotacionesA_Caja'];
-$CantAportacionesBoveda = $_POST['CantAportacionesBoveda'];
+$CantAportacionesBoveda = $_POST['cantAportacionesBoveda'];
 $aportaciones_Boveda = $_POST['aportaciones_Boveda'];
 $CantCapitalRecuperado = $_POST['CantCapitalRecuperado'];
 $capitalRecuperado = $_POST['capitalRecuperado'];
@@ -25,7 +25,7 @@ $abonoVenta = $_POST['abonoVenta'];
 $gps = $_POST['gps'];
 $poliza = $_POST['poliza'];
 $pension = $_POST['pension'];
-$CantAjustes = $_POST['CantAjustes'];
+$CantAjustes = $_POST['cantAjustes'];
 $ajustes = $_POST['ajustes'];
 $CantRetirosCaja = $_POST['CantRetirosCaja'];
 $retirosCaja = $_POST['retirosCaja'];

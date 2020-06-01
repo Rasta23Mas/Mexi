@@ -81,6 +81,7 @@ function validarEsatusSucursal() {
 }
 function llenarSaldosSucursal() {
     $("#guardarCaja").prop('disabled', false);
+    $("#cargarUsuario").prop('disabled', true);
     var tipo = 2;
     var saldo_Inicial = 0;
     var InfoSaldoInicial = 0;
@@ -388,8 +389,8 @@ function llenarGeneral() {
             for (i; i < datos.length; i++) {
                 var importe = datos[i].importe;
                 var id_cat_flujo = datos[i].id_cat_flujo;
-
-
+                var aportacionesBov =0;
+                var retirosBoveda =0;
                 importe = Math.round(importe * 100) / 100;
                 id_cat_flujo = Math.round(id_cat_flujo * 100) / 100;
 
@@ -405,14 +406,14 @@ function llenarGeneral() {
                 }
             }
 
-            aportacionesBovedaGlb = formatoMoneda(aportacionesBovedaGlb);
-            retirosBovedaGlb = formatoMoneda(retirosBovedaGlb);
+            aportacionesBov = formatoMoneda(aportacionesBovedaGlb);
+            retirosBoveda = formatoMoneda(retirosBovedaGlb);
 
 
             document.getElementById('CantAportaciones').innerHTML = "( " + CantAportacionesBovedaGlb + " )";
-            document.getElementById('aportaciones').innerHTML = aportacionesBovedaGlb;
+            document.getElementById('aportaciones').innerHTML = aportacionesBov;
             document.getElementById('CantRetiros').innerHTML = "( " + CantRetirosBovedaGlb + " )";
-            document.getElementById('retiros').innerHTML = retirosBovedaGlb;
+            document.getElementById('retiros').innerHTML = retirosBoveda;
             llenarInformativo();
         }
     })
@@ -599,6 +600,8 @@ function confirmarCierreSucursal() {
         });
 }
 function guardarCierreSucursal() {
+    alert(CantAportacionesBovedaGlb)
+    alert(CantAjustesGlb)
     var dataEnviar = {
         "dotacionesA_Caja": DotacionesCajaGlb,
         "cantAportacionesBoveda": CantAportacionesBovedaGlb,
