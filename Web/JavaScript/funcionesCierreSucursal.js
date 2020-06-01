@@ -436,42 +436,66 @@ function llenarInformativo() {
 
 
             for (i; i < datos.length; i++) {
-                var prestamo_Informativo = datos[i].prestamo_Informativo;
+                var prestamo_EmpenoVenta = datos[i].prestamo_Empeno;
                 var tipo_movimiento = datos[i].tipo_movimiento;
 
-                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                prestamo_EmpenoVenta = Math.round(prestamo_EmpenoVenta * 100) / 100;
 
                 if(tipo_movimiento==22){
-                    apartadosTotal += prestamo_Informativo;
+                    apartadosTotal += prestamo_EmpenoVenta;
                 }
                 else if(tipo_movimiento==23){
-                    abonosTotal += prestamo_Informativo;
-                }
-                else if(tipo_movimiento==3){
-                    totalInventario += prestamo_Informativo;
+                    abonosTotal += prestamo_EmpenoVenta;
                 }
 
             }
             apartadosTotal = Math.round(apartadosTotal * 100) / 100;
             abonosTotal = Math.round(abonosTotal * 100) / 100;
-            totalInventario = Math.round(totalInventario * 100) / 100;
-
-
 
             totalAbonosGbl = abonosTotal;
-             totalApartadosGbl = apartadosTotal;
-            totalInventarioGbl = totalInventario;
-
+            totalApartadosGbl = apartadosTotal;
 
             abonosTotal = formatoMoneda(abonosTotal);
             apartadosTotal = formatoMoneda(apartadosTotal);
-            totalInventario = formatoMoneda(totalInventario);
 
 
             document.getElementById('apartadosInfo').innerHTML = apartadosTotal;
             document.getElementById('abonosInfo').innerHTML = abonosTotal;
-            document.getElementById('totalInventarioInfo').innerHTML = totalInventario;
 
+            llenarTotalInventario();
+        }
+    })
+}
+function llenarTotalInventario() {
+    var tipo = 8;
+    var dataEnviar = {
+        "tipo": tipo,
+        "idCierreSucursal": idCierreSucursalGlb,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            var totalInventario= 0;
+
+
+            for (i; i < datos.length; i++) {
+                var prestamo_Empeno = datos[i].s_prestamo_nuevo;
+                var tipo_movimiento = datos[i].tipo_movimiento;
+                prestamo_Empeno = Math.round(prestamo_Empeno * 100) / 100;
+                if(tipo_movimiento==3){
+                    totalInventario += prestamo_Empeno;
+                }
+            }
+
+            totalInventario = Math.round(totalInventario * 100) / 100;
+            totalInventarioGbl = totalInventario;
+            totalInventario = formatoMoneda(totalInventario);
+            document.getElementById('totalInventarioInfo').innerHTML = totalInventario;
             llenarVentas();
         }
     })
@@ -618,9 +642,9 @@ function guardarCierreSucursal() {
         "InfoSaldoInicial": InfoSaldoInicialGbl,
         "InfoEntradas": InfoEntradasGbl,
         "InfoSalidas": InfoSalidasGbl,
-        "InfoApartados": xxxxx,
-        "InfoAbono": xxxxx,
-        "InfoTotalInventario": xxxxx,
+        "InfoApartados": totalAbonosGbl,
+        "InfoAbono": totalAbonosGbl,
+        "InfoTotalInventario": totalInventarioGbl,
         "idCierreSucursal": idCierreSucursalGlb,
     };
     $.ajax({
@@ -628,6 +652,7 @@ function guardarCierreSucursal() {
         url: '../../../com.Mexicash/Controlador/Cierre/GuardarSucursal.php',
         data: dataEnviar,
         success: function (response) {
+            alert(response)
             if (response > 0) {
                 guardarBazar();
             } else {

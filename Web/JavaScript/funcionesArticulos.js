@@ -69,7 +69,6 @@ function LimpiarSinResetearIdArticulo() {
 }
 //Agrega articulos a la tabla
 function Agregar() {
-    alert(idArticuloGlb);
     var clienteEmpeno = $("#idClienteEmpeno").val();
     var tipoInteres = $("#tipoInteresEmpeno").val();
     var vitrina = $("#idVitrina").val();
@@ -87,12 +86,10 @@ function Agregar() {
                         var interesMetal = calcularInteresMetal(metalPrestamo);
                         var idArticulo = 0;
                         idArticuloGlb ++;
-                        alert(idArticuloGlb);
 
 
                         var idArticulo = String(idArticuloGlb);
                         var idArticulo = idArticulo.padStart(2,"0");
-                        alert(idArticulo);
 
                         var dataEnviar = {
                             "$idTipoEnviar": 1,

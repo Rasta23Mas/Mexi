@@ -22,6 +22,8 @@ if($tipo==1){
     $sqlTblCierre->ventasInfo();
 }else if($tipo==7){
     $sqlTblCierre->pasarBazar();
+} else if($tipo==8){
+    $sqlTblCierre->llenarTotalInformativo();
 }
 
 

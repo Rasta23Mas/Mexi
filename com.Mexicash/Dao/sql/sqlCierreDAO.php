@@ -641,13 +641,13 @@ class sqlCierreDAO
         try {
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
 
-            $buscar = "SELECT prestamo_Informativo,tipo_movimiento  FROM contratomovimientos_tbl
-                        WHERE id_cierreSucursal= $id_CierreSucursal and tipo_movimiento=23 || tipo_movimiento=22|| tipo_movimiento=3";
+            $buscar = "SELECT prestamo_Empeno,tipo_movimiento  FROM bazar_articulos
+                        WHERE id_CierreSucursal= $id_CierreSucursal and tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "prestamo_Informativo" => $row["prestamo_Informativo"],
+                        "prestamo_Empeno" => $row["prestamo_Empeno"],
                         "tipo_movimiento" => $row["tipo_movimiento"],
                     ];
                     array_push($datos, $data);
@@ -714,6 +714,35 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
+
+    function llenarTotalInformativo()
+    {
+        $datos = array();
+        try {
+
+            $buscar = "SELECT s_prestamo_nuevo,tipo_movimiento FROM contratomovimientos_tbl 
+                        WHERE tipo_movimiento=3 and id_contrato not in 
+                        (select id_contrato FROM contratomovimientos_tbl 
+                        where tipo_movimiento = 4 || tipo_movimiento = 5 || tipo_movimiento = 5 
+                        || tipo_movimiento = 20 || tipo_movimiento = 24 )";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "s_prestamo_nuevo" => $row["s_prestamo_nuevo"],
+                        "tipo_movimiento" => $row["tipo_movimiento"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
     function saldoInicialInformativo()
     {
         $datos = array();
