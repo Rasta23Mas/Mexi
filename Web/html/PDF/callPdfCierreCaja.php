@@ -105,6 +105,8 @@ foreach ($resultado as $row) {
     $CerradoPorGerente = $row["CerradoPorGerente"];
 }
 
+
+
 $dotacionesA_Caja = number_format($dotacionesA_Caja, 2, '.', ',');
 $capitalRecuperado = number_format($capitalRecuperado, 2, '.', ',');
 $abonoCapital = number_format($abonoCapital, 2, '.', ',');

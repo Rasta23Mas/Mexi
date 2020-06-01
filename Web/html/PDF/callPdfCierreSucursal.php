@@ -31,25 +31,24 @@ $mysql = new  mysqli($server, $user, $password, $db);
 $querySucursal = "SELECT NombreCasa, Nombre FROM cat_sucursal
                     WHERE id_Sucursal =$sucursal ";
 
-$resultadoSucursal = $mysql->query($querySucursal);
 
+$resultadoSucursal = $mysql->query($querySucursal);
 
 foreach ($resultadoSucursal as $row) {
     $NombreCasa = $row["NombreCasa"];
     $Nombre = $row["Nombre"];
 }
 
-$folioCierreSucursal = 0;
-if (isset($_GET['folioCierreSucursal'])) {
+$folioCierreSucursal = 55;
+/*if (isset($_GET['folioCierreSucursal'])) {
     $folioCierreSucursal = $_GET['folioCierreSucursal'];
-}
+}*/
 
-$CerradoNombreUsuario = "";
 
 
 $queryCierreCaja = "SELECT * FROM bit_cierresucursal
                     WHERE folio_CierreSucursal =$folioCierreSucursal ";
-
+echo $queryCierreCaja;
 $resultado = $mysql->query($queryCierreCaja);
 
 
@@ -182,14 +181,12 @@ $InfoAbono = "$" . $InfoAbono;
 $InfoTotalInventario = "$" . $InfoTotalInventario;
 
 
-
 if (!isset($_GET['pdf'])) {
     $contenido = '<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-            <script src="../../JavaScript/funcionesCierres.js"></script>
-
+     <script src="../../JavaScript/funcionesCierreSucursal.js"></script>
     <style>
         .letraNormalNegrita {
             font-size: 1.2em;
@@ -332,7 +329,7 @@ if (!isset($_GET['pdf'])) {
                         <label class="letraGrandeNegrita">&nbsp;&nbsp;CIERRE DE CAJA</label>
                     </td>
                     <td colspan="3" align="right">
-                        <label class="letraGrandeNegrita">' . $CerradoNombreUsuario . '</label>
+                        <br>
                     </td>
                 </tr>
                 <tr>
@@ -341,10 +338,8 @@ if (!isset($_GET['pdf'])) {
                     </td>
                 </tr>
                 <tr class="letraNormalNegrita">
-                        <td colspan="2" >
-                            <label>&nbsp;&nbsp;&nbsp;CAJA:  ' . $id_CierreCaja . '</label>
-                        </td>
-                       <td colspan="3" >
+            
+                       <td colspan="5" >
                             <label>&nbsp;&nbsp;&nbsp;CAJERO:  ' . $NombreUsuario . '</label>
                         </td>
                         <td colspan="2" align="right">
@@ -379,365 +374,429 @@ if (!isset($_GET['pdf'])) {
         </tr>
         <tr>
             <td>
-                <table width="100%" class="tableCierre">
-                <tr>
-                        <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES DE EFECTIVO</label>
+                 <table width="100%" class="tableCierre">
+                    <tr>
+                        <td class="primeraColLeft border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
                         </td>
-                        <td class="espacioEnmedio" >
-                            <br>
-                        </td>
-                        <td colspan="3" class="titleTable tableTDCierre" >
-                            <label>&nbsp;&nbsp;&nbsp;RETIROS DE EFECTIVO</label>
-                        </td>
-                    </tr>
-                <tr  >
-                        <td class="primeraCol tableTDCierre"  >
-                            <label> ( ' . $cantDotaciones . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre" >
-                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES A CAJA</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre" >
-                            <label >' . $dotacionesA_Caja . '</label>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $saldo_Inicial . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre" >
-                          <label> ( ' . $cantRetiros . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre" >
-                            <label>&nbsp;&nbsp;&nbsp;RETIROS A CAJA</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre" >
-                              <label >' . $retirosCaja . '</label>
+                        <td colspan="3" class="titleTable border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;RETIROS DE EFECTIVO</label>
                         </td>
                     </tr>
-                <tr>
+                    <tr>
+                        <td class="primeraColLeft border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES A CAJA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $dotacionesA_Caja . '</label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantRetirosCaja . '</label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;RETIROS A CAJA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $retirosCaja . '</label>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="7"><br></td>
                     </tr>
-                 <tr >
-                        <td colspan="3" class="titleTableEntrada tableTDCierre" align="center">
+                    <tr>
+                        <td colspan="3" class="titleTableEntrada" align="center">
                             <label>&nbsp;&nbsp;&nbsp;ENTRADAS</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" class="titleTableSalida tableTDCierre" align="center">
+                        <td colspan="3" class="titleTableSalida" align="center">
                             <label>&nbsp;&nbsp;&nbsp;SALIDAS</label>
                         </td>
                     </tr>
-                <tr>
+                    <tr>
                         <td colspan="7"><br></td>
                     </tr>
-                <tr>
-                        <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;TRADICIONALES</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantAportacionesBoveda . '</label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;APORTACIONES BÓVEDA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $aportaciones_Boveda . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;TRADICIONALES</label>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantRetirosBoveda . '</label>
+                        </td>
+                        <td class="segundaCol border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;RETIROS A BÓVEDA:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $retiros_boveda . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantCapitalRecuperado . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantCapitalRecuperado . '</label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $capitalRecuperado . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $capitalRecuperado . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantPrestamos . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label>' . $CantPrestamosNuevos . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;PRESTAMOS NUEVOS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $prestamosNuevos . '</label>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $prestamosNuevos . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantAbono . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantAbono . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;ABONO A CAPITAL:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $abonoCapital . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $abonoCapital . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantDescuentos . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label>' . $CantDescuentos . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;DESC. APLICADOS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $descuentosAplicados . '</label>
-                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $descuentosAplicados . '</label>
+                            </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantInteres . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                           <label></label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;INTERESES:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $intereses . '</label>
+
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $intereses . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantDescuentosVentas . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label>' . $CantDescuentosVentas . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;DESC. VENTAS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $descuento_Ventas . '</label>
+                        <td class="terceraCol border border-primary">
+                           <label>' . $descuentos_ventas . '</label>
+                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantCostoContrato . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantCostoContrato . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;COSTO CONTRATO:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $costoContrato . '</label>
+
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $costoContrato . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                         <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantIncremento . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label>' . $CantIncremento . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;INCREMENTO PAT.:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $incremento . '</label>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $incrementoPatrimonio . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantIva . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label></label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;I.V.A. :</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $iva . '</label>
+
+                        <td class="terceraCol  border border-primary">
+                          <label>' . $iva . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" >
-                            <br>
-                        </td>
-                    </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantGps . ' )</label>
-                        </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;RENTA GPS:</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $gps . '</label>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                        <td colspan="3" class="titleTable tableTDCierre">
+                        <td colspan="3" class="titleTable border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;TOTALES</label>
                         </td>
-                       
-                </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantPoliza . ' )</label>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantVentasMostrador . '</label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;VENTAS MOSTRADOR:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                               <label >' . $poliza . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $mostrador . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                         <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $total_Entrada . '</label>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $total_Entrada . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantPension . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label></label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;PENSIÓN:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;IVA VENTAS:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $pension . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $iva_venta . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                         <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $total_Iva . '</label>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $totalIVA . '</label>
                         </td>
                     </tr>
-                <tr>
-                       <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantAjustes . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                        <!--<label id="CantIvaUtilidad"></label>-->
                         </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;UTILIDAD VENTA:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $ajuste . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $utilidadVenta . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales tableTDCierre" colspan="2">
+                        <td class="primeraColTotales border border-primary" colspan="2">
                             <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $total_Salida . '</label>
-                        </td>
-    
+                        <td class="terceraCol border border-primary">
+                           <label>' . $total_Salida . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td colspan="3" ></td>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                          <label>' . $CantApartados . '</label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $apartados . '</label>
+                        </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $efectivo_Caja . '</label>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $saldo_final . '</label>
                         </td>
+
                     </tr>
-                <tr>
-                        <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;VENTAS</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantAbonoVentas . '</label>
                         </td>
-                       
-                        <td colspan="1">
-                            <br>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;ABONO:</label>
                         </td>
-                        <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $abonoVentas . '</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $saldo_Caja . '</label>
-                    </tr>
-                <tr>
-                <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantCapitalRecuperado . ' )</label>
-                        </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
-                        </td>
-                        <td class="terceraCol  tableTDCierre">
-                               <label >' . $capitalRecuperado . '</label>
-                        </td>
-                       
-                        <td colspan="4">
-                            <br>
-                        </td>
-                    </tr>
-                <tr>
-                 <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantIvaVenta . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;I.V.A.:</label>
-                        </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $iva_venta . '</label>
-                        </td>
-                        
-                        <td colspan="4">
-                            <br>
-                        </td>
-                    </tr>
-                <tr>
-                <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantApartados . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $apartadosVentas . '</label>
-                        </td>
-                        <td colspan="4">
+
+                        <td class="espacioEnmedio " colspan="4">
                             <br>
                         </td>
                     </tr>
                     <tr>
-                <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantAbonoVentas . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label></label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;ABONOS:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;GPS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $abonoVentas . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $gps . '</label>
                         </td>
-                        <td colspan="4">
+                        <td class="espacioEnmedio ">
                             <br>
                         </td>
+
+                        <td colspan="3" class="titleTable border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;INFORMATIVOS</label>
+                        </td>
                     </tr>
-                      <tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $poliza . '</label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $InfoSaldoInicial . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;PENSION:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $pension . '</label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;ENTRADAS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoEntradas . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantAjustes . '</label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $ajustes . '</label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALIDAS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $InfoSalidas . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoSaldoFinal . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoApartados . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;ABONOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoAbono . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;TOTAL INVENTARIO:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoTotalInventario . '</label>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="7">
                             <br>
                         </td>
                     </tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantRefrendos . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;* INFORM. REFRENDO:</label>
-                        </td>
-                        <td class="terceraCol  tableTDCierre">
-                               <label >' . $informeRefrendo . '</label>
-                        </td>
-                        <td colspan="4">
-                            <br>
-                        </td>
-                    </tr>
-                <tr>
-                    <td colspan="7">
-                    <br>
-                </td>
-                </tr>
-        </table>
+                </table>
         </td>
         </tr>';
     $contenido .= '<tr><td align="center" colspan="7">
@@ -752,7 +811,7 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .letraNormalNegrita{
+         .letraNormalNegrita{
           font-size: .5em;
           font-weight: bold;
          }
@@ -822,17 +881,16 @@ $contenido = '<html>
             width: 30px;
             text-align: right;
         }
-        
-
-.tableCierre {
-    border-collapse: collapse;
-}
-.tableTDCierre  {
-    border-left: 0.01em solid #ccc;
-    border-right: 0.01em solid #ccc;
-    border-top: 0.01em solid #ccc;
-    border-bottom: 0.01em solid #ccc;
-}
+       
+        .tableCierre {
+        border-collapse: collapse;
+        }
+        .tableTDCierre  {
+        border-left: 0.01em solid #ccc;
+        border-right: 0.01em solid #ccc;
+        border-top: 0.01em solid #ccc;
+        border-bottom: 0.01em solid #ccc;
+        }
     </style>
 
 </head>
@@ -856,7 +914,7 @@ $contenido .= '<table align="center" border="0" class="letraGrandeNegrita">
                         <label class="letraGrandeNegrita">&nbsp;&nbsp;CIERRE DE CAJA</label>
                     </td>
                     <td colspan="3" align="right">
-                        <label class="letraGrandeNegrita">' . $CerradoNombreUsuario . '</label>
+                           <br>
                     </td>
                 </tr>
                 <tr>
@@ -864,11 +922,8 @@ $contenido .= '<table align="center" border="0" class="letraGrandeNegrita">
                         <br>
                     </td>
                 </tr>
-                <tr class="letraGrandeNegrita">
-                        <td colspan="2" >
-                            <label>&nbsp;&nbsp;&nbsp;CAJA:  ' . $id_CierreCaja . '</label>
-                        </td>
-                       <td colspan="3" >
+               <tr class="letraGrandeNegrita">
+                       <td colspan="5" >
                             <label>&nbsp;&nbsp;&nbsp;CAJERO:  ' . $NombreUsuario . '</label>
                         </td>
                         <td colspan="2" align="right">
@@ -898,367 +953,439 @@ $contenido .= '<table align="center" border="0" class="letraGrandeNegrita">
                                <br>
                         </td>
                     </tr>
+        </table>
+            </td>
+        </tr>
         <tr>
-            <td colspan="7">
-                <table align="center" class="tableCierre letraNormalNegrita">
-                <tr>
-                        <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES DE EFECTIVO</label>
+            <td>
+                  <table align="center" class="tableCierre letraNormalNegrita">
+                    <tr>
+                        <td class="primeraColLeft border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
                         </td>
-                        <td class="espacioEnmedio" >
-                            <br>
-                        </td>
-                        <td colspan="3" class="titleTable tableTDCierre" >
-                            <label>&nbsp;&nbsp;&nbsp;RETIROS DE EFECTIVO</label>
-                        </td>
-                    </tr>
-                <tr  >
-                        <td class="primeraCol tableTDCierre"  >
-                            <label> ( ' . $cantDotaciones . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre" >
-                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES A CAJA</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre" >
-                            <label >' . $dotacionesA_Caja . '</label>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $saldo_Inicial . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre" >
-                          <label> ( ' . $cantRetiros . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre" >
-                            <label>&nbsp;&nbsp;&nbsp;RETIROS A CAJA</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre" >
-                              <label >' . $retirosCaja . '</label>
+                        <td colspan="3" class="titleTable border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;RETIROS DE EFECTIVO</label>
                         </td>
                     </tr>
-                <tr>
+                    <tr>
+                        <td class="primeraColLeft border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES A CAJA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $dotacionesA_Caja . '</label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantRetirosCaja . '</label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;RETIROS A CAJA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $retirosCaja . '</label>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="7"><br></td>
                     </tr>
-                 <tr >
-                        <td colspan="3" class="titleTableEntrada tableTDCierre" align="center">
+                    <tr>
+                        <td colspan="3" class="titleTableEntrada" align="center">
                             <label>&nbsp;&nbsp;&nbsp;ENTRADAS</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" class="titleTableSalida tableTDCierre" align="center">
+                        <td colspan="3" class="titleTableSalida" align="center">
                             <label>&nbsp;&nbsp;&nbsp;SALIDAS</label>
                         </td>
                     </tr>
-                <tr>
+                    <tr>
                         <td colspan="7"><br></td>
                     </tr>
-                <tr>
-                        <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;TRADICIONALES</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantAportacionesBoveda . '</label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;APORTACIONES BÓVEDA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $aportaciones_Boveda . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;TRADICIONALES</label>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantRetirosBoveda . '</label>
+                        </td>
+                        <td class="segundaCol border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;RETIROS A BÓVEDA:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $retiros_boveda . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantCapitalRecuperado . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantCapitalRecuperado . '</label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $capitalRecuperado . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $capitalRecuperado . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantPrestamos . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label>' . $CantPrestamosNuevos . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;PRESTAMOS NUEVOS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $prestamosNuevos . '</label>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $prestamosNuevos . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantAbono . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantAbono . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;ABONO A CAPITAL:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $abonoCapital . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $abonoCapital . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantDescuentos . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label>' . $CantDescuentos . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;DESC. APLICADOS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $descuentosAplicados . '</label>
-                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $descuentosAplicados . '</label>
+                            </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantInteres . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                           <label></label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;INTERESES:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $intereses . '</label>
+
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $intereses . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantDescuentosVentas . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label>' . $CantDescuentosVentas . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;DESC. VENTAS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $descuento_Ventas . '</label>
+                        <td class="terceraCol border border-primary">
+                           <label>' . $descuentos_ventas . '</label>
+                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantCostoContrato . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantCostoContrato . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;COSTO CONTRATO:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $costoContrato . '</label>
+
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $costoContrato . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantIncremento . ' )</label>
+                        <td class="primeraCol border border-primary">
+                           <label>' . $CantIncremento . '</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;INCREMENTO PAT.:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $incremento . '</label>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $incrementoPatrimonio . '</label>
                         </td>
-                 
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantIva . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label></label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;I.V.A. :</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $iva . '</label>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                         <td colspan="3" >
 
-                        </td>
-                   
-                    </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantGps . ' )</label>
-                        </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;RENTA GPS:</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $gps . '</label>
+                        <td class="terceraCol  border border-primary">
+                          <label>' . $iva . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" class="titleTable tableTDCierre">
+                        <td colspan="3" class="titleTable border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;TOTALES</label>
                         </td>
-                </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantPoliza . ' )</label>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantVentasMostrador . '</label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;VENTAS MOSTRADOR:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                               <label >' . $poliza . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $mostrador . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                         <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $total_Entrada . '</label>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $total_Entrada . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantPension . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label></label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;PENSIÓN:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;IVA VENTAS:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $pension . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $iva_venta . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $total_Iva . '</label>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $totalIVA . '</label>
                         </td>
                     </tr>
-                <tr>
-                 <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantAjustes . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                        <!--<label id="CantIvaUtilidad"></label>-->
                         </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;UTILIDAD VENTA:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $ajuste . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $utilidadVenta . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales tableTDCierre" colspan="2">
+                        <td class="primeraColTotales border border-primary" colspan="2">
                             <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $total_Salida . '</label>
+                        <td class="terceraCol border border-primary">
+                           <label>' . $total_Salida . '</label>
                         </td>
-                     
                     </tr>
-                <tr>
-                       <td colspan="3" >
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                          <label>' . $CantApartados . '</label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $apartados . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $saldo_Caja . '</label>
+                        <td class="terceraCol border border-primary">
+                            <label>' . $saldo_final . '</label>
                         </td>
+
                     </tr>
-                <tr>
-                       <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;VENTAS</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantAbonoVentas . '</label>
                         </td>
-                        <td colspan="1">
-                            <br>
-                        </td>
-                        <td class="primeraColTotales tableTDCierre" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $efectivo_Caja . '</label>
-                        </td>
-                    </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantCapitalRecuperado . ' )</label>
-                        </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
-                        </td>
-                        <td class="terceraCol  tableTDCierre">
-                               <label >' . $capitalRecuperado . '</label>
-                        </td>
-                        <td colspan="4">
-                            <br>
-                        </td>
-                    </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantIvaVenta . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;I.V.A.:</label>
-                        </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $iva_venta . '</label>
-                        </td>
-                        <td colspan="4">
-                            <br>
-                        </td>
-                    </tr>
-                <tr>
-                <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantApartados . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
-                        </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $apartadosVentas . '</label>
-                        </td>
-                        <td colspan="4">
-                            <br>
-                        </td>
-                </tr>
-                <tr>
-                    <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantAbonoVentas . ' )</label>
-                        </td>
-                        <td class="segundaCol tableTDCierre">
+                        <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;ABONO:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $abonoVentas . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $abonoVentas . '</label>
                         </td>
-                        <td colspan="4">
+
+                        <td class="espacioEnmedio " colspan="4">
                             <br>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantRefrendos . ' )</label>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                           <label></label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;* INFORM. REFRENDO:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;GPS:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                               <label >' . $informeRefrendo . '</label>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $gps . '</label>
                         </td>
-                        <td colspan="4">
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+
+                        <td colspan="3" class="titleTable border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;INFORMATIVOS</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $poliza . '</label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $InfoSaldoInicial . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;PENSION:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $pension . '</label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;ENTRADAS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoEntradas . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label>' . $CantAjustes . '</label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $ajustes . '</label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALIDAS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                           <label>' . $InfoSalidas . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoSaldoFinal . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoApartados . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;ABONOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoAbono . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;TOTAL INVENTARIO:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label>' . $InfoTotalInventario . '</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7">
                             <br>
                         </td>
                     </tr>
-                <tr>
-                    <td colspan="7">
-                    <br>
-                </td>
-                </tr>
-        </table>
+                </table>
         </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Cierre Caja Num ' . $folioCierreCaja . ".pdf";
+$nombreContrato = 'Cierre Caja Num ' . $folioCierreSucursal . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'portrait');

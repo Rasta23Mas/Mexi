@@ -279,10 +279,11 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         </td>
                         <td class="terceraCol border border-primary">
                             <label id="descuentos"></label>
+                        </td>
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantInteres"></label>
+                            <label ></label>
                         </td>
                         <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;INTERESES:</label>
@@ -302,6 +303,7 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         </td>
                         <td class="terceraCol border border-primary">
                             <label id="descuentosVentas"></label>
+                        </td>
 
 
                     </tr>
