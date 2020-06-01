@@ -46,13 +46,11 @@ var InfoSaldoInicialGbl = 0;
 var InfoEntradasGbl = 0;
 var InfoSalidasGbl = 0;
 var InfoSaldoFinalGbl = 0;
-
-
 var totalAbonosGbl = 0;
 var totalApartadosGbl = 0;
 var totalInventarioGbl = 0;
 var utilidadVentaGlb = 0;
-
+var folioCierreSucursal = 0;
 function validarEsatusSucursal() {
     var tipo = 1;
     idCierreSucursalGlb = $("#idCierreSucursal").text();
@@ -67,8 +65,10 @@ function validarEsatusSucursal() {
         dataType: "json",
         success: function (response) {
             if (response.status == 'ok') {
-                var folio_CierreSucursal = response.result.folio_CierreSucursal;
-                if (folio_CierreSucursal > 0) {
+
+                 folioCierreSucursal = response.result.folio_CierreSucursal;
+                alert(folioCierreSucursal)
+                if (folioCierreSucursal > 0) {
                     llenarSaldosSucursal();
                 } else {
                     alert("El proceso de Cierre de Sucursal ya fue realizado.");
@@ -408,8 +408,6 @@ function llenarGeneral() {
 
             aportacionesBov = formatoMoneda(aportacionesBovedaGlb);
             retirosBoveda = formatoMoneda(retirosBovedaGlb);
-
-
             document.getElementById('CantAportaciones').innerHTML = "( " + CantAportacionesBovedaGlb + " )";
             document.getElementById('aportaciones').innerHTML = aportacionesBov;
             document.getElementById('CantRetiros').innerHTML = "( " + CantRetirosBovedaGlb + " )";
@@ -600,8 +598,6 @@ function confirmarCierreSucursal() {
         });
 }
 function guardarCierreSucursal() {
-    alert(CantAportacionesBovedaGlb)
-    alert(CantAjustesGlb)
     var dataEnviar = {
         "dotacionesA_Caja": DotacionesCajaGlb,
         "cantAportacionesBoveda": CantAportacionesBovedaGlb,
@@ -664,19 +660,15 @@ function guardarCierreSucursal() {
                 alertify.error("Error de conexion, intente más tarde.")
             }
         }
-
     });
 }
-
 function guardarBazar() {
     //1 llena movimientos de dotacion y retiro
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Cierre/GuardarBazar.php',
         type: 'post',
         dataType: "json",
-
         success: function (response) {
-            alert(response);
             if(response==1){
                 alertify.success("Se guardaron en bazar los articulos.")
                 BitacoraUsuarioCierreSucursal();
@@ -684,7 +676,6 @@ function guardarBazar() {
         },
     })
 }
-
 function BitacoraUsuarioCierreSucursal() {
     //id_Movimiento = 18 Ciere de Caja
     //FEErr08
@@ -714,7 +705,7 @@ function BitacoraUsuarioCierreSucursal() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                cargarPDFCaja(folioCierreCaja)
+                cargarPDFCaja()
                 var tipoSesion = $("#idTipoSesion").val();
                 if (tipoSesion == 4) {
                     cerrarSesion();
@@ -729,12 +720,12 @@ function BitacoraUsuarioCierreSucursal() {
     });
 }
 function cargarPDFCaja() {
-    window.open('../PDF/callPdfCierreCaja.php?folioCierreCaja=' + folioCierreCaja);
+    window.open('../PDF/callPdfCierreSucursal.php?folioCierreSucursal=' + folioCierreSucursal);
 }
 function cargarPDFCajaDesdeBusqueda(folio) {
-    window.open('../PDF/callPdfCierreCaja.php?folioCierreCaja=' + folio);
+    window.open('../PDF/callPdfCierreSucursal.php?folioCierreSucursal=' + folio);
 }
 function verPDFCaja(folio) {
-    window.open('../PDF/callPdfCierreCaja.php?pdf=1&folioCierreCaja=' + folio);
+    window.open('../PDF/callPdfCierreSucursal.php?pdf=1&folioCierreSucursal=' + folio);
 }
 

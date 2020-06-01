@@ -39,133 +39,148 @@ foreach ($resultadoSucursal as $row) {
     $Nombre = $row["Nombre"];
 }
 
-$folioCierreCaja = 0;
-if (isset($_GET['folioCierreCaja'])) {
-    $folioCierreCaja = $_GET['folioCierreCaja'];
+$folioCierreSucursal = 0;
+if (isset($_GET['folioCierreSucursal'])) {
+    $folioCierreSucursal = $_GET['folioCierreSucursal'];
 }
 
 $CerradoNombreUsuario = "";
 
 
-$queryCierreCaja = "SELECT * FROM bit_cierrecaja
-                    WHERE folio_CierreCaja =$folioCierreCaja ";
+$queryCierreCaja = "SELECT * FROM bit_cierresucursal
+                    WHERE folio_CierreSucursal =$folioCierreSucursal ";
 
 $resultado = $mysql->query($queryCierreCaja);
 
 
 foreach ($resultado as $row) {
-    $id_CierreCaja = $row["id_CierreCaja"];
-    $cantDotaciones = $row["cantDotaciones"];
+    $id_CierreSucursal = $row["id_CierreSucursal"];
+    $saldo_Inicial = $row["saldo_Inicial"];
     $dotacionesA_Caja = $row["dotacionesA_Caja"];
-    $cantCapitalRecuperado = $row["cantCapitalRecuperado"];
+    $CantAportacionesBoveda = $row["CantAportacionesBoveda"];
+    $aportaciones_Boveda = $row["aportaciones_Boveda"];
+    $CantCapitalRecuperado = $row["CantCapitalRecuperado"];
     $capitalRecuperado = $row["capitalRecuperado"];
-    $cantAbono = $row["cantAbono"];
+    $CantAbono = $row["CantAbono"];
     $abonoCapital = $row["abonoCapital"];
-    $cantInteres = $row["cantInteres"];
     $intereses = $row["intereses"];
-    $cantIva = $row["cantIva"];
-    $iva = $row["iva"];
-    $cantMostrador = $row["cantMostrador"];
-    $mostrador = $row["mostrador"];
-    $cantIvaVenta = $row["cantIvaVenta"];
-    $iva_venta = $row["iva_venta"];
-    $cantApartados = $row["cantApartados"];
-    $apartadosVentas = $row["apartadosVentas"];
-    $cantAbonoVentas = $row["cantAbonoVentas"];
-    $abonoVentas = $row["abonoVentas"];
-    $cantGps = $row["cantGps"];
-    $gps = $row["gps"];
-    $cantPoliza = $row["cantPoliza"];
-    $poliza = $row["poliza"];
-    $cantPension = $row["cantPension"];
-    $pension = $row["pension"];
-    $cantRetiros = $row["cantRetiros"];
-    $retirosCaja = $row["retirosCaja"];
-    $cantPrestamos = $row["cantPrestamos"];
-    $prestamosNuevos = $row["prestamosNuevos"];
-    $cantDescuentos = $row["cantDescuentos"];
-    $descuentosAplicados = $row["descuentosAplicados"];
-    $cantDescuentosVentas = $row["cantDescuentosVentas"];
-    $descuento_Ventas = $row["descuento_Ventas"];
-    $cantCostoContrato = $row["cantCostoContrato"];
+    $CantCostoContrato = $row["CantCostoContrato"];
     $costoContrato = $row["costoContrato"];
-    $total_Salida = $row["total_Salida"];
+    $iva = $row["iva"];
+    $CantVentasMostrador = $row["CantVentasMostrador"];
+    $mostrador = $row["mostrador"];
+    $iva_venta = $row["iva_venta"];
+    $utilidadVenta = $row["utilidadVenta"];
+    $CantApartados = $row["CantApartados"];
+    $apartados = $row["apartados"];
+    $CantAbonoVentas = $row["CantAbonoVentas"];
+    $abonoVentas = $row["abonoVentas"];
+    $gps = $row["gps"];
+    $poliza = $row["poliza"];
+    $pension = $row["pension"];
+    $CantAjustes = $row["CantAjustes"];
+    $ajustes = $row["ajustes"];
+    $CantRetirosCaja = $row["CantRetirosCaja"];
+    $retirosCaja = $row["retirosCaja"];
+    $CantRetirosBoveda = $row["CantRetirosBoveda"];
+    $retiros_boveda = $row["retiros_boveda"];
+    $CantPrestamosNuevos = $row["CantPrestamosNuevos"];
+    $prestamosNuevos = $row["prestamosNuevos"];
+    $CantDescuentos = $row["CantDescuentos"];
+    $descuentosAplicados = $row["descuentosAplicados"];
+    $CantDescuentosVentas = $row["CantDescuentosVentas"];
+    $descuentos_ventas = $row["descuentos_ventas"];
+    $CantIncremento = $row["CantIncremento"];
+    $incrementoPatrimonio = $row["incrementoPatrimonio"];
     $total_Entrada = $row["total_Entrada"];
-    $total_Iva = $row["total_Iva"];
-    $saldo_Caja = $row["saldo_Caja"];
-    $efectivo_Caja = $row["efectivo_Caja"];
-    $cantAjustes = $row["cantAjustes"];
-    $ajuste = $row["ajuste"];
-    $cantIncremento = $row["cantIncremento"];
-    $incremento = $row["incremento"];
-    $cantRefrendos = $row["cantRefrendos"];
-    $informeRefrendo = $row["informeRefrendo"];
+    $totalIVA = $row["totalIVA"];
+    $total_Salida = $row["total_Salida"];
+    $saldo_final = $row["saldo_final"];
+    $InfoSaldoInicial = $row["InfoSaldoInicial"];
+    $InfoEntradas = $row["InfoEntradas"];
+    $InfoSalidas = $row["InfoSalidas"];
+    $InfoSaldoFinal = $row["InfoSaldoFinal"];
+    $InfoApartados = $row["InfoApartados"];
+    $InfoAbono = $row["InfoAbono"];
+    $InfoTotalInventario = $row["InfoTotalInventario"];
     $usuario = $row["usuario"];
+    $sucursal = $row["sucursal"];
     $fecha_Creacion = $row["fecha_Creacion"];
-    $CerradoPorGerente = $row["CerradoPorGerente"];
+    $estatus = $row["estatus"];
 }
 
+$saldo_Inicial = number_format($saldo_Inicial, 2, '.', ',');
 $dotacionesA_Caja = number_format($dotacionesA_Caja, 2, '.', ',');
+$aportaciones_Boveda = number_format($aportaciones_Boveda, 2, '.', ',');
 $capitalRecuperado = number_format($capitalRecuperado, 2, '.', ',');
 $abonoCapital = number_format($abonoCapital, 2, '.', ',');
 $intereses = number_format($intereses, 2, '.', ',');
+$costoContrato = number_format($costoContrato, 2, '.', ',');
 $iva = number_format($iva, 2, '.', ',');
 $mostrador = number_format($mostrador, 2, '.', ',');
 $iva_venta = number_format($iva_venta, 2, '.', ',');
-$apartadosVentas = number_format($apartadosVentas, 2, '.', ',');
+$utilidadVenta = number_format($utilidadVenta, 2, '.', ',');
+$apartados = number_format($apartados, 2, '.', ',');
 $abonoVentas = number_format($abonoVentas, 2, '.', ',');
 $gps = number_format($gps, 2, '.', ',');
 $poliza = number_format($poliza, 2, '.', ',');
 $pension = number_format($pension, 2, '.', ',');
+$ajustes = number_format($ajustes, 2, '.', ',');
 $retirosCaja = number_format($retirosCaja, 2, '.', ',');
+$retiros_boveda = number_format($retiros_boveda, 2, '.', ',');
 $prestamosNuevos = number_format($prestamosNuevos, 2, '.', ',');
 $descuentosAplicados = number_format($descuentosAplicados, 2, '.', ',');
-$descuento_Ventas = number_format($descuento_Ventas, 2, '.', ',');
-$costoContrato = number_format($costoContrato, 2, '.', ',');
-$total_Salida = number_format($total_Salida, 2, '.', ',');
+$descuentos_ventas = number_format($descuentos_ventas, 2, '.', ',');
+$incrementoPatrimonio = number_format($incrementoPatrimonio, 2, '.', ',');
 $total_Entrada = number_format($total_Entrada, 2, '.', ',');
-$total_Iva = number_format($total_Iva, 2, '.', ',');
-$saldo_Caja = number_format($saldo_Caja, 2, '.', ',');
-$efectivo_Caja = number_format($efectivo_Caja, 2, '.', ',');
-$ajuste = number_format($ajuste, 2, '.', ',');
-$incremento = number_format($incremento, 2, '.', ',');
-$informeRefrendo = number_format($informeRefrendo, 2, '.', ',');
+$totalIVA = number_format($totalIVA, 2, '.', ',');
+$total_Salida = number_format($total_Salida, 2, '.', ',');
+$saldo_final = number_format($saldo_final, 2, '.', ',');
+$InfoSaldoInicial = number_format($InfoSaldoInicial, 2, '.', ',');
+$InfoEntradas = number_format($InfoEntradas, 2, '.', ',');
+$InfoSalidas = number_format($InfoSalidas, 2, '.', ',');
+$InfoSaldoFinal = number_format($InfoSaldoFinal, 2, '.', ',');
+$InfoApartados = number_format($InfoApartados, 2, '.', ',');
+$InfoAbono = number_format($InfoAbono, 2, '.', ',');
+$InfoTotalInventario = number_format($InfoTotalInventario, 2, '.', ',');
 
 
+$saldo_Inicial = "$" . $saldo_Inicial;
 $dotacionesA_Caja = "$" . $dotacionesA_Caja;
+$aportaciones_Boveda = "$" . $aportaciones_Boveda;
 $capitalRecuperado = "$" . $capitalRecuperado;
 $abonoCapital = "$" . $abonoCapital;
 $intereses = "$" . $intereses;
+$costoContrato = "$" . $costoContrato;
 $iva = "$" . $iva;
 $mostrador = "$" . $mostrador;
 $iva_venta = "$" . $iva_venta;
-$apartadosVentas = "$" . $apartadosVentas;
+$utilidadVenta = "$" . $utilidadVenta;
+$apartados = "$" . $apartados;
 $abonoVentas = "$" . $abonoVentas;
 $gps = "$" . $gps;
 $poliza = "$" . $poliza;
 $pension = "$" . $pension;
+$ajustes = "$" . $ajustes;
 $retirosCaja = "$" . $retirosCaja;
+$retiros_boveda = "$" . $retiros_boveda;
 $prestamosNuevos = "$" . $prestamosNuevos;
 $descuentosAplicados = "$" . $descuentosAplicados;
-$descuento_Ventas = "$" . $descuento_Ventas;
-$costoContrato = "$" . $costoContrato;
-$total_Salida = "$" . $total_Salida;
+$descuentos_ventas = "$" . $descuentos_ventas;
+$incrementoPatrimonio = "$" . $incrementoPatrimonio;
 $total_Entrada = "$" . $total_Entrada;
-$total_Iva = "$" . $total_Iva;
-$saldo_Caja = "$" . $saldo_Caja;
-$efectivo_Caja = "$" . $efectivo_Caja;
-$ajuste = "$" . $ajuste;
-$incremento = "$" . $incremento;
-$informeRefrendo = "$" . $informeRefrendo;
+$totalIVA = "$" . $totalIVA;
 
-if ($CerradoPorGerente != 0) {
-    $queryCierrePorGerente = "SELECT usuario FROM usuarios_tbl
-                    WHERE id_User =$CerradoPorGerente ";
-    $resultadoCierrePor = $mysql->query($queryCierrePorGerente);
-    foreach ($resultadoCierrePor as $row) {
-        $CerradoNombreUsuario = "Cerrado por: " . $row["usuario"];
-    }
-}
+$total_Salida = "$" . $total_Salida;
+$saldo_final = "$" . $saldo_final;
+$InfoSaldoInicial = "$" . $InfoSaldoInicial;
+$InfoEntradas = "$" . $InfoEntradas;
+$InfoSalidas = "$" . $InfoSalidas;
+$InfoSaldoFinal = "$" . $InfoSaldoFinal;
+$InfoApartados = "$" . $InfoApartados;
+$InfoAbono = "$" . $InfoAbono;
+$InfoTotalInventario = "$" . $InfoTotalInventario;
+
 
 
 if (!isset($_GET['pdf'])) {
@@ -726,7 +741,7 @@ if (!isset($_GET['pdf'])) {
         </td>
         </tr>';
     $contenido .= '<tr><td align="center" colspan="7">
-        <input type="button" class="btn btnGenerarPDF" value="Generar PDF"  onclick="verPDFCaja(' . $folioCierreCaja . ');" >
+        <input type="button" class="btn btnGenerarPDF" value="Generar PDF"  onclick="verPDFCaja(' . $folioCierreSucursal . ');" >
         </td></tr>';
     $contenido .= '</tbody></table></form></body></html>';
     echo $contenido;
