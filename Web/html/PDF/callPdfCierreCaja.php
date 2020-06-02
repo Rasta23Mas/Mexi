@@ -176,7 +176,6 @@ if (!isset($_GET['pdf'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
             <script src="../../JavaScript/funcionesCierres.js"></script>
-
     <style>
         .letraNormalNegrita {
             font-size: 1.2em;
@@ -739,28 +738,60 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .letraNormalNegrita{
-          font-size: .5em;
-          font-weight: bold;
-         }
-          .letraGrandeNegrita{
-          font-size: .9em;
-          font-weight: bold;
-         }
-          .letraChicaNegrita{
-          font-size: .3em;
-          font-weight: bold;
-         }
-          .letraNormal{
-          font-size: .5em;
-         }
-          .letraGrande{
-          font-size: .9em;
-         }
-          .letraChica{
-          font-size: .3em;
-         }
-          .borderBlue{
+        .letraNormalNegrita {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .letraGrandeNegrita {
+            font-size: 1.6em;
+            font-weight: bold;
+        }
+
+        .letraChicaNegrita {
+            font-size: .8em;
+            font-weight: bold;
+        }
+
+        .letraNormal {
+            font-size: 1.2em;
+        }
+
+        .letraGrande {
+            font-size: 1.6em;
+        }
+
+        .letraChica {
+            font-size: .8em;
+        }
+          .btn{
+        color: #0099CC;
+        background: transparent;
+        border: 2px solid #0099CC;
+        border-radius: 6px;
+      padding: 16px 32px;
+      text-align: center;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+}
+        }
+        .btnGenerarPDF {
+        background-color: white; 
+        color: black; 
+        border: 2px solid #008CBA;
+        }
+        .btnGenerarPDF:hover {
+        background-color: #008CBA;
+        color: white;
+        }
+        
+        .borderBlue{
         border-style: solid;
          border-color: dodgerblue;
           border-collapse: collapse;
@@ -789,15 +820,20 @@ $contenido = '<html>
         }
 
         .primeraColTotales {
+            width: 75px;
             text-align: right;
         }
 
         .espacioEnmedio {
-            width: 20px;
+            width: 50px;
+        }
+
+        .terceraCol {
+            text-align: right;
         }
 
         .primeraCol {
-            width: 16px;
+            width: 75px;
             text-align: center;
         }
 
@@ -806,8 +842,7 @@ $contenido = '<html>
         }
 
         .terceraCol {
-            width: 30px;
-            text-align: right;
+            width: 100px;
         }
         
 
@@ -821,13 +856,12 @@ $contenido = '<html>
     border-bottom: 0.01em solid #ccc;
 }
     </style>
-
 </head>
 <body>
 <form>';
-$contenido .= '<table align="center" border="0" class="letraGrandeNegrita">
+$contenido .= '
+<table align="center" border="0" class="letraGrandeNegrita">
         <tbody>
-  
                 <tr>
                     <td colspan="7" align="center" class="letraGrandeNegrita">
                         <label>' . $NombreCasa . '</label>
