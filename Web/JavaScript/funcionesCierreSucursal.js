@@ -65,9 +65,7 @@ function validarEsatusSucursal() {
         dataType: "json",
         success: function (response) {
             if (response.status == 'ok') {
-
                  folioCierreSucursal = response.result.folio_CierreSucursal;
-                alert(folioCierreSucursal)
                 if (folioCierreSucursal > 0) {
                     llenarSaldosSucursal();
                 } else {
@@ -561,8 +559,6 @@ function pasarBazar() {
         success: function (datos) {
             var i = 0;
             var entradasInfo = 0;
-
-
             for (i; i < datos.length; i++) {
                 var prestamo_Informativo = datos[i].prestamo_Informativo;
 
@@ -671,11 +667,31 @@ function guardarBazar() {
         success: function (response) {
             if(response==1){
                 alertify.success("Se guardaron en bazar los articulos.")
+                actualizarBazar();
+            }else if(response==0){
                 BitacoraUsuarioCierreSucursal();
             }
         },
     })
 }
+
+function actualizarBazar() {
+    //1 llena movimientos de dotacion y retiro
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Cierre/ActualizaBazar.php',
+        type: 'post',
+        dataType: "json",
+        success: function (response) {
+            if(response>0){
+                alertify.success("Se actualizaron en bazar los articulos.")
+                BitacoraUsuarioCierreSucursal();
+            }
+        },
+    })
+}
+
+
+
 function BitacoraUsuarioCierreSucursal() {
     //id_Movimiento = 18 Ciere de Caja
     //FEErr08

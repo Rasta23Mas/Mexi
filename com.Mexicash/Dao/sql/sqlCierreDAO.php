@@ -894,4 +894,30 @@ class sqlCierreDAO
         echo $respuesta;
     }
 
+    function actualizarBazar()
+    {
+        try {
+            $fechaCreacion = date('Y-m-d');
+            $updateBazar = "UPDATE contratomovimientos_tbl 
+                                SET fecha_Bazar='',tipo_movimiento=24
+                                WHERE  fecha_Bazar='$fechaCreacion'";
+            if ($ps = $this->conexion->prepare($updateBazar)) {
+                if ($ps->execute()) {
+                    $verdad = mysqli_stmt_affected_rows($ps);
+                } else {
+                    $verdad = -2;
+                }
+            } else {
+                $verdad = -3;
+            }
+        } catch (Exception $exc) {
+            $respuesta = 4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $verdad;
+    }
+
 }

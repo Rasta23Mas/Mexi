@@ -591,8 +591,6 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                     </tr>
                         <tr>
                         <td colspan="7"  align="right">
-                            <input type="button" class="btn btn-warning w-25" value="test" id="prueba" onclick="guardarBazar()"/>
-
                             <input type="button" class="btn btn-warning w-25" value="Limpiar" id="idLimpiarCaja" onclick="limpiarCierreCaja()"/>
                             &nbsp;&nbsp;&nbsp;
                             <input type="button" class="btn btn-primary w-25" value="Guardar" id="guardarCaja" onclick="confirmarCierreSucursal()"/>
