@@ -48,7 +48,6 @@ if (isset($_GET['folioCierreSucursal'])) {
 
 $queryCierreCaja = "SELECT * FROM bit_cierresucursal
                     WHERE folio_CierreSucursal =$folioCierreSucursal ";
-echo $queryCierreCaja;
 $resultado = $mysql->query($queryCierreCaja);
 
 
@@ -810,7 +809,7 @@ $contenido = '<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <style>
+      <style>
         .letraNormalNegrita {
             font-size: 1.2em;
             font-weight: bold;
@@ -838,42 +837,42 @@ $contenido = '<html>
             font-size: .8em;
         }
           .btn{
-        color: #0099CC;
-        background: transparent;
-        border: 2px solid #0099CC;
-        border-radius: 6px;
-      padding: 16px 32px;
-      text-align: center;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      -webkit-transition-duration: 0.4s; /* Safari */
-      transition-duration: 0.4s;
-      cursor: pointer;
-      text-decoration: none;
-      text-transform: uppercase;
+            color: #0099CC;
+            background: transparent;
+            border: 2px solid #0099CC;
+            border-radius: 6px;
+            padding: 16px 32px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
 }
         }
         .btnGenerarPDF {
-        background-color: white; 
-        color: black; 
-        border: 2px solid #008CBA;
+            background-color: white; 
+            color: black; 
+            border: 2px solid #008CBA;
         }
         .btnGenerarPDF:hover {
-        background-color: #008CBA;
-        color: white;
+            background-color: #008CBA;
+            color: white;
         }
         
         .borderBlue{
-        border-style: solid;
-         border-color: dodgerblue;
-          border-collapse: collapse;
+            border-style: solid;
+            border-color: dodgerblue;
+            border-collapse: collapse;
         }
         
         .tdborderBlue{
-        border-style: solid;
-         border-color: dodgerblue;
-          border-collapse: collapse;
+            border-style: solid;
+            border-color: dodgerblue;
+            border-collapse: collapse;
             padding: 10px;
         }
 
@@ -892,31 +891,7 @@ $contenido = '<html>
             color: white;
         }
 
-        .primeraColTotales {
-            width: 75px;
-            text-align: right;
-        }
-
-        .espacioEnmedio {
-            width: 50px;
-        }
-
-        .terceraCol {
-            text-align: right;
-        }
-
-        .primeraCol {
-            width: 75px;
-            text-align: center;
-        }
-
-        .segundaCol {
-            width: 200px;
-        }
-
-        .terceraCol {
-            width: 100px;
-        }
+     
         
 
 .tableCierre {
@@ -933,65 +908,394 @@ $contenido = '<html>
 <body>
 <form>';
 $contenido .= '
-<table align="center" border="0" class="letraGrandeNegrita">
-        <tbody>
-               <tr>
-                    <td colspan="7" align="center" class="letraGrandeNegrita">
-                        <label>' . $NombreCasa . '</label>
-                    </td>
-                </tr>
-               <tr>
-                    <td colspan="7" align="center" class="letraGrandeNegrita">
-                        <label ID="sucursal">SUCURSAL: ' . $Nombre . '</label>
-                    </td>
-                </tr>
-               <tr>
-                    <td colspan="4" align="left">
-                        <label class="letraGrandeNegrita">&nbsp;&nbsp;CIERRE DE SUCURSAL</label>
-                    </td>
-                    <td colspan="3" align="right">
-                           <br>
-                    </td>
-                </tr>
-               <tr>
-                    <td colspan="7">
-                        <br>
-                    </td>
-                </tr>
-               <tr class="letraGrandeNegrita">
-                       <td colspan="5" >
-                            <label>&nbsp;&nbsp;&nbsp;CAJERO:  ' . $NombreUsuario . '</label>
-                        </td>
-                        <td colspan="2" align="right">
-                            <label>&nbsp;&nbsp;&nbsp;FECHA:  ' . $fecha_Creacion . '</label>
-                        </td>
-                    </tr>
-               <tr>
-                        <td class="primeraCol">
-                          <br>
-                        </td>
-                        <td class="segundaCol">
-                           <br>
-                        </td>
-                        <td class="terceraCol">
-                            <br>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                        <td class="primeraCol">
-                             <br>
-                        </td>
-                        <td class="segundaCol">
-                              <br>
-                        </td>
-                        <td class="terceraCol">
-                               <br>
-                        </td>
-               </tr>';
+<table align="center" border="0" WIDTH="90%" class="letraChica">
+    <tbody>
+        <tr>
+            <th style="width:5%;"></th>
+            <th style="width:30%;"></th>
+            <th style="width:15%;"></th>
+            <th style="width:5%;"></th>
+            <th style="width:25%;"></th>
+            <th style="width:20%;"></th>
+        </tr>
+        <tr>
+            <td colspan="6" align="center" class="letraNormalNegrita">
+                <label>' . $NombreCasa . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" align="center" class="letraNormalNegrita">
+                <label ID="sucursal">SUCURSAL: ' . $Nombre . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" align="center">
+                <label class="letraNormalNegrita">&nbsp;&nbsp;CIERRE DE SUCURSAL</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <br>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
+            </td>
+            <td >
+                <label>' . $saldo_Inicial . '</label>
+            </td>
+            <td colspan="3" class="titleTable tableTDCierre">
+                <label>&nbsp;&nbsp;&nbsp;RETIROS DE EFECTIVO</label>
+            </td>
+        </tr>
+        <tr>
+            <td  colspan="2" class="letraChicaNegrita">
+                <label>&nbsp;&nbsp;&nbsp;DOTACIONES A CAJA:</label>
+            </td>
+            <td class="letraChicaNegrita">
+                <label>' . $dotacionesA_Caja . '</label>
+            </td>
+            <td align="center">
+                <label>' . $CantRetirosCaja . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;RETIROS A CAJA:</label>
+            </td>
+            <td >
+                <label>' . $retirosCaja . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <br>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="titleTableEntrada" align="center">
+                <label>&nbsp;&nbsp;&nbsp;ENTRADAS</label>
+            </td>
+            <td colspan="3" class="titleTableSalida" align="center">
+                <label>&nbsp;&nbsp;&nbsp;SALIDAS</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6"><br></td>
+        </tr>
+        <tr>
+            <td align="center">
+                <label>' . $CantAportacionesBoveda . '</label>
+            </td>
+            <td>
+                <label>&nbsp;&nbsp;&nbsp;APORTACIONES BÓVEDA:</label>
+            </td>
+            <td >
+                <label>' . $aportaciones_Boveda . '</label>
+            </td>
+            <td align="center">
+                <label>' . $CantRetirosBoveda . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;RETIROS A BÓVEDA:</label>
+            </td>
+            <td >
+                <label>' . $retiros_boveda . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <label>' . $CantCapitalRecuperado . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
+            </td>
+            <td >
+               <label>' . $capitalRecuperado . '</label>
+            </td>
+            <td align="center">
+               <label>' . $CantPrestamosNuevos . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;PRESTAMOS NUEVOS:</label>
+            </td>
+            <td >
+                <label>' . $prestamosNuevos . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <label>' . $CantAbono . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;ABONO A CAPITAL:</label>
+            </td>
+            <td >
+               <label>' . $abonoCapital . '</label>
+            </td>
+            <td align="center">
+               <label>' . $CantDescuentos . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;DESC. APLICADOS:</label>
+            </td>
+            <td >
+                <label>' . $descuentosAplicados . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td >
+               <label></label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;INTERESES:</label>
+            </td>
+            <td>
+               <label>' . $intereses . '</label>
+            </td>
+            <td align="center">
+               <label>' . $CantDescuentosVentas . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;DESC. VENTAS:</label>
+            </td>
+            <td >
+               <label>' . $descuentos_ventas . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <label>' . $CantCostoContrato . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;COSTO CONTRATO:</label>
+            </td>
+            <td >
+               <label>' . $costoContrato . '</label>
+            </td>
+            <td align="center">
+               <label>' . $CantIncremento . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;INCREMENTO PAT.:</label>
+            </td>
+            <td >
+                <label>' . $incrementoPatrimonio . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                <label></label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;I.V.A. :</label>
+            </td>
+            <td >
+              <label>' . $iva . '</label>
+            </td>
+            <td colspan="3" class="titleTable ">
+                <label>&nbsp;&nbsp;&nbsp;TOTALES</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <label>' . $CantVentasMostrador . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;VENTAS MOSTRADOR:</label>
+            </td>
+            <td >
+               <label>' . $mostrador . '</label>
+            </td>
+            <td colspan="2">
+                <b><label>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
+            </td>
+            <td >
+                <label>' . $total_Entrada . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                <label></label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;IVA VENTAS:</label>
+            </td>
+            <td >
+               <label>' . $iva_venta . '</label>
+            </td>
+            <td  colspan="2">
+                <b><label>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
+            </td>
+            <td >
+                <label>' . $totalIVA . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                <br>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;UTILIDAD VENTA:</label>
+            </td>
+            <td  >
+               <label>' . $utilidadVenta . '</label>
+            </td>
+            <td  colspan="2">
+                <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
+            </td>
+            <td >
+               <label>' . $total_Salida . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+              <label>' . $CantApartados . '</label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+            </td>
+            <td >
+                <label>' . $apartados . '</label>
+            </td>
+            <td colspan="2">
+                <b><label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
+            </td>
+            <td >
+                <label>' . $saldo_final . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <label>' . $CantAbonoVentas . '</label>
+            </td>
+            <td>
+                <label>&nbsp;&nbsp;&nbsp;ABONO:</label>
+            </td>
+            <td >
+               <label>' . $abonoVentas . '</label>
+            </td>
+        
+            <td  colspan="3">
+                <br>
+            </td>
+        </tr>
+        <tr>
+            <td >
+               <label></label>
+            </td>
+            <td>
+                <label>&nbsp;&nbsp;&nbsp;GPS:</label>
+            </td>
+            <td >
+               <label>' . $gps . '</label>
+            </td>
+            <td colspan="3" class="titleTable ">
+                <label>&nbsp;&nbsp;&nbsp;INFORMATIVOS</label>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                <label></label>
+            </td>
+            <td >
+                <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
+            </td>
+            <td >
+                <label>' . $poliza . '</label>
+            </td>
+            <td class="tableTDCierre"  colspan="2">
+                <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
+            </td>
+           <td class="tableTDCierre" >
+               <label>' . $InfoSaldoInicial . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                <label></label>
+            </td>
+            <td  >
+                <label>&nbsp;&nbsp;&nbsp;PENSION:</label>
+            </td>
+            <td >
+                <label>' . $pension . '</label>
+            </td>
+            <td class="tableTDCierre"  colspan="2">
+                <label>&nbsp;&nbsp;&nbsp;ENTRADAS:</label>
+            </td>
+            <td class="tableTDCierre" >
+                <label>' . $InfoEntradas . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <label>' . $CantAjustes . '</label>
+            </td>
+            <td  >
+                <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+            </td>
+            <td >
+                <label>' . $ajustes . '</label>
+            </td>
+            <td colspan="2" class="tableTDCierre" >
+                <label>&nbsp;&nbsp;&nbsp;SALIDAS:</label>
+            </td>
+            <td class="tableTDCierre" >
+               <label>' . $InfoSalidas . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td  colspan="3">
+                <label></label>
+            </td>
+            <td colspan="2" class="tableTDCierre" >
+                <label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
+            </td>
+           <td class="tableTDCierre" >
+                <label>' . $InfoSaldoFinal . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td  colspan="3">
+                <label></label>
+            </td>
+            <td  class="tableTDCierre"  colspan="2">
+                <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+            </td>
+            <td class="tableTDCierre" >
+                <label>' . $InfoApartados . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td  colspan="3">
+                <label></label>
+            </td>
+            <td class="tableTDCierre"  colspan="2">
+                <label>&nbsp;&nbsp;&nbsp;ABONOS:</label>
+            </td>
+            <td class="tableTDCierre" >
+                <label>' . $InfoAbono . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label></label>
+            </td>
+            <td class="tableTDCierre"  colspan="2">
+                <label>&nbsp;&nbsp;&nbsp;TOTAL INVENTARIO:</label>
+            </td>
+            <td class="tableTDCierre">
+                <label>' . $InfoTotalInventario . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <br>
+            </td>
+        </tr>  ';
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Cierre Caja Num ' . $folioCierreSucursal . ".pdf";
+$nombreContrato = 'Cierre Sucursal Num ' . $folioCierreSucursal . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'portrait');
