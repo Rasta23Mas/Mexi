@@ -56,14 +56,15 @@ function buscarCodigoModal() {
             for (i; i < datos.length; i++) {
                 var id_serie = datos[i].id_serie;
                 var tipo_movimiento = datos[i].tipo_movimiento;
-                var tipo = datos[i].tipo;
+                var tipo = datos[i].tipoArt;
                 var kilataje = datos[i].kilataje;
                 var marca = datos[i].marca;
                 var modelo = datos[i].modelo;
                 var ubicacion = datos[i].ubicacion;
                 var detalle = datos[i].detalle;
+                var avaluo = datos[i].avaluo;
+                var vitrina = datos[i].vitrina;
                 var fecha_Modificacion = datos[i].fecha_Modificacion;
-
                 if(tipo_movimiento==6){
                     alert("El articulo fue vendido el día: " + fecha_Modificacion)
                 }
@@ -71,7 +72,7 @@ function buscarCodigoModal() {
 
                 if (tipo == 1) {
                     html += '<tr>' +
-                        '<td>' + id_Bazar + '</td>' +
+                        '<td>' + id_serie + '</td>' +
                         '<td>' + detalle + '</td>' +
                         '<td>' + kilataje + '</td>' +
                         '<td>' + avaluo + '</td>' +
@@ -82,7 +83,7 @@ function buscarCodigoModal() {
                         '</tr>';
                 } else if (tipo == 2) {
                     html += '<tr>' +
-                        '<td>' + id_Bazar + '</td>' +
+                        '<td>' + id_serie + '</td>' +
                         '<td>' + modelo + '</td>' +
                         '<td>' + marca + '</td>' +
                         '<td>' + avaluo + '</td>' +

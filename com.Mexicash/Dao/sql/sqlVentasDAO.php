@@ -23,7 +23,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT Baz.id_serie , Baz.tipo_movimiento,Art.tipo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.fecha_Modificacion 
+                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Art.avaluo,Art.vitrina,Baz.fecha_Modificacion 
                         FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) 
@@ -34,12 +34,14 @@ class sqlVentasDAO
                     $data = [
                         "id_serie" => $row["id_serie"],
                         "tipo_movimiento" => $row["tipo_movimiento"],
-                        "tipo" => $row["tipo"],
+                        "tipoArt" => $row["tipo"],
                         "kilataje" => $row["kilataje"],
                         "marca" => $row["marca"],
                         "modelo" => $row["modelo"],
                         "ubicacion" => $row["ubicacion"],
                         "detalle" => $row["detalle"],
+                        "avaluo" => $row["avaluo"],
+                        "vitrina" => $row["vitrina"],
                         "fecha_Modificacion" => $row["fecha_Modificacion"],
                     ];
                     array_push($datos, $data);
