@@ -38,8 +38,8 @@ function nombreAutocompletarVenta() {
 }
 
 function buscarCodigoModal() {
-    var idCodigo = $("#idCodigo").val();
-
+    //var idCodigo = $("#idCodigo").val();
+    var idCodigo = '0100009702';
     var tipoTabla = 0;
     var dataEnviar = {
         "idCodigo": idCodigo,
@@ -54,52 +54,21 @@ function buscarCodigoModal() {
             var html = '';
             var i = 0;
             for (i; i < datos.length; i++) {
-                var id_Bazar = datos[i].id_Bazar;
-                var id_Contrato = datos[i].id_Contrato;
-                var id_Articulo = datos[i].id_Articulo;
-                var precio_venta = datos[i].precio_venta;
-                var estatus = datos[i].estatus;
+                var id_serie = datos[i].id_serie;
+                var tipo_movimiento = datos[i].tipo_movimiento;
                 var tipo = datos[i].tipo;
                 var kilataje = datos[i].kilataje;
-                var calidad = datos[i].calidad;
-                var cantidad = datos[i].cantidad;
-                var peso = datos[i].peso;
-                var peso_Piedra = datos[i].peso_Piedra;
-                var piedras = datos[i].piedras;
                 var marca = datos[i].marca;
                 var modelo = datos[i].modelo;
-                var num_Serie = datos[i].num_Serie;
-                var avaluo = datos[i].avaluo;
-                var vitrina = datos[i].vitrina;
-                var precioCat = datos[i].precioCat;
                 var ubicacion = datos[i].ubicacion;
                 var detalle = datos[i].detalle;
-                var fecha_creacion = datos[i].fecha_creacion;
-                var precioFinal = 0;
-                var totalPagar = 0;
-                $("#idEstatus").val(estatus);
-                if (precio_venta == 0) {
-                    precioFinal = avaluo;
-                } else {
-                    precioFinal = precio_venta;
+                var fecha_Modificacion = datos[i].fecha_Modificacion;
+
+                if(tipo_movimiento==6){
+                    alert("El articulo fue vendido el día: " + fecha_Modificacion)
                 }
-                precioFinal = Math.floor(precioFinal * 100) / 100;
-                var calculaIva = Math.floor(precioFinal * 16) / 100;
-                totalPagar = precioFinal + calculaIva;
-                totalPagar = Math.floor(totalPagar * 100) / 100;
-                var precioFinalFormat = formatoMoneda(precioFinal);
-                var calculaIvaFormat = formatoMoneda(calculaIva);
-                var totalPagarFormat = formatoMoneda(totalPagar);
-
-
-                $("#idSubTotal").val(precioFinalFormat);
-                $("#idIva").val(calculaIvaFormat);
-                $("#idTotalPagar").val(totalPagarFormat);
-                $("#idSubTotalValue").val(precioFinal);
-                $("#idIvaValue").val(calculaIva);
-                $("#idTotalValue").val(totalPagar);
-                $("#idTotalBase").val(totalPagar);
                 tipoTabla = tipo;
+
                 if (tipo == 1) {
                     html += '<tr>' +
                         '<td>' + id_Bazar + '</td>' +
@@ -109,7 +78,7 @@ function buscarCodigoModal() {
                         '<td>' + vitrina + '</td>' +
                         '<td>' + ubicacion + '</td>' +
                         '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                        'onclick="buscarCodigoSeleccionado(' + id_Bazar + ')"></td>' +
+                        'onclick="buscarCodigoSeleccionado(' + id_serie + ')"></td>' +
                         '</tr>';
                 } else if (tipo == 2) {
                     html += '<tr>' +
@@ -120,7 +89,7 @@ function buscarCodigoModal() {
                         '<td>' + vitrina + '</td>' +
                         '<td>' + ubicacion + '</td>' +
                         '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                        'onclick="buscarCodigoSeleccionado(' + id_Bazar + ')"></td>' +
+                        'onclick="buscarCodigoSeleccionado(' + id_serie + ')"></td>' +
                         '</tr>';
                 }
 
@@ -138,8 +107,78 @@ function buscarCodigoModal() {
     } else if (tipoTabla == 2) {
         $("#divTablaArticulos").load('tablaArticulos.php');
     }
-    $("#idCodigoBuscado").val(idCodigo)
-    document.getElementById('idCodigoBuscado').innerHTML = idCodigo;
+
+}
+
+function buscarCodigoSeleccionado(id_serie) {
+    var tipoTabla = 0;
+    var dataEnviar = {
+        "idCodigo": id_Bazar,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigoSeleccionado.php',
+        data: dataEnviar,
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            for (i; i < datos.length; i++) {
+                var id_Bazar = datos[i].id_Bazar;
+                //var id_Contrato = datos[i].id_Contrato;
+                //var id_Articulo = datos[i].id_Articulo;
+                var precio_venta = datos[i].precio_venta;
+                //var vendedor = datos[i].vendedor;
+
+                //var fecha_Bazar = datos[i].fecha_Bazar;
+                var tipo_movimiento = datos[i].tipo_movimiento;
+                var tipo = datos[i].tipo;
+                var kilataje = datos[i].kilataje;
+                //var calidad = datos[i].calidad;
+                //var cantidad = datos[i].cantidad;
+                //var peso = datos[i].peso;
+                //var peso_Piedra = datos[i].peso_Piedra;
+                //var piedras = datos[i].piedras;
+                var marca = datos[i].marca;
+                var modelo = datos[i].modelo;
+                //var num_Serie = datos[i].num_Serie;
+                var avaluo = datos[i].avaluo;
+                var vitrina = datos[i].vitrina;
+                //var precioCat = datos[i].precioCat;
+                var ubicacion = datos[i].ubicacion;
+                var detalle = datos[i].detalle;
+                //var fecha_creacion = datos[i].fecha_creacion;
+                var fecha_Modificacion = datos[i].fecha_Modificacion;
+                var precioFinal = precio_venta;
+                var totalPagar = 0;
+
+                if(tipo_movimiento==6){
+                    alert("El articulo fue vendido el día: " + fecha_Modificacion)
+                }
+
+
+                 precioFinal = Math.floor(precioFinal * 100) / 100;
+                 var calculaIva = Math.floor(precioFinal * 16) / 100;
+                 totalPagar = precioFinal + calculaIva;
+                 totalPagar = Math.floor(totalPagar * 100) / 100;
+                 var precioFinalFormat = formatoMoneda(precioFinal);
+                 var calculaIvaFormat = formatoMoneda(calculaIva);
+                 var totalPagarFormat = formatoMoneda(totalPagar);
+
+
+                 $("#idSubTotal").val(precioFinalFormat);
+                 $("#idIva").val(calculaIvaFormat);
+                 $("#idTotalPagar").val(totalPagarFormat);
+                 $("#idSubTotalValue").val(precioFinal);
+                 $("#idIvaValue").val(calculaIva);
+                 $("#idTotalValue").val(totalPagar);
+                 $("#idTotalBase").val(totalPagar);
+                tipoTabla = tipo;
+                $("#idCodigoBuscado").val(id_serie)
+                document.getElementById('idCodigoBuscado').innerHTML = id_serie;
+            }
+        }
+    });
 }
 
 function descuentoVenta(e) {

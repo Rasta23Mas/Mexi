@@ -22,23 +22,56 @@ class sqlVentasDAO
     function busquedaCodigo($idCodigo){
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,Baz.id_Articulo, Baz.precio_venta, 
-                        Baz.fecha_Bazar, Baz.estatus,Art.tipo,Art.kilataje,Art.calidad,
+            $buscar = "SELECT Baz.id_serie , Baz.tipo_movimiento,Art.tipo,Art.kilataje,
+                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.fecha_Modificacion 
+                        FROM bazar_articulos as Baz
+                        INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
+                        Art.id_SerieContrato,Art.id_SerieArticulo) 
+                        WHERE Baz.id_serie= '$idCodigo'";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_serie" => $row["id_serie"],
+                        "tipo_movimiento" => $row["tipo_movimiento"],
+                        "tipo" => $row["tipo"],
+                        "kilataje" => $row["kilataje"],
+                        "marca" => $row["marca"],
+                        "modelo" => $row["modelo"],
+                        "ubicacion" => $row["ubicacion"],
+                        "detalle" => $row["detalle"],
+                        "fecha_Modificacion" => $row["fecha_Modificacion"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    function busquedaCodigoSeleccionado($idCodigo){
+        $datos = array();
+        try {
+            $buscar = "SELECT Baz.id_Bazar,Art.id_Articulo,Baz.precio_venta,
+                        Baz.tipo_movimiento,Art.tipo,Art.kilataje,Art.calidad,
                         Art.cantidad,Art.peso,Art.peso_Piedra,Art.piedras,Art.marca,Art.modelo,
                         Art.num_Serie,Art.avaluo,Art.vitrina,Art.precioCat,Art.ubicacion,Art.detalle,
-                        Art.fecha_creacion FROM bazar_articulos as Baz
-                        INNER JOIN articulo_tbl as Art on baz.id_Articulo = Art.id_Articulo
-                        WHERE Baz.id_Bazar= $idCodigo ";
+                        Art.fecha_creacion,Baz.fecha_Modificacion FROM bazar_articulos as Baz
+                        INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
+                        Art.id_SerieContrato,Art.id_SerieArticulo) 
+                        WHERE Baz.id_serie= '$idCodigo'";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "id_Bazar" => $row["id_Bazar"],
-                        "id_Contrato" => $row["id_Contrato"],
                         "id_Articulo" => $row["id_Articulo"],
                         "precio_venta" => $row["precio_venta"],
-                        "vendedor" => $row["vendedor"],
-                        "estatus" => $row["estatus"],
+                        "tipo_movimiento" => $row["tipo_movimiento"],
                         "tipo" => $row["tipo"],
                         "kilataje" => $row["kilataje"],
                         "calidad" => $row["calidad"],
@@ -55,6 +88,8 @@ class sqlVentasDAO
                         "ubicacion" => $row["ubicacion"],
                         "detalle" => $row["detalle"],
                         "fecha_creacion" => $row["fecha_creacion"],
+                        "fecha_Modificacion" => $row["fecha_Modificacion"],
+
 
                     ];
                     array_push($datos, $data);
@@ -68,7 +103,6 @@ class sqlVentasDAO
 
         echo json_encode($datos);
     }
-
     //Validacion de token
     public function validarToken($token){
         $token = mb_strtoupper($token, 'UTF-8');
