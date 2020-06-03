@@ -279,10 +279,10 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                     </tr>
                     <tr >
                         <td >
-                            <label for="subtotal">Abono inicial:</label>
+                            <label for="subtotal">Apartado inicial:</label>
                         </td>
                         <td style="vertical-align:top;">
-                            <input type="text" name="abono"  id="idAbonoInicial"
+                            <input type="text" name="abono"  id="idApartadoInicial"
                                    style="width: 120px; text-align: right "
                                    placeholder="$0.00" onkeypress="return abonoInicial(event)"/>
                         </td>
@@ -329,11 +329,9 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="total"  id="idTotalBase"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idAbonoInicialValue"
+                <input type="text" name="total"  id="idApartadoInicialValue"
                        style="width: 120px "disabled/>
                 <input type="text" name="total"  id="idTotalValue"
-                       style="width: 120px "disabled/>
-                <input type="text" name="estatus"  id="idEstatus"
                        style="width: 120px "disabled/>
                 <input type="text" name="efectivo"  id="idEfectivoValue"
                        style="width: 120px "disabled/>
@@ -345,8 +343,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="cliente"  id="idClienteVenta"  value="0"
                        style="width: 120px "disabled/>
-                <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="20"  />
-
+                <input type="text" id="idClienteEmpeno" name="clienteEmpeno" style="width: 120px " disabled />
             </div>
         </div>
         <div class="row">

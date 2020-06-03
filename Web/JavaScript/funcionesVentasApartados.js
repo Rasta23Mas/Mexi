@@ -142,36 +142,36 @@ function abonoInicial(e) {
     if (e.keyCode === 13 && !e.shiftKey) {
 
         var subtotalValue = $("#idSubTotalValue").val();
-        var abono = $("#idAbonoInicial").val();
+        var apartado = $("#idApartadoInicial").val();
         var totalPagar = 0;
         subtotalValue = Math.floor(subtotalValue * 100) / 100;
-        abono = Math.floor(abono * 100) / 100;
+        apartado = Math.floor(apartado * 100) / 100;
 
-        if(subtotalValue>abono){
-            var totalAbono = subtotalValue - abono;
-            var calculaIva = Math.floor(totalAbono * 16) / 100;
-            totalPagar = totalAbono + calculaIva;
+        if(subtotalValue>apartado){
+            var totalApartado = subtotalValue - apartado;
+            var calculaIva = Math.floor(totalApartado * 16) / 100;
+            totalPagar = totalApartado + calculaIva;
             totalPagar = Math.floor(totalPagar * 100) / 100;
             $("#idEfectivo").val("");
             $("#idCambio").val("");
 
-            $("#idAbonoInicialValue").val(abono);
-            $("#idSubTotalValue").val(totalAbono);
+            $("#idApartadoInicialValue").val(apartado);
+            $("#idSubTotalValue").val(totalApartado);
             $("#idIvaValue").val(calculaIva);
             $("#idTotalValue").val(totalPagar);
 
-            var abonoFormat = formatoMoneda(abono);
-            var totalAbonoFormat = formatoMoneda(totalAbono);
+            var apartadoFormat = formatoMoneda(apartado);
+            var totalApartadoFormat = formatoMoneda(totalApartado);
             var calculaIvaFormat = formatoMoneda(calculaIva);
             var totalPagarFormat = formatoMoneda(totalPagar);
 
-            $("#idAbonoInicial").val(abonoFormat);
-            $("#idSubTotal").val(totalAbonoFormat);
+            $("#idApartadoInicial").val(apartadoFormat);
+            $("#idSubTotal").val(totalApartadoFormat);
             $("#idIva").val(calculaIvaFormat);
             $("#idTotalPagar").val(totalPagarFormat);
 
         }else{
-            alert("El abono tiene que ser menor al total.")
+            alert("El apartado tiene que ser menor al total.")
         }
 
     }
@@ -190,20 +190,20 @@ function efectivoVenta(e) {
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
        
-        var totalValue = $("#idTotalValue").val();
+        var apartado = $("#idApartadoInicialValue").val();
         var efectivo = $("#idEfectivo").val();
 
-        totalValue = Math.floor(totalValue * 100) / 100;
+        apartado = Math.floor(apartado * 100) / 100;
         efectivo = Math.floor(efectivo * 100) / 100;
 
-        if (efectivo < totalValue) {
-            alert("El efectivo no puede ser menor que el total a pagar.")
+        if (efectivo < apartado) {
+            alert("El efectivo no puede ser menor que el apartado a pagar.")
         } else {
             $("#idEfectivo").val("");
             $("#idCambio").val("");
             $("#idEfectivoValue").val("");
             $("#idCambioValue").val("");
-            var cambio = efectivo - totalValue;
+            var cambio = efectivo - apartado;
             cambio = Math.floor(cambio * 100) / 100;
 
             $("#idEfectivoValue").val(efectivo);
