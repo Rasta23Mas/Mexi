@@ -27,7 +27,7 @@ class sqlVentasDAO
         try {
             $buscar = "SELECT Baz.id_serie , Baz.tipo_movimiento,Art.tipo,Art.kilataje,
                         Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Art.avaluo,Art.vitrina,Baz.fecha_Modificacion,
-                        Art.id_Articulo,Baz.precio_venta,Art.precioCat, 
+                        Art.id_Articulo,Baz.precio_venta,Art.precioCat 
                         FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) 

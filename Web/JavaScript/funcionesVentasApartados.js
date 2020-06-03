@@ -101,8 +101,6 @@ function busquedaCodigoBazar() {
                         '<td>' + avaluo + '</td>' +
                         '<td>' + vitrina + '</td>' +
                         '<td>' + ubicacion + '</td>' +
-                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                        'onclick="buscarCodigoSeleccionado(' + id_serie + ')"></td>' +
                         '</tr>';
                 } else if (tipo == 2) {
                     html += '<tr>' +
@@ -112,8 +110,6 @@ function busquedaCodigoBazar() {
                         '<td>' + avaluo + '</td>' +
                         '<td>' + vitrina + '</td>' +
                         '<td>' + ubicacion + '</td>' +
-                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                        'onclick="buscarCodigoSeleccionado(' + id_serie + ')"></td>' +
                         '</tr>';
                 }
 
@@ -133,7 +129,7 @@ function busquedaCodigoBazar() {
     }
 }
 
-function descuentoVenta(e) {
+function abonoInicial(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 8) {
@@ -144,32 +140,38 @@ function descuentoVenta(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
-        var totalBase = $("#idTotalBase").val();
-        var descuento = $("#idDescuento").val();
 
-        totalBase = Math.floor(totalBase * 100) / 100;
-        descuento = Math.floor(descuento * 100) / 100;
+        var subtotalValue = $("#idSubTotalValue").val();
+        var abono = $("#idAbonoInicial").val();
+        var totalPagar = 0;
+        subtotalValue = Math.floor(subtotalValue * 100) / 100;
+        abono = Math.floor(abono * 100) / 100;
 
-        if (totalBase < descuento) {
-            alert("El descuento no puede ser mayor que el total a pagar.")
-        } else if (totalBase == descuento) {
-            alert("El descuento no puede ser igual que el total a pagar.")
-        } else {
+        if(subtotalValue>abono){
+            var totalAbono = subtotalValue - abono;
+            var calculaIva = Math.floor(totalAbono * 16) / 100;
+            totalPagar = totalAbono + calculaIva;
+            totalPagar = Math.floor(totalPagar * 100) / 100;
             $("#idEfectivo").val("");
             $("#idCambio").val("");
-            $("#idEfectivoValue").val("");
-            $("#idCambioValue").val("");
-            var nuevoTotal = totalBase - descuento;
-            nuevoTotal = Math.floor(nuevoTotal * 100) / 100;
 
-            $("#idDescuentoValue").val(descuento)
-            $("#idTotalValue").val(nuevoTotal)
-            descuento = formatoMoneda(descuento);
-            nuevoTotal = formatoMoneda(nuevoTotal);
-            $("#idTotalPagar").val(nuevoTotal)
-            $("#idDescuento").val(descuento)
-            $("#idDescuento").prop('disabled', true);
+            $("#idAbonoInicialValue").val(abono);
+            $("#idSubTotalValue").val(totalAbono);
+            $("#idIvaValue").val(calculaIva);
+            $("#idTotalValue").val(totalPagar);
 
+            var abonoFormat = formatoMoneda(abono);
+            var totalAbonoFormat = formatoMoneda(totalAbono);
+            var calculaIvaFormat = formatoMoneda(calculaIva);
+            var totalPagarFormat = formatoMoneda(totalPagar);
+
+            $("#idAbonoInicial").val(abonoFormat);
+            $("#idSubTotal").val(totalAbonoFormat);
+            $("#idIva").val(calculaIvaFormat);
+            $("#idTotalPagar").val(totalPagarFormat);
+
+        }else{
+            alert("El abono tiene que ser menor al total.")
         }
 
     }

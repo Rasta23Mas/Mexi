@@ -12,7 +12,6 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
         <th>Precio</th>
         <th>Precio Vitrina</th>
         <th>Observaciones</th>
-        <th>Modificar</th>
     </tr>
     </thead>
     <tbody id="idTBodyArticulos">
