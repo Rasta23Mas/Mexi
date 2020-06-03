@@ -111,6 +111,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                                    data-toggle="modal" data-target="#modalBusquedaCliente"
                                    onclick="mostrarTodos($('#idNombres').val())"
                                    value="Ver todos">
+
                         </td>
                         <td colspan="2">
                             <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="20"  class="invisible"/>

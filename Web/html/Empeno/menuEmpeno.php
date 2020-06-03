@@ -125,8 +125,8 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Ventas/vVentasMostrador.php">Mostrador</a></li>
-                    <li><a class="dropdown-item" href="../Ventas/pruebas.php">Abono (P)</a></li>
-                    <li><a class="dropdown-item" href="../Ventas/pruebas.php">Apartados (P)</a></li>
+                    <li><a class="dropdown-item" href="../Ventas/vVentasAbonos.php">Abono</a></li>
+                    <li><a class="dropdown-item" href="../Ventas/vVentasApartados.php">Apartados</a></li>
                 </ul>
             </li>
 

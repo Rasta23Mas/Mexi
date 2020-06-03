@@ -24,11 +24,9 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ventas</title>
     <!--Funciones-->
-<!--    <script src="../../JavaScript/funcionesArticulos.js"></script>
-    <script src="../../JavaScript/funcionesIntereses.js"></script>-->
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
-    <script src="../../JavaScript/funcionesVentas.js"></script>
+    <script src="../../JavaScript/funcionesVentasApartados.js"></script>
 
     <!--    Script inicial-->
     <script type="application/javascript">
@@ -36,7 +34,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             $("#idFormEmpeno").trigger("reset");
             $("#btnEditar").prop('disabled', true);
             $("#btnVenta").prop('disabled', true);
-            document.getElementById('idFechaHoy').innerHTML =fechaActual();
+            $("#idFechaHoy").val(fechaActual());
             $("#divTablaMetales").load('tablaMetales.php');
             $("#divTablaArticulos").load('tablaArticulos.php');
             $("#divTablaArticulos").hide();
@@ -78,7 +76,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
 
 
          .propInvisible {
-             visibility: hidden;
+             visibility: visible;
          }
 
 
@@ -93,14 +91,11 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
         </div>
         <div class="row">
             <div class="col col-lg-11 border border-primary"  >
-                <table border="0" width="90%" >
+                <table border="0" width="100%" >
                     <tbody>
                     <tr class="headt">
-                        <td colspan="2">
-                            <label>Fecha:</label>
-                            <label id="idFechaHoy"></label>
-                        </td>
-                        <td colspan="10">
+                        <td colspan="4"> <br></td>
+                        <td colspan="8" align="right">
                             <input type="button" class="btn btn-success "
                                    data-toggle="modal" data-target="#modalRegistroNuevo"
                                    value="Agregar">
@@ -111,28 +106,31 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                                    data-toggle="modal" data-target="#modalBusquedaCliente"
                                    onclick="mostrarTodos($('#idNombres').val())"
                                    value="Ver todos">
-                            <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="20"  class="invisible"/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td colspan="2">
-                            <label for="nombreCliente">Nombre:</label>
-                        </td>
-                        <td colspan="2">
-                            <label for="celular">Celular:</label>
-                        </td>
-                        <td colspan="4">
-                            <br>
-                        </td>
-                        <td colspan="2">
-                            <label for="direccion">Fecha:</label>
-                        </td>
-                        <td colspan="2">
-                            <label for="direccion">Folio:</label>
+                            <input type="button" class="btn btn-warning" value="Configurarar Rangos" onclick="configurarRango()">&nbsp;
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="vertical-align:top;">
+                        <td colspan="3">
+                            <label>Nombre:</label>
+                        </td>
+                        <td>
+                            <label>Celular:</label>
+                        </td>
+                        <td >
+                            <label>Fecha:</label>
+                        </td>
+                        <td >
+                            <label> Vencimiento:</label>
+                        </td>
+                        <td>
+                            <label>Folio:</label>
+                        </td>
+                        <td colspan="5">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="vertical-align:top;">
                             <div>
                                 <input id="idNombreVenta" name="Nombres" type="text" style="width: 300px"
                                        class="inputCliente"
@@ -140,64 +138,63 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                             </div>
                             <div id="suggestionsNombreVenta"></div>
                         </td>
-                        <td colspan="2" style="vertical-align:top;">
+                        <td  align="left">
                             <input type="text" name="celularEmpeno" placeholder="" id="idCelularVenta"
-                                   style="width: 120px "
-                                   required disabled/>
+                                   style="width: 100px;text-align: right "
+                                   disabled/>
                         </td>
-                        <td colspan="4" >
-                           <br>
+                        <td align="left">
+                            <input type="text" name="fechaH" id="idFechaHoy"
+                                   style="width: 100px;text-align: right "disabled/>
                         </td>
-                        <td colspan="2" >
-                            <input type="text" name="fechaApartado" id="idFechaApartado"
-                                   style="width: 120px "
-                                   required disabled/>
+                        <td align="left">
+                            <input type="text" name="fechaV" id="idFechaVencimiento"
+                                   style="width: 100px;text-align: right "disabled/>
                         </td>
-                        <td colspan="2" >
-                            <input type="text" name="fechaApartado" id="idFolio"
-                                   style="width: 120px "
-                                   required disabled/>
+                        <td align="left">
+                            <input type="text" name="folio" id="idFolio"
+                                   style="width: 100px;text-align: right "disabled/>
                         </td>
+                        <td colspan="5">
+                            <br>
+                        </td>
+
                     </tr>
                     <tr>
-                        <td colspan="8">
+                        <td colspan="4">
                             <label for="nombreCliente">Dirección:</label>
                         </td>
-                        <td colspan="2">
-                            <label for="direccion">Vencimiento:</label>
-                        </td>
-                        <td colspan="2">
-                            <input type="button" class="btn btn-primary" value="Configurar Rangos" onclick="configurarRango()">&nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="8" name="direccionEmpeno">
-                                    <textarea  cols="70" id="idDireccionVenta" class="textArea" disabled>
-                                    </textarea>
-                        </td>
-                        <td colspan="2" >
-                            <input type="text" name="fechaApartado" id="idVencimiento"
-                                   style="width: 120px "
-                                   required disabled/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">
+                        <td colspan="8">
                             <br>
                         </td>
                     </tr>
-
-                    <tr >
-                        <td colspan="4">
-                            <label for="nombreCliente">Codigo:</label>
-                            <label id="idCodigoBuscado" value="0"></label>
-                            <input type="button" class="btn btn-success "
-                                   data-toggle="modal" data-target="#modalCodigo" id="btnCodigo"
-                                   value="Buscar Codigo" >
-
+                    <tr>
+                        <td colspan="4" name="direccionEmpeno">
+                                    <textarea  cols="60" id="idDireccionVenta" class="textArea" disabled>
+                                    </textarea>
                         </td>
                         <td colspan="8">
-                            <label for="direccion">Vendedor:</label>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <label>Codigo:</label>
+                        </td>
+                        <td>
+                            <label>Vendedor:</label>
+                        </td>
+                        <td colspan="8">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td colspan="3">
+                            <input id="idCodigoApartado" name="codigo" type="text" style="width: 130px" value="0100009901"/>
+                            &nbsp;&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="busquedaCodigoBazar()">&nbsp;
+                        </td>
+                        <td >
                             <select id="idVendedor" name="cmbVendedor" class="selectpicker" style="width: 200px">
                                 <option value="0">Seleccione:</option>
                                 <?php
@@ -210,14 +207,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                                 ?>
                             </select>
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">
+                        <td colspan="8">
                             <br>
                         </td>
                     </tr>
@@ -342,31 +332,33 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 </table>
             </div>
         </div>
-        <div class="row">
-            <div class="col col-lg-12" >
+        <div class="row propInvisible"  >
+            <div class="col col-lg-12"  >
                 <br>
-                <input type="text" name="subtotal"  id="idSubTotalValue" class="propInvisible"
+                <input type="text" name="subtotal"  id="idSubTotalValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="iva"  id="idIvaValue" class="propInvisible"
+                <input type="text" name="iva"  id="idIvaValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalBase" class="propInvisible"
+                <input type="text" name="total"  id="idTotalBase"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalValue" class="propInvisible"
+                <input type="text" name="total"  id="idTotalValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="descuento"  id="idDescuentoValue" class="propInvisible" value="0"
+                <input type="text" name="descuento"  id="idDescuentoValue"  value="0"
                        style="width: 120px "disabled/>
-                <input type="text" name="estatus"  id="idEstatus" class="propInvisible"
+                <input type="text" name="estatus"  id="idEstatus"
                        style="width: 120px "disabled/>
-                <input type="text" name="efectivo"  id="idEfectivoValue" class="propInvisible"
+                <input type="text" name="efectivo"  id="idEfectivoValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="cambio"  id="idCambioValue" class="propInvisible"
+                <input type="text" name="cambio"  id="idCambioValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="tokenDesc"  id="tokenDescripcion" class="propInvisible"
+                <input type="text" name="tokenDesc"  id="tokenDescripcion"
                        style="width: 120px "disabled/>
-                <input type="text" name="idtoken"  id="idToken" class="propInvisible"
+                <input type="text" name="idtoken"  id="idToken"
                        style="width: 120px "disabled/>
-                <input type="text" name="cliente"  id="idClienteVenta" class="propInvisible" value="0"
+                <input type="text" name="cliente"  id="idClienteVenta"  value="0"
                        style="width: 120px "disabled/>
+                <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="20"  />
+
             </div>
         </div>
         <div class="row">
