@@ -7,13 +7,14 @@ if(!isset($_SESSION["idUsuario"])){
     header("Location: ../../../index.php");
     session_destroy();
 }
+
+$idCierreCaja = $_SESSION['idCierreCaja'];
+echo $idCierreCaja;
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
 include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
-include_once(HTML_PATH . "Ventas/modalCodigo.php");
-include_once(HTML_PATH . "Ventas/modalDescuentoVenta.php");
 include_once (HTML_PATH. "Ventas/menuVentas.php")
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -339,25 +340,19 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="cambio"  id="idCambioValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="tokenDesc"  id="tokenDescripcion"
-                       style="width: 120px "disabled/>
-                <input type="text" name="idtoken"  id="idToken"
-                       style="width: 120px "disabled/>
                 <input type="text" name="cliente"  id="idClienteVenta"  value="0"
                        style="width: 120px "disabled/>
             </div>
         </div>
         <div class="row">
 
-            <div class="col col-lg-7">
+            <div class="col col-lg-8">
                 <br>
             </div>
-            <div class="col col-lg-5">
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
-                <input type="button" class="btn btn-warning" value="gdxg" onclick="test()">&nbsp;
-                <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarVenta()">&nbsp;
-                <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
+            <div class="col col-lg-3 ">
+                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarApartado()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
             </div>
         </div>
     </div>

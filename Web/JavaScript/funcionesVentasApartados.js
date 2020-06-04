@@ -232,67 +232,6 @@ function efectivoVenta(e) {
     return patron.test(te);
 }
 
-function validaVenta() {
-    var descuento = $("#idDescuentoValue").val();
-    var efectivo = $("#idEfectivo").val();
-    var efectivoValue = $("#idEfectivoValue").val();
-    var vendedor = $("#idVendedor").val();
-    var cliente = $("#idClienteVenta").val();
-    if (cliente == 0) {
-        alertify.warning("Favor de seleccionar el cliente.");
-    } else if (vendedor == 0) {
-        alertify.warning("Favor de seleccionar el vendedor.");
-    } else if (efectivo == "" || idEfectivo == null) {
-        alertify.warning("Favor de llenar el campo de efectivo.");
-    } else {
-        if (efectivoValue == 0) {
-            alertify.warning("Favor de calcular el cambio.");
-        } else {
-            descuento = Math.floor(descuento * 100) / 100;
-            if (descuento == 0) {
-                guardarVenta();
-            } else {
-                $("#modalDescuentoVenta").modal();
-            }
-        }
-    }
-
-}
-
-function tokenVenta() {
-    var tokenDes = $("#idCodigoAutVenta").val();
-    var dataEnviar = {
-        "token": tokenDes
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Desempeno/TokenVenta.php',
-        type: 'post',
-        success: function (response) {
-            if (response > 0) {
-                $("#idToken").val(response);
-                $("#tokenDescripcion").val(tokenDes);
-                // var token = parseInt(response);
-                var token = response;
-                if (token > 20) {
-                    alert("Los Token se estan terminando, favor de avisar al administrador");
-                }
-                alertify.success("Código correcto.");
-                guardarVenta();
-            } else {
-                if (errorToken < 3) {
-                    errorToken += 1;
-                    alertify.warning("Error de código. Por favor Verifique.");
-
-                } else {
-                    alertify.error("Demasiados intentos. Intente más tarde.");
-                }
-            }
-        },
-    })
-
-}
-
 function cancelarVenta() {
     //$("#idFormVentas")[0].reset();
     var totalBase = $("#idTotalBase").val();
@@ -310,7 +249,7 @@ function cancelarVenta() {
     alertify.success("Se limpiaron descuento y pago.");
 }
 
-function guardarVenta() {
+function guardarApartado() {
     /*
      22->Apartado
      */
@@ -327,35 +266,40 @@ function guardarVenta() {
                 alert("Debe calcular el apartado inicial.");
             }else{
 
-                var iva = $("#idIvaValue").val();
-                var totalValue = $("#idTotalValue").val();
+                if(apartado==0){
+                    alert("Debe calcular el apartado inicial.");
+                }else{
+                    var iva = $("#idIvaValue").val();
+                    var totalValue = $("#idTotalValue").val();
+                    var fechaVencimiento = $("#idFechaVencimiento").text();
+                    var dataEnviar = {
+                        "id_ContratoGlb": id_ContratoGlb,
+                        "id_serieGlb": id_serieGlb,
+                        "id_ClienteGlb": cliente,
+                        "precio_ActualGlb": totalValue,
+                        "apartadoGlb": apartado,
+                        "fechaVencimiento": fechaVencimiento,
+                        "ivaGlb": iva,
+                        "tipo_movimientoGlb": tipo_movimientoGlb,
+                        "vendedorGlb": vendedor,
+                        "sucursalGlb": sucursalGlb,
+                    };
 
-                var dataEnviar = {
-                    "id_ContratoGlb": id_ContratoGlb,
-                    "id_serieGlb": id_serieGlb,
-                    "id_ClienteGlb": cliente,
-                    "precio_ActualGlb": totalValue,
-                    "apartadoGlb": apartado,
-                    "ivaGlb": iva,
-                    "tipo_movimientoGlb": tipo_movimientoGlb,
-                    "vendedorGlb": vendedor,
-                    "sucursalGlb": sucursalGlb,
-                };
-
-                $.ajax({
-                    data: dataEnviar,
-                    url: '../../../com.Mexicash/Controlador/Ventas/guardarVenta.php',
-                    type: 'post',
-                    success: function (response) {
-                        alert(response)
-                        if (response > 0) {
-                            alertify.success(nombreMensaje + " generado.")
-                            MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
-                        } else {
-                            alertify.error("Error al generar " + nombreMensaje);
-                        }
-                    },
-                })
+                    $.ajax({
+                        data: dataEnviar,
+                        url: '../../../com.Mexicash/Controlador/Ventas/guardarApartado.php',
+                        type: 'post',
+                        success: function (response) {
+                            alert(response)
+                            if (response > 0) {
+                                alertify.success(nombreMensaje + " generado.")
+                                MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
+                            } else {
+                                alertify.error("Error al generar " + nombreMensaje);
+                            }
+                        },
+                    })
+                }
             }
         }
     }
@@ -456,9 +400,4 @@ function MovimientosVenta(descuentoFinal, abonoFinal, newFechaVencimiento, newFe
 
 function configurarRango() {
     alert("configuración")
-}
-
-function test() {
-    var vendedor = $("#idVendedor").val();
-    alert(vendedor)
 }

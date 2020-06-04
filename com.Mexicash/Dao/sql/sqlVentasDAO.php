@@ -1,9 +1,9 @@
 <?php
-if(!isset($_SESSION)) {
+if (!isset($_SESSION)) {
     session_start();
 }
-include_once ($_SERVER['DOCUMENT_ROOT'].'/dirs.php');
-include_once (BASE_PATH."Conexion.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include_once(BASE_PATH . "Conexion.php");
 date_default_timezone_set('America/Mexico_City');
 
 class sqlVentasDAO
@@ -68,7 +68,8 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    function busquedaCodigo($idCodigo){
+    function busquedaCodigo($idCodigo)
+    {
         $datos = array();
         try {
             $buscar = "SELECT Baz.id_serie , Baz.tipo_movimiento,Art.tipo,Art.kilataje,
@@ -105,7 +106,8 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    function busquedaCodigoSeleccionado($idCodigo){
+    function busquedaCodigoSeleccionado($idCodigo)
+    {
         $datos = array();
         try {
             $buscar = "SELECT Baz.id_Bazar,Art.id_Articulo,Baz.precio_venta,
@@ -155,8 +157,10 @@ class sqlVentasDAO
 
         echo json_encode($datos);
     }
+
     //Validacion de token
-    public function validarToken($token){
+    public function validarToken($token)
+    {
         $token = mb_strtoupper($token, 'UTF-8');
 
         try {
@@ -182,91 +186,35 @@ class sqlVentasDAO
     }
 
     //Generar Venta
-    public function guardarVenta($estatus,$estatusAnterior,$bazar,$cliente,$vendedor,$precioVenta,$descuento){
+    public function guardarVenta($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb, $precio_ActualGlb, $apartadoGlb,$fechaVencimiento,
+                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $sucursalGlb)
+    {
         // TODO: Implement guardaCiente() method.
         try {
             $fechaModificacion = date('Y-m-d H:i:s');
-            $sucursal = $_SESSION["sucursal"];
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $idCierreSucursal = $_SESSION["idCierreSucursal"];
-            $fechaCreacion = date('Y-m-d H:i:s');
 
-            $updateContrato = "UPDATE bazar_articulos SET
-                                    estatus = $estatus,
-                                    id_Cliente = $cliente,
-                                    vendedor = $vendedor,
-                                    precio_venta = $precioVenta,
-                                    descuento_venta = $descuento,
-                                    estatusAnterior = $estatusAnterior,
-                                    id_CierreCaja = $idCierreCaja,
-                                    id_CierreSucursal = $idCierreSucursal,
-                                    fecha_Modificacion = '$fechaCreacion',
-                                    WHERE
-                                    id_Bazar = $bazar";
-            if ($ps = $this->conexion->prepare($updateContrato)) {
+            $insertaApartado = "INSERT INTO bazar_articulos 
+                       (id_Contrato, id_serie,id_Cliente,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,fecha_Modificacion,sucursal,id_CierreCaja)
+                        VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,
+                        '$fechaModificacion',$sucursalGlb,$idCierreCaja)";
+            if ($ps = $this->conexion->prepare($insertaApartado)) {
                 if ($ps->execute()) {
-                    if ($tipeFormulario == 1) {
-                        $updateArticulos = "UPDATE articulo_tbl SET  fecha_modificacion = '$fechaModificacion',usuario= $usuario, id_Estatus = $idEstatusArt 
-                                WHERE id_Contrato=$contrato";
-                    }
-                    if ($tipeFormulario == 2) {
-                        $updateArticulos = "UPDATE auto_tbl SET  fecha_modificacion = '$fechaModificacion',usuario= $usuario, id_Estatus = $idEstatusArt 
-                                WHERE id_Contrato=$contrato";
-                    }
-
-                    if ($ps = $this->conexion->prepare($updateArticulos)) {
-                        if ($ps->execute()) {
-                            if(empty($token)){
-                                $verdad = 1;
-                            }else{
-                                $token_decripcion = mb_strtoupper($token_decripcion, 'UTF-8');
-                                $insertaBitacora = "INSERT INTO bit_token ( id_Contrato, tipo_Contrato, tipo_formulario,
-                                                token, descripcion, descuento, interes, moratorio,gps,
-                                                pension,poliza,id_tokenMovimiento, estatus, usuario, sucursal, fecha_Creacion)
-                                        VALUES ($contrato, $tipoContrato,$tipeFormulario,
-                                                '$token','$token_decripcion', $descuento, $token_interes,$token_moratorio,$token_gps,
-                                                $token_pension,$token_poliza,$token_movimiento,1, $usuario, $sucursal,'$fechaModificacion')";
-                                if ($ps = $this->conexion->prepare($insertaBitacora)) {
-                                    if ($ps->execute()) {
-                                        $updateToken = "UPDATE cat_token SET
-                                         estatus = 2
-                                        WHERE id_token =$token";
-                                        if ($ps = $this->conexion->prepare($updateToken)) {
-                                            if ($ps->execute()) {
-                                                $verdad = mysqli_stmt_affected_rows($ps);
-                                            } else {
-                                                $verdad = -11;
-                                            }
-                                        } else {
-                                            $verdad = -12;
-                                        }
-                                    } else {
-                                        $verdad = -13;
-                                    }
-                                } else {
-                                    $verdad = -155;
-                                }
-                            }
-                        } else {
-                            $verdad = -16;
-                        }
-                    } else {
-                        $verdad = -17;
-                    }
+                    $respuesta = 1;
                 } else {
-                    $verdad = -18;
+                    $respuesta = 2;
                 }
             } else {
-                $verdad = -19;
+                $respuesta = 3;
             }
         } catch (Exception $exc) {
-            $verdad = -20;
+            $respuesta = -20;
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
         //return $verdad;
-        echo $verdad;
+        echo $respuesta;
     }
 
     public function busquedaApartados2($idCodigo)
