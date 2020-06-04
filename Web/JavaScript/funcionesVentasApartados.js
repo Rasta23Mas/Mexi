@@ -1,6 +1,7 @@
 var errorToken = 0;
 var id_ContratoGlb = 0;
 var id_serieGlb = 0;
+var id_ClienteGlb = 0;
 var tipo_movimientoGlb = 22;
 var sucursalGlb = 0;
 
@@ -55,85 +56,90 @@ function busquedaCodigoBazar() {
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
-            var html = '';
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_Contrato = datos[i].id_Contrato;
-                var sucursal = datos[i].sucursal;
-                var id_serie = datos[i].id_serie;
-                var tipo_movimiento = datos[i].tipo_movimiento;
-                var tipo = datos[i].tipoArt;
-                var kilataje = datos[i].kilataje;
-                var marca = datos[i].marca;
-                var modelo = datos[i].modelo;
-                var ubicacion = datos[i].ubicacion;
-                var detalle = datos[i].detalle;
-                var avaluo = datos[i].avaluo;
-                var vitrina = datos[i].vitrina;
-                var fecha_Modificacion = datos[i].fecha_Modificacion;
-                var id_Articulo = datos[i].id_Articulo;
-                var precio_venta = datos[i].precio_venta;
-                var precioCat = datos[i].precioCat;
+            if (datos.length > 0) {
+                var html = '';
+                var i = 0;
+                for (i; i < datos.length; i++) {
+                    var id_Contrato = datos[i].id_Contrato;
+                    var sucursal = datos[i].sucursal;
+                    var id_serie = datos[i].id_serie;
+                    var tipo_movimiento = datos[i].tipo_movimiento;
+                    var tipo = datos[i].tipoArt;
+                    var kilataje = datos[i].kilataje;
+                    var marca = datos[i].marca;
+                    var modelo = datos[i].modelo;
+                    var ubicacion = datos[i].ubicacion;
+                    var detalle = datos[i].detalle;
+                    var avaluo = datos[i].avaluo;
+                    var vitrina = datos[i].vitrina;
+                    var fecha_Modificacion = datos[i].fecha_Modificacion;
+                    var id_Articulo = datos[i].id_Articulo;
+                    var precio_venta = datos[i].precio_venta;
+                    var precioCat = datos[i].precioCat;
 
 
-                id_ContratoGlb = id_Contrato
-                id_serieGlb = id_serie;
-                tipo_movimientoGlb = 22;
-                sucursalGlb = sucursal;
+                    id_ContratoGlb = id_Contrato
+                    id_serieGlb = id_serie;
+                    tipo_movimientoGlb = 22;
+                    sucursalGlb = sucursal;
 
 
-                var precioFinal = precio_venta;
-                var totalPagar = 0;
-                precioFinal = Math.floor(precioFinal * 100) / 100;
-                var calculaIva = Math.floor(precioFinal * 16) / 100;
-                totalPagar = precioFinal + calculaIva;
-                totalPagar = Math.floor(totalPagar * 100) / 100;
-                var precioFinalFormat = formatoMoneda(precioFinal);
-                var calculaIvaFormat = formatoMoneda(calculaIva);
-                var totalPagarFormat = formatoMoneda(totalPagar);
+                    var precioFinal = precio_venta;
+                    var totalPagar = 0;
+                    precioFinal = Math.floor(precioFinal * 100) / 100;
+                    var calculaIva = Math.floor(precioFinal * 16) / 100;
+                    totalPagar = precioFinal + calculaIva;
+                    totalPagar = Math.floor(totalPagar * 100) / 100;
+                    var precioFinalFormat = formatoMoneda(precioFinal);
+                    var calculaIvaFormat = formatoMoneda(calculaIva);
+                    var totalPagarFormat = formatoMoneda(totalPagar);
 
 
-                $("#idSubTotal").val(precioFinalFormat);
-                $("#idIva").val(calculaIvaFormat);
-                $("#idTotalPagar").val(totalPagarFormat);
-                $("#idSubTotalValue").val(precioFinal);
-                $("#idIvaValue").val(calculaIva);
-                $("#idTotalValue").val(totalPagar);
-                $("#idTotalBase").val(totalPagar);
+                    $("#idSubTotal").val(precioFinalFormat);
+                    $("#idIva").val(calculaIvaFormat);
+                    $("#idTotalPagar").val(totalPagarFormat);
+                    $("#idSubTotalValue").val(precioFinal);
+                    $("#idIvaValue").val(calculaIva);
+                    $("#idTotalValue").val(totalPagar);
+                    $("#idTotalBase").val(totalPagar);
 
-                if (tipo_movimiento == 6) {
-                    alert("El articulo fue vendido el día: " + fecha_Modificacion)
+                    if (tipo_movimiento == 6) {
+                        alert("El articulo fue vendido el día: " + fecha_Modificacion)
+                    }
+
+                    tipoTabla = tipo;
+
+                    if (tipo == 1) {
+                        html += '<tr>' +
+                            '<td>' + id_serie + '</td>' +
+                            '<td>' + detalle + '</td>' +
+                            '<td>' + kilataje + '</td>' +
+                            '<td>' + avaluo + '</td>' +
+                            '<td>' + vitrina + '</td>' +
+                            '<td>' + ubicacion + '</td>' +
+                            '</tr>';
+                    } else if (tipo == 2) {
+                        html += '<tr>' +
+                            '<td>' + id_serie + '</td>' +
+                            '<td>' + modelo + '</td>' +
+                            '<td>' + marca + '</td>' +
+                            '<td>' + avaluo + '</td>' +
+                            '<td>' + vitrina + '</td>' +
+                            '<td>' + ubicacion + '</td>' +
+                            '</tr>';
+                    }
+
                 }
-
-                tipoTabla = tipo;
-
-                if (tipo == 1) {
-                    html += '<tr>' +
-                        '<td>' + id_serie + '</td>' +
-                        '<td>' + detalle + '</td>' +
-                        '<td>' + kilataje + '</td>' +
-                        '<td>' + avaluo + '</td>' +
-                        '<td>' + vitrina + '</td>' +
-                        '<td>' + ubicacion + '</td>' +
-                        '</tr>';
-                } else if (tipo == 2) {
-                    html += '<tr>' +
-                        '<td>' + id_serie + '</td>' +
-                        '<td>' + modelo + '</td>' +
-                        '<td>' + marca + '</td>' +
-                        '<td>' + avaluo + '</td>' +
-                        '<td>' + vitrina + '</td>' +
-                        '<td>' + ubicacion + '</td>' +
-                        '</tr>';
+                if (tipoTabla == 1) {
+                    $('#idTBodyMetales').html(html);
+                } else if (tipoTabla == 2) {
+                    $('#idTBodyArticulos').html(html);
                 }
+                $("#btnVenta").prop('disabled', false);
+            } else {
+                alertify.error("No se encontro ningún artiículo en bazar.");
+            }
 
-            }
-            if (tipoTabla == 1) {
-                $('#idTBodyMetales').html(html);
-            } else if (tipoTabla == 2) {
-                $('#idTBodyArticulos').html(html);
-            }
-            $("#btnVenta").prop('disabled', false);
         }
     });
     if (tipoTabla == 1) {
@@ -253,8 +259,8 @@ function guardarApartado() {
     /*
      22->Apartado
      */
-    var cliente = $("#idClienteVenta").val();
-    if(cliente==0){
+     id_ClienteGlb = $("#idClienteVenta").val();
+    if(id_ClienteGlb==0){
         alert("Debe seleccionar un cliente para la venta.");
     }else{
         var vendedor = $("#idVendedor").val();
@@ -265,17 +271,19 @@ function guardarApartado() {
             if(apartado==0){
                 alert("Debe calcular el apartado inicial.");
             }else{
-
-                if(apartado==0){
-                    alert("Debe calcular el apartado inicial.");
+                var efectivo = $("#idEfectivoValue").val();
+                if(efectivo==0){
+                    alert("Debe calcular el cambio del cliente.");
                 }else{
                     var iva = $("#idIvaValue").val();
                     var totalValue = $("#idTotalValue").val();
                     var fechaVencimiento = $("#idFechaVencimiento").text();
+                    var cambio = $("#idCambioValue").val();
+
                     var dataEnviar = {
                         "id_ContratoGlb": id_ContratoGlb,
                         "id_serieGlb": id_serieGlb,
-                        "id_ClienteGlb": cliente,
+                        "id_ClienteGlb": id_ClienteGlb,
                         "precio_ActualGlb": totalValue,
                         "apartadoGlb": apartado,
                         "fechaVencimiento": fechaVencimiento,
@@ -283,6 +291,8 @@ function guardarApartado() {
                         "tipo_movimientoGlb": tipo_movimientoGlb,
                         "vendedorGlb": vendedor,
                         "sucursalGlb": sucursalGlb,
+                        "efectivo": efectivo,
+                        "cambio": cambio,
                     };
 
                     $.ajax({
@@ -290,12 +300,11 @@ function guardarApartado() {
                         url: '../../../com.Mexicash/Controlador/Ventas/guardarApartado.php',
                         type: 'post',
                         success: function (response) {
-                            alert(response)
                             if (response > 0) {
-                                alertify.success(nombreMensaje + " generado.")
-                                MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
+                                alertify.success("El artículo se ha apartado correctamente.")
+                                BitacoraApartado()
                             } else {
-                                alertify.error("Error al generar " + nombreMensaje);
+                                alertify.error("Error al guardar el apartado");
                             }
                         },
                     })
@@ -303,6 +312,44 @@ function guardarApartado() {
             }
         }
     }
+}
+
+
+function BitacoraApartado() {
+    //id_Movimiento = 22 -> Apartado
+
+    var dataEnviar = {
+        "id_Movimiento": tipo_movimientoGlb,
+        "id_contrato": id_ContratoGlb,
+        "id_almoneda": 0,
+        "id_cliente": id_ClienteGlb,
+        "consulta_fechaInicio": null,
+        "consulta_fechaFinal": null,
+        "idArqueo": 0,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                cargarPDFApartado(id_serieGlb);
+            } else {
+                alertify.error("Error en al conectar con el servidor.")
+            }
+            cancelarSinInteres();
+        }
+    });
+}
+
+//Generar PDF
+function cargarPDFApartado(id_serieGlb) {
+    window.open('../PDF/callPdfRefrendo.php?idSerie=' + id_serieGlb);
+}
+
+function verPDFApartado(contratoGbl) {
+    window.open('../PDF/callPdfRefrendo.php?pdf=1&idSerie=' + id_serieGlb);
 }
 
 function configurarRango() {

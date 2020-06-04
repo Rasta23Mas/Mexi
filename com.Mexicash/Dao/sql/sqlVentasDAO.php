@@ -31,8 +31,8 @@ class sqlVentasDAO
                         FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) 
-                        WHERE Baz.id_serie like '$codigo%'  and Baz.id_Bazar not in 
-                        (select id_Bazar FROM bazar_articulos 
+                        WHERE Baz.id_serie like '$codigo'  and Baz.id_serie not in 
+                        (select id_serie FROM bazar_articulos 
                         where  tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 
                         || tipo_movimiento = 23)";
             $rs = $this->conexion->query($buscar);
