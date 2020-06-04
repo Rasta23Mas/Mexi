@@ -65,7 +65,7 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             BAZ.id_Contrato, ART.detalle,TK.descripcion as Kilataje,ET.descripcion AS TipoElectronico,
             EM.descripcion AS MarcaElectronico,EMOD.descripcion AS ModeloElectronico,Baz.id_serie,baz.precio_venta,
-            BAZ.precio_Actual,BAZ.apartado,BAZ.iva,BAZ.efectivo,BAZ.cambio
+            BAZ.precio_Actual,BAZ.apartado,BAZ.iva,BAZ.efectivo,BAZ.cambio,USU.usuario
             FROM bazar_articulos as Baz 
             INNER JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
             INNER JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
@@ -74,13 +74,12 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             LEFT JOIN cat_electronico_tipo as ET on ART.tipo = ET.id_tipo
             LEFT JOIN cat_electronico_marca as EM on ART.marca = EM.id_marca
             LEFT JOIN cat_electronico_modelo as EMOD on ART.modelo = EMOD.id_modelo
+            LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
             WHERE id_Bazar=$idBazar";
-echo $query;
 $resultado = $mysql->query($query);
 
 
 foreach ($resultado as $row) {
-
     $NombreCasa = $row["NombreCasa"];
     $Nombre = $row["Nombre"];
     $direccion = $row["direccion"];
@@ -102,38 +101,30 @@ foreach ($resultado as $row) {
     $iva = $row["iva"];
     $efectivo = $row["efectivo"];
     $cambio = $row["cambio"];
+    $usuario = $row["usuario"];
 
-
-    $subTotal = $abonoCapital + $intereses+ $almacenaje+$seguro+$desempeñoExt+$moratorios+$otrosCobros;
-    $abonoCapital= round($abonoCapital,2);
-    $intereses= round($intereses,2);
-    $almacenaje= round($almacenaje,2);
-    $seguro= round($seguro,2);
-    $desempeñoExt= round($desempeñoExt,2);
-    $moratorios= round($moratorios,2);
-    $otrosCobros= round($otrosCobros,2);
-
-    $subTotal= round($subTotal,2);
-    $Total = $subTotal +$iva;
-    $Total = $Total-$descuentoAplicado;
-    $Total= round($Total,2);
-    $iva= round($iva,2);
-    $descuentoAplicado= round($descuentoAplicado,2);
 }
-
-$prestamo = number_format($prestamo, 2,'.',',');
-
+/*$abonoCapital= round($abonoCapital,2);*/
+$subTotal = $precio_venta + $iva;
+$faltante = $subTotal - $apartado;
+$precio_venta = number_format($precio_venta, 2,'.',',');
+$iva = number_format($iva, 2,'.',',');
+$apartado = number_format($apartado, 2,'.',',');
+$efectivo = number_format($efectivo, 2,'.',',');
+$cambio = number_format($cambio, 2,'.',',');
+$subTotal = number_format($subTotal, 2,'.',',');
+$faltante = number_format($faltante, 2,'.',',');
 $Fecha_Creacion = date("d-m-Y", strtotime($Fecha_Creacion));
 
-
-
+$detalle = strtoupper($detalle);
+$Kilataje = strtoupper($Kilataje);
 
 if (!isset($_GET['pdf'])) {
     $contenido = '<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-            <script src="../../JavaScript/funcionesRefrendo.js"></script>
+            <script src="../../JavaScript/funcionesVentasApartados.js"></script>
 
     <style>
         .letraNormalNegrita {
@@ -212,27 +203,27 @@ if (!isset($_GET['pdf'])) {
          <table width="=100%" border="0">
                 <tr>
                     <td colspan="3" align="center">
-                        <label>MIRIAM GAMA VAZQUEZ</label>
+                        <label>'. $NombreCasa .'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursal">SUCURSAL: '. $NombreSucursal .'</label>
+                        <label ID="sucursal">SUCURSAL: '. $Nombre .'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalDir">'. $DirSucursal .'</label>
+                        <label ID="sucursalDir">'. $direccion .'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalTel">Tel: '. $TelSucursal .'</label>
+                        <label ID="sucursalTel">Tel: '. $telefono .'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalRfc">RFC: GAVM800428KQ3</label>
+                        <label ID="sucursalRfc">RFC: '. $rfc .'</label>
                     </td>
                 </tr>
                 <tr>
@@ -252,7 +243,7 @@ if (!isset($_GET['pdf'])) {
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label>REFRENDO</label>
+                        <label>APARTADO</label>
                     </td>
                 </tr>
                 <tr>
@@ -262,18 +253,13 @@ if (!isset($_GET['pdf'])) {
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label id="idContrato">CONTRATO NO: '. $idContrato.' </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label id="id_Recibo">RECIBO NO: '. $id_Recibo.'</label>
+                        <label id="id_Recibo">FOLIO NO: '. $id_Bazar.'</label>
                     </td>
                 </tr>
                 <tr><td><br></td></tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label id="idFechaHoy">FECHA: '. $Fecha_Creacion.'</label>
+                        <label id="idFechaHoy">FECHA: '. $fecha_Modificacion.'</label>
                     </td>
                 </tr>
                 <tr>
@@ -281,96 +267,106 @@ if (!isset($_GET['pdf'])) {
                         <label id="idCliente">CLIENTE: '. $NombreCompleto.'</label>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                        <label id="idCliente">CONTRATO: '. $id_Contrato.'</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                         <label id="idCliente">CODIGO: '. $id_serie.'</label>
+                    </td>
+                </tr>
                 <tr><td><br></td></tr>
                 <tr>
-                    <td colspan="2" align="right"><label>PRESTAMO:</label></td>
-                    <td align="right"><label>$ '.$prestamo.'</label></td>
+                    <td  align="CENTER"><label>DESCRIPCION</label></td>
+                        <td  align="CENTER"><label>KILATES</label></td>
+                      <td  align="CENTER"><label>PRECIO</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>ABONO A CAPITAL:</label></td>
-                    <td align="right"><label>$ '.$abonoCapital.'</label></td>
+                    <td colspan="3" align="center">
+                      <label>_______________________________________</label>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>INTERESES:</label></td>
-                    <td align="right"><label>$ '.$intereses.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>ALMACENAJE:</label></td>
-                    <td align="right"><label>$ '.$almacenaje.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>SEGURO:</label></td>
-                    <td align="right"><label>$ '.$seguro.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>DESEMPEÑO EXT.:</label></td>
-                    <td align="right"><label>$ '.$desempeñoExt.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>MORATORIOS:</label></td>
-                    <td align="right"><label>$ '.$moratorios.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>OTROS COBROS:</label></td>
-                    <td align="right"><label>$ '.$otrosCobros.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><label></label></td>
-                    <td align="right"><label>-------------</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>SUBTOTAL:</label></td>
-                    <td align="right"><label>$ '.$subTotal.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>DESC. APLICADO:</label></td>
-                    <td align="right"><label>$ '.$descuentoAplicado.'</label></td>
+                    <td  align="CENTER"><label>'.$detalle.'</label></td>
+                    <td  align="CENTER"><label>'.$Kilataje.'</label></td>
+                    <td  align="right"><label>$ '.$precio_venta.'</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>IVA:</label></td>
-                    <td align="right"><label>$ '.$iva.'</label></td>
+                    <td  align="right"><label>$ '.$iva.'</label></td>
+                </tr>
+                <tr>
+                   <td colspan="2" align="right"><label>SUBTOTAL:</label></td>
+                    <td  align="right"><label>$ '.$subTotal.'</label></td>
                 </tr>
                 <tr>
                     <td colspan="2"><label></label></td>
                     <td align="right"><label>-------------</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>TOTAL:</label></td>
-                    <td align="right"><label>$ '.$Total.'</label></td>
+                   <td colspan="2" align="right"><label>APARTADO:</label></td>
+                    <td  align="right"><label>$ '.$apartado.'</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>EFECTIVO:</label></td>
-                    <td align="right"><label>$ '.$efectivo.'</label></td>
+                   <td colspan="2" align="right"><label>EFECTIVO:</label></td>
+                    <td  align="right"><label>$ '.$efectivo.'</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>CAMBIO:</label></td>
-                    <td align="right"><label>$ '.$cambio.'</label></td>
+                   <td colspan="2" align="right"><label>CAMBIO:</label></td>
+                    <td  align="right"><label>$ '.$cambio.'</label></td>
                 </tr>
                 <tr>
-                <td>&nbsp;</td>
-</tr>
-                <tr>
-                    <td colspan="3" align="left"><label>COMERCIALIZACION :'.$Fecha_Almoneda.'</label></td>
+                    <td colspan="2"><label></label></td>
+                    <td align="right"><label>-------------</label></td>
                 </tr>
                 <tr>
-                    <td><label>N. MUTUO</label></td>
-                    <td><label>REFRENDO</label></td>
-                    <td><label>VENCIMIENTO</label></td>
+                   <td colspan="2" align="right"><label>FALTA POR PAGAR:</label></td>
+                    <td  align="right"><label>$ '.$faltante.'</label></td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="center"><hr></td>
+                    <td colspan="3" align="center">
+                      <label>_______________________________________</label>
+                    </td>
                 </tr>
                 <tr>
-                    <td><label>?????</label></td>
-                    <td><label>?????</label></td>
-                    <td><label id="idFechaVencimiento">'.$Fecha_Vencimiento.'</label></td>
+                    <td colspan="3" align="left">
+                      <label>Venta de piezas de segunda mano.</label>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="left"><label id="idDetalle">'.$detallePiePagina.'</label></td>
+                    <td colspan="3" align="left">
+                      <label>Las piezas se venden en el estado en
+                             que se encuentran.</label>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="3"><label id="idUsuario">Usuario: '.$NombreUsuario.'</label></td>
+                    <td colspan="3" align="left">
+                      <label>No se aceptan devoluciones.</label>
+                    </td>
                 </tr>
+                <tr><td><br></td></tr>
+                <tr>
+                    <td colspan="3" align="left">
+                      <label><b>MERCANCÍA SIN GARANTÍA.<b></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                      <label><b>NO SE ACEPTAN CAMBIOS O<b></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                      <label><b>DEVOLUCIONES DE MERCANCÍA.<b></label>
+                    </td>
+                </tr>
+                <tr><td><br></td></tr>
+                <tr>
+                    <td colspan="3"><label id="idUsuario">Usuario: '.$usuario.'</label></td>
+                </tr>
+                <tr><td><br></td></tr>
                 <tr>
                     <td colspan="3">
                        &nbsp;
@@ -415,7 +411,7 @@ if (!isset($_GET['pdf'])) {
         </td> 
         </tr>';
     $contenido .= '<tr><td align="center" >
-        <input type="button" class="btn btnGenerarPDF" value="Generar PDF"  onclick="verPDFRefrendo('.$idContrato.');" >
+        <input type="button" class="btn btnGenerarPDF" value="Generar PDF"  onclick="verPDFApartado('.$id_Bazar.');" >
         </td></tr>';
     $contenido .= '</tbody></table></form></body></html>';
     echo $contenido;
@@ -460,28 +456,28 @@ $contenido .= '<table width="30%" border="1">
         <td>
          <table width="100%" border="0" class="letraNormalNegrita">
                 <tr>
-                    <td colspan="3" align="center" >
-                        <label>MIRIAM GAMA VAZQUEZ</label>
+                    <td colspan="3" align="center">
+                        <label>'. $NombreCasa .'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursal">SUCURSAL: '. $NombreSucursal .'</label>
+                        <label ID="sucursal">SUCURSAL: '. $Nombre .'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalDir">'. $DirSucursal .'</label>
+                        <label ID="sucursalDir">'. $direccion .'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalTel">Tel: '. $TelSucursal .'</label>
+                        <label ID="sucursalTel">Tel: '. $telefono .'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalRfc">RFC: GAVM800428KQ3</label>
+                        <label ID="sucursalRfc">RFC: '. $rfc .'</label>
                     </td>
                 </tr>
                 <tr>
@@ -501,7 +497,7 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label>REFRENDO</label>
+                        <label>APARTADO</label>
                     </td>
                 </tr>
                 <tr>
@@ -511,18 +507,13 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label id="idContrato">CONTRATO NO: '. $idContrato.' </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label id="id_Recibo">RECIBO NO: '. $id_Recibo.'</label>
+                        <label id="id_Recibo">FOLIO NO: '. $id_Bazar.'</label>
                     </td>
                 </tr>
                 <tr><td><br></td></tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label id="idFechaHoy">FECHA: '. $Fecha_Creacion.'</label>
+                        <label id="idFechaHoy">FECHA: '. $fecha_Modificacion.'</label>
                     </td>
                 </tr>
                 <tr>
@@ -530,98 +521,106 @@ $contenido .= '<table width="30%" border="1">
                         <label id="idCliente">CLIENTE: '. $NombreCompleto.'</label>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                        <label id="idCliente">CONTRATO: '. $id_Contrato.'</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                         <label id="idCliente">CODIGO: '. $id_serie.'</label>
+                    </td>
+                </tr>
                 <tr><td><br></td></tr>
                 <tr>
-                    <td colspan="2" align="right"><label>PRESTAMO:</label></td>
-                    <td align="right"><label>$ '.$prestamo.'</label></td>
+                    <td  align="CENTER"><label>DESCRIPCION</label></td>
+                        <td  align="CENTER"><label>KILATES</label></td>
+                      <td  align="CENTER"><label>PRECIO</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>ABONO A CAPITAL:</label></td>
-                    <td align="right"><label>$ '.$abonoCapital.'</label></td>
+                    <td colspan="3" align="center">
+                      <label>_______________________________________</label>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>INTERESES:</label></td>
-                    <td align="right"><label>$ '.$intereses.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>ALMACENAJE:</label></td>
-                    <td align="right"><label>$ '.$almacenaje.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>SEGURO:</label></td>
-                    <td align="right"><label>$ '.$seguro.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>DESEMPEÑO EXT.:</label></td>
-                    <td align="right"><label>$ '.$desempeñoExt.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>MORATORIOS:</label></td>
-                    <td align="right"><label>$ '.$moratorios.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>OTROS COBROS:</label></td>
-                    <td align="right"><label>$ '.$otrosCobros.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><label></label></td>
-                    <td align="right"><label>-------------</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>SUBTOTAL:</label></td>
-                    <td align="right"><label>$ '.$subTotal.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="right"><label>DESC. APLICADO:</label></td>
-                    <td align="right"><label>$ '.$descuentoAplicado.'</label></td>
+                    <td  align="CENTER"><label>'.$detalle.'</label></td>
+                    <td  align="CENTER"><label>'.$Kilataje.'</label></td>
+                    <td  align="right"><label>$ '.$precio_venta.'</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>IVA:</label></td>
-                    <td align="right"><label>$ '.$iva.'</label></td>
+                    <td  align="right"><label>$ '.$iva.'</label></td>
+                </tr>
+                <tr>
+                   <td colspan="2" align="right"><label>SUBTOTAL:</label></td>
+                    <td  align="right"><label>$ '.$subTotal.'</label></td>
                 </tr>
                 <tr>
                     <td colspan="2"><label></label></td>
                     <td align="right"><label>-------------</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>TOTAL:</label></td>
-                    <td align="right"><label>$ '.$Total.'</label></td>
+                   <td colspan="2" align="right"><label>APARTADO:</label></td>
+                    <td  align="right"><label>$ '.$apartado.'</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>EFECTIVO:</label></td>
-                    <td align="right"><label>$ '.$efectivo.'</label></td>
+                   <td colspan="2" align="right"><label>EFECTIVO:</label></td>
+                    <td  align="right"><label>$ '.$efectivo.'</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>CAMBIO:</label></td>
-                    <td align="right"><label>$ '.$cambio.'</label></td>
+                   <td colspan="2" align="right"><label>CAMBIO:</label></td>
+                    <td  align="right"><label>$ '.$cambio.'</label></td>
                 </tr>
                 <tr>
-                <td>
-                &nbsp;
-</td>
-</tr>
-                <tr>
-                    <td colspan="3" align="left"><label>COMERCIALIZACION :'.$Fecha_Almoneda.'</label></td>
+                    <td colspan="2"><label></label></td>
+                    <td align="right"><label>-------------</label></td>
                 </tr>
                 <tr>
-                    <td><label>N. MUTUO</label></td>
-                    <td><label>REFRENDO</label></td>
-                    <td><label>VENCIMIENTO</label></td>
-                </tr>
-            <tr>
-                    <td colspan="3" align="center"><hr></td>
+                   <td colspan="2" align="right"><label>FALTA POR PAGAR:</label></td>
+                    <td  align="right"><label>$ '.$faltante.'</label></td>
                 </tr>
                 <tr>
-                    <td><label>?????</label></td>
-                    <td><label>?????</label></td>
-                    <td><label id="idFechaVencimiento">'.$Fecha_Vencimiento.'</label></td>
+                    <td colspan="3" align="center">
+                      <label>_______________________________________</label>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="left"><label id="idDetalle">'.$detallePiePagina.'</label></td>
+                    <td colspan="3" align="left">
+                      <label>Venta de piezas de segunda mano.</label>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="3"><label id="idUsuario">Usuario: '.$NombreUsuario.'</label></td>
+                    <td colspan="3" align="left">
+                      <label>Las piezas se venden en el estado en
+                             que se encuentran.</label>
+                    </td>
                 </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                      <label>No se aceptan devoluciones.</label>
+                    </td>
+                </tr>
+                <tr><td><br></td></tr>
+                <tr>
+                    <td colspan="3" align="left">
+                      <label><b>MERCANCÍA SIN GARANTÍA.<b></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                      <label><b>NO SE ACEPTAN CAMBIOS O<b></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="left">
+                      <label><b>DEVOLUCIONES DE MERCANCÍA.<b></label>
+                    </td>
+                </tr>
+                <tr><td><br></td></tr>
+                <tr>
+                    <td colspan="3"><label id="idUsuario">Usuario: '.$usuario.'</label></td>
+                </tr>
+                <tr><td><br></td></tr>
                 <tr>
                     <td colspan="3">
                        &nbsp;
@@ -647,7 +646,7 @@ $contenido .= '<table width="30%" border="1">
                         &nbsp;
                     </td>
                 </tr>
-                <tr>
+                 <tr>
                     <td colspan="3">
                         &nbsp;
                     </td>
@@ -662,17 +661,12 @@ $contenido .= '<table width="30%" border="1">
                         <label>Usuario</label>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="3">
-                        &nbsp;
-                    </td>
-                </tr>
             </table>
         </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Refrendo Num ' . $id_Recibo . ".pdf";
+$nombreContrato = 'Apartado Num ' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'portrait');

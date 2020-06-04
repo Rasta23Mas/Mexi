@@ -26,12 +26,12 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT Baz.id_Contrato,Baz.sucursal,Baz.id_serie , Baz.tipo_movimiento,Art.tipo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Art.avaluo,Art.vitrina,Baz.fecha_Modificacion,
+                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Art.avaluo,Baz.fecha_Modificacion,
                         Art.id_Articulo,Baz.precio_venta,Art.precioCat 
                         FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) 
-                        WHERE Baz.id_serie like '$codigo'  and Baz.id_serie not in 
+                        WHERE Baz.id_serie = '$codigo'  and Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos 
                         where  tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 
                         || tipo_movimiento = 23)";
@@ -51,7 +51,6 @@ class sqlVentasDAO
                         "ubicacion" => $row["ubicacion"],
                         "detalle" => $row["detalle"],
                         "avaluo" => $row["avaluo"],
-                        "vitrina" => $row["vitrina"],
                         "fecha_Modificacion" => $row["fecha_Modificacion"],
                         "id_Articulo" => $row["id_Articulo"],
                         "precio_venta" => $row["precio_venta"],
@@ -187,7 +186,7 @@ class sqlVentasDAO
 
     //Generar Venta
     public function guardarApartado($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb, $precio_ActualGlb, $apartadoGlb,$fechaVencimiento,
-                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $sucursalGlb,$efectivo,$cambio)
+                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $sucursalGlb,$efectivo,$cambio,$precioVenta)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -195,8 +194,8 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
 
             $insertaApartado = "INSERT INTO bazar_articulos 
-                       (id_Contrato, id_serie,id_Cliente,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
-                        VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio,
+                       (id_Contrato, id_serie,id_Cliente,precio_venta,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
+                        VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precioVenta,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio,
                         '$fechaModificacion',$sucursalGlb,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaApartado)) {
                 if ($ps->execute()) {

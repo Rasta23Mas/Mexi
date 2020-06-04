@@ -71,7 +71,6 @@ function busquedaCodigoBazar() {
                     var ubicacion = datos[i].ubicacion;
                     var detalle = datos[i].detalle;
                     var avaluo = datos[i].avaluo;
-                    var vitrina = datos[i].vitrina;
                     var fecha_Modificacion = datos[i].fecha_Modificacion;
                     var id_Articulo = datos[i].id_Articulo;
                     var precio_venta = datos[i].precio_venta;
@@ -82,7 +81,7 @@ function busquedaCodigoBazar() {
                     id_serieGlb = id_serie;
                     tipo_movimientoGlb = 22;
                     sucursalGlb = sucursal;
-
+                    idSubTotalValue
 
                     var precioFinal = precio_venta;
                     var totalPagar = 0;
@@ -102,7 +101,7 @@ function busquedaCodigoBazar() {
                     $("#idIvaValue").val(calculaIva);
                     $("#idTotalValue").val(totalPagar);
                     $("#idTotalBase").val(totalPagar);
-
+                    $("#precioVenta").val(precio_venta);
                     if (tipo_movimiento == 6) {
                         alert("El articulo fue vendido el día: " + fecha_Modificacion)
                     }
@@ -115,7 +114,7 @@ function busquedaCodigoBazar() {
                             '<td>' + detalle + '</td>' +
                             '<td>' + kilataje + '</td>' +
                             '<td>' + avaluo + '</td>' +
-                            '<td>' + vitrina + '</td>' +
+                            '<td>' + precio_venta + '</td>' +
                             '<td>' + ubicacion + '</td>' +
                             '</tr>';
                     } else if (tipo == 2) {
@@ -124,7 +123,7 @@ function busquedaCodigoBazar() {
                             '<td>' + modelo + '</td>' +
                             '<td>' + marca + '</td>' +
                             '<td>' + avaluo + '</td>' +
-                            '<td>' + vitrina + '</td>' +
+                            '<td>' + precio_venta + '</td>' +
                             '<td>' + ubicacion + '</td>' +
                             '</tr>';
                     }
@@ -279,6 +278,7 @@ function guardarApartado() {
                     var totalValue = $("#idTotalValue").val();
                     var fechaVencimiento = $("#idFechaVencimiento").val();
                     var cambio = $("#idCambioValue").val();
+                    var precioVenta = $("#precioVenta").val();
                     var dataEnviar = {
                         "id_ContratoGlb": id_ContratoGlb,
                         "id_serieGlb": id_serieGlb,
@@ -292,6 +292,7 @@ function guardarApartado() {
                         "sucursalGlb": sucursalGlb,
                         "efectivo": efectivo,
                         "cambio": cambio,
+                        "precioVenta": precioVenta,
                     };
 
                     $.ajax({

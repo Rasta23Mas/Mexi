@@ -325,6 +325,8 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
         <div class="row propInvisible"  >
             <div class="col col-lg-12"  >
                 <br>
+                <input type="text" name="subtotal"  id="precioVenta"
+                       style="width: 120px "disabled/>
                 <input type="text" name="subtotal"  id="idSubTotalValue"
                        style="width: 120px "disabled/>
                 <input type="text" name="iva"  id="idIvaValue"
@@ -349,7 +351,6 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 <br>
             </div>
             <div class="col col-lg-3 ">
-                <input type="button" class="btn btn-warning" value="cc" onclick="test()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarApartado()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
