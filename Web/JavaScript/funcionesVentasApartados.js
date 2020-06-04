@@ -298,21 +298,18 @@ function cancelarVenta() {
 
 function guardarTemporal() {
     /*
-     5->Bazar
-     6->Apartado
-     7->Abono
-     8->Venta
+     24->Bazar
+     22->Apartado
+     23->Abono
+     6->Venta
      */
-    var estatus = 8;
+    var tipoMovimiento = 22;
     var bazar = $("#idCodigoBuscado").val();
     var cliente = $("#idClienteVenta").val();
     var precioVenta = $("#idTotalBase").val();
-    var descuento = $("#idDescuentoValue").val();
     var vendedor = $("#idVendedor").val();
-    var estatusAnterior = $("#idEstatus").val();
     var dataEnviar = {
-        "estatus": estatus,
-        "estatusAnterior": estatusAnterior,
+        "tipoMovimiento": tipoMovimiento,
         "bazar": bazar,
         "cliente": cliente,
         "vendedor": vendedor,

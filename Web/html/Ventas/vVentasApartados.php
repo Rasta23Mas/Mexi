@@ -35,6 +35,8 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             $("#btnEditar").prop('disabled', true);
             $("#btnVenta").prop('disabled', true);
             $("#idFechaHoy").val(fechaActual());
+            var sumarMes = sumarDias(30);
+            $("#idFechaVencimiento").val(sumarMes);
             $("#divTablaMetales").load('tablaMetales.php');
             $("#divTablaArticulos").load('tablaArticulos.php');
             $("#divTablaArticulos").hide();
@@ -353,7 +355,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             </div>
             <div class="col col-lg-5">
                 <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
-                <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
+                <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="validaVenta()">&nbsp;
                 <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
             </div>
