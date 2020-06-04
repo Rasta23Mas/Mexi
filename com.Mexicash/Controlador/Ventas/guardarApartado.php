@@ -13,7 +13,11 @@ $ivaGlb = $_POST['ivaGlb'];
 $tipo_movimientoGlb = $_POST['tipo_movimientoGlb'];
 $vendedorGlb = $_POST['vendedorGlb'];
 $sucursalGlb = $_POST['sucursalGlb'];
+$efectivo = $_POST['efectivo'];
+$cambio = $_POST['cambio'];
+
 
 
 $sqlVenta = new sqlVentasDAO();
-$sqlVenta->guardarVenta($id_ContratoGlb,$id_serieGlb,$id_ClienteGlb,$precio_ActualGlb,$apartadoGlb,$fechaVencimiento,$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$sucursalGlb);
+$sqlVenta->guardarApartado($id_ContratoGlb,$id_serieGlb,$id_ClienteGlb,$precio_ActualGlb,$apartadoGlb,
+    $fechaVencimiento,$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$sucursalGlb,$efectivo,$cambio);

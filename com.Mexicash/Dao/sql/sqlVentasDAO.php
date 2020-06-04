@@ -186,8 +186,8 @@ class sqlVentasDAO
     }
 
     //Generar Venta
-    public function guardarVenta($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb, $precio_ActualGlb, $apartadoGlb,$fechaVencimiento,
-                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $sucursalGlb)
+    public function guardarApartado($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb, $precio_ActualGlb, $apartadoGlb,$fechaVencimiento,
+                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $sucursalGlb,$efectivo,$cambio)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -195,14 +195,21 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
 
             $insertaApartado = "INSERT INTO bazar_articulos 
-                       (id_Contrato, id_serie,id_Cliente,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,fecha_Modificacion,sucursal,id_CierreCaja)
-                        VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,
+                       (id_Contrato, id_serie,id_Cliente,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
+                        VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio
                         '$fechaModificacion',$sucursalGlb,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaApartado)) {
                 if ($ps->execute()) {
-                    $respuesta = 1;
+                    $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                    $statement = $this->conexion->query($buscarBazar);
+                    $encontro = $statement->num_rows;
+                    if ($encontro > 0) {
+                        $fila = $statement->fetch_object();
+                        $UltimoBazarID = $fila->UltimoBazarID;
+                        $respuesta = $UltimoBazarID;
+                    }
                 } else {
-                    $respuesta = 2;
+                    $respuesta = -1;
                 }
             } else {
                 $respuesta = 3;

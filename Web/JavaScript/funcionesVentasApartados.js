@@ -4,7 +4,7 @@ var id_serieGlb = 0;
 var id_ClienteGlb = 0;
 var tipo_movimientoGlb = 22;
 var sucursalGlb = 0;
-
+var idBazarGlb = 0;
 
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
@@ -301,6 +301,7 @@ function guardarApartado() {
                         type: 'post',
                         success: function (response) {
                             if (response > 0) {
+                                idBazarGlb=response;
                                 alertify.success("El artículo se ha apartado correctamente.")
                                 BitacoraApartado()
                             } else {
@@ -334,7 +335,7 @@ function BitacoraApartado() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                cargarPDFApartado(id_serieGlb);
+                cargarPDFApartado(idBazarGlb);
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
@@ -344,12 +345,12 @@ function BitacoraApartado() {
 }
 
 //Generar PDF
-function cargarPDFApartado(id_serieGlb) {
-    window.open('../PDF/callPdfRefrendo.php?idSerie=' + id_serieGlb);
+function cargarPDFApartado(idBazar) {
+    window.open('../PDF/callPdfRefrendo.php?idBazar=' + idBazar);
 }
 
-function verPDFApartado(contratoGbl) {
-    window.open('../PDF/callPdfRefrendo.php?pdf=1&idSerie=' + id_serieGlb);
+function verPDFApartado(idBazar) {
+    window.open('../PDF/callPdfRefrendo.php?pdf=1&idBazar=' + idBazar);
 }
 
 function configurarRango() {
