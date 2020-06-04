@@ -286,7 +286,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                         <td style="vertical-align:top;">
                             <input type="text" name="abono"  id="idApartadoInicial"
                                    style="width: 120px; text-align: right "
-                                   placeholder="$0.00" onkeypress="return abonoInicial(event)"/>
+                                   placeholder="$0.00" onkeypress="return apartadoInicial(event)"/>
                         </td>
                     </tr>
                     <tr >
@@ -331,7 +331,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="total"  id="idTotalBase"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idApartadoInicialValue"
+                <input type="text" name="total"  id="idApartadoInicialValue" value="0"
                        style="width: 120px "disabled/>
                 <input type="text" name="total"  id="idTotalValue"
                        style="width: 120px "disabled/>
@@ -345,7 +345,6 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="cliente"  id="idClienteVenta"  value="0"
                        style="width: 120px "disabled/>
-                <input type="text" id="idClienteEmpeno" name="clienteEmpeno" style="width: 120px " disabled />
             </div>
         </div>
         <div class="row">
@@ -355,7 +354,8 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             </div>
             <div class="col col-lg-5">
                 <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
-                <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="validaVenta()">&nbsp;
+                <input type="button" class="btn btn-warning" value="gdxg" onclick="test()">&nbsp;
+                <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarVenta()">&nbsp;
                 <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
             </div>

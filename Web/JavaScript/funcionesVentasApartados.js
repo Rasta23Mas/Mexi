@@ -1,4 +1,9 @@
 var errorToken = 0;
+var id_ContratoGlb = 0;
+var id_serieGlb = 0;
+var tipo_movimientoGlb = 22;
+var sucursalGlb = 0;
+
 
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
@@ -53,6 +58,8 @@ function busquedaCodigoBazar() {
             var html = '';
             var i = 0;
             for (i; i < datos.length; i++) {
+                var id_Contrato = datos[i].id_Contrato;
+                var sucursal = datos[i].sucursal;
                 var id_serie = datos[i].id_serie;
                 var tipo_movimiento = datos[i].tipo_movimiento;
                 var tipo = datos[i].tipoArt;
@@ -67,6 +74,13 @@ function busquedaCodigoBazar() {
                 var id_Articulo = datos[i].id_Articulo;
                 var precio_venta = datos[i].precio_venta;
                 var precioCat = datos[i].precioCat;
+
+
+                id_ContratoGlb = id_Contrato
+                id_serieGlb = id_serie;
+                tipo_movimientoGlb = 22;
+                sucursalGlb = sucursal;
+
 
                 var precioFinal = precio_venta;
                 var totalPagar = 0;
@@ -87,11 +101,11 @@ function busquedaCodigoBazar() {
                 $("#idTotalValue").val(totalPagar);
                 $("#idTotalBase").val(totalPagar);
 
-                if(tipo_movimiento==6){
+                if (tipo_movimiento == 6) {
                     alert("El articulo fue vendido el día: " + fecha_Modificacion)
                 }
 
-                 tipoTabla = tipo;
+                tipoTabla = tipo;
 
                 if (tipo == 1) {
                     html += '<tr>' +
@@ -129,7 +143,7 @@ function busquedaCodigoBazar() {
     }
 }
 
-function abonoInicial(e) {
+function apartadoInicial(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 8) {
@@ -147,7 +161,7 @@ function abonoInicial(e) {
         subtotalValue = Math.floor(subtotalValue * 100) / 100;
         apartado = Math.floor(apartado * 100) / 100;
 
-        if(subtotalValue>apartado){
+        if (subtotalValue > apartado) {
             var totalApartado = subtotalValue - apartado;
             var calculaIva = Math.floor(totalApartado * 16) / 100;
             totalPagar = totalApartado + calculaIva;
@@ -170,7 +184,7 @@ function abonoInicial(e) {
             $("#idIva").val(calculaIvaFormat);
             $("#idTotalPagar").val(totalPagarFormat);
 
-        }else{
+        } else {
             alert("El apartado tiene que ser menor al total.")
         }
 
@@ -189,7 +203,7 @@ function efectivoVenta(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
-       
+
         var apartado = $("#idApartadoInicialValue").val();
         var efectivo = $("#idEfectivo").val();
 
@@ -224,16 +238,16 @@ function validaVenta() {
     var efectivoValue = $("#idEfectivoValue").val();
     var vendedor = $("#idVendedor").val();
     var cliente = $("#idClienteVenta").val();
-    if(cliente==0){
+    if (cliente == 0) {
         alertify.warning("Favor de seleccionar el cliente.");
-    }else if(vendedor==0){
+    } else if (vendedor == 0) {
         alertify.warning("Favor de seleccionar el vendedor.");
-    }else if(efectivo==""||idEfectivo==null){
+    } else if (efectivo == "" || idEfectivo == null) {
         alertify.warning("Favor de llenar el campo de efectivo.");
-    }else{
-        if(efectivoValue==0){
+    } else {
+        if (efectivoValue == 0) {
             alertify.warning("Favor de calcular el cambio.");
-        }else{
+        } else {
             descuento = Math.floor(descuento * 100) / 100;
             if (descuento == 0) {
                 guardarVenta();
@@ -296,84 +310,55 @@ function cancelarVenta() {
     alertify.success("Se limpiaron descuento y pago.");
 }
 
-function guardarTemporal() {
-    /*
-     24->Bazar
-     22->Apartado
-     23->Abono
-     6->Venta
-     */
-    var tipoMovimiento = 22;
-    var bazar = $("#idCodigoBuscado").val();
-    var cliente = $("#idClienteVenta").val();
-    var precioVenta = $("#idTotalBase").val();
-    var vendedor = $("#idVendedor").val();
-    var dataEnviar = {
-        "tipoMovimiento": tipoMovimiento,
-        "bazar": bazar,
-        "cliente": cliente,
-        "vendedor": vendedor,
-        "precioVenta": precioVenta,
-        "descuento": descuento,
-    };
-
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Ventas/guardarVenta.php',
-        type: 'post',
-        success: function (response) {
-            alert(response)
-            if (response > 0) {
-                alertify.success(nombreMensaje + " generado.")
-                MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
-            } else {
-                alertify.error("Error al generar " + nombreMensaje);
-            }
-        },
-    })
-
-}
-
-
 function guardarVenta() {
     /*
-     5->Bazar
-     6->Apartado
-     7->Abono
-     8->Venta
+     22->Apartado
      */
-    var estatus = 8;
-    var bazar = $("#idCodigoBuscado").val();
     var cliente = $("#idClienteVenta").val();
-    var precioVenta = $("#idTotalBase").val();
-    var descuento = $("#idDescuentoValue").val();
-    var vendedor = $("#idVendedor").val();
-    var estatusAnterior = $("#idEstatus").val();
-    var dataEnviar = {
-        "estatus": estatus,
-        "estatusAnterior": estatusAnterior,
-        "bazar": bazar,
-        "cliente": cliente,
-        "vendedor": vendedor,
-        "precioVenta": precioVenta,
-        "descuento": descuento,
-    };
+    if(cliente==0){
+        alert("Debe seleccionar un cliente para la venta.");
+    }else{
+        var vendedor = $("#idVendedor").val();
+        if(vendedor==0){
+            alert("Debe seleccionar un vendedor para la venta.");
+        }else{
+            var apartado = $("#idApartadoInicialValue").val();
+            if(apartado==0){
+                alert("Debe calcular el apartado inicial.");
+            }else{
 
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Ventas/guardarVenta.php',
-        type: 'post',
-        success: function (response) {
-            alert(response)
-            if (response > 0) {
-                alertify.success(nombreMensaje + " generado.")
-                MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
-            } else {
-                alertify.error("Error al generar " + nombreMensaje);
+                var iva = $("#idIvaValue").val();
+                var totalValue = $("#idTotalValue").val();
+
+                var dataEnviar = {
+                    "id_ContratoGlb": id_ContratoGlb,
+                    "id_serieGlb": id_serieGlb,
+                    "id_ClienteGlb": cliente,
+                    "precio_ActualGlb": totalValue,
+                    "apartadoGlb": apartado,
+                    "ivaGlb": iva,
+                    "tipo_movimientoGlb": tipo_movimientoGlb,
+                    "vendedorGlb": vendedor,
+                    "sucursalGlb": sucursalGlb,
+                };
+
+                $.ajax({
+                    data: dataEnviar,
+                    url: '../../../com.Mexicash/Controlador/Ventas/guardarVenta.php',
+                    type: 'post',
+                    success: function (response) {
+                        alert(response)
+                        if (response > 0) {
+                            alertify.success(nombreMensaje + " generado.")
+                            MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
+                        } else {
+                            alertify.error("Error al generar " + nombreMensaje);
+                        }
+                    },
+                })
             }
-        },
-    })
-
+        }
+    }
 }
 
 function MovimientosVenta(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {
@@ -469,7 +454,11 @@ function MovimientosVenta(descuentoFinal, abonoFinal, newFechaVencimiento, newFe
 }
 
 
-
 function configurarRango() {
-        alert("configuración")
+    alert("configuración")
+}
+
+function test() {
+    var vendedor = $("#idVendedor").val();
+    alert(vendedor)
 }

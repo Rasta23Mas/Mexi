@@ -407,7 +407,7 @@ class sqlUsuarioDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT  Usu.usuario as id_User, Usu.usuario as NombreUser
+            $buscar = "SELECT  Usu.id_User as id_User, Usu.usuario as NombreUser
                         FROM usuarios_tbl AS Usu
                         Where Usu.id_Estatus=1 AND id_Sucursal=$sucursal  AND tipoUsuario = 3 OR tipoUsuario=4 ";
             $rs = $this->conexion->query($buscar);
