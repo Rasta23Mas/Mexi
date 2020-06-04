@@ -240,18 +240,18 @@ function efectivoVenta(e) {
 
 function cancelarVenta() {
     //$("#idFormVentas")[0].reset();
-    var totalBase = $("#idTotalBase").val();
-    $("#idDescuento").val("");
-    $("#idTotalPagar").val(totalBase);
-    $("#idEfectivo").val("");
-    $("#idCambio").val("");
-    $("#idTotalValue").val(totalBase);
-    $("#idDescuentoValue").val(0);
+    $("#idSubTotalValue").val("");
+    $("#idIvaValue").val("");
+    $("#idTotalBase").val("");
+    $("#idApartadoInicialValue").val("");
+    $("#idTotalValue").val("");
     $("#idEfectivoValue").val("");
     $("#idCambioValue").val("");
-    $("#idDescuento").prop('disabled', false);
+    busquedaCodigoBazar();
+    $("#idApartadoInicial").val("");
+    $("#idEfectivo").val("");
+    $("#idCambio").val("");
     $("#idEfectivo").prop('disabled', false);
-
     alertify.success("Se limpiaron descuento y pago.");
 }
 
