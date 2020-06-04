@@ -196,7 +196,7 @@ class sqlVentasDAO
 
             $insertaApartado = "INSERT INTO bazar_articulos 
                        (id_Contrato, id_serie,id_Cliente,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
-                        VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio
+                        VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio,
                         '$fechaModificacion',$sucursalGlb,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaApartado)) {
                 if ($ps->execute()) {

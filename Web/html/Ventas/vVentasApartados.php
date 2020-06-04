@@ -9,7 +9,6 @@ if(!isset($_SESSION["idUsuario"])){
 }
 
 $idCierreCaja = $_SESSION['idCierreCaja'];
-echo $idCierreCaja;
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
 include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
@@ -350,6 +349,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 <br>
             </div>
             <div class="col col-lg-3 ">
+                <input type="button" class="btn btn-warning" value="cc" onclick="test()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarApartado()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">

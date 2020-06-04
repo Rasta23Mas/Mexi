@@ -277,9 +277,8 @@ function guardarApartado() {
                 }else{
                     var iva = $("#idIvaValue").val();
                     var totalValue = $("#idTotalValue").val();
-                    var fechaVencimiento = $("#idFechaVencimiento").text();
+                    var fechaVencimiento = $("#idFechaVencimiento").val();
                     var cambio = $("#idCambioValue").val();
-
                     var dataEnviar = {
                         "id_ContratoGlb": id_ContratoGlb,
                         "id_serieGlb": id_serieGlb,
@@ -346,13 +345,18 @@ function BitacoraApartado() {
 
 //Generar PDF
 function cargarPDFApartado(idBazar) {
-    window.open('../PDF/callPdfRefrendo.php?idBazar=' + idBazar);
+    window.open('../PDF/callPdfApartados.php?idBazar=' + idBazar);
 }
 
 function verPDFApartado(idBazar) {
-    window.open('../PDF/callPdfRefrendo.php?pdf=1&idBazar=' + idBazar);
+    window.open('../PDF/callPdfApartados.php?pdf=1&idBazar=' + idBazar);
 }
 
 function configurarRango() {
     alert("configuración")
+}
+
+function test() {
+    var fechaVencimiento = $("#idFechaVencimiento").text();
+    alert(fechaVencimiento)
 }
