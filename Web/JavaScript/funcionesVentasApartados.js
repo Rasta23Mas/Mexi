@@ -345,6 +345,9 @@ function BitacoraApartado() {
 //Generar PDF
 function cargarPDFApartado(idBazar) {
     window.open('../PDF/callPdfApartados.php?idBazar=' + idBazar);
+    alert("Apartado realizado");
+    $("#idFormApartados")[0].reset();
+    $("#divTablaMetales").load('tablaMetales.php');
 }
 
 function verPDFApartado(idBazar) {

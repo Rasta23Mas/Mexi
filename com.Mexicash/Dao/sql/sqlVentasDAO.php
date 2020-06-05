@@ -88,7 +88,6 @@ class sqlVentasDAO
                         WHERE Baz.id_Cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos 
                         where  Baz.sucursal= $sucursal  AND tipo_movimiento = 6 || tipo_movimiento = 20 )";
-            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 

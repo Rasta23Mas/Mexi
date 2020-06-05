@@ -6,11 +6,12 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
 <table class="table table-hover table-condensed table-bordered" width="100%">
     <thead>
     <tr>
-        <th>Contrato</th>
-        <th>Articulo</th>
-        <th>Seleccionar</th>
+        <th>Fecha</th>
+        <th>Abono</th>
+        <th>Saldo</th>
+        <th>Precio</th>
     </tr>
     </thead>
-    <tbody id="idTBodyApartado">
+    <tbody id="idTBodyAbono">
     </tbody>
 </table>

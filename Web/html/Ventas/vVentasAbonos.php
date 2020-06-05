@@ -33,17 +33,11 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
         $(document).ready(function () {
             $("#idFormEmpeno").trigger("reset");
             $("#btnEditar").prop('disabled', true);
-            $("#btnVenta").prop('disabled', true);
+            $("#btnAbono").prop('disabled', true);
             $("#idFechaHoy").val(fechaActual());
-      /*      var sumarMes = sumarDias(30);
-            $("#idFechaVencimiento").val(sumarMes);
-            $("#divTablaMetales").load('tablaMetales.php');
-            $("#divTablaArticulos").load('tablaArticulos.php');
-            $("#divTablaArticulos").hide();*/
             $("#idNombreVenta").blur(function () {
                 $('#suggestionsNombreVenta').fadeOut(500);
             });
-
             $("#divTablaAbono").load('tablaAbono.php');
             $("#divTablaApartado").load('tablaApartados.php');
         })
@@ -310,7 +304,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             </div>
             <div class="col col-lg-3 ">
                 <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;&nbsp;
-                <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarApartado()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-success" value="Apartado" id="btnAbono" onclick="guardarApartado()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
             </div>
         </div>

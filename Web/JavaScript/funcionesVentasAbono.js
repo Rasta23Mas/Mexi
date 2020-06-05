@@ -57,37 +57,68 @@ function busquedaClienteBazar() {
                     var tipoArticulo = datos[i].tipoArticulo;
                     var ElectronicoArt = datos[i].ElectronicoArt;
                     var ElectronicoMetal = datos[i].ElectronicoMetal;
-
-
-                    tipoTabla = tipo;
-
-                    if (tipo == 1) {
-                        html += '<tr>' +
-                            '<td>' + id_serie + '</td>' +
-                            '<td>' + detalle + '</td>' +
-                            '<td>' + kilataje + '</td>' +
-                            '<td>' + avaluo + '</td>' +
-                            '<td>' + precio_venta + '</td>' +
-                            '<td>' + ubicacion + '</td>' +
-                            '</tr>';
-                    } else if (tipo == 2) {
-                        html += '<tr>' +
-                            '<td>' + id_serie + '</td>' +
-                            '<td>' + modelo + '</td>' +
-                            '<td>' + marca + '</td>' +
-                            '<td>' + avaluo + '</td>' +
-                            '<td>' + precio_venta + '</td>' +
-                            '<td>' + ubicacion + '</td>' +
-                            '</tr>';
+                    var articulo = "";
+                    if(tipoArticulo==1){
+                        articulo= ElectronicoMetal;
+                    }else if(tipoArticulo==2){
+                        articulo= ElectronicoArt;
                     }
+                    html += '<tr>' +
+                            '<td>' + id_Contrato + '</td>' +
+                            '<td>' + articulo + '</td>' +
+                            '<td align="center">' +
+                            '<img src="../../style/Img/seleccionarNor.png"  ' +
+                            'alt="Seleccionar"  ' +
+                            'onclick="busquedaAbonos(' + id_Bazar + ')">' +
+                            '</td>' +
+                            '</tr>';
+                }
+                    $('#idTBodyApartado').html(html);
+                $("#btnAbono").prop('disabled', false);
+            } else {
+                alertify.error("No se encontro ningún artiículo en bazar.");
+            }
+        }
+    });
+}
 
+function busquedaAbonos(id_Bazar) {
+    var dataEnviar = {
+        "id_Bazar": id_Bazar,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaClienteAbono.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            if (datos.length > 0) {
+                var html = '';
+                var i = 0;
+                for (i; i < datos.length; i++) {
+                    var id_Bazar = datos[i].id_Bazar;
+                    var id_Contrato = datos[i].id_Contrato;
+                    var tipoArticulo = datos[i].tipoArticulo;
+                    var ElectronicoArt = datos[i].ElectronicoArt;
+                    var ElectronicoMetal = datos[i].ElectronicoMetal;
+                    var articulo = "";
+                    if(tipoArticulo==1){
+                        articulo= ElectronicoMetal;
+                    }else if(tipoArticulo==2){
+                        articulo= ElectronicoArt;
+                    }
+                    html += '<tr>' +
+                        '<td>' + id_Contrato + '</td>' +
+                        '<td>' + articulo + '</td>' +
+                        '<td align="center">' +
+                        '<img src="../../style/Img/seleccionarNor.png"  ' +
+                        'alt="Seleccionar"  ' +
+                        'onclick="cargarTablaDetalleNombre(' + id_Bazar + ')">' +
+                        '</td>' +
+                        '</tr>';
                 }
-                if (tipoTabla == 1) {
-                    $('#idTBodyMetales').html(html);
-                } else if (tipoTabla == 2) {
-                    $('#idTBodyArticulos').html(html);
-                }
-                $("#btnVenta").prop('disabled', false);
+                $('#idTBodyApartado').html(html);
+                $("#btnAbono").prop('disabled', false);
             } else {
                 alertify.error("No se encontro ningún artiículo en bazar.");
             }
