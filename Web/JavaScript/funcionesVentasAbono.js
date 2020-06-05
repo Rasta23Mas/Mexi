@@ -141,6 +141,7 @@ function busquedaAbonos(id_Contrato) {
                 $("#idTotalAbonado").val(abonoFormat);
                 $("#idUltimoSaldo").val(ultimoSaldoFormat);
                 $("#fechaAbono").val(fechaAbono);
+                $("#idImporteAbono").prop('disabled', false);
 
                 $('#idTBodyAbono').html(html);
             } else {
@@ -169,10 +170,7 @@ function nuevoAbono(e) {
         ultimoSaldo = Math.floor(ultimoSaldo * 100) / 100;
         abono = Math.floor(abono * 100) / 100;
 
-        alert(ultimoSaldo)
-        alert(abono)
         if (ultimoSaldo > abono) {
-            alert("bono");
             var nuevoSaldo = ultimoSaldo - abono;
             nuevoSaldo = Math.floor(nuevoSaldo * 100) / 100;
             $("#idEfectivo").val("");
@@ -188,6 +186,7 @@ function nuevoAbono(e) {
             $("#idNuevoSaldo").val(nuevoSaldoFormat);
             $("#idTotalPagar").val(abonoFormat);
             $("#idImporteAbono").prop('disabled', true);
+            $("#idEfectivo").prop('disabled', false);
 
 
         } else {
@@ -238,21 +237,19 @@ function efectivoAbono(e) {
     return patron.test(te);
 }
 
-function cancelarVenta() {
-    //$("#idFormVentas")[0].reset();
-    $("#idSubTotalValue").val("");
-    $("#idIvaValue").val("");
-    $("#idTotalBase").val("");
-    $("#idApartadoInicialValue").val("");
-    $("#idTotalValue").val("");
+function cancelarVentaAbono() {
+    $("#idNuevoSaldoValue").val("");
+    $("#idImporteAbonoValue").val("");
     $("#idEfectivoValue").val("");
     $("#idCambioValue").val("");
-    busquedaCodigoBazar();
-    $("#idApartadoInicial").val("");
+    $("#idImporteAbono").val("");
+    $("#idNuevoSaldo").val("");
+    $("#idTotalPagar").val("");
     $("#idEfectivo").val("");
     $("#idCambio").val("");
-    $("#idEfectivo").prop('disabled', false);
-    alertify.success("Se limpiaron descuento y pago.");
+
+    $("#idImporteAbono").prop('disabled', false);
+    alertify.success("Se ha limpiado el abono y pago de efectivo.");
 }
 
 function guardarApartado() {

@@ -40,6 +40,8 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             });
             $("#divTablaAbono").load('tablaAbono.php');
             $("#divTablaApartado").load('tablaApartados.php');
+            $("#idImporteAbono").prop('disabled', true);
+            $("#idEfectivo").prop('disabled', true);
         })
     </script>
     <style type="text/css">
@@ -287,7 +289,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 <br>
             </div>
             <div class="col col-lg-3 ">
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVentaAbono()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-success" value="Apartado" id="btnAbono" onclick="guardarApartado()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
             </div>
