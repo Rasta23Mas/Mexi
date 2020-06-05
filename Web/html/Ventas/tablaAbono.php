@@ -9,7 +9,6 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
         <th>Fecha</th>
         <th>Abono</th>
         <th>Saldo</th>
-        <th>Precio</th>
     </tr>
     </thead>
     <tbody id="idTBodyAbono">

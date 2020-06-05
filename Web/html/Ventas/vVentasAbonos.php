@@ -75,7 +75,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
 
 
         .propInvisible {
-            visibility: visible;
+            visibility: hidden;
         }
 
 
@@ -158,7 +158,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                             <label>Total Apartado:</label>
                         </td>
                         <td colspan="2">
-                            <input id="idTotalApartado" name="totalApartado" type="text" style="width: 130px" value="" disabled/>
+                            <input id="idTotalApartado" name="totalApartado" type="text" style="width: 130px; text-align: right" disabled/>
                         </td>
                     </tr>
                     <tr>
@@ -166,7 +166,8 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                             <label>Abonado:</label>
                         </td>
                         <td colspan="2">
-                            <input id="idTotalAbonado" name="totalAbonado" type="text" style="width: 130px" value="" disabled/>
+                            <input id="idTotalAbonado" name="totalAbonado" type="text" style="width: 130px; text-align: right" disabled
+                                   />
                         </td>
                     </tr>
                     <tr>
@@ -177,7 +178,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                             <label>Ultimo Saldo:</label>
                         </td>
                         <td colspan="2">
-                            <input id="idUltimoSaldo" name="ultimoSaldo" type="text" style="width: 130px" value="" disabled/>
+                            <input id="idUltimoSaldo" name="ultimoSaldo" type="text" style="width: 130px; text-align: right" disabled/>
                         </td>
                     </tr>
                     <tr>
@@ -185,7 +186,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                             <label>Fecha Abono:</label>
                         </td>
                         <td colspan="2">
-                            <input id="fechaAbono" name="fechaA" type="text" style="width: 130px" value="" disabled/>
+                            <input id="fechaAbono" name="fechaA" type="text" style="width: 130px; text-align: right" disabled/>
                         </td>
                     </tr>
                     <tr>
@@ -196,7 +197,9 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                             <label>Importe Abono:</label>
                         </td>
                         <td colspan="2">
-                            <input id="idImporteAbono" name="importeAbono" type="text" style="width: 130px" value="" disabled/>
+                            <input id="idImporteAbono" name="importeAbono" type="text"
+                                   onkeypress="return nuevoAbono(event)"
+                                   style="width: 130px; text-align: right" value=""/>
                         </td>
                     </tr>
                     <tr>
@@ -204,7 +207,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                             <label>Nuevo Saldo:</label>
                         </td>
                         <td colspan="2">
-                            <input id="idNuevoSalod" name="nuevoSaldo" type="text" style="width: 130px" value="" disabled/>
+                            <input id="idNuevoSaldo" name="nuevoSaldo" type="text" style="width: 130px; text-align: right" value="" disabled/>
                         </td>
                     </tr>
                     <tr>
@@ -215,7 +218,30 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                             <label><b>Total a Pagar:<b></label>
                         </td>
                         <td colspan="2">
-                            <input id="idTotalPagar" name="totalPagar" type="text" style="width: 130px" value="" disabled/>
+                            <input id="idTotalPagar" name="totalPagar" type="text" style="width: 130px; text-align: right" disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><br><hr color="blue" size=3> </td>
+                    </tr>
+                    <tr >
+                        <td >
+                            <label for="subtotal">Efectivo:</label>
+                        </td>
+                        <td style="vertical-align:top;">
+                            <input type="text" name="efectivo"  id="idEfectivo"
+                                   style="width: 130px; text-align: right"
+                                   placeholder="$0.00"
+                                   onkeypress="return efectivoAbono(event)"/>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td >
+                            <label for="subtotal">Cambio:</label>
+                        </td>
+                        <td style="vertical-align:top;">
+                            <input type="text" name="cambio"  id="idCambio" placeholder="$0.00"
+                                   style="width: 130px; text-align: right" disabled/>
                         </td>
                     </tr>
                     <tr>
@@ -237,64 +263,22 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 <br>
             </div>
         </div>
-        <div class="row">
-            <div class="col col-lg-10 ">
-                <br>
-            </div>
-            <div class="col col-lg-2" >
-                <table border="0" width="100%" >
-                    <tbody>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Abono:</label>
-                        </td>
-                        <td >
-                            <input type="text" name="abono"  id="idAbonoPago"
-                                   style="width: 120px; text-align: right "disabled/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Efectivo:</label>
-                        </td>
-                        <td style="vertical-align:top;">
-                            <input type="text" name="efectivo"  id="idEfectivo"
-                                   style="width: 120px; text-align: right "
-                                   placeholder="$0.00"
-                                   onkeypress="return efectivoVenta(event)"/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Cambio:</label>
-                        </td>
-                        <td style="vertical-align:top;">
-                            <input type="text" name="cambio"  id="idCambio" placeholder="$0.00"
-                                   style="width: 120px; text-align: right "  disabled/>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
         <div class="row propInvisible"  >
             <div class="col col-lg-12"  >
                 <br>
-                <input type="text" name="subtotal"  id="idSubTotalValue"
+                <input type="text" name="apartadoValue"  id="idTotalApartadoValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="iva"  id="idIvaValue"
+                <input type="text" name="iva"  id="idTotalAbonadoValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalBase"
+                <input type="text" name="total"  id="idUltimoSaldoValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idApartadoInicialValue" value="0"
+                <input type="text" name="total"  id="idImporteAbonoValue" value="0"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalValue"
+                <input type="text" name="total"  id="idNuevoSaldoValue"
                        style="width: 120px "disabled/>
                 <input type="text" name="efectivo"  id="idEfectivoValue"
                        style="width: 120px "disabled/>
                 <input type="text" name="cambio"  id="idCambioValue"
-                       style="width: 120px "disabled/>
-                <input type="text" name="cliente"  id="idClienteVenta"  value="0"
                        style="width: 120px "disabled/>
             </div>
         </div>

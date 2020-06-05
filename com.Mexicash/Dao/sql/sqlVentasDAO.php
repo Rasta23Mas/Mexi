@@ -75,8 +75,7 @@ class sqlVentasDAO
         try {
             $buscar = "SELECT Baz.id_Contrato,Art.tipoArticulo,
                         CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',Art.detalle,'/ ', Art.ubicacion) as ElectronicoArt,
-                        CONCAT (Art.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  Art.ubicacion) as ElectronicoMetal
-                        FROM bazar_articulos as Baz
+                        CONCAT (Art.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  Art.ubicacion) as ElectronicoMetal                        FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) 
                         LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
@@ -115,17 +114,19 @@ class sqlVentasDAO
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT fecha_Modificacion,abono,precio_Actual 
-                        FROM bazar_articulos WHERE id_Contrato = $id_Contrato 
-                        and tipo_movimiento = 23";
+            $buscar = "SELECT id_Bazar,fecha_Modificacion,abono,precio_Actual,apartado,tipo_movimiento 
+                        FROM bazar_articulos WHERE id_Contrato = $id_Contrato AND tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
+                        "id_Bazar" => $row["id_Bazar"],
                         "fecha_Modificacion" => $row["fecha_Modificacion"],
                         "abono" => $row["abono"],
                         "precio_Actual" => $row["precio_Actual"],
+                        "apartado" => $row["apartado"],
+                        "tipo_movimiento" => $row["tipo_movimiento"],
                     ];
                     array_push($datos, $data);
                 }
