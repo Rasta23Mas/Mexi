@@ -2,7 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlVentasDAO.php");
 
-
+$id_Cliente = $_POST['id_Cliente'];
 $id_Contrato = $_POST['id_Contrato'];
 $id_serie = $_POST['id_serie'];
 $tipo_movimiento = $_POST['tipo_movimiento'];
@@ -14,4 +14,4 @@ $cambio = $_POST['cambio'];
 $sucursal = $_POST['sucursal'];
 
 $sqlVenta = new sqlVentasDAO();
-$sqlVenta->guardarAbono($id_Contrato,$id_serie,$tipo_movimiento,$precio_Actual,$abono,$abono_Total,$efectivo,$cambio,$sucursal);
+$sqlVenta->guardarAbono($id_Cliente,$id_Contrato,$id_serie,$tipo_movimiento,$precio_Actual,$abono,$abono_Total,$efectivo,$cambio,$sucursal);

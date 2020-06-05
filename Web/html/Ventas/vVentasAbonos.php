@@ -84,7 +84,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
     </style>
 </head>
 <body>
-<form id="idFormVentas" name="formVentas">
+<form id="idFormAbonos" name="formVentas">
     <div id="contenedor" class="container">
         <div>
             <br>

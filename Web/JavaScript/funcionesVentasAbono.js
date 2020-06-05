@@ -5,7 +5,6 @@ var id_ClienteGlb = 0;
 var id_ContratoGlb = 0;
 var id_serieGlb = 0;
 var tipo_movimientoGlb = 23;
-
 var sucursalGlb = 0;
 var idBazarGlb = 0;
 
@@ -283,6 +282,7 @@ function guardarAbono() {
             abonoTotal = Math.floor(abonoTotal * 100) / 100;
 
             var dataEnviar = {
+                "id_Cliente": id_ClienteGlb,
                 "id_Contrato": id_ContratoGlb,
                 "id_serie": id_serieGlb,
                 "tipo_movimiento": tipo_movimientoGlb,
@@ -301,7 +301,8 @@ function guardarAbono() {
                 success: function (response) {
                     if (response > 0) {
                         idBazarGlb = response;
-                        alertify.success("El artículo se ha apartado correctamente.")
+                        alert(idBazarGlb)
+                        alertify.success("El artículo se ha abonado correctamente.")
                         BitacoraApartado()
                     } else {
                         alertify.error("Error al guardar el apartado");
@@ -332,23 +333,27 @@ function BitacoraApartado() {
         url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
         data: dataEnviar,
         success: function (response) {
+
             if (response > 0) {
-                cargarPDFApartado(idBazarGlb);
+                cargarPDFAbono(idBazarGlb);
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
-            cancelarSinInteres();
         }
     });
 }
 
 //Generar PDF
-function cargarPDFApartado(idBazar) {
-    window.open('../PDF/callPdfApartados.php?idBazar=' + idBazar);
+function cargarPDFAbono(idBazar) {
+    window.open('../PDF/callPdfAbono.php?idBazar=' + idBazar);
+    alert("Abono realizado");
+    $("#idFormAbonos")[0].reset();
+    $("#divTablaAbono").load('tablaAbono.php');
+    $("#divTablaApartado").load('tablaApartados.php');
 }
 
-function verPDFApartado(idBazar) {
-    window.open('../PDF/callPdfApartados.php?pdf=1&idBazar=' + idBazar);
+function verPDFAbono(idBazar) {
+    window.open('../PDF/callPdfAbono.php?pdf=1&idBazar=' + idBazar);
 }
 
 function configurarRango() {
