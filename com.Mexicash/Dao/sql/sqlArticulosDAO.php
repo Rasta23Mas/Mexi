@@ -53,7 +53,8 @@ class sqlArticulosDAO
                 $idDetallePrenda = $articulo->getDetallePrenda();
                 $idUbicacion = mb_strtoupper($idUbicacion, 'UTF-8');
                 $idDetallePrenda = mb_strtoupper($idDetallePrenda, 'UTF-8');
-
+                $idUbicacion = strtoupper($idUbicacion);
+                $idDetallePrenda = strtoupper($idDetallePrenda);
                 $insert = "INSERT INTO articulo_tbl " .
                     "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, ubicacion," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .

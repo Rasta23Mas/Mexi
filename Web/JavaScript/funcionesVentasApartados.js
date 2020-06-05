@@ -107,7 +107,6 @@ function busquedaCodigoBazar() {
                     }
 
                     tipoTabla = tipo;
-alert(tipoTabla)
                     if (tipo == 1) {
                         html += '<tr>' +
                             '<td>' + id_serie + '</td>' +
@@ -130,22 +129,21 @@ alert(tipoTabla)
 
                 }
                 if (tipoTabla == 1) {
+                   $("#divTablaArticulos").hide();
+                    $("#divTablaMetales").show();
                     $('#idTBodyMetales').html(html);
                 } else if (tipoTabla == 2) {
+                    $("#divTablaMetales").hide();
+                    $("#divTablaArticulos").show();
                     $('#idTBodyArticulos').html(html);
                 }
                 $("#btnVenta").prop('disabled', false);
             } else {
                 alertify.error("No se encontro ningún artiículo en bazar.");
             }
-
         }
     });
-    if (tipoTabla == 1) {
-        $("#divTablaMetales").load('tablaMetales.php');
-    } else if (tipoTabla == 2) {
-        $("#divTablaArticulos").load('tablaArticulos.php');
-    }
+
 }
 
 function apartadoInicial(e) {

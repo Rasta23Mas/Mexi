@@ -52,51 +52,12 @@ function busquedaClienteBazar() {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
+                    var id_Bazar = datos[i].id_Bazar;
                     var id_Contrato = datos[i].id_Contrato;
-                    var sucursal = datos[i].sucursal;
-                    var id_serie = datos[i].id_serie;
-                    var tipo_movimiento = datos[i].tipo_movimiento;
-                    var tipo = datos[i].tipoArt;
-                    var kilataje = datos[i].kilataje;
-                    var marca = datos[i].marca;
-                    var modelo = datos[i].modelo;
-                    var ubicacion = datos[i].ubicacion;
-                    var detalle = datos[i].detalle;
-                    var avaluo = datos[i].avaluo;
-                    var fecha_Modificacion = datos[i].fecha_Modificacion;
-                    var id_Articulo = datos[i].id_Articulo;
-                    var precio_venta = datos[i].precio_venta;
-                    var precioCat = datos[i].precioCat;
+                    var tipoArticulo = datos[i].tipoArticulo;
+                    var ElectronicoArt = datos[i].ElectronicoArt;
+                    var ElectronicoMetal = datos[i].ElectronicoMetal;
 
-
-                    id_ContratoGlb = id_Contrato
-                    id_serieGlb = id_serie;
-                    tipo_movimientoGlb = 22;
-                    sucursalGlb = sucursal;
-                    idSubTotalValue
-
-                    var precioFinal = precio_venta;
-                    var totalPagar = 0;
-                    precioFinal = Math.floor(precioFinal * 100) / 100;
-                    var calculaIva = Math.floor(precioFinal * 16) / 100;
-                    totalPagar = precioFinal + calculaIva;
-                    totalPagar = Math.floor(totalPagar * 100) / 100;
-                    var precioFinalFormat = formatoMoneda(precioFinal);
-                    var calculaIvaFormat = formatoMoneda(calculaIva);
-                    var totalPagarFormat = formatoMoneda(totalPagar);
-
-
-                    $("#idSubTotal").val(precioFinalFormat);
-                    $("#idIva").val(calculaIvaFormat);
-                    $("#idTotalPagar").val(totalPagarFormat);
-                    $("#idSubTotalValue").val(precioFinal);
-                    $("#idIvaValue").val(calculaIva);
-                    $("#idTotalValue").val(totalPagar);
-                    $("#idTotalBase").val(totalPagar);
-                    $("#precioVenta").val(precio_venta);
-                    if (tipo_movimiento == 6) {
-                        alert("El articulo fue vendido el día: " + fecha_Modificacion)
-                    }
 
                     tipoTabla = tipo;
 

@@ -25,7 +25,7 @@ class sqlVentasDAO
         //Modifique los estatus de usuario
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Contrato,Baz.sucursal,Baz.id_serie , Baz.tipo_movimiento,Art.tipo,Art.kilataje,
+            $buscar = "SELECT Baz.id_Contrato,Baz.sucursal,Baz.id_serie , Baz.tipo_movimiento,Art.tipoArticulo,Art.kilataje,
                         Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Art.avaluo,Baz.fecha_Modificacion,
                         Art.id_Articulo,Baz.precio_venta,Art.precioCat 
                         FROM bazar_articulos as Baz
@@ -44,7 +44,7 @@ class sqlVentasDAO
                         "sucursal" => $row["sucursal"],
                         "id_serie" => $row["id_serie"],
                         "tipo_movimiento" => $row["tipo_movimiento"],
-                        "tipoArt" => $row["tipo"],
+                        "tipoArt" => $row["tipoArticulo"],
                         "kilataje" => $row["kilataje"],
                         "marca" => $row["marca"],
                         "modelo" => $row["modelo"],
@@ -73,41 +73,32 @@ class sqlVentasDAO
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,Art.tipo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle
+            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,Art.tipoArticulo,
+                        CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',Art.detalle,'/ ', Art.ubicacion) as ElectronicoArt,
+                        CONCAT (Art.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  Art.ubicacion) as ElectronicoMetal
                         FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) 
-                        LEFT JOIN cat_electronico_tipo as ET on Ar.tipo = ET.id_tipo
-                        LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca
-                        LEFT JOIN cat_electronico_modelo as EMOD on Ar.modelo = EMOD.id_modelo
-                        LEFT JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
-                        LEFT JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
-                        LEFT JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
-                        
+                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
+                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
+                        LEFT JOIN cat_tipoarticulo as TA on Art.tipo = TA.id_tipo
+                        LEFT JOIN cat_kilataje as TK on Art.kilataje = TK.id_Kilataje
+                        LEFT JOIN cat_calidad as TC on Art.calidad = TC.id_calidad
                         WHERE Baz.id_Cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos 
                         where  Baz.sucursal= $sucursal  AND tipo_movimiento = 6 || tipo_movimiento = 20 )";
+            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
+                        "id_Bazar" => $row["id_Bazar"],
                         "id_Contrato" => $row["id_Contrato"],
-                        "sucursal" => $row["sucursal"],
-                        "id_serie" => $row["id_serie"],
-                        "tipo_movimiento" => $row["tipo_movimiento"],
-                        "tipoArt" => $row["tipo"],
-                        "kilataje" => $row["kilataje"],
-                        "marca" => $row["marca"],
-                        "modelo" => $row["modelo"],
-                        "ubicacion" => $row["ubicacion"],
-                        "detalle" => $row["detalle"],
-                        "avaluo" => $row["avaluo"],
-                        "fecha_Modificacion" => $row["fecha_Modificacion"],
-                        "id_Articulo" => $row["id_Articulo"],
-                        "precio_venta" => $row["precio_venta"],
-                        "precioCat" => $row["precioCat"],
+                        "tipoArticulo" => $row["tipoArticulo"],
+                        "ElectronicoArt" => $row["ElectronicoArt"],
+                        "ElectronicoMetal" => $row["ElectronicoMetal"],
                     ];
                     array_push($datos, $data);
                 }
