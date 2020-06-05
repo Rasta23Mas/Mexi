@@ -2,11 +2,13 @@ var errorToken = 0;
 
 var id_ClienteGlb = 0;
 //ABONO 23
-var tipo_movimientoGlb = 23;
-var sucursalGlb = 0;
-var idBazarGlb = 0;
 var id_ContratoGlb = 0;
 var id_serieGlb = 0;
+var tipo_movimientoGlb = 23;
+
+var sucursalGlb = 0;
+var idBazarGlb = 0;
+
 
 function nombreAutocompletarAbono() {
     $('#idNombreVenta').on('keyup', function () {
@@ -30,6 +32,7 @@ function nombreAutocompletarAbono() {
                     $('#idNombreVenta').val($('#' + id).attr('data'));
                     //Hacemos desaparecer el resto de sugerencias
                     $('#suggestionsNombreVenta').fadeOut(1000);
+                    $("#idNombreVenta").prop('disabled', true);
                     busquedaClienteBazar()
                     return false;
                 });
@@ -57,22 +60,22 @@ function busquedaClienteBazar() {
                     var ElectronicoArt = datos[i].ElectronicoArt;
                     var ElectronicoMetal = datos[i].ElectronicoMetal;
                     var articulo = "";
-                    if(tipoArticulo==1){
-                        articulo= ElectronicoMetal;
-                    }else if(tipoArticulo==2){
-                        articulo= ElectronicoArt;
+                    if (tipoArticulo == 1) {
+                        articulo = ElectronicoMetal;
+                    } else if (tipoArticulo == 2) {
+                        articulo = ElectronicoArt;
                     }
                     html += '<tr>' +
-                            '<td>' + id_Contrato + '</td>' +
-                            '<td>' + articulo + '</td>' +
-                            '<td align="center">' +
-                            '<img src="../../style/Img/seleccionarNor.png"  ' +
-                            'alt="Seleccionar"  ' +
-                            'onclick="busquedaAbonos(' + id_Contrato + ')">' +
-                            '</td>' +
-                            '</tr>';
+                        '<td>' + id_Contrato + '</td>' +
+                        '<td>' + articulo + '</td>' +
+                        '<td align="center">' +
+                        '<img src="../../style/Img/seleccionarNor.png"  ' +
+                        'alt="Seleccionar"  ' +
+                        'onclick="busquedaAbonos(' + id_Contrato + ')">' +
+                        '</td>' +
+                        '</tr>';
                 }
-                    $('#idTBodyApartado').html(html);
+                $('#idTBodyApartado').html(html);
                 $("#btnAbono").prop('disabled', false);
             } else {
                 alertify.error("No se encontro articulo apartado.");
@@ -82,6 +85,7 @@ function busquedaClienteBazar() {
 }
 
 function busquedaAbonos(id_Contrato) {
+    id_ContratoGlb = id_Contrato;
     var dataEnviar = {
         "id_Contrato": id_Contrato,
     };
@@ -105,21 +109,24 @@ function busquedaAbonos(id_Contrato) {
                     var precio_Actual = datos[i].precio_Actual;
                     var apartado = datos[i].apartado;
                     var tipo_movimiento = datos[i].tipo_movimiento;
+                    id_serieGlb = datos[i].id_serie;
+                    sucursalGlb = datos[i].sucursal;
 
-                    if(tipo_movimiento==22){
+
+                    if (tipo_movimiento == 22) {
                         apartadoTotal = apartado;
-                    }else if(tipo_movimiento==23){
+                    } else if (tipo_movimiento == 23) {
                         abonoTotal += abono;
-                        fechaAbono=fecha_Modificacion;
+                        fechaAbono = fecha_Modificacion;
                         tablaAbono++;
                     }
                     ultimoSaldo = precio_Actual;
 
-                    if(tablaAbono==0){
+                    if (tablaAbono == 0) {
                         html += '<tr>' +
                             '<td colspan="3" align="center"> <label>Sin abonos para mostrar.</label></td>' +
                             '</tr>';
-                    }else{
+                    } else {
                         html += '<tr>' +
                             '<td>' + fecha_Modificacion + '</td>' +
                             '<td>' + abono + '</td>' +
@@ -247,70 +254,63 @@ function cancelarVentaAbono() {
     $("#idTotalPagar").val("");
     $("#idEfectivo").val("");
     $("#idCambio").val("");
-
+    $("#idNombreVenta").val("");
+    $("#idNombreVenta").prop('disabled', false);
     $("#idImporteAbono").prop('disabled', false);
     alertify.success("Se ha limpiado el abono y pago de efectivo.");
 }
 
-function guardarApartado() {
+function guardarAbono() {
     /*
-     22->Apartado
+     23->Apartado
      */
-     id_ClienteGlb = $("#idClienteVenta").val();
-    if(id_ClienteGlb==0){
-        alert("Debe seleccionar un cliente para la venta.");
-    }else{
-        var vendedor = $("#idVendedor").val();
-        if(vendedor==0){
-            alert("Debe seleccionar un vendedor para la venta.");
-        }else{
-            var apartado = $("#idApartadoInicialValue").val();
-            if(apartado==0){
-                alert("Debe calcular el apartado inicial.");
-            }else{
-                var efectivo = $("#idEfectivoValue").val();
-                if(efectivo==0){
-                    alert("Debe calcular el cambio del cliente.");
-                }else{
-                    var iva = $("#idIvaValue").val();
-                    var totalValue = $("#idTotalValue").val();
-                    var fechaVencimiento = $("#idFechaVencimiento").val();
-                    var cambio = $("#idCambioValue").val();
-                    var precioVenta = $("#precioVenta").val();
-                    var dataEnviar = {
-                        "id_ContratoGlb": id_ContratoGlb,
-                        "id_serieGlb": id_serieGlb,
-                        "id_ClienteGlb": id_ClienteGlb,
-                        "precio_ActualGlb": totalValue,
-                        "apartadoGlb": apartado,
-                        "fechaVencimiento": fechaVencimiento,
-                        "ivaGlb": iva,
-                        "tipo_movimientoGlb": tipo_movimientoGlb,
-                        "vendedorGlb": vendedor,
-                        "sucursalGlb": sucursalGlb,
-                        "efectivo": efectivo,
-                        "cambio": cambio,
-                        "precioVenta": precioVenta,
-                    };
 
-                    $.ajax({
-                        data: dataEnviar,
-                        url: '../../../com.Mexicash/Controlador/Ventas/guardarApartado.php',
-                        type: 'post',
-                        success: function (response) {
-                            if (response > 0) {
-                                idBazarGlb=response;
-                                alertify.success("El artículo se ha apartado correctamente.")
-                                BitacoraApartado()
-                            } else {
-                                alertify.error("Error al guardar el apartado");
-                            }
-                        },
-                    })
-                }
-            }
+    var abono = $("#idImporteAbonoValue").val();
+    if (abono == 0) {
+        alert("Debe calcular el abono.");
+    } else {
+        var efectivo = $("#idEfectivoValue").val();
+        if (efectivo == 0) {
+            alert("Debe calcular el cambio del cliente.");
+        } else {
+
+            var nuevoSaldo = $("#idNuevoSaldoValue").val();
+            var abonoAnterior = $("#idTotalAbonadoValue").val();
+            var efectivo = $("#idEfectivoValue").val();
+            var cambio = $("#idCambioValue").val();
+
+            var abonoTotal = abonoAnterior + abono;
+            abonoTotal = Math.floor(abonoTotal * 100) / 100;
+
+            var dataEnviar = {
+                "id_Contrato": id_ContratoGlb,
+                "id_serie": id_serieGlb,
+                "tipo_movimiento": tipo_movimientoGlb,
+                "precio_Actual": nuevoSaldo,
+                "abono": abono,
+                "abono_Total": abonoTotal,
+                "efectivo": efectivo,
+                "cambio": cambio,
+                "sucursal": sucursalGlb,
+            };
+
+            $.ajax({
+                data: dataEnviar,
+                url: '../../../com.Mexicash/Controlador/Ventas/guardarAbono.php',
+                type: 'post',
+                success: function (response) {
+                    if (response > 0) {
+                        idBazarGlb = response;
+                        alertify.success("El artículo se ha apartado correctamente.")
+                        BitacoraApartado()
+                    } else {
+                        alertify.error("Error al guardar el apartado");
+                    }
+                },
+            })
         }
     }
+
 }
 
 

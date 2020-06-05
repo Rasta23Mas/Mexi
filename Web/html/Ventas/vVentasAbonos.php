@@ -267,30 +267,29 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
         </div>
         <div class="row propInvisible"  >
             <div class="col col-lg-12"  >
-                <br>
                 <input type="text" name="apartadoValue"  id="idTotalApartadoValue"
                        style="width: 120px "disabled/>
                 <input type="text" name="iva"  id="idTotalAbonadoValue"
                        style="width: 120px "disabled/>
                 <input type="text" name="total"  id="idUltimoSaldoValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idImporteAbonoValue" value="0"
+                <input type="text" name="abono"  id="idImporteAbonoValue" value="0"
                        style="width: 120px "disabled/>
                 <input type="text" name="total"  id="idNuevoSaldoValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="efectivo"  id="idEfectivoValue"
+                <input type="text" name="efectivo"  id="idEfectivoValue" value="0"
                        style="width: 120px "disabled/>
                 <input type="text" name="cambio"  id="idCambioValue"
                        style="width: 120px "disabled/>
             </div>
         </div>
         <div class="row">
-            <div class="col col-lg-8">
+            <div class="col col-lg-9"  >
                 <br>
             </div>
-            <div class="col col-lg-3 ">
+            <div class="col col-lg-3"  >
                 <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVentaAbono()">&nbsp;&nbsp;
-                <input type="button" class="btn btn-success" value="Apartado" id="btnAbono" onclick="guardarApartado()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-success" value="Abono" id="btnAbono" onclick="guardarAbono()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
             </div>
         </div>

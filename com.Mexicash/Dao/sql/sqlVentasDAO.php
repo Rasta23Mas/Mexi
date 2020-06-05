@@ -114,7 +114,7 @@ class sqlVentasDAO
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT id_Bazar,fecha_Modificacion,abono,precio_Actual,apartado,tipo_movimiento 
+            $buscar = "SELECT id_Bazar,fecha_Modificacion,abono,precio_Actual,apartado,tipo_movimiento,id_serie, sucursal
                         FROM bazar_articulos WHERE id_Contrato = $id_Contrato AND tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -127,6 +127,8 @@ class sqlVentasDAO
                         "precio_Actual" => $row["precio_Actual"],
                         "apartado" => $row["apartado"],
                         "tipo_movimiento" => $row["tipo_movimiento"],
+                        "id_serie" => $row["id_serie"],
+                        "sucursal" => $row["sucursal"],
                     ];
                     array_push($datos, $data);
                 }
@@ -295,28 +297,39 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function busquedaApartados2($idCodigo)
+    public function guardarAbono($id_Contrato,$id_serie,$tipo_movimiento,$precio_Actual,$abono,$abono_Total,$efectivo,$cambio,$sucursal)
     {
-        //Modifique los estatus de usuario
-        $datos = array();
+        // TODO: Implement guardaCiente() method.
         try {
-            $buscar = "SELECT max(id_movimiento) as IdMovimiento FROM contratomovimientos_tbl 
-                        WHERE id_contrato = '$idContratoDes' and tipo_Contrato= $tipoContrato and tipo_movimiento!=20";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
+            $fechaModificacion = date('Y-m-d H:i:s');
+            $idCierreCaja = $_SESSION['idCierreCaja'];
 
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "IdMovimiento" => $row["IdMovimiento"]
-                    ];
-                    array_push($datos, $data);
+            $insertaAbono = "INSERT INTO bazar_articulos 
+                       (id_Contrato, id_serie,tipo_movimiento,precio_Actual,abono,abono_Total,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
+                        VALUES ($id_Contrato, '$id_serie',$tipo_movimiento,$precio_Actual,$abono,$abono_Total,'$efectivo',$cambio,$fechaModificacion,$sucursal,$idCierreCaja)";
+            if ($ps = $this->conexion->prepare($insertaAbono)) {
+                if ($ps->execute()) {
+                    $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                    $statement = $this->conexion->query($buscarBazar);
+                    $encontro = $statement->num_rows;
+                    if ($encontro > 0) {
+                        $fila = $statement->fetch_object();
+                        $UltimoBazarID = $fila->UltimoBazarID;
+                        $respuesta = $UltimoBazarID;
+                    }
+                } else {
+                    $respuesta = -1;
                 }
+            } else {
+                $respuesta = 3;
             }
         } catch (Exception $exc) {
+            $respuesta = -20;
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
-        echo json_encode($datos);
+        //return $verdad;
+        echo $respuesta;
     }
 }
