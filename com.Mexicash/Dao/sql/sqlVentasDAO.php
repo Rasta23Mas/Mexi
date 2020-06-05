@@ -73,7 +73,7 @@ class sqlVentasDAO
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,Art.tipoArticulo,
+            $buscar = "SELECT Baz.id_Contrato,Art.tipoArticulo,
                         CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',Art.detalle,'/ ', Art.ubicacion) as ElectronicoArt,
                         CONCAT (Art.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  Art.ubicacion) as ElectronicoMetal
                         FROM bazar_articulos as Baz
@@ -93,11 +93,39 @@ class sqlVentasDAO
 
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "id_Bazar" => $row["id_Bazar"],
                         "id_Contrato" => $row["id_Contrato"],
                         "tipoArticulo" => $row["tipoArticulo"],
                         "ElectronicoArt" => $row["ElectronicoArt"],
                         "ElectronicoMetal" => $row["ElectronicoMetal"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo json_encode($datos);
+    }
+
+    public function busquedaAbonos($id_Contrato)
+    {
+        //Modifique los estatus de usuario
+        $sucursal = $_SESSION["sucursal"];
+        $datos = array();
+        try {
+            $buscar = "SELECT fecha_Modificacion,abono,precio_Actual 
+                        FROM bazar_articulos WHERE id_Contrato = $id_Contrato 
+                        and tipo_movimiento = 23";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "fecha_Modificacion" => $row["fecha_Modificacion"],
+                        "abono" => $row["abono"],
+                        "precio_Actual" => $row["precio_Actual"],
                     ];
                     array_push($datos, $data);
                 }

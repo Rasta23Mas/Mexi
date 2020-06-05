@@ -52,7 +52,6 @@ function busquedaClienteBazar() {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
-                    var id_Bazar = datos[i].id_Bazar;
                     var id_Contrato = datos[i].id_Contrato;
                     var tipoArticulo = datos[i].tipoArticulo;
                     var ElectronicoArt = datos[i].ElectronicoArt;
@@ -69,26 +68,26 @@ function busquedaClienteBazar() {
                             '<td align="center">' +
                             '<img src="../../style/Img/seleccionarNor.png"  ' +
                             'alt="Seleccionar"  ' +
-                            'onclick="busquedaAbonos(' + id_Bazar + ')">' +
+                            'onclick="busquedaAbonos(' + id_Contrato + ')">' +
                             '</td>' +
                             '</tr>';
                 }
                     $('#idTBodyApartado').html(html);
                 $("#btnAbono").prop('disabled', false);
             } else {
-                alertify.error("No se encontro ningún artiículo en bazar.");
+                alertify.error("No se encontro articulo apartado.");
             }
         }
     });
 }
 
-function busquedaAbonos(id_Bazar) {
+function busquedaAbonos(id_Contrato) {
     var dataEnviar = {
-        "id_Bazar": id_Bazar,
+        "id_Contrato": id_Contrato,
     };
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Ventas/busquedaClienteAbono.php',
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaAbonos.php',
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
@@ -96,31 +95,20 @@ function busquedaAbonos(id_Bazar) {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
-                    var id_Bazar = datos[i].id_Bazar;
-                    var id_Contrato = datos[i].id_Contrato;
-                    var tipoArticulo = datos[i].tipoArticulo;
-                    var ElectronicoArt = datos[i].ElectronicoArt;
-                    var ElectronicoMetal = datos[i].ElectronicoMetal;
-                    var articulo = "";
-                    if(tipoArticulo==1){
-                        articulo= ElectronicoMetal;
-                    }else if(tipoArticulo==2){
-                        articulo= ElectronicoArt;
-                    }
+                    var fecha_Modificacion = datos[i].fecha_Modificacion;
+                    var abono = datos[i].abono;
+                    var precio_Actual = datos[i].precio_Actual;
+
                     html += '<tr>' +
-                        '<td>' + id_Contrato + '</td>' +
-                        '<td>' + articulo + '</td>' +
-                        '<td align="center">' +
-                        '<img src="../../style/Img/seleccionarNor.png"  ' +
-                        'alt="Seleccionar"  ' +
-                        'onclick="cargarTablaDetalleNombre(' + id_Bazar + ')">' +
-                        '</td>' +
+                        '<td>' + fecha_Modificacion + '</td>' +
+                        '<td>' + abono + '</td>' +
+                        '<td>' + precio_Actual + '</td>' +
                         '</tr>';
                 }
-                $('#idTBodyApartado').html(html);
+                $('#idTBodyAbono').html(html);
                 $("#btnAbono").prop('disabled', false);
             } else {
-                alertify.error("No se encontro ningún artiículo en bazar.");
+                alertify.warning("No se encontro ningún abono para el artículo");
             }
 
         }
