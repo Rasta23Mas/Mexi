@@ -67,6 +67,59 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
+    public function busquedaApartadosCliente($id_ClienteGlb)
+    {
+        //Modifique los estatus de usuario
+        $sucursal = $_SESSION["sucursal"];
+        $datos = array();
+        try {
+            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,Art.tipo,Art.kilataje,
+                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle
+                        FROM bazar_articulos as Baz
+                        INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
+                        Art.id_SerieContrato,Art.id_SerieArticulo) 
+                        LEFT JOIN cat_electronico_tipo as ET on Ar.tipo = ET.id_tipo
+                        LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo as EMOD on Ar.modelo = EMOD.id_modelo
+                        LEFT JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
+                        LEFT JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
+                        LEFT JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
+                        
+                        WHERE Baz.id_Cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
+                        (select id_serie FROM bazar_articulos 
+                        where  Baz.sucursal= $sucursal  AND tipo_movimiento = 6 || tipo_movimiento = 20 )";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_Contrato" => $row["id_Contrato"],
+                        "sucursal" => $row["sucursal"],
+                        "id_serie" => $row["id_serie"],
+                        "tipo_movimiento" => $row["tipo_movimiento"],
+                        "tipoArt" => $row["tipo"],
+                        "kilataje" => $row["kilataje"],
+                        "marca" => $row["marca"],
+                        "modelo" => $row["modelo"],
+                        "ubicacion" => $row["ubicacion"],
+                        "detalle" => $row["detalle"],
+                        "avaluo" => $row["avaluo"],
+                        "fecha_Modificacion" => $row["fecha_Modificacion"],
+                        "id_Articulo" => $row["id_Articulo"],
+                        "precio_venta" => $row["precio_venta"],
+                        "precioCat" => $row["precioCat"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo json_encode($datos);
+    }
+
     function busquedaCodigo($idCodigo)
     {
         $datos = array();

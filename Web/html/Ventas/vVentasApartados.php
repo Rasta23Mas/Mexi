@@ -192,7 +192,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                     </tr>
                     <tr >
                         <td colspan="3">
-                            <input id="idCodigoApartado" name="codigo" type="text" style="width: 130px" value="0100009901"/>
+                            <input id="idCodigoApartado" name="codigo" type="text" style="width: 130px" value="0100010101"/>
                             &nbsp;&nbsp;
                             <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="busquedaCodigoBazar()">&nbsp;
                         </td>

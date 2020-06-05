@@ -27,28 +27,24 @@ function nombreAutocompletarAbono() {
                     //Obtenemos la id unica de la sugerencia pulsada
                     var id = $(this).attr('id');
                     id_ClienteGlb = id;
-                    $('#idClienteAbono').val(id_ClienteGlb);
                     $('#idNombreVenta').val($('#' + id).attr('data'));
                     //Hacemos desaparecer el resto de sugerencias
                     $('#suggestionsNombreVenta').fadeOut(1000);
+                    busquedaClienteBazar()
                     return false;
                 });
-
             }
         });
     });
 }
 
-function busquedaCodigoBazar() {
-    // alert("busqueda mov");
-    var codigo = $("#idCodigoApartado").val();
-    var tipoTabla = 0;
+function busquedaClienteBazar() {
     var dataEnviar = {
-        "codigo": codigo,
+        "id_ClienteGlb": id_ClienteGlb,
     };
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigoApartados.php',
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaClienteAbono.php',
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {

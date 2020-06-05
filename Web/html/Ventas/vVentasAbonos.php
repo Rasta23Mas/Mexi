@@ -156,7 +156,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 <table border="0" width="100%" >
                     <tbody>
                     <tr>
-                        <td style="width: 30%"><br></td>
+                        <td style="width: 40%"><br></td>
                         <td colspan="2"><br></td>
                     </tr>
                     <tr>
@@ -286,8 +286,6 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
         <div class="row propInvisible"  >
             <div class="col col-lg-12"  >
                 <br>
-                <input type="text" name="cliente"  id="idClienteAbono"
-                       style="width: 120px "disabled/>
                 <input type="text" name="subtotal"  id="idSubTotalValue"
                        style="width: 120px "disabled/>
                 <input type="text" name="iva"  id="idIvaValue"

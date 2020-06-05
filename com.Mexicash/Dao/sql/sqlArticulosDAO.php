@@ -55,9 +55,9 @@ class sqlArticulosDAO
                 $idDetallePrenda = mb_strtoupper($idDetallePrenda, 'UTF-8');
 
                 $insert = "INSERT INTO articulo_tbl " .
-                    "(id_SerieSucursal,id_SerieArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, ubicacion," .
+                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, ubicacion," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
-                    "('$sucursal','$idArticulo','" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
+                    "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
                     . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "', '" . $interes . "','" . $idUbicacion . "','"
                     . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . " )";
 
@@ -78,9 +78,9 @@ class sqlArticulosDAO
 
 
                 $insert = "INSERT INTO articulo_tbl " .
-                    "(id_SerieSucursal,id_SerieArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  ubicacion," .
+                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  ubicacion," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
-                    "('$sucursal','$idArticulo','" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
+                    "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
                     . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $interes . "','" . $idUbicacionE . "','"
                     . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . "  )";
             }

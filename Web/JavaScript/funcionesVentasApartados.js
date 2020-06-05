@@ -107,7 +107,7 @@ function busquedaCodigoBazar() {
                     }
 
                     tipoTabla = tipo;
-
+alert(tipoTabla)
                     if (tipo == 1) {
                         html += '<tr>' +
                             '<td>' + id_serie + '</td>' +
