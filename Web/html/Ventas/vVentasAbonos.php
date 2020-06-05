@@ -7,13 +7,13 @@ if(!isset($_SESSION["idUsuario"])){
     header("Location: ../../../index.php");
     session_destroy();
 }
+
+$idCierreCaja = $_SESSION['idCierreCaja'];
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
 include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
-include_once(HTML_PATH . "Ventas/modalCodigo.php");
-include_once(HTML_PATH . "Ventas/modalDescuentoVenta.php");
 include_once (HTML_PATH. "Ventas/menuVentas.php")
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -24,11 +24,9 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ventas</title>
     <!--Funciones-->
-<!--    <script src="../../JavaScript/funcionesArticulos.js"></script>
-    <script src="../../JavaScript/funcionesIntereses.js"></script>-->
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
-    <script src="../../JavaScript/funcionesVentas.js"></script>
+    <script src="../../JavaScript/funcionesVentasAbono.js"></script>
 
     <!--    Script inicial-->
     <script type="application/javascript">
@@ -36,13 +34,18 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             $("#idFormEmpeno").trigger("reset");
             $("#btnEditar").prop('disabled', true);
             $("#btnVenta").prop('disabled', true);
-            document.getElementById('idFechaHoy').innerHTML =fechaActual();
+            $("#idFechaHoy").val(fechaActual());
+      /*      var sumarMes = sumarDias(30);
+            $("#idFechaVencimiento").val(sumarMes);
             $("#divTablaMetales").load('tablaMetales.php');
             $("#divTablaArticulos").load('tablaArticulos.php');
-            $("#divTablaArticulos").hide();
+            $("#divTablaArticulos").hide();*/
             $("#idNombreVenta").blur(function () {
                 $('#suggestionsNombreVenta').fadeOut(500);
             });
+
+            $("#divTablaAbono").load('tablaAbono.php');
+            $("#divTablaApartado").load('tablaApartados.php');
         })
     </script>
     <style type="text/css">
@@ -50,9 +53,9 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, .2);
             height: auto;
             position: absolute;
-            top: 110px;
+            top: 65px;
             z-index: 9999;
-            width: 350px;
+            width: 300px;
         }
 
         #suggestionsNombreVenta .suggest-element {
@@ -77,9 +80,9 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
         }
 
 
-         .propInvisible {
-             visibility: visible;
-         }
+        .propInvisible {
+            visibility: visible;
+        }
 
 
     </style>
@@ -92,107 +95,55 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             <br>
         </div>
         <div class="row">
-            <div class="col col-lg-11 border border-primary"  >
-                <table border="0" width="90%" >
+            <div class="col col-lg-4 border border-primary"  >
+                <table border="0" width="100%" >
                     <tbody>
-                    <tr class="headt">
+                    <tr>
                         <td colspan="4">
-                            <label>Fecha:</label>
-                            <label id="idFechaHoy"></label>
-                        </td>
-                        <td colspan="6">
-                            <input type="button" class="btn btn-success "
-                                   data-toggle="modal" data-target="#modalRegistroNuevo"
-                                   value="Agregar">
-                            <input type="button" class="btn btn-warning "
-                                   data-toggle="modal" data-target="#modalEditarNuevo" id="btnEditar"
-                                   value="Editar" onclick="modalEditarCliente($('#idClienteEmpeno').val())" disabled>
-                            <input type="button" class="btn btn-primary "
-                                   data-toggle="modal" data-target="#modalBusquedaCliente"
-                                   onclick="mostrarTodos($('#idNombres').val())"
-                                   value="Ver todos">
-                        </td>
-                        <td colspan="2">
-                            <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="20"  class="invisible"/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td colspan="2">
-                            <label for="nombreCliente">Nombre:</label>
-                        </td>
-                        <td colspan="2">
-                            <label for="celular">Celular:</label>
-                        </td>
-                        <td colspan="8">
-                            <label for="direccion">Dirección:</label>
+                            <label>Nombre:</label>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="vertical-align:top;">
+                        <td colspan="4">
                             <div>
                                 <input id="idNombreVenta" name="Nombres" type="text" style="width: 300px"
                                        class="inputCliente"
-                                       onkeypress="nombreAutocompletarVenta()" placeholder="Buscar Cliente..."/>
+                                       onkeypress="nombreAutocompletarAbono()" placeholder="Buscar Cliente..."/>
                             </div>
                             <div id="suggestionsNombreVenta"></div>
                         </td>
-                        <td colspan="2" style="vertical-align:top;">
-                            <input type="text" name="celularEmpeno" placeholder="" id="idCelularVenta"
-                                   style="width: 120px "
-                                   required disabled/>
-                        </td>
-                        <td colspan="8" name="direccionEmpeno">
-                                    <textarea  cols="70" id="idDireccionVenta" class="textArea" disabled>
-                                    </textarea>
-                        </td>
                     </tr>
                     <tr>
-                        <td colspan="12">
-                            <br>
+                        <td >
+                            <label>Fecha:</label>
+                        </td>
+                        <td >
+                            <label>Folio:</label>
                         </td>
                     </tr>
-
                     <tr >
-                        <td colspan="4">
-                            <label for="nombreCliente">Codigo:</label>
-                            <label id="idCodigoBuscado" value="0"></label>
-                            <input type="button" class="btn btn-success "
-                                   data-toggle="modal" data-target="#modalCodigo" id="btnCodigo"
-                                   value="Buscar Codigo" >
-
+                        <td align="left">
+                            <input type="text" name="fechaH" id="idFechaHoy"
+                                   style="width: 100px;text-align: right "disabled/>
                         </td>
-                        <td colspan="8">
-                            <label for="direccion">Vendedor:</label>
-                            <select id="idVendedor" name="cmbVendedor" class="selectpicker" style="width: 200px">
-                                <option value="0">Seleccione:</option>
-                                <?php
-                                $data = array();
-                                $sqlUsu = new sqlUsuarioDAO();
-                                $data = $sqlUsu->vendedores();
-                                for ($i = 0; $i < count($data); $i++) {
-                                    echo "<option value=" . $data[$i]['id_User'] . ">" . $data[$i]['NombreUser'] . "</option>";
-                                }
-                                ?>
-                            </select>
+                        <td>
+                            <input id="idFolioBazar" name="folio" type="text" style="width: 130px" value="" disabled/>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="12">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">
-                            <br>
-                        </td>
+                        <td style="width: 25%"><br></td>
+                        <td style="width: 25%"><br></td>
+                        <td style="width: 25%"><br></td>
+                        <td style="width: 25%"><br></td>
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="col col-lg-1"  >
+            </div>
+            <div class="col col-lg-7 border border-primary"  >
+                <div id="divTablaAbono" class="col col-lg-11 " >
+                </div>
             </div>
         </div>
         <div class="row">
@@ -201,75 +152,111 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             </div>
         </div>
         <div class="row">
-            <div id="divTablaMetales" class="col col-lg-11 " >
+            <div class="col col-lg-4 border border-primary"  >
+                <table border="0" width="100%" >
+                    <tbody>
+                    <tr>
+                        <td style="width: 30%"><br></td>
+                        <td colspan="2"><br></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Total Apartado:</label>
+                        </td>
+                        <td colspan="2">
+                            <input id="idTotalApartado" name="totalApartado" type="text" style="width: 130px" value="" disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Abonado:</label>
+                        </td>
+                        <td colspan="2">
+                            <input id="idTotalAbonado" name="totalAbonado" type="text" style="width: 130px" value="" disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><br></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Ultimo Saldo:</label>
+                        </td>
+                        <td colspan="2">
+                            <input id="idUltimoSaldo" name="ultimoSaldo" type="text" style="width: 130px" value="" disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Fecha Abono:</label>
+                        </td>
+                        <td colspan="2">
+                            <input id="fechaAbono" name="fechaA" type="text" style="width: 130px" value="" disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><br></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Importe Abono:</label>
+                        </td>
+                        <td colspan="2">
+                            <input id="idImporteAbono" name="importeAbono" type="text" style="width: 130px" value="" disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Nuevo Saldo:</label>
+                        </td>
+                        <td colspan="2">
+                            <input id="idNuevoSalod" name="nuevoSaldo" type="text" style="width: 130px" value="" disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><br></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label><b>Total a Pagar:<b></label>
+                        </td>
+                        <td colspan="2">
+                            <input id="idTotalPagar" name="totalPagar" type="text" style="width: 130px" value="" disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><br></td>
+                    </tr>
+
+                    </tbody>
+                </table>
             </div>
-            <div id="divTablaArticulos" class="col col-lg-11 ">
+            <div class="col col-lg-1"  >
+            </div>
+            <div class="col col-lg-7 border border-primary"  >
+                <div id="divTablaApartado" class="col col-lg-12 ">
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col col-lg-1 ">
+            <div  class="col col-lg-12 " >
                 <br>
             </div>
-            <div class="col col-lg-1 ">
+        </div>
+        <div class="row">
+            <div class="col col-lg-10 ">
                 <br>
             </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-4" >
-                <table border="0" width="90%" >
+            <div class="col col-lg-2" >
+                <table border="0" width="100%" >
                     <tbody>
                     <tr >
                         <td >
-                            <label for="subtotal">SubTotal:</label>
+                            <label for="subtotal">Abono:</label>
                         </td>
                         <td >
-                            <input type="text" name="subtotal"  id="idSubTotal"
+                            <input type="text" name="abono"  id="idAbonoPago"
                                    style="width: 120px; text-align: right "disabled/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">IVA:</label>
-                        </td>
-                        <td style="vertical-align:top;">
-                            <input type="text" name="iva"  id="idIva"
-                                   style="width: 120px; text-align: right "disabled/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Descuento:</label>
-                        </td>
-                        <td style="vertical-align:top;">
-                            <input type="text" name="descuento"  id="idDescuento"
-                                   style="width: 120px; text-align: right "
-                                   placeholder="$0.00"
-                                   onkeypress="return descuentoVenta(event)"/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Total a Pagar:</label>
-                        </td>
-                        <td  style="vertical-align:top;">
-                            <input type="text" name="totalPagar"  id="idTotalPagar"
-                                   style="width: 120px;text-align: right "disabled/>
                         </td>
                     </tr>
                     <tr >
@@ -296,43 +283,37 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 </table>
             </div>
         </div>
-        <div class="row">
-            <div class="col col-lg-12" >
+        <div class="row propInvisible"  >
+            <div class="col col-lg-12"  >
                 <br>
-                <input type="text" name="subtotal"  id="idSubTotalValue" class="propInvisible"
+                <input type="text" name="cliente"  id="idClienteAbono"
                        style="width: 120px "disabled/>
-                <input type="text" name="iva"  id="idIvaValue" class="propInvisible"
+                <input type="text" name="subtotal"  id="idSubTotalValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalBase" class="propInvisible"
+                <input type="text" name="iva"  id="idIvaValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalValue" class="propInvisible"
+                <input type="text" name="total"  id="idTotalBase"
                        style="width: 120px "disabled/>
-                <input type="text" name="descuento"  id="idDescuentoValue" class="propInvisible" value="0"
+                <input type="text" name="total"  id="idApartadoInicialValue" value="0"
                        style="width: 120px "disabled/>
-                <input type="text" name="estatus"  id="idEstatus" class="propInvisible"
+                <input type="text" name="total"  id="idTotalValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="efectivo"  id="idEfectivoValue" class="propInvisible"
+                <input type="text" name="efectivo"  id="idEfectivoValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="cambio"  id="idCambioValue" class="propInvisible"
+                <input type="text" name="cambio"  id="idCambioValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="tokenDesc"  id="tokenDescripcion" class="propInvisible"
-                       style="width: 120px "disabled/>
-                <input type="text" name="idtoken"  id="idToken" class="propInvisible"
-                       style="width: 120px "disabled/>
-                <input type="text" name="cliente"  id="idClienteVenta" class="propInvisible" value="0"
+                <input type="text" name="cliente"  id="idClienteVenta"  value="0"
                        style="width: 120px "disabled/>
             </div>
         </div>
         <div class="row">
-
-            <div class="col col-lg-7">
+            <div class="col col-lg-8">
                 <br>
             </div>
-            <div class="col col-lg-5">
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
-                <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
-                <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
+            <div class="col col-lg-3 ">
+                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarApartado()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
             </div>
         </div>
     </div>

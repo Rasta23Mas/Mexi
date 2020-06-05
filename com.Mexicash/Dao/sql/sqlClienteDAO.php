@@ -251,6 +251,35 @@ class sqlClienteDAO
         echo $html;
 
     }
+    public function autocompleteClienteAbono($ClienteNombre)
+    {
+        try {
+            $html = '';
+
+            $buscar = "SELECT id_Cliente,
+                       CONCAT(apellido_Pat,'/',  apellido_Mat, '/', nombre) AS NombreCompleto
+                       FROM cliente_tbl
+                       WHERE
+                       CONCAT(apellido_Pat, ' ', apellido_Mat, ' ',nombre) LIKE '%" . strip_tags($ClienteNombre) . "%' LIMIT 5 ";
+            $statement = $this->conexion->query($buscar);
+            if ($statement->num_rows > 0) {
+                while ($row = $statement->fetch_assoc()) {
+                    $html .= '<div><a class="suggest-element" data="' . $row['NombreCompleto'].  '" id="' . $row['id_Cliente'] . '">' . $row['NombreCompleto'] . '</a></div>';
+                }
+            }else{
+                while ($row = $statement->fetch_assoc()) {
+                    $html .= '<div><a class="suggest-element"><h3>Sin sugerencias... </h3></a></div>';
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $html;
+
+    }
+
 
     public function buscarClienteDatos($idClienteEditar)
     {
