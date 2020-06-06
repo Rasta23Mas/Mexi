@@ -109,6 +109,7 @@ function busquedaAbonos(id_Contrato) {
                     var precio_Actual = datos[i].precio_Actual;
                     var apartado = datos[i].apartado;
                     var tipo_movimiento = datos[i].tipo_movimiento;
+                    abono = Math.floor(abono * 100) / 100;
 
 
                     id_serieGlb = datos[i].id_serie;
@@ -118,30 +119,32 @@ function busquedaAbonos(id_Contrato) {
                     if (tipo_movimiento == 22) {
                         apartadoTotal = apartado;
                         prestamoVenta = datos[i].precio_venta;
-                        alert(prestamoVenta)
 
                     } else if (tipo_movimiento == 23) {
                         abonoTotal += abono;
                         fechaAbono = fecha_Modificacion;
                         tablaAbono++;
+
+                        var abonoTabla = formatoMoneda(abono);
+                        var precioTabla = formatoMoneda(precio_Actual);
+                        html += '<tr>' +
+                            '<td>' + fecha_Modificacion + '</td>' +
+                            '<td align="right">' + abonoTabla + '</td>' +
+                            '<td align="right">' + precioTabla + '</td>' +
+                            '</tr>';
                     }
                     ultimoSaldo = precio_Actual;
 
-                    if (tablaAbono == 0) {
-                        html += '<tr>' +
-                            '<td colspan="3" align="center"> <label>Sin abonos para mostrar.</label></td>' +
-                            '</tr>';
-                    } else {
-                        html += '<tr>' +
-                            '<td>' + fecha_Modificacion + '</td>' +
-                            '<td>' + abono + '</td>' +
-                            '<td>' + precio_Actual + '</td>' +
-                            '</tr>';
-                    }
+                }
 
+                if (tablaAbono == 0) {
+                    html += '<tr>' +
+                        '<td colspan="3" align="center"> <label>Sin abonos para mostrar.</label></td>' +
+                        '</tr>';
                 }
 
                 apartadoTotal = Math.floor(apartadoTotal * 100) / 100;
+                abonoTotal = Math.floor(abonoTotal * 100) / 100;
 
                 $("#idTotalApartadoValue").val(apartadoTotal);
                 $("#idTotalAbonadoValue").val(abonoTotal);
@@ -153,6 +156,7 @@ function busquedaAbonos(id_Contrato) {
                 $("#idTotalApartado").val(apartadoFormat);
                 $("#idTotalAbonado").val(abonoFormat);
                 $("#idUltimoSaldo").val(ultimoSaldoFormat);
+                fechaAbono = fechaFormato(fechaAbono)
                 $("#fechaAbono").val(fechaAbono);
                 $("#idImporteAbono").prop('disabled', false);
 
@@ -286,9 +290,10 @@ function guardarAbono() {
             var cambio = $("#idCambioValue").val();
             var prestamo = $("#idPrestamoVenta").val();
 
+            abonoAnterior = Math.floor(abonoAnterior * 100) / 100;
+            abono = Math.floor(abono * 100) / 100;
             var abonoTotal = abonoAnterior + abono;
             abonoTotal = Math.floor(abonoTotal * 100) / 100;
-            alert(prestamo)
             var dataEnviar = {
                 "id_Cliente": id_ClienteGlb,
                 "id_Contrato": id_ContratoGlb,
@@ -308,10 +313,8 @@ function guardarAbono() {
                 url: '../../../com.Mexicash/Controlador/Ventas/guardarAbono.php',
                 type: 'post',
                 success: function (response) {
-                    alert(response)
                     if (response > 0) {
                         idBazarGlb = response;
-                        alert(idBazarGlb)
                         alertify.success("El artículo se ha abonado correctamente.")
                         BitacoraApartado()
                     } else {
@@ -343,7 +346,6 @@ function BitacoraApartado() {
         url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
         data: dataEnviar,
         success: function (response) {
-
             if (response > 0) {
                 cargarPDFAbono(idBazarGlb);
             } else {
@@ -360,6 +362,7 @@ function cargarPDFAbono(idBazar) {
     $("#idFormAbonos")[0].reset();
     $("#divTablaAbono").load('tablaAbono.php');
     $("#divTablaApartado").load('tablaApartados.php');
+    $("#idNombreVenta").prop('disabled', false);
 }
 
 function verPDFAbono(idBazar) {
@@ -368,9 +371,4 @@ function verPDFAbono(idBazar) {
 
 function configurarRango() {
     alert("configuración")
-}
-
-function test() {
-    var fechaVencimiento = $("#idFechaVencimiento").text();
-    alert(fechaVencimiento)
 }
