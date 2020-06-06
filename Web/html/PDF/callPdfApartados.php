@@ -329,23 +329,7 @@ if (!isset($_GET['pdf'])) {
                     <td colspan="3" align="center">
                       <label>_______________________________________</label>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>Venta de piezas de segunda mano.</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>Las piezas se venden en el estado en
-                             que se encuentran.</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>No se aceptan devoluciones.</label>
-                    </td>
-                </tr>
+                </tr> 
                 <tr><td><br></td></tr>
                 <tr>
                     <td colspan="3" align="left">
@@ -582,22 +566,6 @@ $contenido .= '<table width="30%" border="1">
                 <tr>
                     <td colspan="3" align="center">
                       <label>_______________________________________</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>Venta de piezas de segunda mano.</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>Las piezas se venden en el estado en
-                             que se encuentran.</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>No se aceptan devoluciones.</label>
                     </td>
                 </tr>
                 <tr><td><br></td></tr>
