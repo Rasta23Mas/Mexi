@@ -337,7 +337,6 @@ function BitacoraApartado() {
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
-            cancelarSinInteres();
         }
     });
 }

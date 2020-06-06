@@ -281,6 +281,8 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="cambio"  id="idCambioValue"
                        style="width: 120px "disabled/>
+                <input type="text" name="cambio"  id="idPrestamo"
+                       style="width: 120px "disabled/>
             </div>
         </div>
         <div class="row">

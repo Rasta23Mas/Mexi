@@ -99,6 +99,7 @@ function busquedaAbonos(id_Contrato) {
             var ultimoSaldo = 0;
             var tablaAbono = 0;
             var fechaAbono = "";
+            var prestamoEmpe = "";
             if (datos.length > 0) {
                 var html = '';
                 var i = 0;
@@ -108,12 +109,17 @@ function busquedaAbonos(id_Contrato) {
                     var precio_Actual = datos[i].precio_Actual;
                     var apartado = datos[i].apartado;
                     var tipo_movimiento = datos[i].tipo_movimiento;
+
+
                     id_serieGlb = datos[i].id_serie;
                     sucursalGlb = datos[i].sucursal;
 
 
                     if (tipo_movimiento == 22) {
                         apartadoTotal = apartado;
+                        prestamoEmpe = datos[i].prestamo_Empeno;
+                        alert(prestamoEmpe)
+
                     } else if (tipo_movimiento == 23) {
                         abonoTotal += abono;
                         fechaAbono = fecha_Modificacion;
@@ -140,6 +146,7 @@ function busquedaAbonos(id_Contrato) {
                 $("#idTotalApartadoValue").val(apartadoTotal);
                 $("#idTotalAbonadoValue").val(abonoTotal);
                 $("#idUltimoSaldoValue").val(ultimoSaldo);
+                $("#idPrestamo").val(prestamoEmpe);
                 var apartadoFormat = formatoMoneda(apartadoTotal);
                 var abonoFormat = formatoMoneda(abonoTotal);
                 var ultimoSaldoFormat = formatoMoneda(ultimoSaldo);
@@ -277,16 +284,18 @@ function guardarAbono() {
             var abonoAnterior = $("#idTotalAbonadoValue").val();
             var efectivo = $("#idEfectivoValue").val();
             var cambio = $("#idCambioValue").val();
+            var prestamo = $("#idPrestamo").val();
 
             var abonoTotal = abonoAnterior + abono;
             abonoTotal = Math.floor(abonoTotal * 100) / 100;
-
+            alert(prestamo)
             var dataEnviar = {
                 "id_Cliente": id_ClienteGlb,
                 "id_Contrato": id_ContratoGlb,
                 "id_serie": id_serieGlb,
                 "tipo_movimiento": tipo_movimientoGlb,
                 "precio_Actual": nuevoSaldo,
+                "idPrestamo": prestamo,
                 "abono": abono,
                 "abono_Total": abonoTotal,
                 "efectivo": efectivo,
@@ -299,6 +308,7 @@ function guardarAbono() {
                 url: '../../../com.Mexicash/Controlador/Ventas/guardarAbono.php',
                 type: 'post',
                 success: function (response) {
+                    alert(response)
                     if (response > 0) {
                         idBazarGlb = response;
                         alert(idBazarGlb)

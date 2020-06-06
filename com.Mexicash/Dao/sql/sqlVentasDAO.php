@@ -114,7 +114,7 @@ class sqlVentasDAO
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT id_Bazar,fecha_Modificacion,abono,precio_Actual,apartado,tipo_movimiento,id_serie, sucursal
+            $buscar = "SELECT id_Bazar,fecha_Modificacion,abono,prestamo_Empeno,precio_Actual,apartado,tipo_movimiento,id_serie, sucursal
                         FROM bazar_articulos WHERE id_Contrato = $id_Contrato AND tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -124,6 +124,7 @@ class sqlVentasDAO
                         "id_Bazar" => $row["id_Bazar"],
                         "fecha_Modificacion" => $row["fecha_Modificacion"],
                         "abono" => $row["abono"],
+                        "prestamo_Empeno" => $row["prestamo_Empeno"],
                         "precio_Actual" => $row["precio_Actual"],
                         "apartado" => $row["apartado"],
                         "tipo_movimiento" => $row["tipo_movimiento"],
@@ -297,7 +298,7 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function guardarAbono($id_Cliente,$id_Contrato,$id_serie,$tipo_movimiento,$precio_Actual,$abono,$abono_Total,$efectivo,$cambio,$sucursal)
+    public function guardarAbono($id_Cliente,$id_Contrato,$id_serie,$tipo_movimiento,$idPrestamo,$precio_Actual,$abono,$abono_Total,$efectivo,$cambio,$sucursal)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -305,8 +306,8 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
 
             $insertaAbono = "INSERT INTO bazar_articulos 
-                       (id_Cliente,id_Contrato, id_serie,tipo_movimiento,precio_Actual,abono,abono_Total,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
-                        VALUES ($id_Cliente,$id_Contrato, '$id_serie',$tipo_movimiento,$precio_Actual,$abono,$abono_Total,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja)";
+                       (id_Cliente,id_Contrato, id_serie,tipo_movimiento,prestamo_Empeno,precio_Actual,abono,abono_Total,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
+                        VALUES ($id_Cliente,$id_Contrato, '$id_serie',$tipo_movimiento,$idPrestamo,$precio_Actual,$abono,$abono_Total,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
                     $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
