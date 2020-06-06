@@ -99,7 +99,7 @@ function busquedaAbonos(id_Contrato) {
             var ultimoSaldo = 0;
             var tablaAbono = 0;
             var fechaAbono = "";
-            var prestamoEmpe = "";
+            var prestamoVenta = "";
             if (datos.length > 0) {
                 var html = '';
                 var i = 0;
@@ -117,8 +117,8 @@ function busquedaAbonos(id_Contrato) {
 
                     if (tipo_movimiento == 22) {
                         apartadoTotal = apartado;
-                        prestamoEmpe = datos[i].prestamo_Empeno;
-                        alert(prestamoEmpe)
+                        prestamoVenta = datos[i].precio_venta;
+                        alert(prestamoVenta)
 
                     } else if (tipo_movimiento == 23) {
                         abonoTotal += abono;
@@ -146,7 +146,7 @@ function busquedaAbonos(id_Contrato) {
                 $("#idTotalApartadoValue").val(apartadoTotal);
                 $("#idTotalAbonadoValue").val(abonoTotal);
                 $("#idUltimoSaldoValue").val(ultimoSaldo);
-                $("#idPrestamo").val(prestamoEmpe);
+                $("#idPrestamoVenta").val(prestamoVenta);
                 var apartadoFormat = formatoMoneda(apartadoTotal);
                 var abonoFormat = formatoMoneda(abonoTotal);
                 var ultimoSaldoFormat = formatoMoneda(ultimoSaldo);
@@ -284,7 +284,7 @@ function guardarAbono() {
             var abonoAnterior = $("#idTotalAbonadoValue").val();
             var efectivo = $("#idEfectivoValue").val();
             var cambio = $("#idCambioValue").val();
-            var prestamo = $("#idPrestamo").val();
+            var prestamo = $("#idPrestamoVenta").val();
 
             var abonoTotal = abonoAnterior + abono;
             abonoTotal = Math.floor(abonoTotal * 100) / 100;

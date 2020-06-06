@@ -65,7 +65,7 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             BAZ.id_Contrato, ART.detalle,TK.descripcion as Kilataje,ET.descripcion AS TipoElectronico,
             EM.descripcion AS MarcaElectronico,EMOD.descripcion AS ModeloElectronico,Baz.id_serie,baz.precio_venta,
-            BAZ.precio_Actual,BAZ.apartado,BAZ.iva,BAZ.efectivo,BAZ.cambio,USU.usuario
+            BAZ.precio_Actual,BAZ.abono,BAZ.abono_Total,BAZ.efectivo,BAZ.cambio,USU.usuario
             FROM bazar_articulos as Baz 
             INNER JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
             INNER JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
@@ -76,7 +76,6 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             LEFT JOIN cat_electronico_modelo as EMOD on ART.modelo = EMOD.id_modelo
             LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
             WHERE id_Bazar=$idBazar";
-echo $query;
 $resultado = $mysql->query($query);
 
 
@@ -98,23 +97,20 @@ foreach ($resultado as $row) {
     $id_serie = $row["id_serie"];
     $precio_venta = $row["precio_venta"];
     $precio_Actual = $row["precio_Actual"];
-    $apartado = $row["apartado"];
-    $iva = $row["iva"];
+    $abono = $row["abono"];
     $efectivo = $row["efectivo"];
     $cambio = $row["cambio"];
     $usuario = $row["usuario"];
-
+    $abono_Total = $row["abono_Total"];
 }
-/*$abonoCapital= round($abonoCapital,2);*/
-$subTotal = $precio_venta + $iva;
-$faltante = $subTotal - $apartado;
+
 $precio_venta = number_format($precio_venta, 2,'.',',');
-$iva = number_format($iva, 2,'.',',');
-$apartado = number_format($apartado, 2,'.',',');
+$abono = number_format($abono, 2,'.',',');
+$abono_Total = number_format($abono_Total, 2,'.',',');
 $efectivo = number_format($efectivo, 2,'.',',');
 $cambio = number_format($cambio, 2,'.',',');
-$subTotal = number_format($subTotal, 2,'.',',');
-$faltante = number_format($faltante, 2,'.',',');
+$precio_Actual = number_format($precio_Actual, 2,'.',',');
+
 $Fecha_Creacion = date("d-m-Y", strtotime($Fecha_Creacion));
 
 $detalle = strtoupper($detalle);
@@ -125,7 +121,7 @@ if (!isset($_GET['pdf'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-            <script src="../../JavaScript/funcionesVentasApartados.js"></script>
+            <script src="../../JavaScript/funcionesVentasAbono.js"></script>
 
     <style>
         .letraNormalNegrita {
@@ -295,20 +291,16 @@ if (!isset($_GET['pdf'])) {
                     <td  align="right"><label>$ '.$precio_venta.'</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>IVA:</label></td>
-                    <td  align="right"><label>$ '.$iva.'</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>SUBTOTAL:</label></td>
-                    <td  align="right"><label>$ '.$subTotal.'</label></td>
-                </tr>
-                <tr>
                     <td colspan="2"><label></label></td>
                     <td align="right"><label>-------------</label></td>
                 </tr>
                 <tr>
-                   <td colspan="2" align="right"><label>APARTADO:</label></td>
-                    <td  align="right"><label>$ '.$apartado.'</label></td>
+                   <td colspan="2" align="right"><label>ABONO:</label></td>
+                    <td  align="right"><label>$ '.$abono.'</label></td>
+                </tr>
+                 <tr>
+                   <td colspan="2" align="right"><label>ABONO TOTAL:</label></td>
+                    <td  align="right"><label>$ '.$abono_Total.'</label></td>
                 </tr>
                 <tr>
                    <td colspan="2" align="right"><label>EFECTIVO:</label></td>
@@ -324,7 +316,7 @@ if (!isset($_GET['pdf'])) {
                 </tr>
                 <tr>
                    <td colspan="2" align="right"><label>FALTA POR PAGAR:</label></td>
-                    <td  align="right"><label>$ '.$faltante.'</label></td>
+                    <td  align="right"><label>$ '.$precio_Actual.'</label></td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
@@ -412,7 +404,7 @@ if (!isset($_GET['pdf'])) {
         </td> 
         </tr>';
     $contenido .= '<tr><td align="center" >
-        <input type="button" class="btn btnGenerarPDF" value="Generar PDF"  onclick="verPDFApartado('.$id_Bazar.');" >
+        <input type="button" class="btn btnGenerarPDF" value="Generar PDF"  onclick="verPDFAbono('.$id_Bazar.');" >
         </td></tr>';
     $contenido .= '</tbody></table></form></body></html>';
     echo $contenido;
@@ -549,20 +541,12 @@ $contenido .= '<table width="30%" border="1">
                     <td  align="right"><label>$ '.$precio_venta.'</label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>IVA:</label></td>
-                    <td  align="right"><label>$ '.$iva.'</label></td>
+                   <td colspan="2" align="right"><label>ABONO:</label></td>
+                    <td  align="right"><label>$ '.$abono.'</label></td>
                 </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>SUBTOTAL:</label></td>
-                    <td  align="right"><label>$ '.$subTotal.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><label></label></td>
-                    <td align="right"><label>-------------</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>APARTADO:</label></td>
-                    <td  align="right"><label>$ '.$apartado.'</label></td>
+                 <tr>
+                   <td colspan="2" align="right"><label>ABONO TOTAL:</label></td>
+                    <td  align="right"><label>$ '.$abono_Total.'</label></td>
                 </tr>
                 <tr>
                    <td colspan="2" align="right"><label>EFECTIVO:</label></td>
@@ -578,7 +562,7 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                    <td colspan="2" align="right"><label>FALTA POR PAGAR:</label></td>
-                    <td  align="right"><label>$ '.$faltante.'</label></td>
+                    <td  align="right"><label>$ '.$precio_Actual.'</label></td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
@@ -667,7 +651,7 @@ $contenido .= '<table width="30%" border="1">
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Apartado Num ' . $id_Bazar . ".pdf";
+$nombreContrato = 'Abono Num ' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'portrait');
