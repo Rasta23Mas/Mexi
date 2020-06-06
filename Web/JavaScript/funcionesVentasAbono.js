@@ -4,7 +4,7 @@ var id_ClienteGlb = 0;
 //ABONO 23
 var id_ContratoGlb = 0;
 var id_serieGlb = 0;
-var tipo_movimientoGlb = 23;
+var tipo_movimientoGlb = 0;
 var sucursalGlb = 0;
 var idBazarGlb = 0;
 
@@ -204,10 +204,28 @@ function nuevoAbono(e) {
             $("#idTotalPagar").val(abonoFormat);
             $("#idImporteAbono").prop('disabled', true);
             $("#idEfectivo").prop('disabled', false);
+            tipo_movimientoGlb = 23;
 
+        } else if(ultimoSaldo == abono){
+            var nuevoSaldo = 0;
+            nuevoSaldo = Math.floor(nuevoSaldo * 100) / 100;
+            $("#idEfectivo").val("");
+            $("#idCambio").val("");
 
+            $("#idImporteAbonoValue").val(abono);
+            $("#idNuevoSaldoValue").val(nuevoSaldo);
+
+            var abonoFormat = formatoMoneda(abono);
+            var nuevoSaldoFormat = formatoMoneda(nuevoSaldo);
+
+            $("#idImporteAbono").val(abonoFormat);
+            $("#idNuevoSaldo").val(nuevoSaldoFormat);
+            $("#idTotalPagar").val(abonoFormat);
+            $("#idImporteAbono").prop('disabled', true);
+            $("#idEfectivo").prop('disabled', false);
+            tipo_movimientoGlb = 6;
         } else {
-            alert("El apartado tiene que ser menor al total.")
+            alert("El apartado tiene que ser menor al total.");
         }
 
     }
@@ -326,7 +344,6 @@ function guardarAbono() {
     }
 
 }
-
 
 function BitacoraApartado() {
     //id_Movimiento = 22 -> Apartado
