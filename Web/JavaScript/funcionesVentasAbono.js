@@ -374,12 +374,20 @@ function BitacoraApartado() {
 
 //Generar PDF
 function cargarPDFAbono(idBazar) {
-    window.open('../PDF/callPdfAbono.php?idBazar=' + idBazar);
+    if(tipo_movimientoGlb==6){
+        window.open('../PDF/callPdfAbono.php?idBazar=' + idBazar);
+    }else if(tipo_movimientoGlb==23){
+        window.open('../PDF/callPdfVenta.php?idBazar=' + idBazar);
+    }
     alert("Abono realizado");
     $("#idFormAbonos")[0].reset();
     $("#divTablaAbono").load('tablaAbono.php');
     $("#divTablaApartado").load('tablaApartados.php');
     $("#idNombreVenta").prop('disabled', false);
+}
+
+function verPDFAbono(idBazar) {
+    window.open('../PDF/callPdfAbono.php?pdf=1&idBazar=' + idBazar);
 }
 
 function verPDFAbono(idBazar) {
