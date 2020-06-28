@@ -303,6 +303,8 @@ function validarAjustes() {
             var dotacionCaja = $("#idSaldoCajaVal").val();
             dotacionCaja = Math.round(dotacionCaja * 100) / 100;
             var entradasConCaja = entradas + dotacionCaja;
+            alert(entradasConCaja)
+            alert(salidas)
             saldoCajaGlobal += entradasConCaja;
             saldoCajaGlobal -= salidas;
             saldoCajaGlobal = Math.round(saldoCajaGlobal * 100) / 100;

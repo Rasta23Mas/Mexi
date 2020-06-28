@@ -78,6 +78,7 @@ function validarEsatusSucursal() {
     })
 }
 function llenarSaldosSucursal() {
+    alert("entra");
     $("#guardarCaja").prop('disabled', false);
     $("#cargarUsuario").prop('disabled', true);
     var tipo = 2;
@@ -115,6 +116,7 @@ function llenarSaldosSucursal() {
     })
 }
 function llenarEntradasSalidas() {
+    alert("llenar")
     var tipo = 3;
     var dataEnviar = {
         "tipo": tipo,
@@ -415,6 +417,7 @@ function llenarGeneral() {
     })
 }
 function llenarInformativo() {
+    alert("informa")
     var tipo = 5;
     var dataEnviar = {
         "tipo": tipo,
@@ -465,6 +468,7 @@ function llenarInformativo() {
     })
 }
 function llenarTotalInventario() {
+    alert("invent")
     var tipo = 8;
     var dataEnviar = {
         "tipo": tipo,
@@ -499,6 +503,7 @@ function llenarTotalInventario() {
     })
 }
 function llenarVentas() {
+    alert("ventas")
     var tipo = 6;
     var dataEnviar = {
         "tipo": tipo,
@@ -545,6 +550,7 @@ function llenarVentas() {
     })
 }
 function pasarBazar() {
+    alert("pasar")
     var tipo = 7;
     var dataEnviar = {
         "tipo": tipo,

@@ -80,7 +80,7 @@ function insertaCajaSucursal(idCierreSuc) {
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCajaSucursal.php',
         success: function (response) {
             if (response == 0) {
-                saldoInicialInformativo();
+                saldosSucursal();
             } else {
                 alertify.error("Error en al conectar con el servidor. (FLErr01)")
             }
@@ -128,7 +128,7 @@ function insertaCajaSelectMaxSucursal() {
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCajaSucursal.php',
         success: function (response) {
             if (response == 1) {
-                saldoInicialInformativo();
+                saldosSucursal();
 
             } else {
                 alertify.error("Error en al conectar con el servidor. (FLErr01)")
@@ -262,46 +262,14 @@ function buscaridCaja() {
     });
 }
 
-
-function saldoInicialInformativo() {
-    alert("indormativo")
-    var tipo = 1;
-    var dataEnviar = {
-        "tipo": tipo,
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Informativo/saldoInformativos.php',
-        type: 'post',
-        dataType: "json",
-
-        success: function (datos) {
-            var i = 0;
-            var saldoInicial = 0;
-
-            for (i; i < datos.length; i++) {
-
-                var prestamo_Informativo = datos[i].prestamo_Informativo;
-                alert(prestamo_Informativo)
-                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
-                saldoInicial += prestamo_Informativo;
-            }
-            saldosSucursal(saldoInicial);
-        }
-    })
-}
-
-function saldosSucursal(saldoInicial) {
+function saldosSucursal() {
     //FLErr09
     alert("saldoSuc")
-    var dataEnviar = {
-        "saldoInicial": saldoInicial,
-    };
     $.ajax({
         type: "POST",
-        data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
         success: function (response) {
+            alert(response)
             if (response == 1) {
                 buscaridCaja()
             } else {

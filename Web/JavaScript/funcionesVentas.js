@@ -39,8 +39,7 @@ function nombreAutocompletarVenta() {
 
 
 function buscarCodigoModal() {
-    //var idCodigo = $("#idCodigo").val();
-    var idCodigo = '0100009702';
+    var idCodigo = $("#idCodigo").val();
     var tipoTabla = 0;
     var dataEnviar = {
         "idCodigo": idCodigo,
@@ -72,6 +71,7 @@ function buscarCodigoModal() {
                 tipoTabla = tipo;
 
                 if (tipo == 1) {
+
                     html += '<tr>' +
                         '<td>' + id_serie + '</td>' +
                         '<td>' + detalle + '</td>' +
@@ -79,8 +79,8 @@ function buscarCodigoModal() {
                         '<td>' + avaluo + '</td>' +
                         '<td>' + vitrina + '</td>' +
                         '<td>' + ubicacion + '</td>' +
-                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                        'onclick="buscarCodigoSeleccionado(' + id_serie + ')"></td>' +
+                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar1" ' +
+                        'onclick="buscarCodigoSeleccionado(' + idCodigo + ')"></td>' +
                         '</tr>';
                 } else if (tipo == 2) {
                     html += '<tr>' +
@@ -91,7 +91,7 @@ function buscarCodigoModal() {
                         '<td>' + vitrina + '</td>' +
                         '<td>' + ubicacion + '</td>' +
                         '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                        'onclick="buscarCodigoSeleccionado(' + id_serie + ')"></td>' +
+                        'onclick="buscarCodigoSeleccionado(' + idCodigo + ')"></td>' +
                         '</tr>';
                 }
 
@@ -113,6 +113,8 @@ function buscarCodigoModal() {
 }
 
 function buscarCodigoSeleccionado(id_serie) {
+    var id_Bazar = $("#idCodigo").val();
+    alert(id_serie)
     var tipoTabla = 0;
     var dataEnviar = {
         "idCodigo": id_Bazar,
@@ -176,7 +178,7 @@ function buscarCodigoSeleccionado(id_serie) {
                  $("#idTotalValue").val(totalPagar);
                  $("#idTotalBase").val(totalPagar);
                 tipoTabla = tipo;
-                $("#idCodigoBuscado").val(id_serie)
+                $("#idCodigoBuscado").val(id_Bazar)
                 document.getElementById('idCodigoBuscado').innerHTML = id_serie;
             }
         }

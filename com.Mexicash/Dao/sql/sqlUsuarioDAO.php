@@ -370,7 +370,7 @@ class sqlUsuarioDAO
         echo $id_CierreCaja;
     }
 
-    function saldosSucursal($saldoInicial){
+    function saldosSucursal(){
         try {
             $retorna = 0;
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
@@ -381,7 +381,7 @@ class sqlUsuarioDAO
             $importeSaldoBoveda = $fila->importe;
 
 
-            $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda,DepoSaldoInicial=$saldoInicial
+            $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda
                 WHERE id_CierreSucursal=$id_CierreSucursal and estatus=1";
             if ($ps = $this->conexion->prepare($updateSaldoInicial)) {
                 if ($ps->execute()) {
