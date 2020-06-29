@@ -70,6 +70,7 @@ function busquedaCodigoBazar() {
                     var modelo = datos[i].modelo;
                     var ubicacion = datos[i].ubicacion;
                     var detalle = datos[i].detalle;
+                    var empeno = datos[i].empeno;
                     var avaluo = datos[i].avaluo;
                     var fecha_Modificacion = datos[i].fecha_Modificacion;
                     var id_Articulo = datos[i].id_Articulo;
@@ -112,6 +113,7 @@ function busquedaCodigoBazar() {
                             '<td>' + id_serie + '</td>' +
                             '<td>' + detalle + '</td>' +
                             '<td>' + kilataje + '</td>' +
+                            '<td>' + empeno + '</td>' +
                             '<td>' + avaluo + '</td>' +
                             '<td>' + precio_venta + '</td>' +
                             '<td>' + ubicacion + '</td>' +
@@ -121,6 +123,7 @@ function busquedaCodigoBazar() {
                             '<td>' + id_serie + '</td>' +
                             '<td>' + modelo + '</td>' +
                             '<td>' + marca + '</td>' +
+                            '<td>' + empeno + '</td>' +
                             '<td>' + avaluo + '</td>' +
                             '<td>' + precio_venta + '</td>' +
                             '<td>' + ubicacion + '</td>' +

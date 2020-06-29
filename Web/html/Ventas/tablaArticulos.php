@@ -9,9 +9,11 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
         <th>Código</th>
         <th>Artículo</th>
         <th>Marca</th>
-        <th>Precio</th>
+        <th>Precio Empeño</th>
+        <th>Precio Avaluo</th>
         <th>Precio Vitrina</th>
         <th>Observaciones</th>
+        <th>Seleccionar</th>
     </tr>
     </thead>
     <tbody id="idTBodyArticulos">
