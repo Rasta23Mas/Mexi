@@ -6,6 +6,8 @@ var tipo_movimientoGlb = 22;
 var sucursalGlb = 0;
 var idBazarGlb = 0;
 
+
+
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
         var key = $('#idNombreVenta').val();
@@ -60,52 +62,28 @@ function busquedaCodigoBazar() {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
-                    var id_Contrato = datos[i].id_Contrato;
-                    var sucursal = datos[i].sucursal;
+                    var id_Bazar = datos[i].id_Bazar;
                     var id_serie = datos[i].id_serie;
                     var tipo_movimiento = datos[i].tipo_movimiento;
-                    var tipo = datos[i].tipoArt;
-                    var kilataje = datos[i].kilataje;
-                    var marca = datos[i].marca;
-                    var modelo = datos[i].modelo;
-                    var ubicacion = datos[i].ubicacion;
                     var detalle = datos[i].detalle;
+                    var kilataje = datos[i].kilataje;
                     var empeno = datos[i].empeno;
                     var avaluo = datos[i].avaluo;
-                    var fecha_Modificacion = datos[i].fecha_Modificacion;
-                    var id_Articulo = datos[i].id_Articulo;
                     var precio_venta = datos[i].precio_venta;
-                    var precioCat = datos[i].precioCat;
+                    var ubicacion = datos[i].ubicacion;
+                    var marca = datos[i].marca;
+                    var modelo = datos[i].modelo;
+                    var tipo = datos[i].tipoArt;
+                    var fecha_Modificacion = datos[i].fecha_Modificacion;
+                    var precioEnviar = precio_venta;
+                    var empeno = formatoMoneda(empeno);
+                    var avaluo = formatoMoneda(avaluo);
+                    var precio_venta = formatoMoneda(precio_venta);
 
-
-                    id_ContratoGlb = id_Contrato
-                    id_serieGlb = id_serie;
-                    tipo_movimientoGlb = 22;
-                    sucursalGlb = sucursal;
-                    idSubTotalValue
-
-                    var precioFinal = precio_venta;
-                    var totalPagar = 0;
-                    precioFinal = Math.floor(precioFinal * 100) / 100;
-                    var calculaIva = Math.floor(precioFinal * 16) / 100;
-                    totalPagar = precioFinal + calculaIva;
-                    totalPagar = Math.floor(totalPagar * 100) / 100;
-                    var precioFinalFormat = formatoMoneda(precioFinal);
-                    var calculaIvaFormat = formatoMoneda(calculaIva);
-                    var totalPagarFormat = formatoMoneda(totalPagar);
-
-
-                    $("#idSubTotal").val(precioFinalFormat);
-                    $("#idIva").val(calculaIvaFormat);
-                    $("#idTotalPagar").val(totalPagarFormat);
-                    $("#idSubTotalValue").val(precioFinal);
-                    $("#idIvaValue").val(calculaIva);
-                    $("#idTotalValue").val(totalPagar);
-                    $("#idTotalBase").val(totalPagar);
-                    $("#precioVenta").val(precio_venta);
                     if (tipo_movimiento == 6) {
                         alert("El articulo fue vendido el día: " + fecha_Modificacion)
                     }
+
 
                     tipoTabla = tipo;
                     if (tipo == 1) {
@@ -117,6 +95,8 @@ function busquedaCodigoBazar() {
                             '<td>' + avaluo + '</td>' +
                             '<td>' + precio_venta + '</td>' +
                             '<td>' + ubicacion + '</td>' +
+                            '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
+                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ')"></td>' +
                             '</tr>';
                     } else if (tipo == 2) {
                         html += '<tr>' +
@@ -127,6 +107,8 @@ function busquedaCodigoBazar() {
                             '<td>' + avaluo + '</td>' +
                             '<td>' + precio_venta + '</td>' +
                             '<td>' + ubicacion + '</td>' +
+                            '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
+                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ')"></td>' +
                             '</tr>';
                     }
 
@@ -148,6 +130,29 @@ function busquedaCodigoBazar() {
     });
 
 }
+
+function calcularIva(id_Bazar,precio) {
+
+    var precioFinal = Math.floor(precio * 100) / 100;
+    var calculaIva = Math.floor(precioFinal * 16) / 100;
+    var totalPagar = precioFinal + calculaIva;
+    totalPagar = Math.floor(totalPagar * 100) / 100;
+    var precioFinalFormat = formatoMoneda(precioFinal);
+    var calculaIvaFormat = formatoMoneda(calculaIva);
+    var totalPagarFormat = formatoMoneda(totalPagar);
+
+
+    $("#idSubTotal").val(precioFinalFormat);
+    $("#idIva").val(calculaIvaFormat);
+    $("#idTotalPagar").val(totalPagarFormat);
+    $("#idSubTotalValue").val(precioFinal);
+    $("#idIvaValue").val(calculaIva);
+    $("#idTotalValue").val(totalPagar);
+    $("#idTotalBase").val(totalPagar);
+
+
+}
+
 
 function apartadoInicial(e) {
     var tecla;
@@ -185,7 +190,7 @@ function apartadoInicial(e) {
             var calculaIvaFormat = formatoMoneda(calculaIva);
             var totalPagarFormat = formatoMoneda(totalPagar);
 
-            $("#idApartadoInicial").val(apartadoFormat);
+            //$("#idApartadoInicial").val(apartadoFormat);
             $("#idSubTotal").val(totalApartadoFormat);
             $("#idIva").val(calculaIvaFormat);
             $("#idTotalPagar").val(totalPagarFormat);
