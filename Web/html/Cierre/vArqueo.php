@@ -316,8 +316,25 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                                    disabled/>
                             <input type="text" name="cierreCaja" id="idCierreCajaSesion" style="width: 100px"
                                    disabled/>
+                            <label>saldo caja</label>
                             <input type="text" name="saldoCaja" id="idSaldoCajaVal" style="width: 100px"
                                    disabled/>
+                            <label>Entradas caja</label>
+                            <input type="text" name="saldoCajaIva" id="idSaldoCajaEntradas" style="width: 100px"
+                                   disabled/>
+                            <label>iva caja</label>
+                            <input type="text" name="saldoCajaIva" id="idSaldoCajaIva" style="width: 100px"
+                                   disabled/>
+                            <label>interes caja</label>
+                            <input type="text" name="SaldoCajaInteres" id="idSaldoCajaInteres" style="width: 100px"
+                                   disabled/>
+                            <label>interes mor</label>
+                            <input type="text" name="SaldoCajaMor" id="idSaldoCajaMor" style="width: 100px"
+                                   disabled/>
+                            <label>interes auto</label>
+                            <input type="text" name="saldoCajaAuto" id="idSaldoCajaAuto" style="width: 100px"
+                                   disabled/>
+                            <label>saldo caja</label>
                             <input type="text" name="saldoCajaSistema" id="idSaldoCajaSistema" style="width: 100px"
                                    disabled/>
                         </td>

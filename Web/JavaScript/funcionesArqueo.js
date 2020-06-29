@@ -258,6 +258,12 @@ function validarAjustes() {
             var entradas = 0;
             var salidas = 0;
 
+            var cajaEntradas = 0;
+            var cajaIva = 0;
+            var cajaInteres = 0;
+            var cajaMoratorio = 0;
+            var cajaAuto = 0;
+
             for (i; i < datos.length; i++) {
                 var e_pagoDesempeno = datos[i].e_pagoDesempeno;
                 var e_costoContrato = datos[i].e_costoContrato;
@@ -279,7 +285,7 @@ function validarAjustes() {
                 e_costoContrato = Math.round(e_costoContrato * 100) / 100;
                 e_abono = Math.round(e_abono * 100) / 100;
                 e_IVA = Math.round(e_IVA * 100) / 100;
-                e_intereses = Math.round(s_descuento_aplicado * 100) / 100;
+                e_intereses = Math.round(e_intereses * 100) / 100;
                 e_moratorios = Math.round(e_moratorios * 100) / 100;
                 e_gps = Math.round(e_gps * 100) / 100;
                 e_poliza = Math.round(e_poliza * 100) / 100;
@@ -299,15 +305,40 @@ function validarAjustes() {
                 entradas += e_gps;
                 entradas += e_poliza;
                 entradas += e_pension;
+
+                //saldo Caja
+                cajaEntradas += e_pagoDesempeno;
+                cajaEntradas += e_costoContrato;
+                cajaEntradas += e_abono;
+                //IVA
+                cajaIva += e_IVA;
+                //Interes
+                cajaInteres += e_intereses;
+                //Interes Moratorio
+                cajaMoratorio += e_moratorios;
+                //Auto
+                cajaAuto += e_gps;
+                cajaAuto += e_poliza;
+                cajaAuto += e_pension;
             }
             var dotacionCaja = $("#idSaldoCajaVal").val();
             dotacionCaja = Math.round(dotacionCaja * 100) / 100;
             var entradasConCaja = entradas + dotacionCaja;
-            alert(entradasConCaja)
-            alert(salidas)
             saldoCajaGlobal += entradasConCaja;
             saldoCajaGlobal -= salidas;
             saldoCajaGlobal = Math.round(saldoCajaGlobal * 100) / 100;
+
+            cajaEntradas = Math.round(cajaEntradas * 100) / 100;
+            cajaIva = Math.round(cajaIva * 100) / 100;
+            cajaInteres = Math.round(cajaInteres * 100) / 100;
+            cajaMoratorio = Math.round(cajaMoratorio * 100) / 100;
+            cajaAuto = Math.round(cajaAuto * 100) / 100;
+
+            $("#idSaldoCajaEntradas").val(cajaEntradas);
+            $("#idSaldoCajaIva").val(cajaIva);
+            $("#idSaldoCajaInteres").val(cajaInteres);
+            $("#idSaldoCajaMor").val(cajaMoratorio);
+            $("#idSaldoCajaAuto").val(cajaAuto);
 
             $("#idSaldoCajaSistema").val(saldoCajaGlobal);
         }
