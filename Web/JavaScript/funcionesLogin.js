@@ -80,7 +80,7 @@ function insertaCajaSucursal(idCierreSuc) {
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCajaSucursal.php',
         success: function (response) {
             if (response == 0) {
-                saldosSucursal();
+                saldosInformativo();
             } else {
                 alertify.error("Error en al conectar con el servidor. (FLErr01)")
             }
@@ -128,7 +128,7 @@ function insertaCajaSelectMaxSucursal() {
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCajaSucursal.php',
         success: function (response) {
             if (response == 1) {
-                saldosSucursal();
+                saldosInformativo();
 
             } else {
                 alertify.error("Error en al conectar con el servidor. (FLErr01)")
@@ -262,11 +262,37 @@ function buscaridCaja() {
     });
 }
 
-function saldosSucursal() {
+function saldosInformativo() {
+
     //FLErr09
-    alert("saldoSuc")
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            var saldoInicialInfo = 0;
+            for (i; i < datos.length; i++) {
+                var prestamo_Informativo = datos[i].prestamo_Informativo;
+
+                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                saldoInicialInfo += prestamo_Informativo;
+            }
+            saldoInicialInfo = Math.round(saldoInicialInfo * 100) / 100;
+            saldosSucursal(saldoInicialInfo)
+        }
+    })
+}
+
+function saldosSucursal(saldoInicialInfo) {
+    //FLErr09
+    var dataEnviar = {
+        "saldoInicialInfo": saldoInicialInfo,
+    };
     $.ajax({
         type: "POST",
+        data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
         success: function (response) {
             alert(response)

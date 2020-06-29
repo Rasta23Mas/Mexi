@@ -448,7 +448,6 @@ function llenarInformativo() {
                 else if(tipo_movimiento==23){
                     abonosTotal += prestamo_EmpenoVenta;
                 }
-
             }
             apartadosTotal = Math.round(apartadosTotal * 100) / 100;
             abonosTotal = Math.round(abonosTotal * 100) / 100;
@@ -680,7 +679,6 @@ function guardarBazar() {
         },
     })
 }
-
 function actualizarBazar() {
     //1 llena movimientos de dotacion y retiro
     $.ajax({
@@ -695,9 +693,6 @@ function actualizarBazar() {
         },
     })
 }
-
-
-
 function BitacoraUsuarioCierreSucursal() {
     //id_Movimiento = 18 Ciere de Caja
     //FEErr08

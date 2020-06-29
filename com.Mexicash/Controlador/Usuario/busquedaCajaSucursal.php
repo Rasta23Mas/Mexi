@@ -15,10 +15,9 @@ if($tipo==3){
     $usu->haySucursalesHoy();
 }else if($tipo==6){
     $usu->insertaCajaMaxSucursal();
+}else if($tipo==7){
+    $usu->buscarInfoSaldoInicial();
 }
-/*else if($tipo==7){
-    $usu->saldosSucursal();
-}*/
 
 
 

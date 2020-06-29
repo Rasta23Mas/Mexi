@@ -370,9 +370,39 @@ class sqlUsuarioDAO
         echo $id_CierreCaja;
     }
 
-    function saldosSucursal(){
+
+
+    function buscarInfoSaldoInicial()
+    {
+        $datos = array();
         try {
-            $retorna = 0;
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT prestamo_Empeno  FROM bazar_articulos
+                        WHERE tipo_movimiento=24 and sucursal = $sucursal and id_Contrato not in 
+                        (select id_Contrato FROM bazar_articulos 
+                        where tipo_movimiento = 6 || tipo_movimiento = 22 || tipo_movimiento = 23 )";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "prestamo_Empeno" => $row["prestamo_Empeno"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    function saldosSucursal($saldoInicialInfo){
+        try {
+            $verdad = 0;
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
 
             $saldoBoveda = "SELECT importe FROM flujototales_tbl where id_flujoAgente=3";
@@ -381,23 +411,23 @@ class sqlUsuarioDAO
             $importeSaldoBoveda = $fila->importe;
 
 
-            $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda
+            $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda, InfoSaldoInicial=$saldoInicialInfo
                 WHERE id_CierreSucursal=$id_CierreSucursal and estatus=1";
             if ($ps = $this->conexion->prepare($updateSaldoInicial)) {
                 if ($ps->execute()) {
-                    $verdad = 1;
+                    $verdad = mysqli_stmt_affected_rows($ps);
                 } else {
-                    $verdad = -1;
+                    $verdad = -2;
                 }
             } else {
-                $retorna = -3;
+                $verdad = -3;
             }
         } catch (Exception $exc) {
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
-        echo $retorna;
+        echo $verdad;
     }
 
     function vendedores()
