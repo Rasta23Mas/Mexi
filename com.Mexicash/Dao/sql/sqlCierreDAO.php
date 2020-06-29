@@ -871,7 +871,7 @@ class sqlCierreDAO
                        (id_Contrato, id_serie, fecha_Bazar,precio_venta,tipo_movimiento,prestamo_Empeno,precio_Actual,sucursal)
                         SELECT Art.id_Contrato, CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) as idSerie,
-                        Con.fecha_Bazar,Art.vitrina,24,Con.prestamo_Informativo,Art.vitrina,Art.id_SerieSucursal
+                        Con.fecha_Bazar,Art.vitrina,24,Art.prestamo,Art.vitrina,Art.id_SerieSucursal
                         FROM articulo_tbl as Art
                         INNER JOIN contratomovimientos_tbl as Con on Art.id_Contrato = Con.id_contrato
                         WHERE  Con.fecha_Bazar='$fechaCreacion'";
