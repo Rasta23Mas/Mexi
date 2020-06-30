@@ -23,8 +23,6 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ventas</title>
     <!--Funciones-->
-<!--    <script src="../../JavaScript/funcionesArticulos.js"></script>
-    <script src="../../JavaScript/funcionesIntereses.js"></script>-->
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesVentas.js"></script>
