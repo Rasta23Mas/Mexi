@@ -54,8 +54,10 @@ function busquedaCodigoMostrador() {
             var html = '';
             var i = 0;
             for (i; i < datos.length; i++) {
+                var id_Bazar = datos[i].id_Bazar;
                 var id_serie = datos[i].id_serie;
                 var tipo_movimiento = datos[i].tipo_movimiento;
+                var id_Cliente = datos[i].id_Cliente;
                 var tipo = datos[i].tipoArt;
                 var kilataje = datos[i].kilataje;
                 var marca = datos[i].marca;
@@ -64,7 +66,10 @@ function busquedaCodigoMostrador() {
                 var detalle = datos[i].detalle;
                 var avaluo = datos[i].avaluo;
                 var vitrina = datos[i].vitrina;
+                var precio_venta = datos[i].precio_venta;
                 var fecha_Modificacion = datos[i].fecha_Modificacion;
+
+         
                 if(tipo_movimiento==6){
                     alert("El articulo fue vendido el día: " + fecha_Modificacion)
                 }
