@@ -322,11 +322,9 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 </table>
             </div>
         </div>
-        <div class="row "  >
+        <div class="row propInvisible"  >
             <div class="col col-lg-12"  >
                 <br>
-                <input type="text" name="subtotal"  id="precioVenta"
-                       style="width: 120px "disabled/>
                 <input type="text" name="subtotal"  id="idSubTotalValue"
                        style="width: 120px "disabled/>
                 <input type="text" name="iva"  id="idIvaValue"

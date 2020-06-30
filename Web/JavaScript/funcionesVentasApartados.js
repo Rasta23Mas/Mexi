@@ -150,7 +150,6 @@ function calcularIva(id_Bazar,precio) {
     $("#idTotalValue").val(totalPagar);
     $("#idTotalBase").val(totalPagar);
 
-
 }
 
 
@@ -173,26 +172,19 @@ function apartadoInicial(e) {
         apartado = Math.floor(apartado * 100) / 100;
 
         if (subtotalValue > apartado) {
-            var totalApartado = subtotalValue - apartado;
-            var calculaIva = Math.floor(totalApartado * 16) / 100;
-            totalPagar = totalApartado + calculaIva;
+            var calculaIva = Math.floor(subtotalValue * 16) / 100;
+            totalPagar = apartado + calculaIva;
             totalPagar = Math.floor(totalPagar * 100) / 100;
             $("#idEfectivo").val("");
             $("#idCambio").val("");
 
             $("#idApartadoInicialValue").val(apartado);
-            $("#idSubTotalValue").val(totalApartado);
-            $("#idIvaValue").val(calculaIva);
             $("#idTotalValue").val(totalPagar);
 
             var apartadoFormat = formatoMoneda(apartado);
-            var totalApartadoFormat = formatoMoneda(totalApartado);
-            var calculaIvaFormat = formatoMoneda(calculaIva);
             var totalPagarFormat = formatoMoneda(totalPagar);
 
-            //$("#idApartadoInicial").val(apartadoFormat);
-            $("#idSubTotal").val(totalApartadoFormat);
-            $("#idIva").val(calculaIvaFormat);
+            $("#idApartadoInicial").val(apartadoFormat);
             $("#idTotalPagar").val(totalPagarFormat);
 
         } else {
@@ -215,20 +207,20 @@ function efectivoVenta(e) {
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
 
-        var apartado = $("#idApartadoInicialValue").val();
+        var total = $("#idTotalValue").val();
         var efectivo = $("#idEfectivo").val();
 
-        apartado = Math.floor(apartado * 100) / 100;
+        total = Math.floor(total * 100) / 100;
         efectivo = Math.floor(efectivo * 100) / 100;
 
-        if (efectivo < apartado) {
+        if (efectivo < total) {
             alert("El efectivo no puede ser menor que el apartado a pagar.")
         } else {
             $("#idEfectivo").val("");
             $("#idCambio").val("");
             $("#idEfectivoValue").val("");
             $("#idCambioValue").val("");
-            var cambio = efectivo - apartado;
+            var cambio = efectivo - total;
             cambio = Math.floor(cambio * 100) / 100;
 
             $("#idEfectivoValue").val(efectivo);
@@ -266,11 +258,11 @@ function guardarApartado() {
      */
      id_ClienteGlb = $("#idClienteVenta").val();
     if(id_ClienteGlb==0){
-        alert("Debe seleccionar un cliente para la venta.");
+        alert("Debe seleccionar un cliente para el apartado.");
     }else{
         var vendedor = $("#idVendedor").val();
         if(vendedor==0){
-            alert("Debe seleccionar un vendedor para la venta.");
+            alert("Debe seleccionar un vendedor para el apartado.");
         }else{
             var apartado = $("#idApartadoInicialValue").val();
             if(apartado==0){
@@ -284,7 +276,7 @@ function guardarApartado() {
                     var totalValue = $("#idTotalValue").val();
                     var fechaVencimiento = $("#idFechaVencimiento").val();
                     var cambio = $("#idCambioValue").val();
-                    var precioVenta = $("#precioVenta").val();
+                    var precioVenta = $("#idSubTotalValue").val();
                     var dataEnviar = {
                         "id_ContratoGlb": id_ContratoGlb,
                         "id_serieGlb": id_serieGlb,
@@ -320,7 +312,6 @@ function guardarApartado() {
         }
     }
 }
-
 
 function BitacoraApartado() {
     //id_Movimiento = 22 -> Apartado
