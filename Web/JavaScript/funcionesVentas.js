@@ -1,4 +1,5 @@
 var errorToken = 0;
+var venta = 0;
 
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
@@ -55,24 +56,31 @@ function busquedaCodigoMostrador() {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
+                    var id_Cliente = datos[i].id_Cliente;
+                    var vendedor = datos[i].vendedor;
+
+
                     var id_Bazar = datos[i].id_Bazar;
                     var id_serie = datos[i].id_serie;
                     var tipo_movimiento = datos[i].tipo_movimiento;
-                    var id_Cliente = datos[i].id_Cliente;
-                    var tipo = datos[i].tipoArt;
+                    var detalle = datos[i].detalle;
                     var kilataje = datos[i].kilataje;
+                    var empeno = datos[i].empeno;
+                    var avaluo = datos[i].avaluo;
+                    var precio_venta = datos[i].precio_venta;
+                    var ubicacion = datos[i].ubicacion;
                     var marca = datos[i].marca;
                     var modelo = datos[i].modelo;
-                    var ubicacion = datos[i].ubicacion;
-                    var detalle = datos[i].detalle;
-                    var avaluo = datos[i].avaluo;
-                    var vitrina = datos[i].vitrina;
-                    var precio_venta = datos[i].precio_venta;
+                    var tipo = datos[i].tipoArt;
                     var fecha_Modificacion = datos[i].fecha_Modificacion;
                     var precioEnviar = precio_venta;
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
+
+
+                    $("#idClienteVenta").val(id_Cliente);
+                    $("#vendedor").val(vendedor);
 
                     if (tipo_movimiento == 6) {
                         alert("El articulo fue vendido el día: " + fecha_Modificacion)
@@ -120,6 +128,31 @@ function busquedaCodigoMostrador() {
             }
         }
     });
+}
+
+function validarApartado(id_Bazar, precio) {
+
+}
+
+function calcularIva(id_Bazar, precio) {
+
+    var precioFinal = Math.floor(precio * 100) / 100;
+    var calculaIva = Math.floor(precioFinal * 16) / 100;
+    var totalPagar = precioFinal + calculaIva;
+    totalPagar = Math.floor(totalPagar * 100) / 100;
+    var precioFinalFormat = formatoMoneda(precioFinal);
+    var calculaIvaFormat = formatoMoneda(calculaIva);
+    var totalPagarFormat = formatoMoneda(totalPagar);
+
+
+    $("#idSubTotal").val(precioFinalFormat);
+    $("#idIva").val(calculaIvaFormat);
+    $("#idTotalPagar").val(totalPagarFormat);
+    $("#idSubTotalValue").val(precioFinal);
+    $("#idIvaValue").val(calculaIva);
+    $("#idTotalValue").val(totalPagar);
+    $("#idTotalBase").val(totalPagar);
+
 }
 
 function calcularIva(id_Bazar, precio) {

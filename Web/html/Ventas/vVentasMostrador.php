@@ -318,6 +318,8 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="cliente"  id="idClienteVenta" class="propInvisible" value="0"
                        style="width: 120px "disabled/>
+                <input type="text" name="vendedor"  id="vendedor" class="propInvisible"
+                       style="width: 120px "disabled/>
             </div>
         </div>
         <div class="row">
