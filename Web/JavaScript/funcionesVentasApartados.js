@@ -201,20 +201,20 @@ function efectivoVenta(e) {
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
 
-        var total = $("#idTotalValue").val();
+        var apartado = $("#idApartadoInicialValue").val();
         var efectivo = $("#idEfectivo").val();
 
-        total = Math.floor(total * 100) / 100;
+        apartado = Math.floor(apartado * 100) / 100;
         efectivo = Math.floor(efectivo * 100) / 100;
 
-        if (efectivo < total) {
+        if (efectivo < apartado) {
             alert("El efectivo no puede ser menor que el apartado a pagar.")
         } else {
             $("#idEfectivo").val("");
             $("#idCambio").val("");
             $("#idEfectivoValue").val("");
             $("#idCambioValue").val("");
-            var cambio = efectivo - total;
+            var cambio = efectivo - apartado;
             cambio = Math.floor(cambio * 100) / 100;
 
             $("#idEfectivoValue").val(efectivo);

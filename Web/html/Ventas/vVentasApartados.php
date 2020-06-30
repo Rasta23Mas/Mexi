@@ -291,7 +291,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                     </tr>
                     <tr >
                         <td >
-                            <label for="subtotal">Total a Pagar:</label>
+                            <label for="subtotal">Falta por Pagar:</label>
                         </td>
                         <td  style="vertical-align:top;">
                             <input type="text" name="totalPagar"  id="idTotalPagar"
@@ -352,6 +352,12 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarApartado()">&nbsp;&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col col-lg-11">
+                <br>
             </div>
         </div>
     </div>
