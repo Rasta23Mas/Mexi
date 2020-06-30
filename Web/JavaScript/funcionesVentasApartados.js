@@ -3,7 +3,6 @@ var id_ContratoGlb = 0;
 var id_serieGlb = "";
 var id_ClienteGlb = 0;
 var tipo_movimientoGlb = 22;
-var idBazarGlb = 0;
 
 
 
@@ -274,7 +273,6 @@ function guardarApartado() {
 
                     var dataEnviar = {
                         "id_ContratoGlb": id_ContratoGlb,
-                        "idBazarGlb": idBazarGlb,
                         "id_serieGlb": id_serieGlb,
                         "id_ClienteGlb": id_ClienteGlb,
                         "precio_ActualGlb": totalValue,

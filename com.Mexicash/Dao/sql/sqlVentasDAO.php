@@ -333,16 +333,19 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function guardarVenta($id_Cliente,$id_Contrato,$id_serie,$tipo_movimiento,$idPrestamo,$precio_Actual,$abono,$abono_Total,$efectivo,$cambio,$sucursal)
+    public function guardarVenta($id_ContratoGlb,$id_serieGlb,$id_ClienteGlb,
+                                 $ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio,$precioVenta,
+                                 $descuento,$idToken,$tokenDesc)
     {
         // TODO: Implement guardaCiente() method.
         try {
             $fechaModificacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
 
             $insertaAbono = "INSERT INTO bazar_articulos 
-                       (id_Cliente,id_Contrato, id_serie,tipo_movimiento,precio_venta,precio_Actual,abono,abono_Total,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
-                        VALUES ($id_Cliente,$id_Contrato, '$id_serie',$tipo_movimiento,$idPrestamo,$precio_Actual,$abono,$abono_Total,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja)";
+                       (id_Contrato, id_serie,tipo_movimiento,id_Cliente,precio_venta,precio_Actual,descuento_Venta,abono,iva,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
+                        VALUES ($id_ContratoGlb,$id_serieGlb, $tipo_movimientoGlb,$id_ClienteGlb,$precioVenta,0,$descuento,0,$ivaGlb,$vendedorGlb,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
                     $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";

@@ -30,7 +30,7 @@
                         </tr>
                         <tr>
                             <td align="center">
-                                <input type="text" id="idCodigoAutVenta" name="codigoAut" size="20" value="" style="text-align: center" class="inputMinus"/>
+                                <input type="text" id="idCodigoVenta" name="codigoAut" size="20" value="" style="text-align: center" class="inputMinus"/>
                             </td>
                         </tr>
                     </table>
