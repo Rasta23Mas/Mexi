@@ -409,7 +409,7 @@ function BitacoraVenta() {
 //Generar PDF
 function verPDFVenta(idBazar) {
     window.open('../PDF/callPdfVenta.php?pdf=1&idBazar=' + idBazar);
-    alert("Venta realizado");
+    alert("Venta realizada.");
     $("#idFormVentas")[0].reset();
     $("#divTablaMetales").load('tablaMetales.php');
 }
