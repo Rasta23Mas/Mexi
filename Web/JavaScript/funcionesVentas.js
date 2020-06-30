@@ -38,8 +38,8 @@ function nombreAutocompletarVenta() {
 }
 
 
-function buscarCodigoModal() {
-    var idCodigo = $("#idCodigo").val();
+function busquedaCodigoMostrador() {
+    var idCodigo = $("#idCodigoMostrador").val();
     var tipoTabla = 0;
     var dataEnviar = {
         "idCodigo": idCodigo,

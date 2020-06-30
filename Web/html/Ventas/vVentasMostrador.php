@@ -12,7 +12,6 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
 include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
-include_once(HTML_PATH . "Ventas/modalCodigo.php");
 include_once(HTML_PATH . "Ventas/modalDescuentoVenta.php");
 include_once (HTML_PATH. "Ventas/menuVentas.php")
 ?>
@@ -155,12 +154,9 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
 
                     <tr >
                         <td colspan="4">
-                            <label for="nombreCliente">Codigo:</label>
-                            <label id="idCodigoBuscado" value="0"></label>
-                            <input type="button" class="btn btn-success "
-                                   data-toggle="modal" data-target="#modalCodigo" id="btnCodigo"
-                                   value="Buscar Codigo" >
-
+                            <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value="010001140"/>
+                            &nbsp;&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="busquedaCodigoMostrador()">&nbsp;
                         </td>
                         <td colspan="8">
                             <label for="direccion">Vendedor:</label>
