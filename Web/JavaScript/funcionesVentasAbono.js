@@ -337,7 +337,7 @@ function guardarAbono() {
                     if (response > 0) {
                         idBazarGlb = response;
                         alertify.success("El artículo se ha abonado correctamente.")
-                        BitacoraApartado()
+                        BitacoraAbonos();
                     } else {
                         alertify.error("Error al guardar el apartado");
                     }
@@ -348,7 +348,7 @@ function guardarAbono() {
 
 }
 
-function BitacoraApartado() {
+function BitacoraAbonos() {
     //id_Movimiento = 22 -> Apartado
 
     var dataEnviar = {
@@ -367,7 +367,7 @@ function BitacoraApartado() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                cargarPDFAbono(idBazarGlb);
+                verPDFAbono(idBazarGlb);
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
@@ -376,25 +376,17 @@ function BitacoraApartado() {
 }
 
 //Generar PDF
-function cargarPDFAbono(idBazar) {
-    if(tipo_movimientoGlb==6){
-        window.open('../PDF/callPdfAbono.php?idBazar=' + idBazar);
-    }else if(tipo_movimientoGlb==23){
-        window.open('../PDF/callPdfVenta.php?idBazar=' + idBazar);
+function verPDFAbono(idBazar) {
+    if(tipo_movimientoGlb==23){
+        window.open('../PDF/callPdfAbono.php?pdf=1&idBazar=' + idBazar);
+    }else if(tipo_movimientoGlb==6){
+        window.open('../PDF/callPdfVentaAbono.php?pdf=1&idBazar=' + idBazar);
     }
     alert("Abono realizado");
     $("#idFormAbonos")[0].reset();
     $("#divTablaAbono").load('tablaAbono.php');
     $("#divTablaApartado").load('tablaApartados.php');
     $("#idNombreVenta").prop('disabled', false);
-}
-
-function verPDFAbono(idBazar) {
-    window.open('../PDF/callPdfAbono.php?pdf=1&idBazar=' + idBazar);
-}
-
-function verPDFAbono(idBazar) {
-    window.open('../PDF/callPdfAbono.php?pdf=1&idBazar=' + idBazar);
 }
 
 function configurarRango() {

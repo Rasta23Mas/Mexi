@@ -101,7 +101,6 @@ foreach ($resultado as $row) {
     $efectivo = $row["efectivo"];
     $cambio = $row["cambio"];
     $usuario = $row["usuario"];
-    $abono_Total = $row["abono_Total"];
 }
 
 $precio_venta = number_format($precio_venta, 2,'.',',');

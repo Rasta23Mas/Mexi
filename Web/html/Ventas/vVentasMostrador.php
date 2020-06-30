@@ -152,7 +152,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
 
                     <tr >
                         <td colspan="4">
-                            <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value="010001140"/>
+                            <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value=""/>
                             &nbsp;&nbsp;
                             <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="busquedaCodigoMostrador()">&nbsp;
                         </td>
