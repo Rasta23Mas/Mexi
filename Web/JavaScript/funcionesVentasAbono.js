@@ -194,46 +194,52 @@ function nuevoAbono(e) {
         ultimoSaldo = Math.floor(ultimoSaldo * 100) / 100;
         abono = Math.floor(abono * 100) / 100;
 
-        if (ultimoSaldo > abono) {
-            var nuevoSaldo = ultimoSaldo - abono;
-            nuevoSaldo = Math.floor(nuevoSaldo * 100) / 100;
-            $("#idEfectivo").val("");
-            $("#idCambio").val("");
+        if(abono==0||abono==""){
+            alertify.warning("Por favor capturar el abono.");
 
-            $("#idImporteAbonoValue").val(abono);
-            $("#idNuevoSaldoValue").val(nuevoSaldo);
+        }else{
+            if (ultimoSaldo > abono) {
+                var nuevoSaldo = ultimoSaldo - abono;
+                nuevoSaldo = Math.floor(nuevoSaldo * 100) / 100;
+                $("#idEfectivo").val("");
+                $("#idCambio").val("");
 
-            var abonoFormat = formatoMoneda(abono);
-            var nuevoSaldoFormat = formatoMoneda(nuevoSaldo);
+                $("#idImporteAbonoValue").val(abono);
+                $("#idNuevoSaldoValue").val(nuevoSaldo);
 
-            $("#idImporteAbono").val(abonoFormat);
-            $("#idNuevoSaldo").val(nuevoSaldoFormat);
-            $("#idTotalPagar").val(abonoFormat);
-            $("#idImporteAbono").prop('disabled', true);
-            $("#idEfectivo").prop('disabled', false);
-            tipo_movimientoGlb = 23;
+                var abonoFormat = formatoMoneda(abono);
+                var nuevoSaldoFormat = formatoMoneda(nuevoSaldo);
 
-        } else if(ultimoSaldo == abono){
-            var nuevoSaldo = 0;
-            nuevoSaldo = Math.floor(nuevoSaldo * 100) / 100;
-            $("#idEfectivo").val("");
-            $("#idCambio").val("");
+                $("#idImporteAbono").val(abonoFormat);
+                $("#idNuevoSaldo").val(nuevoSaldoFormat);
+                $("#idTotalPagar").val(abonoFormat);
+                $("#idImporteAbono").prop('disabled', true);
+                $("#idEfectivo").prop('disabled', false);
+                tipo_movimientoGlb = 23;
 
-            $("#idImporteAbonoValue").val(abono);
-            $("#idNuevoSaldoValue").val(nuevoSaldo);
+            } else if(ultimoSaldo == abono){
+                var nuevoSaldo = 0;
+                nuevoSaldo = Math.floor(nuevoSaldo * 100) / 100;
+                $("#idEfectivo").val("");
+                $("#idCambio").val("");
 
-            var abonoFormat = formatoMoneda(abono);
-            var nuevoSaldoFormat = formatoMoneda(nuevoSaldo);
+                $("#idImporteAbonoValue").val(abono);
+                $("#idNuevoSaldoValue").val(nuevoSaldo);
 
-            $("#idImporteAbono").val(abonoFormat);
-            $("#idNuevoSaldo").val(nuevoSaldoFormat);
-            $("#idTotalPagar").val(abonoFormat);
-            $("#idImporteAbono").prop('disabled', true);
-            $("#idEfectivo").prop('disabled', false);
-            tipo_movimientoGlb = 6;
-        } else {
-            alert("El apartado tiene que ser menor al total.");
+                var abonoFormat = formatoMoneda(abono);
+                var nuevoSaldoFormat = formatoMoneda(nuevoSaldo);
+
+                $("#idImporteAbono").val(abonoFormat);
+                $("#idNuevoSaldo").val(nuevoSaldoFormat);
+                $("#idTotalPagar").val(abonoFormat);
+                $("#idImporteAbono").prop('disabled', true);
+                $("#idEfectivo").prop('disabled', false);
+                tipo_movimientoGlb = 6;
+            } else {
+                alert("El apartado tiene que ser menor al total.");
+            }
         }
+
 
     }
     return patron.test(te);
