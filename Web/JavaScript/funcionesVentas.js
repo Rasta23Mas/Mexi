@@ -1,5 +1,10 @@
 var errorToken = 0;
+//VENTA 6
 var tipo_movimientoGlb = 6;
+var id_ClienteGlb = 0;
+var id_ContratoGlb = 0;
+var id_serieGlb = 0;
+var idBazarGlb = 0;
 
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
@@ -131,7 +136,6 @@ function calcularIva(id_Bazar, precio, id_Contrato, id_serie) {
 
     id_ContratoGlb = id_Contrato;
     id_serieGlb = id_serie;
-    idBazarGlb = id_Bazar;
 
     $("#idSubTotal").val(precioFinalFormat);
     $("#idIva").val(calculaIvaFormat);
