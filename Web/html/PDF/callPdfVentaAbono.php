@@ -65,7 +65,7 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             BAZ.id_Contrato, ART.detalle,TK.descripcion as Kilataje,ET.descripcion AS TipoElectronico,
             EM.descripcion AS MarcaElectronico,EMOD.descripcion AS ModeloElectronico,Baz.id_serie,baz.precio_venta,
-            BAZ.precio_Actual,BAZ.iva,BAZ.abono,BAZ.abono_Total,BAZ.efectivo,BAZ.cambio,USU.usuario
+            BAZ.precio_Actual,BAZ.iva,BAZ.apartado,BAZ.abono,BAZ.abono_Total,BAZ.efectivo,BAZ.cambio,USU.usuario
             FROM bazar_articulos as Baz 
             INNER JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
             INNER JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
@@ -98,6 +98,7 @@ foreach ($resultado as $row) {
     $precio_venta = $row["precio_venta"];
     $precio_Actual = $row["precio_Actual"];
     $iva = $row["iva"];
+    $apartado = $row["apartado"];
     $efectivo = $row["efectivo"];
     $cambio = $row["cambio"];
     $usuario = $row["usuario"];
@@ -108,6 +109,8 @@ foreach ($resultado as $row) {
 
 $precio_venta = number_format($precio_venta, 2,'.',',');
 $iva = number_format($iva, 2,'.',',');
+$apartado = number_format($apartado, 2,'.',',');
+
 $abono = number_format($abono, 2,'.',',');
 $abono_Total = number_format($abono_Total, 2,'.',',');
 $efectivo = number_format($efectivo, 2,'.',',');
@@ -253,6 +256,10 @@ $contenido .= '<table width="30%" border="1">
                 <tr>
                    <td colspan="2" align="right"><label>IVA:</label></td>
                     <td  align="right"><label>$ '.$iva.'</label></td>
+                </tr>
+                 <tr>
+                   <td colspan="2" align="right"><label>APARTADO:</label></td>
+                    <td  align="right"><label>$ '.$apartado.'</label></td>
                 </tr>
                   <tr>
                    <td colspan="2" align="right"><label>ABONO:</label></td>

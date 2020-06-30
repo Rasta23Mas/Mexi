@@ -7,6 +7,8 @@ var id_serieGlb = 0;
 var tipo_movimientoGlb = 0;
 var sucursalGlb = 0;
 var idBazarGlb = 0;
+var ivaGlb = 0;
+var apartadoGlb = 0;
 
 
 function nombreAutocompletarAbono() {
@@ -107,6 +109,8 @@ function busquedaAbonos(id_Contrato,id_Bazar) {
                 for (i; i < datos.length; i++) {
 
                     var fecha_Modificacion = datos[i].fecha_Modificacion;
+                     ivaGlb = datos[i].iva;
+                    apartadoGlb = datos[i].apartado;
                     var abono = datos[i].abono;
                     var precio_Actual = datos[i].precio_Actual;
                     var apartado = datos[i].apartado;
@@ -322,6 +326,8 @@ function guardarAbono() {
                 "tipo_movimiento": tipo_movimientoGlb,
                 "precio_Actual": nuevoSaldo,
                 "idPrestamo": prestamo,
+                "apartado": apartadoGlb,
+                "iva": ivaGlb,
                 "abono": abono,
                 "abono_Total": abonoTotal,
                 "efectivo": efectivo,
