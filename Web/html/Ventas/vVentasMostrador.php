@@ -306,22 +306,17 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="descuento"  id="idDescuentoValue" class="propInvisible" value="0"
                        style="width: 120px "disabled/>
-                <input type="text" name="estatus"  id="idEstatus" class="propInvisible"
-                       style="width: 120px "disabled/>
                 <input type="text" name="efectivo"  id="idEfectivoValue" class="propInvisible"
                        style="width: 120px "disabled/>
                 <input type="text" name="cambio"  id="idCambioValue" class="propInvisible"
                        style="width: 120px "disabled/>
                 <input type="text" name="tokenDesc"  id="tokenDescripcion" class="propInvisible"
                        style="width: 120px "disabled/>
-                <input type="text" name="idtoken"  id="idToken" class="propInvisible"
+                <input type="text" name="idtoken"  id="idToken" class="propInvisible" value="0"
                        style="width: 120px "disabled/>
                 <input type="text" name="cliente"  id="idClienteSeleccion" class="propInvisible" value="0"
                        style="width: 120px "disabled/>
-                <input type="text" name="cliente"  id="idClienteVenta" class="propInvisible" value="0"
-                       style="width: 120px "disabled/>
-                <input type="text" name="vendedor"  id="vendedor" class="propInvisible" value="4"
-                       style="width: 120px "disabled/>
+
             </div>
         </div>
         <div class="row">

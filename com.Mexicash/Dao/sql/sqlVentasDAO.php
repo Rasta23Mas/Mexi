@@ -144,21 +144,19 @@ class sqlVentasDAO
     {
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Baz.id_serie , Baz.tipo_movimiento,Baz.id_Cliente,Baz.vendedor,Art.tipoArticulo,Art.kilataje,
+            $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Art.tipoArticulo,Art.kilataje,
                         Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
                         Baz.precio_venta FROM bazar_articulos as Baz INNER JOIN articulo_tbl as Art on baz.id_serie = 
                         CONCAT (Art.id_SerieSucursal, Art.id_SerieContrato,Art.id_SerieArticulo) 
                         WHERE Baz.id_serie like '$idCodigo%' and Baz.id_serie not in 
-                        (select id_serie FROM bazar_articulos where tipo_movimiento = 6 || tipo_movimiento = 20 )";
+                        (select id_serie FROM bazar_articulos where tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 || tipo_movimiento = 23 )";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
+                        "id_Contrato" => $row["id_Contrato"],
                         "id_Bazar" => $row["id_Bazar"],
                         "id_serie" => $row["id_serie"],
-                        "tipo_movimiento" => $row["tipo_movimiento"],
-                        "id_Cliente" => $row["id_Cliente"],
-                        "vendedor" => $row["vendedor"],
                         "tipoArt" => $row["tipoArticulo"],
                         "kilataje" => $row["kilataje"],
                         "marca" => $row["marca"],
@@ -334,4 +332,41 @@ class sqlVentasDAO
         //return $verdad;
         echo $respuesta;
     }
+
+    public function guardarVenta($id_Cliente,$id_Contrato,$id_serie,$tipo_movimiento,$idPrestamo,$precio_Actual,$abono,$abono_Total,$efectivo,$cambio,$sucursal)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+            $fechaModificacion = date('Y-m-d H:i:s');
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+
+            $insertaAbono = "INSERT INTO bazar_articulos 
+                       (id_Cliente,id_Contrato, id_serie,tipo_movimiento,precio_venta,precio_Actual,abono,abono_Total,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
+                        VALUES ($id_Cliente,$id_Contrato, '$id_serie',$tipo_movimiento,$idPrestamo,$precio_Actual,$abono,$abono_Total,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja)";
+            if ($ps = $this->conexion->prepare($insertaAbono)) {
+                if ($ps->execute()) {
+                    $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                    $statement = $this->conexion->query($buscarBazar);
+                    $encontro = $statement->num_rows;
+                    if ($encontro > 0) {
+                        $fila = $statement->fetch_object();
+                        $UltimoBazarID = $fila->UltimoBazarID;
+                        $respuesta = $UltimoBazarID;
+                    }
+                } else {
+                    $respuesta = -1;
+                }
+            } else {
+                $respuesta = 3;
+            }
+        } catch (Exception $exc) {
+            $respuesta = -20;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $respuesta;
+    }
+
 }
