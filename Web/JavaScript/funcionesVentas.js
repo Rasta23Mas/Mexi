@@ -368,7 +368,7 @@ function guardarVenta() {
                         if (response > 0) {
                             idBazarGlb = response;
                             alertify.success("El artículo se ha apartado correctamente.")
-                            BitacoraApartado()
+                            BitacoraVenta()
                         } else {
                             alertify.error("Error al guardar el apartado");
                         }
@@ -377,6 +377,34 @@ function guardarVenta() {
             }
         }
     }
+}
+
+
+function BitacoraVenta() {
+    //id_Movimiento = 22 -> Apartado
+
+    var dataEnviar = {
+        "id_Movimiento": tipo_movimientoGlb,
+        "id_contrato": id_ContratoGlb,
+        "id_almoneda": 0,
+        "id_cliente": id_ClienteGlb,
+        "consulta_fechaInicio": null,
+        "consulta_fechaFinal": null,
+        "idArqueo": 0,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                cargarPDFApartado(idBazarGlb);
+            } else {
+                alertify.error("Error en al conectar con el servidor.")
+            }
+        }
+    });
 }
 
 function MovimientosVenta(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {

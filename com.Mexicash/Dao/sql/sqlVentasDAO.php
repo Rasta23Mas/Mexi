@@ -345,19 +345,53 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $idCierreSuc = $_SESSION["idCierreSucursal"];
             $sucursal = $_SESSION["sucursal"];
+            $usuario = $_SESSION["idUsuario"];
 
             $insertaAbono = "INSERT INTO bazar_articulos 
                        (id_Contrato, id_serie,tipo_movimiento,id_Cliente,precio_venta,precio_Actual,descuento_Venta,abono,iva,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja,id_CierreSucursal)
-                        VALUES ($id_ContratoGlb,$id_serieGlb, $tipo_movimientoGlb,$id_ClienteGlb,$precioVenta,0,$descuento,0,$ivaGlb,$vendedorGlb,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
+                        VALUES ($id_ContratoGlb,'$id_serieGlb', $tipo_movimientoGlb,$id_ClienteGlb,$precioVenta,0,$descuento,0,$ivaGlb,$vendedorGlb,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
-                    $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
-                    $statement = $this->conexion->query($buscarBazar);
-                    $encontro = $statement->num_rows;
-                    if ($encontro > 0) {
-                        $fila = $statement->fetch_object();
-                        $UltimoBazarID = $fila->UltimoBazarID;
-                        $respuesta = $UltimoBazarID;
+                    if (empty($idToken)) {
+                        $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                        $statement = $this->conexion->query($buscarBazar);
+                        $encontro = $statement->num_rows;
+                        if ($encontro > 0) {
+                            $fila = $statement->fetch_object();
+                            $UltimoBazarID = $fila->UltimoBazarID;
+                            $respuesta = $UltimoBazarID;
+                        }
+                    } else {
+                        $token_decripcion = mb_strtoupper($tokenDesc, 'UTF-8');
+                        $insertaBitacora = "INSERT INTO bit_token ( id_Contrato, token, descripcion, descuento, id_tokenMovimiento, estatus, usuario, sucursal, fecha_Creacion)
+                                        VALUES ($id_ContratoGlb,$idToken,'$token_decripcion', $descuento, 7, 1, $usuario, $sucursal,'$fechaModificacion')";
+                        if ($ps = $this->conexion->prepare($insertaBitacora)) {
+                            if ($ps->execute()) {
+                                $updateToken = "UPDATE cat_token SET
+                                         estatus = 2
+                                        WHERE id_token =$idToken";
+                                if ($ps = $this->conexion->prepare($updateToken)) {
+                                    if ($ps->execute()) {
+                                        $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                                        $statement = $this->conexion->query($buscarBazar);
+                                        $encontro = $statement->num_rows;
+                                        if ($encontro > 0) {
+                                            $fila = $statement->fetch_object();
+                                            $UltimoBazarID = $fila->UltimoBazarID;
+                                            $respuesta = $UltimoBazarID;
+                                        }
+                                    } else {
+                                        $respuesta = -11;
+                                    }
+                                } else {
+                                    $respuesta = -12;
+                                }
+                            } else {
+                                $respuesta = -13;
+                            }
+                        } else {
+                            $respuesta = -155;
+                        }
                     }
                 } else {
                     $respuesta = -1;
