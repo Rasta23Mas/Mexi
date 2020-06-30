@@ -70,7 +70,7 @@ class sqlVentasDAO
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Contrato,Art.tipoArticulo,
+            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,Art.tipoArticulo,
                         CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',Art.detalle,'/ ', Art.ubicacion) as ElectronicoArt,
                         CONCAT (Art.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  Art.ubicacion) as ElectronicoMetal                        FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
@@ -89,6 +89,7 @@ class sqlVentasDAO
 
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
+                        "id_Bazar" => $row["id_Bazar"],
                         "id_Contrato" => $row["id_Contrato"],
                         "tipoArticulo" => $row["tipoArticulo"],
                         "ElectronicoArt" => $row["ElectronicoArt"],

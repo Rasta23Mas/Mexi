@@ -54,6 +54,7 @@ function busquedaClienteBazar() {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
+                    var id_Bazar = datos[i].id_Bazar;
                     var id_Contrato = datos[i].id_Contrato;
                     var tipoArticulo = datos[i].tipoArticulo;
                     var ElectronicoArt = datos[i].ElectronicoArt;
@@ -70,7 +71,7 @@ function busquedaClienteBazar() {
                         '<td align="center">' +
                         '<img src="../../style/Img/seleccionarNor.png"  ' +
                         'alt="Seleccionar"  ' +
-                        'onclick="busquedaAbonos(' + id_Contrato + ')">' +
+                        'onclick="busquedaAbonos(' + id_Contrato + ',' + id_Bazar +')">' +
                         '</td>' +
                         '</tr>';
                 }
@@ -83,7 +84,7 @@ function busquedaClienteBazar() {
     });
 }
 
-function busquedaAbonos(id_Contrato) {
+function busquedaAbonos(id_Contrato,id_Bazar) {
     id_ContratoGlb = id_Contrato;
     var dataEnviar = {
         "id_Contrato": id_Contrato,
@@ -104,6 +105,7 @@ function busquedaAbonos(id_Contrato) {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
+
                     var fecha_Modificacion = datos[i].fecha_Modificacion;
                     var abono = datos[i].abono;
                     var precio_Actual = datos[i].precio_Actual;
@@ -146,6 +148,7 @@ function busquedaAbonos(id_Contrato) {
                 apartadoTotal = Math.floor(apartadoTotal * 100) / 100;
                 abonoTotal = Math.floor(abonoTotal * 100) / 100;
 
+                $("#idFolioBazar").val(id_Bazar);
                 $("#idTotalApartadoValue").val(apartadoTotal);
                 $("#idTotalAbonadoValue").val(abonoTotal);
                 $("#idUltimoSaldoValue").val(ultimoSaldo);

@@ -123,7 +123,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                                    style="width: 100px;text-align: right "disabled/>
                         </td>
                         <td>
-                            <input id="idFolioBazar" name="folio" type="text" style="width: 130px" value="" disabled/>
+                            <input id="idFolioBazar" name="folio" type="text" style="width: 130px; text-align: center" value="" disabled/>
                         </td>
                     </tr>
                     <tr>
@@ -265,6 +265,17 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                 <br>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col col-lg-9"  >
+                <br>
+            </div>
+            <div class="col col-lg-3"  >
+                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVentaAbono()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-success" value="Abono" id="btnAbono" onclick="guardarAbono()">&nbsp;&nbsp;
+                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
+            </div>
+        </div>
         <div class="row propInvisible"  >
             <div class="col col-lg-12"  >
                 <input type="text" name="apartadoValue"  id="idTotalApartadoValue"
@@ -283,16 +294,6 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="cambio"  id="idPrestamoVenta"
                        style="width: 120px "disabled/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-lg-9"  >
-                <br>
-            </div>
-            <div class="col col-lg-3"  >
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVentaAbono()">&nbsp;&nbsp;
-                <input type="button" class="btn btn-success" value="Abono" id="btnAbono" onclick="guardarAbono()">&nbsp;&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
             </div>
         </div>
     </div>
