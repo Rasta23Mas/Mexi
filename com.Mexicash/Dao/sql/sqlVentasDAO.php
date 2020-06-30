@@ -25,7 +25,7 @@ class sqlVentasDAO
         //Modifique los estatus de usuario
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Baz.id_serie , Baz.tipo_movimiento,Art.tipoArticulo,Art.kilataje,
+            $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Art.tipoArticulo,Art.kilataje,
                         Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
                         Baz.precio_venta
                         FROM bazar_articulos as Baz
@@ -41,53 +41,8 @@ class sqlVentasDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "id_Bazar" => $row["id_Bazar"],
-                        "id_serie" => $row["id_serie"],
-                        "tipo_movimiento" => $row["tipo_movimiento"],
-                        "tipoArt" => $row["tipoArticulo"],
-                        "kilataje" => $row["kilataje"],
-                        "marca" => $row["marca"],
-                        "modelo" => $row["modelo"],
-                        "ubicacion" => $row["ubicacion"],
-                        "detalle" => $row["detalle"],
-                        "empeno" => $row["prestamo_Empeno"],
-                        "avaluo" => $row["avaluo"],
-                        "precio_venta" => $row["precio_venta"],
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-        echo json_encode($datos);
-    }
-
-    public function busquedaApartadosCodigo($idBazar)
-    {
-        //Modifique los estatus de usuario
-        $datos = array();
-        try {
-            $buscar = "SELECT Baz.id_Contrato,Baz.sucursal,Baz.id_serie , Baz.tipo_movimiento,Art.tipoArticulo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,Baz.fecha_Modificacion,
-                        Art.id_Articulo,Baz.precio_venta,Art.precioCat 
-                        FROM bazar_articulos as Baz
-                        INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
-                        Art.id_SerieContrato,Art.id_SerieArticulo) 
-                        WHERE Baz.id_serie like '$codigo%'  and Baz.id_serie not in 
-                        (select id_serie FROM bazar_articulos 
-                        where  tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 
-                        || tipo_movimiento = 23)";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
                         "id_Contrato" => $row["id_Contrato"],
-                        "sucursal" => $row["sucursal"],
                         "id_serie" => $row["id_serie"],
-                        "tipo_movimiento" => $row["tipo_movimiento"],
                         "tipoArt" => $row["tipoArticulo"],
                         "kilataje" => $row["kilataje"],
                         "marca" => $row["marca"],
@@ -96,10 +51,7 @@ class sqlVentasDAO
                         "detalle" => $row["detalle"],
                         "empeno" => $row["prestamo_Empeno"],
                         "avaluo" => $row["avaluo"],
-                        "fecha_Modificacion" => $row["fecha_Modificacion"],
-                        "id_Articulo" => $row["id_Articulo"],
                         "precio_venta" => $row["precio_venta"],
-                        "precioCat" => $row["precioCat"],
                     ];
                     array_push($datos, $data);
                 }
@@ -309,17 +261,17 @@ class sqlVentasDAO
 
     //Generar Venta
     public function guardarApartado($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb, $precio_ActualGlb, $apartadoGlb,$fechaVencimiento,
-                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $sucursalGlb,$efectivo,$cambio,$precioVenta)
-    {
+                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb,$efectivo,$cambio,$precioVenta){
         // TODO: Implement guardaCiente() method.
         try {
             $fechaModificacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
 
             $insertaApartado = "INSERT INTO bazar_articulos 
                        (id_Contrato, id_serie,id_Cliente,precio_venta,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja)
                         VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precioVenta,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio,
-                        '$fechaModificacion',$sucursalGlb,$idCierreCaja)";
+                        '$fechaModificacion',$sucursal,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaApartado)) {
                 if ($ps->execute()) {
                     $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";

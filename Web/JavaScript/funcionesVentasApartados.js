@@ -1,9 +1,8 @@
 var errorToken = 0;
 var id_ContratoGlb = 0;
-var id_serieGlb = 0;
+var id_serieGlb = "";
 var id_ClienteGlb = 0;
 var tipo_movimientoGlb = 22;
-var sucursalGlb = 0;
 var idBazarGlb = 0;
 
 
@@ -62,9 +61,9 @@ function busquedaCodigoBazar() {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
+                    var id_Contrato = datos[i].id_Contrato;
                     var id_Bazar = datos[i].id_Bazar;
                     var id_serie = datos[i].id_serie;
-                    var tipo_movimiento = datos[i].tipo_movimiento;
                     var detalle = datos[i].detalle;
                     var kilataje = datos[i].kilataje;
                     var empeno = datos[i].empeno;
@@ -78,7 +77,6 @@ function busquedaCodigoBazar() {
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
-
                     tipoTabla = tipo;
                     if (tipo == 1) {
                         html += '<tr>' +
@@ -90,7 +88,7 @@ function busquedaCodigoBazar() {
                             '<td>' + precio_venta + '</td>' +
                             '<td>' + ubicacion + '</td>' +
                             '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ')"></td>' +
+                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
                             '</tr>';
                     } else if (tipo == 2) {
                         html += '<tr>' +
@@ -102,7 +100,7 @@ function busquedaCodigoBazar() {
                             '<td>' + precio_venta + '</td>' +
                             '<td>' + ubicacion + '</td>' +
                             '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ')"></td>' +
+                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
                             '</tr>';
                     }
 
@@ -125,7 +123,7 @@ function busquedaCodigoBazar() {
 
 }
 
-function calcularIva(id_Bazar,precio) {
+function calcularIva(id_Bazar,precio,id_Contrato,id_serie) {
 
     var precioFinal = Math.floor(precio * 100) / 100;
     var calculaIva = Math.floor(precioFinal * 16) / 100;
@@ -135,6 +133,9 @@ function calcularIva(id_Bazar,precio) {
     var calculaIvaFormat = formatoMoneda(calculaIva);
     var totalPagarFormat = formatoMoneda(totalPagar);
 
+     id_ContratoGlb = id_Contrato;
+     id_serieGlb = id_serie;
+     idBazarGlb = id_Bazar;
 
     $("#idSubTotal").val(precioFinalFormat);
     $("#idIva").val(calculaIvaFormat);
@@ -145,7 +146,6 @@ function calcularIva(id_Bazar,precio) {
     $("#idTotalBase").val(totalPagar);
 
 }
-
 
 function apartadoInicial(e) {
     var tecla;
@@ -271,8 +271,10 @@ function guardarApartado() {
                     var fechaVencimiento = $("#idFechaVencimiento").val();
                     var cambio = $("#idCambioValue").val();
                     var precioVenta = $("#idSubTotalValue").val();
+
                     var dataEnviar = {
                         "id_ContratoGlb": id_ContratoGlb,
+                        "idBazarGlb": idBazarGlb,
                         "id_serieGlb": id_serieGlb,
                         "id_ClienteGlb": id_ClienteGlb,
                         "precio_ActualGlb": totalValue,
@@ -281,7 +283,6 @@ function guardarApartado() {
                         "ivaGlb": iva,
                         "tipo_movimientoGlb": tipo_movimientoGlb,
                         "vendedorGlb": vendedor,
-                        "sucursalGlb": sucursalGlb,
                         "efectivo": efectivo,
                         "cambio": cambio,
                         "precioVenta": precioVenta,

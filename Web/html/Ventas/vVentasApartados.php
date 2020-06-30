@@ -78,7 +78,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
 
 
          .propInvisible {
-             visibility: visible;
+             visibility: hidden;
          }
 
 
