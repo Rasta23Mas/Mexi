@@ -75,7 +75,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
 
 
          .propInvisible {
-             visibility: visible;
+             visibility: hidden;
          }
 
 
@@ -292,6 +292,18 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             </div>
         </div>
         <div class="row">
+
+            <div class="col col-lg-7">
+                <br>
+            </div>
+            <div class="col col-lg-5 lef" >
+                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
+                <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
+                <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
+                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
+            </div>
+        </div>
+        <div class="row propInvisible">
             <div class="col col-lg-12" >
                 <br>
                 <input type="text" name="subtotal"  id="idSubTotalValue" class="propInvisible"
@@ -317,18 +329,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
 
             </div>
         </div>
-        <div class="row">
 
-            <div class="col col-lg-7">
-                <br>
-            </div>
-            <div class="col col-lg-5 lef" >
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
-                <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
-                <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
-            </div>
-        </div>
     </div>
     </div>
     </div>
