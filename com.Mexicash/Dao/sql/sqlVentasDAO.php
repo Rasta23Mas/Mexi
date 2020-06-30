@@ -26,7 +26,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT Baz.id_Bazar,Baz.id_serie , Baz.tipo_movimiento,Art.tipoArticulo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,Baz.fecha_Modificacion,
+                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
                         Baz.precio_venta
                         FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
@@ -51,7 +51,6 @@ class sqlVentasDAO
                         "detalle" => $row["detalle"],
                         "empeno" => $row["prestamo_Empeno"],
                         "avaluo" => $row["avaluo"],
-                        "fecha_Modificacion" => $row["fecha_Modificacion"],
                         "precio_venta" => $row["precio_venta"],
                     ];
                     array_push($datos, $data);
@@ -193,7 +192,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT Baz.id_Bazar,Baz.id_serie , Baz.tipo_movimiento,Baz.id_Cliente,Baz.vendedor,Art.tipoArticulo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,Baz.fecha_Modificacion, 
+                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
                         Baz.precio_venta FROM bazar_articulos as Baz INNER JOIN articulo_tbl as Art on baz.id_serie = 
                         CONCAT (Art.id_SerieSucursal, Art.id_SerieContrato,Art.id_SerieArticulo) 
                         WHERE Baz.id_serie like '$idCodigo%' and Baz.id_serie not in 
@@ -215,7 +214,6 @@ class sqlVentasDAO
                         "detalle" => $row["detalle"],
                         "empeno" => $row["prestamo_Empeno"],
                         "avaluo" => $row["avaluo"],
-                        "fecha_Modificacion" => $row["fecha_Modificacion"],
                         "precio_venta" => $row["precio_venta"],
                     ];
                     array_push($datos, $data);

@@ -74,16 +74,10 @@ function busquedaCodigoBazar() {
                     var marca = datos[i].marca;
                     var modelo = datos[i].modelo;
                     var tipo = datos[i].tipoArt;
-                    var fecha_Modificacion = datos[i].fecha_Modificacion;
                     var precioEnviar = precio_venta;
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
-
-                    if (tipo_movimiento == 6) {
-                        alert("El articulo fue vendido el día: " + fecha_Modificacion)
-                    }
-
 
                     tipoTabla = tipo;
                     if (tipo == 1) {

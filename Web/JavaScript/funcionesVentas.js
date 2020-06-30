@@ -1,5 +1,5 @@
 var errorToken = 0;
-var venta = 0;
+var ventaGlb = 1;
 
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
@@ -23,7 +23,7 @@ function nombreAutocompletarVenta() {
                     var direccionComp = $('#' + id).attr('direccionCompleta');
                     //var estado = $('#' + id).attr('estadoDesc');
                     //Editamos el valor del input con data de la sugerencia pulsada
-                    $('#idClienteVenta').val(id);
+                    $('#idClienteSeleccion').val(id);
                     $('#idNombreVenta').val($('#' + id).attr('data'));
                     $("#idCelularVenta").val(celular);
                     $("#idDireccionVenta").val(direccionComp);
@@ -72,7 +72,6 @@ function busquedaCodigoMostrador() {
                     var marca = datos[i].marca;
                     var modelo = datos[i].modelo;
                     var tipo = datos[i].tipoArt;
-                    var fecha_Modificacion = datos[i].fecha_Modificacion;
                     var precioEnviar = precio_venta;
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
@@ -82,8 +81,8 @@ function busquedaCodigoMostrador() {
                     $("#idClienteVenta").val(id_Cliente);
                     $("#vendedor").val(vendedor);
 
-                    if (tipo_movimiento == 6) {
-                        alert("El articulo fue vendido el día: " + fecha_Modificacion)
+                    if (tipo_movimiento == 22||tipo_movimiento == 23) {
+                        ventaGlb = 1;
                     }
                     tipoTabla = tipo;
 
@@ -130,50 +129,48 @@ function busquedaCodigoMostrador() {
     });
 }
 
-function validarApartado(id_Bazar, precio) {
-
-}
-
 function calcularIva(id_Bazar, precio) {
+    var validate = 0;
 
-    var precioFinal = Math.floor(precio * 100) / 100;
-    var calculaIva = Math.floor(precioFinal * 16) / 100;
-    var totalPagar = precioFinal + calculaIva;
-    totalPagar = Math.floor(totalPagar * 100) / 100;
-    var precioFinalFormat = formatoMoneda(precioFinal);
-    var calculaIvaFormat = formatoMoneda(calculaIva);
-    var totalPagarFormat = formatoMoneda(totalPagar);
+    if(ventaGlb){
+       var cliente =  $("#idClienteVenta").val();
+       var clienteVenta =  $("#idClienteSeleccion").val();
+
+       if(clienteVenta==0){
+           alert("El artículo ha sido apartado, por favor seleccione el cliente.");
+       }else{
+           if(clienteVenta!=cliente){
+               alert("El cliente seleccionado, es diferente al cliente que aparto el artículo.");
+           }else{
+               validate = 1;
+           }
+       }
+    }else{
+        validate = 1;
+    }
+
+    if (validate){
+        var vendedorVenta = $("#vendedor").val();
+        $("#idVendedor").val(vendedorVenta);
+        $("#idVendedor").prop('disabled', true);
+
+        var precioFinal = Math.floor(precio * 100) / 100;
+        var calculaIva = Math.floor(precioFinal * 16) / 100;
+        var totalPagar = precioFinal + calculaIva;
+        totalPagar = Math.floor(totalPagar * 100) / 100;
+        var precioFinalFormat = formatoMoneda(precioFinal);
+        var calculaIvaFormat = formatoMoneda(calculaIva);
+        var totalPagarFormat = formatoMoneda(totalPagar);
 
 
-    $("#idSubTotal").val(precioFinalFormat);
-    $("#idIva").val(calculaIvaFormat);
-    $("#idTotalPagar").val(totalPagarFormat);
-    $("#idSubTotalValue").val(precioFinal);
-    $("#idIvaValue").val(calculaIva);
-    $("#idTotalValue").val(totalPagar);
-    $("#idTotalBase").val(totalPagar);
-
-}
-
-function calcularIva(id_Bazar, precio) {
-
-    var precioFinal = Math.floor(precio * 100) / 100;
-    var calculaIva = Math.floor(precioFinal * 16) / 100;
-    var totalPagar = precioFinal + calculaIva;
-    totalPagar = Math.floor(totalPagar * 100) / 100;
-    var precioFinalFormat = formatoMoneda(precioFinal);
-    var calculaIvaFormat = formatoMoneda(calculaIva);
-    var totalPagarFormat = formatoMoneda(totalPagar);
-
-
-    $("#idSubTotal").val(precioFinalFormat);
-    $("#idIva").val(calculaIvaFormat);
-    $("#idTotalPagar").val(totalPagarFormat);
-    $("#idSubTotalValue").val(precioFinal);
-    $("#idIvaValue").val(calculaIva);
-    $("#idTotalValue").val(totalPagar);
-    $("#idTotalBase").val(totalPagar);
-
+        $("#idSubTotal").val(precioFinalFormat);
+        $("#idIva").val(calculaIvaFormat);
+        $("#idTotalPagar").val(totalPagarFormat);
+        $("#idSubTotalValue").val(precioFinal);
+        $("#idIvaValue").val(calculaIva);
+        $("#idTotalValue").val(totalPagar);
+        $("#idTotalBase").val(totalPagar);
+    }
 }
 
 function descuentoVenta(e) {
@@ -264,7 +261,7 @@ function validaVenta() {
     var efectivo = $("#idEfectivo").val();
     var efectivoValue = $("#idEfectivoValue").val();
     var vendedor = $("#idVendedor").val();
-    var cliente = $("#idClienteVenta").val();
+    var cliente = $("#idClienteSeleccion").val();
     if (cliente == 0) {
         alertify.warning("Favor de seleccionar el cliente.");
     } else if (vendedor == 0) {
@@ -346,7 +343,7 @@ function guardarTemporal() {
      */
     var estatus = 8;
     var bazar = $("#idCodigoBuscado").val();
-    var cliente = $("#idClienteVenta").val();
+    var cliente = $("#idClienteSeleccion").val();
     var precioVenta = $("#idTotalBase").val();
     var descuento = $("#idDescuentoValue").val();
     var vendedor = $("#idVendedor").val();
