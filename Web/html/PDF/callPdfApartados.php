@@ -243,7 +243,7 @@ if (!isset($_GET['pdf'])) {
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label>APARTADO</label>
+                        <label>ABONO</label>
                     </td>
                 </tr>
                 <tr>
@@ -481,7 +481,7 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label>APARTADO</label>
+                        <label>ABONO</label>
                     </td>
                 </tr>
                 <tr>

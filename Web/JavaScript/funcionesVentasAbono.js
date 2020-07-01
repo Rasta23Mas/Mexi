@@ -122,9 +122,17 @@ function busquedaAbonos(id_Contrato,id_Bazar) {
                     sucursalGlb = datos[i].sucursal;
 
 
-                    if (tipo_movimiento == 22) {
+                    if (tipo_movimiento == 22 ) {
                         apartadoTotal = apartado;
                         prestamoVenta = datos[i].precio_venta;
+
+                        var abonoTabla = formatoMoneda(apartado);
+                        var precioTabla = formatoMoneda(precio_Actual);
+                        html += '<tr>' +
+                            '<td>' + fecha_Modificacion + '</td>' +
+                            '<td align="right">' + abonoTabla + '</td>' +
+                            '<td align="right">' + precioTabla + '</td>' +
+                            '</tr>';
 
                     } else if (tipo_movimiento == 23) {
                         abonoTotal += abono;
@@ -236,7 +244,7 @@ function nuevoAbono(e) {
                 $("#idEfectivo").prop('disabled', false);
                 tipo_movimientoGlb = 6;
             } else {
-                alert("El apartado tiene que ser menor al total.");
+                alert("El abono tiene que ser menor al total.");
             }
         }
 

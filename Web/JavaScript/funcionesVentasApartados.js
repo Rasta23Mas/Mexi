@@ -158,15 +158,14 @@ function apartadoInicial(e) {
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
 
-        var subtotalValue = $("#idSubTotalValue").val();
+        var subtotalValue = $("#idTotalValue").val();
         var apartado = $("#idApartadoInicial").val();
         var totalPagar = 0;
         subtotalValue = Math.floor(subtotalValue * 100) / 100;
         apartado = Math.floor(apartado * 100) / 100;
 
         if (subtotalValue > apartado) {
-            var calculaIva = Math.floor(subtotalValue * 16) / 100;
-            totalPagar = apartado + calculaIva;
+            totalPagar = subtotalValue - apartado;
             totalPagar = Math.floor(totalPagar * 100) / 100;
             $("#idEfectivo").val("");
             $("#idCambio").val("");

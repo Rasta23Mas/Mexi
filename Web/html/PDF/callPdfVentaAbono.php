@@ -257,26 +257,7 @@ $contenido .= '<table width="30%" border="1">
                    <td colspan="2" align="right"><label>IVA:</label></td>
                     <td  align="right"><label>$ '.$iva.'</label></td>
                 </tr>
-                 <tr>
-                   <td colspan="2" align="right"><label>APARTADO:</label></td>
-                    <td  align="right"><label>$ '.$apartado.'</label></td>
-                </tr>
-                  <tr>
-                   <td colspan="2" align="right"><label>ABONO:</label></td>
-                    <td  align="right"><label>$ '.$abono.'</label></td>
-                </tr>
-                 <tr>
-                   <td colspan="2" align="right"><label>ABONO TOTAL:</label></td>
-                    <td  align="right"><label>$ '.$abono_Total.'</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>EFECTIVO:</label></td>
-                    <td  align="right"><label>$ '.$efectivo.'</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>CAMBIO:</label></td>
-                    <td  align="right"><label>$ '.$cambio.'</label></td>
-                </tr>
+                
                 <tr>
                     <td colspan="2"><label></label></td>
                     <td align="right"><label>-------------</label></td>
