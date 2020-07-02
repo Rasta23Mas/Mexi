@@ -59,13 +59,13 @@ if (isset($_GET['idBazar'])) {
 
 
 
-
+$descuento_Venta = 0;
 
 $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,BAZ.id_Bazar,
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             BAZ.id_Contrato, ART.detalle,TK.descripcion as Kilataje,ET.descripcion AS TipoElectronico,
             EM.descripcion AS MarcaElectronico,EMOD.descripcion AS ModeloElectronico,Baz.id_serie,baz.precio_venta,
-            BAZ.precio_Actual,BAZ.iva,BAZ.efectivo,BAZ.cambio,USU.usuario
+            BAZ.precio_Actual,BAZ.iva,BAZ.efectivo,BAZ.cambio,USU.usuario, BAZ.descuento_Venta
             FROM bazar_articulos as Baz 
             INNER JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
             INNER JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
@@ -101,14 +101,15 @@ foreach ($resultado as $row) {
     $efectivo = $row["efectivo"];
     $cambio = $row["cambio"];
     $usuario = $row["usuario"];
+    $descuento_Venta = $row["descuento_Venta"];
 }
 
 $precio_venta = number_format($precio_venta, 2,'.',',');
 $iva = number_format($iva, 2,'.',',');
-
 $efectivo = number_format($efectivo, 2,'.',',');
 $cambio = number_format($cambio, 2,'.',',');
 $precio_Actual = number_format($precio_Actual, 2,'.',',');
+$descuento_Venta = number_format($descuento_Venta, 2,'.',',');
 
 $Fecha_Creacion = date("d-m-Y", strtotime($Fecha_Creacion));
 
@@ -249,6 +250,10 @@ $contenido .= '<table width="30%" border="1">
                 <tr>
                    <td colspan="2" align="right"><label>IVA:</label></td>
                     <td  align="right"><label>$ '.$iva.'</label></td>
+                </tr>
+                <tr>
+                   <td colspan="2" align="right"><label>Descuento:</label></td>
+                    <td  align="right"><label>$ '.$descuento_Venta.'</label></td>
                 </tr>
                 <tr>
                    <td colspan="2" align="right"><label>EFECTIVO:</label></td>

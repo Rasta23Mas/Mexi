@@ -147,9 +147,11 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Art.tipoArticulo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
-                        Baz.precio_venta FROM bazar_articulos as Baz INNER JOIN articulo_tbl as Art on baz.id_serie = 
-                        CONCAT (Art.id_SerieSucursal, Art.id_SerieContrato,Art.id_SerieArticulo) 
+                        CatM.descripcion as Marca,CatE.descripcion as Modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
+                        Baz.precio_venta FROM bazar_articulos as Baz 
+                        INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, Art.id_SerieContrato,Art.id_SerieArticulo) 
+                        LEFT JOIN cat_electronico_modelo as CatE on Art.modelo = CatE.id_modelo
+                        LEFT JOIN cat_electronico_marca as CatM on Art.marca = CatM.id_marca
                         WHERE Baz.id_serie like '$idCodigo%' and Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos where tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 || tipo_movimiento = 23 )";
             $rs = $this->conexion->query($buscar);
@@ -161,8 +163,8 @@ class sqlVentasDAO
                         "id_serie" => $row["id_serie"],
                         "tipoArt" => $row["tipoArticulo"],
                         "kilataje" => $row["kilataje"],
-                        "marca" => $row["marca"],
-                        "modelo" => $row["modelo"],
+                        "marca" => $row["Marca"],
+                        "modelo" => $row["Modelo"],
                         "ubicacion" => $row["ubicacion"],
                         "detalle" => $row["detalle"],
                         "empeno" => $row["prestamo_Empeno"],

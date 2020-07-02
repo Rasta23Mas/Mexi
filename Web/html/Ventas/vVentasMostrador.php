@@ -78,7 +78,6 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
              visibility: hidden;
          }
 
-
     </style>
 </head>
 <body>
@@ -152,9 +151,10 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
 
                     <tr >
                         <td colspan="4">
-                            <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value=""/>
+                            <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value=""
+                                   onkeypress="return busquedaCodigoMostrador(event)"/>
                             &nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="busquedaCodigoMostrador()">&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo" onclick="busquedaCodigoMostradorBoton()">&nbsp;
                         </td>
                         <td colspan="8">
                             <label for="direccion">Vendedor:</label>
@@ -256,6 +256,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                                    style="width: 120px; text-align: right "
                                    placeholder="$0.00"
                                    onkeypress="return descuentoVenta(event)"/>
+
                         </td>
                     </tr>
                     <tr >
@@ -287,6 +288,11 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                                    style="width: 120px; text-align: right "  disabled/>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="2">
+                            <br>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -306,25 +312,25 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
         <div class="row propInvisible">
             <div class="col col-lg-12" >
                 <br>
-                <input type="text" name="subtotal"  id="idSubTotalValue" class="propInvisible"
+                <input type="text" name="subtotal"  id="idSubTotalValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="iva"  id="idIvaValue" class="propInvisible"
+                <input type="text" name="iva"  id="idIvaValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalBase" class="propInvisible"
+                <input type="text" name="total"  id="idTotalBase"
                        style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalValue" class="propInvisible"
+                <input type="text" name="total"  id="idTotalValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="descuento"  id="idDescuentoValue" class="propInvisible" value="0"
+                <input type="text" name="descuento"  id="idDescuentoValue"  value="0"
                        style="width: 120px "disabled/>
-                <input type="text" name="efectivo"  id="idEfectivoValue" class="propInvisible"
+                <input type="text" name="efectivo"  id="idEfectivoValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="cambio"  id="idCambioValue" class="propInvisible"
+                <input type="text" name="cambio"  id="idCambioValue"
                        style="width: 120px "disabled/>
-                <input type="text" name="tokenDesc"  id="tokenDescripcion" class="propInvisible"
+                <input type="text" name="tokenDesc"  id="tokenDescripcion"
                        style="width: 120px "disabled/>
-                <input type="text" name="idtoken"  id="idToken" class="propInvisible" value="0"
+                <input type="text" name="idtoken"  id="idToken"  value="0"
                        style="width: 120px "disabled/>
-                <input type="text" name="cliente"  id="idClienteSeleccion" class="propInvisible" value="0"
+                <input type="text" name="cliente"  id="idClienteSeleccion" value="0"
                        style="width: 120px "disabled/>
 
             </div>

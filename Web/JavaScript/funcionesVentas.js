@@ -43,7 +43,22 @@ function nombreAutocompletarVenta() {
     });
 }
 
-function busquedaCodigoMostrador() {
+function busquedaCodigoMostrador(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode === 13 && !e.shiftKey) {
+        busquedaCodigoMostradorBoton();
+    }
+}
+
+function busquedaCodigoMostradorBoton() {
     var idCodigo = $("#idCodigoMostrador").val();
     var tipoTabla = 0;
     var dataEnviar = {
@@ -77,10 +92,10 @@ function busquedaCodigoMostrador() {
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
 
-
                     tipoTabla = tipo;
 
                     if (tipo == 1) {
+                        ubicacion = ubicacion.toUpperCase();
                         html += '<tr>' +
                             '<td>' + id_serie + '</td>' +
                             '<td>' + detalle + '</td>' +
@@ -93,6 +108,10 @@ function busquedaCodigoMostrador() {
                             'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
                             '</tr>';
                     } else if (tipo == 2) {
+                        modelo = modelo.toUpperCase();
+                        marca = marca.toUpperCase();
+                        detalle = detalle.toUpperCase();
+
                         html += '<tr>' +
                             '<td>' + id_serie + '</td>' +
                             '<td>' + modelo + '</td>' +
@@ -100,7 +119,7 @@ function busquedaCodigoMostrador() {
                             '<td>' + empeno + '</td>' +
                             '<td>' + avaluo + '</td>' +
                             '<td>' + precio_venta + '</td>' +
-                            '<td>' + ubicacion + '</td>' +
+                            '<td>' + detalle + '</td>' +
                             '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
                             'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
                             '</tr>';
@@ -158,43 +177,32 @@ function descuentoVenta(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
-        var subTotal = $("#idSubTotalValue").val();
+        var totalPagar = $("#idTotalValue").val();
         var descuento = $("#idDescuento").val();
 
-        subTotal = Math.floor(subTotal * 100) / 100;
+        totalPagar = Math.floor(totalPagar * 100) / 100;
         descuento = Math.floor(descuento * 100) / 100;
 
-        if (subTotal < descuento) {
+        if (totalPagar < descuento) {
             alert("El descuento no puede ser mayor que el total a pagar.")
-        } else if (subTotal == descuento) {
+        } else if (totalPagar == descuento) {
             alert("El descuento no puede ser igual que el total a pagar.")
         } else {
             $("#idEfectivo").val("");
             $("#idCambio").val("");
             $("#idEfectivoValue").val("");
             $("#idCambioValue").val("");
-            var nuevoTotal = subTotal - descuento;
+            var nuevoTotal = totalPagar - descuento;
             var precioFinal = Math.floor(nuevoTotal * 100) / 100;
-            var calculaIva = Math.floor(precioFinal * 16) / 100;
-            var totalPagar = precioFinal + calculaIva;
-            totalPagar = Math.floor(totalPagar * 100) / 100;
             var precioFinalFormat = formatoMoneda(precioFinal);
-            var calculaIvaFormat = formatoMoneda(calculaIva);
-            var totalPagarFormat = formatoMoneda(totalPagar);
 
-
-            $("#idSubTotal").val(precioFinalFormat);
-            $("#idIva").val(calculaIvaFormat);
-            $("#idTotalPagar").val(totalPagarFormat);
-            $("#idSubTotalValue").val(precioFinal);
-            $("#idIvaValue").val(calculaIva);
-            $("#idTotalValue").val(totalPagar);
-            $("#idTotalBase").val(totalPagar);
+            $("#idTotalPagar").val(precioFinalFormat);
+            $("#idTotalValue").val(precioFinal);
+            $("#idTotalBase").val(precioFinal);
             $("#idDescuentoValue").val(descuento);
             $("#idDescuento").prop('disabled', true);
 
         }
-
     }
     return patron.test(te);
 }
