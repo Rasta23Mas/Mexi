@@ -103,13 +103,15 @@ foreach ($resultado as $row) {
     $usuario = $row["usuario"];
     $descuento_Venta = $row["descuento_Venta"];
 }
-
+$total = $precio_venta + $iva;
+$total= $total -$descuento_Venta;
 $precio_venta = number_format($precio_venta, 2,'.',',');
 $iva = number_format($iva, 2,'.',',');
 $efectivo = number_format($efectivo, 2,'.',',');
 $cambio = number_format($cambio, 2,'.',',');
 $precio_Actual = number_format($precio_Actual, 2,'.',',');
 $descuento_Venta = number_format($descuento_Venta, 2,'.',',');
+$total = number_format($total, 2,'.',',');
 
 $Fecha_Creacion = date("d-m-Y", strtotime($Fecha_Creacion));
 
@@ -252,8 +254,12 @@ $contenido .= '<table width="30%" border="1">
                     <td  align="right"><label>$ '.$iva.'</label></td>
                 </tr>
                 <tr>
-                   <td colspan="2" align="right"><label>Descuento:</label></td>
+                   <td colspan="2" align="right"><label>DESCUENTOS:</label></td>
                     <td  align="right"><label>$ '.$descuento_Venta.'</label></td>
+                </tr>
+                <tr>
+                   <td colspan="2" align="right"><label>TOTAL:</label></td>
+                    <td  align="right"><label>$ '.$total.'</label></td>
                 </tr>
                 <tr>
                    <td colspan="2" align="right"><label>EFECTIVO:</label></td>

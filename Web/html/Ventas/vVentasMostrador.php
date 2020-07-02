@@ -78,6 +78,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
              visibility: hidden;
          }
 
+
     </style>
 </head>
 <body>
@@ -88,7 +89,7 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             <br>
         </div>
         <div class="row">
-            <div class="col col-lg-11 border border-primary"  >
+            <div class="col col-md-12 border border-primary"  >
                 <table border="0" width="90%" >
                     <tbody>
                     <tr class="headt">
@@ -191,42 +192,21 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             </div>
         </div>
         <div class="row">
-            <div  class="col col-lg-12 " >
+            <div  class="col col-md-12 " >
                 <br>
             </div>
         </div>
         <div class="row">
-            <div id="divTablaMetales" class="col col-lg-11 " >
+            <div id="divTablaMetales" class="col col-md-12 " >
             </div>
-            <div id="divTablaArticulos" class="col col-lg-11 ">
+            <div id="divTablaArticulos" class="col col-md-12 ">
             </div>
         </div>
         <div class="row">
-            <div class="col col-lg-1 ">
+            <div class="col col-md-9">
                 <br>
             </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-4" >
+            <div class="col col-lg-3" >
                 <table border="0" width="90%" >
                     <tbody>
                     <tr >
@@ -298,11 +278,10 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
             </div>
         </div>
         <div class="row">
-
-            <div class="col col-lg-7">
+            <div class="col col-lg-8">
                 <br>
             </div>
-            <div class="col col-lg-5 lef" >
+            <div class="col col-lg-4 lef" >
                 <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
                 <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
                 <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
@@ -332,12 +311,8 @@ include_once (HTML_PATH. "Ventas/menuVentas.php")
                        style="width: 120px "disabled/>
                 <input type="text" name="cliente"  id="idClienteSeleccion" value="0"
                        style="width: 120px "disabled/>
-
             </div>
         </div>
-
-    </div>
-    </div>
     </div>
 </form>
 
