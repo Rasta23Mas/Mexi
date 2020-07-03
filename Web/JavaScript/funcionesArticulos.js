@@ -77,7 +77,6 @@ function Agregar() {
         if (tipoInteres != 0) {
             if (vitrina != "" || vitrinaE != "") {
                 var formElectronico = $("#idTipoElectronico").val();
-                alert(formElectronico)
                 var formMetal = $("#idTipoMetal").val();
                 if (formMetal != 0 || formElectronico != 0) {
                     if (formMetal > 0) {
@@ -88,7 +87,6 @@ function Agregar() {
                         var interesMetal = calcularInteresMetal(metalPrestamo);
                         var idArticulo = 0;
                         idArticuloGlb ++;
-
 
                         var idArticulo = String(idArticuloGlb);
                         var idArticulo = idArticulo.padStart(2,"0");
@@ -342,7 +340,6 @@ function confirmarEliminarMetales($idArticulo) {
     alertify.confirm('Eliminar',
         'Confirme eliminacion de articulo seleccionado.',
         function () {
-
             eliminarMetales($idArticulo)
         },
         function () {
@@ -376,7 +373,6 @@ function eliminarArticulo($idArticulo) {
 
 function eliminarMetales($idArticulo) {
     idArticuloGlb --;
-    alert(idArticuloGlb);
     var dataEnviar = {
         "$idArticulo": $idArticulo
     };

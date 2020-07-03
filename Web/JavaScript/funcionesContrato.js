@@ -188,7 +188,7 @@ function generarContratoAuto() {
                                         if (contrato > 0) {
                                             $("#idFormAuto")[0].reset();
                                             MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 2);
-                                            cargarPDFDocumentos(contrato);
+                                            verPDFDocumentosCon(contrato);
                                             alertify.success("Contrato generado exitosamente.");
                                         } else {
                                             alertify.error("Error al generar contrato. (FEErr02)");
@@ -221,16 +221,9 @@ function generarContratoAuto() {
 //Reimprimir
 
 
-function cargarPDF(contrato) {
-    window.open('../PDF/callPdfContrato.php?contrato=' + contrato);
-}
 
 function verPDF(id_ContratoPDF) {
     window.open('../PDF/callPdfContrato.php?pdf=1&contrato=' + id_ContratoPDF);
-}
-
-function cargarPDFDocumentos(contrato) {
-    window.open('../PDF/callPdfAutoDocumentos.php?contrato=' + contrato);
 }
 
 function verPDFDocumentosCon(id_ContratoPDF) {
@@ -438,7 +431,7 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                cargarPDF(contrato);
+                verPDF(contrato);
                 alertify.success("Contrato generado.");
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr07)")

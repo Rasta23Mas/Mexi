@@ -592,7 +592,6 @@ include_once(HTML_PATH . "Empeno/menuEmpeno.php")
                 <br>
             </div>
             <div class="col col-lg-5" align="right">&nbsp;
-                <input type="button" class="btn btn-warning" value="dsd" onclick="testemepe()">&nbsp;
                 <input type="button" class="btn btn-primary" value="Contrato" onclick="generarContrato()">&nbsp;
                 <!--input type="button" class="btn btn-info" value="Reimprimir" onclick=" window.open('../PDF/callPdfContrato.php')">&nbsp;-->
                 <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
