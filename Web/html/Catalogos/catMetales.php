@@ -25,7 +25,7 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
             if (tipoUser == 2) {
                 $("#menuEmpeno").hide();
                 $("#menuEmpenoAuto").hide();
-                $("#menuCierre").hide();
+                //$("#menuCierre").hide();
                 $("#menuVentas").hide();
                 $("#menuConsultas").show();
                 $("#menuCatalogos").show();

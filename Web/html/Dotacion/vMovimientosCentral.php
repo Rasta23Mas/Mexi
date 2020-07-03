@@ -14,7 +14,7 @@ $sesionInactiva = $_SESSION['sesionInactiva'];
 
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(HTML_PATH . "Dotacion/menuMovimientos.php");
+include_once (HTML_PATH."menuGeneral.php");
 include_once(HTML_PATH . "Dotacion/modalFlujo.php");
 include_once(HTML_PATH . "Dotacion/modalBusqueda.php");
 

@@ -7,7 +7,7 @@ if (!isset($_SESSION["idUsuario"])) {
     session_destroy();
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(HTML_PATH . "Cierre/menuCierre.php");
+include_once (HTML_PATH."menuGeneral.php");
 include_once(SQL_PATH . "sqlCierreDAO.php");
 include_once(HTML_PATH . "Cierre/modalBusquedaCaja.php");
 

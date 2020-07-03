@@ -12,7 +12,7 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
 
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(HTML_PATH . "Cancelaciones/menuCancelar.php");
+include_once (HTML_PATH."menuGeneral.php");
 include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
 
 

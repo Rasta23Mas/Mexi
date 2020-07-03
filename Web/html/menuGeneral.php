@@ -28,7 +28,6 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
             if (tipoUser == 2) {
                 $("#menuEmpeno").hide();
                 $("#menuEmpenoAuto").hide();
-                $("#menuCierre").hide();
                 $("#menuVentas").hide();
                 $("#menuConsultas").show();
                 $("#menuCatalogos").show();
@@ -46,7 +45,6 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     $("#menuVentas").hide();
                 }
 
-                $("#menuCierre").show();
                 $("#menuConsultas").hide();
                 $("#menuCatalogos").hide();
                 $("#menuDotaciones").show();
@@ -55,7 +53,6 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
             } else if (tipoUser == 4) {
                 $("#menuEmpeno").show();
                 $("#menuEmpenoAuto").show();
-                $("#menuCierre").show();
                 $("#menuVentas").show();
                 $("#menuConsultas").hide();
                 $("#menuCatalogos").hide();
@@ -92,10 +89,10 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     Auto
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="vAuto.php">Empeños</a></li>
+                    <li><a class="dropdown-item" href="../Empeno/vAuto.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
-                    <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=4">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Desempeno/vRefrendo.php?tipoFormGet=4">Desempeños</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuConsultas">
@@ -104,7 +101,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     Consultas
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCierre">
