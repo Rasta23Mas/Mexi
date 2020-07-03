@@ -15,8 +15,8 @@ if (!isset($_SESSION["idUsuario"])) {
     session_destroy();
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(HTML_PATH . "Empeno/menuEmpeno.php");
-include_once(HTML_PATH . "Empeno/modalDescuento.php");
+include_once(HTML_PATH . "Empeno/menuRefrendo.php");
+include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -121,7 +121,7 @@ include_once(HTML_PATH . "Empeno/modalDescuento.php");
     </script>
     <style>
         .propInvisible {
-            visibility: hidden;
+            visibility: visible;
         }
     </style>
 </head>
@@ -531,7 +531,7 @@ include_once(HTML_PATH . "Empeno/modalDescuento.php");
                             <input type="text" id="prestamoNuevoNota" name="Prestamo"
                                    style="width: 100px; text-align: right"/>
                         </td>
-                        <td>
+                        <td>inte
                             <input type="text" id="interesNuevoNota" name="Interes"
                                    style="width: 100px; text-align: right"/>
                         </td>
@@ -539,7 +539,7 @@ include_once(HTML_PATH . "Empeno/modalDescuento.php");
                             <input type="text" id="moratoriosNuevoNota" name="Moratorios"
                                    style="width: 100px; text-align: right"/>
                         </td>
-                        <td>
+                        <td>inte
                             <input type="text" id="totalInteresNuevoNota" name="TotalInteres"
                                    style="width: 100px; text-align: right"/>
                         </td>
@@ -549,7 +549,7 @@ include_once(HTML_PATH . "Empeno/modalDescuento.php");
                             <input type="text" id="descuentoNuevoNota" name="Descuento"
                                    style="width: 100px; text-align: right"/>
                         </td>
-                        <td>
+                        <td>inte
                             <input type="text" id="interesPagarNuevoNota" name="Interes"
                                    style="width: 100px; text-align: right"/>
                         </td>
@@ -634,7 +634,7 @@ include_once(HTML_PATH . "Empeno/modalDescuento.php");
                         </td>
                     </tr>
                     <tr class="propInvisible">
-                        <td>
+                        <td>iva
                             <input type="text" id="idIVAValue" class="propInvisible" name="IVA"
                                    style="width: 100px;  "/>
                         </td>

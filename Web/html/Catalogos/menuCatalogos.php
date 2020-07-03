@@ -79,7 +79,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Empeños</a></li>
-                    <li><a class="dropdown-item" href="../Empeno/vRefrendo.php">Refrendo</a></li>
+                    <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Empeno/vDesempeno.php">Desempeños</a></li>
                     <li><a class="dropdown-item" href="../Empeno/vConsultaContrato.php">Consulta</a></li>
                 </ul>
