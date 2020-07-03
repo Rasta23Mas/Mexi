@@ -488,6 +488,8 @@ function buscarDatosContrato() {
                     var totalPagarConIva = interesParaIva;
                     var ivaTotal = Math.round(IvaDesc * totalPagarConIva) / 100;
                     interesPagarNuevoNota = interesPagarNuevoNota + ivaTotal;
+                    var interesPagarNuevoNota = Math.round(interesPagarNuevoNota * 100) / 100;
+
                     totalPagarNuevoNota = totalPagarNuevoNota + ivaTotal;
                     $("#prestamoNuevoNota").val(prestamoNuevoNota);
                     $("#interesNuevoNota").val(interesNuevoNota);
@@ -652,6 +654,28 @@ function descuentoNuevo(e) {
             $("#idAbonoCapitalNotaNuevo").prop('disabled', false);
             $("#idAbonoCapitalNotaNuevo").focus();
 
+
+            var ivaDesc = $("#idTblIva").val();
+            var totalInteres = $("#interesPagarNuevoNota").val();
+            var ivaValue = $("#idIVAValue").val();
+            ivaDesc = Number(ivaDesc);
+            var ivaPorc = "." + ivaDesc;
+            ivaPorc = Number(ivaPorc);
+            totalInteres = totalInteres - descuento;
+            $("#interesPagarNuevoNota").val(totalInteres);
+            var totalInteresFormat = formatoMoneda(totalInteres)
+            $("#idInteresAPagarNotaNuevo").val(totalInteresFormat);
+            ivaDesc += 100;
+            var totalInteresDescuento = totalInteres / ivaDesc;
+            totalInteresDescuento = totalInteresDescuento * 100;
+
+            ivaValue = totalInteresDescuento * ivaPorc;
+            totalInteresDescuento = Math.round(totalInteresDescuento * 100) / 100;
+            ivaValue = Math.round(ivaValue * 100) / 100;
+
+            $("#totalInteresNuevoNota").val(totalInteresDescuento);
+            $("#idIVAValue").val(ivaValue);
+            alert(totalInteresDescuento)
 
         } else {
             alert("El descuento no puede ser mayor al interes.");
@@ -852,19 +876,17 @@ function generarNuevo() {
     var idEstatusArt = 2;
 
 
-    if (tipeFormulario == 1 || tipeFormulario == 2) {
-        nombreMensaje = "Refrendo";
-        abonoCapitalNuevoNota = $("#abonoCapitalNuevoNota").val();
-        abonoCapitalPDF = abonoCapitalNuevoNota;
-        //Abono para guardar en el contrato
-        var abonoAnteriorNuevoNota = $("#abonoAnteriorNuevoNota").val();
-        abonoCapitalNuevoNota = parseFloat(abonoCapitalNuevoNota);
-        abonoAnteriorNuevoNota = parseFloat(abonoAnteriorNuevoNota);
-        abonoFinal = abonoCapitalNuevoNota + abonoAnteriorNuevoNota;
-        abonoFinal = Math.round(abonoFinal * 100) / 100;
-        newFechaVencimiento = $("#fechaVencimientoNuevoNota").val();
-        newFechaAlm = $("#fechaAlmNuevoNota").val();
-    }
+    nombreMensaje = "Refrendo";
+    abonoCapitalNuevoNota = $("#abonoCapitalNuevoNota").val();
+    abonoCapitalPDF = abonoCapitalNuevoNota;
+    //Abono para guardar en el contrato
+    var abonoAnteriorNuevoNota = $("#abonoAnteriorNuevoNota").val();
+    abonoCapitalNuevoNota = parseFloat(abonoCapitalNuevoNota);
+    abonoAnteriorNuevoNota = parseFloat(abonoAnteriorNuevoNota);
+    abonoFinal = abonoCapitalNuevoNota + abonoAnteriorNuevoNota;
+    abonoFinal = Math.round(abonoFinal * 100) / 100;
+    newFechaVencimiento = $("#fechaVencimientoNuevoNota").val();
+    newFechaAlm = $("#fechaAlmNuevoNota").val();
 
 
     if (efectivoNuevoNota == 0) {

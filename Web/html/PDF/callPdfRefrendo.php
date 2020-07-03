@@ -381,8 +381,8 @@ $contenido .= '<table width="30%" border="1">
                     <td colspan="3" align="center"><hr></td>
                 </tr>
                 <tr>
-                    <td><label>?????</label></td>
-                    <td><label>?????</label></td>
+                    <td><label>$ '.$prestamo.'</label></td>
+                    <td><label>$ '.$Total.'</label></td>
                     <td><label id="idFechaVencimiento">'.$Fecha_Vencimiento.'</label></td>
                 </tr>
                 <tr>
