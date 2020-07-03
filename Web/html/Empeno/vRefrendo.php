@@ -1,5 +1,5 @@
 <?php
-$tipoFormularioGet =0;
+$tipoFormularioGet = 0;
 if (isset($_GET['tipoFormGet'])) {
     $tipoFormularioGet = $_GET['tipoFormGet'];
 }
@@ -16,7 +16,7 @@ if (!isset($_SESSION["idUsuario"])) {
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(HTML_PATH . "Empeno/menuEmpeno.php");
-include_once (HTML_PATH. "Empeno/modalDescuento.php");
+include_once(HTML_PATH . "Empeno/modalDescuento.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -26,16 +26,16 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
     <title>Mexicash</title>
     <script src="../../JavaScript/funcionesRefrendo.js"></script>
     <script type="application/javascript">
-        var form= <?php echo $tipoFormularioGet?>;
-        var $ContratoEnviado= <?php echo $ContratoGet?>;
+        var form = <?php echo $tipoFormularioGet?>;
+        var $ContratoEnviado = <?php echo $ContratoGet?>;
         var nameForm = "Error";
         var tipoArticuloOAuto = 0;
-        form =parseInt(form);
+        form = parseInt(form);
         $(document).ready(function () {
             $("#btnGenerar").prop('disabled', true);
             $("#idFormulario").val(form);
 
-            if(form==1){
+            if (form == 1) {
                 nameForm = "Refrendo";
                 $("#idGPSTH").hide();
                 $("#idPensionTH").hide();
@@ -52,7 +52,7 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                 $("#btnGenerar").val(nameForm)
 
 
-            }else if(form==2){
+            } else if (form == 2) {
 
                 nameForm = "Refrendo Auto";
                 $("#idGPSTH").show();
@@ -70,7 +70,7 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                 $("#btnGenerar").val(nameForm)
 
 
-            }else if(form==3){
+            } else if (form == 3) {
                 nameForm = "Desempeño";
                 $("#idGPSTH").hide();
                 $("#idPensionTH").hide();
@@ -90,7 +90,7 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                 tipoArticuloOAuto = 1;
                 $("#idTipoDeContrato").val(tipoArticuloOAuto);
                 $("#trAbonoNotaNuevo").hide();
-            }else if(form==4){
+            } else if (form == 4) {
                 nameForm = "Desempeño Auto";
                 tipoArticuloOAuto = 2;
                 $("#trAbonoNotaNuevo").hide();
@@ -102,8 +102,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                 $("#idTipoDeContrato").val(tipoArticuloOAuto);
             }
 
-            document.getElementById('nameFormLbl').innerHTML =nameForm;
-            if($ContratoEnviado != 0){
+            document.getElementById('nameFormLbl').innerHTML = nameForm;
+            if ($ContratoEnviado != 0) {
                 $("#idContrato").val($ContratoEnviado);
                 busquedaMovimiento();
                 $("#btnGenerar").hide();
@@ -111,7 +111,7 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                 $("#btnGenerarSinInteres").val(nameForm)
 
 
-            }else{
+            } else {
                 $("#trCostoContrato").hide();
                 $("#trTotalSinInteres").hide();
                 $("#trIvaSinInteres").hide();
@@ -121,13 +121,13 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
     </script>
     <style>
         .propInvisible {
-            visibility: visible;
+            visibility: hidden;
         }
     </style>
 </head>
-<body >
+<body>
 <form id="idFormDesRef" name="formDes">
-    <div id="newContenedor" >
+    <div id="newContenedor">
         <div align="center">
             <br>
             <h2><label id="nameFormLbl"></label></h2>
@@ -141,10 +141,11 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                     <tr>
                         <td style="width: 200px" align="left">
                             <label>Contrato:</label>
-                            <input type="text" id="idContrato" name="contrato" size="10"  onkeypress="return busquedaRefrendo(event)"
+                            <input type="text" id="idContrato" name="contrato" size="10"
+                                   onkeypress="return busquedaRefrendo(event)"
                                    style="text-align:right"/>
                         </td>
-                        <td style="width: 200px" align="left" >
+                        <td style="width: 200px" align="left">
                             <input type="button" class="btn btn-info " id="btnBuscar" onclick="busquedaMovimiento();"
                                    value="Buscar">
                             <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
@@ -158,7 +159,7 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                     </tr>
                     <tr>
                         <td colspan="2">
-                           <label id="lblNombreCliente"><label>
+                            <label id="lblNombreCliente"><label>
                         </td>
                     </tr>
                     <tr>
@@ -179,13 +180,13 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                     </tr>
                     <tr>
                         <td colspan="2">
-                         <!--   <textarea rows="13" cols="45" id="idDatosContratoDes" class="textAreaRes" disabled>
-                            </textarea>-->
+                            <!--   <textarea rows="13" cols="45" id="idDatosContratoDes" class="textAreaRes" disabled>
+                               </textarea>-->
                             <table>
                                 <tr>
                                     <td><label>Fecha Empeño :</label></td>
                                     <td><input type="text" id="idTblFechaEmpeno" name="tblFechaEmpe" size="10" disabled
-                                                style="text-align:left"/></td>
+                                               style="text-align:left"/></td>
                                 </tr>
                                 <tr>
                                     <td><label>Fecha Vencimiento :</label></td>
@@ -199,12 +200,13 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                                 </tr>
                                 <tr>
                                     <td><label>Días transcurridos :</label></td>
-                                    <td ><input type="text" id="idTblDiasTransc" name="tblDiasTransc" size="10" disabled
+                                    <td><input type="text" id="idTblDiasTransc" name="tblDiasTransc" size="10" disabled
                                                style="text-align:center"/></td>
                                 </tr>
                                 <tr>
                                     <td><label>Días transcurridos interés :</label></td>
-                                    <td><input type="text" id="idTblDiasTransInt" name="tblDiasTranscInteres" size="10" disabled
+                                    <td><input type="text" id="idTblDiasTransInt" name="tblDiasTranscInteres" size="10"
+                                               disabled
                                                style="text-align:center"/></td>
                                 </tr>
                                 <tr>
@@ -219,7 +221,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                                 </tr>
                                 <tr>
                                     <td><label>Interés diario :</label></td>
-                                    <td><input type="text" id="idTblInteresDiario" name="tblInteresDiario" size="10" disabled
+                                    <td><input type="text" id="idTblInteresDiario" name="tblInteresDiario" size="10"
+                                               disabled
                                                style="text-align:center"/></td>
                                 </tr>
                                 <tr>
@@ -306,8 +309,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Prestamo:</label></h5>
                         </td>
                         <td align="right" style="width: 180px;">
-                            <h5 ><input type="text" id="idPrestamoNotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idPrestamoNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -318,8 +321,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Interes:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idInteresNotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idInteresNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -331,8 +334,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Moratorios:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idMoratorioNotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idMoratorioNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -343,8 +346,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>GPS:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idGPSNota" name="gpsNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idGPSNota" name="gpsNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -355,8 +358,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Poliza:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idPolizaNota" name="polizaNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idPolizaNota" name="polizaNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -367,8 +370,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Pension:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idPensionNota" name="pensionNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idPensionNota" name="pensionNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -380,8 +383,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Total Interés:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idTotalInteresNotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idTotalInteresNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -392,21 +395,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>IVA:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idIVANotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
-                        </td>
-                        <td colspan="2">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <tr id="trDescuentoInteresNovo">
-                        <td align="right">
-                            <h5>Descuento a interés:</label></h5>
-                        </td>
-                        <td align="right">
-                            <h5 ><input type="text" id="idDescuentoNotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled placeholder="$0.00"
-                                onkeypress="return descuentoNuevo(event)"/></h5>
+                            <h5><input type="text" id="idIVANotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -417,8 +407,21 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Interés a pagar:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idInteresAPagarNotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idInteresAPagarNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                        </td>
+                        <td colspan="2">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr id="trDescuentoInteresNovo">
+                        <td align="right">
+                            <h5>Descuento a interés:</label></h5>
+                        </td>
+                        <td align="right">
+                            <h5><input type="text" id="idDescuentoNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled placeholder="$0.00"
+                                       onkeypress="return descuentoNuevo(event)"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -429,9 +432,9 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Abono a capital:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idAbonoCapitalNotaNuevo" name="prestamoNota"
-                                        onkeypress="return abonoNuevo(event)"
-                                        style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
+                            <h5><input type="text" id="idAbonoCapitalNotaNuevo" name="prestamoNota"
+                                       onkeypress="return abonoNuevo(event)"
+                                       style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -443,8 +446,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Total a pagar:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idTotalAPagarNotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idTotalAPagarNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -455,8 +458,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Costo por contrato:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idCostoContrato" name="costoContratoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idCostoContrato" name="costoContratoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -467,8 +470,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>IVA:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idIVANotaNuevoSinInteres" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="idIVANotaNuevoSinInteres" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -479,8 +482,8 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Total a pagar:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="totalSinInteres" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
+                            <h5><input type="text" id="totalSinInteres" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -491,9 +494,9 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Efectivo:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idEfectivoNotaNuevo" name="prestamoNota"
-                                        onkeypress="return cambioNuevo(event)"
-                                        style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
+                            <h5><input type="text" id="idEfectivoNotaNuevo" name="prestamoNota"
+                                       onkeypress="return cambioNuevo(event)"
+                                       style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
@@ -504,135 +507,155 @@ include_once (HTML_PATH. "Empeno/modalDescuento.php");
                             <h5>Cambio:</label></h5>
                         </td>
                         <td align="right">
-                            <h5 ><input type="text" id="idCambioNotaNuevo" name="prestamoNota"
-                                        style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
+                            <h5><input type="text" id="idCambioNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
                         </td>
                         <td colspan="2">
                             &nbsp;
                         </td>
                     </tr>
-                    <tr >
-                        <td colspan="3"></td>
-                        <td align="right" style="width: 180px">
-                            <input type="button" class="btn btn-warning" value="Limpiar" id="btnLimpiar"  disabled onclick="limpiarRefrendo()">&nbsp;
+                    <tr>
+                        <td align="right" colspan="4">
+                            <input type="button" class="btn btn-warning" value="Limpiar" id="btnLimpiar" disabled
+                                   onclick="limpiarRefrendo()">&nbsp;
+                            <input type="button" class="btn btn-primary" id="btnGenerar" value="Refrendo"
+                                   onclick="validaDescuentoNuevo()">&nbsp;
+                            <input type="button" class="btn btn-primary" id="btnGenerarSinInteres" value="Refrendo"
+                                   onclick="MovimientosRefrendoSinInteres()">&nbsp;
+                            <input type="button" class="btn btn-danger" value="Salir"
+                                   onclick="location.href='vInicio.php'">&nbsp;
                         </td>
                     </tr>
                     <tr class="propInvisible">
-                        <td><label>Prestamo</label>
-                            <input type="text" id="prestamoNuevoNota"  style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Interes</label>
-                            <input type="text" id="interesNuevoNota" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Moratorios</label>
-                            <input type="text" id="moratoriosNuevoNota" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Total_Intereses</label>
-                            <input type="text" id="totalInteresNuevoNota" style="width: 100px; text-align: right"/>
-                        </td>
-                    </tr>
-                    <tr class="propInvisible">
-                        <td><label>Descuento</label>
-                            <input type="text" id="descuentoNuevoNota"  style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Interes a Pagaar</label>
-                            <input type="text" id="interesPagarNuevoNota" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Abono Capital</label>
-                            <input type="text" id="abonoCapitalNuevoNota" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Total a Pagar</label>
-                            <input type="text" id="totalPagarNuevoNota" style="width: 100px; text-align: right"/>
-                        </td>
-                    </tr>
-                    <tr class="propInvisible">
-                        <td><label>Efectivo</label>
-                            <input type="text" id="efectivoNuevoNota"  style="width: 100px; text-align: right"/>
-                        </td>
-                        <td ><label>Cambio</label>
-                            <input type="text" id="cambioNuevoNota" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>valida token</label>
-                            <input type="text" id="idValidaToken"  style="width: 100px; text-align: right" value="0"/>
-                        </td>
-                        <td><label>token</label>
-                            <input type="text" id="idToken"  style="width: 100px; text-align: right"/>
-                        </td>
-                    </tr>
-                    <tr class="propInvisible">
-                        <td><label>Descuento anterior</label>
-                            <input type="text" id="descuentoAnteriorNuevoNota" value="0" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>saldo pendiente</label>
-                            <input type="text" id="saldoPendienteNuevoNota" value="0.00" style="width: 100px; text-align: right"/>
+                        <td>
+                            <input type="text" id="prestamoNuevoNota" name="Prestamo"
+                                   style="width: 100px; text-align: right"/>
                         </td>
                         <td>
-                        <label>nueva fecha vencimiento</label>
-                        <input type="text" id="fechaVencimientoNuevoNota" value="0" style="width: 100px; text-align: right"/>
+                            <input type="text" id="interesNuevoNota" name="Interes"
+                                   style="width: 100px; text-align: right"/>
                         </td>
-                        <td><label>nueva fecha alm</label>
-                            <input type="text" id="fechaAlmNuevoNota" value="0" style="width: 100px; text-align: right"/>
+                        <td>
+                            <input type="text" id="moratoriosNuevoNota" name="Moratorios"
+                                   style="width: 100px; text-align: right"/>
                         </td>
-                    </tr>
-                    <tr class="propInvisible">
-                        <td><label>Abono Anterior</label>
-                            <input type="text" id="abonoAnteriorNuevoNota" value="0" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Gps</label>
-                            <input type="text" id="gpsNuevoNota" value="0" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Poliza</label>
-                            <input type="text" id="polizaNuevoNota" value="0" style="width: 100px; text-align: right"/>
-                        </td>
-                        <td><label>Pension</label>
-                            <input type="text" id="pensionNuevoNota" value="0" style="width: 100px; text-align: right"/>
+                        <td>
+                            <input type="text" id="totalInteresNuevoNota" name="TotalInteres"
+                                   style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
                     <tr class="propInvisible">
-                        <td ><label>token desc</label>
-                            <input type="text" id="tokenDescripcion" value="" style="width: 100px; text-align: right"/>
+                        <td>
+                            <input type="text" id="descuentoNuevoNota" name="Descuento"
+                                   style="width: 100px; text-align: right"/>
                         </td>
-                        <td ><label>costo contrato</label>
-                            <input type="text" id="idCostoContratoValue" value="" style="width: 100px; text-align: right"/>
+                        <td>
+                            <input type="text" id="interesPagarNuevoNota" name="Interes"
+                                   style="width: 100px; text-align: right"/>
                         </td>
-                        <td ><label>prestamo sin interes</label>
-                            <input type="text" id="idPrestamoSinInteres" value="" style="width: 100px; text-align: right"/>
+                        <td>
+                            <input type="text" id="abonoCapitalNuevoNota" name="AbonoCap"
+                                   style="width: 100px; text-align: right"/>
                         </td>
-                        <td><label>total sin interes</label>
-                            <input type="text" id="totalSinInteresValue" value="" style="width: 100px; text-align: right"/>
+                        <td>
+                            <input type="text" id="totalPagarNuevoNota" name="TotalPagar"
+                                   style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
                     <tr class="propInvisible">
-                        <td colspan="2">
-                            <label class="propInvisible">IVA</label>
-                            <input type="text" id="idIVAValue" class="propInvisible"
-                                   style="width: 100px;  " />
+                        <td>
+                            <input type="text" id="efectivoNuevoNota" name="Efectivo"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="cambioNuevoNota" name="Cambio"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="idValidaToken" name="validaToken"
+                                   style="width: 100px; text-align: right" value="0"/>
+                        </td>
+                        <td>
+                            <input type="text" id="idToken" name="token" style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
-
+                    <tr class="propInvisible">
+                        <td>
+                            <input type="text" id="descuentoAnteriorNuevoNota" name="DescuentoAnterior" value="0"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="saldoPendienteNuevoNota" name="saldoPendiente" value="0.00"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="fechaVencimientoNuevoNota" name="fechaVencimiento" value="0"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="fechaAlmNuevoNota" name="fechaAlm" value="0"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                    </tr>
+                    <tr class="propInvisible">
+                        <td>
+                            <input type="text" id="abonoAnteriorNuevoNota" name="AbonoAnterior" value="0"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="gpsNuevoNota" name="Gps" value="0"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="polizaNuevoNota" name="Poliza" value="0"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="pensionNuevoNota" name="Pension" value="0"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                    </tr>
+                    <tr class="propInvisible">
+                        <td>
+                            <input type="text" id="tokenDescripcion" name="tokenDes" value=""
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="idCostoContratoValue" name="CostoContrato" value=""
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="idPrestamoSinInteres" name="PrestamoSinInteres" value=""
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                        <td>
+                            <input type="text" id="totalSinInteresValue" name="totalSinInteres" value=""
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                    </tr>
+                    <tr class="propInvisible">
+                        <td>
+                            <input type="text" id="idIVAValue" class="propInvisible" name="IVA"
+                                   style="width: 100px;  "/>
+                        </td>
+                        <td>
+                            <input type="text" id="idFormulario" class="propInvisible" name="formulario"
+                                   style="width: 100px;  "/>
+                        </td>
+                        <td>
+                            <input type="text" id="idTipoDeContrato" class="propInvisible" name="tipoContrato"
+                                   style="width: 100px;  "/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <br>
+                        </td>
+                    </tr>
                 </table>
 
             </div>
             <div class="col col-md-1 ">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-md-6" >
-
-                <label class="propInvisible">formulario</label>
-                <input type="text" id="idFormulario" class="propInvisible"
-                       style="width: 100px;  "/>
-                <label class="propInvisible">tipo contrato</label>
-                <input type="text" id="idTipoDeContrato" class="propInvisible"
-                       style="width: 100px;  " />
-
-            </div>
-            <div class="col col-md-5" align="right">&nbsp;
-                <input type="button" class="btn btn-primary" id="btnGenerar" value="Refrendo" onclick="validaDescuentoNuevo()">&nbsp;
-                <input type="button" class="btn btn-primary" id="btnGenerarSinInteres" value="Refrendo" onclick="MovimientosRefrendoSinInteres()">&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
-            </div>
-            <div class="col col-md-1" align="right">
             </div>
         </div>
     </div>
