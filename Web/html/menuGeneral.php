@@ -36,11 +36,11 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                 $("#menuCancelaciones").show();
 
             } else if (tipoUser == 3) {
-                if(cajaInactiva==0){
+                if (cajaInactiva == 0) {
                     $("#menuEmpeno").show();
                     $("#menuEmpenoAuto").show();
                     $("#menuVentas").show();
-                }else{
+                } else {
                     $("#menuEmpeno").hide();
                     $("#menuEmpenoAuto").hide();
                     $("#menuVentas").hide();
@@ -82,7 +82,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=1">Refrendo</a></li>
-                    <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=3">Desempeños</a></li>
+                    <li><a class="dropdown-item" href="../Desempeno/vDesempeno.php?tipoFormGet=3">Desempeños</a></li>
                     <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
@@ -92,10 +92,10 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     Auto
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Empeno/vAuto.php">Empeños</a></li>
+                    <li><a class="dropdown-item" href="vAuto.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=4">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuConsultas">
@@ -104,7 +104,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     Consultas
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCierre">
@@ -113,9 +113,9 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     Cierre
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="vArqueo.php">Arqueo</a></li>
-                    <li><a class="dropdown-item" href="vCaja.php">Cierre de Caja</a></li>
-                    <li><a class="dropdown-item" href="vCierre.php">Cierre de Sucursal</a></li>
+                    <li><a class="dropdown-item" href="../Cierre/vArqueo.php">Arqueo</a></li>
+                    <li><a class="dropdown-item" href="../Cierre/vCaja.php">Cierre de Caja</a></li>
+                    <li><a class="dropdown-item" href="../Cierre/vCierre.php">Cierre de Sucursal</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuVentas">
@@ -138,16 +138,16 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item dropdown-toggle" href="#">Empeños</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Hist&oacute;rico (P)</a></li>
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Inventarios(M)</a></li>
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Contratos Vencidos (P)</a></li>
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Desempeños-detallado (P)</a></li>
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Refrendo-detallado (P)</a></li>
+                            <li><a class="dropdown-item" href="pruebas.php">Hist&oacute;rico (P)</a></li>
+                            <li><a class="dropdown-item" href="pruebas.php">Inventarios(M)</a></li>
+                            <li><a class="dropdown-item" href="pruebas.php">Contratos Vencidos (P)</a></li>
+                            <li><a class="dropdown-item" href="pruebas.php">Desempeños-detallado (P)</a></li>
+                            <li><a class="dropdown-item" href="pruebas.php">Refrendo-detallado (P)</a></li>
                         </ul>
                     </li>
                     <li><a class="dropdown-item dropdown-toggle" href="#">Financieros</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Ingresos(P)</a></li>
+                            <li><a class="dropdown-item" href="pruebas.php">Ingresos(P)</a></li>
                             <li><a class="dropdown-item" href="../Empeno/pruebas.php">Corporativo(P)</a></li>
 
                         </ul>
@@ -196,15 +196,15 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     Configuración
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="/vAltaUsuario.php">Alta Usuario</a></li>
-                    <li><a class="dropdown-item" href="/vHorario.php">Horario</a></li>
-                    <li><a class="dropdown-item" href="/vCancelarSucursal.php">Cancelaciones</a></li>
+                    <li><a class="dropdown-item" href="../Configuracion/vAltaUsuario.php">Alta Usuario</a></li>
+                    <li><a class="dropdown-item" href="../Configuracion/vHorario.php">Horario</a></li>
+                    <li><a class="dropdown-item" href="../Configuracion/vCancelarSucursal.php">Cancelaciones</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
-                    Salira
+                    Salir
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar Sesión</a></li>

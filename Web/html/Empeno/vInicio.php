@@ -20,7 +20,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 $tipoUsuario = $_SESSION['tipoUsuario'];
-include_once (HTML_PATH."Empeno/menuEmpeno.php");
+include_once (HTML_PATH."menuGeneral.php");
 
 
 ?>

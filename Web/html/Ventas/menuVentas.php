@@ -73,7 +73,7 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
                     <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=1">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=3">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="../Empeno/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuEmpenoAuto">
@@ -85,7 +85,7 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
                     <li><a class="dropdown-item" href="../Empeno/vAuto.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=4">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="../Empeno/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuConsultas">
@@ -94,7 +94,7 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
                     Consultas
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Empeno/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCierre">

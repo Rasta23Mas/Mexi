@@ -32,7 +32,7 @@
                     <li><a class="dropdown-item" href="vEmpeno.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=1">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=3">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -43,7 +43,7 @@
                     <li><a class="dropdown-item" href="vAuto.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=4">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">

@@ -81,7 +81,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Empeno/vDesempeno.php">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="../Empeno/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -92,7 +92,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     <li><a class="dropdown-item" href="../Empeno/vAuto.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Empeno/vRefrendoAuto.php">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Empeno/vDesempenoAuto.php">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="../Empeno/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
