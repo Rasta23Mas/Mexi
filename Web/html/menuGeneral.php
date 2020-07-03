@@ -74,7 +74,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
             <li class="nav-item dropdown" id="menuEmpeno">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
-                    Empeño
+                    Empeño 33
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Empeños</a></li>

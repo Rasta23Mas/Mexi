@@ -3,7 +3,6 @@ $tipoFormularioGet = 0;
 if (isset($_GET['tipoFormGet'])) {
     $tipoFormularioGet = $_GET['tipoFormGet'];
 }
-$ContratoGet = 0;
 if (isset($_GET['contrato'])) {
     $ContratoGet = $_GET['contrato'];
 }
@@ -16,7 +15,7 @@ if (!isset($_SESSION["idUsuario"])) {
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once (HTML_PATH."menuGeneral.php");
-include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
+include_once (DESC_PATH."modalDescuentoToken.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -27,7 +26,6 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
     <script src="../../JavaScript/funcionesRefrendo.js"></script>
     <script type="application/javascript">
         var form = <?php echo $tipoFormularioGet?>;
-        var $ContratoEnviado = <?php echo $ContratoGet?>;
         var nameForm = "Error";
         var tipoArticuloOAuto = 0;
         form = parseInt(form);
@@ -103,20 +101,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
             }
 
             document.getElementById('nameFormLbl').innerHTML = nameForm;
-            if ($ContratoEnviado != 0) {
-                $("#idContrato").val($ContratoEnviado);
-                busquedaMovimiento();
-                $("#btnGenerar").hide();
-                $("#btnGenerarSinInteres").show();
-                $("#btnGenerarSinInteres").val(nameForm)
+            $("#idContrato").focus();
 
-
-            } else {
-                $("#trCostoContrato").hide();
-                $("#trTotalSinInteres").hide();
-                $("#trIvaSinInteres").hide();
-                $("#btnGenerarSinInteres").hide();
-            }
         });
     </script>
     <style>
@@ -281,7 +267,6 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                     <th>Contrato</th>
                                     <th>Préstamo</th>
                                     <th>Interés</th>
-                                    <th id="idGPSTH">GPS</th>
                                     <th id="idPolizaTH">Poliza</th>
                                     <th id="idPensionTH">Pension</th>
                                     <th id="idAbonoTH">Abono</th>
@@ -313,7 +298,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="prestamoNuevoNota" name="Prestamo"
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr id="trInteresNovo">
@@ -325,7 +311,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="interesNuevoNota" name="Interes"
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
 
@@ -338,7 +325,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="moratoriosNuevoNota" name="Moratorios"
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr id="trGPSNota">
@@ -377,7 +365,6 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                             &nbsp;
                         </td>
                     </tr>
-
                     <tr id="trtotalInteresNovo">
                         <td align="right">
                             <h5>Total Interés:</label></h5>
@@ -387,7 +374,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="totalInteresNuevoNota" name="TotalInteres"
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr id="trIva">
@@ -399,7 +387,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="idIVAValue" class="propInvisible" name="IVA"
+                                   style="width: 100px;  text-align: right " class="propInvisible"/>
                         </td>
                     </tr>
                     <tr id="trInteresPagarNovo">
@@ -410,8 +399,9 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                             <h5><input type="text" id="idInteresAPagarNotaNuevo" name="prestamoNota"
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
-                        <td colspan="2">
-                            &nbsp;
+                        <td colspan="2">x
+                            <input type="text" id="interesPagarNuevoNota" name="Interes"
+                                   style="width: 100px; text-align: right"  class="propInvisible"/>
                         </td>
                     </tr>
                     <tr id="trDescuentoInteresNovo">
@@ -424,7 +414,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        onkeypress="return descuentoNuevo(event)"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="descuentoNuevoNota" name="Descuento"
+                                   style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
                     <tr id="trAbonoNotaNuevo">
@@ -437,7 +428,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="abonoCapitalNuevoNota" name="AbonoCap"
+                                   style="width: 100px; text-align: right"  class="propInvisible"/>
                         </td>
                     </tr>
 
@@ -450,43 +442,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <tr id="trCostoContrato">
-                        <td align="right">
-                            <h5>Costo por contrato:</label></h5>
-                        </td>
-                        <td align="right">
-                            <h5><input type="text" id="idCostoContrato" name="costoContratoNota"
-                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
-                        </td>
-                        <td colspan="2">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <tr id="trIvaSinInteres">
-                        <td align="right">
-                            <h5>IVA:</label></h5>
-                        </td>
-                        <td align="right">
-                            <h5><input type="text" id="idIVANotaNuevoSinInteres" name="prestamoNota"
-                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
-                        </td>
-                        <td colspan="2">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <tr id="trTotalSinInteres">
-                        <td align="right">
-                            <h5>Total a pagar:</label></h5>
-                        </td>
-                        <td align="right">
-                            <h5><input type="text" id="totalSinInteres" name="prestamoNota"
-                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
-                        </td>
-                        <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="totalPagarNuevoNota" name="TotalPagar"
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr>
@@ -499,7 +456,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="efectivoNuevoNota" name="Efectivo"
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr>
@@ -511,7 +469,8 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled placeholder="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="cambioNuevoNota" name="Cambio"
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr>
@@ -520,57 +479,12 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                                    onclick="limpiarRefrendo()">&nbsp;
                             <input type="button" class="btn btn-primary" id="btnGenerar" value="Refrendo"
                                    onclick="validaDescuentoNuevo()">&nbsp;
-                            <input type="button" class="btn btn-primary" id="btnGenerarSinInteres" value="Refrendo"
-                                   onclick="MovimientosRefrendoSinInteres()">&nbsp;
                             <input type="button" class="btn btn-danger" value="Salir"
                                    onclick="location.href='vInicio.php'">&nbsp;
                         </td>
                     </tr>
-                    <tr class="propInvisible">
-                        <td>
-                            <input type="text" id="prestamoNuevoNota" name="Prestamo"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>inte
-                            <input type="text" id="interesNuevoNota" name="Interes"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>
-                            <input type="text" id="moratoriosNuevoNota" name="Moratorios"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>inte
-                            <input type="text" id="totalInteresNuevoNota" name="TotalInteres"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                    </tr>
-                    <tr class="propInvisible">
-                        <td>
-                            <input type="text" id="descuentoNuevoNota" name="Descuento"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>inte
-                            <input type="text" id="interesPagarNuevoNota" name="Interes"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>
-                            <input type="text" id="abonoCapitalNuevoNota" name="AbonoCap"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>
-                            <input type="text" id="totalPagarNuevoNota" name="TotalPagar"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                    </tr>
-                    <tr class="propInvisible">
-                        <td>
-                            <input type="text" id="efectivoNuevoNota" name="Efectivo"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>
-                            <input type="text" id="cambioNuevoNota" name="Cambio"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
+
+                    <tr >
                         <td>
                             <input type="text" id="idValidaToken" name="validaToken"
                                    style="width: 100px; text-align: right" value="0"/>
@@ -578,16 +492,17 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                         <td>
                             <input type="text" id="idToken" name="token" style="width: 100px; text-align: right"/>
                         </td>
+                        <td>SaldoPen
+                            <input type="text" id="saldoPendienteNuevoNota" name="saldoPendiente" value="0.00"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
                     </tr>
                     <tr class="propInvisible">
                         <td>
                             <input type="text" id="descuentoAnteriorNuevoNota" name="DescuentoAnterior" value="0"
                                    style="width: 100px; text-align: right"/>
                         </td>
-                        <td>
-                            <input type="text" id="saldoPendienteNuevoNota" name="saldoPendiente" value="0.00"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
+
                         <td>
                             <input type="text" id="fechaVencimientoNuevoNota" name="fechaVencimiento" value="0"
                                    style="width: 100px; text-align: right"/>
@@ -619,24 +534,6 @@ include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
                         <td>
                             <input type="text" id="tokenDescripcion" name="tokenDes" value=""
                                    style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>
-                            <input type="text" id="idCostoContratoValue" name="CostoContrato" value=""
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>
-                            <input type="text" id="idPrestamoSinInteres" name="PrestamoSinInteres" value=""
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>
-                            <input type="text" id="totalSinInteresValue" name="totalSinInteres" value=""
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                    </tr>
-                    <tr class="propInvisible">
-                        <td>iva
-                            <input type="text" id="idIVAValue" class="propInvisible" name="IVA"
-                                   style="width: 100px;  "/>
                         </td>
                         <td>
                             <input type="text" id="idFormulario" class="propInvisible" name="formulario"

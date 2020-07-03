@@ -16,7 +16,7 @@ if (!isset($_SESSION["idUsuario"])) {
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once (HTML_PATH."menuGeneral.php");
-include_once(HTML_PATH . "DESC_PATH/modalDescuentoToken.php");
+include_once (DESC_PATH."modalDescuentoToken.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
