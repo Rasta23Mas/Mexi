@@ -296,9 +296,9 @@ include_once (HTML_PATH."menuGeneral.php");
 
                         </td>
                     </tr>
-                    <tr class="invisible">
+                    <tr class="">
                         <td colspan="4" align="center">
-                            <input id="idTotalAvaluoAuto" name="totalAvaluo" type="double"
+                            <input id="idTotalAvaluo" name="totalAvaluo" type="double"
                                    onkeypress="return isNumberDecimal(event)"
                                    style="width: 100px; text-align:right;"
                                    class="inputCliente"/>

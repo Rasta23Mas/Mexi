@@ -60,6 +60,7 @@ class sqlMovimientosDAO
                          $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses, $e_moratorios,$e_iva, $e_venta_mostrador,
                         $e_venta_iva, $e_venta_apartados, $e_gps,$e_poliza, $e_pension,$costo_Contrato, $tipo_Contrato, $tipo_movimiento,
                          $usuario, $sucursal, $idCierreCaja, $idCierreSucursal,'$fechaCreacion',$prestamo_Informativo)";
+                echo $insertaMovimiento;
                 if ($ps = $this->conexion->prepare($insertaMovimiento)) {
                     if ($ps->execute()) {
                         // $verdad = mysqli_stmt_affected_rows($ps);

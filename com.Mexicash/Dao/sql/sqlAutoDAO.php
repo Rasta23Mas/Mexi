@@ -25,8 +25,7 @@ class sqlAutoDAO
         try {
 
             $id_Cliente = $auto->getIdClienteAuto();
-            $fechaVencimiento = $auto->getFechaVencimiento();
-            $totalAvaluo = $auto->getTotalAvaluo();
+            //$fechaVencimiento = $auto->getFechaVencimiento();
             $totalPrestamo = $auto->getTotalPrestamo();
             $totalInteres = $auto->getTotalInteres();
             $sumaInteresPrestamo = $auto->getSumaInteresPrestamo();
@@ -52,14 +51,14 @@ class sqlAutoDAO
             $fechaModificacion = date('Y-m-d H:i:s');
 
 
-
             $usuario = $_SESSION["idUsuario"];
             $sucursal = $_SESSION["sucursal"];
             $insertaContrato = "INSERT INTO contrato_tbl " .
-                "(id_Cliente, fecha_Vencimiento, total_Avaluo, total_Prestamo,total_PrestamoInicial,total_Interes, suma_InteresPrestamo, polizaSeguro, gps, pension, " .
-                "fecha_Alm,diasAlm, id_Estatus,id_EstatusAnterior,beneficiario, cotitular, plazo,tasa, alm, seguro,iva,dias,id_Formulario,aforo, fecha_creacion, fecha_modificacion, usuario,sucursal,tipoContrato) VALUES " .
-                "('" . $id_Cliente . "', '" . $fechaVencimiento . "', '" . $totalAvaluo . "','" . $totalPrestamo . "','" . $totalPrestamo . "','" . $totalInteres . "', '" . $sumaInteresPrestamo . "', '" . $polizaInteres . "','" . $gps . "', '" . $pension .
-                "', '" . $fechaAlm . "',  '" . $diasAlm . "','" . $estatus . "','" . $estatus . "','" . $beneficiario . "','" . $cotitular . "','" . $plazo . "','" . $tasa . "','" . $alm . "','" . $seguro . "','" . $iva . "','" . $dias . "','" . $tipoFormulario . "','" . $aforo . "','" . $fechaCreacion . "', '" . $fechaModificacion . "', '" . $usuario . "','" . $sucursal . "',2)";
+                "(id_Cliente, total_Prestamo,total_Interes, suma_InteresPrestamo, polizaSeguro, gps, pension, " .
+                "diasAlm, beneficiario, cotitular, plazo,tasa, alm, seguro,iva,dias,id_Formulario,aforo, fecha_creacion,tipoContrato) VALUES " .
+                "('" . $id_Cliente . "','" . $totalPrestamo . "','" . $totalInteres . "', '" . $sumaInteresPrestamo . "', '" . $polizaInteres . "','" . $gps . "', '" . $pension .
+                "', '" . $diasAlm . "','" . $beneficiario . "','" . $cotitular . "','" . $plazo . "','" . $tasa . "','" . $alm . "','" . $seguro .
+                "','" . $iva . "','" . $dias . "','" . $tipoFormulario . "','" . $aforo . "','" . $fechaCreacion ."',2)";
 
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {

@@ -6,7 +6,6 @@ include_once(SQL_PATH . "sqlAutoDAO.php");
 //DatosContrato
 $idClienteAuto = $_POST['idClienteAuto'];
 $fechaVencimiento = $_POST['fechaVencimiento'];
-$totalAvaluo = $_POST['totalAvaluo'];
 $totalPrestamo = $_POST['totalPrestamo'];
 $total_Interes = $_POST['total_Interes'];
 $sumaInteresPrestamo = $_POST['sumaInteresPrestamo'];
@@ -63,7 +62,6 @@ $auto = new Auto(
 //Contrato
     $idClienteAuto,
     $fechaVencimiento,
-    $totalAvaluo,
     $totalPrestamo,
     $total_Interes,
     $sumaInteresPrestamo,

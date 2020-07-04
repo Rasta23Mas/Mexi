@@ -6,7 +6,6 @@ class Auto
     //Contrato
     private $idClienteAuto;
     private $fechaVencimiento;
-    private $totalAvaluo;
     private $totalPrestamo;
     private $total_Interes;
     private $sumaInteresPrestamo;
@@ -59,7 +58,6 @@ class Auto
      * Auto constructor.
      * @param $idClienteAuto
      * @param $fechaVencimiento
-     * @param $totalAvaluo
      * @param $totalPrestamo
      * @param $total_Interes
      * @param $sumaInteresPrestamo
@@ -107,7 +105,7 @@ class Auto
      * @param $diasAlmoned
      * @param $fecha_Alm
      */
-    public function __construct($idClienteAuto, $fechaVencimiento, $totalAvaluo, $totalPrestamo, $total_Interes,
+    public function __construct($idClienteAuto, $fechaVencimiento,  $totalPrestamo, $total_Interes,
                                 $sumaInteresPrestamo, $polizaSeguroCost, $gps, $pension, $estatus,
                                 $beneficiario, $cotitular, $plazo, $tasa, $alm, $seguro, $iva, $dias,$idTipoFormulario,$aforo, $idTipoVehiculo,
                                 $idMarca, $idModelo, $idAnio, $idColor, $idPlacas, $idFactura, $idKms, $idAgencia,
@@ -118,7 +116,6 @@ class Auto
     {
         $this->idClienteAuto = $idClienteAuto;
         $this->fechaVencimiento = $fechaVencimiento;
-        $this->totalAvaluo = $totalAvaluo;
         $this->totalPrestamo = $totalPrestamo;
         $this->total_Interes = $total_Interes;
         $this->sumaInteresPrestamo = $sumaInteresPrestamo;
@@ -250,21 +247,7 @@ class Auto
         $this->fechaVencimiento = $fechaVencimiento;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTotalAvaluo()
-    {
-        return $this->totalAvaluo;
-    }
 
-    /**
-     * @param mixed $totalAvaluo
-     */
-    public function setTotalAvaluo($totalAvaluo): void
-    {
-        $this->totalAvaluo = $totalAvaluo;
-    }
 
     /**
      * @return mixed

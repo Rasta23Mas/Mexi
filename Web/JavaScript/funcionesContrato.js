@@ -131,7 +131,6 @@ function generarContratoAuto() {
                                 var dataEnviar = {
                                     "idClienteAuto": clienteEmpeno,
                                     "fechaVencimiento": fechaVencimiento,
-                                    "totalAvaluo": $("#idTotalAvaluoAuto").val(),
                                     "totalPrestamo": totalPrestamo,
                                     "total_Interes": interesAuto,
                                     "sumaInteresPrestamo": $("#idSumaInteresPrestamo").val(),
@@ -227,6 +226,7 @@ function verPDF(id_ContratoPDF) {
 }
 
 function verPDFDocumentosCon(id_ContratoPDF) {
+    alert(id_ContratoPDF)
     window.open('../PDF/callPdfAutoDocumentos.php?pdf=1&contrato=' + id_ContratoPDF);
 }
 
@@ -350,6 +350,8 @@ function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, t
     var tipo_movimiento = movimiento;
     var costo_Contrato = 0;
     var totalAvaluo = $("#idTotalAvaluo").val();
+    alert("alto")
+    alert(totalAvaluo)
     var dataEnviar = {
         "id_contrato": id_contrato,
         "fechaVencimiento": fechaVencimiento,
@@ -387,6 +389,7 @@ function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, t
         url: '../../../com.Mexicash/Controlador/Movimientos/movimientosContrato.php',
         data: dataEnviar,
         success: function (response) {
+            alert(response)
             if (response > 0) {
                 BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato);
             } else {
