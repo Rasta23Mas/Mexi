@@ -68,36 +68,6 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                 $("#btnGenerar").val(nameForm)
 
 
-            } else if (form == 3) {
-                nameForm = "Desempeño";
-                $("#idGPSTH").hide();
-                $("#idPensionTH").hide();
-                $("#idPolizaTH").hide();
-                $("#idGPSTDform").hide();
-                $("#idPensionTDform").hide();
-                $("#idPolizaTDform").hide();
-                $("#trGPSNota").hide();
-                $("#trPensionNota").hide();
-                $("#trPolizaNota").hide();
-                $("#idAbonoTDform").hide();
-                $("#idAbonoTH").hide();
-
-                //Botones
-                $("#btnGenerar").val(nameForm)
-                $("#idFormulario").val(form);
-                tipoArticuloOAuto = 1;
-                $("#idTipoDeContrato").val(tipoArticuloOAuto);
-                $("#trAbonoNotaNuevo").hide();
-            } else if (form == 4) {
-                nameForm = "Desempeño Auto";
-                tipoArticuloOAuto = 2;
-                $("#trAbonoNotaNuevo").hide();
-                $("#idAbonoTDform").hide();
-                $("#idAbonoTH").hide();
-                //Botones
-                $("#btnGenerar").val(nameForm)
-                $("#idFormulario").val(form);
-                $("#idTipoDeContrato").val(tipoArticuloOAuto);
             }
 
             document.getElementById('nameFormLbl').innerHTML = nameForm;
@@ -267,6 +237,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                     <th>Contrato</th>
                                     <th>Préstamo</th>
                                     <th>Interés</th>
+                                    <th id="idGPSTH">GPS</th>
                                     <th id="idPolizaTH">Poliza</th>
                                     <th id="idPensionTH">Pension</th>
                                     <th id="idAbonoTH">Abono</th>
@@ -338,7 +309,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="gpsNuevoNota" name="Gps" value="0"
+                                   style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
                     <tr id="trPolizaNota">
@@ -350,7 +322,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="polizaNuevoNota" name="Poliza" value="0"
+                                   style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
                     <tr id="trPensionNota">
@@ -362,7 +335,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                        style="width: 160px; text-align: right" disabled value="$0.00"/></h5>
                         </td>
                         <td colspan="2">
-                            &nbsp;
+                            <input type="text" id="pensionNuevoNota" name="Pension" value="0"
+                                   style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
                     <tr id="trtotalInteresNovo">
@@ -520,24 +494,10 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         </td>
                     </tr>
                     <tr class="propInvisible">
-                        <td>gps
-                            <input type="text" id="gpsNuevoNota" name="Gps" value="0"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>poliza
-                            <input type="text" id="polizaNuevoNota" name="Poliza" value="0"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
-                        <td>pension
-                            <input type="text" id="pensionNuevoNota" name="Pension" value="0"
-                                   style="width: 100px; text-align: right"/>
-                        </td>
                         <td>idForm
                             <input type="text" id="idFormulario" class="propInvisible" name="formulario"
                                    style="width: 100px;  "/>
                         </td>
-                    </tr>
-                    <tr class="propInvisible">
                         <td>
                             <input type="text" id="idTipoDeContrato" class="propInvisible" name="tipoContrato"
                                    style="width: 100px;  "/>

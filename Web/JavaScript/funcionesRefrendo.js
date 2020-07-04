@@ -53,7 +53,7 @@ function busquedaRefrendo(e) {
 function busquedaMovimiento() {
     // alert("busqueda mov");
     //contratoGbl = $("#idContrato").val();
-    contratoGbl = 117;
+    contratoGbl = 134;
 
     tipoContrato = $("#idTipoDeContrato").val();
     tipoContrato = parseInt(tipoContrato);
@@ -577,15 +577,14 @@ function buscarDetalleAuto() {
     if (contratoGbl != '') {
         var dataEnviar = {
             "tipe": 5,
-            "contrato": contratoGbl,
-            "tipoContrato": tipoContrato,
-            "estatus": estatus
+            "IdMovimiento": IdMovimientoGbl,
         };
         $.ajax({
             type: "POST",
             url: '../../../com.Mexicash/Controlador/Desempeno/busquedaDesempeno.php',
             data: dataEnviar,
             dataType: "json",
+
             success: function (datos) {
                 var detalleContrato;
                 for (i = 0; i < datos.length; i++) {
@@ -612,11 +611,12 @@ function buscarDetalleAuto() {
                         Obs = '';
                     }
 
-                    detalleContrato = "Marca: " + Marca + ", Modelo: " + Modelo + "\n" + "Año: " + Anio +
+                    detalleContrato = "Marca: " + Marca + ", Modelo: " + Modelo + "\n" + " Año: " + Anio + " "+
                         ColorAuto + "\n" +
                         Obs + "\n";
                 }
                 $("#idDetalleContratoDes").val(detalleContrato);
+                $("#idContrato").val(contratoGbl);
             }
         });
     }

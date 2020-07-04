@@ -217,7 +217,7 @@ class sqlDesempenoDAO
     }
 
     //Busqueda de detalle del auto
-    public function buscarDetalleAuto($idContratoDes, $estatus)
+    public function buscarDetalleAuto($IdMovimiento)
     {
         $datos = array();
         try {
@@ -225,7 +225,8 @@ class sqlDesempenoDAO
                         COl.descripcion as ColorAuto, Auto.observaciones as Obs 
                         FROM auto_tbl as Auto 
                         INNER JOIN cat_color as COl on Auto.color = COl.id_Color
-                        WHERE Auto.id_Contrato = '$idContratoDes' and Auto.id_Estatus= $estatus";
+                        INNER JOIN contratomovimientos_tbl as Mov ON Auto.id_Contrato = Mov.id_contrato
+                        WHERE Mov.id_movimiento = $IdMovimiento";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
