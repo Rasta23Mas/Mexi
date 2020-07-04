@@ -9,6 +9,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 $usuario = $_SESSION["idUsuario"];
+$NombreUsuario = $_SESSION["usuario"];
 $sucursal = $_SESSION["sucursal"];
 $web = 2;
 if($web==1){
@@ -48,27 +49,19 @@ if (isset($_GET['contrato'])) {
 
 
 
-$query = "SELECT Con.id_Contrato AS Contrato,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) AS NombreCompleto,  DATE_FORMAT(Con.fecha_Creacion,'%d-%m-%Y') AS Creacion,
-             DATE_FORMAT(Con.fecha_Vencimiento,'%d-%m-%Y') AS Vencimiento,Aut.chkTarjeta AS Tarjeta, Aut.chkFactura AS Factura,
-            Aut.chkINE AS INE,Aut.chkImportacion AS Importacion,Aut.chkTenencias AS Tenencia,
-            Aut.chkPoliza AS Poliza, Aut.chkLicencia AS Licencia,
-             CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario,Suc.Nombre AS NombreSucursal 
-            FROM contrato_tbl AS Con
-            INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
-            INNER JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato
-            INNER JOIN usuarios_tbl AS Usu on Con.usuario = Usu.id_User
-            INNER JOIN cat_sucursal AS Suc on Con.sucursal = Suc.id_Sucursal 
-            WHERE Con.id_Contrato=$idContrato AND Con.tipoContrato = 2 AND Con.sucursal=$sucursal";
+$query = "SELECT CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) AS NombreCompleto, 
+DATE_FORMAT(Con.fecha_Creacion,'%d-%m-%Y') AS Creacion, Aut.chkTarjeta AS Tarjeta, Aut.chkFactura AS Factura, Aut.chkINE AS INE,
+Aut.chkImportacion AS Importacion,Aut.chkTenencias AS Tenencia, Aut.chkPoliza AS Poliza, Aut.chkLicencia AS Licencia 
+FROM contrato_tbl AS Con 
+INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
+INNER JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato 
+WHERE Con.id_Contrato=$idContrato AND Con.tipoContrato = 2";
 $resultado = $mysql->query($query);
 
 
 foreach ($resultado as $row) {
     $NombreCompleto = $row["NombreCompleto"];
-    $NombreSucursal = $row["NombreSucursal"];
-    $Vencimiento = $row["Vencimiento"];
     $Creacion = $row["Creacion"];
-    $Contrato = $row["Contrato"];
-
     $Tarjeta = $row["Tarjeta"];
     $Factura = $row["Factura"];
     $INE = $row["INE"];
@@ -76,8 +69,6 @@ foreach ($resultado as $row) {
     $Tenencia = $row["Tenencia"];
     $Poliza = $row["Poliza"];
     $Licencia = $row["Licencia"];
-    $NombreUsuario = $row["NombreUsuario"];
-
 
     if($Tarjeta==1){
         $Tarjeta = "Si";
@@ -116,6 +107,16 @@ foreach ($resultado as $row) {
     }
 
 
+}
+
+$buscar = "SELECT Nombre, direccion, telefono, NombreCasa,rfc FROM cat_sucursal WHERE id_Sucursal = " . $sucursal;
+$contrato = $mysql->query($buscar);
+foreach ($contrato as $fila) {
+    $sucNombre = $fila['Nombre'];
+    $sucDireccion = $fila['direccion'];
+    $sucTelefono = $fila['telefono'];
+    $sucNombreCasa = $fila['NombreCasa'];
+    $sucRfc = $fila['rfc'];
 }
 
 $contenido = '<html>
@@ -173,7 +174,7 @@ $contenido .= '<table width="30%" border="1">
                     </tr>
                     <tr>
                         <td colspan="4" align="center">
-                            <label ID="sucursal">SUCURSAL: '. $NombreSucursal .'</label>
+                            <label ID="sucursal">SUCURSAL: '. $sucNombre .'</label>
                         </td>
                     </tr>
                     <tr>
@@ -184,7 +185,7 @@ $contenido .= '<table width="30%" border="1">
 
                     <tr>
                         <td colspan="4" align="left">
-                            <label >CONTRATO NO: '. $Contrato.' </label>
+                            <label >CONTRATO NO: '. $idContrato.' </label>
                         </td>
                     </tr>
                     <tr>

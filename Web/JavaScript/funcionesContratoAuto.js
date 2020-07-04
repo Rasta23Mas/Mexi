@@ -111,10 +111,8 @@ function generarContratoAuto() {
                                     success: function (contrato) {
                                         if (contrato > 0) {
                                             $("#idFormAuto")[0].reset();
-                                            alert(contrato)
-                                            MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 2,totalAvaluo);
-                                            alert(contrato)
                                             verPDFDocumentosCon(contrato);
+                                            MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 2,totalAvaluo);
                                             alertify.success("Contrato generado exitosamente.");
                                         } else {
                                             alertify.error("Error al generar contrato. (FEErr02)");
@@ -143,83 +141,6 @@ function generarContratoAuto() {
     }
 }
 
-//Generar PDF
-//Reimprimir
-
-
-
-function verPDF(id_ContratoPDF) {
-    window.open('../PDF/callPdfContrato.php?pdf=1&contrato=' + id_ContratoPDF);
-}
-
-function verPDFDocumentosCon(id_ContratoPDF) {
-    alert(id_ContratoPDF)
-    window.open('../PDF/callPdfAutoDocumentos.php?pdf=1&contrato=' + id_ContratoPDF);
-}
-
-//consultar contratos
-function consultarContratos() {
-    var retorno;
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/tblArticulos.php',
-        dataType: "json",
-        success: function (datos) {
-            retorno = datos.length;
-        }
-    });
-
-    return retorno;
-}
-
-//Agrega articulos a la tabla
-function actualizarArticulo(ultimoContrato) {
-    //FEErr03
-    var serie = ultimoContrato.trim();
-    var idSerieContrato = serie.padStart(6,"0");
-
-    var dataEnviar = {
-        "contrato": ultimoContrato,
-        "idSerieContrato": idSerieContrato
-
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Articulos/ArticuloUpdate.php',
-        type: 'post',
-
-        success: function (response) {
-            if (response == -1 || response == 0) {
-                alertify.error("Error al agregar articulos al contrato. (FEErr03)");
-            } else {
-
-                $("#idFormEmpeno")[0].reset();
-                alertify.success("Articulos agregados al contrato.");
-                setTimeout('location.reload();', 700)
-            }
-        },
-    })
-
-
-}
-
-//Agrega articulos obsololetos
-function articulosObsoletos() {
-    //FEErr04
-    $.ajax({
-        url: '../../../com.Mexicash/Controlador/ArticulosObsoletos.php',
-        type: 'post',
-        success: function (response) {
-            if (response == -1 || response == 0) {
-                alertify.error("Error FEErr04.");
-            } else {
-                $("#idFormEmpeno")[0].reset();
-                alertify.success("Bienvenidos");
-            }
-        },
-    })
-}
-
 //Limpia la tabla cuando cambia el tipo de articulo
 function limpiarTabla() {
     //FEErr05
@@ -236,14 +157,12 @@ function limpiarTabla() {
     })
 }
 
-
 //Canelar
 function cancelar() {
     $("#idFormEmpeno")[0].reset();
     $("#idFormAuto")[0].reset();
     alertify.success("Contrato cancelado");
 }
-
 
 function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, totalPrestamo, clienteEmpeno,
                              fechaVencimiento, fechaAlmoneda, tipoContrato,totalAvaluo) {
@@ -314,7 +233,6 @@ function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, t
         url: '../../../com.Mexicash/Controlador/Movimientos/movimientosContrato.php',
         data: dataEnviar,
         success: function (response) {
-            alert(response)
             if (response > 0) {
                 BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato);
             } else {
@@ -323,7 +241,6 @@ function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, t
         }
     });
 }
-
 
 function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
     //id_Movimiento = 3 cat_movimientos-->Operacion-->Empeño
@@ -366,4 +283,16 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
             }
         }
     });
+}
+
+function verPDF(id_ContratoPDF) {
+    alert("verpdf")
+    alert(id_ContratoPDF)
+    window.open('../PDF/callPdfContrato.php?pdf=1&contrato=' + id_ContratoPDF);
+}
+
+function verPDFDocumentosCon(id_ContratoPDF) {
+    alert("verpdfdoc")
+    alert(id_ContratoPDF)
+    window.open('../PDF/callPdfAutoDocumentos.php?pdf=1&contrato=' + id_ContratoPDF);
 }
