@@ -25,7 +25,7 @@ include_once (HTML_PATH."menuGeneral.php");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../../JavaScript/funcionesIntereses.js"></script>
     <script src="../../JavaScript/funcionesCliente.js"></script>
-    <script src="../../JavaScript/funcionesContrato.js"></script>
+    <script src="../../JavaScript/funcionesContratoAuto.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesArticulos.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
@@ -298,7 +298,7 @@ include_once (HTML_PATH."menuGeneral.php");
                     </tr>
                     <tr class="">
                         <td colspan="4" align="center">
-                            <input id="idTotalAvaluo" name="totalAvaluo" type="double"
+                            <input id="idTotalAvaluoAuto" name="totalAvaluo" type="double"
                                    onkeypress="return isNumberDecimal(event)"
                                    style="width: 100px; text-align:right;"
                                    class="inputCliente"/>
@@ -394,15 +394,15 @@ include_once (HTML_PATH."menuGeneral.php");
                             </select>
                         </td>
                         <td colspan="2">
-                            <input type="text" id="idMarca" name="marca" size="13"
+                            <input type="text" id="idMarca" name="marca" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idModelo" name="modelo" size="13"
+                            <input type="text" id="idModelo" name="modelo" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idAnio" name="anio" size="13" onkeypress="return soloNumeros(event)"
+                            <input type="text" id="idAnio" name="anio" size="13" onkeypress="return soloNumeros(event)" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td>
@@ -419,11 +419,11 @@ include_once (HTML_PATH."menuGeneral.php");
                             </select>
                         </td>
                         <td>
-                            <input type="text" id="idPlacas" name="placas" size="13"
+                            <input type="text" id="idPlacas" name="placas" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idFactura" name="factura" size="13"
+                            <input type="text" id="idFactura" name="factura" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td>
@@ -516,19 +516,19 @@ include_once (HTML_PATH."menuGeneral.php");
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <input type="text" id="idAgencia" name="agencia" size="13"
+                            <input type="text" id="idAgencia" name="agencia" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td colspan="2">
-                            <input type="text" id="idMotor" name="motor" size="13"
+                            <input type="text" id="idMotor" name="motor" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idChasis" name="chasis" size="13"
+                            <input type="text" id="idChasis" name="chasis" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td colspan="2" align="center">
-                            <input type="text" id="idVehiculo" name="vehiculo" size="13"
+                            <input type="text" id="idVehiculo" name="vehiculo" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                     </tr>
@@ -548,7 +548,7 @@ include_once (HTML_PATH."menuGeneral.php");
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <input type="text" id="idRepuve" name="repuve" size="13"
+                            <input type="text" id="idRepuve" name="repuve" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td colspan="2">
@@ -556,11 +556,11 @@ include_once (HTML_PATH."menuGeneral.php");
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idAseguradora" name="aseguradora" size="13"
+                            <input type="text" id="idAseguradora" name="aseguradora" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td colspan="2" align="center">
-                            <input type="text" id="idTarjeta" name="tarjeta" size="13"
+                            <input type="text" id="idTarjeta" name="tarjeta" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                     </tr>
@@ -578,7 +578,7 @@ include_once (HTML_PATH."menuGeneral.php");
                     <tr>
 
                         <td colspan="2">
-                            <input type="text" id="idPoliza" name="poliza" size="13" onkeypress="return isNumberDecimal(event)"
+                            <input type="text" id="idPoliza" name="poliza" size="13" onkeypress="return isNumberDecimal(event)" value = "1"
                                    style="text-align:left"/>
                         </td>
                         <td colspan="2">
@@ -587,7 +587,7 @@ include_once (HTML_PATH."menuGeneral.php");
                                    style="text-align:left" placeholder="AAAA-MM-DD"/>
                         </td>
                         <td colspan="6">
-                            <input type="text" id="idTipoPoliza" name="tipoPoliza" size="13"
+                            <input type="text" id="idTipoPoliza" name="tipoPoliza" size="13" value = "1"
                                    style="text-align:left"/>
                         </td>
                     </tr>
@@ -599,7 +599,7 @@ include_once (HTML_PATH."menuGeneral.php");
                     </tr>
                     <tr>
                         <td colspan="10" name="observacionesAuto">
-                            <p><textarea name="detalle" id="idObservacionesAuto"
+                            <p><textarea name="detalle" id="idObservacionesAuto" value = "1"
                                          class="textArea" rows="2" cols="60"></textarea></p>
                         </td>
                     </tr>

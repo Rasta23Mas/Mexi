@@ -646,7 +646,7 @@ function calculaAvaluoAuto() {
             aforo = parseInt(aforo);
             var avaluoImporteElectronico = Math.floor(prestamoAuto * 100) / aforo;
             avaluoImporteElectronico = Math.round(avaluoImporteElectronico * 100) / 100;
-            $("#idTotalAvaluo").val(avaluoImporteElectronico);
+            $("#idTotalAvaluoAuto").val(avaluoImporteElectronico);
             var AvaluoMoneda = formatoMoneda(avaluoImporteElectronico);
             $("#idTotalAvaluoAutoMon").val(AvaluoMoneda);
 

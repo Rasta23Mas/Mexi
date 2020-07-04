@@ -50,6 +50,7 @@ class sqlMovimientosDAO
             }
 
             if ($updateRealizado == 1) {
+                $id_contrato = trim($id_contrato);
                 $insertaMovimiento = "INSERT INTO contratomovimientos_tbl (id_contrato,fechaVencimiento,fechaAlmoneda,fecha_Bazar, plazo, periodo, tipoInteres,
                         prestamo_actual,total_Avaluo, s_prestamo_nuevo, 
                         s_descuento_aplicado,descuentoTotal,abonoTotal, e_capital_recuperado,e_pagoDesempeno,e_abono, e_intereses, e_moratorios,e_iva, e_venta_mostrador,
@@ -60,7 +61,6 @@ class sqlMovimientosDAO
                          $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses, $e_moratorios,$e_iva, $e_venta_mostrador,
                         $e_venta_iva, $e_venta_apartados, $e_gps,$e_poliza, $e_pension,$costo_Contrato, $tipo_Contrato, $tipo_movimiento,
                          $usuario, $sucursal, $idCierreCaja, $idCierreSucursal,'$fechaCreacion',$prestamo_Informativo)";
-                echo $insertaMovimiento;
                 if ($ps = $this->conexion->prepare($insertaMovimiento)) {
                     if ($ps->execute()) {
                         // $verdad = mysqli_stmt_affected_rows($ps);

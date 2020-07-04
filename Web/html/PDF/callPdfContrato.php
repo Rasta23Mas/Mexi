@@ -68,12 +68,12 @@ $totalInteres = 0;
 $ivaPorcentaje = 0;
 
 
-
+$idContrato = 131;
 
 if (isset($_GET['contrato'])) {
     $idContrato = $_GET['contrato'];
 }
-
+$idContrato = 131;
 $nombreContrato = 'Contrato Num _ ' . $idContrato . ".pdf";
 
 $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Mat, ' ',Cli.apellido_Pat) as NombreCompleto, 
@@ -92,6 +92,7 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
                 INNER JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja  
                 INNER JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
                 WHERE Con.id_Contrato =$idContrato ";
+echo $idContrato;
 $resultado = $mysql->query($query);
 foreach ($resultado as $row) {
     //echo $fila['Contrato'];
