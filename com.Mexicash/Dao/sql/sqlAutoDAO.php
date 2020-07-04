@@ -50,15 +50,16 @@ class sqlAutoDAO
             $fechaCreacion = date('Y-m-d H:i:s');
             $fechaModificacion = date('Y-m-d H:i:s');
 
+            $idCierreCaja = $_SESSION['idCierreCaja'];
 
             $usuario = $_SESSION["idUsuario"];
             $sucursal = $_SESSION["sucursal"];
             $insertaContrato = "INSERT INTO contrato_tbl " .
                 "(id_Cliente, total_Prestamo,total_Interes, suma_InteresPrestamo, polizaSeguro, gps, pension, " .
-                "diasAlm, beneficiario, cotitular, plazo,tasa, alm, seguro,iva,dias,id_Formulario,aforo, fecha_creacion,tipoContrato) VALUES " .
+                "diasAlm, beneficiario, cotitular, plazo,tasa, alm, seguro,iva,dias,id_Formulario,aforo, fecha_creacion,tipoContrato,id_cierreCaja) VALUES " .
                 "('" . $id_Cliente . "','" . $totalPrestamo . "','" . $totalInteres . "', '" . $sumaInteresPrestamo . "', '" . $polizaInteres . "','" . $gps . "', '" . $pension .
                 "', '" . $diasAlm . "','" . $beneficiario . "','" . $cotitular . "','" . $plazo . "','" . $tasa . "','" . $alm . "','" . $seguro .
-                "','" . $iva . "','" . $dias . "','" . $tipoFormulario . "','" . $aforo . "','" . $fechaCreacion ."',2)";
+                "','" . $iva . "','" . $dias . "','" . $tipoFormulario . "','" . $aforo . "','" . $fechaCreacion ."',2,$idCierreCaja)";
 
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {

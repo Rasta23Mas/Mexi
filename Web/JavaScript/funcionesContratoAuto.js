@@ -275,6 +275,7 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
         url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
         data: dataEnviar,
         success: function (response) {
+            alert(response)
             if (response > 0) {
                 verPDF(contrato);
                 alertify.success("Contrato generado.");
