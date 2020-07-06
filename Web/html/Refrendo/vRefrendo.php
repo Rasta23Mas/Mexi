@@ -77,7 +77,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     </script>
     <style>
         .propInvisible {
-            visibility: visible;
+            visibility: hidden;
         }
     </style>
 </head>
@@ -160,7 +160,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                                style="text-align:center"/></td>
                                 </tr>
                                 <tr>
-                                    <td><label>Días transcurridos interés :</label></td>
+                                    <td><label>Días Moratorios :</label></td>
                                     <td><input type="text" id="idTblDiasTransInt" name="tblDiasTranscInteres" size="10"
                                                disabled
                                                style="text-align:center"/></td>

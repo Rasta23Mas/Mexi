@@ -80,7 +80,6 @@ function Agregar() {
                 var formMetal = $("#idTipoMetal").val();
                 if (formMetal != 0 || formElectronico != 0) {
                     if (formMetal > 0) {
-                        alert(formMetal)
                         //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
                         var metalAvaluo = $("#idAvaluo").val();
                         var metalPrestamo = $("#idPrestamo").val();

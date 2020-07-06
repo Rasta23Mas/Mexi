@@ -52,8 +52,7 @@ function busquedaRefrendo(e) {
 
 function busquedaMovimiento() {
     // alert("busqueda mov");
-    //contratoGbl = $("#idContrato").val();
-    contratoGbl = 134;
+    contratoGbl = $("#idContrato").val();
 
     tipoContrato = $("#idTipoDeContrato").val();
     tipoContrato = parseInt(tipoContrato);
@@ -327,14 +326,16 @@ function buscarDatosContrato() {
                     //TASA:
                     var tasaIvaTotal = TasaDesc + AlmacDesc + SeguDesc;
 
-
+                    alert(calculaInteres)
                     //Porcentajes por dia
                     var diaInteres = calculaInteres / DiasContrato;
                     var diaAlm = calculaALm / DiasContrato;
                     var diaSeg = calculaSeg / DiasContrato;
                     //var diaIva = calculaIva / DiasContrato;
                     //INTERES:
+
                     var totalVencInteres = diaInteres * diasForInteres;
+
                     var totalVencInteresBit = totalVencInteres;
                     totalVencInteresBit = Math.round(totalVencInteresBit * 100) / 100;
                     interesesPDF = totalVencInteresBit;
@@ -708,7 +709,7 @@ function abonoNuevo(e) {
             descuento = Number(descuento);
             interes = Number(interes);
 
-            calcularTotalPagar(descuento, interes, abono)
+            calcularTotalPagarAbono(interes, abono)
             var abonoFormat = formatoMoneda(abono)
             $("#idAbonoCapitalNotaNuevo").val(abonoFormat);
             var saldoPendienteNuevoNota = (prestamoNuevoNota - abono);
@@ -768,6 +769,14 @@ function cambioNuevo(e) {
 function calcularTotalPagar(descuento, interesTotal, abono) {
     var totalPagar = interesTotal + abono;
     totalPagar = totalPagar - descuento;
+    totalPagar = Math.round(totalPagar * 100) / 100;
+    var totalPagarFormat = formatoMoneda(totalPagar)
+    $("#idTotalAPagarNotaNuevo").val(totalPagarFormat);
+    $("#totalPagarNuevoNota").val(totalPagar);
+}
+function calcularTotalPagarAbono(interesTotal, abono) {
+
+    var totalPagar = interesTotal + abono;
     totalPagar = Math.round(totalPagar * 100) / 100;
     var totalPagarFormat = formatoMoneda(totalPagar)
     $("#idTotalAPagarNotaNuevo").val(totalPagarFormat);
@@ -1148,10 +1157,10 @@ function refrendoConfirmar() {
         'El contrato tiene fecha de movimiento del día de hoy, y no es posible refrendar, ¿Desea ir al módulo de desempeño?',
         function () {
             if (tipoContrato == 1) {
-                location.href = 'vRefrendo.php?tipoFormGet=3&contrato=' + contratoGbl;
+                location.href = '../Desempeno/vDesempeno.php?tipoFormGet=3&contrato=' + contratoGbl;
 
             } else if (tipoContrato == 2) {
-                location.href = 'vRefrendo.php?tipoFormGet=4&contrato=' + contratoGbl;
+                location.href = '../Desempeno/vDesempeno.php?tipoFormGet=4&contrato=' + contratoGbl;
             }
         },
         function () {
@@ -1159,7 +1168,7 @@ function refrendoConfirmar() {
                 location.href = 'vRefrendo.php?tipoFormGet=1';
 
             } else if (tipoContrato == 2) {
-                location.href = 'vRefrendo.php?tipoFormGet=2';
+                location.href = '../Desempeno/vDesempeno.php?tipoFormGet=2';
             }
         });
 }

@@ -198,8 +198,6 @@ function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, t
     var tipo_movimiento = movimiento;
     var costo_Contrato = 0;
     var totalAvaluo = $("#idTotalAvaluo").val();
-    alert("alto")
-    alert(totalAvaluo)
     var dataEnviar = {
         "id_contrato": id_contrato,
         "fechaVencimiento": fechaVencimiento,

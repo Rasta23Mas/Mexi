@@ -53,8 +53,7 @@ function busquedaRefrendo(e) {
 
 function busquedaMovimiento() {
    // alert("busqueda mov");
-    //contratoGbl = $("#idContrato").val();
-    contratoGbl = 117;
+    contratoGbl = $("#idContrato").val();
 
     tipoContrato = $("#idTipoDeContrato").val();
     tipoContrato = parseInt(tipoContrato);
@@ -658,111 +657,48 @@ function descuentoNuevo(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
-        var totalInteresNuevoNota = $("#totalInteresNuevoNota").val();
-        var idDescuentoNotaNuevo = $("#idDescuentoNotaNuevo").val();
-        var idIVAValue = $("#idTblIva").val();
-        var prestamoNuevoNota = $("#prestamoNuevoNota").val();
+        var descuento = $("#idDescuentoNotaNuevo").val();
+        descuento = Number(descuento);
 
-        totalInteresNuevoNota = Number(totalInteresNuevoNota);
-        idDescuentoNotaNuevo = Number(idDescuentoNotaNuevo);
-        idIVAValue = Number(idIVAValue);
-        prestamoNuevoNota = Number(prestamoNuevoNota);
-
-
-        if (idDescuentoNotaNuevo != 0) {
-
-            if (idDescuentoNotaNuevo <= totalInteresNuevoNota) {
-                totalInteresNuevoNota = Math.round(totalInteresNuevoNota * 100) / 100;
-                idDescuentoNotaNuevo = Math.round(idDescuentoNotaNuevo * 100) / 100;
-                var idInteresAPagarNotaNuevo = (totalInteresNuevoNota - idDescuentoNotaNuevo);
-                idInteresAPagarNotaNuevo = Math.round(idInteresAPagarNotaNuevo * 100) / 100;
-                var idTotalAPagarNotaNuevo = 0;
-                if (tipeFormulario == 1 || tipeFormulario == 2) {
-                    var abonoCapitalNuevoNota = $("#abonoCapitalNuevoNota").val();
-                    abonoCapitalNuevoNota = Number(abonoCapitalNuevoNota);
-                    idTotalAPagarNotaNuevo = (idInteresAPagarNotaNuevo + abonoCapitalNuevoNota);
-                    var prestamoParaIva = prestamoNuevoNota + idTotalAPagarNotaNuevo;
-
-                    idIVAValue = Math.round(idIVAValue * prestamoParaIva) / 100;
-                    idTotalAPagarNotaNuevo = idTotalAPagarNotaNuevo + idIVAValue;
-                } else {
-                    var prestamoNuevoNota = $("#prestamoNuevoNota").val();
-                    prestamoNuevoNota = Number(prestamoNuevoNota);
-                    idTotalAPagarNotaNuevo = (idInteresAPagarNotaNuevo + prestamoNuevoNota);
-
-                    idIVAValue = Math.round(idIVAValue * idTotalAPagarNotaNuevo) / 100;
-                    idTotalAPagarNotaNuevo = idTotalAPagarNotaNuevo + idIVAValue;
-                }
-
-                $("#idValidaToken").val(1);
-                $("#descuentoNuevoNota").val(idDescuentoNotaNuevo);
-                $("#interesPagarNuevoNota").val(idInteresAPagarNotaNuevo);
-                $("#totalPagarNuevoNota").val(idTotalAPagarNotaNuevo);
-                $("#idIVAValue").val(idIVAValue);
-
-                idInteresAPagarNotaNuevo = formatoMoneda(idInteresAPagarNotaNuevo)
-                idTotalAPagarNotaNuevo = formatoMoneda(idTotalAPagarNotaNuevo)
-                idIVAValue = formatoMoneda(idIVAValue);
-
-                $("#idInteresAPagarNotaNuevo").val(idInteresAPagarNotaNuevo);
-                $("#idTotalAPagarNotaNuevo").val(idTotalAPagarNotaNuevo);
-                $("#idIVANotaNuevo").val(idIVAValue);
-
-            } else {
-                alert("El descuento no puede ser mayor al interes.");
-                $("#idEfectivoNotaNuevo").val('');
-                $("#efectivoNuevoNota").val('');
-            }
-        }
-    }
-    return patron.test(te);
-}
-
-function abonoNuevo(e) {
-    var tecla;
-    tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
-        return true;
-    }
-    var patron;
-    patron = /[0-9.]/
-    var te;
-    te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
-        var prestamoNuevoNota = $("#prestamoNuevoNota").val();
-        var idAbonoCapitalNotaNuevo = $("#idAbonoCapitalNotaNuevo").val();
-        idAbonoCapitalNotaNuevo = Number(idAbonoCapitalNotaNuevo);
-        prestamoNuevoNota = Number(prestamoNuevoNota);
-        if (idAbonoCapitalNotaNuevo <= prestamoNuevoNota) {
-            idAbonoCapitalNotaNuevo = Math.round(idAbonoCapitalNotaNuevo * 100) / 100;
-            var interesPagarNuevoNota = $("#interesPagarNuevoNota").val();
-            var idIVAValue = $("#idTblIva").val();
-            idIVAValue = Number(idIVAValue);
-            interesPagarNuevoNota = Number(interesPagarNuevoNota);
-            var idTotalAPagarNotaNuevo = (interesPagarNuevoNota + idAbonoCapitalNotaNuevo);
-            idTotalAPagarNotaNuevo = Math.round(idTotalAPagarNotaNuevo * 100) / 100;
-            var saldoPendienteNuevoNota = (prestamoNuevoNota - idAbonoCapitalNotaNuevo);
+        var interes = $("#interesPagarNuevoNota").val();
+        interes = Number(interes);
+        if (descuento <= interes) {
+            calcularTotalPagar(descuento, interes, 0)
+            $("#descuentoNuevoNota").val(descuento);
+            var descuentoFormat = formatoMoneda(descuento)
+            $("#idDescuentoNotaNuevo").val(descuentoFormat);
+            $("#idDescuentoNotaNuevo").prop('disabled', true);
+            $("#idAbonoCapitalNotaNuevo").prop('disabled', false);
+            $("#idAbonoCapitalNotaNuevo").focus();
 
 
-            //Calculo de IVA
-            var prestamoParaIva = prestamoNuevoNota + idTotalAPagarNotaNuevo;
-            idIVAValue = Math.round(idIVAValue * prestamoParaIva) / 100;
-            idTotalAPagarNotaNuevo = idTotalAPagarNotaNuevo + idIVAValue;
-            $("#idIVAValue").val(idIVAValue);
-            idIVAValue = formatoMoneda(idIVAValue);
-            $("#idIVANotaNuevo").val(idIVAValue);
+            var ivaDesc = $("#idTblIva").val();
+            var totalInteres = $("#interesPagarNuevoNota").val();
+            var ivaValue = $("#idIVAValue").val();
+            ivaDesc = Number(ivaDesc);
+            var ivaPorc = "." + ivaDesc;
+            ivaPorc = Number(ivaPorc);
+            totalInteres = totalInteres - descuento;
+            $("#interesPagarNuevoNota").val(totalInteres);
+            var totalInteresFormat = formatoMoneda(totalInteres)
+            $("#idInteresAPagarNotaNuevo").val(totalInteresFormat);
+            ivaDesc += 100;
+            var totalInteresDescuento = totalInteres / ivaDesc;
+            totalInteresDescuento = totalInteresDescuento * 100;
 
+            ivaValue = totalInteresDescuento * ivaPorc;
+            totalInteresDescuento = Math.round(totalInteresDescuento * 100) / 100;
+            ivaValue = Math.round(ivaValue * 100) / 100;
 
+            $("#totalInteresNuevoNota").val(totalInteresDescuento);
+            $("#idIVAValue").val(ivaValue);
 
-            $("#saldoPendienteNuevoNota").val(saldoPendienteNuevoNota);
-            $("#totalPagarNuevoNota").val(idTotalAPagarNotaNuevo);
-            $("#abonoCapitalNuevoNota").val(idAbonoCapitalNotaNuevo);
-
-            idTotalAPagarNotaNuevo = formatoMoneda(idTotalAPagarNotaNuevo)
-            $("#idTotalAPagarNotaNuevo").val(idTotalAPagarNotaNuevo);
         } else {
-            alert("El abono no puede ser mayor al prestamo.");
+            alert("El descuento no puede ser mayor al interes.");
+            $("#idEfectivoNotaNuevo").val('');
+            $("#efectivoNuevoNota").val('');
         }
+
     }
     return patron.test(te);
 }
@@ -778,65 +714,44 @@ function cambioNuevo(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
-        if (tipoSinInteres == 0) {
-            descuentoNuevo(e);
-            if (tipeFormulario == 1 || tipeFormulario == 2) {
-                abonoNuevo(e);
-            }
-            var totalPagarNuevoNota = $("#totalPagarNuevoNota").val();
-            var idEfectivoNotaNuevo = $("#idEfectivoNotaNuevo").val();
-            totalPagarNuevoNota = Number(totalPagarNuevoNota);
-            idEfectivoNotaNuevo = Number(idEfectivoNotaNuevo);
-            if (totalPagarNuevoNota <= idEfectivoNotaNuevo) {
 
-                idEfectivoNotaNuevo = Math.round(idEfectivoNotaNuevo * 100) / 100;
-                totalPagarNuevoNota = Math.round(totalPagarNuevoNota * 100) / 100;
-                var cambioNuevoNota = (idEfectivoNotaNuevo - totalPagarNuevoNota);
-                cambioNuevoNota = Math.round(cambioNuevoNota * 100) / 100;
-                $("#efectivoNuevoNota").val(idEfectivoNotaNuevo);
-                $("#cambioNuevoNota").val(cambioNuevoNota);
-                cambioNuevoNota = formatoMoneda(cambioNuevoNota)
-                $("#idCambioNotaNuevo").val(cambioNuevoNota);
+        var totalPagarNuevoNota = $("#totalPagarNuevoNota").val();
+        var idEfectivoNotaNuevo = $("#idEfectivoNotaNuevo").val();
+        totalPagarNuevoNota = Number(totalPagarNuevoNota);
+        idEfectivoNotaNuevo = Number(idEfectivoNotaNuevo);
+        if (totalPagarNuevoNota <= idEfectivoNotaNuevo) {
 
-                var idDescuentoNotaNuevo = $("#idDescuentoNotaNuevo").val();
-                var idAbonoCapitalNotaNuevo = $("#idAbonoCapitalNotaNuevo").val();
-                idDescuentoNotaNuevo = formatoMoneda(idDescuentoNotaNuevo);
-                idEfectivoNotaNuevo = formatoMoneda(idEfectivoNotaNuevo)
-                idAbonoCapitalNotaNuevo = formatoMoneda(idAbonoCapitalNotaNuevo);
-                $("#idDescuentoNotaNuevo").val(idDescuentoNotaNuevo);
-                $("#idAbonoCapitalNotaNuevo").val(idAbonoCapitalNotaNuevo);
-                $("#idEfectivoNotaNuevo").val(idEfectivoNotaNuevo);
+            idEfectivoNotaNuevo = Math.round(idEfectivoNotaNuevo * 100) / 100;
+            totalPagarNuevoNota = Math.round(totalPagarNuevoNota * 100) / 100;
+            var cambioNuevoNota = (idEfectivoNotaNuevo - totalPagarNuevoNota);
+            cambioNuevoNota = Math.round(cambioNuevoNota * 100) / 100;
+            $("#efectivoNuevoNota").val(idEfectivoNotaNuevo);
+            $("#cambioNuevoNota").val(cambioNuevoNota);
+            cambioNuevoNota = formatoMoneda(cambioNuevoNota)
+            $("#idCambioNotaNuevo").val(cambioNuevoNota);
 
-                $("#idDescuentoNotaNuevo").prop('disabled', true);
-                $("#idAbonoCapitalNotaNuevo").prop('disabled', true);
-                $("#idEfectivoNotaNuevo").prop('disabled', true);
-            } else {
-                alert("El pago en efectivo no puede ser menor al total a pagar.");
-            }
+            idEfectivoNotaNuevo = formatoMoneda(idEfectivoNotaNuevo)
+            $("#idEfectivoNotaNuevo").val(idEfectivoNotaNuevo);
+            $("#idEfectivoNotaNuevo").prop('disabled', true);
+            $("#btnGenerar").prop('disabled', false);
+            $("#btnGenerar").focus();
         } else {
-            var totalSinInteresValue = $("#totalSinInteresValue").val();
-            var idEfectivoNotaNuevo = $("#idEfectivoNotaNuevo").val();
-            totalSinInteresValue = Number(totalSinInteresValue);
-            idEfectivoNotaNuevo = Number(idEfectivoNotaNuevo);
-            if (totalSinInteresValue <= idEfectivoNotaNuevo) {
-                idEfectivoNotaNuevo = Math.round(idEfectivoNotaNuevo * 100) / 100;
-                totalSinInteresValue = Math.round(totalSinInteresValue * 100) / 100;
-                var cambioNuevoNota = (idEfectivoNotaNuevo - totalSinInteresValue);
-                cambioNuevoNota = Math.round(cambioNuevoNota * 100) / 100;
-                $("#efectivoNuevoNota").val(idEfectivoNotaNuevo);
-                $("#cambioNuevoNota").val(cambioNuevoNota);
-                cambioNuevoNota = formatoMoneda(cambioNuevoNota);
-                idEfectivoNotaNuevo = formatoMoneda(idEfectivoNotaNuevo)
-                $("#idCambioNotaNuevo").val(cambioNuevoNota);
-                $("#idEfectivoNotaNuevo").val(idEfectivoNotaNuevo);
-                $("#idEfectivoNotaNuevo").prop('disabled', true);
-            } else {
-                alert("El pago en efectivo no puede ser menor al total a pagar.");
-            }
+            alert("El pago en efectivo no puede ser menor al total a pagar.");
         }
-
     }
     return patron.test(te);
+}
+
+function calcularTotalPagar(descuento, interesTotal, abono) {
+    var prestamo = $("#prestamoNuevoNota").val();
+    prestamo = Number(prestamo);
+
+    var totalPagar = interesTotal + abono + prestamo;
+    totalPagar = totalPagar - descuento;
+    totalPagar = Math.round(totalPagar * 100) / 100;
+    var totalPagarFormat = formatoMoneda(totalPagar)
+    $("#idTotalAPagarNotaNuevo").val(totalPagarFormat);
+    $("#totalPagarNuevoNota").val(totalPagar);
 }
 
 function limpiarRefrendo() {
@@ -953,19 +868,7 @@ function generarNuevo() {
     var idEstatusArt = 2;
 
 
-    if (tipeFormulario == 1 || tipeFormulario == 2) {
-        nombreMensaje = "Refrendo";
-        abonoCapitalNuevoNota = $("#abonoCapitalNuevoNota").val();
-        abonoCapitalPDF = abonoCapitalNuevoNota;
-        //Abono para guardar en el contrato
-        var abonoAnteriorNuevoNota = $("#abonoAnteriorNuevoNota").val();
-        abonoCapitalNuevoNota = parseFloat(abonoCapitalNuevoNota);
-        abonoAnteriorNuevoNota = parseFloat(abonoAnteriorNuevoNota);
-        abonoFinal = abonoCapitalNuevoNota + abonoAnteriorNuevoNota;
-        abonoFinal = Math.round(abonoFinal * 100) / 100;
-        newFechaVencimiento = $("#fechaVencimientoNuevoNota").val();
-        newFechaAlm = $("#fechaAlmNuevoNota").val();
-    }   else if (tipeFormulario == 3 || tipeFormulario == 4) {
+    if (tipeFormulario == 3 || tipeFormulario == 4) {
         nombreMensaje = "Desempeño";
         gps = $("#gpsNuevoNota").val();
         poliza = $("#polizaNuevoNota").val();
@@ -1025,51 +928,6 @@ function generarNuevo() {
     }
 }
 
-/*function generarSinIntereses() {
-
-    var efectivoNuevoNota = $("#efectivoNuevoNota").val();
-    efectivoNuevoNota = parseFloat(efectivoNuevoNota);
-    var validate = 1;
-
-    if (efectivoNuevoNota == 0) {
-        alert("Por favor. Capture el pago en efectivo. ");
-        validate = 0;
-    }
-
-    if (validate == 1) {
-        var saldoPendienteNuevoNota = 0;
-        var descuentoFinal = 0;
-        var idEstatusArt = 3;
-        var estatusAnterior = $("#idEstatusAnterior").val();
-
-        var nombreMensaje = "Desempeño sin interés";
-
-        var dataEnviar = {
-            "tipeFormulario": tipeFormulario,
-            "saldoPendiente": saldoPendienteNuevoNota,
-            "descuentoFinal": descuentoFinal,
-            "contrato": contratoGbl,
-            "idEstatusArt": idEstatusArt,
-            "estatusAnterior": estatusAnterior,
-        };
-
-
-        $.ajax({
-            data: dataEnviar,
-            url: '../../../com.Mexicash/Controlador/Desempeno/generarDesempenoSinInteres.php',
-            type: 'post',
-            success: function (response) {
-                alert(response)
-                if (response > 0) {
-                    alertify.success(nombreMensaje + " generado.")
-                    MovimientosRefrendoSinInteres();
-                } else {
-                    alertify.error("Error al generar " + nombreMensaje);
-                }
-            },
-        })
-    }
-}*/
 
 function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {
     //tipo_movimiento = 3 cat_movimientos-->Operacion-->Empeño
@@ -1427,11 +1285,7 @@ function BitacoraUsuarioRefrendo() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                if (tipeFormulario == 1 || tipeFormulario == 2) {
-                    cargarPDFRefrendo(contratoGbl);
-                } else if (tipeFormulario == 3 || tipeFormulario == 4) {
-                    cargarPDFDesempeno(contratoGbl);
-                }
+                verPDFDesempeno(contratoGbl);
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
@@ -1476,18 +1330,6 @@ function BitacoraUsuarioRefrendoSinInteres() {
     });
 }
 
-//Generar PDF
-function cargarPDFRefrendo(contratoGbl) {
-    window.open('../PDF/callPdfRefrendo.php?contrato=' + contratoGbl);
-}
-
-function verPDFRefrendo(contratoGbl) {
-    window.open('../PDF/callPdfRefrendo.php?pdf=1&contrato=' + contratoGbl);
-}
-
-function cargarPDFDesempeno(contratoGbl) {
-    window.open('../PDF/callPdfDesempeno.php?contrato=' + contratoGbl);
-}
 
 function verPDFDesempeno(contratoGbl) {
     window.open('../PDF/callPdfDesempeno.php?pdf=1&contrato=' + contratoGbl);
