@@ -377,27 +377,27 @@ include_once (HTML_PATH."menuGeneral.php");
                                         <td colspan="3">Cantidad:</td>
                                         <td colspan="3">
                                             <input type="text" id="idCantidad" name="cantidad" size="5"
-                                                   onkeypress="return soloNumeros(event)"
+                                                   onkeypress="return soloNumeros(event)"  placeholder="0"
                                                    style="text-align:center"/>
                                         </td>
                                         <td colspan="3">Peso:</td>
                                         <td colspan="3">
                                             <input type="text" id="idPeso" name="peso" size="4"
-                                                   onkeypress="return isNumberDecimal(event)"
+                                                   onkeypress="return isNumberDecimal(event)" placeholder="0"
                                                    style="text-align:center"/>
                                             <label>grs</label></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Piedras:</td>
                                         <td colspan="3">
-                                            <input type="text" id="idPiedras" name="piedras" size="5" value="0"
-                                                   onkeypress="return soloNumeros(event)"
+                                            <input type="text" id="idPiedras" name="piedras" size="5"
+                                                   onkeypress="return soloNumeros(event)" placeholder="0"
                                                    style="text-align:center"/>
                                             <label>pza</label>
                                         </td>
                                         <td colspan="3">Peso:</td>
                                         <td colspan="3">
-                                            <input type="text" id="idPesoPiedra" name="pesoPiedra" size="4" value="0.00"
+                                            <input type="text" id="idPesoPiedra" name="pesoPiedra" size="4" placeholder="0"
                                                    onkeypress="return isNumberDecimal(event)"
                                                    style="text-align:center"/>
                                             <label>grs</label></td>

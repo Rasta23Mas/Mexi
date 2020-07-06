@@ -32,9 +32,9 @@ function generarContrato() {
         var fechaAlmoneda = $("#idFechaAlm").val();
         var Suma_InteresPrestamo = $("#idTotalInteres").val();
 
-         totalPrestamo = Math.floor(totalPrestamo * 100) / 100;
+        totalPrestamo = Math.floor(totalPrestamo * 100) / 100;
         Suma_InteresPrestamo = Math.floor(Suma_InteresPrestamo * 100) / 100;
-         var Total_Intereses = Suma_InteresPrestamo - totalPrestamo;
+        var Total_Intereses = Suma_InteresPrestamo - totalPrestamo;
         Total_Intereses = Math.floor(Total_Intereses * 100) / 100;
 
         var dataEnviar = {
@@ -98,7 +98,6 @@ function actualizarArticulo(ultimoContrato) {
     //FEErr03
     var serie = ultimoContrato.trim();
     var idSerieContrato = serie.padStart(6,"0");
-
     var dataEnviar = {
         "contrato": ultimoContrato,
         "idSerieContrato": idSerieContrato
@@ -113,7 +112,6 @@ function actualizarArticulo(ultimoContrato) {
             if (response == -1 || response == 0) {
                 alertify.error("Error al agregar articulos al contrato. (FEErr03)");
             } else {
-
                 $("#idFormEmpeno")[0].reset();
                 alertify.success("Articulos agregados al contrato.");
                 setTimeout('location.reload();', 700)
@@ -235,7 +233,6 @@ function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, t
         url: '../../../com.Mexicash/Controlador/Movimientos/movimientosContrato.php',
         data: dataEnviar,
         success: function (response) {
-            alert(response)
             if (response > 0) {
                 BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato);
             } else {
