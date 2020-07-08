@@ -377,6 +377,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                     llenatabla++
 
                     var Formulario = datos[i].Formulario;
+                    alert(Formulario)
                     if (Formulario == 3) {
                         var Marca = datos[i].Marca;
                         var Modelo = datos[i].Modelo;

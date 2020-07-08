@@ -129,7 +129,7 @@ include_once (HTML_PATH."menuGeneral.php");
                         <input id="idNombreConsulta" name="Nombres" type="text" style="width: 300px"
                                class="inputCliente" onkeypress="nombreAutocompletarConsulta()"
                                placeholder="Buscar Cliente..." disabled/>
-                        <div align="center" id="suggestionsNombreEmpeno"></div>
+                        <div align="left" id="suggestionsNombreEmpeno"></div>
                     </td>
                     <td align="left" class="border-primary border" colspan="3">&nbsp;&nbsp;
                         <label>Rango de fechas:</label>

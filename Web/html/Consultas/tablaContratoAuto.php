@@ -49,6 +49,7 @@
         <th>Abono</th>
         <th>Interes</th>
         <th>Moratorios</th>
+        <th>Costo Contrato</th>
         <th>Descuento</th>
         <th>Pago</th>
         <th>Plazo</th>

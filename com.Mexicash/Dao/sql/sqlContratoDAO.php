@@ -221,10 +221,9 @@ class sqlContratoDAO
                         COl.descripcion as ColorAuto, Auto.observaciones as Obs 
                         FROM auto_tbl as Auto 
                         INNER JOIN contrato_tbl AS Con on Auto.id_Contrato = Con.id_Contrato 
-                        INNER JOIN cat_color as COl on Auto.color = COl.id_Color
-                        INNER JOIN cat_articulos as Art on Auto.tipo_Vehiculo = Art.id_Cat_Articulo
-                        WHERE Auto.id_Contrato = '$idContratoBusqueda' AND Con.tipoContrato =" . $tipoContratoGlobal . " AND Con.sucursal=" . $sucursal;
-
+                        LEFT JOIN cat_color as COl on Auto.color = COl.id_Color
+                        LEFT JOIN cat_articulos as Art on Auto.tipo_Vehiculo = Art.id_Cat_Articulo
+                        WHERE Auto.id_Contrato = '$idContratoBusqueda' AND Con.tipoContrato =" . $tipoContratoGlobal;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
