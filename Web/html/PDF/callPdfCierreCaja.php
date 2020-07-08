@@ -445,7 +445,7 @@ if (!isset($_GET['pdf'])) {
                            <label> ( ' . $cantPrestamos . ' )</label>
                         </td>
                         <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;PRESTAMOS NUEVOS:</label>
+                            <label>&nbsp;&nbsp;&nbsp;PRÉSTAMOS NUEVOS:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
                               <label >' . $prestamosNuevos . '</label>
@@ -1001,7 +1001,7 @@ $contenido .= '
                            <label> ( ' . $cantPrestamos . ' )</label>
                         </td>
                         <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;PRESTAMOS NUEVOS:</label>
+                            <label>&nbsp;&nbsp;&nbsp;PRÉSTAMOS NUEVOS:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
                               <label >' . $prestamosNuevos . '</label>

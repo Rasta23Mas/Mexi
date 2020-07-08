@@ -251,7 +251,7 @@ $contenido = '<html>
                     Fecha de celebración del contrato: CIUDAD DE MEXICO a ' . $FechaCreacion . '
                 </label>
                 <label class="letraChicaNegrita">
-                    CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRESTAMO),</label>
+                    CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO),</label>
                 <label class="letraChica">
                     que celebran: MIRIAM GAMA VAZQUEZ,
                     "EL PROVEEDOR", con
@@ -268,8 +268,8 @@ $contenido = '<html>
         </tr>
         <tr class="tituloCelda">
             <td colspan="2" rowspan="2"><label class="letraNormalNegrita">Cat Costo Anual Total </label></td>
-            <td colspan="2" rowspan="2"><label class="letraNormalNegrita">TASA DE INTERES ANUAL </label></td>
-            <td colspan="2" rowspan="2"><label class="letraNormalNegrita">MONTO DEL PRESTAMO (MUTUO) </label></td>
+            <td colspan="2" rowspan="2"><label class="letraNormalNegrita">TASA DE INTERÉS ANUAL </label></td>
+            <td colspan="2" rowspan="2"><label class="letraNormalNegrita">MONTO DEL PRÉSTAMO (MUTUO) </label></td>
             <td colspan="2" rowspan="2"><label class="letraNormalNegrita">MONTO TOTAL A PAGAR </label></td>
             <td colspan="4" ><label class="letraNormalNegrita">COMISIONES Montos y cláusulas </label></td>
         </tr>
@@ -314,8 +314,8 @@ $contenido = '<html>
         <tr>
             <td colspan="12" class="tituloCelda">
                 <label class="letraChica">
-                    METODOLOGIA DE CALCULO DE INTERES: TASA DE INTERES FIJA DIVIDIDA ENTRE 360 DIAS POR EL
-                    IMPORTE DEL SALDO INSOLUTO DEL PRESTAMO POR EL
+                    METODOLOGIA DE CALCULO DE INTERÉS: TASA DE INTERÉS FIJA DIVIDIDA ENTRE 360 DIAS POR EL
+                    IMPORTE DEL SALDO INSOLUTO DEL PRÉSTAMO POR EL
                     NUMERO DE DIAS EFECTIVAMENTE TRANSCURRIDOS.
                 </label>
             </td>
@@ -323,7 +323,7 @@ $contenido = '<html>
         <tr>
             <td colspan="12">
                 <label class="letraChica">
-                    PLAZO DEL PRESTAMO (Fecha limite para el refrendo o desempeño):' . $FechaAlmoneda . '.
+                    PLAZO DEL PRÉSTAMO (Fecha limite para el refrendo o desempeño):' . $FechaAlmoneda . '.
                     Total de
                     refrendos aplicables:
                     Su pago sera: ' . $diasLabel . '. En caso de que el vencimiento sea en dia inhabil, se
@@ -459,7 +459,7 @@ $contenido = '<html>
         <tr>
             <td colspan="12">
                 <label class="letraChicaNegrita">
-                    GARANTÍA: Para garantizar el pago de este prestamo, EL CONSUMIDOR deja en garantia el bien que se
+                    GARANTÍA: Para garantizar el pago de este préstamo, EL CONSUMIDOR deja en garantia el bien que se
                     describe a continuacion:
                 </label>
             </td>
@@ -583,7 +583,7 @@ $contenido .='
             <td colspan="6"><label class="letraNormalNegrita">'. $FechaAlmoneda.'</label></td>
         </tr>
         <tr>
-            <td colspan="6"><label class="letraChicaNegrita">El monto del prestamo se realizara en:</label></td>
+            <td colspan="6"><label class="letraChicaNegrita">El monto del préstamo se realizara en:</label></td>
             <td colspan="6"><label class="letraChicaNegrita">Efectivo X o a la cuenta bancaria del consumidor al numero
                 __________________, de la Institucion Financiera __________________.</label>
             </td>
@@ -635,7 +635,7 @@ $contenido .='
                 Contrato de Adhesión registrado en el Registro Público de Contratos de Adhesión de la Procuraduría
                 Federal del Consumidor, bajo el número 11327-2018 de fecha 29-oct-2018. El
                 proveedor tiene la obligación de entregar al consumidor el documento en el cual se señale la descripción
-                del prestamo, saldos, movimientos y la descripción de la Prenda en garantía.
+                del préstamo, saldos, movimientos y la descripción de la Prenda en garantía.
                 </label>
             </td>
         </tr>
@@ -700,7 +700,7 @@ $contenido .='
                 NOMBRE:   
               '. $NombreCompleto.'
               &nbsp;&nbsp;&nbsp;&nbsp;
-                PRESTAMO:&nbsp;$ '. $MontoPrestamo.'</label>
+                PRÉSTAMO:&nbsp;$ '. $MontoPrestamo.'</label>
             </td>
         </tr>
         <tr>

@@ -346,7 +346,7 @@ if (!isset($_GET['pdf'])) {
                 </tr>
                  <tr><td><br></td></tr>
                 <tr>
-                    <td colspan="2" align="right"><label>PRESTAMO:</label></td>
+                    <td colspan="2" align="right"><label>PRÉSTAMO:</label></td>
                     <td align="right"><label>$ '.$prestamo.'</label></td>
                 </tr>
          
@@ -594,7 +594,7 @@ $contenido .= '<table width="30%" border="1">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="right"><label>PRESTAMO:</label></td>
+                    <td colspan="2" align="right"><label>PRÉSTAMO:</label></td>
                     <td align="right"><label>$ '.$prestamo.'</label></td>
                 </tr>
          
