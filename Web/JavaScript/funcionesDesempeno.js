@@ -779,9 +779,6 @@ function cambioNuevo(e) {
 
             idEfectivoNotaNuevo = Math.round(idEfectivoNotaNuevo * 100) / 100;
             totalPagarNuevoNota = Math.round(totalPagarNuevoNota * 100) / 100;
-            alert(idEfectivoNotaNuevo)
-            alert("menos")
-            alert(totalPagarNuevoNota)
             var cambioNuevoNota = (idEfectivoNotaNuevo - totalPagarNuevoNota);
             cambioNuevoNota = Math.round(cambioNuevoNota * 100) / 100;
             $("#efectivoNuevoNota").val(idEfectivoNotaNuevo);
