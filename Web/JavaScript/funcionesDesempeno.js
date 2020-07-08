@@ -326,13 +326,13 @@ function buscarDatosContrato() {
                     AlmacDescGlb = AlmacDesc;
                     SeguDescGlb = SeguDesc;
                     //Se saca los porcentajes mensuales
-                    alert("Se calcula");
-                    alert(TotalPrestamo);
-                    alert("por ")
-                    alert(TasaDesc);
-                    alert("Entre")
-                    alert("100")
-                    alert("igual a")
+                    //alert("Se calcula");
+                    //alert(TotalPrestamo);
+                    //alert("por ")
+                    //alert(TasaDesc);
+                    //alert("Entre")
+                   // alert("100")
+                    //alert("igual a")
 
                     var calculaInteres = Math.floor(TotalPrestamo * TasaDesc) / 100;
                     var calculaALm = Math.floor(TotalPrestamo * AlmacDesc) / 100;
@@ -685,8 +685,7 @@ function descuentoNuevo(e) {
             var descuentoFormat = formatoMoneda(descuento)
             $("#idDescuentoNotaNuevo").val(descuentoFormat);
             $("#idDescuentoNotaNuevo").prop('disabled', true);
-            $("#idAbonoCapitalNotaNuevo").prop('disabled', false);
-            $("#idAbonoCapitalNotaNuevo").focus();
+
 
 
             var ivaDesc = $("#idTblIva").val();
@@ -767,8 +766,12 @@ function cambioNuevo(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
-
-        var totalPagarNuevoNota = $("#totalPagarNuevoNota").val();
+        var totalPagarNuevoNota = 0;
+        if(tipoSinInteres==0){
+             totalPagarNuevoNota = $("#totalPagarNuevoNota").val();
+        }else{
+             totalPagarNuevoNota = $("#totalSinInteresValue").val();
+        }
         var idEfectivoNotaNuevo = $("#idEfectivoNotaNuevo").val();
         totalPagarNuevoNota = Number(totalPagarNuevoNota);
         idEfectivoNotaNuevo = Number(idEfectivoNotaNuevo);
@@ -776,6 +779,9 @@ function cambioNuevo(e) {
 
             idEfectivoNotaNuevo = Math.round(idEfectivoNotaNuevo * 100) / 100;
             totalPagarNuevoNota = Math.round(totalPagarNuevoNota * 100) / 100;
+            alert(idEfectivoNotaNuevo)
+            alert("menos")
+            alert(totalPagarNuevoNota)
             var cambioNuevoNota = (idEfectivoNotaNuevo - totalPagarNuevoNota);
             cambioNuevoNota = Math.round(cambioNuevoNota * 100) / 100;
             $("#efectivoNuevoNota").val(idEfectivoNotaNuevo);
@@ -1467,6 +1473,8 @@ function desempenoSinInteres() {
 }
 
 function costoContrato($ContratoEnviado) {
+    $("#idEfectivoNotaNuevo").prop('disabled', false);
+    $("#idEfectivoNotaNuevo").focus();
     var dataEnviar = {
         "contrato": $ContratoEnviado,
     };
