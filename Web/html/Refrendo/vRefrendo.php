@@ -77,7 +77,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     </script>
     <style>
         .propInvisible {
-            visibility: hidden;
+            visibility: visible;
         }
     </style>
 </head>
@@ -185,16 +185,22 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                     <td><label>Interés :</label></td>
                                     <td><input type="text" id="idTblInteres" name="tblInteres" size="10" disabled
                                                style="text-align:center"/></td>
+                                    <td><input type="text" id="idTblInteresDesc" name="tblInteres" size="5" disabled
+                                               style="text-align:center" class="propInvisible"/></td>
                                 </tr>
                                 <tr>
                                     <td><label>Almacenaje :</label></td>
                                     <td><input type="text" id="idTblAlmacenaje" name="contrato" size="10" disabled
                                                style="text-align:center"/></td>
+                                    <td><input type="text" id="idTblAlmacenajeDesc" name="contrato" size="5" disabled
+                                               style="text-align:center" class="propInvisible"/></td>
                                 </tr>
                                 <tr>
                                     <td><label>Seguro :</label></td>
                                     <td><input type="text" id="idTblSeguro" name="tblSeguro" size="10" disabled
                                                style="text-align:center"/></td>
+                                    <td><input type="text" id="idTblSeguroDesc" name="tblSeguro" size="5" disabled
+                                               style="text-align:center" class="propInvisible"/></td>
                                 </tr>
                                 <tr>
                                     <td><label>Moratorios :</label></td>
@@ -389,7 +395,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         </td>
                         <td colspan="2">
                             <input type="text" id="descuentoNuevoNota" name="Descuento"
-                                   style="width: 100px; text-align: right"/>
+                                   style="width: 100px; text-align: right" class="propInvisible" />
                         </td>
                     </tr>
                     <tr id="trAbonoNotaNuevo">
@@ -458,7 +464,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         </td>
                     </tr>
 
-                    <tr >
+                    <tr class="propInvisible">
                         <td>token
                             <input type="text" id="idValidaToken" name="validaToken"
                                    style="width: 100px; text-align: right" value="0"/>
@@ -495,11 +501,11 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr class="propInvisible">
                         <td>idForm
-                            <input type="text" id="idFormulario" class="propInvisible" name="formulario"
+                            <input type="text" id="idFormulario" name="formulario"
                                    style="width: 100px;  "/>
                         </td>
                         <td>
-                            <input type="text" id="idTipoDeContrato" class="propInvisible" name="tipoContrato"
+                            <input type="text" id="idTipoDeContrato"  name="tipoContrato"
                                    style="width: 100px;  "/>
                         </td>
                     </tr>

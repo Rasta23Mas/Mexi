@@ -181,6 +181,12 @@ function fechaVista(fechaAConvertir) {
     var nuevaFecha = anioIni + "-" +  mesIni + "-" + diaIni;
     return nuevaFecha;
 }
+
+function DosDecimales(monto) {
+    monto = Math.round(monto * 100) / 100;
+    return monto;
+
+}
 //Saber el tipo de dato
 //alert(typeof (totalVencInteres))
 //Obtener el valor texto de un select

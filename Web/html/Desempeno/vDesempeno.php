@@ -194,16 +194,23 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                     <td><label>Interés :</label></td>
                                     <td><input type="text" id="idTblInteres" name="tblInteres" size="10" disabled
                                                style="text-align:center"/></td>
+                                    <td><input type="text" id="idTblInteresDesc" name="tblInteres" size="5" disabled
+                                               style="text-align:center" class="propInvisible"/></td>
                                 </tr>
                                 <tr>
                                     <td><label>Almacenaje :</label></td>
                                     <td><input type="text" id="idTblAlmacenaje" name="contrato" size="10" disabled
                                                style="text-align:center"/></td>
+                                    <td><input type="text" id="idTblAlmacenajeDesc" name="contrato" size="5" disabled
+                                               style="text-align:center" class="propInvisible"/></td>
+
                                 </tr>
                                 <tr>
                                     <td><label>Seguro :</label></td>
                                     <td><input type="text" id="idTblSeguro" name="tblSeguro" size="10" disabled
                                                style="text-align:center"/></td>
+                                    <td><input type="text" id="idTblSeguroDesc" name="tblSeguro" size="5" disabled
+                                               style="text-align:center" class="propInvisible"/></td>
                                 </tr>
                                 <tr>
                                     <td><label>Moratorios :</label></td>
