@@ -47,7 +47,7 @@
         <th>Folio</th>
         <th>Prestamo</th>
         <th>Abono</th>
-        <th>Interes</th>
+        <th>Interés</th>
         <th>Moratorios</th>
         <th>Costo Contrato</th>
         <th>Descuento</th>

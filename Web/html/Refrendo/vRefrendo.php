@@ -268,7 +268,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr>
                         <td align="right" style="width: 200px;">
-                            <h5>Prestamo:</label></h5>
+                            <h5>Préstamo:</label></h5>
                         </td>
                         <td align="right" style="width: 180px;">
                             <h5><input type="text" id="idPrestamoNotaNuevo" name="prestamoNota"
@@ -281,7 +281,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr id="trInteresNovo">
                         <td align="right">
-                            <h5>Interes:</label></h5>
+                            <h5>Interés:</label></h5>
                         </td>
                         <td align="right">
                             <h5><input type="text" id="idInteresNotaNuevo" name="prestamoNota"
