@@ -77,7 +77,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     </script>
     <style>
         .propInvisible {
-            visibility: visible;
+            visibility: hidden;
         }
     </style>
 </head>
@@ -208,8 +208,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                                style="text-align:center"/></td>
                                 </tr>
                                 <tr>
-                                    <td><label>I.V.A. :</label></td>
-                                    <td><input type="text" id="idTblIva" name="tblIva" size="10" disabled
+                                    <td class="propInvisible"><label>I.V.A. :</label></td>
+                                    <td class="propInvisible"><input type="text" id="idTblIva" name="tblIva" size="10" disabled
                                                style="text-align:center"/></td>
                                 </tr>
                             </table>

@@ -56,8 +56,8 @@ function busquedaRefrendo(e) {
 }
 
 function busquedaMovimiento() {
-    contratoGbl = $("#idContrato").val();
-    //contratoGbl = 140;
+    //contratoGbl = $("#idContrato").val();
+    contratoGbl = 139;
 
     tipoContrato = $("#idTipoDeContrato").val();
     tipoContrato = parseInt(tipoContrato);
@@ -710,6 +710,7 @@ function descuentoNuevo(e) {
 
             $("#totalInteresNuevoNota").val(totalInteresDescuento);
             $("#idIVAValue").val(ivaValue);
+            $("#idValidaToken").val(1);
             descuentoTabla();
 
         } else {
