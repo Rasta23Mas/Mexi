@@ -42,7 +42,10 @@ $Poliza = "";
 $Licencia = "";
 $NombreUsuario = "";
 $NombreSucursal = "";
-
+$reimpresion='';
+if (isset($_GET['reimpresion'])) {
+    $reimpresion = "REIMPRESIÓN";
+}
 if (isset($_GET['contrato'])) {
     $idContrato = $_GET['contrato'];
 }
@@ -179,7 +182,7 @@ $contenido .= '<table width="30%" border="1">
                     </tr>
                     <tr>
                         <td colspan="4" align="center">
-                            &nbsp;
+                            ' . $reimpresion. '
                         </td>
                     </tr>
 

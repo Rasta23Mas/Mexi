@@ -325,24 +325,14 @@ function buscarDatosContrato() {
                     TasaDescGlb = TasaDesc;
                     AlmacDescGlb = AlmacDesc;
                     SeguDescGlb = SeguDesc;
-                    //Se saca los porcentajes mensuales
-                    alert("Se calcula");
-                    alert(TotalPrestamo);
-                    alert("por ")
-                    alert(TasaDesc);
-                    alert("Entre")
-                    alert("100")
-                    alert("igual a")
+
 
                     var calculaInteres = Math.floor(TotalPrestamo * TasaDesc) / 100;
                     var calculaALm = Math.floor(TotalPrestamo * AlmacDesc) / 100;
                     var calculaSeg = Math.floor(TotalPrestamo * SeguDesc) / 100;
                     //var calculaIva = Math.floor(TotalPrestamo * IvaDesc) / 100;
 
-                    //alert(calculaInteres)
-                    //alert("por ")
-                    //alert(DiasContrato)
-                    //alert("igual a")
+
                     var totalInteres = calculaInteres + calculaALm + calculaSeg;
                     //interes por dia
                     var interesDia = totalInteres / DiasContrato;
@@ -724,37 +714,27 @@ function descuentoNuevo(e) {
 }
 
 function descuentoTabla() {
-    var TotalPrestamo = 799.14;
-    var DiasContrato = 30;
-    var diasForInteres = 2;
-
-    var calculaInteres = Math.round(TotalPrestamo * TasaDescGlb) / 100;
-    var calculaALm = Math.round(TotalPrestamo * AlmacDescGlb) / 100;
-    var calculaSeg = Math.round(TotalPrestamo * SeguDescGlb) / 100;
-    //var totalInteres =  $("#totalInteresNuevoNota").val();
-
-
-    var diaInteres = calculaInteres / DiasContrato;
-    var diaAlm = calculaALm / DiasContrato;
-    var diaSeg = calculaSeg / DiasContrato;
-
-    var totalVencInteres = diaInteres * diasForInteres;
-    var totalVencAlm = diaAlm * diasForInteres;
-    var totalVencSeg = diaSeg * diasForInteres;
-
-    alert(totalVencInteres)
-    var interesGenerado = totalVencInteres + totalVencAlm + totalVencSeg;
-
-    alert(interesGenerado)
-
-
-    calculaInteres = DosDecimales(calculaInteres);
-    calculaALm = DosDecimales(calculaALm);
-    calculaSeg = DosDecimales(calculaSeg);
-
-   $("#idTblInteresDesc").val(totalVencInteres);
-   $("#idTblAlmacenajeDesc").val(totalVencAlm);
-    $("#idTblSeguroDesc").val(totalVencSeg);
+    var totalInteres = $("#totalInteresNuevoNota").val();
+    var tasaTotal = $("#idTblTasa").val();
+    totalInteres = Number(totalInteres);
+    tasaTotal = Number(tasaTotal);
+    TasaDescGlb = Number(TasaDescGlb);
+    AlmacDescGlb = Number(AlmacDescGlb);
+    SeguDescGlb = Number(SeguDescGlb);
+    tasaPorcentaje = (TasaDescGlb/tasaTotal)* 100;
+    almPorcentaje = (AlmacDescGlb/tasaTotal)* 100;
+    tasaPorcentaje = Math.round(tasaPorcentaje * 100) / 100;
+    almPorcentaje = Math.round(almPorcentaje * 100) / 100;
+    seguroPorcentaje = 100-(tasaPorcentaje+almPorcentaje)
+    var tasaDescuento = (totalInteres * tasaPorcentaje)/100
+    var almDescuento = (totalInteres * almPorcentaje)/100
+    var segDescuento = (totalInteres * seguroPorcentaje)/100
+    tasaDescuento = Math.round(tasaDescuento * 100) / 100;
+    almDescuento = Math.round(almDescuento * 100) / 100;
+    segDescuento = Math.round(segDescuento * 100) / 100;
+    $("#idTblInteresDesc").val(tasaDescuento);
+    $("#idTblAlmacenajeDesc").val(almDescuento);
+    $("#idTblSeguroDesc").val(segDescuento);
 }
 
 function cambioNuevo(e) {

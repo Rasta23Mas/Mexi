@@ -67,7 +67,10 @@ $diasLabel = '';
 $totalInteres = 0;
 $ivaPorcentaje = 0;
 
-
+$reimpresion='';
+if (isset($_GET['reimpresion'])) {
+    $reimpresion = "Reimpresión";
+}
 if (isset($_GET['contrato'])) {
     $idContrato = $_GET['contrato'];
 }
@@ -242,7 +245,7 @@ $contenido = '<html>
         <tbody>
         <tr>
             <td colspan="12" align="right">
-                <label class="letraGrandeNegrita"> Contrato No. ' . $idContrato . '</label>
+                <label class="letraGrandeNegrita"> ' . $reimpresion . ' Contrato No. ' . $idContrato . '</label>
             </td>
         </tr>
         <tr>

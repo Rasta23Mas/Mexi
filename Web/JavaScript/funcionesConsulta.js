@@ -706,29 +706,29 @@ function reimprimir(tipoMovimiento,idMovimiento,Contrato) {
     ContratoReimprimir = Contrato;
     if (tipoMovimiento == 3) {
         //3 = Empeño
-        window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir);
+        window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir+'&reimpresion=1');
     } else if (tipoMovimiento == 4) {
         //4 = Refrendo
-        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento);
+        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
     } else if (tipoMovimiento == 5) {
         //5 = Desempeño
-        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento);
+        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
     } else if (tipoMovimiento == 6) {
         //6 = Vent8a
     } else if (tipoMovimiento == 7) {
         //7 = Empeño Auto
-        window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir);
+        window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir+'&reimpresion=1');
     } else if (tipoMovimiento == 8) {
         //8 = Refrendo Auto
-        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento);
+        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
     } else if (tipoMovimiento == 9) {
         //9 = Desempeño Auto
-        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento);
+        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
     } else if (tipoMovimiento == 10) {
         //10 = Venta Auto
     } else if (tipoMovimiento == 21) {
         //21 = Desempeño sin interes
-        window.open('../PDF/callPdfDesempenoSinInteres.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento);
+        window.open('../PDF/callPdfDesempenoSinInteres.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
     } else if (tipoMovimiento == 20) {
         //20 = Cancelado
     }

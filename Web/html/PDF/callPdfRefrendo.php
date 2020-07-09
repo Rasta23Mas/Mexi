@@ -52,6 +52,10 @@ $sucursal = "";
 
 $subTotal = 0;
 $Total = 0;
+$reimpresion='';
+if (isset($_GET['reimpresion'])) {
+    $reimpresion = "REIMPRESIÓN";
+}
 
 if (isset($_GET['contrato'])) {
     $idContrato = $_GET['contrato'];
@@ -256,6 +260,7 @@ $contenido .= '<table width="30%" border="1">
                 <tr>
                     <td colspan="3" align="center">
                         &nbsp;
+                        ' . $reimpresion. '
                     </td>
                 </tr>
                 <tr>
