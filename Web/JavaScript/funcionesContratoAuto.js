@@ -1,5 +1,4 @@
-function validarMonto() {
-
+function validarMontoAuto() {
     var clienteEmpeno = $("#idClienteEmpeno").val();
     var tipoInteres = $("#tipoInteresEmpeno").val();
     var diasAlmoneda = $("#idDiasAlmoneda").val();
@@ -16,21 +15,14 @@ function validarMonto() {
         validate = false;
     }
     if (validate) {
-        var chkTarjeta = 0;
-        var chkFActura = 0;
-        var chkIne = 0;
-        var chkImportacion = 0;
-        var chkTenencia = 0;
-        var chkPoliza = 0;
-        var chkLicencia = 0;
-
         if ($('#idCheckTarjeta').is(":checked")) {
             if ($('#idCheckFactura').is(":checked")) {
                 if ($('#idCheckINE').is(":checked")) {
                     if ($('#idCheckTenecia').is(":checked")) {
                         if ($('#idCheckPoliza').is(":checked")) {
                             if ($('#idCheckLicencia').is(":checked")) {
-                                $("#modalDescuento").modal();
+                                $("#modalDescuentoAuto").modal();
+                                alert("Error");
                             } else {
                                 alert("Por Favor. Solicita copia de la Licencia.");
                             }
@@ -52,7 +44,11 @@ function validarMonto() {
     }
 }
 
-function tokenNuevo() {
+function pruebaT() {
+    $("#modalDescuentoAuto").modal();
+}
+
+function tokenNuevoAuto() {
     var tokenDes = $("#idCodigoAut").val();
     var dataEnviar = {
         "token": tokenDes
