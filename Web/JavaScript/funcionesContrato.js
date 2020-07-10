@@ -165,7 +165,7 @@ function actualizarArticulo(ultimoContrato) {
             } else {
                 $("#idFormEmpeno")[0].reset();
                 alertify.success("Articulos agregados al contrato.");
-                setTimeout('location.reload();', 700)
+
             }
         },
     })
@@ -328,6 +328,7 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
+                setTimeout('location.reload();', 700)
                 verPDF(contrato);
                 alertify.success("Contrato generado.");
             } else {
@@ -359,7 +360,6 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
         url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraToken.php',
         data: dataEnviar,
         success: function (response) {
-            alert(response)
             if (response > 0) {
                 alertify.success("Token guardado.");
             } else {
