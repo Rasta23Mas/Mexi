@@ -70,8 +70,6 @@ function llenarMontoToken() {
             }
         },
     })
-
-
 }
 function limpiarTablaInteres() {
     $.ajax({

@@ -185,6 +185,12 @@ include_once (HTML_PATH."menuGeneral.php");
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idAforo" name="aforo" disabled type="text" value="1"
                                    style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="idMontoToken" name="MontoToken" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class=""/>
+                            <input id="idToken" name="token" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class="invisible"/>
                         </td>
                     </tr>
                     </tbody>
@@ -611,7 +617,7 @@ include_once (HTML_PATH."menuGeneral.php");
         </div>
         <div class="row" class="border border-success" >
             <div class="col col-lg-12" align="right" class="border border-success">
-                <input type="button" class="btn btn-primary" value="Contrato" onclick="generarContratoAuto()">&nbsp;
+                <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMonto()">&nbsp;
                 <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
             </div>
