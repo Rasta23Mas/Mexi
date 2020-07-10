@@ -196,6 +196,23 @@ class sqlArticulosDAO
         }
         echo json_encode($data);
     }
+    public function buscarMontoToken()
+    {
+        try {
+            $buscar = "SELECT Monto FROM cat_montotoken where id = 1";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                $consulta = $rs->fetch_assoc();
+                $data['status'] = 'ok';
+                $data['result'] = $consulta;
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo json_encode($data);
+    }
     public function eliminarArticulo($idArticulo)
     {
         // TODO: Implement guardaCiente() method.

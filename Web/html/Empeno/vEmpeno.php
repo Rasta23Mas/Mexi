@@ -20,6 +20,8 @@ include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
 include_once(HTML_PATH . "Empeno/modalArticulos.php");
 include_once(HTML_PATH . "Empeno/modalAgregarArticulos.php");
 include_once (HTML_PATH."menuGeneral.php");
+include_once (DESC_PATH."modalDescuentoToken.php");
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -199,6 +201,12 @@ include_once (HTML_PATH."menuGeneral.php");
                             <input id="idTipoFormulario" name="tipoFormulario" disabled type="text" value="1"
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idAforo" name="aforo" disabled type="text" value="1"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="idMontoToken" name="MontoToken" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="idToken" name="token" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
                         </td>
 
@@ -592,8 +600,8 @@ include_once (HTML_PATH."menuGeneral.php");
                 <br>
             </div>
             <div class="col col-lg-5" align="right">&nbsp;
-                <input type="button" class="btn btn-primary" value="Contrato" onclick="generarContrato()">&nbsp;
-                <!--input type="button" class="btn btn-info" value="Reimprimir" onclick=" window.open('../PDF/callPdfContrato.php')">&nbsp;-->
+                <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMonto()">&nbsp;
+                <input type="button" class="btn btn-info" value="token" onclick="BitacoraTokenEmpeno(1,2)">
                 <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
             </div>

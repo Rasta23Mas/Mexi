@@ -26,6 +26,7 @@ function SeleccionarInteres(tipoInteresValue) {
                     document.getElementById('idIvaPorcen').innerHTML = response.result.iva ;
                     limpiarTablaInteres();
                     llenarAforoAvaluo();
+                   llenarMontoToken();
                     $("#divTablaMetales").load('tablaMetales.php');
                     $("#divTablaArticulos").load('tablaArticulos.php');
                     calcularDias()
@@ -49,6 +50,23 @@ function llenarAforoAvaluo() {
             if (response.status == 'ok') {
                 var porcentajeAforo = response.result.Porcentaje;
                 $("#idAforo").val(porcentajeAforo);
+            }
+        },
+    })
+
+
+}
+
+
+function llenarMontoToken() {
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Articulos/MontoToken.php',
+        type: 'post',
+        dataType: "json",
+        success: function (response) {
+            if (response.status == 'ok') {
+                var Monto = response.result.Monto;
+                $("#idMontoToken").val(Monto);
             }
         },
     })

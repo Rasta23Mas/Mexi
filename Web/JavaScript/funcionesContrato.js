@@ -1,6 +1,7 @@
-//Genera contrato
-function generarContrato() {
-    //FEErr01
+var errorToken = 0;
+function validarMonto() {
+    var totalPrestamo = $("#idTotalPrestamo").val();
+    var montoToken = $("#idMontoToken").val();
     var clienteEmpeno = $("#idClienteEmpeno").val();
     var tipoInteres = $("#tipoInteresEmpeno").val();
     var validarContratoTemporal = consultarContratos();
@@ -21,53 +22,103 @@ function generarContrato() {
         validate = false;
     }
     if (validate) {
-        var totalPrestamo = parseFloat($("#idTotalPrestamo").val());
-        var diasAlmonedaValue = $('select[name="diasAlmName"] option:selected').text();
-        var tipoFormulario = $("#idTipoFormulario").val();
-        var aforo = $("#idAforo").val();
-        var idTipoInteres = $("#idTipoInteres").text();
-        var idPeriodo = $("#idPeriodo").text();
-        var plazo = $("#idPlazo").text();
-        var fechaVencimiento = $("#idFecVencimiento").text();
-        var fechaAlmoneda = $("#idFechaAlm").val();
-        var Suma_InteresPrestamo = $("#idTotalInteres").val();
+        totalPrestamo = Number(totalPrestamo);
+        montoToken = Number(montoToken);
+        if(totalPrestamo>=montoToken){
+            $("#modalDescuento").modal();
+        }else{
+            generarContrato();
+        }
 
-        totalPrestamo = Math.floor(totalPrestamo * 100) / 100;
-        Suma_InteresPrestamo = Math.floor(Suma_InteresPrestamo * 100) / 100;
-        var Total_Intereses = Suma_InteresPrestamo - totalPrestamo;
-        Total_Intereses = Math.floor(Total_Intereses * 100) / 100;
-
-        var dataEnviar = {
-            "idCliente": clienteEmpeno,
-            "totalPrestamo": totalPrestamo,
-            "Total_Intereses": Total_Intereses,
-            "Suma_InteresPrestamo": Suma_InteresPrestamo,
-            "diasAlmonedaValue": diasAlmonedaValue,
-            "cotitular": $("#nombreCotitular").val(),
-            "beneficiario": $("#idNombreBen").val(),
-            "plazo": plazo,
-            "tasa": $("#idTasaPorcen").text(),
-            "alm": $("#idAlmPorcen").text(),
-            "seguro": $("#idSeguroPorcen").text(),
-            "iva": $("#idIvaPorcen").text(),
-            "dias": $("#diasInteres").val(),
-            "idTipoFormulario": tipoFormulario,
-            "aforo": aforo
-        };
-        $.ajax({
-            data: dataEnviar,
-            url: '../../../com.Mexicash/Controlador/Contrato.php',
-            type: 'post',
-            success: function (contrato) {
-                if (contrato > 0) {
-                    actualizarArticulo(contrato);
-                    MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 1);
-                } else {
-                    alertify.error("Error al generar contrato. (FEErr01)");
-                }
-            },
-        })
     }
+
+}
+
+function tokenNuevo() {
+    var tokenDes = $("#idCodigoAut").val();
+    var dataEnviar = {
+        "token": tokenDes
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Desempeno/Token.php',
+        type: 'post',
+        success: function (response) {
+            if (response > 0) {
+                $("#idToken").val(response);
+                // var token = parseInt(response);
+                var token = response;
+                if (token > 20) {
+                    alert("Los Token se estan terminando, favor de avisar al administrador");
+                }
+                alertify.success("Código correcto.");
+                $("#tokenDescripcion").val(tokenDes);
+                generarContrato();
+
+            } else {
+                if (errorToken < 3) {
+                    errorToken += 1;
+                    alertify.warning("Error de código. Por favor Verifique.");
+
+                } else {
+                    alertify.error("Demasiados intentos. Intente más tarde.");
+                }
+            }
+        },
+    })
+}
+
+//Genera contrato
+function generarContrato() {
+    //FEErr01
+    var clienteEmpeno = $("#idClienteEmpeno").val();
+    var totalPrestamo = $("#idTotalPrestamo").val();
+    var diasAlmonedaValue = $('select[name="diasAlmName"] option:selected').text();
+    var tipoFormulario = $("#idTipoFormulario").val();
+    var aforo = $("#idAforo").val();
+    var idTipoInteres = $("#idTipoInteres").text();
+    var idPeriodo = $("#idPeriodo").text();
+    var plazo = $("#idPlazo").text();
+    var fechaVencimiento = $("#idFecVencimiento").text();
+    var fechaAlmoneda = $("#idFechaAlm").val();
+    var Suma_InteresPrestamo = $("#idTotalInteres").val();
+
+    totalPrestamo = Math.round(totalPrestamo * 100) / 100;
+    Suma_InteresPrestamo = Math.round(Suma_InteresPrestamo * 100) / 100;
+    var Total_Intereses = Suma_InteresPrestamo - totalPrestamo;
+    Total_Intereses = Math.round(Total_Intereses * 100) / 100;
+
+    var dataEnviar = {
+        "idCliente": clienteEmpeno,
+        "totalPrestamo": totalPrestamo,
+        "Total_Intereses": Total_Intereses,
+        "Suma_InteresPrestamo": Suma_InteresPrestamo,
+        "diasAlmonedaValue": diasAlmonedaValue,
+        "cotitular": $("#nombreCotitular").val(),
+        "beneficiario": $("#idNombreBen").val(),
+        "plazo": plazo,
+        "tasa": $("#idTasaPorcen").text(),
+        "alm": $("#idAlmPorcen").text(),
+        "seguro": $("#idSeguroPorcen").text(),
+        "iva": $("#idIvaPorcen").text(),
+        "dias": $("#diasInteres").val(),
+        "idTipoFormulario": tipoFormulario,
+        "aforo": aforo
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Contrato.php',
+        type: 'post',
+        success: function (contrato) {
+            if (contrato > 0) {
+                actualizarArticulo(contrato);
+                BitacoraTokenEmpeno(contrato,tipoFormulario)
+                MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 1);
+            } else {
+                alertify.error("Error al generar contrato. (FEErr01)");
+            }
+        },
+    })
 }
 
 //Generar PDF
@@ -97,7 +148,7 @@ function consultarContratos() {
 function actualizarArticulo(ultimoContrato) {
     //FEErr03
     var serie = ultimoContrato.trim();
-    var idSerieContrato = serie.padStart(6,"0");
+    var idSerieContrato = serie.padStart(6, "0");
     var dataEnviar = {
         "contrato": ultimoContrato,
         "idSerieContrato": idSerieContrato
@@ -281,6 +332,38 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
                 alertify.success("Contrato generado.");
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr07)")
+            }
+        }
+    });
+}
+
+
+function BitacoraTokenEmpeno(contrato,tipoFormulario) {
+    //tokenMovimiento= 9 ->Monto Electronicos/Metales
+    //tokenMovimiento= 10->Monto Auto
+    var tipoContrato = 1;
+    var token = $("#idToken").val();
+    var tokenDescripcion = $("#tokenDescripcion").val();
+    var tokenMovimiento = 9;
+    var dataEnviar = {
+        "contrato": contrato,
+        "tipoContrato": tipoContrato,
+        "tipoFormulario": tipoFormulario,
+        "token": token,
+        "tokenDescripcion": tokenDescripcion,
+        "tokenMovimiento": tokenMovimiento,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraToken.php',
+        data: dataEnviar,
+        success: function (response) {
+            alert(response)
+            if (response > 0) {
+                alertify.success("Token guardado.");
+            } else {
+                alertify.error("Error en al guardar el token")
             }
         }
     });

@@ -22,7 +22,8 @@ class sqlTokenDAO
     }
 
     //Validacion de token Cancelados
-    public function tokenCancelaciones($token,$Contrato,$tipoContrato){
+    public function tokenCancelaciones($token, $Contrato, $tipoContrato)
+    {
         $token = mb_strtoupper($token, 'UTF-8');
         $fechaCreacion = date('Y-m-d H:i:s');
         $usuario = $_SESSION["idUsuario"];
@@ -74,7 +75,8 @@ class sqlTokenDAO
     }
 
     //Validacion de token dotaciones
-    public function tokenDotaciones($tokenDes,$idFolio,$importe,$cat_token_movimiento){
+    public function tokenDotaciones($tokenDes, $idFolio, $importe, $cat_token_movimiento)
+    {
         $tokenDes = mb_strtoupper($tokenDes, 'UTF-8');
         $fechaCreacion = date('Y-m-d H:i:s');
         $usuario = $_SESSION["idUsuario"];
@@ -121,5 +123,47 @@ class sqlTokenDAO
         }
         echo $verdad;
         //return $id;
+    }
+
+    //Validacion de token Cancelados
+    public function tokenContrato($contrato, $tipoContrato, $tipoFormulario, $token, $tokenDescripcion, $tokenMovimiento)
+    {
+        $token = mb_strtoupper($token, 'UTF-8');
+        $fechaCreacion = date('Y-m-d H:i:s');
+        $usuario = $_SESSION["idUsuario"];
+        $sucursal = $_SESSION["sucursal"];
+        try {
+
+            $insertaBitacora = "INSERT INTO bit_token ( id_Contrato, tipo_Contrato,tipo_formulario, token, descripcion,
+                                    id_tokenMovimiento, estatus, usuario, sucursal, fecha_Creacion)
+                                    VALUES ($contrato, $tipoContrato,$tipoFormulario,$token, '$tokenDescripcion',$tokenMovimiento,
+                                        1,$usuario,$sucursal,'$fechaCreacion')";
+            if ($ps = $this->conexion->prepare($insertaBitacora)) {
+                if ($ps->execute()) {
+                    $updateToken = "UPDATE cat_token SET
+                                         estatus = 2
+                                        WHERE id_token =$token";
+                    if ($ps = $this->conexion->prepare($updateToken)) {
+                        if ($ps->execute()) {
+                            $verdad = mysqli_stmt_affected_rows($ps);
+                        } else {
+                            $verdad = -1;
+                        }
+                    } else {
+                        $verdad = -1;
+                    }
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
     }
 }
