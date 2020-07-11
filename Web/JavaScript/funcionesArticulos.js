@@ -740,6 +740,15 @@ function limpiarAuto() {
     document.getElementById('idAlmPorcen').innerHTML = '';
     document.getElementById('idSeguroPorcen').innerHTML = '';
     document.getElementById('idIvaPorcen').innerHTML = '';
+    $("#idPensionMon").val('');
+    $("#idPension").val('');
+    $("#idPolizaSeguroMon").val('');
+    $("#idPolizaSeguro").val('');
+    $("#idGPSMon").val('');
+    $("#idGPS").val('');
+    $("#idPensionMon").prop('disabled', false);
+    $("#idPolizaSeguroMon").prop('disabled', false);
+    $("#idGPSMon").prop('disabled', false);
 
 }
 
@@ -1081,4 +1090,67 @@ function cmbModeloVEmpeFromModal(tipoId, marcaId) {
             $('#idModelo').html(html);
         }
     });
+}
+
+function calcularPoliza(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode === 13 && !e.shiftKey) {
+            var idPensionMon = $("#idPensionMon").val();
+            $("#idPension").val(idPensionMon);
+            idPensionMon = formatoMoneda(idPensionMon);
+            $("#idPensionMon").val(idPensionMon);
+            $("#idPensionMon").prop('disabled', true);
+        $("#idPolizaSeguroMon").focus();
+    }
+    return patron.test(te);
+}
+
+function calcularPension(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode === 13 && !e.shiftKey) {
+        var idPolizaMon = $("#idPolizaSeguroMon").val();
+        $("#idPolizaSeguro").val(idPolizaMon);
+        idPolizaMon = formatoMoneda(idPolizaMon);
+        $("#idPolizaSeguroMon").val(idPolizaMon);
+        $("#idPolizaSeguroMon").prop('disabled', true);
+        $("#idGPSMon").focus();
+    }
+    return patron.test(te);
+}
+
+function calcularGps(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode === 13 && !e.shiftKey) {
+        var idPolizaMon = $("#idGPSMon").val();
+        $("#idGPS").val(idPolizaMon);
+        idPolizaMon = formatoMoneda(idPolizaMon);
+        $("#idGPSMon").val(idPolizaMon);
+        $("#idGPSMon").prop('disabled', true);
+        $("#idTipoVehiculo").focus();
+    }
+    return patron.test(te);
 }

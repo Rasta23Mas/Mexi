@@ -21,8 +21,7 @@ function validarMontoAuto() {
                     if ($('#idCheckTenecia').is(":checked")) {
                         if ($('#idCheckPoliza').is(":checked")) {
                             if ($('#idCheckLicencia').is(":checked")) {
-                                $("#modalDescuentoAuto").modal();
-                                alert("Error");
+                                validateFormAuto();
                             } else {
                                 alert("Por Favor. Solicita copia de la Licencia.");
                             }
@@ -44,8 +43,78 @@ function validarMontoAuto() {
     }
 }
 
-function pruebaT() {
-    $("#modalDescuentoAuto").modal();
+function validateFormAuto() {
+
+
+    var validateForm = false;
+    if($("#idTipoVehiculo").val()==0){
+        $("#idTipoVehiculo").focus();
+        alertify.error("Por favor, selecciona el tipo de vehiculo.");
+    } else if($("#idMarca").val()==""){
+        $("#idMarca").focus();
+        alertify.error("Por favor, ingresa la marca.");
+    }else if($("#idModelo").val()==""){
+        $("#idModelo").focus();
+        alertify.error("Por favor, ingresa el modelo.");
+    }else if($("#idAnio").val()==""){
+        $("#idAnio").focus();
+        alertify.error("Por favor, ingresa el año.");
+    }else if($("#idColor").val()==0){
+        $("#idColor").focus();
+        alertify.error("Por favor, selecciona el color.");
+    }else if($("#idPlacas").val()==""){
+        $("#idPlacas").focus();
+        alertify.error("Por favor, ingresa las placas.");
+    }else if($("#idFactura").val()==""){
+        $("#idFactura").focus();
+        alertify.error("Por favor, ingresa la factura.");
+    }else if($("#idKms").val()==""){
+        $("#idKms").focus();
+        alertify.error("Por favor, ingresa el kilometraje.");
+    }else if($("#idAgencia").val()==""){
+        $("#idAgencia").focus();
+        alertify.error("Por favor, ingresa la agencia.");
+    }else if($("#idMotor").val()==""){
+        $("#idMotor").focus();
+        alertify.error("Por favor, ingresa el id del motor.");
+    }else if($("#idChasis").val()==""){
+        $("#idChasis").focus();
+        alertify.error("Por favor, ingresa el número del chasis.");
+    }else if($("#idVehiculo").val()==""){
+        $("#idVehiculo").focus();
+        alertify.error("Por favor, ingresa el VIN.");
+    }else if($("#idRepuve").val()==""){
+        $("#idRepuve").focus();
+        alertify.error("Por favor, ingresa el REPUVE.");
+    }else if($("#idGasolina").val()==""){
+        $("#idGasolina").focus();
+        alertify.error("Por favor, ingresa la gasolina.");
+    }else if($("#idTarjeta").val()==""){
+        $("#idTarjeta").focus();
+        alertify.error("Por favor, ingresa la tarjeta.");
+    }else if($("#idAseguradora").val()==""){
+        $("#idAseguradora").focus();
+        alertify.error("Por favor, ingresa la aseguradora.");
+    }else if($("#idPoliza").val()==""){
+        $("#idPoliza").focus();
+        alertify.error("Por favor, ingresa la poliza.");
+    }else if($("#idFechaVencAuto").val()==""){
+        $("#idFechaVencAuto").focus();
+        alertify.error("Por favor, ingresa la fecha de vencimiento.");
+    }else if($("#idTipoPoliza").val()==""){
+        $("#idTipoPoliza").focus();
+        alertify.error("Por favor, ingresa el tipo de poliza.");
+    }else if($("#idObservacionesAuto").val()==""){
+        $("#idObservacionesAuto").focus();
+        alertify.error("Por favor, ingresa las observaciones.");
+    }else{
+
+        validateForm= true;
+    }
+
+    if(validateForm){
+        $("#modalDescuentoAuto").modal();
+    }
 }
 
 function tokenNuevoAuto() {
@@ -204,6 +273,7 @@ function cancelar() {
     $("#idFormAuto")[0].reset();
     alertify.success("Contrato cancelado");
 }
+
 
 function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, totalPrestamo, clienteEmpeno,
                              fechaVencimiento, fechaAlmoneda, tipoContrato, totalAvaluo) {

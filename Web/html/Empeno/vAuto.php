@@ -266,28 +266,33 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="6" class="table-info border border-dark" align="center">Costo Pensión Mensual:</td>
+                        <td colspan="6" class="table-info border border-dark" align="right">Costo Pensión Mensual:</td>
                         <td colspan="6" class="border border-dark" align="center">
-                            <input id="idPension" name="poliza" type="text" style="width: 150px; text-align:right;"
-                                   onkeypress="return isNumberDecimal(event)"
-                                   onkeypress="return descuentoNuevo(event)"
+                            <input id="idPensionMon" name="poliza" type="text" style="width: 70px; text-align:right;"
+                                   onkeypress="return calcularPoliza(event)"
                                    class="inputCliente"/>
+                            <input id="idPension" name="poliza" type="text" style="width: 70px; text-align:right;"
+                                   class="invisible"/>
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="6" class="table-info border border-dark" align="center">Costo Poliza Mensual:</td>
+                        <td colspan="6" class="table-info border border-dark" align="right">Costo Poliza Mensual:</td>
                         <td colspan="6" class="border border-dark" align="center">
-                            <input id="idPolizaSeguro" name="poliza" type="text" style="width: 150px; text-align:right;"
-                                   onkeypress="return isNumberDecimal(event)"
+                            <input id="idPolizaSeguroMon" name="poliza" type="text" style="width: 70px; text-align:right;"
+                                   onkeypress="return calcularPension(event)"
                                    class="inputCliente"/>
+                            <input id="idPolizaSeguro" name="poliza" type="text" style="width: 70px; text-align:right;"
+                                   class="invisible"/>
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="6" class="table-info border border-dark" align="center">Costo GPS Mensual:</td>
+                        <td colspan="6" class="table-info border border-dark" align="right">Costo GPS Mensual:</td>
                         <td colspan="6" class="border border-dark" align="center">
-                            <input id="idGPS" name="gps" type="text" style="width: 150px; text-align:right;"
-                                   onkeypress="return isNumberDecimal(event)"
+                            <input id="idGPSMon" name="gps" type="text" style="width: 70px; text-align:right;"
+                                   onkeypress="return calcularGps(event)"
                                    class="inputCliente"/>
+                            <input id="idGPS" name="gps" type="text" style="width: 70px; text-align:right;"
+                                   class="invisible" />
                         </td>
                     </tr>
                     <tr>
@@ -343,16 +348,15 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                             </select>
                         </td>
                         <td>
-                            <input type="text" id="idMarca" name="marca" size="13" value="1"
+                            <input type="text" id="idMarca" name="marca" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idModelo" name="modelo" size="13" value="1"
+                            <input type="text" id="idModelo" name="modelo" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td>
                             <input type="text" id="idAnio" name="anio" size="13" onkeypress="return soloNumeros(event)"
-                                   value="1"
                                    style="text-align:left"/>
                         </td>
                         <td>
@@ -388,11 +392,11 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" id="idPlacas" name="placas" size="13" value="1"
+                            <input type="text" id="idPlacas" name="placas" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idFactura" name="factura" size="13" value="1"
+                            <input type="text" id="idFactura" name="factura" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td>
@@ -401,11 +405,11 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idAgencia" name="agencia" size="13" value="1"
+                            <input type="text" id="idAgencia" name="agencia" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idMotor" name="motor" size="13" value="1"
+                            <input type="text" id="idMotor" name="motor" size="13"
                                    style="text-align:left"/>
                         </td>
                     </tr>
@@ -428,15 +432,15 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" id="idChasis" name="chasis" size="13" value="1"
+                            <input type="text" id="idChasis" name="chasis" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td >
-                            <input type="text" id="idVehiculo" name="vehiculo" size="13" value="1"
+                            <input type="text" id="idVehiculo" name="vehiculo" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td >
-                            <input type="text" id="idRepuve" name="repuve" size="13" value="1"
+                            <input type="text" id="idRepuve" name="repuve" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td>
@@ -445,7 +449,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                                    style="text-align:left"/>
                         </td>
                         <td>
-                            <input type="text" id="idTarjeta" name="tarjeta" size="13" value="1"
+                            <input type="text" id="idTarjeta" name="tarjeta" size="13"
                                    style="text-align:left"/>
                         </td>
                     </tr>
@@ -465,21 +469,21 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     </tr>
                     <tr>
                         <td >
-                            <input type="text" id="idAseguradora" name="aseguradora" size="13" value="1"
+                            <input type="text" id="idAseguradora" name="aseguradora" size="13"
                                    style="text-align:left"/>
                         </td>
                         <td >
                             <input type="text" id="idPoliza" name="poliza" size="13"
-                                   onkeypress="return isNumberDecimal(event)" value="1"
+                                   onkeypress="return isNumberDecimal(event)"
                                    style="text-align:left"/>
                         </td>
                         <td >
                             <input type="text" id="idFechaVencAuto" name="fechaVencAuto" size="13"
                                    class="calendarioModBoton" disabled
-                                   style="text-align:left" placeholder="AAAA-MM-DD"/>
+                                   style="text-align:left"/>
                         </td>
                         <td >
-                            <input type="text" id="idTipoPoliza" name="tipoPoliza" size="13" value="1"
+                            <input type="text" id="idTipoPoliza" name="tipoPoliza" size="13"
                                    style="text-align:left"/>
                         </td>
                     </tr>
@@ -491,7 +495,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     </tr>
                     <tr>
                         <td colspan="5" name="observacionesAuto">
-                            <p><textarea name="detalle" id="idObservacionesAuto" value="1"
+                            <p><textarea name="detalle" id="idObservacionesAuto"
                                          class="textArea" rows="1" cols="90"></textarea></p>
                         </td>
                     </tr>
@@ -506,7 +510,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><h4>Documentos entregados</h4></td>
+                        <td colspan="2"><h5>Documentos entregados:</h5></td>
                     </tr>
                     <tr>
                         <td>
@@ -597,7 +601,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
         </div>
         <div class="row">
             <div>
-                <table class="">
+                <table class="invisible">
                     <tr>
                         <td>
                         <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="20"
