@@ -3,6 +3,7 @@ var Avaluo = 0.00;
 var Prestamo = 0.00;
 var Interes = 0.00;
 var idArticuloGlb = 0;
+var PorcentajeVitrina = .20;
 
 
 //Limpia la tabla de Articulos
@@ -35,8 +36,9 @@ function Limpiar() {
     $("#idPeso").val(0);
     $("#idPiedras").val(0);
     $("#idPesoPiedra").val(0);
-    idArticuloGlb=0;
+    idArticuloGlb = 0;
 }
+
 function LimpiarSinResetearIdArticulo() {
     <!--   Limpiar Metales-->
     $("#idTipoMetal").val(0);
@@ -67,6 +69,7 @@ function LimpiarSinResetearIdArticulo() {
     $("#idPiedras").val(0);
     $("#idPesoPiedra").val(0);
 }
+
 //Agrega articulos a la tabla
 function Agregar() {
     var clienteEmpeno = $("#idClienteEmpeno").val();
@@ -76,6 +79,41 @@ function Agregar() {
     if (clienteEmpeno != 0) {
         if (tipoInteres != 0) {
             if (vitrina != "" || vitrinaE != "") {
+                var vitrinaPorc = 0;
+                var validateVitrina = false;
+                if (vitrina != "") {
+                    alert("vitrina metales")
+                    var prestamo = $("#idPrestamo").val();
+                    alert(prestamo)
+                    prestamo = Number(prestamoE);
+                    alert(prestamo)
+                    vitrina = Number(vitrina);
+                    alert(vitrina)
+                    vitrinaPorc = prestamo * PorcentajeVitrina;
+                    alert("porcentaje" + vitrinaPorc)
+                    vitrinaPorc = prestamo + vitrinaPorc;
+                    alert("porcentaje suma" + vitrinaPorc)
+                    alert("vitrina" + vitrina)
+                    if (vitrina >= vitrinaPorc) {
+                        alert("true")
+                        validateVitrina = true;
+                    }
+                } else if (vitrinaE != "") {
+                    alert("vitrina electronico")
+                    var prestamoE = $("#idPrestamoElectronico").val();
+                    prestamoE = Number(prestamoE);
+                    vitrinaE = Number(vitrinaE);
+                    vitrinaPorc = prestamoE * PorcentajeVitrina;
+                    vitrinaPorc = prestamoE + vitrinaPorc;
+                    if (vitrinaE >= vitrinaPorc) {
+                        validateVitrina = true;
+                    }
+                }
+
+                if (validateVitrina) {
+
+                }
+
                 var formElectronico = $("#idTipoElectronico").val();
                 var formMetal = $("#idTipoMetal").val();
                 if (formMetal != 0 || formElectronico != 0) {
@@ -85,10 +123,10 @@ function Agregar() {
                         var metalPrestamo = $("#idPrestamo").val();
                         var interesMetal = calcularInteresMetal(metalPrestamo);
                         var idArticulo = 0;
-                        idArticuloGlb ++;
+                        idArticuloGlb++;
 
                         var idArticulo = String(idArticuloGlb);
-                        var idArticulo = idArticulo.padStart(2,"0");
+                        var idArticulo = idArticulo.padStart(2, "0");
 
                         var dataEnviar = {
                             "$idTipoEnviar": 1,
@@ -130,10 +168,10 @@ function Agregar() {
                         var artiPrestamo = $("#idPrestamoElectronico").val();
                         var interesArti = calcularInteresArticulo(artiPrestamo);
                         var idArticulo = 0;
-                        idArticuloGlb ++;
+                        idArticuloGlb++;
 
                         var idArticulo = String(idArticuloGlb);
-                        var idArticulo = idArticulo.padStart(2,"0");
+                        var idArticulo = idArticulo.padStart(2, "0");
 
                         //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
                         var dataEnviar = {
@@ -348,7 +386,7 @@ function confirmarEliminarMetales($idArticulo) {
 
 //Elimina articulos
 function eliminarArticulo($idArticulo) {
-    idArticuloGlb --;
+    idArticuloGlb--;
     alert(idArticuloGlb);
     var dataEnviar = {
         "$idArticulo": $idArticulo
@@ -371,7 +409,7 @@ function eliminarArticulo($idArticulo) {
 }
 
 function eliminarMetales($idArticulo) {
-    idArticuloGlb --;
+    idArticuloGlb--;
     var dataEnviar = {
         "$idArticulo": $idArticulo
     };
@@ -576,9 +614,9 @@ function sumarTotalesArticulo(artiPrestamo, artiAvaluo) {
 
 function calculaAvaluo() {
     var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-    if(tipoInteresEmpeno==0){
+    if (tipoInteresEmpeno == 0) {
         alert("Selecciona un tipo de de interes.")
-    }else {
+    } else {
         var prestamo = parseFloat($("#idPrestamo").val());
         var avaluoImporte = Math.floor(prestamo * 100) / 90;
         avaluoImporte = Math.round(avaluoImporte * 100) / 100;
@@ -589,11 +627,11 @@ function calculaAvaluo() {
 
 function calculaAvaluoElec() {
     var tipoInteresEmpeno = $("#tipoInteresEmpeno").val();
-    if(tipoInteresEmpeno==0){
+    if (tipoInteresEmpeno == 0) {
         alert("Selecciona un tipo de de interes.")
-    }else{
+    } else {
         var prestamoElec = $("#idPrestamoElectronico").val();
-        if (prestamoElec == ''||prestamoElec==null) {
+        if (prestamoElec == '' || prestamoElec == null) {
             if ($("#idTipoElectronico").val() == 0) {
                 alert("Selecciona un tipo de electronico")
             } else {
@@ -616,7 +654,7 @@ function calculaAvaluoElec() {
                     }
                 }
             }
-        }else{
+        } else {
             var aforo = $("#idAforo").val();
             aforo = parseInt(aforo);
             var avaluoImporteElectronico = Math.floor(prestamoElec * 100) / aforo;
@@ -628,9 +666,9 @@ function calculaAvaluoElec() {
 
 function calculaAvaluoAuto() {
     var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-    if(tipoInteresEmpeno==0){
+    if (tipoInteresEmpeno == 0) {
         alert("Selecciona un tipo de de interes.")
-    }else {
+    } else {
         if ($("#idTotalPrestamoAutoMon").val() == 0 || $("#idTotalPrestamoAutoMon").val() == '') {
             alert("Por favor ingrese una cantidad en prestamo.")
         } else {
@@ -676,64 +714,97 @@ function limpiarAuto() {
 
 }
 
-function calculaPrestamoPeso() {
+function calculaPrestamoBtn() {
     var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-    if(tipoInteresEmpeno==0){
+    if (tipoInteresEmpeno == 0) {
         alert("Selecciona un tipo de de interes.")
-    }else {
-        var idPrestamo = $("#idPrestamo").val();
-        if (idPrestamo == ''||idPrestamo==null) {
-            if ($("#idTipoMetal").val() == 0) {
-                alert("Selecciona un tipo de metal")
-            } else {
-                if ($("#idKilataje").val() == 0) {
-                    alert("Selecciona un tipo de kilataje")
-                } else {
-                    if ($("#idCalidad").val() == 0) {
-                        alert("Selecciona un tipo de calidad")
-                    } else {
-                        if ($("#idCantidad").val() == "") {
-                            alert("Ingresa el campo de Cantidad")
-                        } else {
-                            if ($("#idPeso").val() == "") {
-                                alert("Ingresa el campo de Peso")
-                            } else {
-                                if ($("#idPiedras").val() == "") {
-                                    alert("Ingresa el campo de Piedras")
-                                } else {
-                                    if ($("#idPesoPiedra").val() == "") {
-                                        alert("Ingresa el campo de Peso Piedras")
-                                    } else {
-                                        var cantidad = parseInt($("#idCantidad").val());
-                                        var peso = parseFloat($("#idPeso").val());
-                                        var pesoPiedra = parseFloat($("#idPesoPiedra").val());
-                                        var piedras = parseInt($("#idPiedras").val());
-                                        var kilPrecio = parseInt($("#idKilatajePrecio").val());
-
-                                        var pesoTotalMetal = cantidad * peso;
-                                        var pesoTotalPiedra = piedras * pesoPiedra;
-                                        var pesoTotal = pesoTotalMetal - pesoTotalPiedra;
-                                        var prestamo = pesoTotal * kilPrecio;
-
-                                        //$("#idAvaluo").val(prestamo);
-                                        var avaluoImporte = Math.floor(prestamo * 100) / 90;
-                                        $("#idPrestamo").val(prestamo);
-                                        avaluoImporte = Math.round(avaluoImporte * 100) / 100;
-                                        $("#idAvaluo").val(avaluoImporte);
-
-
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    } else {
+        var validate = false;
+        if ($("#idTipoMetal").val() == 0) {
+            alert("Selecciona un tipo de metal")
+        } else if ($("#idKilataje").val() == 0) {
+            alert("Selecciona un tipo de kilataje")
+        } else if ($("#idCalidad").val() == 0) {
+            alert("Selecciona un tipo de calidad")
+        } else if ($("#idCantidad").val() == ""||$("#idCantidad").val() == 0) {
+            alert("Ingresa el campo de Cantidad")
+        } else if ($("#idPeso").val() == ""||$("#idPeso").val() == 0) {
+            alert("Ingresa el campo de Peso")
+        } else if ($("#idPiedras").val() == "") {
+            alert("Ingresa el campo de Piedras")
+        } else if ($("#idPesoPiedra").val() == "") {
+            alert("Ingresa el campo de Peso Piedras")
         } else {
-            calculaAvaluo();
+            validate = true;
+        }
+        if (validate) {
+            var cantidad = parseInt($("#idCantidad").val());
+            var peso = parseFloat($("#idPeso").val());
+            var pesoPiedra = parseFloat($("#idPesoPiedra").val());
+            var piedras = parseInt($("#idPiedras").val());
+            var kilPrecio = parseInt($("#idKilatajePrecio").val());
 
+            var pesoTotalMetal = cantidad * peso;
+            var pesoTotalPiedra = piedras * pesoPiedra;
+            var pesoTotal = pesoTotalMetal - pesoTotalPiedra;
+            var prestamo = pesoTotal * kilPrecio;
+
+            //$("#idAvaluo").val(prestamo);
+            var avaluoImporte = Math.floor(prestamo * 100) / 90;
+            $("#idPrestamo").val(prestamo);
+            avaluoImporte = Math.round(avaluoImporte * 100) / 100;
+            $("#idAvaluo").val(avaluoImporte);
+            calculaAvaluo();
+        } else {
+            $("#idPrestamo").val('');
         }
     }
+}
+
+function calculaPrestamoPeso(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode === 13 && !e.shiftKey) {
+        var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
+        if (tipoInteresEmpeno == 0) {
+            alert("Selecciona un tipo de de interes.")
+        } else {
+            var validate = false;
+
+            if ($("#idTipoMetal").val() == 0) {
+                alert("Selecciona un tipo de metal")
+            } else if ($("#idKilataje").val() == 0) {
+                alert("Selecciona un tipo de kilataje")
+            } else if ($("#idCalidad").val() == 0) {
+                alert("Selecciona un tipo de calidad")
+            } else if ($("#idCantidad").val() == ""||$("#idCantidad").val() == 0) {
+                alert("Ingresa el campo de Cantidad")
+            } else if ($("#idPeso").val() == ""||$("#idPeso").val() == 0) {
+                alert("Ingresa el campo de Peso")
+            } else if ($("#idPiedras").val() == "") {
+                alert("Ingresa el campo de Piedras")
+            } else if ($("#idPesoPiedra").val() == "") {
+                alert("Ingresa el campo de Peso Piedras")
+            } else if ($("#idPrestamo").val() == "" || $("#idPrestamo").val() == 0) {
+                alert("Ingresa el prestamo")
+            } else {
+                validate = true;
+            }
+            if (validate) {
+                calculaAvaluo();
+            }
+        }
+    } else {
+        return patron.test(te);
+    }
+
 }
 
 function combMarcaVEmpe() {

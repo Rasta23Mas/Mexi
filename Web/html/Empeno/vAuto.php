@@ -273,6 +273,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         <td colspan="6" class="border border-dark" align="center">
                             <input id="idPension" name="poliza" type="text" style="width: 150px; text-align:right;"
                                    onkeypress="return isNumberDecimal(event)"
+                                   onkeypress="return descuentoNuevo(event)"
                                    class="inputCliente"/>
                         </td>
                     </tr>

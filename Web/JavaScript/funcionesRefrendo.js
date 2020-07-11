@@ -56,9 +56,7 @@ function busquedaRefrendo(e) {
 }
 
 function busquedaMovimiento() {
-    //contratoGbl = $("#idContrato").val();
-    contratoGbl = 139;
-
+    contratoGbl = $("#idContrato").val();
     tipoContrato = $("#idTipoDeContrato").val();
     tipoContrato = parseInt(tipoContrato);
     var dataEnviar = {

@@ -399,13 +399,13 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                         <td colspan="3">Piedras:</td>
                                         <td colspan="3">
                                             <input type="text" id="idPiedras" name="piedras" size="5"
-                                                   onkeypress="return soloNumeros(event)" placeholder="0"
+                                                   onkeypress="return soloNumeros(event)" value="0"
                                                    style="text-align:center"/>
                                             <label>pza</label>
                                         </td>
                                         <td colspan="3">Peso:</td>
                                         <td colspan="3">
-                                            <input type="text" id="idPesoPiedra" name="pesoPiedra" size="4" placeholder="0"
+                                            <input type="text" id="idPesoPiedra" name="pesoPiedra" size="4" value="0"
                                                    onkeypress="return isNumberDecimal(event)"
                                                    style="text-align:center"/>
                                             <label>grs</label></td>
@@ -414,13 +414,13 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                         <td colspan="3">Préstamo:</td>
                                         <td colspan="3">
                                             <input type="text" id="idPrestamo" name="prestamo" size="8"
-                                                   onkeypress="return isNumberDecimal(event)" ;
+                                                   onkeypress="return calculaPrestamoPeso(event)";
                                                    style="text-align:center"/>
                                         </td>
                                         <td colspan="3">Avalúo:</td>
                                         <td colspan="3">
                                             <input type="text" id="idAvaluo" name="avaluo" size="8"
-                                                   onkeypress="return isNumberDecimal(event)" disabled
+                                                    disabled
                                                    style="text-align:center" />
                                         </td>
                                     </tr>
@@ -432,7 +432,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                                    style="text-align:center"/>
                                         </td>
                                         <td colspan="6" >
-                                            <input type="button" class="btn btn-info" value="Calcular" onclick="calculaPrestamoPeso()">
+                                            <input type="button" class="btn btn-info" value="Calcular" onclick="calculaPrestamoBtn()">
                                         </td>
                                     </tr>
                                     <tr>
@@ -442,7 +442,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                         <td colspan="12" name="detallePrenda">
                                             <p>
                                               <textarea name="detalle" id="idDetallePrenda"
-                                                        class="textArea" rows="2" cols="40"></textarea></p>
+                                                        class="textArea" rows="1" cols="40"></textarea></p>
                                         </td>
                                     </tr>
 
@@ -456,7 +456,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                     <tr>
                                         <td colspan="12">
                                             <p><textarea name="mensaje" id="idUbicacion"
-                                                         class="textArea" rows="2" cols="40"></textarea></p>
+                                                         class="textArea" rows="1" cols="40"></textarea></p>
                                         </td>
                                     </tr>
 
