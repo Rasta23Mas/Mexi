@@ -165,7 +165,7 @@ function mostrarTodos($idNombres) {
 
 //Funcion ver el historial de un cliente
 function historial($clienteEmpeno,$tipo) {
-
+    alert($clienteEmpeno)
     $('#suggestionsNombreEmpeno').fadeOut(1000);
     if ($clienteEmpeno == '' || $clienteEmpeno == null) {
         alert("Por seleccione un cliente.")
@@ -185,7 +185,7 @@ function historial($clienteEmpeno,$tipo) {
                 var i = 0;
                 if(datos.length == 0){
                     html += '<tr>' +
-                        '<td colspan="9" align="center">Sin datos para mostrar</td>' +
+                        '<td colspan="8" align="center">Sin datos para mostrar</td>' +
                         '</tr>';
                 }else{
                     for (i; i < datos.length; i++) {
@@ -195,10 +195,23 @@ function historial($clienteEmpeno,$tipo) {
                         var Interes = datos[i].Interes;
                         var FechaVenc = datos[i].FechaVenc;
                         var FechaCreac = datos[i].FechaCreac;
-                        var Observ = datos[i].Observ;
-                        var ArtTipo = datos[i].ArtTipo;
                         var EstDesc = datos[i].EstDesc;
-                        var Detalle = datos[i].Detalle;
+
+                        if($tipo==2){
+                            var Observ = datos[i].Observ;
+                            var Detalle = datos[i].Detalle;
+
+                        }else if($tipo==1){
+                            var tipoArticulo = datos[i].tipoArticulo;
+                            var Detalle = datos[i].Detalle;
+                            var Observ = 0;
+                            if(tipoArticulo==1){
+                                 Observ = datos[i].ObserMetal;
+                            }else if(tipoArticulo==2){
+                                 Observ = datos[i].ObserElec;
+                            }
+                            Observ = Observ.toUpperCase();
+                        }
 
                         if (NombreCompleto === null) {
                             NombreCompleto = '';
@@ -221,9 +234,6 @@ function historial($clienteEmpeno,$tipo) {
                         if (Observ === null) {
                             Observ = '';
                         }
-                        if (ArtTipo === null) {
-                            ArtTipo = '';
-                        }
                         if (EstDesc === null) {
                             EstDesc = '';
                         }
@@ -241,7 +251,6 @@ function historial($clienteEmpeno,$tipo) {
                             '<td>' + FechaVenc + '</td>' +
                             '<td>' + FechaCreac + '</td>' +
                             '<td>' + Observ + '</td>' +
-                            '<td>' + ArtTipo + '</td>' +
                             '<td>' + EstDesc + '</td>' +
                             '<td>' + Detalle + '</td>' +
                             '</tr>';

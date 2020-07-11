@@ -521,15 +521,25 @@ WHERE id_Cliente = '$idClienteEditar'";
         try {
             $buscar = "SELECT Con.id_Contrato as Contrato,Cont.id_Cliente as Cliente,
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto, 
-                        CONCAT(Con.plazo, '', Con.periodo, '',Con.tipoInteres) as Interes, 
+                        CONCAT(Con.plazo, ' ', Con.periodo, ' ',Con.tipoInteres) as Interes, 
                         Con.fechaVencimiento as FechaVenc, Con.fecha_creacion as FechaCreac, 
-                        Aut.observaciones as Observ, Mov.descripcion as EstDesc 
+                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
+                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
+                        CONCAT(Art.detalle) as Detalle,
+                        Art.tipoArticulo,
+                        Mov.descripcion as EstDesc
                         FROM contratomovimientos_tbl as Con 
                         INNER JOIN contrato_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
                         INNER JOIN cliente_tbl as Cli on Cont.id_Cliente = Cli.id_Cliente 
-                        INNER JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        INNER JOIN cat_movimientos as Mov on Con.id_movimiento = Mov.id_Movimiento 
-                        WHERE Cont.id_Cliente=$clienteEmpeno";
+                        INNER JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+                        INNER JOIN cat_movimientos as Mov on Con.tipo_movimiento = Mov.id_Movimiento 
+                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
+                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
+                        LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
+                        LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
+                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
+                        WHERE Cont.id_Cliente=$clienteEmpeno and Con.tipo_Contrato = 1";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -541,10 +551,12 @@ WHERE id_Cliente = '$idClienteEditar'";
                         "Interes" => $row["Interes"],
                         "FechaVenc" => $row["FechaVenc"],
                         "FechaCreac" => $row["FechaCreac"],
-                        "Observ" => $row["Observ"],
-                        "ArtTipo" => $row["ArtTipo"],
+                        "ObserElec" => $row["ObserElec"],
+                        "ObserMetal" => $row["ObserMetal"],
                         "EstDesc" => $row["EstDesc"],
-                        "Detalle" => $row["Detalle"]
+                        "Detalle" => $row["Detalle"],
+                        "tipoArticulo" => $row["tipoArticulo"]
+
                     ];
                     array_push($datos, $data);
                 }
@@ -564,14 +576,15 @@ WHERE id_Cliente = '$idClienteEditar'";
         try {
             $buscar = "SELECT Con.id_Contrato as Contrato,Cont.id_Cliente as Cliente,
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto, 
-                        CONCAT(Con.plazo, '', Con.periodo, '',Con.tipoInteres) as Interes, 
+                        CONCAT(Con.plazo, ' ', Con.periodo, ' ',Con.tipoInteres) as Interes, 
                         Con.fechaVencimiento as FechaVenc, Con.fecha_creacion as FechaCreac, 
-                        Aut.observaciones as Observ, Mov.descripcion as EstDesc, CONCAT(Aut.marca, '', Aut.modelo) as Detalle  
+                        Aut.observaciones as Observ, Mov.descripcion as EstDesc,
+                        CONCAT(Aut.marca, ' ', Aut.modelo) as Detalle  
                         FROM contratomovimientos_tbl as Con 
                         INNER JOIN contrato_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
                         INNER JOIN cliente_tbl as Cli on Cont.id_Cliente = Cli.id_Cliente 
                         INNER JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        INNER JOIN cat_movimientos as Mov on Con.id_movimiento = Mov.id_Movimiento 
+                        INNER JOIN cat_movimientos as Mov on Con.tipo_movimiento = Mov.id_Movimiento 
                         WHERE Cont.id_Cliente=$clienteEmpeno and Con.tipo_Contrato = 2";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -584,7 +597,6 @@ WHERE id_Cliente = '$idClienteEditar'";
                         "FechaVenc" => $row["FechaVenc"],
                         "FechaCreac" => $row["FechaCreac"],
                         "Observ" => $row["Observ"],
-                        "ArtTipo" => $row["ArtTipo"],
                         "EstDesc" => $row["EstDesc"],
                         "Detalle" => $row["Detalle"]
                     ];

@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Historial Cliente</title>
+    <style>
+        .letraExtraChica {
+            font-size: .8em;
+        }
+    </style>
 </head>
 <body>
 <div class="modal fade " id="modalHistorial" tabindex="-1" role="dialog"
@@ -18,16 +23,15 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <table class="table table-hover table-condensed table-bordered" width="100%">
+                    <table class="table table-hover table-condensed table-bordered letraExtraChica" width="100%">
                         <thead>
                         <tr>
                             <th>Contrato</th>
-                            <th>Nombre Completo</th>
+                            <th>Nombre</th>
                             <th>Tasa Interes</th>
-                            <th>Fecha Vencimiento</th>
+                            <th>Vencimiento</th>
                             <th>Fecha Creación</th>
                             <th>Observaciones</th>
-                            <th>Tipo</th>
                             <th>Estatus</th>
                             <th>Detalle</th>
                         </tr>
