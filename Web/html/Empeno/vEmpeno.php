@@ -101,11 +101,6 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             <div class="col col-lg-4 border border-primary ">
                 <table border="0" width="100%" class="tableInteres">
                     <tbody>
-                    <tr>
-                        <td>
-                            &nbsp;
-                        </td>
-                    </tr>
                     <tr class="headt">
                         <td colspan="3">
                             <input type="button" class="btn btn-success "
@@ -157,7 +152,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr class="headt">
                         <td colspan="12" rowspan="2" name="direccionEmpeno">
-                                    <textarea rows="4" cols="35" id="idDireccionEmpeno" class="textArea" disabled>
+                                    <textarea rows="2" cols="35" id="idDireccionEmpeno" class="textArea" disabled>
                                     </textarea>
                         </td>
                     </tr>
@@ -188,47 +183,21 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                    style="width:300px" placeholder="A. Paterno-A. Materno-Nombre"/>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="12">
-                            <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="5"
-                                   style="text-align:center" class="invisible"/>
-                            <input type="text" id="idFechaAlm" name="fechaAlm" size="12"
-                                   style="text-align:center" class="invisible"/>
-                            <input type="text" id="diasInteres" name="diasInteres" size="3"
-                                   style="text-align:center" class="invisible"/>
-                            <input id="idTotalInteres" name="totalInteres" disabled type="text"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idTipoFormulario" name="tipoFormulario" disabled type="text" value="1"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idAforo" name="aforo" disabled type="text" value="1"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idMontoToken" name="MontoToken" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idToken" name="token" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                        </td>
-
-                    </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col col-lg-4 border border-primary border-left-0">
-                <table border="0" width="100%" class="tableInteres">
+                <table border="0" width="100%" >
                     <tbody>
-                    <tr>
-                        <br>
-                    </tr>
                     <tr class="headt">
-                        <td colspan="12" class="border border-dark " align="left">
+                        <td colspan="12" class="border border-primary border-top-0" align="left">
                             <label for="vence">&nbsp;Vence:</label>
                             <label id="idFecVencimiento"></label>
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="6" class="border border-dark">&nbsp;Tasa Interés:</td>
-                        <td colspan="6" class="border border-dark" id="idComboInteresTD">
+                        <td colspan="6" class="border border-primary">&nbsp;Tasa Interés:</td>
+                        <td colspan="6" class="border border-primary" id="idComboInteresTD">
                             <select id="tipoInteresEmpeno" name="cmbTipoInteres" class="selectpicker"
                                     style="width:150px"
                                     onchange="SeleccionarInteres($('#tipoInteresEmpeno').val())">
@@ -236,8 +205,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="6" class="border border-dark">&nbsp;Días Almoneda</td>
-                        <td colspan="6" class="border border-dark" align="center">
+                        <td colspan="6" class="border border-primary">&nbsp;Días Almoneda</td>
+                        <td colspan="6" class="border border-primary" align="center">
                             <select id="idDiasAlmoneda" name="diasAlmName" class="selectpicker" disabled
                                     onchange="calcularDias()"
                                     style="width: 80px">
@@ -252,55 +221,55 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                             </select></td>
                     </tr>
                     <tr>
-                        <td colspan="4" class="table-info border border-dark" align="center">Tipo Interés</td>
-                        <td colspan="4" class="table-info border border-dark" align="center">Periodo</td>
-                        <td colspan="4" class="table-info border border-dark" align="center">Plazo</td>
+                        <td colspan="4" class="table-info border border-primary" align="center">Tipo Interés</td>
+                        <td colspan="4" class="table-info border border-primary" align="center">Periodo</td>
+                        <td colspan="4" class="table-info border border-primary" align="center">Plazo</td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="4" class="border border-dark " align="center">
+                        <td colspan="4" class="border border-primary " align="center">
                             <label id="idTipoInteres"></label>
                             <br>
                         </td>
-                        <td colspan="4" class="border border-dark" align="center">
+                        <td colspan="4" class="border border-primary" align="center">
                             <label id="idPeriodo"></label>
                         </td>
-                        <td colspan="4" class="border border-dark" align="center">
+                        <td colspan="4" class="border border-primary" align="center">
                             <label id="idPlazo"></label>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="table-info border border-dark " align="center">% Tasa</td>
-                        <td colspan="3" class="table-info border border-dark" align="center">% Alm.</td>
-                        <td colspan="3" class="table-info border border-dark" align="center">% Seguro</td>
-                        <td colspan="3" class="table-info border border-dark" align="center">% I.V.A.</td>
+                        <td colspan="3" class="table-info border border-primary " align="center">% Tasa</td>
+                        <td colspan="3" class="table-info border border-primary" align="center">% Alm.</td>
+                        <td colspan="3" class="table-info border border-primary" align="center">% Seguro</td>
+                        <td colspan="3" class="table-info border border-primary" align="center">% I.V.A.</td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="3" class="border border-dark" align="center">
+                        <td colspan="3" class="border border-primary" align="center">
                             <label id="idTasaPorcen"></label>
                         </td>
-                        <td colspan="3" class="border border-dark" align="center">
+                        <td colspan="3" class="border border-primary" align="center">
                             <label id="idAlmPorcen"></label>
                         </td>
-                        <td colspan="3" class="border border-dark" align="center">
+                        <td colspan="3" class="border border-primary" align="center">
                             <label id="idSeguroPorcen"></label>
                         </td>
-                        <td colspan="3" class="border border-dark" align="center">
+                        <td colspan="3" class="border border-primary" align="center">
                             <label id="idIvaPorcen"></label>
                             <label >%</label>
 
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="6" class="table-info border border-dark" align="center">Total Avalúo</td>
-                        <td colspan="6" class="table-info border border-dark" align="center">Total Préstamo</td>
+                        <td colspan="6" class="table-info border border-primary" align="center">Total Avalúo</td>
+                        <td colspan="6" class="table-info border border-primary" align="center">Total Préstamo</td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="6" class="border border-dark" align="right">
+                        <td colspan="6" class="border border-primary" align="right">
                             <input id="idTotalAvaluoMon" name="totalAvaluo" disabled type="text"
                                    style="width: 150px; text-align: right" value="0.00"
                                    class="inputCliente"/>
                         </td>
-                        <td colspan="6" class="border border-dark" align="right">
+                        <td colspan="6" class="border border-primary" align="right">
                             <input id="idTotalPrestamoMon" name="totalPrestamo" disabled type="text"
                                    style="width: 150px; text-align: right" value="0.00"
                                    class="inputCliente"/>
@@ -329,9 +298,6 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             </div>
             <div class="col col-lg-4 border border-primary border-left-0">
                 <table width="100%" >
-                    <tr>
-                        <br>
-                    </tr>
                     <tr>
                         <td align="center">
                             <input type="button" class="btn btn-primary" value="Metales"
@@ -603,6 +569,35 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                 <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMonto()">&nbsp;
                 <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
                 <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-lg-12">
+                <table>
+                    <tr>
+                        <td colspan="12">
+                            <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="5"
+                                   style="text-align:center" class="invisible"/>
+                            <input type="text" id="idFechaAlm" name="fechaAlm" size="12"
+                                   style="text-align:center" class="invisible"/>
+                            <input type="text" id="diasInteres" name="diasInteres" size="3"
+                                   style="text-align:center" class="invisible"/>
+                            <input id="idTotalInteres" name="totalInteres" disabled type="text"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="idTipoFormulario" name="tipoFormulario" disabled type="text" value="1"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="idAforo" name="aforo" disabled type="text" value="1"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="idMontoToken" name="MontoToken" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="idToken" name="token" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                        </td>
+
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

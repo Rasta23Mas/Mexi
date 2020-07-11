@@ -754,7 +754,6 @@ function calculaPrestamoBtn() {
             $("#idPrestamo").val(prestamo);
             avaluoImporte = Math.round(avaluoImporte * 100) / 100;
             $("#idAvaluo").val(avaluoImporte);
-            calculaAvaluo();
         } else {
             $("#idPrestamo").val('');
         }
