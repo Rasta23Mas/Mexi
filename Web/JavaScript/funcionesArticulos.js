@@ -1,6 +1,4 @@
 //Variables Globales
-var Avaluo = 0.00;
-var Prestamo = 0.00;
 var Interes = 0.00;
 var idArticuloGlb = 0;
 var PorcentajeVitrina = .20;
@@ -91,7 +89,6 @@ function Agregar() {
                         validateVitrina = true;
                     }
                 } else if (vitrinaE != "") {
-                    alert("vitrinaEl")
                     var prestamoE = $("#idPrestamoElectronico").val();
                     prestamoE = parseFloat(prestamoE)
                     vitrinaE = parseFloat(vitrinaE);
@@ -147,7 +144,6 @@ function Agregar() {
                                             cargarTablaMetales();
                                             $("#divTablaMetales").load('tablaMetales.php');
                                             LimpiarSinResetearIdArticulo();
-                                            sumarTotalesMetal(metalPrestamo, metalAvaluo);
                                             alertify.success("Articulo agregado exitosamente.");
                                         } else {
                                             alertify.error("Error al agregar articulo.");
@@ -197,7 +193,6 @@ function Agregar() {
                                             cargarTablaArticulo();
                                             $("#divTablaArticulos").load('tablaArticulos.php');
                                             LimpiarSinResetearIdArticulo();
-                                            sumarTotalesArticulo(artiPrestamo, artiAvaluo);
                                             alertify.success("Articulo agregado exitosamente.");
                                         } else {
                                             alertify.error("Error al agregar articulo.1");
@@ -228,6 +223,8 @@ function Agregar() {
 
 //Cargar tabla Articulos
 function cargarTablaMetales() {
+    var metalPrestamo = 0;
+    var metalAvaluo = 0;
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Articulos/tblMetales.php',
@@ -236,51 +233,70 @@ function cargarTablaMetales() {
             alert("Refrescando tabla.");
             var html = '';
             var i = 0;
-            for (i; i < datos.length; i++) {
-
-                var tipoMetal = datos[i].tipoMetal;
-                var kilataje = datos[i].kilataje;
-                var calidad = datos[i].calidad;
-                var prestamo = datos[i].prestamo;
-                var avaluo = datos[i].avaluo;
-                var detalle = datos[i].detalle;
-                if (tipoMetal === null) {
-                    tipoMetal = '';
-                }
-                if (kilataje === null) {
-                    kilataje = '';
-                }
-                if (calidad === null) {
-                    calidad = '';
-                }
-                if (prestamo === null) {
-                    prestamo = '';
-                }
-                if (avaluo === null) {
-                    avaluo = '';
-                }
-                if (detalle === null) {
-                    detalle = '';
-                }
+            if (datos.length == 0) {
                 html += '<tr>' +
-                    '<td>' + tipoMetal + '</td>' +
-                    '<td>' + kilataje + '</td>' +
-                    '<td>' + calidad + '</td>' +
-                    '<td>' + prestamo + '</td>' +
-                    '<td>' + avaluo + '</td>' +
-                    '<td>' + detalle + '</td>' +
-                    '<td><input type="button" class="btn btn-danger" value="Eliminar" ' +
-                    'onclick="confirmarEliminarMetales(' + datos[i].id_Articulo + ')"></td>' +
+                    '<td colspan="7" align="center"> Sin datos a mostrar</td>' +
                     '</tr>';
-            }
+            } else {
+                for (i; i < datos.length; i++) {
 
+                    var tipoMetal = datos[i].tipoMetal;
+                    var kilataje = datos[i].kilataje;
+                    var calidad = datos[i].calidad;
+                    var prestamo = datos[i].prestamo;
+                    var avaluo = datos[i].avaluo;
+
+                    var detalle = datos[i].detalle;
+
+                    prestamo = parseFloat(prestamo);
+                    avaluo = parseFloat(avaluo);
+                    metalPrestamo += prestamo;
+                    metalAvaluo += avaluo;
+                    prestamo = formatoMoneda(prestamo);
+                    avaluo = formatoMoneda(avaluo);
+                    if (tipoMetal === null) {
+                        tipoMetal = '';
+                    }
+                    if (kilataje === null) {
+                        kilataje = '';
+                    }
+                    if (calidad === null) {
+                        calidad = '';
+                    }
+                    if (prestamo === null) {
+                        prestamo = '';
+                    }
+                    if (avaluo === null) {
+                        avaluo = '';
+                    }
+                    if (detalle === null) {
+                        detalle = '';
+                    }
+                    html += '<tr>' +
+                        '<td>' + tipoMetal + '</td>' +
+                        '<td>' + kilataje + '</td>' +
+                        '<td>' + calidad + '</td>' +
+                        '<td>' + prestamo + '</td>' +
+                        '<td>' + avaluo + '</td>' +
+                        '<td>' + detalle + '</td>' +
+                        '<td><input type="button" class="btn btn-danger" value="Eliminar" ' +
+                        'onclick="confirmarEliminarMetales(' + datos[i].id_Articulo + ')"></td>' +
+                        '</tr>';
+                }
+
+            }
+            sumarTotalesMetal(metalPrestamo, metalAvaluo);
             $('#idTBodyMetales').html(html);
         }
     });
+
     $("#divTablaMetales").load('tablaMetales.php');
+
 }
 
 function cargarTablaArticulo() {
+    var artiPrestamo = 0;
+    var artiAvaluo = 0;
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Articulos/tblArticulos.php',
@@ -289,44 +305,61 @@ function cargarTablaArticulo() {
             alert("Refrescando tabla.");
             var html = '';
             var i = 0;
-            for (i; i < datos.length; i++) {
-                var tipo = datos[i].tipo;
-                var marca = datos[i].marca;
-                var modelo = datos[i].modelo;
-                var prestamo = datos[i].prestamo;
-                var avaluo = datos[i].avaluo;
-                var detalle = datos[i].detalle;
-                if (marca === null) {
-                    marca = '';
-                }
-                if (modelo === null) {
-                    modelo = '';
-                }
-                if (prestamo === null) {
-                    prestamo = '';
-                }
-                if (avaluo === null) {
-                    avaluo = '';
-                }
-                if (detalle === null) {
-                    detalle = '';
-                }
+            if (datos.length == 0) {
                 html += '<tr>' +
-                    '<td>' + tipo + '</td>' +
-                    '<td>' + marca + '</td>' +
-                    '<td>' + modelo + '</td>' +
-                    '<td>' + prestamo + '</td>' +
-                    '<td>' + avaluo + '</td>' +
-                    '<td>' + detalle + '</td>' +
-                    '<td><input type="button" class="btn btn-danger" value="Eliminar" ' +
-                    'onclick="confirmarEliminar(' + datos[i].id_Articulo + ')"></td>' +
+                    '<td colspan="7" align="center"> Sin datos a mostrar</td>' +
                     '</tr>';
+            } else {
+                for (i; i < datos.length; i++) {
+                    var tipo = datos[i].tipo;
+                    var marca = datos[i].marca;
+                    var modelo = datos[i].modelo;
+                    var prestamo = datos[i].prestamo;
+                    var avaluo = datos[i].avaluo;
+                    var detalle = datos[i].detalle;
+
+                    prestamo = parseFloat(prestamo);
+                    avaluo = parseFloat(avaluo);
+                    artiPrestamo += prestamo;
+                    artiAvaluo += avaluo;
+                    prestamo = formatoMoneda(prestamo);
+                    avaluo = formatoMoneda(avaluo);
+
+                    if (marca === null) {
+                        marca = '';
+                    }
+                    if (modelo === null) {
+                        modelo = '';
+                    }
+                    if (prestamo === null) {
+                        prestamo = '';
+                    }
+                    if (avaluo === null) {
+                        avaluo = '';
+                    }
+                    if (detalle === null) {
+                        detalle = '';
+                    }
+                    html += '<tr>' +
+                        '<td>' + tipo + '</td>' +
+                        '<td>' + marca + '</td>' +
+                        '<td>' + modelo + '</td>' +
+                        '<td>' + prestamo + '</td>' +
+                        '<td>' + avaluo + '</td>' +
+                        '<td>' + detalle + '</td>' +
+                        '<td><input type="button" class="btn btn-danger" value="Eliminar" ' +
+                        'onclick="confirmarEliminar(' + datos[i].id_Articulo + ')"></td>' +
+                        '</tr>';
+                }
             }
+
+            sumarTotalesArticulo(artiPrestamo, artiAvaluo);
 
             $('#idTBodyArticulos').html(html);
         }
     });
     $("#divTablaArticulos").load('tablaArticulos.php');
+
 }
 
 //Menu Mentales
@@ -390,7 +423,6 @@ function confirmarEliminarMetales($idArticulo) {
 //Elimina articulos
 function eliminarArticulo($idArticulo) {
     idArticuloGlb--;
-    alert(idArticuloGlb);
     var dataEnviar = {
         "$idArticulo": $idArticulo
     };
@@ -590,13 +622,10 @@ function sumarTotalesMetal(metalPrestamo, metalAvaluo) {
     var metalAva = parseFloat(metalAvaluo);
     var metalPres = parseFloat(metalPrestamo);
     //Suma el monto de avaluo
-    Avaluo = Avaluo + metalAva;
-    $("#idTotalAvaluo").val(Avaluo);
-    Prestamo = Prestamo + metalPres;
-    $("#idTotalPrestamo").val(Prestamo);
-    var AvaluoMoneda = formatoMoneda(Avaluo);
-    var PrestamoMoneda = formatoMoneda(Prestamo);
-
+    $("#idTotalAvaluo").val(metalAva);
+    $("#idTotalPrestamo").val(metalPres);
+    var AvaluoMoneda = formatoMoneda(metalAva);
+    var PrestamoMoneda = formatoMoneda(metalPres);
     $("#idTotalAvaluoMon").val(AvaluoMoneda);
     $("#idTotalPrestamoMon").val(PrestamoMoneda);
 }
@@ -604,13 +633,10 @@ function sumarTotalesMetal(metalPrestamo, metalAvaluo) {
 function sumarTotalesArticulo(artiPrestamo, artiAvaluo) {
     var artiAvaluo = parseFloat(artiAvaluo);
     var artiPrestamo = parseFloat(artiPrestamo);
-    Avaluo = Avaluo + artiAvaluo;
-    $("#idTotalAvaluo").val(Avaluo);
-    Prestamo = Prestamo + artiPrestamo;
-    $("#idTotalPrestamo").val(Prestamo);
-    var AvaluoMoneda = formatoMoneda(Avaluo);
-    var PrestamoMoneda = formatoMoneda(Prestamo);
-
+    $("#idTotalAvaluo").val(artiAvaluo);
+    $("#idTotalPrestamo").val(artiPrestamo);
+    var AvaluoMoneda = formatoMoneda(artiAvaluo);
+    var PrestamoMoneda = formatoMoneda(artiPrestamo);
     $("#idTotalAvaluoMon").val(AvaluoMoneda);
     $("#idTotalPrestamoMon").val(PrestamoMoneda);
 }
@@ -1055,9 +1081,4 @@ function cmbModeloVEmpeFromModal(tipoId, marcaId) {
             $('#idModelo').html(html);
         }
     });
-}
-
-function testemepe() {
-    var formElectronico = $("#idTipoElectronico").val();
-    alert(formElectronico)
 }

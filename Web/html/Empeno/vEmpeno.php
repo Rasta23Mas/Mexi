@@ -562,13 +562,21 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             </div>
         </div>
         <div class="row">
-            <div class="col col-lg-7">
+            <div class="col col-lg-12">
                 <br>
             </div>
-            <div class="col col-lg-5" align="right">&nbsp;
-                <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMonto()">&nbsp;
-                <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
+        </div>
+        <div class="row">
+            <div class="col col-lg-12">
+                <table border="0" width="100%">
+                    <tr>
+                        <td align="right">
+                            <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMonto()">&nbsp;
+                            <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
+                            <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="row">
