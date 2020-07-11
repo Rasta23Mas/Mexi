@@ -134,28 +134,39 @@ function mostrarTodos($idNombres) {
             success: function (datos) {
                 var html = '';
                 var i = 0;
-                for (i; i < datos.length; i++) {
-                    var id_Cliente = datos[i].id_Cliente;
-                    var NombreCompleto = datos[i].NombreCompleto;
-                    var celular = datos[i].celular;
-                    var direccionCompleta = datos[i].direccionCompleta;
-                    if (NombreCompleto === null) {
-                        NombreCompleto = '';
-                    }
-                    if (celular === null) {
-                        celular = '';
-                    }
-                    if (direccionCompleta === null) {
-                        direccionCompleta = '';
-                    }
-
+                $("#modalBusquedaCliente").modal();
+                if (datos.length == 0) {
+                    $("#idNombres").val('');
+                    $("#idClienteEmpeno").val('');
+                    $("#idCelularEmpeno").val('');
+                    $("#idDireccionEmpeno").val('');
                     html += '<tr>' +
-                        '<td>' + NombreCompleto + '</td>' +
-                        '<td>' + celular + '</td>' +
-                        '<td>' + direccionCompleta + '</td>' +
-                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                        'onclick="buscarClienteEditado(' + id_Cliente + ')"></td>' +
+                        '<td colspan="4" align="center">Sin datos a mostrar.</td>' +
                         '</tr>';
+                } else {
+                    for (i; i < datos.length; i++) {
+                        var id_Cliente = datos[i].id_Cliente;
+                        var NombreCompleto = datos[i].NombreCompleto;
+                        var celular = datos[i].celular;
+                        var direccionCompleta = datos[i].direccionCompleta;
+                        if (NombreCompleto === null) {
+                            NombreCompleto = '';
+                        }
+                        if (celular === null) {
+                            celular = '';
+                        }
+                        if (direccionCompleta === null) {
+                            direccionCompleta = '';
+                        }
+
+                        html += '<tr>' +
+                            '<td>' + NombreCompleto + '</td>' +
+                            '<td>' + celular + '</td>' +
+                            '<td>' + direccionCompleta + '</td>' +
+                            '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
+                            'onclick="buscarClienteEditado(' + id_Cliente + ')"></td>' +
+                            '</tr>';
+                    }
                 }
                 $('#idTBodyVerTodos').html(html);
             }
@@ -164,8 +175,7 @@ function mostrarTodos($idNombres) {
 }
 
 //Funcion ver el historial de un cliente
-function historial($clienteEmpeno,$tipo) {
-    alert($clienteEmpeno)
+function historial($clienteEmpeno, $tipo) {
     $('#suggestionsNombreEmpeno').fadeOut(1000);
     if ($clienteEmpeno == '' || $clienteEmpeno == null) {
         alert("Por seleccione un cliente.")
@@ -183,11 +193,11 @@ function historial($clienteEmpeno,$tipo) {
                 $("#modalHistorial").modal();
                 var html = '';
                 var i = 0;
-                if(datos.length == 0){
+                if (datos.length == 0) {
                     html += '<tr>' +
                         '<td colspan="8" align="center">Sin datos para mostrar</td>' +
                         '</tr>';
-                }else{
+                } else {
                     for (i; i < datos.length; i++) {
                         var id_Cliente = datos[i].Cliente;
                         var contrato = datos[i].Contrato;
@@ -197,18 +207,18 @@ function historial($clienteEmpeno,$tipo) {
                         var FechaCreac = datos[i].FechaCreac;
                         var EstDesc = datos[i].EstDesc;
 
-                        if($tipo==2){
+                        if ($tipo == 2) {
                             var Observ = datos[i].Observ;
                             var Detalle = datos[i].Detalle;
 
-                        }else if($tipo==1){
+                        } else if ($tipo == 1) {
                             var tipoArticulo = datos[i].tipoArticulo;
                             var Detalle = datos[i].Detalle;
                             var Observ = 0;
-                            if(tipoArticulo==1){
-                                 Observ = datos[i].ObserMetal;
-                            }else if(tipoArticulo==2){
-                                 Observ = datos[i].ObserElec;
+                            if (tipoArticulo == 1) {
+                                Observ = datos[i].ObserMetal;
+                            } else if (tipoArticulo == 2) {
+                                Observ = datos[i].ObserElec;
                             }
                             Observ = Observ.toUpperCase();
                         }
@@ -256,7 +266,7 @@ function historial($clienteEmpeno,$tipo) {
                             '</tr>';
                     }
                 }
-                historialCount($clienteEmpeno,$tipo);
+                historialCount($clienteEmpeno, $tipo);
                 $('#idTBodyHistorial').html(html);
             }
         });
@@ -265,7 +275,7 @@ function historial($clienteEmpeno,$tipo) {
 }
 
 //Funcion ver count de historial de un cliente
-function historialCount($clienteEmpeno,$tipo) {
+function historialCount($clienteEmpeno, $tipo) {
     var dataEnviar = {
         "clienteEmpeno": $clienteEmpeno,
         "tipo": $tipo,
@@ -352,7 +362,6 @@ function nombreAutocompletar() {
 }
 
 
-
 //funcion limpiar modal registro
 function LimpiarRegistroCliente() {
     $("#idNombre").val("");
@@ -386,9 +395,9 @@ function modalEditarCliente($clienteEmpeno) {
     if ($clienteEmpeno == '' || $clienteEmpeno == null) {
         alert("Por favor selecciona un cliente.")
     } else {
-        if($("#idNombres").val()==''|| $("#idNombres").val==null){
+        if ($("#idNombres").val() == '' || $("#idNombres").val == null) {
             alert("Por favor selecciona un cliente.")
-        }else{
+        } else {
             var dataEnviar = {
                 "idClienteEditar": $clienteEmpeno
             };
@@ -668,5 +677,5 @@ function buscarClienteEditado($clienteEditado) {
 }
 
 function openRegistrarCliente() {
- window.open('RegistrarCliente.php' , 'Registro' , 'left=150,width=1000,height=500');
+    window.open('RegistrarCliente.php', 'Registro', 'left=150,width=1000,height=500');
 }

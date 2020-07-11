@@ -93,7 +93,6 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                                    value="Historial" onclick="historial($('#idClienteEmpeno').val(), 2)">
                             &nbsp;&nbsp;
                             <input type="button" class="btn btn-info "
-                                   data-toggle="modal" data-target="#modalBusquedaCliente"
                                    onclick="mostrarTodos($('#idNombres').val())"
                                    value="Ver todos">
                         </td>
@@ -589,7 +588,6 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     <tr>
                         <td align="right">
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMontoAuto()">&nbsp;
-                            <input type="button" class="btn btn-warning" value="token" onclick="pruebaT()">&nbsp;
                             <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
                             <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
                         </td>

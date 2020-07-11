@@ -491,9 +491,11 @@ WHERE id_Cliente = '$idClienteEditar'";
     {
         $datos = array();
         try {
-            $buscar = "SELECT id_Cliente, CONCAT (apellido_Pat  , ' ',apellido_Mat,' ',nombre ) as NombreCompleto, celular , CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ', municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl " .
-                " INNER JOIN cat_estado on cliente_tbl.estado = cat_estado.id_Estado " .
-                " WHERE nombre LIKE '%" . strip_tags($idNombres) . "%' ";
+            $buscar = "SELECT id_Cliente, CONCAT (apellido_Pat  , ' ',apellido_Mat,' ',nombre ) as NombreCompleto, 
+                        celular , CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ',
+                        municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl 
+                        INNER JOIN cat_estado on cliente_tbl.estado = cat_estado.id_Estado 
+                        WHERE nombre LIKE '%" . strip_tags($idNombres) . "%' ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
