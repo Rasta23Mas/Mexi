@@ -1,5 +1,5 @@
 <?php
-if(!isset($_SESSION)) {
+if (!isset($_SESSION)) {
     session_start();
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
@@ -71,7 +71,7 @@ class sqlClienteDAO
                 " '" . $idOcupacion . "', '" . $idIdentificacion . "', '" . $idNumIdentificacion . "', '" . $idCelular . "', '" . $idRfc . "', " .
                 "'" . $idTelefono . "', '" . $idCorreo . "', '" . $idEstado . "', '" . $idCP . "', '" . $idMunicipio . "', '" . $idLocalidad . "', " .
                 "'" . $idCalle . "'," . " '" . $idNumExt . "', '" . $idNumInt . "', '" . $idMensajeInterno . "', '" . $idPromocion . "', " .
-                "'" . $fechaCreacion . "', '" . $fechaModificacion . "', '". $usuario . "')";
+                "'" . $fechaCreacion . "', '" . $fechaModificacion . "', '" . $usuario . "')";
             if ($ps = $this->conexion->prepare($insertCliente)) {
                 if ($ps->execute()) {
                     $respuesta = 1;
@@ -235,10 +235,10 @@ class sqlClienteDAO
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 while ($row = $statement->fetch_assoc()) {
-                    $html .= '<div><a class="suggest-element" data="' . $row['NombreCompleto']. '" celular="' . $row['celular']
+                    $html .= '<div><a class="suggest-element" data="' . $row['NombreCompleto'] . '" celular="' . $row['celular']
                         . '" direccionCompleta="' . $row['direccionCompleta'] . '" id="' . $row['id_Cliente'] . '">' . $row['NombreCompleto'] . '</a></div>';
                 }
-            }else{
+            } else {
                 while ($row = $statement->fetch_assoc()) {
                     $html .= '<div><a class="suggest-element"><h3>Sin sugerencias... </h3></a></div>';
                 }
@@ -251,6 +251,7 @@ class sqlClienteDAO
         echo $html;
 
     }
+
     public function autocompleteClienteAbono($ClienteNombre)
     {
         try {
@@ -264,9 +265,9 @@ class sqlClienteDAO
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 while ($row = $statement->fetch_assoc()) {
-                    $html .= '<div><a class="suggest-element" data="' . $row['NombreCompleto'].  '" id="' . $row['id_Cliente'] . '">' . $row['NombreCompleto'] . '</a></div>';
+                    $html .= '<div><a class="suggest-element" data="' . $row['NombreCompleto'] . '" id="' . $row['id_Cliente'] . '">' . $row['NombreCompleto'] . '</a></div>';
                 }
-            }else{
+            } else {
                 while ($row = $statement->fetch_assoc()) {
                     $html .= '<div><a class="suggest-element"><h3>Sin sugerencias... </h3></a></div>';
                 }
@@ -352,7 +353,7 @@ WHERE
         echo json_encode($datos);
     }
 
-    public function actualizaCiente($idClienteEditar,$clienteData)
+    public function actualizaCiente($idClienteEditar, $clienteData)
     {
 
         try {
@@ -424,7 +425,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             if ($ps = $this->conexion->prepare($updateCliente)) {
                 if ($ps->execute()) {
-                    $verdad =  mysqli_stmt_affected_rows($ps);
+                    $verdad = mysqli_stmt_affected_rows($ps);
                 } else {
                     $verdad = -1;
                 }
@@ -442,7 +443,8 @@ WHERE id_Cliente = '$idClienteEditar'";
         echo $verdad;
     }
 
-    public function buscarClienteAgregado(){
+    public function buscarClienteAgregado()
+    {
         try {
 
             $buscar = "SELECT id_Cliente, CONCAT (apellido_Pat , ' ',apellido_Mat,' ',  nombre) as NombreCompleto, celular , CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ',municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl " .
@@ -461,9 +463,10 @@ WHERE id_Cliente = '$idClienteEditar'";
         }
         echo json_encode($data);
 
-         }
+    }
 
-    public function buscarClienteEditado($idClienteEditado){
+    public function buscarClienteEditado($idClienteEditado)
+    {
         try {
 
             $buscar = "SELECT id_Cliente, CONCAT (apellido_Pat , ' ', apellido_Mat,' ', nombre) as NombreCompleto, celular , CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ',municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl " .
@@ -516,14 +519,60 @@ WHERE id_Cliente = '$idClienteEditar'";
     {
         $datos = array();
         try {
-            $buscar = "SELECT Con.id_Contrato as Contrato,Con.id_Cliente as Cliente,CONCAT (Cli.apellido_Pat  , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
-                        Inte.tasa_interes as Interes, Con.fecha_Vencimiento as FechaVenc, Con.fecha_creacion as FechaCreac, Con.observaciones as Observ, Art.tipo as ArtTipo, Est.descripcion as EstDesc,Art.detalle as Detalle
-                        FROM contrato_tbl as Con
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente 
-                        INNER JOIN cat_interes as Inte on Con.id_Interes = Inte.id_interes 
-                        INNER JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato
-                        INNER JOIN cat_estatus as Est on Con.id_Estatus = Est.id_Estatus WHERE Con.id_Cliente=$clienteEmpeno";
+            $buscar = "SELECT Con.id_Contrato as Contrato,Cont.id_Cliente as Cliente,
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto, 
+                        CONCAT(Con.plazo, '', Con.periodo, '',Con.tipoInteres) as Interes, 
+                        Con.fechaVencimiento as FechaVenc, Con.fecha_creacion as FechaCreac, 
+                        Aut.observaciones as Observ, Mov.descripcion as EstDesc 
+                        FROM contratomovimientos_tbl as Con 
+                        INNER JOIN contrato_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
+                        INNER JOIN cliente_tbl as Cli on Cont.id_Cliente = Cli.id_Cliente 
+                        INNER JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        INNER JOIN cat_movimientos as Mov on Con.id_movimiento = Mov.id_Movimiento 
+                        WHERE Cont.id_Cliente=$clienteEmpeno";
 
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "Contrato" => $row["Contrato"],
+                        "Cliente" => $row["Cliente"],
+                        "NombreCompleto" => $row["NombreCompleto"],
+                        "Interes" => $row["Interes"],
+                        "FechaVenc" => $row["FechaVenc"],
+                        "FechaCreac" => $row["FechaCreac"],
+                        "Observ" => $row["Observ"],
+                        "ArtTipo" => $row["ArtTipo"],
+                        "EstDesc" => $row["EstDesc"],
+                        "Detalle" => $row["Detalle"]
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    public function historialAuto($clienteEmpeno)
+    {
+        $datos = array();
+        try {
+            $buscar = "SELECT Con.id_Contrato as Contrato,Cont.id_Cliente as Cliente,
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto, 
+                        CONCAT(Con.plazo, '', Con.periodo, '',Con.tipoInteres) as Interes, 
+                        Con.fechaVencimiento as FechaVenc, Con.fecha_creacion as FechaCreac, 
+                        Aut.observaciones as Observ, Mov.descripcion as EstDesc, CONCAT(Aut.marca, '', Aut.modelo) as Detalle  
+                        FROM contratomovimientos_tbl as Con 
+                        INNER JOIN contrato_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
+                        INNER JOIN cliente_tbl as Cli on Cont.id_Cliente = Cli.id_Cliente 
+                        INNER JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        INNER JOIN cat_movimientos as Mov on Con.id_movimiento = Mov.id_Movimiento 
+                        WHERE Cont.id_Cliente=$clienteEmpeno and Con.tipo_Contrato = 2";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -572,6 +621,41 @@ WHERE id_Cliente = '$idClienteEditar'";
                     array_push($datos, $data);
                 }
             }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    public function historialCountAuto($clienteEmpeno)
+    {
+        $datos = array();
+        try {
+            $buscar = "SELECT Sum(ConMov.id_contrato) AS TotalEmpenos 
+                 FROM contratomovimientos_tbl ConMov
+                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
+                 AND id_contrato 
+                 id_contrato NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                        WHERE tipo_movimiento = 8 || tipo_movimiento = 9 || tipo_movimiento = 10
+                        || tipo_movimiento = 20 || tipo_movimiento = 24 )";
+            $statement = $this->conexion->query($buscar);
+            $fila = $statement->fetch_object();
+            $TotalEmpenos = $fila->TotalEmpenos;
+
+
+            $data = [
+                "TotalEmpeno" => $TotalEmpenos,
+                "TotalDesem" => $TotalEmpenos,
+                "TotalRefrendo" => $TotalEmpenos,
+                "TotalAlmoneda" => $TotalEmpenos
+            ];
+            array_push($datos, $data);
+
+
         } catch (Exception $exc) {
             echo $exc->getMessage();
         } finally {

@@ -164,14 +164,15 @@ function mostrarTodos($idNombres) {
 }
 
 //Funcion ver el historial de un cliente
-function historial($clienteEmpeno) {
+function historial($clienteEmpeno,$tipo) {
+
     $('#suggestionsNombreEmpeno').fadeOut(1000);
     if ($clienteEmpeno == '' || $clienteEmpeno == null) {
         alert("Por seleccione un cliente.")
     } else {
-
         var dataEnviar = {
-            "clienteEmpeno": $clienteEmpeno
+            "clienteEmpeno": $clienteEmpeno,
+            "tipo": $tipo,
         };
         $.ajax({
             type: "POST",
@@ -179,70 +180,75 @@ function historial($clienteEmpeno) {
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
+                $("#modalHistorial").modal();
                 var html = '';
                 var i = 0;
-                for (i; i < datos.length; i++) {
-                    var id_Cliente = datos[i].Cliente;
-                    var contrato = datos[i].Contrato;
-                    var NombreCompleto = datos[i].NombreCompleto;
-                    var Interes = datos[i].Interes;
-                    var FechaVenc = datos[i].FechaVenc;
-                    var FechaCreac = datos[i].FechaCreac;
-                    var Observ = datos[i].Observ;
-                    var ArtTipo = datos[i].ArtTipo;
-                    var EstDesc = datos[i].EstDesc;
-                    var Detalle = datos[i].Detalle;
-
-                    if (NombreCompleto === null) {
-                        NombreCompleto = '';
-                    }
-                    if (Interes === null) {
-                        Interes = '';
-                    }
-                    if (FechaVenc === null) {
-                        FechaVenc = '';
-                    }
-                    if (NombreCompleto === null) {
-                        NombreCompleto = '';
-                    }
-                    if (FechaVenc === null) {
-                        FechaVenc = '';
-                    }
-                    if (FechaCreac === null) {
-                        FechaCreac = '';
-                    }
-                    if (Observ === null) {
-                        Observ = '';
-                    }
-                    if (ArtTipo === null) {
-                        ArtTipo = '';
-                    }
-                    if (EstDesc === null) {
-                        EstDesc = '';
-                    }
-                    if (NombreCompleto === null) {
-                        NombreCompleto = '';
-                    }
-                    if (Detalle === null) {
-                        Detalle = '';
-                    }
-
+                if(datos.length == 0){
                     html += '<tr>' +
-                        '<td>' + contrato + '</td>' +
-                        '<td>' + NombreCompleto + '</td>' +
-                        '<td>' + Interes + '</td>' +
-                        '<td>' + FechaVenc + '</td>' +
-                        '<td>' + FechaCreac + '</td>' +
-                        '<td>' + Observ + '</td>' +
-                        '<td>' + ArtTipo + '</td>' +
-                        '<td>' + EstDesc + '</td>' +
-                        '<td>' + Detalle + '</td>' +
+                        '<td colspan="9" align="center">Sin datos para mostrar</td>' +
                         '</tr>';
+                }else{
+                    for (i; i < datos.length; i++) {
+                        var id_Cliente = datos[i].Cliente;
+                        var contrato = datos[i].Contrato;
+                        var NombreCompleto = datos[i].NombreCompleto;
+                        var Interes = datos[i].Interes;
+                        var FechaVenc = datos[i].FechaVenc;
+                        var FechaCreac = datos[i].FechaCreac;
+                        var Observ = datos[i].Observ;
+                        var ArtTipo = datos[i].ArtTipo;
+                        var EstDesc = datos[i].EstDesc;
+                        var Detalle = datos[i].Detalle;
+
+                        if (NombreCompleto === null) {
+                            NombreCompleto = '';
+                        }
+                        if (Interes === null) {
+                            Interes = '';
+                        }
+                        if (FechaVenc === null) {
+                            FechaVenc = '';
+                        }
+                        if (NombreCompleto === null) {
+                            NombreCompleto = '';
+                        }
+                        if (FechaVenc === null) {
+                            FechaVenc = '';
+                        }
+                        if (FechaCreac === null) {
+                            FechaCreac = '';
+                        }
+                        if (Observ === null) {
+                            Observ = '';
+                        }
+                        if (ArtTipo === null) {
+                            ArtTipo = '';
+                        }
+                        if (EstDesc === null) {
+                            EstDesc = '';
+                        }
+                        if (NombreCompleto === null) {
+                            NombreCompleto = '';
+                        }
+                        if (Detalle === null) {
+                            Detalle = '';
+                        }
+
+                        html += '<tr>' +
+                            '<td>' + contrato + '</td>' +
+                            '<td>' + NombreCompleto + '</td>' +
+                            '<td>' + Interes + '</td>' +
+                            '<td>' + FechaVenc + '</td>' +
+                            '<td>' + FechaCreac + '</td>' +
+                            '<td>' + Observ + '</td>' +
+                            '<td>' + ArtTipo + '</td>' +
+                            '<td>' + EstDesc + '</td>' +
+                            '<td>' + Detalle + '</td>' +
+                            '</tr>';
+                    }
                 }
-historialCount($clienteEmpeno);
+                historialCount($clienteEmpeno,$tipo);
                 $('#idTBodyHistorial').html(html);
-
-
             }
         });
 
@@ -250,9 +256,10 @@ historialCount($clienteEmpeno);
 }
 
 //Funcion ver count de historial de un cliente
-function historialCount($clienteEmpeno) {
+function historialCount($clienteEmpeno,$tipo) {
     var dataEnviar = {
-        "clienteEmpeno": $clienteEmpeno
+        "clienteEmpeno": $clienteEmpeno,
+        "tipo": $tipo,
     };
     $.ajax({
         type: "POST",

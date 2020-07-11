@@ -659,11 +659,20 @@ function calculaAvaluoAuto() {
 
 function limpiarAuto() {
     $("#idTotalPrestamoAutoMon").prop('disabled', false);
-    $("#idTotalAvaluoAutoMon").prop('disabled', false);
+    $("#idDiasAlmoneda").prop('disabled', true);
     $("#idTotalAvaluoAuto").val('');
     $("#idTotalPrestamoAuto").val('');
     $("#idTotalPrestamoAutoMon").val('');
     $("#idTotalAvaluoAutoMon").val('');
+    $("#tipoInteresEmpeno").val(0);
+    $("#idDiasAlmoneda").val(0);
+    document.getElementById('idTipoInteres').innerHTML = '';
+    document.getElementById('idPeriodo').innerHTML = '';
+    document.getElementById('idPlazo').innerHTML = '';
+    document.getElementById('idTasaPorcen').innerHTML = '';
+    document.getElementById('idAlmPorcen').innerHTML = '';
+    document.getElementById('idSeguroPorcen').innerHTML = '';
+    document.getElementById('idIvaPorcen').innerHTML = '';
 
 }
 
