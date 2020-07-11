@@ -59,7 +59,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, .2);
             height: auto;
             position: absolute;
-            top: 130px;
+            top: 105px;
             z-index: 9999;
             width: 300px;
         }
@@ -68,7 +68,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             background-color: #EEEEEE;
             border-top: 1px solid #d6d4d4;
             cursor: pointer;
-            padding: 8px;
+            padding: 7px;
             width: 100%;
             float: left;
         }
