@@ -78,7 +78,7 @@ class sqlContratoDAO
         echo $verdad;
     }
 
-    public function actualizarArticulo($contrato,$idSerieContrato)
+    public function actualizarArticulo($contrato, $idSerieContrato)
     {
         //Funcion Verificada
         // TODO: Implement guardaCiente() method.
@@ -345,12 +345,12 @@ class sqlContratoDAO
         //echo json_encode($datos);
     }
 
-    public function buscarContratoFechas($fechaInicio,$fechaFinal, $tipoContratoGlobal)
-{
-    $datos = array();
-    try {
-        $sucursal = $_SESSION["sucursal"];
-        $buscar = "SELECT id_Contrato AS Contrato,DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,CMov.descripcion as Movimiento,
+    public function buscarContratoFechas($fechaInicio, $fechaFinal, $tipoContratoGlobal)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT id_Contrato AS Contrato,DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,CMov.descripcion as Movimiento,
                         contratomovimientos_tbl.id_movimiento AS idMovimiento, s_prestamo_nuevo AS Prestamo,
                         prestamo_actual  AS PrestamoActual,e_abono AS Abono,
                         e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, s_descuento_aplicado AS DescuentoMov,
@@ -358,95 +358,37 @@ class sqlContratoDAO
                         FROM contratomovimientos_tbl 
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                         WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  fecha_Creacion BETWEEN '$fechaInicio' AND '$fechaFinal'";
-        $rs = $this->conexion->query($buscar);
-        if ($rs->num_rows > 0) {
-            while ($row = $rs->fetch_assoc()) {
-                $data = [
-                    "Contrato" => $row["Contrato"],
-                    "FechaCreacion" => $row["FechaCreacion"],
-                    "Movimiento" => $row["Movimiento"],
-                    "idMovimiento" => $row["idMovimiento"],
-                    "Prestamo" => $row["Prestamo"],
-                    "PrestamoActual" => $row["PrestamoActual"],
-                    "Abono" => $row["Abono"],
-                    "Interes" => $row["InteresMovimiento"],
-                    "Moratorios" => $row["MoratoriosMov"],
-                    "Descuento" => $row["DescuentoMov"],
-                    "Pago" => $row["PagoMov"],
-                    "Plazo" => $row["PlazoMov"],
-                    "CostoContrato" => $row["CostoContrato"],
-                    "MovimientoTipo" => $row["MovimientoTipo"],
-
-
-                ];
-                array_push($datos, $data);
-            }
-        }
-    } catch (Exception $exc) {
-        echo $exc->getMessage();
-    } finally {
-        $this->db->closeDB();
-    }
-
-    echo json_encode($datos);
-}
-
-    /*public function buscarContrato($contrato, $nombre, $celular)
-    {
-        $datos = array();
-        try {
-            $buscar = "";
-            if ($nombre == 0) {
-                $buscar = "select c.id_Contrato, c.id_Cliente, c.id_Interes, c.folio, c.fecha_creacion, c.fecha_Vencimiento, c.total_Avaluo, c.total_Prestamo, 
-                c.abono, c.pago, c.fecha_Alm, c.fecha_Movimiento, c.id_Estatus, a.detalle, c.observaciones, a.cantidad 
-                from contrato_tbl as c inner join articulo_tbl as a on c.id_Contrato = a.id_Contrato where c.id_Contrato = " . $contrato . ";";
-            }
-            if ($contrato == 0) {
-                $buscar = "select c.id_Contrato, c.id_Cliente, c.id_Interes, c.folio, c.fecha_creacion, c.fecha_Vencimiento, c.total_Avaluo, c.total_Prestamo, 
-                c.abono, c.pago, c.fecha_Alm, c.fecha_Movimiento, c.id_Estatus, a.detalle, c.observaciones, a.cantidad 
-                from contrato_tbl as c inner join articulo_tbl as a on c.id_Contrato = a.id_Contrato inner join cliente_tbl as cl on cl.id_Cliente = c.id_Cliente 
-                where concat(cl.nombre, ' ', cl.apellido_Pat, ' ', cl.apellido_Mat) = '" . $nombre . "' and cl.celular = " . $celular . ";";
-
-            }
-
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        //Contrato
-                        "id_Contrato" => $row["id_Contrato"],
-                        "id_Cliente" => $row["id_Cliente"],
-                        "id_Interes" => $row["id_Interes"],
-                        "folio" => $row["folio"],
-                        "fecha_creacion" => $row["fecha_creacion"],
-                        "fecha_vencimiento" => $row["fecha_Vencimiento"],
-                        "total_avaluo" => $row["total_Avaluo"],
-                        "total_prestamo" => $row["total_Prestamo"],
-                        "abono" => $row["abono"],
-                        "pago" => $row["pago"],
-                        "fecha_alm" => $row["fecha_Alm"],
-                        "fecha_movimiento" => $row["fecha_Movimiento"],
-                        "id_Estatus" => $row["id_Estatus"],
+                        "Contrato" => $row["Contrato"],
+                        "FechaCreacion" => $row["FechaCreacion"],
+                        "Movimiento" => $row["Movimiento"],
+                        "idMovimiento" => $row["idMovimiento"],
+                        "Prestamo" => $row["Prestamo"],
+                        "PrestamoActual" => $row["PrestamoActual"],
+                        "Abono" => $row["Abono"],
+                        "Interes" => $row["InteresMovimiento"],
+                        "Moratorios" => $row["MoratoriosMov"],
+                        "Descuento" => $row["DescuentoMov"],
+                        "Pago" => $row["PagoMov"],
+                        "Plazo" => $row["PlazoMov"],
+                        "CostoContrato" => $row["CostoContrato"],
+                        "MovimientoTipo" => $row["MovimientoTipo"],
 
-                        //Articulo
-                        "detalle" => $row["detalle"],
-                        "observaciones" => $row["observaciones"],
-                        "cantidad" => $row["cantidad"]
+
                     ];
-
                     array_push($datos, $data);
                 }
-            } else {
-                echo "No se ejecuto buscarContrato-sqlContratoDAO";
             }
-
         } catch (Exception $exc) {
-            $verdad = 4;
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
-        return $datos;
-    }*/
+
+        echo json_encode($datos);
+    }
 
 }
