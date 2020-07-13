@@ -10,6 +10,7 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
         <th>Auto</th>
         <th>Detalle</th>
         <th>Observacioness</th>
+        <th>Fotos</th>
     </tr>
     </thead>
     <tbody id="idTBodyContratoDetalleAuto">

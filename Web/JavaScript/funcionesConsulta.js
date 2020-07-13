@@ -121,146 +121,6 @@ function buscarDatosPorContrato() {
         }
     });
 }
-/*
-function buscarDatosPorNombres() {
-    //var idClienteConsulta = $("#idClienteConsulta").val();
-    var idClienteConsulta = 90;
-
-    var dataEnviar = {
-        "idClienteConsulta": idClienteConsulta
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Contrato/busquedaDatosPorCliente.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var Cliente = datos[i].Cliente;
-                var NombreCompleto = datos[i].NombreCompleto;
-                var direccionCompleta = datos[i].direccionCompleta;
-                $('#idClienteConsulta').val(Cliente);
-                $('#idNombreConsulta').val(NombreCompleto);
-                $("#idDireccionConsulta").val(direccionCompleta);
-                $("#idContratoBusqueda").val(idContratoBusqueda);
-            }
-        }
-    });
-
-}
-
-function cargarTablaDetalleContrato(idContratoBusqueda) {
-    var dataEnviar = {
-        "idContratoBusqueda": idContratoBusqueda,
-        "tipoContratoGlobal": tipoContratoGlobal
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Contrato/tblDetalleContrato.php',
-        data: dataEnviar,
-        dataType: "json",
-
-        success: function (datos) {
-            var html = '';
-            var i = 0;
-            var Num = 1;
-
-            for (i; i < datos.length; i++) {
-                if (tipoContratoGlobal == 1) {
-                    var Formulario = datos[i].Formulario;
-                    var TipoElectronico = datos[i].TipoElectronico;
-                    var MarcaElectronico = datos[i].MarcaElectronico;
-                    var ModeloElectronico = datos[i].ModeloElectronico;
-                    var TipoMetal = datos[i].TipoMetal;
-                    var Kilataje = datos[i].Kilataje;
-                    var Calidad = datos[i].Calidad;
-                    var Detalle = datos[i].Detalle;
-
-                    Formulario = parseInt(Formulario);
-                    if (TipoElectronico === null) {
-                        TipoElectronico = '';
-                    }
-                    if (MarcaElectronico === null) {
-                        MarcaElectronico = '';
-                    }
-                    if (ModeloElectronico === null) {
-                        ModeloElectronico = '';
-                    }
-                    if (TipoMetal === null) {
-                        TipoMetal = '';
-                    }
-                    if (Kilataje === null) {
-                        Kilataje = '';
-                    }
-                    if (Calidad === null) {
-                        Calidad = '';
-                    }
-                    if (Detalle === null) {
-                        Detalle = '';
-                    }
-
-                    if (Formulario == 1) {
-                        var Descripcion = Kilataje + " " + Calidad;
-                        html += '<tr>' +
-                            '<td>' + Num + '</td>' +
-                            '<td>' + TipoMetal + '</td>' +
-                            '<td>' + Descripcion + '</td>' +
-                            '<td>' + Detalle + '</td>' +
-                            '</tr>';
-                    } else if (Formulario == 2) {
-                        var Descripcion = MarcaElectronico + " " + ModeloElectronico;
-                        html += '<tr>' +
-                            '<td>' + Num + '</td>' +
-                            '<td>' + TipoElectronico + '</td>' +
-                            '<td>' + Descripcion + '</td>' +
-                            '<td>' + Detalle + '</td>' +
-                            '</tr>';
-                    }
-
-                    Num++;
-
-                } else if (tipoContratoGlobal == 2) {
-                    var Marca = datos[i].Marca;
-                    var Modelo = datos[i].Modelo;
-                    var Anio = datos[i].Anio;
-                    var Vehiculo = datos[i].Vehiculo;
-                    var ColorAuto = datos[i].ColorAuto;
-                    var Obs = datos[i].Obs;
-
-                    if (Marca === null) {
-                        Marca = '';
-                    }
-                    if (Modelo === null) {
-                        Modelo = '';
-                    }
-                    if (Anio === null) {
-                        Anio = '';
-                    }
-                    if (ColorAuto === null) {
-                        ColorAuto = '';
-                    }
-                    if (Obs === null) {
-                        Obs = '';
-                    }
-
-                    var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto;
-                    html += '<tr>' +
-                        '<td>' + Num + '</td>' +
-                        '<td>' + Vehiculo + '</td>' +
-                        '<td>' + Descripcion + '</td>' +
-                        '<td>' + Obs + '</td>' +
-                        '</tr>';
-
-                }
-            }
-            $('#idTBodyContratoDetalle').html(html);
-
-        }
-    });
-    $("#divContrato").load('tablaDetalleContrato.php');
-
-}*/
 
 function cargarTablaContrato(idContratoBusqueda) {
     var dataEnviar = {
@@ -433,6 +293,9 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                                 '<td>' + TipoMetal + '</td>' +
                                 '<td>' + Descripcion + '</td>' +
                                 '<td>' + Detalle + '</td>' +
+                                '<td align="center">' +
+                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="cargarTablaDetalleNombre(' + idContratoBusqueda + ')">' +
+                                '</td>' +
                                 '</tr>';
                         } else if (Formulario == 2) {
                             var Descripcion = MarcaElectronico + " " + ModeloElectronico;
@@ -442,6 +305,9 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                                 '<td>' + TipoElectronico + '</td>' +
                                 '<td>' + Descripcion + '</td>' +
                                 '<td>' + Detalle + '</td>' +
+                                '<td align="center">' +
+                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="cargarTablaDetalleNombre(' + idContratoBusqueda + ')">' +
+                                '</td>' +
                                 '</tr>';
                         }
                     }
