@@ -81,6 +81,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=1">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Desempeno/vDesempeno.php?tipoFormGet=3">Desempeños</a></li>
                     <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../ImagenContrato/CargarImagen.php">Subir Imagen</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuEmpenoAuto">
@@ -93,6 +94,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Desempeno/vRefrendo.php?tipoFormGet=4">Desempeños</a></li>
                     <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../ImagenContrato/CargarImagen.php">Subir Imagen</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuConsultas">
@@ -207,16 +209,6 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar Sesión</a></li>
                 </ul>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    archivos pruebas
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../ImagenContrato/index.php">index</a></li>
-                </ul>
-            </li>
-
         </ul>
     </div>
 </nav>

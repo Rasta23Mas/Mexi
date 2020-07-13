@@ -8,7 +8,7 @@ class Conexion
     protected $server = "localhost";
     protected $user = "root";
     protected $password = "";
-    protected $db = "mexicash";
+    protected $db = "u672450412_Mexicash";
     protected $link;
     protected $error;
 
@@ -16,7 +16,7 @@ class Conexion
  /* protected $server = "localhost";
     protected $user = "u672450412_root";
     protected $password = "12345";
-    protected $db = "u672450412_Mexicash";*/
+    protected $db = "";*/
 
 
 
