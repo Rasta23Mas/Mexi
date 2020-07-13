@@ -675,7 +675,3 @@ function buscarClienteEditado($clienteEditado) {
         }
     });
 }
-
-function openRegistrarCliente() {
-    window.open('RegistrarCliente.php', 'Registro', 'left=150,width=1000,height=500');
-}
