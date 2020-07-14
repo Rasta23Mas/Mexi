@@ -85,21 +85,21 @@ include_once (HTML_PATH."menuGeneral.php");
                     <tr>
                         <td align="center">
                             <br>
-                            <input type="button" class="btn btn-info  w-100" value="Refrendo" onclick="location.href='vRefrendo.php?tipoFormGet=1'">
+                            <input type="button" class="btn btn-info  w-100" value="Refrendo" onclick="location.href='../Refrendo/vRefrendo.php?tipoFormGet=1'">
                             <br>
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
                             <br>
-                            <input type="button" class="btn btn-info  w-100" value="Desempeño" onclick="location.href='vRefrendo.php?tipoFormGet=3'">
+                            <input type="button" class="btn btn-info  w-100" value="Desempeño" onclick="location.href='../Desempeno/vDesempeno.php?tipoFormGet=3'">
                             <br>
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
                             <br>
-                            <input type="button" class="btn btn-info  w-100" value="Consulta" onclick="location.href='vConsultaContrato.php'">
+                            <input type="button" class="btn btn-info  w-100" value="Consulta" onclick="location.href='../Consultas/vConsultaContrato.php'">
                             <br>
                         </td>
                     </tr>
@@ -128,21 +128,21 @@ include_once (HTML_PATH."menuGeneral.php");
                     <tr>
                         <td align="center">
                             <br>
-                            <input type="button" class="btn btn-info  w-100" value="Refrendo" onclick="location.href='vRefrendo.php?tipoFormGet=2'">
+                            <input type="button" class="btn btn-info  w-100" value="Refrendo" onclick="location.href='../Refrendo/vRefrendo.php?tipoFormGet=2'">
                             <br>
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
                             <br>
-                            <input type="button" class="btn btn-info  w-100" value="Desempeño" onclick="location.href='vRefrendo.php?tipoFormGet=4'">
+                            <input type="button" class="btn btn-info  w-100" value="Desempeño" onclick="location.href='../Desempeno/vDesempeno.php?tipoFormGet=4'">
                             <br>
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
                             <br>
-                            <input type="button" class="btn btn-info  w-100" value="Consulta" onclick="location.href='vConsultaContrato.php'">
+                            <input type="button" class="btn btn-info  w-100" value="Consulta" onclick="location.href='../Consultas/vConsultaContrato.php'">
                             <br>
                         </td>
                     </tr>

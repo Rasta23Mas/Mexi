@@ -294,7 +294,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                                 '<td>' + Descripcion + '</td>' +
                                 '<td>' + Detalle + '</td>' +
                                 '<td align="center">' +
-                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="cargarTablaDetalleNombre(' + idContratoBusqueda + ')">' +
+                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ')">' +
                                 '</td>' +
                                 '</tr>';
                         } else if (Formulario == 2) {
@@ -306,7 +306,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                                 '<td>' + Descripcion + '</td>' +
                                 '<td>' + Detalle + '</td>' +
                                 '<td align="center">' +
-                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="cargarTablaDetalleNombre(' + idContratoBusqueda + ')">' +
+                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="verFotosContrato(' + idContratoBusqueda + ')">' +
                                 '</td>' +
                                 '</tr>';
                         }
@@ -650,4 +650,8 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
             }
         }
     });
+}
+
+function verFotosContrato(idContrato) {
+ location.href = '../ImagenContrato/vCargarImagen.php?idContrato='+idContrato;
 }

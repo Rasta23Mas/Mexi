@@ -1,4 +1,8 @@
 <?php
+$idContrato = 0;
+if (isset($_GET['idContrato'])) {
+    $idContrato = $_GET['idContrato'];
+}
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -18,6 +22,13 @@ include_once (HTML_PATH."menuGeneral.php");
     <meta charset="utf-8">
     <script src="../../JavaScript/funcionesImagen.js"></script>
 
+    <script type="application/javascript">
+        var idContrato = <?php echo $idContrato ?>;
+        alert(idContrato)
+        $("#idContratoFotos").val(idContrato);
+        var test = $("#idContratoFotos").val();
+        alert(test);
+    </script>
 
 </head>
 
@@ -30,11 +41,11 @@ include_once (HTML_PATH."menuGeneral.php");
             <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary" type="button">Contrato</button>
             </div>
-            <input type="text" class="form-control" id="idContrato">
+            <input type="text" class="form-control" id="idContratoFotos" value="144">
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button">Titulo</button>
+                <button class="btn btn-outline-secondary" type="button">Descripcion</button>
             </div>
             <input type="text" class="form-control" id="titleImage">
         </div>
