@@ -70,7 +70,7 @@ include_once(HTML_PATH . "menuGeneral.php");
                 <td align="center" style="width: 180px">
                     <input type="text" name="descripcionFoto" id="DescripcionFoto" style="width: 70px"
                            class="inputCliente"
-                           onkeypress="return soloNumeros(event)" disabled/>
+                    />
                 </td>
             </tr>
             <tr>
@@ -89,7 +89,7 @@ include_once(HTML_PATH . "menuGeneral.php");
         </table>
     </div>
     <div class="col-md-7 offset-md-1">
-        <h3>Archivos del contrato</h3>
+        <h3>Archivos del contratosss</h3>
         <hr>
         <div id="data">
         </div>

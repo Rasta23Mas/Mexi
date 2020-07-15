@@ -177,6 +177,7 @@ $('#buttonCancel').click(function () {//limpio los campos
 });
 
 function llenarTablaImagen(idContratoBusqueda) {
+    alert("entra")
     var dataEnviar = {
         "idContratoBusqueda": idContratoBusqueda
     };
@@ -192,15 +193,17 @@ function llenarTablaImagen(idContratoBusqueda) {
             var i = 0;
             var Num = 1;
             if (datos.length > 0) {
+                alert(datos.length)
                 for (i; i < datos.length; i++) {
                     var id = datos[i].id;
                     var descripcion = datos[i].descripcion;
                     var img = datos[i].img;
+                    var imagen = datos[i].imagen;
 
                     html += '<tr align="center">' +
                         '<td>' + Num + '</td>' +
                         '<td>' + descripcion + '</td>' +
-                        '<td><img src="data:image/jpeg;base64," . base64_encode(img) . " class="img-responsive img-rounded "></td>' +
+                        '<td><img src="data:image/jpeg;base64' + imagen +'",class="img-responsive img-rounded" ></td>' +
                         '<td>' + id + '</td>' +
                         '<td>' + id + '</td>' +
                         '</tr>';

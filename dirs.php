@@ -11,6 +11,7 @@ define('ESAPI_PATH', COM_PATH.'esapi/');
 define('MODELO_PATH', COM_PATH.'Modelo/');
 define('PETICIONES_PATH', COM_PATH.'Peticiones/');
 define('SERVICIOS_PATH', COM_PATH.'Servicios/');
+define('IMAGEN_PATH', ROOT_PATH.'Imagenes/');
 //WEB DIR
 define('WEB_PATH', ROOT_PATH.'Web/');
 define('HTML_PATH', WEB_PATH.'html/');
