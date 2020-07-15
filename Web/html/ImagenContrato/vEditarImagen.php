@@ -14,7 +14,7 @@ if(isset($_GET['edit_id']) && !empty($_GET['edit_id']))
 }
 else
 {
-    header("Location: vImagenesContrato.php");
+    header("Location: vImagenContrato.php");
 }
 
 if(isset($_POST['btn_save_updates']))
@@ -73,7 +73,7 @@ if(isset($_POST['btn_save_updates']))
             ?>
             <script>
                 alert('Archivo editado correctamente ...');
-                window.location.href='vImagenesContrato.php';
+                window.location.href='vImagenContrato.php';
             </script>
             <?php
         }
@@ -103,12 +103,12 @@ include_once(HTML_PATH . "menuGeneral.php");
 <body>
 <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
-        <div class="navbar-header"> <a class="navbar-brand" href="vImagenesContrato.php" title='Inicio' target="_blank">Inicio</a> </div>
+        <div class="navbar-header"> <a class="navbar-brand" href="vImagenContrato.php" title='Inicio' target="_blank">Inicio</a> </div>
     </div>
 </div>
 <div class="container">
     <div class="page-header">
-        <h1 class="h2">Actualización producto. <a class="btn btn-default" href="vImagenesContrato.php"> Mostrar todos los modelos </a></h1>
+        <h1 class="h2">Actualización producto. <a class="btn btn-default" href="vImagenContrato.php"> Mostrar todos los modelos </a></h1>
     </div>
     <div class="clearfix"></div>
     <form method="post" enctype="multipart/form-data" class="form-horizontal">

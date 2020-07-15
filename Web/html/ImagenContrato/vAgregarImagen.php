@@ -64,7 +64,7 @@ if(isset($_POST['btnsave']))
         if($stmt->execute())
         {
             $successMSG = "Nuevo registro insertado correctamente ...";
-            header("refresh:3;vImagenesContrato.php"); // redirects image view page after 5 seconds.
+            header("refresh:3;vImagenContrato.php"); // redirects image view page after 5 seconds.
         }
         else
         {
@@ -89,12 +89,12 @@ include_once(HTML_PATH . "menuGeneral.php");
 <body>
 <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
-        <div class="navbar-header"> <a class="navbar-brand" href="vImagenesContrato.php" title='Inicio' target="_blank">Inicio</a> </div>
+        <div class="navbar-header"> <a class="navbar-brand" href="vImagenContrato.php" title='Inicio' target="_blank">Inicio</a> </div>
     </div>
 </div>
 <div class="container">
     <div class="page-header">
-        <h1 class="h3">Agregar nueva imágen. <a class="btn btn-default" href="vImagenesContrato.php"> <span class="glyphicon glyphicon-eye-open"></span> &nbsp; Mostrar todo </a></h1>
+        <h1 class="h3">Agregar nueva imágen. <a class="btn btn-default" href="vImagenContrato.php"> <span class="glyphicon glyphicon-eye-open"></span> &nbsp; Mostrar todo </a></h1>
     </div>
     <?php
     if(isset($errMSG)){

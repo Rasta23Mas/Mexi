@@ -21,14 +21,14 @@ if(isset($_GET['delete_id']))
     $stmt_select->execute(array(':uid'=>$_GET['delete_id']));
     $imgRow=$stmt_select->fetch(PDO::FETCH_ASSOC);
     // Ruta de la imagen
-    unlink("../../../Imagenes/".$imgRow['Imagen_Img']);
+    unlink("../../Imagenes/".$imgRow['Imagen_Img']);
 
     // Consulta para eliminar el registro de la base de datos
     $stmt_delete = $DB_con->prepare('DELETE FROM tbl_imagenes WHERE Imagen_ID =:uid');
     $stmt_delete->bindParam(':uid',$_GET['delete_id']);
     $stmt_delete->execute();
     // Redireccioa al inicio
-    header("Location: /vImagenesContrato.php");
+    header("Location: /vImagenContrato.php");
 }
 
 
@@ -49,7 +49,7 @@ if (isset($_GET['idContrato'])) {
 <body>
 <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
-        <div class="navbar-header"> <a class="navbar-brand" href="vImagenesContrato.php" title='Inicio' target="_blank">Inicio</a> </div>
+        <div class="navbar-header"> <a class="navbar-brand" href="vImagenContrato.php" title='Inicio' target="_blank">Inicio</a> </div>
     </div>
 </div>
 <div class="container">
