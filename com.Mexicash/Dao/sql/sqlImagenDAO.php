@@ -33,19 +33,6 @@ class TablaDatos
         return $this->$atributo;
     }
 
-
-    /* Anterior
-    public function listar(){
-          $sql=mysql_query("SELECT * FROM imagenes");
-          while($data=mysql_fetch_array($sql)){
-              echo "Titulo: <b>".$data['titulo']."</b>";
-              echo'<img src="data:image/jpeg;base64,'.base64_encode($data['img']).'" class="img-responsive img-rounded ">';
-              echo'<a href="javascript:preEditImg('.$data['id'].');" class="btn btn-success"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Pre-Editar</a>';
-              echo'<a href="javascript:deleteImg('.$data['id'].');" class="btn btn-danger"><span  style="padding-left: 10px" class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Eliminar</a>';
-              echo "<hr><br>";
-          }
-      }*/
-
     public function listar()
     {
         //$sql=mysql_query("SELECT * FROM imagenes");
@@ -53,6 +40,7 @@ class TablaDatos
         $rs = $this->conexion->query($buscar);
         while ($data = mysqli_fetch_array($rs)) {
             echo "Titulo: <b>" . $data['titulo'] . "</b>";
+            echo "<br>";
             echo '<img src="data:image/jpeg;base64,' . base64_encode($data['img']) . '" class="img-responsive img-rounded ">';
             echo '<a href="javascript:preEditImg(' . $data['id'] . ');" class="btn btn-success"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Pre-Editar</a>';
             echo '<a href="javascript:deleteImg(' . $data['id'] . ');" class="btn btn-danger"><span  style="padding-left: 10px" class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Eliminar</a>';

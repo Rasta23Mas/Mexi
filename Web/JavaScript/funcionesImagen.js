@@ -40,15 +40,15 @@ $(function() {
 //ingreso imagen blob
 $('#buttonRegist').click(function(){
     var fileImage = $('#fileImage').val();
-    var titulo=$('#titleImage').val();
-    var contrato=$('#titleImage').val();
-    if(titulo!=""){
+    var descripcion =$('#DescripcionFoto').val();
+    var contrato=$('#idContratoFotos').val();
+    if(descripcion!=""){
         if (fileImage != '') {
 
             var form_data = new FormData();
             var opciones = "ingresoImg";
             form_data.append('opciones', opciones);
-            form_data.append('titulo', titulo);
+            form_data.append('titulo', descripcion);
             form_data.append("fileImage", document.getElementById('fileImage').files[0]);
             console.log(form_data);
             $.ajax({
@@ -59,7 +59,7 @@ $('#buttonRegist').click(function(){
                 processData: false,
                 success:function(data) {
                     $('#data').html(data);
-                    $('#titleImage').val("");
+                    $('#DescripcionFoto').val("");
                     $('#imgSalida').hide();
                 }
             });
@@ -67,7 +67,7 @@ $('#buttonRegist').click(function(){
             alert("No ingreso Archivo de imagen");
         }
     }else{
-        alert("Error No ingreso titulo");
+        alert("Error No ingreso la descripcion");
     }
 });
 
@@ -90,14 +90,14 @@ function preEditImg(idImg){
         }
     });
 }
-function getTitle(idImg){	//obtengo el titulo y lo coloca en el input
+function getTitle(idImg){	//obtengo la descripcion y lo coloca en el input
     var opciones="getTitle";
     $.ajax({
         url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
         method:"POST",
         data:{idImg:idImg,opciones:opciones},
         success:function(data) {
-            $('#titleImage').val(data);
+            $('#DescripcionFoto').val(data);
         }
     });
 }
@@ -119,13 +119,13 @@ function deleteImg(idImg){
 //edito Imagen
 $('#buttonEdit').click(function(){
     var fileImage = $('#fileImage').val();
-    var titulo=$('#titleImage').val();
-    if(titulo!=""){
+    var descripcion=$('#DescripcionFoto').val();
+    if(descripcion!=""){
         if (fileImage != '') {// si actualizo la imagen
             var form_data = new FormData();
             var opciones = "editoImg";
             form_data.append('opciones', opciones);
-            form_data.append('titulo', titulo);
+            form_data.append('titulo', descripcion);
             form_data.append('idImgGlobal', idImgGlobal);
             form_data.append("fileImage", document.getElementById('fileImage').files[0]);
             console.log(form_data);
@@ -139,34 +139,141 @@ $('#buttonEdit').click(function(){
                     $('#data').html(data);
                 }
             });
-        }else{//edito Solo el Titulo.
-            var titulo = $('#titleImage').val();
+        }else{//edito Solo la descripcion
+            var descripcion = $('#DescripcionFoto').val();
             var opciones = "editoSinImg";
             $.ajax({
                 url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
                 method:"POST",
-                data:{idImgGlobal:idImgGlobal,titulo:titulo,opciones:opciones},
+                data:{idImgGlobal:idImgGlobal,titulo:descripcion,opciones:opciones},
                 success:function(data) {
                     $('#data').html(data);
                 }
             });
         }
         $('#opcionValor').val('Ingresar');
-        $('#titleImage').val("");
+        $('#DescripcionFoto').val("");
         $('#imagenEditar').hide();
         $('#imgSalida').hide();
         $('#buttonEdit').hide();
         $('#buttonRegist').show();
     }else{
-        alert("No ingreso titulo");
+        alert("No ingreso la descripcion");
     }
 });
 
 $('#buttonCancel').click(function(){//limpio los campos
     $('#opcionValor').val('Ingresar');
-    $('#titleImage').val("");
+    $('#DescripcionFoto').val("");
     $('#imagenEditar').hide();
     $('#imgSalida').hide();
     $('#buttonEdit').hide();
     $('#buttonRegist').show();
 });
+
+function llenarTablaImagen(idContratoBusqueda) {
+    var dataEnviar = {
+        "idContratoBusqueda": idContratoBusqueda
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Imagen/llenarTablaImg.php',
+        data: dataEnviar,
+        dataType: "json",
+
+        success: function (datos) {
+            alert("Refrescando tabla detalle de contrato.");
+            var html = '';
+            var i = 0;
+            var Num = 1;
+            var llenatabla = 0;
+            if (datos.length > 0) {
+                for (i; i < datos.length; i++) {
+                    llenatabla++
+
+                    var Formulario = datos[i].Formulario;
+                    if (Formulario == 3) {
+                        var Marca = datos[i].Marca;
+                        var Modelo = datos[i].Modelo;
+                        var Vehiculo = datos[i].Vehiculo;
+                        var Anio = datos[i].Anio;
+                        var ColorAuto = datos[i].ColorAuto;
+                        var Obs = datos[i].Obs;
+                        var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto;
+                        var Detalle = Marca + " " + Modelo;
+                        html += '<tr align="center">' +
+                            '<td>' + idContratoBusqueda + '</td>' +
+                            '<td>' + Num + '</td>' +
+                            '<td>' + Vehiculo + '</td>' +
+                            '<td>' + Descripcion + '</td>' +
+                            '<td>' + Obs + '</td>' +
+                            '</tr>';
+                    } else {
+                        var TipoElectronico = datos[i].TipoElectronico;
+                        var MarcaElectronico = datos[i].MarcaElectronico;
+                        var ModeloElectronico = datos[i].ModeloElectronico;
+                        var TipoMetal = datos[i].TipoMetal;
+                        var Kilataje = datos[i].Kilataje;
+                        var Calidad = datos[i].Calidad;
+                        var Detalle = datos[i].Detalle;
+
+                        Formulario = parseInt(Formulario);
+                        if (TipoElectronico === null) {
+                            TipoElectronico = '';
+                        }
+                        if (MarcaElectronico === null) {
+                            MarcaElectronico = '';
+                        }
+                        if (ModeloElectronico === null) {
+                            ModeloElectronico = '';
+                        }
+                        if (TipoMetal === null) {
+                            TipoMetal = '';
+                        }
+                        if (Kilataje === null) {
+                            Kilataje = '';
+                        }
+                        if (Calidad === null) {
+                            Calidad = '';
+                        }
+                        if (Detalle === null) {
+                            Detalle = '';
+                        }
+
+                        if (Formulario == 1) {
+                            var Descripcion = Kilataje + " " + Calidad;
+                            html += '<tr align="center">' +
+                                '<td>' + idContratoBusqueda + '</td>' +
+                                '<td>' + Num + '</td>' +
+                                '<td>' + TipoMetal + '</td>' +
+                                '<td>' + Descripcion + '</td>' +
+                                '<td>' + Detalle + '</td>' +
+                                '<td align="center">' +
+                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ')">' +
+                                '</td>' +
+                                '</tr>';
+                        } else if (Formulario == 2) {
+                            var Descripcion = MarcaElectronico + " " + ModeloElectronico;
+                            html += '<tr align="center">' +
+                                '<td>' + idContratoBusqueda + '</td>' +
+                                '<td>' + Num + '</td>' +
+                                '<td>' + TipoElectronico + '</td>' +
+                                '<td>' + Descripcion + '</td>' +
+                                '<td>' + Detalle + '</td>' +
+                                '<td align="center">' +
+                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="verFotosContrato(' + idContratoBusqueda + ')">' +
+                                '</td>' +
+                                '</tr>';
+                        }
+                    }
+
+                    Num++;
+                }
+                $('#idTBodyContratoDetalle').html(html);
+            } else {
+                alertify.error("El contrato no existe.");
+            }
+        }
+    });
+    $("#divDetallesContrato").load('tablaDetalleContrato.php');
+}

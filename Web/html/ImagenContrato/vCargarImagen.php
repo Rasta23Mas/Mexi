@@ -7,58 +7,107 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if(!isset($_SESSION["idUsuario"])){
+if (!isset($_SESSION["idUsuario"])) {
     header("Location: ../../../index.php");
     session_destroy();
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once (HTML_PATH."menuGeneral.php");
+include_once(HTML_PATH . "menuGeneral.php");
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <!--Generales-->
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Subir Fotos</title>
     <script src="../../JavaScript/funcionesImagen.js"></script>
 
     <script type="application/javascript">
-        var idContrato = <?php echo $idContrato ?>;
-        alert(idContrato)
-        $("#idContratoFotos").val(idContrato);
-        var test = $("#idContratoFotos").val();
-        alert(test);
+        $(document).ready(function () {
+            var idContratoFotos = <?php echo $idContrato ?>;
+            $("#idContratoFotos").val(idContratoFotos);
+            llenarTablaImagen(idContratoFotos);
+        })
     </script>
+    <style type="text/css">
 
+        .inputCliente {
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 
 <body>
-<div class="col-md-2 offset-md-1">
-    <br><br>
+<div class="row">
+    <div class="col-md-1">
+        <br>
+    </div>
+    <div class="col-md-3">
+        <table width="100%" border="1">
+            <tr>
+                <td colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr class="border-primary border">
+                <td style=" background: dodgerblue; color:white; ">
+                    <label>&nbsp;
+                        Contrato</label>
+                </td>
+                <td align="center" style="width: 180px">
+                    <input type="text" name="ContratoFotos" id="idContratoFotos" style="width: 70px"
+                           disabled/>
+                </td>
+            </tr>
+            <tr class="border-primary border">
+                <td style=" background: dodgerblue; color:white; ">
+                    <label>&nbsp;
+                        Descripción</label>
+                </td>
+                <td align="center" style="width: 180px">
+                    <input type="text" name="descripcionFoto" id="DescripcionFoto" style="width: 70px"
+                           class="inputCliente"
+                           onkeypress="return soloNumeros(event)" disabled/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="fileImage" accept="image/*" value="Subir">
+                        <label class="custom-file-label" for="inputGroupFile04">Subir Archivo</label>
+                        <br>
+                        <img id="imgSalida" src=""/>
+                        <div id="imagenEditar">
+                        </div>
+                        <br> <br>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-7 offset-md-1">
+        <h3>Archivos del contrato</h3>
+        <hr>
+        <div id="data">
+        </div>
+    </div>
+    <div class="col-md-1">
+        <br>
+    </div>
 
+</div>
+<div class="row">
+    <div class="col-md-1">
+        <br>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+<div class="col-md-2 offset-md-1 invisible">
     <div class="form-group">
-        <div class="input-group mb-1">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button">Contrato</button>
-            </div>
-            <input type="text" class="form-control" id="idContratoFotos" value="144">
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button">Descripcion</button>
-            </div>
-            <input type="text" class="form-control" id="titleImage">
-        </div>
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="fileImage" accept="image/*">
-            <label class="custom-file-label" for="inputGroupFile04">Archivo</label>
-            <br>
-            <img id="imgSalida" src=""/>
-            <div id="imagenEditar">
-            </div>
-            <br> <br>
-        </div>
-
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary" type="button">Opcion</button>
@@ -73,16 +122,6 @@ include_once (HTML_PATH."menuGeneral.php");
         <br><br>
     </div>
 </div>
-
-<div  class="col-md-3 offset-md-1">
-    <h3>Imagenes</h3>
-    <hr>
-    <div id="data">
-        <!--Aca se cargan los datos-->
-    </div>
-</div>
-
-
 </body>
 
 </html>
