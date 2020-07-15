@@ -1,20 +1,20 @@
 <?php
 error_reporting( ~E_NOTICE );
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(BASE_PATH . "Conexion.php");
+include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
 
 if(isset($_GET['edit_id']) && !empty($_GET['edit_id']))
 {
     $id = $_GET['edit_id'];
-    $stmt_edit = $this->conexion->prepare('SELECT Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
+    $stmt_edit = $DB_con->prepare('SELECT Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
     $stmt_edit->execute(array(':uid'=>$id));
     $edit_row = $stmt_edit->fetch(PDO::FETCH_ASSOC);
     extract($edit_row);
 }
 else
 {
-    header("Location: index.php");
+    header("Location: vImagenesContrato.php");
 }
 
 if(isset($_POST['btn_save_updates']))
@@ -59,7 +59,7 @@ if(isset($_POST['btn_save_updates']))
     // if no error occured, continue ....
     if(!isset($errMSG))
     {
-        $stmt = $this->conexion->prepare('UPDATE tbl_imagenes 
+        $stmt = $DB_con->prepare('UPDATE tbl_imagenes 
 									 SET Imagen_Marca=:uname, 
 										 Imagen_Tipo=:ujob, 
 										 Imagen_Img=:upic 
@@ -73,7 +73,7 @@ if(isset($_POST['btn_save_updates']))
             ?>
             <script>
                 alert('Archivo editado correctamente ...');
-                window.location.href='index.php';
+                window.location.href='vImagenesContrato.php';
             </script>
             <?php
         }
@@ -103,12 +103,12 @@ include_once(HTML_PATH . "menuGeneral.php");
 <body>
 <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
-        <div class="navbar-header"> <a class="navbar-brand" href="index.php" title='Inicio' target="_blank">Inicio</a> </div>
+        <div class="navbar-header"> <a class="navbar-brand" href="vImagenesContrato.php" title='Inicio' target="_blank">Inicio</a> </div>
     </div>
 </div>
 <div class="container">
     <div class="page-header">
-        <h1 class="h2">Actualización producto. <a class="btn btn-default" href="index.php"> Mostrar todos los modelos </a></h1>
+        <h1 class="h2">Actualización producto. <a class="btn btn-default" href="vImagenesContrato.php"> Mostrar todos los modelos </a></h1>
     </div>
     <div class="clearfix"></div>
     <form method="post" enctype="multipart/form-data" class="form-horizontal">

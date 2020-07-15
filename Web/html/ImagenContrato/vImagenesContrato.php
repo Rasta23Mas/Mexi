@@ -1,26 +1,36 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+if(!isset($_SESSION["idUsuario"])){
+    header("Location: ../../../index.php");
+    session_destroy();
+}
 // Archivo de conexion con la base de datos
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(BASE_PATH . "Conexion.php");
+include_once(BASE_PATH . "ConexionImg.php");
+include_once(HTML_PATH . "menuGeneral.php");
 date_default_timezone_set('America/Mexico_City');
 // Condicional para validar el borrado de la imagen
+
 if(isset($_GET['delete_id']))
 {
     // Selecciona imagen a borrar
-    $stmt_select = $this->conexion->prepare('SELECT Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
+    $stmt_select = $DB_con->prepare('SELECT Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
     $stmt_select->execute(array(':uid'=>$_GET['delete_id']));
     $imgRow=$stmt_select->fetch(PDO::FETCH_ASSOC);
     // Ruta de la imagen
     unlink("../../../Imagenes/".$imgRow['Imagen_Img']);
 
     // Consulta para eliminar el registro de la base de datos
-    $stmt_delete = $this->conexion->prepare('DELETE FROM tbl_imagenes WHERE Imagen_ID =:uid');
+    $stmt_delete = $DB_con->prepare('DELETE FROM tbl_imagenes WHERE Imagen_ID =:uid');
     $stmt_delete->bindParam(':uid',$_GET['delete_id']);
     $stmt_delete->execute();
     // Redireccioa al inicio
-    header("Location: vImagenesContrato.php");
+    header("Location: /vImagenesContrato.php");
 }
-include_once(HTML_PATH . "menuGeneral.php");
+
 
 $idContrato = 0;
 if (isset($_GET['idContrato'])) {
@@ -32,10 +42,8 @@ if (isset($_GET['idContrato'])) {
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes" />
-    <title>Subir imagen al servidor usando PDO MySQL</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
-    <script src="bootstrap/js/jquery.min.js"></script>
+    <title>Subir imagen.</title>
+  
 </head>
 
 <body>
@@ -52,7 +60,7 @@ if (isset($_GET['idContrato'])) {
     <div class="row">
         <?php
 
-        $stmt = $this->conexion->prepare('SELECT Imagen_ID, Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes ORDER BY Imagen_ID DESC');
+        $stmt = $DB_con->prepare('SELECT Imagen_ID, Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes ORDER BY Imagen_ID DESC');
         $stmt->execute();
 
         if($stmt->rowCount() > 0)
@@ -80,8 +88,6 @@ if (isset($_GET['idContrato'])) {
 
         ?>
     </div>
-    <div class="alert alert-success"> <strong>Tutorial Vinculo!</strong> <a href="https://baulcode.com">Ir al Tutorial</a>! </div>
 </div>
-<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
 $tipoUsuario = $_SESSION['tipoUsuario'];
 $cajaInactiva = $_SESSION['cajaInactiva'];
 
@@ -23,6 +26,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
     <script type="application/javascript">
         $(document).ready(function () {
             var tipoUser = <?php echo $tipoUsuario; ?>;
+
             var cajaInactiva = <?php echo $cajaInactiva; ?>;
 
             if (tipoUser == 2) {
