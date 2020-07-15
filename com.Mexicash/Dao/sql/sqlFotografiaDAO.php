@@ -27,7 +27,6 @@ class sqlFotografiaDAO
     public function llenarTablaImagenes($idContratoBusqueda)
     {
         $datos = array();
-        $sucursal = $_SESSION["sucursal"];
 
         try {
             $buscar = "SELECT * FROM imagenes

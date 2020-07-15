@@ -29,6 +29,7 @@ include_once(HTML_PATH . "menuGeneral.php");
             var idContratoFotos = <?php echo $idContrato ?>;
             $("#idContratoFotos").val(idContratoFotos);
             llenarTablaImagen(idContratoFotos);
+            $("#divContratoFotos").load('tablaImagen.php');
         })
     </script>
     <style type="text/css">
@@ -91,6 +92,8 @@ include_once(HTML_PATH . "menuGeneral.php");
         <h3>Archivos del contrato</h3>
         <hr>
         <div id="data">
+        </div>
+        <div id="divContratoFotos" class="col col-lg-12">
         </div>
     </div>
     <div class="col-md-1">

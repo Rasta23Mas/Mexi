@@ -1,26 +1,29 @@
-var idImgGlobal="";//obtengo el id la imagen
-$(document).ready(function(){
+var idImgGlobal = "";//obtengo el id la imagen
+$(document).ready(function () {
     dataDeTablas();
     $('#buttonEdit').hide();
 });
-function dataDeTablas(){
-    var opciones="listar";
-    $.ajax({
-        url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
-        method:"POST",
-        data:{opciones:opciones},
 
-        success:function(data) {
+function dataDeTablas() {
+    var opciones = "listar";
+    $.ajax({
+        url: "../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
+        method: "POST",
+        data: {opciones: opciones},
+
+        success: function (data) {
             $('#data').html(data);
         }
     });
 
 }
+
 //previsualizo la imagen insertar
-$(function() {
-    $('#fileImage').change(function(e) {
+$(function () {
+    $('#fileImage').change(function (e) {
         addImage(e);
     });
+
     function addImage(e) {
         $('#imagenEditar').hide();
         $('#imgSalida').show();
@@ -32,17 +35,18 @@ $(function() {
         reader.onload = fileOnload;
         reader.readAsDataURL(file);
     }
+
     function fileOnload(e) {
         var result = e.target.result;
         $('#imgSalida').attr("src", result);
     }
 });
 //ingreso imagen blob
-$('#buttonRegist').click(function(){
+$('#buttonRegist').click(function () {
     var fileImage = $('#fileImage').val();
-    var descripcion =$('#DescripcionFoto').val();
-    var contrato=$('#idContratoFotos').val();
-    if(descripcion!=""){
+    var descripcion = $('#DescripcionFoto').val();
+    var contrato = $('#idContratoFotos').val();
+    if (descripcion != "") {
         if (fileImage != '') {
 
             var form_data = new FormData();
@@ -52,75 +56,76 @@ $('#buttonRegist').click(function(){
             form_data.append("fileImage", document.getElementById('fileImage').files[0]);
             console.log(form_data);
             $.ajax({
-                url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
+                url: "../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
                 method: "POST",
                 data: form_data,
                 contentType: false,
                 processData: false,
-                success:function(data) {
+                success: function (data) {
                     $('#data').html(data);
                     $('#DescripcionFoto').val("");
                     $('#imgSalida').hide();
                 }
             });
-        }else{
+        } else {
             alert("No ingreso Archivo de imagen");
         }
-    }else{
+    } else {
         alert("Error No ingreso la descripcion");
     }
 });
 
 //pre editcion img
-function preEditImg(idImg){
+function preEditImg(idImg) {
     $('#buttonEdit').show();
     $('#buttonRegist').hide();
     $('#imagenEditar').show();
-    idImgGlobal=idImg;
+    idImgGlobal = idImg;
     //alert("edito "+idImg);
     $('#opcionValor').val('Edicion');
-    var opciones="getOneImg";
+    var opciones = "getOneImg";
     $.ajax({
-        url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
-        method:"POST",
-        data:{idImg:idImg,opciones:opciones},
-        success:function(data) {
+        url: "../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
+        method: "POST",
+        data: {idImg: idImg, opciones: opciones},
+        success: function (data) {
             $('#imagenEditar').html(data);
             getTitle(idImg);	//llamo a la funcion
         }
     });
 }
-function getTitle(idImg){	//obtengo la descripcion y lo coloca en el input
-    var opciones="getTitle";
+
+function getTitle(idImg) {	//obtengo la descripcion y lo coloca en el input
+    var opciones = "getTitle";
     $.ajax({
-        url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
-        method:"POST",
-        data:{idImg:idImg,opciones:opciones},
-        success:function(data) {
+        url: "../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
+        method: "POST",
+        data: {idImg: idImg, opciones: opciones},
+        success: function (data) {
             $('#DescripcionFoto').val(data);
         }
     });
 }
 
 //borro Img
-function deleteImg(idImg){
+function deleteImg(idImg) {
     //	alert("borro "+idImg);
-    var opciones="deleteData";
+    var opciones = "deleteData";
     $.ajax({
-        url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
-        method:"POST",
-        data:{idImg:idImg,opciones:opciones},
-        success:function(data) {
+        url: "../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
+        method: "POST",
+        data: {idImg: idImg, opciones: opciones},
+        success: function (data) {
             $('#data').html(data);
         }
     });
 }
 
 //edito Imagen
-$('#buttonEdit').click(function(){
+$('#buttonEdit').click(function () {
     var fileImage = $('#fileImage').val();
-    var descripcion=$('#DescripcionFoto').val();
-    if(descripcion!=""){
+    var descripcion = $('#DescripcionFoto').val();
+    if (descripcion != "") {
         if (fileImage != '') {// si actualizo la imagen
             var form_data = new FormData();
             var opciones = "editoImg";
@@ -130,23 +135,23 @@ $('#buttonEdit').click(function(){
             form_data.append("fileImage", document.getElementById('fileImage').files[0]);
             console.log(form_data);
             $.ajax({
-                url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
+                url: "../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
                 method: "POST",
                 data: form_data,
                 contentType: false,
                 processData: false,
-                success:function(data) {
+                success: function (data) {
                     $('#data').html(data);
                 }
             });
-        }else{//edito Solo la descripcion
+        } else {//edito Solo la descripcion
             var descripcion = $('#DescripcionFoto').val();
             var opciones = "editoSinImg";
             $.ajax({
-                url:"../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
-                method:"POST",
-                data:{idImgGlobal:idImgGlobal,titulo:descripcion,opciones:opciones},
-                success:function(data) {
+                url: "../../../com.Mexicash/Controlador/Imagen/ImagenOpciones.php",
+                method: "POST",
+                data: {idImgGlobal: idImgGlobal, titulo: descripcion, opciones: opciones},
+                success: function (data) {
                     $('#data').html(data);
                 }
             });
@@ -157,12 +162,12 @@ $('#buttonEdit').click(function(){
         $('#imgSalida').hide();
         $('#buttonEdit').hide();
         $('#buttonRegist').show();
-    }else{
+    } else {
         alert("No ingreso la descripcion");
     }
 });
 
-$('#buttonCancel').click(function(){//limpio los campos
+$('#buttonCancel').click(function () {//limpio los campos
     $('#opcionValor').val('Ingresar');
     $('#DescripcionFoto').val("");
     $('#imagenEditar').hide();
@@ -186,94 +191,27 @@ function llenarTablaImagen(idContratoBusqueda) {
             var html = '';
             var i = 0;
             var Num = 1;
-            var llenatabla = 0;
             if (datos.length > 0) {
                 for (i; i < datos.length; i++) {
-                    llenatabla++
+                    var id = datos[i].id;
+                    var descripcion = datos[i].descripcion;
+                    var img = datos[i].img;
 
-                    var Formulario = datos[i].Formulario;
-                    if (Formulario == 3) {
-                        var Marca = datos[i].Marca;
-                        var Modelo = datos[i].Modelo;
-                        var Vehiculo = datos[i].Vehiculo;
-                        var Anio = datos[i].Anio;
-                        var ColorAuto = datos[i].ColorAuto;
-                        var Obs = datos[i].Obs;
-                        var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto;
-                        var Detalle = Marca + " " + Modelo;
-                        html += '<tr align="center">' +
-                            '<td>' + idContratoBusqueda + '</td>' +
-                            '<td>' + Num + '</td>' +
-                            '<td>' + Vehiculo + '</td>' +
-                            '<td>' + Descripcion + '</td>' +
-                            '<td>' + Obs + '</td>' +
-                            '</tr>';
-                    } else {
-                        var TipoElectronico = datos[i].TipoElectronico;
-                        var MarcaElectronico = datos[i].MarcaElectronico;
-                        var ModeloElectronico = datos[i].ModeloElectronico;
-                        var TipoMetal = datos[i].TipoMetal;
-                        var Kilataje = datos[i].Kilataje;
-                        var Calidad = datos[i].Calidad;
-                        var Detalle = datos[i].Detalle;
-
-                        Formulario = parseInt(Formulario);
-                        if (TipoElectronico === null) {
-                            TipoElectronico = '';
-                        }
-                        if (MarcaElectronico === null) {
-                            MarcaElectronico = '';
-                        }
-                        if (ModeloElectronico === null) {
-                            ModeloElectronico = '';
-                        }
-                        if (TipoMetal === null) {
-                            TipoMetal = '';
-                        }
-                        if (Kilataje === null) {
-                            Kilataje = '';
-                        }
-                        if (Calidad === null) {
-                            Calidad = '';
-                        }
-                        if (Detalle === null) {
-                            Detalle = '';
-                        }
-
-                        if (Formulario == 1) {
-                            var Descripcion = Kilataje + " " + Calidad;
-                            html += '<tr align="center">' +
-                                '<td>' + idContratoBusqueda + '</td>' +
-                                '<td>' + Num + '</td>' +
-                                '<td>' + TipoMetal + '</td>' +
-                                '<td>' + Descripcion + '</td>' +
-                                '<td>' + Detalle + '</td>' +
-                                '<td align="center">' +
-                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ')">' +
-                                '</td>' +
-                                '</tr>';
-                        } else if (Formulario == 2) {
-                            var Descripcion = MarcaElectronico + " " + ModeloElectronico;
-                            html += '<tr align="center">' +
-                                '<td>' + idContratoBusqueda + '</td>' +
-                                '<td>' + Num + '</td>' +
-                                '<td>' + TipoElectronico + '</td>' +
-                                '<td>' + Descripcion + '</td>' +
-                                '<td>' + Detalle + '</td>' +
-                                '<td align="center">' +
-                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="verFotosContrato(' + idContratoBusqueda + ')">' +
-                                '</td>' +
-                                '</tr>';
-                        }
-                    }
+                    html += '<tr align="center">' +
+                        '<td>' + Num + '</td>' +
+                        '<td>' + descripcion + '</td>' +
+                        '<td><img src="data:image/jpeg;base64," . base64_encode(img) . " class="img-responsive img-rounded "></td>' +
+                        '<td>' + id + '</td>' +
+                        '<td>' + id + '</td>' +
+                        '</tr>';
 
                     Num++;
                 }
-                $('#idTBodyContratoDetalle').html(html);
+                $('#idTBodyImagenes').html(html);
             } else {
                 alertify.error("El contrato no existe.");
             }
         }
     });
-    $("#divDetallesContrato").load('tablaDetalleContrato.php');
+    $("#divContratoFotos").load('tablaImagen.php');
 }
