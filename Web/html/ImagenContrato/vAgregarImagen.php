@@ -55,7 +55,7 @@ if (isset($_POST['btnsave'])) {
 
         if ($stmt->execute()) {
             $successMSG = "Nuevo registro insertado correctamente ...";
-            header("refresh:3;vImagenesContrato.php"); // redirects image view page after 5 seconds.
+            header("refresh:2;vImagenesContrato.php"); // redirects image view page after 5 seconds.
         } else {
             $errMSG = "Error al insertar ...";
         }

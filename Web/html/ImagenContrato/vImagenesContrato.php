@@ -10,7 +10,6 @@ if(!isset($_SESSION["idUsuario"])){
 // Archivo de conexion con la base de datos
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(BASE_PATH . "ConexionImg.php");
-include_once(HTML_PATH . "menuGeneral.php");
 date_default_timezone_set('America/Mexico_City');
 // Condicional para validar el borrado de la imagen
 
@@ -28,7 +27,7 @@ if(isset($_GET['delete_id']))
     $stmt_delete->bindParam(':uid',$_GET['delete_id']);
     $stmt_delete->execute();
     // Redireccioa al inicio
-    header("Location: /vImagenContrato.php");
+    header("Location: vImagenesContrato.php");
 }
 
 
@@ -36,6 +35,7 @@ $idContrato = 0;
 if (isset($_GET['idContrato'])) {
     $idContrato = $_GET['idContrato'];
 }
+include_once(HTML_PATH . "menuGeneral.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
