@@ -2,10 +2,10 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-/*if(!isset($_SESSION["idUsuario"])){
+if(!isset($_SESSION["idUsuario"])){
     header("Location: ../index.php");
     session_destroy();
-}*/
+}
 
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');

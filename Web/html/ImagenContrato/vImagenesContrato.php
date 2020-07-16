@@ -11,6 +11,7 @@ if (!isset($_SESSION["idUsuario"])) {
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
+
 // Condicional para validar el borrado de la imagen
 
 if (isset($_GET['delete_id'])) {
@@ -31,7 +32,7 @@ if (isset($_GET['delete_id'])) {
 
 
 $idContrato = 0;
-$articulo= 0;
+$articulo = 0;
 if (isset($_GET['idContrato'])) {
     $idContrato = $_GET['idContrato'];
 }
@@ -51,6 +52,7 @@ include_once(HTML_PATH . "menuGeneral.php");
         $(document).ready(function () {
             var idContrato = <?php echo $idContrato ?>;
             $("#idContratoFotos").val(idContrato);
+
             var articulo = <?php echo $articulo ?>;
             $("#idArticuloFotos").val(articulo);
         })
@@ -82,17 +84,17 @@ include_once(HTML_PATH . "menuGeneral.php");
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-3">
+        <div class="col-xs-4">
             <table class="table table-bordered ">
                 <tr>
                     <td><label class="control-label">Contrato</label></td>
                     <td><input class="form-control" type="text" name="user_name" id="idContratoFotos"
-                               style="width: 50px" disabled/></td>
+                               style="width: 80px" disabled/></td>
                 </tr>
                 <tr>
                     <td><label class="control-label">Articulo</label></td>
                     <td><input class="form-control" type="text" name="user_name" id="idArticuloFotos"
-                               style="width: 50px" disabled/></td>
+                               style="width: 80px" disabled/></td>
                 </tr>
             </table>
         </div>
@@ -107,7 +109,10 @@ include_once(HTML_PATH . "menuGeneral.php");
                 extract($row);
                 ?>
                 <div class="col-xs-3">
-                    <p class="page-header"><?php echo $Imagen_Marca . "&nbsp;/&nbsp;" . $Imagen_Tipo; ?></p>
+<!--                    <p class="page-header"><?php /*echo $Imagen_Marca . "&nbsp;/&nbsp;" . $Imagen_Tipo; */?></p>
+-->
+                    <p class="page-header">Descripción : <?php echo $Imagen_Tipo; ?></p>
+
                     <img src="../../../Imagenes/<?php echo $row['Imagen_Img']; ?>" class="img-rounded" width="250px"
                          height="250px"/>
                     <p class="page-header">
