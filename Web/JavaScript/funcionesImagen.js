@@ -4,8 +4,9 @@ function MostrarTodos() {
 }
 
 function AgregarFoto() {
-    var idContrato = $("#idContratoFotos").text();
-    location.href = '../ImagenContrato/vAgregarImagen.php?idContrato=' + idContrato;
+    var idContrato = $("#idContratoFotos").val();
+    var articulo = $("#idArticuloFotos").val();
+    location.href = '../ImagenContrato/vAgregarImagen.php?idContrato=' + idContrato+ '&articulo='+articulo;
 }
 
 function EditarFoto(editarId) {

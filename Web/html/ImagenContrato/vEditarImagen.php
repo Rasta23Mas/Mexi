@@ -7,7 +7,8 @@ date_default_timezone_set('America/Mexico_City');
 if(isset($_GET['edit_id']) && !empty($_GET['edit_id']))
 {
     $id = $_GET['edit_id'];
-    $stmt_edit = $DB_con->prepare('SELECT Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
+    //$stmt_edit = $DB_con->prepare('SELECT Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
+    $stmt_edit = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE Imagen_ID =:uid');
     $stmt_edit->execute(array(':uid'=>$id));
     $edit_row = $stmt_edit->fetch(PDO::FETCH_ASSOC);
     extract($edit_row);
@@ -19,7 +20,7 @@ else
 
 if(isset($_POST['btn_save_updates']))
 {
-    $username = $_POST['user_name'];// user name
+    //$username = $_POST['user_name'];// user name
     $userjob = $_POST['user_job'];// user email
 
     $imgFile = $_FILES['user_image']['name'];
@@ -59,12 +60,16 @@ if(isset($_POST['btn_save_updates']))
     // if no error occured, continue ....
     if(!isset($errMSG))
     {
-        $stmt = $DB_con->prepare('UPDATE tbl_imagenes 
+        /*$stmt = $DB_con->prepare('UPDATE tbl_imagenes
 									 SET Imagen_Marca=:uname, 
 										 Imagen_Tipo=:ujob, 
 										 Imagen_Img=:upic 
+								   WHERE Imagen_ID=:uid');*/
+        $stmt = $DB_con->prepare('UPDATE cat_imagenes 
+									 SET descripcion=:ujob, 
+										 Imagen_Img=:upic 
 								   WHERE Imagen_ID=:uid');
-        $stmt->bindParam(':uname',$username);
+        //$stmt->bindParam(':uname',$username);
         $stmt->bindParam(':ujob',$userjob);
         $stmt->bindParam(':upic',$userpic);
         $stmt->bindParam(':uid',$id);
@@ -134,12 +139,8 @@ include_once(HTML_PATH . "menuGeneral.php");
         ?>
         <table class="table table-bordered table-responsive">
             <tr>
-                <td><label class="control-label">Marca.</label></td>
-                <td><input class="form-control" type="text" name="user_name" value="<?php echo $Imagen_Marca; ?>" required /></td>
-            </tr>
-            <tr>
                 <td><label class="control-label">Tipo.</label></td>
-                <td><input class="form-control" type="text" name="user_job" value="<?php echo $Imagen_Tipo; ?>" required /></td>
+                <td><input class="form-control" type="text" name="user_job" value="<?php echo $descripcion; ?>" required /></td>
             </tr>
             <tr>
                 <td><label class="control-label">Imágen.</label></td>

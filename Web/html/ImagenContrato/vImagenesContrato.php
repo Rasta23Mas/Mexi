@@ -13,6 +13,14 @@ include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
 
 // Condicional para validar el borrado de la imagen
+$idContrato = 0;
+$articulo = 0;
+if (isset($_GET['idContrato'])) {
+    $idContrato = $_GET['idContrato'];
+}
+if (isset($_GET['articulo'])) {
+    $articulo = $_GET['articulo'];
+}
 
 if (isset($_GET['delete_id'])) {
     // Selecciona imagen a borrar
@@ -31,14 +39,7 @@ if (isset($_GET['delete_id'])) {
 }
 
 
-$idContrato = 0;
-$articulo = 0;
-if (isset($_GET['idContrato'])) {
-    $idContrato = $_GET['idContrato'];
-}
-if (isset($_GET['articulo'])) {
-    $articulo = $_GET['articulo'];
-}
+
 include_once(HTML_PATH . "menuGeneral.php");
 ?>
 <!DOCTYPE html>
@@ -101,7 +102,8 @@ include_once(HTML_PATH . "menuGeneral.php");
     </div>
     <div class="row">
         <?php
-        $stmt = $DB_con->prepare('SELECT Imagen_ID, Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes ORDER BY Imagen_ID DESC');
+       // $stmt = $DB_con->prepare('SELECT Imagen_ID, Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes ORDER BY Imagen_ID DESC');
+        $stmt = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE id_contrato = ' . $idContrato . '  AND Eliminado = 0  ORDER BY Imagen_ID DESC');
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -109,10 +111,7 @@ include_once(HTML_PATH . "menuGeneral.php");
                 extract($row);
                 ?>
                 <div class="col-xs-3">
-<!--                    <p class="page-header"><?php /*echo $Imagen_Marca . "&nbsp;/&nbsp;" . $Imagen_Tipo; */?></p>
--->
-                    <p class="page-header">Descripción : <?php echo $Imagen_Tipo; ?></p>
-
+                    <p class="page-header">Descripción : <?php echo $descripcion; ?></p>
                     <img src="../../../Imagenes/<?php echo $row['Imagen_Img']; ?>" class="img-rounded" width="250px"
                          height="250px"/>
                     <p class="page-header">

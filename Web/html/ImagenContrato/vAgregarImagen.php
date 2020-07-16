@@ -1,24 +1,33 @@
 <?php
-
+if (!isset($_SESSION)) {
+    session_start();
+}
 error_reporting(~E_NOTICE); // avoid notice
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
 
+$idContrato = 0;
+$articulo = 0;
+if (isset($_GET['idContrato'])) {
+    $idContrato = $_GET['idContrato'];
+}
+if (isset($_GET['articulo'])) {
+    $articulo = $_GET['articulo'];
+}
+
 if (isset($_POST['btnsave'])) {
-    $username = $_POST['user_name'];// user name
-    $userjob = $_POST['user_job'];// user email
+    //$username = $_POST['user_name'];// user name
+    $desc = $_POST['desc_name'];// user email
 
     $imgFile = $_FILES['user_image']['name'];
     $tmp_dir = $_FILES['user_image']['tmp_name'];
     $imgSize = $_FILES['user_image']['size'];
 
 
-    if (empty($username)) {
-        $errMSG = "Ingrese la marca";
-    } else if (empty($userjob)) {
-        $errMSG = "Ingrese el tipo.";
+    if (empty($desc)) {
+        $errMSG = "Ingrese la descripción.";
     } else if (empty($imgFile)) {
         $errMSG = "Seleccione el archivo de imagen.";
     } else {
@@ -48,14 +57,22 @@ if (isset($_POST['btnsave'])) {
 
     // if no error occured, continue ....
     if (!isset($errMSG)) {
-        $stmt = $DB_con->prepare('INSERT INTO tbl_imagenes(Imagen_Marca,Imagen_Tipo,Imagen_Img) VALUES(:uname, :ujob, :upic)');
-        $stmt->bindParam(':uname', $username);
-        $stmt->bindParam(':ujob', $userjob);
+        $fechaCreacion = date('Y-m-d H:i:s');
+        $idCierreCaja = $_SESSION['idCierreCaja'];
+        $desc = mb_strtoupper($desc, 'UTF-8');
+
+        $stmt = $DB_con->prepare('INSERT INTO cat_imagenes(id_contrato,articulo,descripcion,id_cierreCaja,fechaCreacion,Imagen_Img) 
+VALUES(:contrato,:art,:des,:cierre,:fecha,:upic)');
+        $stmt->bindParam(':contrato', $idContrato);
+        $stmt->bindParam(':art', $articulo);
+        $stmt->bindParam(':des', $desc);
+        $stmt->bindParam(':cierre', $idCierreCaja);
+        $stmt->bindParam(':fecha', $fechaCreacion);
         $stmt->bindParam(':upic', $userpic);
 
         if ($stmt->execute()) {
             $successMSG = "Nuevo registro insertado correctamente ...";
-            header("refresh:2;vImagenesContrato.php"); // redirects image view page after 5 seconds.
+            header("refresh:2;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
         } else {
             $errMSG = "Error al insertar ...";
         }
@@ -71,10 +88,6 @@ include_once(HTML_PATH . "menuGeneral.php");
     <title>Subir imagen.</title>
     <script src="../../JavaScript/funcionesImagen.js"></script>
     <script type="application/javascript">
-        $(document).ready(function () {
-            var idContrato = <?php echo $idContrato ?>;
-            document.getElementById('idContratoFotos').innerHTML = idContrato;
-        })
     </script>
 </head>
 <body>
@@ -127,14 +140,22 @@ include_once(HTML_PATH . "menuGeneral.php");
             <form method="post" enctype="multipart/form-data" class="form-horizontal">
                 <table class="table table-bordered ">
                     <tr>
-                        <td><label class="control-label">Marca</label></td>
+                        <td><label class="control-label">Contrato</label></td>
                         <td><input class="form-control" type="text" name="user_name"
-                                   value="<?php echo $username; ?>" style="width: 50px"/></td>
+                                   value="<?php echo $idContrato; ?>"
+                                   style="width: 80px" disabled/></td>
                     </tr>
                     <tr>
-                        <td><label class="control-label">Modelo</label></td>
-                        <td><input class="form-control" type="text" name="user_job"
-                                   value="<?php echo $userjob; ?>" style="width: 50px"/></td>
+                        <td><label class="control-label">Articulo</label></td>
+                        <td><input class="form-control" type="text" name="user_name"
+                                   value="<?php echo $articulo; ?>"
+                                   style="width: 80px" disabled/></td>
+                    </tr>
+
+                    <tr>
+                        <td><label class="control-label">Descripción:</label></td>
+                        <td><input class="form-control" type="text" name="desc_name"
+                                   value="<?php echo $desc; ?>" style="width: 200px"/></td>
                     </tr>
                     <tr>
                         <td><label class="control-label">Imágen.</label></td>
