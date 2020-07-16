@@ -120,7 +120,7 @@ include_once (HTML_PATH."menuGeneral.php");
                     <td align="center" style="width: 180px" class="border-primary border">
                         <label>Contrato:</label>
                         <input type="text" name="idContratoName" id="idContratoConsulta" style="width: 70px"
-                               onkeypress="return soloNumeros(event)" disabled/>
+                               onkeypress="return contratoBusquedaCon(event)" disabled/>
                     </td>
                     <td align="center" style="width: 120px" class="border-primary border border-right-0">
                         <label>Nombre:</label>

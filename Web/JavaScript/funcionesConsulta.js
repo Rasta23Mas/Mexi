@@ -2,6 +2,22 @@ var radioSelect = 0;
 var tipoContratoGlobal = 1;
 
 var ContratoReimprimir = 0;
+function contratoBusquedaCon(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode === 13 && !e.shiftKey) {
+        BusquedaConsulta();
+    }
+    return patron.test(te);
+}
+
 function radioContrato() {
     LimpiarConsulta();
     $('#idContratoRadio').prop('checked', true);
@@ -62,7 +78,9 @@ function nombreAutocompletarConsulta() {
                     $("#idDireccionConsulta").val(direccionComp);
                     //Hacemos desaparecer el resto de sugerencias
                     $('#suggestionsNombreEmpeno').fadeOut(1000);
+                    BusquedaConsulta();
                     return false;
+
                 });
             }
         });
@@ -254,6 +272,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             '<td>' + Obs + '</td>' +
                             '</tr>';
                     } else {
+                        var serieArticulo = datos[i].id_SerieArticulo;
                         var TipoElectronico = datos[i].TipoElectronico;
                         var MarcaElectronico = datos[i].MarcaElectronico;
                         var ModeloElectronico = datos[i].ModeloElectronico;
@@ -289,24 +308,24 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             var Descripcion = Kilataje + " " + Calidad;
                             html += '<tr align="center">' +
                                 '<td>' + idContratoBusqueda + '</td>' +
-                                '<td>' + Num + '</td>' +
+                                '<td>' + serieArticulo + '</td>' +
                                 '<td>' + TipoMetal + '</td>' +
                                 '<td>' + Descripcion + '</td>' +
                                 '<td>' + Detalle + '</td>' +
                                 '<td align="center">' +
-                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ')">' +
+                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ','+ serieArticulo +')">' +
                                 '</td>' +
                                 '</tr>';
                         } else if (Formulario == 2) {
                             var Descripcion = MarcaElectronico + " " + ModeloElectronico;
                             html += '<tr align="center">' +
                                 '<td>' + idContratoBusqueda + '</td>' +
-                                '<td>' + Num + '</td>' +
+                                '<td>' + serieArticulo + '</td>' +
                                 '<td>' + TipoElectronico + '</td>' +
                                 '<td>' + Descripcion + '</td>' +
                                 '<td>' + Detalle + '</td>' +
                                 '<td align="center">' +
-                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="verFotosContrato(' + idContratoBusqueda + ')">' +
+                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="verFotosContrato(' + idContratoBusqueda + ','+ serieArticulo +')">' +
                                 '</td>' +
                                 '</tr>';
                         }
@@ -652,6 +671,8 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
     });
 }
 
-function verFotosContrato(idContrato) {
- location.href = '../ImagenContrato/vImagenesContrato.php?idContrato='+idContrato;
+function verFotosContrato(idContrato,SerieArticulo) {
+    alert(idContrato);
+    alert(SerieArticulo);
+ location.href = '../ImagenContrato/vImagenesContrato.php?idContrato='+idContrato+'articulo='+SerieArticulo;
 }

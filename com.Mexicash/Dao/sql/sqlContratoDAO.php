@@ -169,7 +169,7 @@ class sqlContratoDAO
         $sucursal = $_SESSION["sucursal"];
 
         try {
-            $buscar = "SELECT  Con.id_Formulario AS Formulario,
+            $buscar = "SELECT  Con.id_Formulario AS Formulario,Art.id_SerieArticulo,
                          ET.descripcion AS TipoElectronico, EM.descripcion AS MarcaElectronico,
                         EMOD.descripcion AS ModeloElectronico,
                         Art.detalle AS Detalle, TA.descripcion AS TipoMetal, TK.descripcion as Kilataje,
@@ -189,6 +189,7 @@ class sqlContratoDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "Formulario" => $row["Formulario"],
+                        "id_SerieArticulo" => $row["id_SerieArticulo"],
                         "TipoElectronico" => $row["TipoElectronico"],
                         "MarcaElectronico" => $row["MarcaElectronico"],
                         "ModeloElectronico" => $row["ModeloElectronico"],

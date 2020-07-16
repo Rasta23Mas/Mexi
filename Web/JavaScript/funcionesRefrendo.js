@@ -49,10 +49,20 @@ var SeguDescGlb = 0;
 //tipo de formulario 1 refrendo normal, 2 refrendo auto; 3 desempeño normal, 4 desempeño auto
 
 function busquedaRefrendo(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
         //estatusContrato();
         busquedaMovimiento();
     }
+    return patron.test(te);
 }
 
 function busquedaMovimiento() {
@@ -487,11 +497,6 @@ function buscarDatosContrato() {
                     var saldoPendiente = prestamoNuevoNota;
 
 
-
-
-
-
-
                     var interesParaIva = totalInteresNuevoNota;
                     var prestamoParaIva = prestamoNuevoNota;
                     interesParaIva = Number(interesParaIva);
@@ -626,7 +631,7 @@ function buscarDetalleAuto() {
                         Obs = '';
                     }
 
-                    detalleContrato = "Marca: " + Marca + ", Modelo: " + Modelo + "\n" + " Año: " + Anio + " "+
+                    detalleContrato = "Marca: " + Marca + ", Modelo: " + Modelo + "\n" + " Año: " + Anio + " " +
                         ColorAuto + "\n" +
                         Obs + "\n";
                 }
@@ -640,13 +645,6 @@ function buscarDetalleAuto() {
 function cancelar() {
     location.reload();
 }
-
-
-
-
-
-
-
 
 
 function descuentoNuevo(e) {
@@ -719,14 +717,14 @@ function descuentoTabla() {
     TasaDescGlb = Number(TasaDescGlb);
     AlmacDescGlb = Number(AlmacDescGlb);
     SeguDescGlb = Number(SeguDescGlb);
-    tasaPorcentaje = (TasaDescGlb/tasaTotal)* 100;
-    almPorcentaje = (AlmacDescGlb/tasaTotal)* 100;
+    tasaPorcentaje = (TasaDescGlb / tasaTotal) * 100;
+    almPorcentaje = (AlmacDescGlb / tasaTotal) * 100;
     tasaPorcentaje = Math.round(tasaPorcentaje * 100) / 100;
     almPorcentaje = Math.round(almPorcentaje * 100) / 100;
-    seguroPorcentaje = 100-(tasaPorcentaje+almPorcentaje)
-    var tasaDescuento = (totalInteres * tasaPorcentaje)/100
-    var almDescuento = (totalInteres * almPorcentaje)/100
-    var segDescuento = (totalInteres * seguroPorcentaje)/100
+    seguroPorcentaje = 100 - (tasaPorcentaje + almPorcentaje)
+    var tasaDescuento = (totalInteres * tasaPorcentaje) / 100
+    var almDescuento = (totalInteres * almPorcentaje) / 100
+    var segDescuento = (totalInteres * seguroPorcentaje) / 100
     tasaDescuento = Math.round(tasaDescuento * 100) / 100;
     almDescuento = Math.round(almDescuento * 100) / 100;
     segDescuento = Math.round(segDescuento * 100) / 100;
@@ -815,8 +813,6 @@ function limpiarRefrendo() {
     $("#idDescuentoNotaNuevo").prop('disabled', false);
     $("#idAbonoCapitalNotaNuevo").prop('disabled', false);
     $("#idEfectivoNotaNuevo").prop('disabled', false);
-
-
 
 
 }
@@ -921,8 +917,8 @@ function generarNuevo() {
         idValidaToken = parseFloat(idValidaToken);
         if (idValidaToken != 0) {
             var totalVencInteres = $("#idTblInteresDesc").val();
-            var totalVencAlm =  $("#idTblAlmacenajeDesc").val();
-            var totalVencSeg =  $("#idTblSeguroDesc").val();
+            var totalVencAlm = $("#idTblAlmacenajeDesc").val();
+            var totalVencSeg = $("#idTblSeguroDesc").val();
 
             totalVencInteres = Math.round(totalVencInteres * 100) / 100;
             totalVencAlm = Math.round(totalVencAlm * 100) / 100;
@@ -975,7 +971,7 @@ function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, ne
     var movimiento = 0;
     if (tipeFormulario == 1) {
         movimiento = 4;
-    }else if (tipeFormulario == 2) {
+    } else if (tipeFormulario == 2) {
         movimiento = 8;
     }
 
@@ -1015,11 +1011,6 @@ function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, ne
         e_poliza = Math.round(e_poliza * 100) / 100;
         e_pension = Math.round(e_pension * 100) / 100;
     }
-
-
-
-
-
 
 
     var dataEnviar = {
@@ -1088,8 +1079,8 @@ function bitacoraPagosNuevo(ultimoMovimiento) {
     var costo_Contrato = 0;
 
     var totalVencInteres = $("#idTblInteresDesc").val();
-    var totalVencAlm =  $("#idTblAlmacenajeDesc").val();
-    var totalVencSeg =  $("#idTblSeguroDesc").val();
+    var totalVencAlm = $("#idTblAlmacenajeDesc").val();
+    var totalVencSeg = $("#idTblSeguroDesc").val();
 
     totalVencInteres = Math.round(totalVencInteres * 100) / 100;
     totalVencAlm = Math.round(totalVencAlm * 100) / 100;
