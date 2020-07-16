@@ -77,14 +77,17 @@ include_once(HTML_PATH . "menuGeneral.php");
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title>Subir, Insertar, Actualizar, Borrar una imágen usando PHP y MySQL</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes" />
+    <title>Subir imagen.</title>
+    <script src="../../JavaScript/funcionesImagen.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var idContrato = <?php echo $idContrato ?>;
+            document.getElementById('idContratoFotos').innerHTML = idContrato;
+        })
+    </script>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="bootstrap/js/jquery.min.js"></script>
 </head>
 <body>
 <div class="navbar navbar-default navbar-static-top" role="navigation">
