@@ -54,23 +54,34 @@ if (isset($_GET['idContrato'])) {
 
 <body>
 <div class="container">
-    <div>
-        <br>
+    <div class="row">
+        <div class="col-xs-3">
+            <br>
+        </div>
     </div>
-    <div class="page-header">
-        <td align="center">
-            <input type="button" class="btn btn-primary" value="Mostrar todos"
-                   onclick="MostrarTodos();">
-        </td>
-        <td align="center">
-            <input type="button" class="btn btn-primary" value="Agregar nuevo"
-                   onclick="AgregarFoto();">
-        </td>
+    <div class="row">
+        <div class="col-xs-3">
+            <table >
+                <tr>
+<!--                    <td align="center">
+                        <input type="button" class="btn btn-info" value="Mostrar todos"
+                               onclick="MostrarTodos();">
+                    </td>-->
+                    <td align="left">
+                        <input type="button" class="btn btn-success" value="Agregar nuevo"
+                               onclick="AgregarFoto();">
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <br />
+    <div class="row">
+        <div class="col-xs-3">
+            <br>
+        </div>
+    </div>
     <div class="row">
         <?php
-
         $stmt = $DB_con->prepare('SELECT Imagen_ID, Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes ORDER BY Imagen_ID DESC');
         $stmt->execute();
 
@@ -83,9 +94,18 @@ if (isset($_GET['idContrato'])) {
                 <div class="col-xs-3">
                     <label>Contrato:</label>
                     <label id="idContratoFotos"></label>
-                    <p class="page-header"><?php echo $Imagen_Marca."&nbsp;/&nbsp;".$Imagen_Tipo; ?></p>
+                    <p class="page-header"><?php echo $Imagen_Marca ."&nbsp;/&nbsp;".$Imagen_Tipo; ?></p>
                     <img src="../../../Imagenes/<?php echo $row['Imagen_Img']; ?>" class="img-rounded" width="250px" height="250px" />
-                    <p class="page-header"> <span> <a class="btn btn-info" href="vEditarImagen.php?edit_id=<?php echo $row['Imagen_ID']; ?>" title="click for edit" onclick="return confirm('Esta seguro de editar el archivo ?')"><span class="glyphicon glyphicon-edit"></span> Editar</a> <a class="btn btn-danger" href="?delete_id=<?php echo $row['Imagen_ID']; ?>" title="click for delete" onclick="return confirm('Esta seguro de eliminar el archivo?')"><span class="glyphicon glyphicon-remove-circle"></span> Borrar</a> </span> </p>
+                    <p class="page-header">
+                        <br>
+                    </p>
+                    <p class="page-header">
+                        <input type="button" class="btn btn-success" value="&nbsp;Editar&nbsp;"
+                               onclick="EditarFoto(<?php echo $row['Imagen_ID']; ?>);">
+                        &nbsp;
+                        <input type="button" class="btn btn-danger" value="Eliminar"
+                               onclick="ElimnarFoto(<?php echo $row['Imagen_ID']; ?>);">
+                    </p>
                 </div>
                 <?php
             }

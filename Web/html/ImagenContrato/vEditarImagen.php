@@ -72,8 +72,8 @@ if(isset($_POST['btn_save_updates']))
         if($stmt->execute()){
             ?>
             <script>
-                alert('Archivo editado correctamente ...');
-                window.location.href='vImagenContrato.php';
+                alert('Archivo editado correctamente.')
+                window.location.href='vImagenesContrato.php';
             </script>
             <?php
         }
@@ -87,28 +87,41 @@ include_once(HTML_PATH . "menuGeneral.php");
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <title>Subir imagen al servidor usando PDO MySQL</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
-
-    <!-- custom stylesheet -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Latest compiled and minified JavaScript -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes"/>
+    <title>Subir imagen.</title>
+    <script src="../../JavaScript/funcionesImagen.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var idContrato = <?php echo $idContrato ?>;
+            document.getElementById('idContratoFotos').innerHTML = idContrato;
+        })
+    </script>
 
 </head>
 <body>
 <div class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header"> <a class="navbar-brand" href="vImagenContrato.php" title='Inicio' target="_blank">Inicio</a> </div>
+    <div>
+        <br>
     </div>
 </div>
 <div class="container">
-    <div class="page-header">
-        <h1 class="h2">Actualización producto. <a class="btn btn-default" href="vImagenContrato.php"> Mostrar todos los modelos </a></h1>
+    <div class="row">
+        <div class="col-md-5">
+            <table>
+                <tr>
+                    <td align="center">
+                        <input type="button" class="btn btn-info" value="Mostrar todos"
+                               onclick="MostrarTodos();">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <br>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="clearfix"></div>
     <form method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -134,12 +147,15 @@ include_once(HTML_PATH . "menuGeneral.php");
                     <input class="input-group" type="file" name="user_image" accept="image/*" /></td>
             </tr>
             <tr>
-                <td colspan="2"><button type="submit" name="btn_save_updates" class="btn btn-default"> <span class="glyphicon glyphicon-save"></span> Actualizar </button>
-                    <a class="btn btn-default" href="index.php"> <span class="glyphicon glyphicon-backward"></span> cancelar </a></td>
+                <td colspan="2">
+                    <button type="submit" name="btn_save_updates" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-save"></span> Actualizar </button>
+                    <input type="button" class="btn btn-warning" value="Cancelar"
+                           onclick="CancelarEditar();">
+                    </td>
             </tr>
         </table>
     </form>
-    <div class="alert alert-success"> <strong>Tutorial Vinculo!</strong> <a href="https://baulcode.com">Ir al Tutorial</a>! </div>
 </div>
 </body>
 </html>
