@@ -321,7 +321,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr id="trPolizaNota">
                         <td align="right">
-                            <h5>Poliza:</label></h5>
+                            <h5>Póliza:</label></h5>
                         </td>
                         <td align="right">
                             <h5><input type="text" id="idPolizaNota" name="polizaNota"

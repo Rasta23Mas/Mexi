@@ -276,7 +276,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="6" class="table-info border border-dark" align="right">Costo Poliza Mensual:</td>
+                        <td colspan="6" class="table-info border border-dark" align="right">Costo Póliza Mensual:</td>
                         <td colspan="6" class="border border-dark" align="center">
                             <input id="idPolizaSeguroMon" name="poliza" type="text" style="width: 70px; text-align:right;"
                                    onkeypress="return calcularPension(event)"
@@ -458,13 +458,13 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                             <label>Aseguradora</label>
                         </td>
                         <td >
-                            <label>Poliza</label>
+                            <label>Póliza</label>
                         </td>
                         <td >
                             <label>Fecha Vencimiento</label>
                         </td>
                         <td >
-                            <label>Tipo Poliza</label>
+                            <label>Tipo Póliza</label>
                         </td>
                     </tr>
                     <tr>

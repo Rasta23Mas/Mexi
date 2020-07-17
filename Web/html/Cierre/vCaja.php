@@ -363,7 +363,7 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                             <label id="CantPoliza"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
+                            <label>&nbsp;&nbsp;&nbsp;PÓLIZA:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
                             <label id="poliza"></label>
