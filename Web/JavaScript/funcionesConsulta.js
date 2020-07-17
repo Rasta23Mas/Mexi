@@ -303,6 +303,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                         if (Detalle === null) {
                             Detalle = '';
                         }
+                        serieArticulo = parseInt(serieArticulo);
 
                         if (Formulario == 1) {
                             var Descripcion = Kilataje + " " + Calidad;

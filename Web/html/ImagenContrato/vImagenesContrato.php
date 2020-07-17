@@ -103,7 +103,7 @@ include_once(HTML_PATH . "menuGeneral.php");
     <div class="row">
         <?php
        // $stmt = $DB_con->prepare('SELECT Imagen_ID, Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes ORDER BY Imagen_ID DESC');
-        $stmt = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE id_contrato = ' . $idContrato . '  AND Eliminado = 0  ORDER BY Imagen_ID DESC');
+        $stmt = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE id_contrato =  '. $idContrato .' AND articulo = '. $articulo .' AND Eliminado = 0  ORDER BY Imagen_ID DESC');
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -125,6 +125,12 @@ include_once(HTML_PATH . "menuGeneral.php");
                                onclick="ElimnarFoto(<?php echo $row['Imagen_ID']; ?>);">
                     </p>
                 </div>
+        <div class="col-xs-1">
+            <p class="page-header">
+                <br>&nbsp;&nbsp;
+            </p>
+        </div>
+
                 <?php
             }
         } else {

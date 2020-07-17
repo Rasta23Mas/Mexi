@@ -1,12 +1,25 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
 error_reporting( ~E_NOTICE );
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
 
+$idContrato = 3;
+$articulo = 3;
+if (isset($_GET['idContrato'])) {
+    $idContrato = $_GET['idContrato'];
+}
+if (isset($_GET['articulo'])) {
+    $articulo = $_GET['articulo'];
+}
+
 if(isset($_GET['edit_id']) && !empty($_GET['edit_id']))
 {
     $id = $_GET['edit_id'];
+
     //$stmt_edit = $DB_con->prepare('SELECT Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
     $stmt_edit = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE Imagen_ID =:uid');
     $stmt_edit->execute(array(':uid'=>$id));
@@ -21,7 +34,7 @@ else
 if(isset($_POST['btn_save_updates']))
 {
     //$username = $_POST['user_name'];// user name
-    $userjob = $_POST['user_job'];// user email
+    $desc = $_POST['descripcion'];// user email
 
     $imgFile = $_FILES['user_image']['name'];
     $tmp_dir = $_FILES['user_image']['tmp_name'];
@@ -65,12 +78,20 @@ if(isset($_POST['btn_save_updates']))
 										 Imagen_Tipo=:ujob, 
 										 Imagen_Img=:upic 
 								   WHERE Imagen_ID=:uid');*/
+        $fechaMod = date('Y-m-d H:i:s');
+        $idCierreCaja = $_SESSION['idCierreCaja'];
+        $desc = mb_strtoupper($desc, 'UTF-8');
+
         $stmt = $DB_con->prepare('UPDATE cat_imagenes 
-									 SET descripcion=:ujob, 
+									 SET descripcion=:des, 
+									      id_cierreCajaMod=:cierre, 
+									       fechaModificacion=:fecha, 
 										 Imagen_Img=:upic 
 								   WHERE Imagen_ID=:uid');
         //$stmt->bindParam(':uname',$username);
-        $stmt->bindParam(':ujob',$userjob);
+        $stmt->bindParam(':des',$desc);
+        $stmt->bindParam(':cierre', $idCierreCaja);
+        $stmt->bindParam(':fecha', $fechaCreacion);
         $stmt->bindParam(':upic',$userpic);
         $stmt->bindParam(':uid',$id);
 
@@ -78,7 +99,8 @@ if(isset($_POST['btn_save_updates']))
             ?>
             <script>
                 alert('Archivo editado correctamente.')
-                window.location.href='vImagenesContrato.php';
+                window.location.href='vImagenesContrato.php?idContrato='<?php  $idContrato ?>'&articulo='<?php  $articulo ?> ;
+                //location.href = 'vImagenesContrato.php?idContrato=' + idContrato+ '&articulo='+articulo;
             </script>
             <?php
         }
@@ -96,12 +118,6 @@ include_once(HTML_PATH . "menuGeneral.php");
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes"/>
     <title>Subir imagen.</title>
     <script src="../../JavaScript/funcionesImagen.js"></script>
-    <script type="application/javascript">
-        $(document).ready(function () {
-            var idContrato = <?php echo $idContrato ?>;
-            document.getElementById('idContratoFotos').innerHTML = idContrato;
-        })
-    </script>
 
 </head>
 <body>
@@ -139,8 +155,20 @@ include_once(HTML_PATH . "menuGeneral.php");
         ?>
         <table class="table table-bordered table-responsive">
             <tr>
+                <td><label class="control-label">Contrato</label></td>
+                <td><input class="form-control" type="text" name="user_name"
+                           value="<?php echo $idContrato; ?>"
+                           style="width: 80px" disabled/></td>
+            </tr>
+            <tr>
+                <td><label class="control-label">Articulo</label></td>
+                <td><input class="form-control" type="text" name="user_name"
+                           value="<?php echo $articulo; ?>"
+                           style="width: 80px" disabled/></td>
+            </tr>
+            <tr>
                 <td><label class="control-label">Tipo.</label></td>
-                <td><input class="form-control" type="text" name="user_job" value="<?php echo $descripcion; ?>" required /></td>
+                <td><input class="form-control" type="text" name="descripcion" value="<?php echo $descripcion; ?>" required /></td>
             </tr>
             <tr>
                 <td><label class="control-label">Imágen.</label></td>
