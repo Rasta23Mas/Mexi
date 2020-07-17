@@ -24,18 +24,24 @@ if (isset($_GET['articulo'])) {
 
 if (isset($_GET['delete_id'])) {
     // Selecciona imagen a borrar
-    $stmt_select = $DB_con->prepare('SELECT Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
+    $stmt_select = $DB_con->prepare('SELECT Imagen_Img FROM cat_imagenes WHERE Imagen_ID =:uid');
     $stmt_select->execute(array(':uid' => $_GET['delete_id']));
     $imgRow = $stmt_select->fetch(PDO::FETCH_ASSOC);
     // Ruta de la imagen
     unlink("../../../Imagenes/" . $imgRow['Imagen_Img']);
 
     // Consulta para eliminar el registro de la base de datos
-    $stmt_delete = $DB_con->prepare('DELETE FROM tbl_imagenes WHERE Imagen_ID =:uid');
+    //$stmt_delete = $DB_con->prepare('DELETE FROM cat_imagenes WHERE Imagen_ID =:uid');
+    $stmt_delete = $DB_con->prepare('UPDATE cat_imagenes 
+									 SET Eliminado=1
+								   WHERE Imagen_ID=:uid');
     $stmt_delete->bindParam(':uid', $_GET['delete_id']);
     $stmt_delete->execute();
     // Redireccioa al inicio
-    header("Location: vImagenesContrato.php");
+    // header("Location: vImagenesContrato.php");
+    $successMSG = "Registro eliminado exitosamente ...";
+    header("refresh:1;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
+
 }
 
 
@@ -84,6 +90,27 @@ include_once(HTML_PATH . "menuGeneral.php");
             <br>
         </div>
     </div>
+    <?php
+    if (isset($errMSG)) {
+        ?>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-info-sign"></span>
+                    <strong><?php echo $errMSG; ?></strong></div>
+            </div>
+        </div>
+        <?php
+    } else if (isset($successMSG)) {
+        ?>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="alert alert-danger"><strong><span
+                                class="glyphicon glyphicon-info-sign"></span> <?php echo $successMSG; ?></strong></div>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
     <div class="row">
         <div class="col-xs-4">
             <table class="table table-bordered ">

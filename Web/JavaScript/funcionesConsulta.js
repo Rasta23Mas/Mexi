@@ -270,6 +270,9 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             '<td>' + Vehiculo + '</td>' +
                             '<td>' + Descripcion + '</td>' +
                             '<td>' + Obs + '</td>' +
+                            '<td align="center">' +
+                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ','+ Num +')">' +
+                            '</td>' +
                             '</tr>';
                     } else {
                         var serieArticulo = datos[i].id_SerieArticulo;

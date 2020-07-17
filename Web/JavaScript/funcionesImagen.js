@@ -22,7 +22,7 @@ function ElimnarFoto(delete_id) {
         function () {
             var idContrato = $("#idContratoFotos").val();
             var articulo = $("#idArticuloFotos").val();
-            location.href = '../ImagenContrato/vImagenesContrato.php?delete_id=' + delete_id+'&idContrato=' + idContrato+ '&articulo='+articulo;;
+            location.href = '../ImagenContrato/vImagenesContrato.php?delete_id=' + delete_id+'&idContrato=' + idContrato+ '&articulo='+articulo;
         },
         function () {
             alertify.error('Cancelado')
@@ -30,13 +30,6 @@ function ElimnarFoto(delete_id) {
 }
 
 function CancelarEditar() {
-    var idContrato = 147;
-    location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato;
-}
-
-
-function guardarEdicion() {
-    alert("entra");
     var idContrato = $("#idContratoFotos").val();
     var articulo = $("#idArticuloFotos").val();
     location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato+ '&articulo='+articulo;

@@ -97,7 +97,7 @@ if(isset($_POST['btn_save_updates']))
 
         if($stmt->execute()){
             $successMSG = "Registro editado correctamente ...";
-            header("refresh:2;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
+            header("refresh:1;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
         }
         else{
             $errMSG = "Los datos no fueron actualizados !";

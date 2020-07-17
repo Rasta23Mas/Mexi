@@ -72,7 +72,7 @@ VALUES(:contrato,:art,:des,:cierre,:fecha,:upic)');
 
         if ($stmt->execute()) {
             $successMSG = "Nuevo registro insertado correctamente ...";
-            header("refresh:2;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
+            header("refresh:1;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
         } else {
             $errMSG = "Error al insertar ...";
         }

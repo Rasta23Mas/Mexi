@@ -211,12 +211,6 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar Sesión</a></li>
                 </ul>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="../ImagenContrato/vImagenesContrato.php?idContrato=147&articulo=01"  id="navbarDropdownMenuLink"aria-haspopup="true"
-                   aria-expanded="false">
-                    img test
-                </a>
-            </li>
         </ul>
     </div>
 </nav>
