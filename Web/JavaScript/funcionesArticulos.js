@@ -718,6 +718,9 @@ function calculaAvaluoAuto() {
 
             $("#idTotalPrestamoAutoMon").prop('disabled', true);
             $("#idTotalAvaluoAutoMon").prop('disabled', true);
+            calcularPension();
+            calcularPoliza();
+            calcularGps();
 
 
         }
@@ -1092,65 +1095,36 @@ function cmbModeloVEmpeFromModal(tipoId, marcaId) {
     });
 }
 
-function calcularPoliza(e) {
-    var tecla;
-    tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
-        return true;
+function calcularPension() {
+    var idPensionMon = $("#idPensionMon").val();
+    if (idPensionMon == "") {
+        idPensionMon = 0;
     }
-    var patron;
-    patron = /[0-9.]/
-    var te;
-    te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
-            var idPensionMon = $("#idPensionMon").val();
-            $("#idPension").val(idPensionMon);
-            idPensionMon = formatoMoneda(idPensionMon);
-            $("#idPensionMon").val(idPensionMon);
-            $("#idPensionMon").prop('disabled', true);
-        $("#idPolizaSeguroMon").focus();
-    }
-    return patron.test(te);
+    $("#idPension").val(idPensionMon);
+    idPensionMon = formatoMoneda(idPensionMon);
+    $("#idPensionMon").val(idPensionMon);
+    $("#idPensionMon").prop('disabled', true);
 }
 
-function calcularPension(e) {
-    var tecla;
-    tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
-        return true;
+function calcularPoliza() {
+    var idPolizaMon = $("#idPolizaSeguroMon").val();
+    if (idPolizaMon == "") {
+        idPolizaMon = 0;
     }
-    var patron;
-    patron = /[0-9.]/
-    var te;
-    te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
-        var idPolizaMon = $("#idPolizaSeguroMon").val();
-        $("#idPolizaSeguro").val(idPolizaMon);
-        idPolizaMon = formatoMoneda(idPolizaMon);
-        $("#idPolizaSeguroMon").val(idPolizaMon);
-        $("#idPolizaSeguroMon").prop('disabled', true);
-        $("#idGPSMon").focus();
-    }
-    return patron.test(te);
+    $("#idPolizaSeguro").val(idPolizaMon);
+    idPolizaMon = formatoMoneda(idPolizaMon);
+    $("#idPolizaSeguroMon").val(idPolizaMon);
+    $("#idPolizaSeguroMon").prop('disabled', true);
 }
 
-function calcularGps(e) {
-    var tecla;
-    tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
-        return true;
+function calcularGps() {
+    var idGpsMon = $("#idGPSMon").val();
+    if (idGpsMon == "") {
+        idGpsMon = 0;
     }
-    var patron;
-    patron = /[0-9.]/
-    var te;
-    te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
-        var idPolizaMon = $("#idGPSMon").val();
-        $("#idGPS").val(idPolizaMon);
-        idPolizaMon = formatoMoneda(idPolizaMon);
-        $("#idGPSMon").val(idPolizaMon);
-        $("#idGPSMon").prop('disabled', true);
-        $("#idTipoVehiculo").focus();
-    }
-    return patron.test(te);
+    $("#idGPS").val(idGpsMon);
+    idGpsMon = formatoMoneda(idGpsMon);
+    $("#idGPSMon").val(idGpsMon);
+    $("#idGPSMon").prop('disabled', true);
+    $("#idTipoVehiculo").focus();
 }

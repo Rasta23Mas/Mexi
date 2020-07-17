@@ -242,34 +242,31 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4" class="table-info border border-dark" align="center">Total Avalúo</td>
-                        <td colspan="4" class="table-info border border-dark" align="center">Total Préstamo</td>
-                        <td colspan="4" class="table-info border border-dark" align="center"></td>
-                    </tr>
-                    <tr class="headt">
-                        <td colspan="4" class="border border-dark" align="center">
+                        <td colspan="6" class="table-info border border-dark" align="right">Total Avalúo</td>
+                        <td colspan="6" class="border border-dark" align="left">
+                            &nbsp;&nbsp;
                             <input id="idTotalAvaluoAutoMon" name="totalAvaluo" type="double"
                                    onkeypress="return isNumberDecimal(event)"
                                    style="width: 100px; text-align:right;" disabled
                                    class="inputCliente"/>
                         </td>
-                        <td colspan="4" class="border border-dark" align="center">
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="table-info border border-dark" align="right">Total Préstamo</td>
+                        <td colspan="6" class="border border-dark" align="left">
+                            &nbsp;&nbsp;
                             <input id="idTotalPrestamoAutoMon" name="totalPrestamo" type="double"
                                    onkeypress="return isNumberDecimal(event)"
                                    style="width: 100px; text-align:right;"
                                    class="inputCliente"/>
                         </td>
-                        <td colspan="4" class="border border-dark" align="center">
-                            <input type="button" class="btn btn-info" value="Calcular" onclick="calculaAvaluoAuto()">&nbsp;&nbsp;
-                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="limpiarAuto()">
-
-                        </td>
                     </tr>
                     <tr class="headt">
                         <td colspan="6" class="table-info border border-dark" align="right">Costo Pensión Mensual:</td>
-                        <td colspan="6" class="border border-dark" align="center">
+                        <td colspan="6" class="border border-dark" align="left">
+                            &nbsp;&nbsp;
                             <input id="idPensionMon" name="poliza" type="text" style="width: 70px; text-align:right;"
-                                   onkeypress="return calcularPoliza(event)"
+                                   onkeypress="return isNumberDecimal(event)"
                                    class="inputCliente"/>
                             <input id="idPension" name="poliza" type="text" style="width: 70px; text-align:right;"
                                    class="invisible"/>
@@ -277,9 +274,10 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     </tr>
                     <tr class="headt">
                         <td colspan="6" class="table-info border border-dark" align="right">Costo Póliza Mensual:</td>
-                        <td colspan="6" class="border border-dark" align="center">
+                        <td colspan="6" class="border border-dark" align="left">
+                            &nbsp;&nbsp;
                             <input id="idPolizaSeguroMon" name="poliza" type="text" style="width: 70px; text-align:right;"
-                                   onkeypress="return calcularPension(event)"
+                                   onkeypress="return isNumberDecimal(event)"
                                    class="inputCliente"/>
                             <input id="idPolizaSeguro" name="poliza" type="text" style="width: 70px; text-align:right;"
                                    class="invisible"/>
@@ -287,12 +285,23 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     </tr>
                     <tr class="headt">
                         <td colspan="6" class="table-info border border-dark" align="right">Costo GPS Mensual:</td>
-                        <td colspan="6" class="border border-dark" align="center">
+                        <td colspan="6" class="border border-dark" align="left">
+                            &nbsp;&nbsp;
                             <input id="idGPSMon" name="gps" type="text" style="width: 70px; text-align:right;"
-                                   onkeypress="return calcularGps(event)"
+                                   onkeypress="return isNumberDecimal(event)"
                                    class="inputCliente"/>
                             <input id="idGPS" name="gps" type="text" style="width: 70px; text-align:right;"
                                    class="invisible" />
+                        </td>
+                    </tr>
+                    <tr class="headt">
+                        <td colspan="6" class="table-info border border-dark" align="right">
+                            <br>
+                        </td>
+                        <td colspan="6" class="border border-dark" align="center">
+                            <input type="button" class="btn btn-info" value="Calcular" onclick="calculaAvaluoAuto()">&nbsp;&nbsp;
+                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="limpiarAuto()">
+
                         </td>
                     </tr>
                     <tr>
