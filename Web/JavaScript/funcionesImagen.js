@@ -34,3 +34,10 @@ function CancelarEditar() {
     location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato;
 }
 
+
+function guardarEdicion() {
+    alert("entra");
+    var idContrato = $("#idContratoFotos").val();
+    var articulo = $("#idArticuloFotos").val();
+    location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato+ '&articulo='+articulo;
+}

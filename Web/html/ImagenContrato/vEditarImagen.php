@@ -34,7 +34,7 @@ else
 if(isset($_POST['btn_save_updates']))
 {
     //$username = $_POST['user_name'];// user name
-    $desc = $_POST['descripcion'];// user email
+    $desc = $_POST['desc_name'];// user email
 
     $imgFile = $_FILES['user_image']['name'];
     $tmp_dir = $_FILES['user_image']['tmp_name'];
@@ -96,13 +96,8 @@ if(isset($_POST['btn_save_updates']))
         $stmt->bindParam(':uid',$id);
 
         if($stmt->execute()){
-            ?>
-            <script>
-                alert('Archivo editado correctamente.')
-                window.location.href='vImagenesContrato.php?idContrato='<?php  $idContrato ?>'&articulo='<?php  $articulo ?> ;
-                //location.href = 'vImagenesContrato.php?idContrato=' + idContrato+ '&articulo='+articulo;
-            </script>
-            <?php
+            $successMSG = "Registro editado correctamente ...";
+            header("refresh:2;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
         }
         else{
             $errMSG = "Los datos no fueron actualizados !";
@@ -149,26 +144,40 @@ include_once(HTML_PATH . "menuGeneral.php");
         <?php
         if(isset($errMSG)){
             ?>
-            <div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; <?php echo $errMSG; ?> </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-info-sign"></span>
+                        <strong><?php echo $errMSG; ?></strong></div>
+                </div>
+            </div>
+            <?php
+        }else if (isset($successMSG)) {
+            ?>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="alert alert-success"><strong><span
+                                    class="glyphicon glyphicon-info-sign"></span> <?php echo $successMSG; ?></strong></div>
+                </div>
+            </div>
             <?php
         }
         ?>
         <table class="table table-bordered table-responsive">
             <tr>
                 <td><label class="control-label">Contrato</label></td>
-                <td><input class="form-control" type="text" name="user_name"
+                <td><input class="form-control" type="text" name="contrato_name" id="idContratoFotos"
                            value="<?php echo $idContrato; ?>"
                            style="width: 80px" disabled/></td>
             </tr>
             <tr>
                 <td><label class="control-label">Articulo</label></td>
-                <td><input class="form-control" type="text" name="user_name"
+                <td><input class="form-control" type="text" name="art_name" id="idArticuloFotos"
                            value="<?php echo $articulo; ?>"
                            style="width: 80px" disabled/></td>
             </tr>
             <tr>
-                <td><label class="control-label">Tipo.</label></td>
-                <td><input class="form-control" type="text" name="descripcion" value="<?php echo $descripcion; ?>" required /></td>
+                <td><label class="control-label">Descripción.</label></td>
+                <td><input class="form-control" type="text" name="desc_name" value="<?php echo $descripcion; ?>" required /></td>
             </tr>
             <tr>
                 <td><label class="control-label">Imágen.</label></td>
