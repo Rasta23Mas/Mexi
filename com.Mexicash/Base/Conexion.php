@@ -13,10 +13,9 @@ class Conexion
     protected $error;
 
     //conexión web
- /* protected $server = "localhost";
-    protected $user = "u672450412_root";
-    protected $password = "12345";
-    protected $db = "";*/
+/*    protected $user = "u672450412_root";
+    protected $password = "12345";*/
+
 
 
 

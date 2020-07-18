@@ -3,7 +3,12 @@
 $Localhost = 'localhost';
 $Usuario_BD = 'root';
 $Password_BD = '';
+/*$Usuario_BD = "u672450412_root";
+$Password_BD = "12345";*/
+
 $Nombre_BD = 'u672450412_Mexicash';
+
+
 
 try{
     $DB_con = new PDO("mysql:host={$Localhost};dbname={$Nombre_BD};charset=UTF8",$Usuario_BD,$Password_BD);

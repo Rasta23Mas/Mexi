@@ -22,7 +22,7 @@ if($web==1){
     $server = "localhost";
     $user = "root";
     $password = "";
-    $db = "mexicash";
+    $db = "mexu672450412_Mexicashicash";
 }
 
 $mysql = new  mysqli($server, $user, $password, $db);

@@ -60,7 +60,7 @@ if ($web == 1) {
     $server = "localhost";
     $user = "root";
     $password = "";
-    $db = "mexicash";
+    $db = "u672450412_Mexicash";
 }
 
 
