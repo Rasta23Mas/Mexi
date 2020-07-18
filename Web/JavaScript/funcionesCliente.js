@@ -314,8 +314,8 @@ function historialCount($clienteEmpeno, $tipo) {
 
                 html += '<tr>' +
                     '<td>' + TotalEmpeno + '</td>' +
-                    '<td>' + TotalDesem + '</td>' +
                     '<td>' + TotalRefrendo + '</td>' +
+                    '<td>' + TotalDesem + '</td>' +
                     '<td>' + TotalAlmoneda + '</td>' +
                     '<td>' + TotalVenta + '</td>' +
                     '</tr>';

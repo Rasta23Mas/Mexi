@@ -661,48 +661,56 @@ function descuentoNuevo(e) {
         var descuento = $("#idDescuentoNotaNuevo").val();
         descuento = Number(descuento);
 
-        var interes = $("#interesPagarNuevoNota").val();
-        interes = Number(interes);
-        if (descuento <= interes) {
-            var abono = $("#abonoCapitalNuevoNota").val();
-            abono = Number(abono);
-            calcularTotalPagar(descuento, interes, abono)
+        if (descuento > 0) {
+            var interes = $("#interesPagarNuevoNota").val();
+            interes = Number(interes);
+            if (descuento <= interes) {
+                //var abono = $("#abonoCapitalNuevoNota").val();
+                var abono = 0;
+                calcularTotalPagar(descuento, interes, abono)
+                $("#descuentoNuevoNota").val(descuento);
+                var descuentoFormat = formatoMoneda(descuento)
+                $("#idDescuentoNotaNuevo").val(descuentoFormat);
+                $("#idDescuentoNotaNuevo").prop('disabled', true);
+                $("#idAbonoCapitalNotaNuevo").prop('disabled', false);
+                $("#idAbonoCapitalNotaNuevo").focus();
+
+
+                var ivaDesc = $("#idTblIva").val();
+                var totalInteres = $("#interesPagarNuevoNota").val();
+                var ivaValue = $("#idIVAValue").val();
+                ivaDesc = Number(ivaDesc);
+                var ivaPorc = "." + ivaDesc;
+                ivaPorc = Number(ivaPorc);
+                totalInteres = totalInteres - descuento;
+                totalInteres = Math.round(totalInteres * 100) / 100;
+                $("#interesPagarNuevoNota").val(totalInteres);
+                var totalInteresFormat = formatoMoneda(totalInteres)
+                $("#idInteresAPagarNotaNuevo").val(totalInteresFormat);
+                ivaDesc += 100;
+                var totalInteresDescuento = totalInteres / ivaDesc;
+                totalInteresDescuento = totalInteresDescuento * 100;
+
+                ivaValue = totalInteresDescuento * ivaPorc;
+                totalInteresDescuento = Math.round(totalInteresDescuento * 100) / 100;
+                ivaValue = Math.round(ivaValue * 100) / 100;
+
+                $("#totalInteresNuevoNota").val(totalInteresDescuento);
+                $("#idIVAValue").val(ivaValue);
+                $("#idValidaToken").val(1);
+                descuentoTabla();
+            } else {
+                alert("El descuento no puede ser mayor al interes.");
+                $("#idEfectivoNotaNuevo").val('');
+                $("#efectivoNuevoNota").val('');
+            }
+        } else {
             $("#descuentoNuevoNota").val(descuento);
             var descuentoFormat = formatoMoneda(descuento)
             $("#idDescuentoNotaNuevo").val(descuentoFormat);
             $("#idDescuentoNotaNuevo").prop('disabled', true);
             $("#idAbonoCapitalNotaNuevo").prop('disabled', false);
             $("#idAbonoCapitalNotaNuevo").focus();
-
-
-            var ivaDesc = $("#idTblIva").val();
-            var totalInteres = $("#interesPagarNuevoNota").val();
-            var ivaValue = $("#idIVAValue").val();
-            ivaDesc = Number(ivaDesc);
-            var ivaPorc = "." + ivaDesc;
-            ivaPorc = Number(ivaPorc);
-            totalInteres = totalInteres - descuento;
-            totalInteres = Math.round(totalInteres * 100) / 100;
-            $("#interesPagarNuevoNota").val(totalInteres);
-            var totalInteresFormat = formatoMoneda(totalInteres)
-            $("#idInteresAPagarNotaNuevo").val(totalInteresFormat);
-            ivaDesc += 100;
-            var totalInteresDescuento = totalInteres / ivaDesc;
-            totalInteresDescuento = totalInteresDescuento * 100;
-
-            ivaValue = totalInteresDescuento * ivaPorc;
-            totalInteresDescuento = Math.round(totalInteresDescuento * 100) / 100;
-            ivaValue = Math.round(ivaValue * 100) / 100;
-
-            $("#totalInteresNuevoNota").val(totalInteresDescuento);
-            $("#idIVAValue").val(ivaValue);
-            $("#idValidaToken").val(1);
-            descuentoTabla();
-
-        } else {
-            alert("El descuento no puede ser mayor al interes.");
-            $("#idEfectivoNotaNuevo").val('');
-            $("#efectivoNuevoNota").val('');
         }
 
     }

@@ -623,7 +623,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=1 
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 4 || tipo_movimiento = 5 || tipo_movimiento = 6 
                         || tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 22|| 
                         tipo_movimiento = 23||  tipo_movimiento = 24)";
@@ -637,7 +637,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  WHERE Con.id_Cliente = 6 AND ConMov.tipo_Contrato=1  
                  AND tipo_movimiento = 4
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 5 || tipo_movimiento = 6 ||
                           tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 22|| 
                           tipo_movimiento = 20 || tipo_movimiento = 24)";
@@ -651,7 +651,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=1 
                  AND tipo_movimiento = 5 || tipo_movimiento = 21
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 20 )";
             $statement = $this->conexion->query($buscarDesemp);
             $fila = $statement->fetch_object();
@@ -664,7 +664,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=1 
                  AND tipo_movimiento = 22 ||  tipo_movimiento = 23 ||  tipo_movimiento = 24
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 6 || tipo_movimiento = 20)";
             $statement = $this->conexion->query($buscarBazar);
             $fila = $statement->fetch_object();
@@ -676,7 +676,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=1 
                  AND tipo_movimiento = 6
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 20 )";
             $statement = $this->conexion->query($buscarVenta);
             $fila = $statement->fetch_object();
@@ -711,7 +711,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 8 || tipo_movimiento = 9 || tipo_movimiento = 10 
                         || tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 24)";
             $statement = $this->conexion->query($buscarEmpe);
@@ -724,7 +724,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  WHERE Con.id_Cliente = 6 AND ConMov.tipo_Contrato=2  
                  AND tipo_movimiento = 8
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 9 || tipo_movimiento = 10 
                         || tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 24)";
             $statement = $this->conexion->query($buscarRefrendo);
@@ -737,7 +737,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 9 || tipo_movimiento = 21
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 20 )";
             $statement = $this->conexion->query($buscarDesemp);
             $fila = $statement->fetch_object();
@@ -762,7 +762,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 10
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 20 )";
             $statement = $this->conexion->query($buscarVenta);
             $fila = $statement->fetch_object();

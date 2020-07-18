@@ -263,8 +263,9 @@ class sqlContratoDAO
                         e_pagoDesempeno AS PagoMov, CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
                         FROM contratomovimientos_tbl 
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE id_Contrato= $idContratoBusqueda AND tipo_Contrato  =$tipoContratoGlobal AND sucursal= $sucursal";
+                        WHERE id_Contrato= $idContratoBusqueda AND tipo_Contrato  =$tipoContratoGlobal AND sucursal= $sucursal ORDER BY Contrato ";
             $rs = $this->conexion->query($buscar);
+            echo $buscar;
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
@@ -311,7 +312,7 @@ class sqlContratoDAO
                        FROM contratomovimientos_tbl Mov 
                        INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                        INNER JOIN contrato_tbl Con on Mov.id_contrato = Con.id_Contrato 
-                       WHERE Con.id_Cliente= $idClienteConsulta AND tipo_Contrato =$tipoContratoGlobal AND Mov.sucursal=$sucursal";
+                       WHERE Con.id_Cliente= $idClienteConsulta AND tipo_Contrato =$tipoContratoGlobal AND Mov.sucursal=$sucursal ORDER BY Mov.id_Contrato ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -358,7 +359,7 @@ class sqlContratoDAO
                         e_pagoDesempeno AS PagoMov, CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
                         FROM contratomovimientos_tbl 
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  fecha_Creacion BETWEEN '$fechaInicio' AND '$fechaFinal'";
+                        WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  fecha_Creacion BETWEEN '$fechaInicio' AND '$fechaFinal' ORDER BY Mov.id_Contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
