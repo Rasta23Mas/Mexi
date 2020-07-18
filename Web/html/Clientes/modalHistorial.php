@@ -44,9 +44,10 @@
                     <table class="table table-hover table-condensed table-bordered" width="100%">
                         <tr>
                             <th>Empeños Activos</th>
-                            <th>Desempeños</th>
                             <th>Refrendos</th>
+                            <th>Desempeños</th>
                             <th>Almoneda</th>
+                            <th>Venta</th>
                         </tr>
                         <tbody id="idTBodyHistorialCount">
                         </tbody>

@@ -293,6 +293,7 @@ function historialCount($clienteEmpeno, $tipo) {
                 var TotalDesem = datos[i].TotalDesem;
                 var TotalRefrendo = datos[i].TotalRefrendo;
                 var TotalAlmoneda = datos[i].TotalAlmoneda;
+                var TotalVenta = datos[i].TotalVenta;
 
 
                 if (TotalEmpeno === null) {
@@ -307,12 +308,16 @@ function historialCount($clienteEmpeno, $tipo) {
                 if (TotalAlmoneda === null) {
                     TotalAlmoneda = '0';
                 }
+                if (TotalVenta === null) {
+                    TotalVenta = '0';
+                }
 
                 html += '<tr>' +
                     '<td>' + TotalEmpeno + '</td>' +
                     '<td>' + TotalDesem + '</td>' +
                     '<td>' + TotalRefrendo + '</td>' +
                     '<td>' + TotalAlmoneda + '</td>' +
+                    '<td>' + TotalVenta + '</td>' +
                     '</tr>';
             }
 
