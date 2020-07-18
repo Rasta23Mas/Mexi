@@ -195,3 +195,5 @@ function DosDecimales(monto) {
 //  document.getElementById('idFecVencimiento').innerHTML =
 //border top 0
 //style="border-top-style: hidden"
+//MAyusculas
+//color.toUpperCase();

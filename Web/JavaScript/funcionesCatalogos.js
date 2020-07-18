@@ -790,3 +790,30 @@ function eliminarProductoProd($idProducto) {
     })
 
 }
+
+//Agregar Color
+
+function agregarColor() {
+    var color = $('#idColorAgregar').val();
+    color = color.toUpperCase();
+    if (color == '') {
+        alert("Ingrese el color.");
+    } else {
+        var dataEnviar = {
+            "color": color
+        };
+        $.ajax({
+            data: dataEnviar,
+            url: '../../../com.Mexicash/Controlador/Catalogos/CatColor.php',
+            type: 'post',
+            success: function (response) {
+                if (response != 0) {
+                    alertify.success("Se guardo el color correctamente, actualice la página para recargar colores.");
+                } else {
+                    alertify.error("Error al guardar el colorss.");
+                }
+            },
+        })
+    }
+}
+

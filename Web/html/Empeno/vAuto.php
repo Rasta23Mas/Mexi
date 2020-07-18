@@ -16,6 +16,7 @@ include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalHistorial.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
+include_once(HTML_PATH . "Empeno/modalColor.php");
 include_once(HTML_PATH . "menuGeneral.php");
 include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
 
@@ -340,6 +341,8 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         </td>
                         <td>
                             <label>Color</label>
+                            <img src="../../style/Img/mas.png"  data-toggle="modal"
+                                 data-target="#modalColor" alt="Agregar Tipo">
                         </td>
                     </tr>
                     <tr>
@@ -370,7 +373,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         </td>
                         <td>
                             <select id="idColor" name="cmbColor" class="selectpicker" style="width: 120px">
-                                <option value="0">Seleccione:</option>
+                                <option value="0">SELECCIONE:</option>
                                 <?php
                                 $data = array();
                                 $sql = new sqlArticulosDAO();
@@ -602,6 +605,8 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         <td align="right">
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMontoAuto()">&nbsp;
                             <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
+                            <input type="button" class="btn btn-warning" value="test" onclick="funcionSeleccionarColor()">&nbsp;
+
                             <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
                         </td>
                     </tr>
