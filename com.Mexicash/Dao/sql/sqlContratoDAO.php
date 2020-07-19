@@ -46,11 +46,12 @@ class sqlContratoDAO
             $tipoContrato = 1;
 
 
-            $insertaContrato = "INSERT INTO contrato_tbl " .
-                "(id_Cliente, total_Prestamo,total_Interes, suma_InteresPrestamo, diasAlm, cotitular, beneficiario, plazo,tasa,
-                  alm,seguro,iva,dias, id_Formulario,aforo, fecha_creacion,tipoContrato,id_cierreCaja) VALUES " .
-                "( $id_Cliente, $totalPrestamo ,$totalInteres,$sumaInteresPrestamo,$diasAlm,'" . $cotitular . "','" . $beneficiario . "',
-                $plazo,$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'.$fechaCreacion.',$tipoContrato,$idCierreCaja)";
+            $insertaContrato = "INSERT INTO contrato_tbl
+                (id_Cliente, total_Prestamo,total_Interes, suma_InteresPrestamo, diasAlm, cotitular,
+                 beneficiario, plazo,tasa, alm,seguro,iva,dias, id_Formulario,aforo, fecha_creacion,
+                 tipoContrato,id_cierreCaja) VALUES 
+                ( $id_Cliente, $totalPrestamo ,$totalInteres,$sumaInteresPrestamo,$diasAlm,'$cotitular','$beneficiario',
+                  $plazo,$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'$fechaCreacion',$tipoContrato,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     $buscarContrato = "select max(id_Contrato) as UltimoContrato from contrato_tbl where id_cierreCaja = $idCierreCaja";

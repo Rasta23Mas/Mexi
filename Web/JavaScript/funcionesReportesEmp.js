@@ -1,91 +1,84 @@
 function cargarRptRefrendo() {
-        var dataEnviar = {
-            "tipoReporte": 1,
-        };
-        $.ajax({
+    var NumMetal = 0;
+    var NumElect = 0;
+    var dataEnviar = {
+        "tipoReporte": 1,
+    };
+    $.ajax({
             type: "POST",
-            url: '../../../com.Mexicash/Controlador/Contrato/tblDetalleFechas.php',
+            url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
-                var html = '';
-                var htmlAuto = '';
-                var htmlfinal = '';
+                var htmlMetal = '';
+                var htmlElectronicos = '';
                 var i = 0;
-                var Num = 1;
+
                 alert("Refrescando tabla.");
                 for (i; i < datos.length; i++) {
-                    var Contrato = datos[i].Contrato;
-                    var FechaCreacion = datos[i].FechaCreacion;
-                    var Movimiento = datos[i].Movimiento;
-                    var idMovimiento = datos[i].idMovimiento;
-                    var Prestamo = datos[i].Prestamo;
-                    var PrestamoActual = datos[i].PrestamoActual;
-                    var Abono = datos[i].Abono;
-                    var Interes = datos[i].Interes;
-                    var Moratorios = datos[i].Moratorios;
-                    var Descuento = datos[i].Descuento;
-                    var Pago = datos[i].Pago;
-                    var Plazo = datos[i].Plazo;
-                    var CostoContrato = datos[i].CostoContrato;
-                    var MovimientoTipo = datos[i].MovimientoTipo;
+                    var FECHA = datos[i].FECHA;
+                    var FECHAMOV = datos[i].FECHAMOV;
+                    var FECHAVEN = datos[i].FECHAVEN;
+                    var CONTRATO = datos[i].CONTRATO;
+                    var FOLIO = datos[i].FOLIO;
+                    var PRESTAMO = datos[i].PRESTAMO;
+                    var INTERESES = datos[i].INTERESES;
+                    var ALMACENAJE = datos[i].ALMACENAJE;
+                    var SEGURO = datos[i].SEGURO;
+                    var ABONO = datos[i].ABONO;
+                    var DESCU = datos[i].DESCU;
+                    var IVA = datos[i].IVA;
+                    var COSTO = datos[i].COSTO;
+                    var FORMU = datos[i].FORMU;
 
-                    ContratoReimprimir = Contrato;
-                    MovimientoReimprimir = idMovimiento;
+                    FORMU = parseInt(FORMU)
+                    FECHA = fechaFormato(FECHA)
+                    FECHAMOV = fechaFormato(FECHAMOV)
+                    FECHAVEN = fechaFormato(FECHAVEN)
 
-                    Prestamo = formatoMoneda(Prestamo);
-                    Abono = formatoMoneda(Abono);
-                    Interes = formatoMoneda(Interes);
-                    Moratorios = formatoMoneda(Moratorios);
-                    Descuento = formatoMoneda(Descuento);
-                    Pago = formatoMoneda(Pago);
-                    CostoContrato = formatoMoneda(CostoContrato);
+                    INTERESES = parseFloat(INTERESES);
+                    ALMACENAJE = parseFloat(ALMACENAJE);
+                    SEGURO = parseFloat(SEGURO);
+                    ABONO = parseFloat(ABONO);
+                    COSTO = parseFloat(COSTO);
+                    DESCU = parseFloat(DESCU);
+                    IVA = parseFloat(IVA);
 
-
-                    html = '<tr>' +
-                        '<td >' + Contrato + '</td>' +
-                        '<td>' + FechaCreacion + '</td>' +
-                        '<td>' + Movimiento + '</td>' +
-                        '<td>' + idMovimiento + '</td>' +
-                        '<td>' + PrestamoActual + '</td>' +
-                        '<td>' + Abono + '</td>' +
-                        '<td>' + Pago + '</td>' +
-                        '<td>' + Interes + '</td>' +
-                        '<td>' + Moratorios + '</td>' +
-                        '<td>' + CostoContrato + '</td>' +
-                        '<td>' + Descuento + '</td>' +
-                        '<td>' + Plazo + '</td>' +
-                        '<td align="center">' +
-                        '<img src="../../style/Img/seleccionarNor.png"  data-dismiss="modal" alt="Seleccionar"  onclick="buscarDatosPorFecha(' + Contrato + ')">' +
-                        '</td>' +
-                        '<td align="center">' +
-                        '<img src="../../style/Img/impresoraNor.png"  data-dismiss="modal" alt="impromor" onclick="reimprimir(' + MovimientoTipo + ','+idMovimiento+','+ Contrato +')">' +
-                        '</td>';
-                    if (tipoContratoGlobal == 2) {
-                        htmlAuto = '<td align="center"> ' +
-                            '<img src="../../style/Img/docNor.png"  alt="Documentos" onclick="cargarPDFDocumentos(' + Contrato + ')">' +
-                            '</td>';
-                    }
-
-                    htmlfinal += html + htmlAuto + '</tr>';
-                    Num++;
+                    var SubTotal = INTERESES + ALMACENAJE + SEGURO + ABONO + COSTO;
+                    SubTotal = SubTotal - DESCU;
+                    var Total = SubTotal + IVA;
+                    PRESTAMO = formatoMoneda(PRESTAMO);
+                    INTERESES = formatoMoneda(INTERESES);
+                    ALMACENAJE = formatoMoneda(ALMACENAJE);
+                    SEGURO = formatoMoneda(SEGURO);
+                    ABONO = formatoMoneda(ABONO);
+                    DESCU = formatoMoneda(DESCU);
+                    IVA = formatoMoneda(IVA);
+                    COSTO = formatoMoneda(COSTO);
+                    SubTotal = formatoMoneda(SubTotal);
+                    Total = formatoMoneda(Total);
+                    htmlMetal = '<tr>' +
+                        '<td >' + FECHA + '</td>' +
+                        '<td>' + FECHAMOV + '</td>' +
+                        '<td>' + FECHAVEN + '</td>' +
+                        '<td>' + CONTRATO + '</td>' +
+                        '<td>' + FOLIO + '</td>' +
+                        '<td>' + PRESTAMO + '</td>' +
+                        '<td>' + INTERESES + '</td>' +
+                        '<td>' + ALMACENAJE + '</td>' +
+                        '<td>' + SEGURO + '</td>' +
+                        '<td> -- </td>' +
+                        '<td> -- </td>' +
+                        '<td>' + ABONO + '</td>' +
+                        '<td>' + DESCU + '</td>' +
+                        '<td>' + COSTO + '</td>' +
+                        '<td>' + SubTotal + '</td>' +
+                        '<td>' + IVA + '</td>' +
+                        '<td>' + Total + '</td>';
                 }
-
-                if (tipoContratoGlobal == 2) {
-                    $('#idTBodyContratoAuto').html(htmlfinal);
-                } else {
-                    $('#idTBodyContrato').html(htmlfinal);
-                }
-                var contrato = 0;
-                var clienteEmpeno = 0;
-                var BitfechaIni = nuevaFechaInicio;
-                var BitfechaFin = nuevaFechaFinal;
-                BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitfechaIni, BitfechaFin);
+                $('#idTBodyRefrendo').html(htmlMetal);
             }
-        });
-        if (tipoContratoGlobal == 2) {
-            $("#divContrato").load('tablaContratoAuto.php');
-        } else {
-            $("#divContrato").load('tablaContrato.php');
         }
+    );
+    $("#divMetales").load('rptEmpRefrendo.php');
 }

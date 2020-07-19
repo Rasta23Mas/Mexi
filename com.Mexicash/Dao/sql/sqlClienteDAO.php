@@ -640,7 +640,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                  NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
                         WHERE tipo_movimiento = 5 || tipo_movimiento = 6 ||
                           tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 22|| 
-                          tipo_movimiento = 20 || tipo_movimiento = 24)";
+                          tipo_movimiento = 23 || tipo_movimiento = 24)";
             $statement = $this->conexion->query($buscarRefrendo);
             $fila = $statement->fetch_object();
             $TotalRefrendo = $fila->TotalRefrendo;

@@ -6,6 +6,8 @@ include_once(SQL_PATH . "sqlReportesDAO.php");
 $tipoReporte = $_POST['tipoReporte'];
 
 $sqlReportesDAO= new sqlReportesDAO();
-$sqlReportesDAO->reporteRefrendo($tipoReporte);
+if($tipoReporte==1){
+    $sqlReportesDAO->reporteRefrendo($tipoReporte);
+}
 
 ?>

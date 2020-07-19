@@ -47,8 +47,9 @@ include_once (HTML_PATH."menuGeneral.php");
             }else if(reporte==5){
                 nameForm= "Refrendo"
                 document.getElementById('NombreReporte').innerHTML = nameForm;
-                $("#divReporte").load('rptEmpRefrendo.php');
                 cargarRptRefrendo();
+                $("#divReporte").load('rptEmpRefrendo.php');
+
             }
         })
     </script>
@@ -61,7 +62,7 @@ include_once (HTML_PATH."menuGeneral.php");
 </head>
 <body>
     <div align="center">
-            <table width="90%" border="0">
+            <table width="100%" border="0">
                 <tr>
                     <td colspan="6">
                         &nbsp;
@@ -78,8 +79,15 @@ include_once (HTML_PATH."menuGeneral.php");
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="6" align="left">
                         &nbsp;
+                        <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="#">Metales</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </td>
                 </tr>
                 <tr class="border-primary border">
@@ -87,16 +95,6 @@ include_once (HTML_PATH."menuGeneral.php");
                         <br>
                         <div id="divReporte" class="col col-lg-12">
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" style="visibility: hidden">
-                        cliente
-                        <input type="text" name="idCliente" id="idClienteConsulta" style="width: 70px"
-                               disabled/>
-                        contrato
-                        <input type="text" name="idCliente" id="idContratoBusqueda" style="width: 70px"
-                               disabled/>
                     </td>
                 </tr>
             </table>

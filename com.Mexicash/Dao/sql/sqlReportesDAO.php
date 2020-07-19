@@ -24,37 +24,45 @@ class sqlReportesDAO
         $this->conexion = $this->db->connectDB();
     }
 
-    public function reporteRefrendo($tipoReporte)
+    public function reporteRefrendo()
     {
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT id_Contrato AS Contrato,DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,CMov.descripcion as Movimiento,
-                        contratomovimientos_tbl.id_movimiento AS idMovimiento, s_prestamo_nuevo AS Prestamo,
-                         prestamo_actual  AS PrestamoActual,e_abono AS Abono,
-                        e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, s_descuento_aplicado AS DescuentoMov,
-                        e_pagoDesempeno AS PagoMov, CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
-                        FROM contratomovimientos_tbl 
-                        INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE id_Contrato= $idContratoBusqueda AND tipo_Contrato  =$tipoContratoGlobal AND sucursal= $sucursal";
+            $buscar = "SELECT Con.fecha_Creacion as FECHA,ConM.fecha_Creacion AS FECHAMOV,
+                        ConM.fechaVencimiento AS FECHAVEN, ConM.id_contrato AS CONTRATO,
+                        ConM.id_movimiento AS FOLIO, Con.total_Prestamo AS PRESTAMO, 
+                        Bit.intereses AS INTERESES,  Bit.almacenaje AS ALMACENAJE, 
+                        Bit.seguro AS SEGURO,  Bit.abonoCapital as ABONO,Bit.descuentoAplicado as DESCU,
+                        Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
+                        FROM contratomovimientos_tbl AS ConM
+                        INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        INNER JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
+                        WHERE ConM.tipo_Contrato=1  AND ConM.sucursal = $sucursal
+                        AND ConM.tipo_movimiento = 4 AND ConM.id_contrato NOT IN 
+                            (SELECT id_contrato FROM contratomovimientos_tbl 
+                            WHERE tipo_movimiento = 5 || tipo_movimiento = 6 ||
+                            tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 22|| 
+                            tipo_movimiento = 23 || tipo_movimiento = 24) 
+                        ORDER BY FORMU";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "Contrato" => $row["Contrato"],
-                        "FechaCreacion" => $row["FechaCreacion"],
-                        "Movimiento" => $row["Movimiento"],
-                        "idMovimiento" => $row["idMovimiento"],
-                        "Prestamo" => $row["Prestamo"],
-                        "PrestamoActual" => $row["PrestamoActual"],
-                        "Abono" => $row["Abono"],
-                        "Interes" => $row["InteresMovimiento"],
-                        "Moratorios" => $row["MoratoriosMov"],
-                        "Descuento" => $row["DescuentoMov"],
-                        "Pago" => $row["PagoMov"],
-                        "Plazo" => $row["PlazoMov"],
-                        "CostoContrato" => $row["CostoContrato"],
-                        "MovimientoTipo" => $row["MovimientoTipo"],
+                        "FECHA" => $row["FECHA"],
+                        "FECHAMOV" => $row["FECHAMOV"],
+                        "FECHAVEN" => $row["FECHAVEN"],
+                        "CONTRATO" => $row["CONTRATO"],
+                        "FOLIO" => $row["FOLIO"],
+                        "PRESTAMO" => $row["PRESTAMO"],
+                        "INTERESES" => $row["INTERESES"],
+                        "ALMACENAJE" => $row["ALMACENAJE"],
+                        "SEGURO" => $row["SEGURO"],
+                        "ABONO" => $row["ABONO"],
+                        "DESCU" => $row["DESCU"],
+                        "IVA" => $row["IVA"],
+                        "COSTO" => $row["COSTO"],
+                        "FORMU" => $row["FORMU"],
 
                     ];
                     array_push($datos, $data);
