@@ -81,6 +81,35 @@ include_once (HTML_PATH."menuGeneral.php");
                         &nbsp;
                     </td>
                 </tr>
+                <tr align="center">
+                    <td class="titleTable">
+                        <label>Fecha Inicial</label>
+                    </td>
+                    <td class="titleTable">
+                        <label>Fecha Final</label>
+                    </td>
+                    <td class="titleTable">
+                        <label>Buscar cierre </label>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td align="center">
+                        <input type="text" name="fechaInicial" id="idFechaInicial" style="width: 100px"
+                               class="calendarioModBoton"
+                               disabled/>
+                    </td>
+                    <td>
+                        <input type="text" name="fechaFinal" id="idFechaFinal" style="width: 100px"
+                               class="calendarioModBoton"
+                               disabled/>
+                    </td>
+                    <td align="center">
+                        <input type="button" class="btn btn-success w-50"
+                               data-toggle="modal" data-target="#modalCierreCaja"
+                               onclick="validarEsatusSucursal()"
+                               value="Buscar"/>
+                    </td>
+                </tr>
                 <tr class="MetalesTD">
                     <td colspan="6" align="left" >
                         <h4 >&nbsp;&nbsp;Metales</h4>

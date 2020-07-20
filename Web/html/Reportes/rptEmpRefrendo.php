@@ -47,13 +47,10 @@
         <th>Fecha Mov.</th>
         <th>Fecha Venc.</th>
         <th>Contrato</th>
-        <th>Folio</th>
-        <th>Prestamo</th>
+        <th>Préstamo</th>
         <th>Intereses</th>
         <th>Almacenaje</th>
         <th>Seguro</th>
-        <th>Int Ext</th>
-        <th>Desc Int.</th>
         <th>Abono Capital</th>
         <th>Desc</th>
         <th>Costo C</th>

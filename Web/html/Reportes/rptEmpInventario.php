@@ -44,8 +44,7 @@
         <th>Contrato</th>
         <th>Creación</th>
         <th>Movimiento</th>
-        <th>Folio</th>
-        <th>Prestamo</th>
+        <th>Préstamo</th>
         <th>Abono</th>
         <th>Pago</th>
         <th>Interes</th>
