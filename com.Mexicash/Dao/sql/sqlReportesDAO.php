@@ -76,5 +76,57 @@ class sqlReportesDAO
 
         echo json_encode($datos);
     }
+    public function reporteRefrendoAuto()
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT Con.fecha_Creacion as FECHA,ConM.fecha_Creacion AS FECHAMOV,
+                        ConM.fechaVencimiento AS FECHAVEN, ConM.id_contrato AS CONTRATO,
+                        ConM.id_movimiento AS FOLIO, Con.total_Prestamo AS PRESTAMO, 
+                        Bit.intereses AS INTERESES,  Bit.almacenaje AS ALMACENAJE, 
+                        Bit.seguro AS SEGURO,  Bit.abonoCapital as ABONO,Bit.descuentoAplicado as DESCU,
+                        Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
+                        FROM contratomovimientos_tbl AS ConM
+                        INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        INNER JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
+                        WHERE ConM.tipo_Contrato=2  AND ConM.sucursal = $sucursal
+                        AND ConM.tipo_movimiento = 8 AND ConM.id_contrato NOT IN 
+                            (SELECT id_contrato FROM contratomovimientos_tbl 
+                            WHERE tipo_movimiento = 9 || tipo_movimiento = 10 ||
+                            tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 24|| 
+                            tipo_movimiento = 23 || tipo_movimiento = 24) 
+                        ORDER BY FORMU";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "FECHAMOV" => $row["FECHAMOV"],
+                        "FECHAVEN" => $row["FECHAVEN"],
+                        "CONTRATO" => $row["CONTRATO"],
+                        "FOLIO" => $row["FOLIO"],
+                        "PRESTAMO" => $row["PRESTAMO"],
+                        "INTERESES" => $row["INTERESES"],
+                        "ALMACENAJE" => $row["ALMACENAJE"],
+                        "SEGURO" => $row["SEGURO"],
+                        "ABONO" => $row["ABONO"],
+                        "DESCU" => $row["DESCU"],
+                        "IVA" => $row["IVA"],
+                        "COSTO" => $row["COSTO"],
+                        "FORMU" => $row["FORMU"],
+
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
 
 }

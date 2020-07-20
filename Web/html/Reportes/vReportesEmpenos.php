@@ -48,7 +48,10 @@ include_once (HTML_PATH."menuGeneral.php");
                 nameForm= "Refrendo"
                 document.getElementById('NombreReporte').innerHTML = nameForm;
                 cargarRptRefrendo();
+                cargarRptRefrendoAuto();
                 $("#divReporte").load('rptEmpRefrendo.php');
+                $("#divReporteElect").load('rptEmpRefrendo.php');
+                $("#divReporteAut").load('rptEmpRefrendo.php');
 
             }
         })
@@ -78,22 +81,39 @@ include_once (HTML_PATH."menuGeneral.php");
                         &nbsp;
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="6" align="left">
-                        &nbsp;
-                        <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-                            <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="#">Metales</a>
-                                </li>
-                            </ul>
-                        </nav>
+                <tr class="MetalesTD">
+                    <td colspan="6" align="left" >
+                        <h4 >&nbsp;&nbsp;Metales</h4>
                     </td>
                 </tr>
-                <tr class="border-primary border">
+                <tr class="MetalesTD">
                     <td colspan="6">
                         <br>
                         <div id="divReporte" class="col col-lg-12">
+                        </div>
+                    </td>
+                </tr>
+                <tr class="ElectTD">
+                    <td colspan="6" align="left" >
+                        <h4 >&nbsp;&nbsp; Electrónicos</h4>>
+                    </td>
+                </tr>
+                <tr class="ElectTD">
+                    <td colspan="6">
+                        <br>
+                        <div id="divReporteElect" class="col col-lg-12">
+                        </div>
+                    </td>
+                </tr>
+                <tr class="AutoTD">
+                    <td colspan="6" align="left" >
+                        <h4 >&nbsp;&nbsp;Autos</h4>
+                    </td>
+                </tr>
+                <tr class="AutoTD">
+                    <td colspan="6">
+                        <br>
+                        <div id="divReporteAut" class="col col-lg-12">
                         </div>
                     </td>
                 </tr>

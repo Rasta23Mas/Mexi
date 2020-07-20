@@ -1,5 +1,3 @@
-
-
 <style>
     .letraExtraGrandeNegrita {
         font-size: 1.9em;
@@ -28,6 +26,9 @@
     .letraGrande {
         font-size: 1.6em;
     }
+    .letraMedia {
+        font-size: 1em;
+    }
 
     .letraChica {
         font-size: .8em;
@@ -39,13 +40,13 @@
         font-size: .6em;
     }
 </style>
-<table class="table table-hover table-condensed table-bordered letraExtraChica" width="100%">
+<table class="table table-hover table-condensed table-bordered letraChica" width="100%">
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
         <th>Fecha</th>
         <th>Fecha Mov.</th>
         <th>Fecha Venc.</th>
-        <th>Num. Contrato</th>
+        <th>Contrato</th>
         <th>Folio</th>
         <th>Prestamo</th>
         <th>Intereses</th>
@@ -55,11 +56,12 @@
         <th>Desc Int.</th>
         <th>Abono Capital</th>
         <th>Desc</th>
+        <th>Costo C</th>
         <th>SubTotal</th>
         <th>Iva Int</th>
         <th>Total Cobrado</th>
     </tr>
     </thead>
-    <tbody id="idTBodyRefrendo" class="letraExtraChica" align="center">
+    <tbody id="idTBodyRefrendoE" class="letraChica" align="center">
     </tbody>
 </table>

@@ -40,7 +40,7 @@
         font-size: .6em;
     }
 </style>
-<table class="table table-hover table-condensed table-bordered letraMedia" width="100%">
+<table class="table table-hover table-condensed table-bordered letraChica" width="100%">
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
         <th>Fecha</th>
@@ -62,6 +62,6 @@
         <th>Total Cobrado</th>
     </tr>
     </thead>
-    <tbody id="idTBodyRefrendo" class="letraExtraChica" align="center">
+    <tbody id="idTBodyRefrendo" class="letraChica" align="center">
     </tbody>
 </table>
