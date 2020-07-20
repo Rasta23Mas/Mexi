@@ -490,4 +490,6 @@ class sqlArticulosDAO
 
         return $datos;
     }
+
+
 }

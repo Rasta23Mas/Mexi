@@ -700,4 +700,30 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
         echo $verdad;
     }
 
+    function llenarCmbReportes($tipo)
+    {
+        $datos = array();
+
+        try {
+            $buscar = "SELECT id_cat_rpt, descripcion FROM cat_reportes where id_tipo=$tipo";
+            $rs = $this->conexion->query($buscar);
+
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_cat_rpt" => $row["id_cat_rpt"],
+                        "descripcion" => $row["descripcion"]
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        return $datos;
+    }
+
 }

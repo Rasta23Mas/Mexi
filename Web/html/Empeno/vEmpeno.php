@@ -304,7 +304,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                    onclick="Metales();">
                         </td>
                         <td align="center">
-                            <input type="button" class="btn btn-primary" value="Electronicos/Varios"
+                            <input type="button" class="btn btn-primary" value="Electrónicos/Varios"
                                    onclick="Electronicos();">
                         </td>
                     </tr>
