@@ -8,6 +8,12 @@
         .letraExtraChica {
             font-size: .8em;
         }
+
+        #tableHistorial {
+            overflow:scroll;
+            height:400px;
+        }
+
     </style>
 </head>
 <body>
@@ -22,13 +28,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div>
+                <div id="tableHistorial">
                     <table class="table table-hover table-condensed table-bordered letraExtraChica" width="100%">
                         <thead>
                         <tr>
                             <th>Contrato</th>
                             <th>Nombre</th>
-                            <th>Tasa Interes</th>
+                            <th>Tasa Interés</th>
                             <th>Vencimiento</th>
                             <th>Fecha Creación</th>
                             <th>Observaciones</th>

@@ -110,8 +110,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                    data-toggle="modal" data-target="#modalEditarNuevo" id="btnEditar"
                                    value="Editar" onclick="modalEditarCliente($('#idClienteEmpeno').val())" disabled>
                             <input type="button" class="btn btn-primary "
-                                   data-toggle="modal" data-target="#modalHistorial" id="btnHistorial"
-                                   value="Historial" onclick="historial($('#idClienteEmpeno').val(),1)">
+                                   id="btnHistorial"
+                                   value="Historial" onclick="historial($('#idClienteEmpeno').val())">
                             <input type="button" class="btn btn-info "
                                    data-toggle="modal" data-target="#modalBusquedaCliente"
                                    onclick="mostrarTodos($('#idNombres').val())"

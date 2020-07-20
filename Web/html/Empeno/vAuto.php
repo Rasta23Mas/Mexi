@@ -91,7 +91,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                                    value="Editar" onclick="modalEditarCliente($('#idClienteEmpeno').val())" disabled>
                             &nbsp;&nbsp;
                             <input type="button" class="btn btn-primary " id="btnHistorial"
-                                   value="Historial" onclick="historial($('#idClienteEmpeno').val(), 2)">
+                                   value="Historial" onclick="historial($('#idClienteEmpeno').val())">
                             &nbsp;&nbsp;
                             <input type="button" class="btn btn-info "
                                    onclick="mostrarTodos($('#idNombres').val())"

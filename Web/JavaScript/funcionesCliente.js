@@ -175,14 +175,13 @@ function mostrarTodos($idNombres) {
 }
 
 //Funcion ver el historial de un cliente
-function historial($clienteEmpeno, $tipo) {
+function historial($clienteEmpeno) {
     $('#suggestionsNombreEmpeno').fadeOut(1000);
     if ($clienteEmpeno == '' || $clienteEmpeno == null) {
         alert("Por seleccione un cliente.")
     } else {
         var dataEnviar = {
             "clienteEmpeno": $clienteEmpeno,
-            "tipo": $tipo,
         };
         $.ajax({
             type: "POST",
@@ -206,12 +205,13 @@ function historial($clienteEmpeno, $tipo) {
                         var FechaVenc = datos[i].FechaVenc;
                         var FechaCreac = datos[i].FechaCreac;
                         var EstDesc = datos[i].EstDesc;
+                        var Form = datos[i].Form;
 
-                        if ($tipo == 2) {
-                            var Observ = datos[i].Observ;
-                            var Detalle = datos[i].Detalle;
+                        if (Form == 3) {
+                            var Observ = datos[i].ObserAuto;
+                            var Detalle = datos[i].DetalleAuto;
 
-                        } else if ($tipo == 1) {
+                        } else  {
                             var tipoArticulo = datos[i].tipoArticulo;
                             var Detalle = datos[i].Detalle;
                             var Observ = 0;
@@ -220,9 +220,10 @@ function historial($clienteEmpeno, $tipo) {
                             } else if (tipoArticulo == 2) {
                                 Observ = datos[i].ObserElec;
                             }
-                            Observ = Observ.toUpperCase();
-                        }
 
+                        }
+                        Observ = Observ.toUpperCase();
+                        EstDesc = EstDesc.toUpperCase();
                         if (NombreCompleto === null) {
                             NombreCompleto = '';
                         }
@@ -266,7 +267,7 @@ function historial($clienteEmpeno, $tipo) {
                             '</tr>';
                     }
                 }
-                historialCount($clienteEmpeno, $tipo);
+                historialCount($clienteEmpeno);
                 $('#idTBodyHistorial').html(html);
             }
         });
@@ -275,10 +276,9 @@ function historial($clienteEmpeno, $tipo) {
 }
 
 //Funcion ver count de historial de un cliente
-function historialCount($clienteEmpeno, $tipo) {
+function historialCount($clienteEmpeno) {
     var dataEnviar = {
         "clienteEmpeno": $clienteEmpeno,
-        "tipo": $tipo,
     };
     $.ajax({
         type: "POST",
