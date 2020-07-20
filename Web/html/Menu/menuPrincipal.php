@@ -1,4 +1,8 @@
+<?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include_once(MENU_PATH . "modalSucursal.php");
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,20 +22,6 @@
 
 <nav class="navbar navbar-expand-sm bg-success navbar-dark fixed-top" style="background-color: #e3f2fd;">
     <ul class="navbar-nav">
-        <!--<li class="nav-item active">
-            <a class="nav-link" href="MenuInicio.php">
-                Mexicash
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="MenuNosotros.php">Nosotros</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="MenuSucursales.php">Sucursales</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="MenuContacto.php">Contacto</a>
-        </li>-->
         <li class="nav-item active">
             <a class="nav-link" href="MenuLoggin.php">Ingresar</a>
         </li>

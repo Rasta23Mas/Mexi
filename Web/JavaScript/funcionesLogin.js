@@ -31,8 +31,7 @@ function validarUser() {
                 $tipoUserGlb = tipoUser;
                 if ($tipoUserGlb > 0) {
                     if ($tipoUserGlb == 1 || $tipoUserGlb == 2) {
-                        //Administradores -> 1 Login -> Valida si la sucursal esta cerrada
-                        HaySucursalesRegistradas();
+                        $("#modalSucursal").modal();
                     } else {
                         var validateMobile = isMobile();
                         if (validateMobile) {
@@ -48,6 +47,38 @@ function validarUser() {
         });
     }
 }
+
+//Login Administradores
+function LoginAdministradores(sucursal) {
+    alert("entra" + sucursal)
+    var dataEnviar = {
+        "sucursal": sucursal,
+    };
+    $.ajax({
+        type: "POST",
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Usuario/LogginAdministrador.php',
+        success: function (HaySucursales) {
+            if (HaySucursales == 0) {
+                insertaCajaSucursal(1);
+            } else {
+                validarSucursalHoyAdmin();
+            }
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 function HaySucursalesRegistradas() {
     //VAlida si esta inactiva
@@ -304,3 +335,4 @@ function saldosSucursal(saldoInicialInfo) {
         }
     });
 }
+

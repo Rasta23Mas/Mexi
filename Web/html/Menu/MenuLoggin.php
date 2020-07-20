@@ -57,9 +57,6 @@ include_once(MENU_PATH . "menuPrincipal.php");
             <div class="form-group" align="center">
                 <input type="button" class="sub btn btn-primary" value="Entrar" onclick="validarUser()"/>
             </div>
-  <!--         <div class="form-group" align="center">
-                <input type="button" class="sub btn btn-primary" value="Entrar" onclick="buscaridCaja()"/>
-            </div>-->
         </div>
     </div>
 </div>

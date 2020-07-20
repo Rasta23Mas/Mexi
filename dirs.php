@@ -23,6 +23,7 @@ define('PDF_PATH', WEB_PATH.'dompdf/');
 define('MENU_PATH', HTML_PATH.'Menu/');
 define('EMPE_PATH', HTML_PATH.'Empeno/');
 define('DESC_PATH', HTML_PATH.'Descuento/');
+define('ADMIN_PATH', HTML_PATH.'Admin/');
 ?>
 
 

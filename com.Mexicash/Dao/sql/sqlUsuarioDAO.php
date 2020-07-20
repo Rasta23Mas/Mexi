@@ -58,6 +58,36 @@ class sqlUsuarioDAO
         echo $tipoUsuario;
     }
 
+
+    function sucursalAdmin($sucursal){
+        try {
+            $retorna = 0;
+            $buscar = "select id_CierreSucursal from bit_cierresucursal where sucursal=$sucursal";
+            $statement = $this->conexion->query($buscar);
+            $encontro = $statement->num_rows;
+            if ($encontro > 0) {
+                $fechaHoy = date('Y-m-d');
+                $buscarHoy = "select estatus,id_CierreSucursal from bit_cierresucursal WHERE  sucursal = " . $sucursal . " AND DATE(fecha_Creacion) = '$fechaHoy' and estatus !=20";
+                $statement = $this->conexion->query($buscar);
+                if ($statement->num_rows > 0) {
+                    $fila = $statement->fetch_object();
+                    $estatus = $fila->estatus;
+                    $idCierreSucursal = $fila->id_CierreSucursal;
+                    $_SESSION['idCierreSucursal'] = $idCierreSucursal;
+                    ///PENDIENTES AQUI
+                }
+            } else {
+                $retorna = -1;
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $retorna;
+    }
+
+
     function haySucursalesRegistradas(){
         try {
             $retorna = 0;

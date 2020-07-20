@@ -1,10 +1,4 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-$tipoUsuario = $_SESSION['tipoUsuario'];
-$cajaInactiva = $_SESSION['cajaInactiva'];
-
 ?>
 
 <!DOCTYPE html>
@@ -24,36 +18,6 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
     <link rel="stylesheet" type="text/css" href="../../style/General/StyloGeneral.css">
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script type="application/javascript">
-        $(document).ready(function () {
-            var tipoUser = <?php echo $tipoUsuario; ?>;
-
-            var cajaInactiva = <?php echo $cajaInactiva; ?>;
-
-             if (tipoUser == 3) {
-                if (cajaInactiva == 0) {
-                    $("#menuEmpeno").show();
-                    $("#menuEmpenoAuto").show();
-                    $("#menuVentas").show();
-                } else {
-                    $("#menuEmpeno").hide();
-                    $("#menuEmpenoAuto").hide();
-                    $("#menuVentas").hide();
-                }
-
-                $("#menuCatalogos").hide();
-                $("#menuDotaciones").show();
-                $("#menuCancelaciones").show();
-                $("#menuConfiguracion").show();
-
-            } else if (tipoUser == 4) {
-                $("#menuEmpeno").show();
-                $("#menuEmpenoAuto").show();
-                $("#menuVentas").show();
-                $("#menuCatalogos").hide();
-                $("#menuDotaciones").hide();
-                $("#menuCancelaciones").hide();
-            }
-        })
     </script>
 </head>
 <body>
@@ -65,53 +29,15 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li class="nav-item dropdown" id="menuEmpeno">
+            <li class="nav-item dropdown" id="menuConsultas">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
-                    Empeño
+                    Consultas
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Empeños</a></li>
-                    <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=1">Refrendo</a></li>
-                    <li><a class="dropdown-item" href="../Desempeno/vDesempeno.php?tipoFormGet=3">Desempeños</a></li>
                     <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
-            <li class="nav-item dropdown" id="menuEmpenoAuto">
-                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Auto
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Empeno/vAuto.php">Empeños</a></li>
-                    <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
-                    <li><a class="dropdown-item" href="../Desempeno/vRefrendo.php?tipoFormGet=4">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown" id="menuCierre">
-                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Cierre
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Cierre/vArqueo.php">Arqueo</a></li>
-                    <li><a class="dropdown-item" href="../Cierre/vCaja.php">Cierre de Caja</a></li>
-                    <li><a class="dropdown-item" href="../Cierre/vCierre.php">Cierre de Sucursal</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown" id="menuVentas">
-                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Ventas
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Ventas/vVentasMostrador.php">Mostrador</a></li>
-                    <li><a class="dropdown-item" href="../Ventas/vVentasAbonos.php">Abono</a></li>
-                    <li><a class="dropdown-item" href="../Ventas/vVentasApartados.php">Apartados</a></li>
-                </ul>
-            </li>
-
             <li class="nav-item dropdown" id="menuReportes">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">

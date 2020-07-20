@@ -726,4 +726,30 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
         return $datos;
     }
 
+    function llenarSucursal()
+    {
+        $datos = array();
+
+        try {
+            $buscar = "SELECT id_Sucursal, nombre FROM cat_sucursal";
+            $rs = $this->conexion->query($buscar);
+
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_Sucursal" => $row["id_Sucursal"],
+                        "nombre" => $row["nombre"]
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        return $datos;
+    }
+
 }
