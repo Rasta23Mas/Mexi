@@ -118,14 +118,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     Reportes
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item dropdown-toggle" href="#">Empeños</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php?tipoReporte=1">Hist&oacute;rico</a></li>
-                            <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php?tipoReporte=2">Inventarios</a></li>
-                            <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php?tipoReporte=3">Contratos Vencidos</a></li>
-                            <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php?tipoReporte=4">Desempeños</a></li>
-                            <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php?tipoReporte=5">Refrendo</a></li>
-                        </ul>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php">Empeños</a>
                     </li>
                     <li><a class="dropdown-item dropdown-toggle" href="#">Financieros</a>
                         <ul class="dropdown-menu">
