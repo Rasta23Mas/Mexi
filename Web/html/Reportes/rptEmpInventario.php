@@ -40,20 +40,14 @@
 <table class="table table-hover table-condensed table-bordered letraExtraChica" width="100%">
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
-
         <th>Contrato</th>
-        <th>Creación</th>
-        <th>Movimiento</th>
+        <th>Fecha</th>
+        <th>Vencimiento</th>
+        <th>Cliente</th>
+        <th>Tipo</th>
+        <th>Descripción</th>
         <th>Préstamo</th>
-        <th>Abono</th>
-        <th>Pago</th>
-        <th>Interes</th>
-        <th>Moratorios</th>
-        <th>Costo Contrato</th>
-        <th>Descuento</th>
-        <th>Plazo</th>
-        <th>Ver</th>
-        <th>Imprimir</th>
+        <th>Avalúo</th>
     </tr>
     </thead>
     <tbody id="idTBodyInventario" class="letraExtraChica" align="center">

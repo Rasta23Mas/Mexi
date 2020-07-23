@@ -12,7 +12,7 @@ $sqlReportesDAO = new sqlReportesDAO();
 if ($tipoReporte == 1) {
     $sqlReportesDAO->reporteDesempe($fechaIni,$fechaFin);
 }else if ($tipoReporte == 2) {
-    $sqlReportesDAO->reporteDesempe($fechaIni,$fechaFin);
+    $sqlReportesDAO->reporteInve($fechaIni,$fechaFin);
 }else if ($tipoReporte == 3) {
     $sqlReportesDAO->reporteContratos();
 }else if ($tipoReporte == 4) {

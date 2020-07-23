@@ -24,6 +24,61 @@ class sqlReportesDAO
         $this->conexion = $this->db->connectDB();
     }
 
+    public function reporteInve()
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT  Con.id_contrato AS CONTRATO,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        CONCAT(Con.plazo, ' ', Con.periodo, ' ', Con.tipoInteres),
+                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
+                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
+                        Aut.observaciones as ObserAuto,
+                        CONCAT(Art.detalle) as Detalle,
+                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
+                        Cont.id_Formulario as FORMU
+                        FROM contratomovimientos_tbl as Con 
+                        INNER JOIN contrato_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
+                        INNER JOIN cliente_tbl as Cli on Cont.id_Cliente = Cli.id_Cliente 
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        LEFT JOIN cat_movimientos as Mov on Con.tipo_movimiento = Mov.id_Movimiento 
+                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
+                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
+                        LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
+                        LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
+                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "FECHAMOV" => $row["FECHAMOV"],
+                        "FECHAVEN" => $row["FECHAVEN"],
+                        "CONTRATO" => $row["CONTRATO"],
+                        "PRESTAMO" => $row["PRESTAMO"],
+                        "INTERESES" => $row["INTERESES"],
+                        "ALMACENAJE" => $row["ALMACENAJE"],
+                        "SEGURO" => $row["SEGURO"],
+                        "ABONO" => $row["ABONO"],
+                        "DESCU" => $row["DESCU"],
+                        "IVA" => $row["IVA"],
+                        "COSTO" => $row["COSTO"],
+                        "FORMU" => $row["FORMU"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
     public function reporteContratos()
     {
         $datos = array();
@@ -39,10 +94,12 @@ class sqlReportesDAO
                         Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
                         FROM contratomovimientos_tbl AS ConM
                         INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
-                        INNER JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
-                        WHERE DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
-                        AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 
-                        OR ConM.tipo_movimiento = 21)  
+                        LEFT JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
+                        WHERE CURDATE() BETWEEN DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') 
+                        AND DATE_FORMAT(ConM.fechaAlmoneda,'%Y-%m-%d')
+                        AND ConM.sucursal = $sucursal 
+                        AND (ConM.tipo_movimiento = 3 OR ConM.tipo_movimiento = 4 
+                        OR ConM.tipo_movimiento = 7 OR ConM.tipo_movimiento = 8)  
                         ORDER BY FORMU";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -88,7 +145,7 @@ class sqlReportesDAO
                         Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
                         FROM contratomovimientos_tbl AS ConM
                         INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
-                        INNER JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
+                        LEFT JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
                         WHERE DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 
                         OR ConM.tipo_movimiento = 21)  
@@ -137,7 +194,7 @@ class sqlReportesDAO
                         Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
                         FROM contratomovimientos_tbl AS ConM
                         INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
-                        INNER JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
+                        LEFT JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
                         WHERE DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  
                         ORDER BY FORMU";
