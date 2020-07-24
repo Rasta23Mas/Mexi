@@ -16,6 +16,7 @@ function Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_pr
         "e_pagoDesempeno": mov_pagoDesempeno,
         "e_abono": mov_abono,
         "e_intereses": mov_intereses,
+        "e_interes": mov_interes,
         "e_almacenaje": mov_almacenaje,
         "e_seguro": mov_seguro,
         "e_moratorios": mov_moratorios,

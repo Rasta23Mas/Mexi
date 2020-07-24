@@ -3,9 +3,7 @@ $tipoFormularioGet = 0;
 if (isset($_GET['tipoFormGet'])) {
     $tipoFormularioGet = $_GET['tipoFormGet'];
 }
-if (isset($_GET['contrato'])) {
-    $ContratoGet = $_GET['contrato'];
-}
+
 if (!isset($_SESSION)) {
     session_start();
 }

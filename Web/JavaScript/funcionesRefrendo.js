@@ -886,8 +886,8 @@ function generarNuevo() {
     var descuento = $("#descuentoNuevoNota").val();
     //Descuento para guardar en el contrato
     var descuentoAnterior = $("#descuentoAnteriorNuevoNota").val();
-    descuento = parseFloat(descuento);
-    descuentoAnterior = parseFloat(descuentoAnterior);
+    descuento = Number(descuento);
+    descuentoAnterior = Number(descuentoAnterior);
     var descuentoFinal = descuento + descuentoAnterior;
     descuentoFinal = Math.round(descuentoFinal * 100) / 100;
     //Abono para guardar en bitacora y movimientos
@@ -966,11 +966,98 @@ function generarNuevo() {
                 },
             })
         } else {
-            alertify.success(nombreMensaje + " generado.")
+            alertify.success(nombreMensaje + " generado.");
+
             MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
         }
     }
 }
+
+function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {
+    var descuento_aplicado = $("#descuentoNuevoNota").val();
+    var e_capital_recuperado = $("#totalPagarNuevoNota").val();
+    var intereses = $("#interesPagarNuevoNota").val();
+    var e_moratorios = $("#moratoriosNuevoNota").val();
+    var e_ivaValue = $("#idIVAValue").val();
+    var prestamo_actual = $("#saldoPendienteNuevoNota").val();
+
+    var e_gps = 0;
+    var e_poliza = 0;
+    var e_pension = 0;
+    var movimiento = 0;
+    if (tipeFormulario == 1) {
+        movimiento = 4;
+    } else if (tipeFormulario == 2) {
+        movimiento = 8;
+        e_gps = $("#gpsNuevoNota").val();
+        e_poliza = $("#polizaNuevoNota").val();
+        e_pension = $("#pensionNuevoNota").val();
+        e_gps = Math.round(e_gps * 100) / 100;
+        e_poliza = Math.round(e_poliza * 100) / 100;
+        e_pension = Math.round(e_pension * 100) / 100;
+    }
+    var totalVencInteres = $("#idTblInteresDesc").val();
+    var totalVencAlm = $("#idTblAlmacenajeDesc").val();
+    var totalVencSeg = $("#idTblSeguroDesc").val();
+    efectivoPDF = $("#efectivoNuevoNota").val();
+    cambioPDF = $("#cambioNuevoNota").val();
+
+    totalVencInteres = Math.round(totalVencInteres * 100) / 100;
+    totalVencAlm = Math.round(totalVencAlm * 100) / 100;
+    totalVencSeg = Math.round(totalVencSeg * 100) / 100;
+
+    efectivoPDF = Math.round(efectivoPDF * 100) / 100;
+    cambioPDF = Math.round(cambioPDF * 100) / 100;
+    var totalPagar = $("#totalPagarNuevoNota").val();
+    totalPagar = Math.round(totalPagar * 100) / 100;
+    var subtotal = totalPagar -e_ivaValue ;
+    subtotal = Math.round(subtotal * 100) / 100;
+
+
+    descuento_aplicado = Math.round(descuento_aplicado * 100) / 100;
+    e_capital_recuperado = Math.round(e_capital_recuperado * 100) / 100;
+    intereses = Math.round(intereses * 100) / 100;
+    e_moratorios = Math.round(e_moratorios * 100) / 100;
+    e_ivaValue = Math.round(e_ivaValue * 100) / 100;
+    prestamo_actual = Math.round(prestamo_actual * 100) / 100;
+
+
+
+    var mov_contrato = contratoGbl;
+    var mov_fechaVencimiento = newFechaVencimiento;
+    var mov_fechaAlmoneda = newFechaAlm;
+    var mov_prestamo_actual = prestamo_actual;
+    var mov_prestamo_nuevo = 0;
+    var mov_descuentoApl = descuento_aplicado;
+    var mov_descuentoTotal = descuentoFinal;
+    var mov_abonoTotal = abonoFinal;
+    var mov_capitalRecuperado = e_capital_recuperado;
+    var mov_pagoDesempeno = 0;
+    var mov_abono = abonoCapitalPDF;
+    var mov_intereses = intereses;
+    var mov_interes = totalVencInteres;
+    var mov_almacenaje = totalVencAlm;
+    var mov_seguro = totalVencSeg;
+    var mov_moratorios = e_moratorios;
+    var mov_iva = e_ivaValue;
+    var mov_gps = e_gps;
+    var mov_poliza = e_poliza;
+    var mov_pension = e_pension;
+    var mov_costoContrato = 0;
+    var mov_tipoContrato = tipoContrato;
+    var mov_tipoMovimiento = movimiento;//Empeño
+    var mov_Informativo = prestamoInfoGbl;
+    var mov_subtotal = subtotal;
+    var mov_total = totalPagar;
+    var mov_efectivo = efectivoPDF;
+    var mov_cambio = cambioPDF;
+
+    Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
+        mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_interes,mov_almacenaje,mov_seguro,
+        mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
+        mov_subtotal,mov_total,mov_efectivo,mov_cambio);
+}
+
 
 function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {
     //tipo_movimiento = 3 cat_movimientos-->Operacion-->Empeño

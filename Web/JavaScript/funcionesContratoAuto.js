@@ -254,6 +254,7 @@ function generarContratoAuto() {
                 var mov_pagoDesempeno = 0;
                 var mov_abono = 0;
                 var mov_intereses = 0;
+                var mov_interes = 0;
                 var mov_almacenaje = 0;
                 var mov_seguro = 0;
                 var mov_moratorios = 0;
@@ -271,7 +272,7 @@ function generarContratoAuto() {
                 var mov_cambio = 0;
 
                 Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
-                    mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_almacenaje,mov_seguro,
+                    mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_interes,mov_almacenaje,mov_seguro,
                     mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
                     mov_subtotal,mov_total,mov_efectivo,mov_cambio);
                 BitacoraUsuarioEmpeno(contrato, clienteEmpeno, 2,tipoFormulario);
