@@ -241,7 +241,6 @@ function generarContratoAuto() {
         url: '../../../com.Mexicash/Controlador/Contrato/cAuto.php',
         type: 'post',
         success: function (contrato) {
-            alert(contrato)
             if (contrato > 0) {
                 $("#idFormAuto")[0].reset();
                 verPDFDocumentosCon(contrato);

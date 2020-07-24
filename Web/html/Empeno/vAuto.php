@@ -30,6 +30,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesContratoAuto.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
+    <script src="../../JavaScript/funcionesMovimiento.js"></script>
     <script src="../../JavaScript/funcionesArticulos.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
     <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">

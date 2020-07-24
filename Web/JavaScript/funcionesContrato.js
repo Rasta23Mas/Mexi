@@ -108,12 +108,43 @@ function generarContrato() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Contrato/Contrato.php',
         type: 'post',
-        success: function (contrato) {
+        success: function () {
             alert(contrato)
             if (contrato > 0) {
                 actualizarArticulo(contrato);
-                BitacoraTokenEmpeno(contrato,tipoFormulario)
-                MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 1);
+                var mov_contrato = contrato;
+                var mov_fechaVencimiento = fechaVencimiento;
+                var mov_fechaAlmoneda = fechaAlmoneda;
+                var mov_prestamo_actual = totalPrestamo;
+                var mov_prestamo_nuevo = totalPrestamo;
+                var mov_descuentoApl = 0;
+                var mov_descuentoTotal = 0;
+                var mov_abonoTotal = 0;
+                var mov_capitalRecuperado = 0;
+                var mov_pagoDesempeno = 0;
+                var mov_abono = 0;
+                var mov_intereses = 0;
+                var mov_almacenaje = 0;
+                var mov_seguro = 0;
+                var mov_moratorios = 0;
+                var mov_iva = 0;
+                var mov_gps = 0;
+                var mov_poliza = 0;
+                var mov_pension = 0;
+                var mov_costoContrato = 0;
+                var mov_tipoContrato = 1;//Articulos y Electronicos
+                var mov_tipoMovimiento = 3;//Empeño
+                var mov_Informativo = totalPrestamo;
+                var mov_subtotal = 0;
+                var mov_total = 0;
+                var mov_efectivo = 0;
+                var mov_cambio = 0;
+
+                Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
+                mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_almacenaje,mov_seguro,
+                    mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
+                    mov_subtotal,mov_total,mov_efectivo,mov_cambio);
+
             } else {
                 alertify.error("Error al generar contrato. (FEErr01)");
             }
@@ -163,9 +194,8 @@ function actualizarArticulo(ultimoContrato) {
             if (response == -1 || response == 0) {
                 alertify.error("Error al agregar articulos al contrato. (FEErr03)");
             } else {
-                $("#idFormEmpeno")[0].reset();
                 alertify.success("Articulos agregados al contrato.");
-
+                BitacoraTokenEmpeno(contrato,tipoFormulario);
             }
         },
     })
@@ -212,86 +242,6 @@ function cancelar() {
     $("#idFormAuto")[0].reset();
     alertify.success("Contrato cancelado");
 }
-
-
-function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, totalPrestamo, clienteEmpeno,
-                             fechaVencimiento, fechaAlmoneda, tipoContrato) {
-    //FEErr06
-    //tipo_movimiento = 3 cat_movimientos-->Operacion-->Empeño
-    var movimiento = 0;
-    if (tipoContrato == 1) {
-        movimiento = 3;
-    } else if (tipoContrato == 2) {
-        movimiento = 7;
-    }
-    var id_contrato = contrato;
-    var plazo = plazoEnviado;
-    var periodo = idPeriodo;
-    var tipoInteres = idTipoInteres;
-    var s_prestamo_nuevo = totalPrestamo;
-    var s_descuento_aplicado = 0;
-    var e_capital_recuperado = 0;
-    var e_pagoDesempeno = 0;
-    var e_abono = 0;
-    var e_intereses = 0;
-    var e_moratorios = 0;
-    var e_iva = 0;
-    var e_venta_mostrador = 0;
-    var e_venta_iva = 0;
-    var e_venta_apartados = 0;
-    var e_gps = 0;
-    var e_poliza = 0;
-    var e_pension = 0;
-    var tipo_Contrato = tipoContrato;
-    var tipo_movimiento = movimiento;
-    var costo_Contrato = 0;
-    var totalAvaluo = $("#idTotalAvaluo").val();
-    var dataEnviar = {
-        "id_contrato": id_contrato,
-        "fechaVencimiento": fechaVencimiento,
-        "fechaAlmoneda": fechaAlmoneda,
-        "plazo": plazo,
-        "periodo": periodo,
-        "tipoInteres": tipoInteres,
-        "prestamo_actual": s_prestamo_nuevo,
-        "totalAvaluo": totalAvaluo,
-        "s_prestamo_nuevo": s_prestamo_nuevo,
-        "s_descuento_aplicado": s_descuento_aplicado,
-        "e_capital_recuperado": e_capital_recuperado,
-        "e_pagoDesempeno": e_pagoDesempeno,
-        "e_abono": e_abono,
-        "e_intereses": e_intereses,
-        "e_moratorios": e_moratorios,
-        "e_iva": e_iva,
-        "e_venta_mostrador": e_venta_mostrador,
-        "e_venta_iva": e_venta_iva,
-        "e_venta_apartados": e_venta_apartados,
-        "e_gps": e_gps,
-        "e_poliza": e_poliza,
-        "e_pension": e_pension,
-        "tipo_Contrato": tipo_Contrato,
-        "tipo_movimiento": tipo_movimiento,
-        "abonoFinal": 0,
-        "descuentoFinal": 0,
-        "costo_Contrato": costo_Contrato,
-        "prestamo_Informativo": s_prestamo_nuevo,
-
-    };
-
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Movimientos/movimientosContrato.php',
-        data: dataEnviar,
-        success: function (response) {
-            if (response > 0) {
-                BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato);
-            } else {
-                alertify.error("Error en al conectar con el servidor. (FEErr06)")
-            }
-        }
-    });
-}
-
 
 function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
     //id_Movimiento = 3 cat_movimientos-->Operacion-->Empeño
@@ -361,6 +311,7 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Token guardado.");
+                BitacoraUsuarioEmpeno(contrato, clienteEmpeno, 1);
             } else {
                 alertify.error("Error en al guardar el token")
             }

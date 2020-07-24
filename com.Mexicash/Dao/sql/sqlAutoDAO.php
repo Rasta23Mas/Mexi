@@ -49,9 +49,6 @@ class sqlAutoDAO
             $fechaVencimiento = $auto->getFechaVencimiento();
             $fechaAlm = $auto->getFechaAlm();
             $idCierreCaja = $_SESSION['idCierreCaja'];
-
-            $usuario = $_SESSION["idUsuario"];
-            $sucursal = $_SESSION["sucursal"];
             $insertaContrato = "INSERT INTO contrato_tbl " .
                 "(id_Cliente, total_Prestamo,total_Avaluo, total_Interes, suma_InteresPrestamo,diasAlm,cotitular, beneficiario, 
                   plazo,periodo,tipoInteres,tasa, alm, seguro,iva,dias,PolizaSeguro, GPS, Pension,id_Formulario,Aforo, fecha_creacion,

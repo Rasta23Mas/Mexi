@@ -78,9 +78,59 @@ class sqlMovimientosDAO
                 } else {
                     $verdad = -3;
                 }
-            }else{
+            } else {
                 $verdad = $updateRealizado;
             }
+        } catch
+        (Exception $exc) {
+            $verdad = -4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
+
+
+    public function insertContratoMov($id_contrato, $fechaVencimiento, $fechaAlmoneda, $prestamo_actual, $s_prestamo_nuevo,
+                                      $s_descuento_aplicado, $descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses, $e_almacenaje,
+                                      $e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato, $tipo_Contrato, $tipo_movimiento, $prestamo_Informativo,
+                                      $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio){
+        // TODO: Implement guardaCiente() method.
+        try {
+            $verdad = -1;
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $fechaHoy = date('Y-m-d H:i:s');
+
+            $id_contrato = trim($id_contrato);
+            $insertaMovimiento = "INSERT INTO contrato_mov_tbl (id_contrato,fechaVencimiento,fechaAlmoneda,prestamo_actual, s_prestamo_nuevo,
+    |                   s_descuento_aplicado, descuentoTotal, abonoTotal,e_capital_recuperado, e_pagoDesempeno, 
+                        e_abono,e_intereses,e_almacenaje, e_seguro,e_moratorios,e_iva, e_gps, e_poliza,e_pension, e_costoContrato,
+                        tipo_Contrato, tipo_movimiento, id_cierreCaja, fecha_Movimiento, prestamo_Informativo, 
+                        pag_subtotal, pag_total, pag_efectivo,pag_cambio) VALUES 
+                        ($id_contrato, '$fechaVencimiento', '$fechaAlmoneda', $prestamo_actual, $s_prestamo_nuevo,
+                         $s_descuento_aplicado, $descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, 
+                         $e_abono, $e_intereses, $e_almacenaje,$e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato,
+                         $tipo_Contrato, $tipo_movimiento, $idCierreCaja,'$fechaHoy',$prestamo_Informativo,
+                         $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio)";
+            if ($ps = $this->conexion->prepare($insertaMovimiento)) {
+                if ($ps->execute()) {
+                    // $verdad = mysqli_stmt_affected_rows($ps);
+                    $buscarContrato = "select max(id_movimiento) as ID_Movimiento from contrato_mov_tbl where id_cierreCaja = $idCierreCaja";
+                    $statement = $this->conexion->query($buscarContrato);
+                    $encontro = $statement->num_rows;
+                    if ($encontro > 0) {
+                        $fila = $statement->fetch_object();
+                        $UltimoMovimiento = $fila->ID_Movimiento;
+                        $verdad = $UltimoMovimiento;
+                    }
+                } else {
+                    $verdad = -2;
+                }
+            } else {
+                $verdad = -3;
+            }
+
         } catch
         (Exception $exc) {
             $verdad = -4;

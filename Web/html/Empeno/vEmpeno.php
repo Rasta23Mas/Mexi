@@ -36,6 +36,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesContrato.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
+    <script src="../../JavaScript/funcionesMovimiento.js"></script>
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
