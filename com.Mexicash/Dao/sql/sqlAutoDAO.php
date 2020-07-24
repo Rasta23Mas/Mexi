@@ -57,9 +57,8 @@ class sqlAutoDAO
                   plazo,periodo,tipoInteres,tasa, alm, seguro,iva,dias,PolizaSeguro, GPS, Pension,id_Formulario,Aforo, fecha_creacion,
                   fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja) VALUES (
                   $id_Cliente,$totalPrestamo,$totalAvaluo,$totalInteres,$sumaInteresPrestamo,$diasAlm,'$cotitular','$beneficiario',
-                  $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$polizaInteres,$gps,$pension,$tipoFormulario,$aforo,'$fechaCreacion'
+                  $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$polizaInteres,$gps,$pension,$tipoFormulario,$aforo,'$fechaCreacion',
                   '$fechaVencimiento','$fechaAlm',2,$idCierreCaja)";
-            echo $insertaContrato;
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     if (mysqli_stmt_affected_rows($ps) == 1) {
@@ -95,7 +94,7 @@ class sqlAutoDAO
                         $idCheckTenecia = $auto->getidCheckTenecia();
                         $idCheckPoliza = $auto->getidCheckPoliza();
                         $idCheckLicencia = $auto->getidCheckLicencia();
-
+                        $estatus = 1;
                         $idColor = mb_strtoupper($idColor, 'UTF-8');
                         $idMarca = mb_strtoupper($idMarca, 'UTF-8');
                         $idModelo = mb_strtoupper($idModelo, 'UTF-8');
@@ -112,13 +111,12 @@ class sqlAutoDAO
 
                         $insertaAuto = "INSERT INTO auto_tbl(id_Contrato, tipo_Vehiculo,marca, modelo, año, color, placas, factura," .
                             " kilometraje, agencia, num_motor, serie_chasis, vin, repuve, gasolina, tarjeta_circulacion, aseguradora, poliza, fechaVencimiento," .
-                            " tipoPoliza, observaciones, chkTarjeta, chkFactura, chkINE, chkImportacion, chkTenencias, chkPoliza, chkLicencia, fecha_creacion, fecha_modificacion, usuario,sucursal,id_Estatus)" .
+                            " tipoPoliza, observaciones, chkTarjeta, chkFactura, chkINE, chkImportacion, chkTenencias, chkPoliza, chkLicencia, fecha_creacion, fecha_modificacion, id_cierreCaja,id_Estatus)" .
                             " VALUES ('" . $idContratoAuto . "', '" . $idTipoVehiculo . "', '" . $idMarca . "', '" . $idModelo . "'," .
                             " '" . $idAnio . "', '" . $idColor . "', '" . $idPlacas . "', '" . $idFactura . "', '" . $idKms . "','" . $idAgencia . "','" . $idMotor . "'," .
                             " '" . $idSerie . "', '" . $idVehiculo . "', '" . $idRepuve . "', '" . $idGasolina . "', '" . $idTarjeta . "','" . $idAseguradora . "','" . $idPoliza . "'," .
                             " '" . $idFecVencimientoAuto . "', '" . $idTipoPoliza . "', '" . $idObservacionesAuto . "', '" . $idCheckTarjeta . "', '" . $idCheckFactura . "','" . $idCheckINE . "'," .
-                            " '" . $idCheckImportacion . "', '" . $idCheckTenecia . "', '" . $idCheckPoliza . "', '" . $idCheckLicencia . "', '" . $fechaCreacion . "','" . $fechaModificacion . "','" . $usuario . "','" . $sucursal . "','" . $estatus . "')";
-                        echo $insertaAuto;
+                            " '" . $idCheckImportacion . "', '" . $idCheckTenecia . "', '" . $idCheckPoliza . "', '" . $idCheckLicencia . "', '" . $fechaCreacion . "','" . $fechaModificacion . "','" . $idCierreCaja . "','" . $estatus . "')";
                         if ($ps = $this->conexion->prepare($insertaAuto)) {
                             if ($ps->execute()) {
                                 $verdad =  $idContratoAuto;
