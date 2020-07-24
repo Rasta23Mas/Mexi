@@ -417,8 +417,6 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato,tipoFormula
         success: function (response) {
             if (response > 0) {
                 BitacoraTokenEmpeno(contrato,tipoFormulario,tipoContrato)
-
-                alertify.success("Contrato generado.");
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr07)")
             }
@@ -457,10 +455,8 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario,tipoCon) {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Token guardado.");
-
-
                 var  recargar = setTimeout(function(){  location.reload() }, 3000);
-                var  pdf = setTimeout(function(){  verPDFDocumentosCon(contrato); }, 2000);
+                var  pdfDoc = setTimeout(function(){  verPDFDocumentosCon(contrato); }, 2000);
                 var  pdf = setTimeout(function(){ verPDF(contrato); }, 2000);
             } else {
                 alertify.error("Error en al guardar el token")
