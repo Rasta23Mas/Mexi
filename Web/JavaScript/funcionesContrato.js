@@ -81,7 +81,8 @@ function generarContrato() {
     Suma_InteresPrestamo = Math.round(Suma_InteresPrestamo * 100) / 100;
     var Total_Intereses = Suma_InteresPrestamo - totalPrestamo;
     Total_Intereses = Math.round(Total_Intereses * 100) / 100;
-
+    var tipoFormulario = $("#idTipoFormulario").val();
+    var cliente = $("#idClienteEmpeno").val();
     var dataEnviar = {
         "idCliente": $("#idClienteEmpeno").val(),
         "totalPrestamo": totalPrestamo,
@@ -111,7 +112,7 @@ function generarContrato() {
         success: function () {
             alert(contrato)
             if (contrato > 0) {
-                actualizarArticulo(contrato);
+                actualizarArticulo(contrato,tipoFormulario,cliente);
                 var mov_contrato = contrato;
                 var mov_fechaVencimiento = fechaVencimiento;
                 var mov_fechaAlmoneda = fechaAlmoneda;
@@ -176,7 +177,7 @@ function consultarContratos() {
 }
 
 //Agrega articulos a la tabla
-function actualizarArticulo(ultimoContrato) {
+function actualizarArticulo(ultimoContrato,tipoFormulario,cliente) {
     //FEErr03
     var serie = ultimoContrato.trim();
     var idSerieContrato = serie.padStart(6, "0");
@@ -195,7 +196,8 @@ function actualizarArticulo(ultimoContrato) {
                 alertify.error("Error al agregar articulos al contrato. (FEErr03)");
             } else {
                 alertify.success("Articulos agregados al contrato.");
-                BitacoraTokenEmpeno(contrato,tipoFormulario);
+                var tipoFormulario = $("#idTipoFormulario").val()
+                BitacoraTokenEmpeno(ultimoContrato,tipoFormulario,cliente);
             }
         },
     })
@@ -288,7 +290,7 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
 }
 
 
-function BitacoraTokenEmpeno(contrato,tipoFormulario) {
+function BitacoraTokenEmpeno(contrato,tipoFormulario,cliente) {
     //tokenMovimiento= 9 ->Monto Electronicos/Metales
     //tokenMovimiento= 10->Monto Auto
     var tipoContrato = 1;
@@ -311,7 +313,7 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Token guardado.");
-                BitacoraUsuarioEmpeno(contrato, clienteEmpeno, 1);
+                BitacoraUsuarioEmpeno(contrato, cliente, 1);
             } else {
                 alertify.error("Error en al guardar el token")
             }

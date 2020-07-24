@@ -125,15 +125,14 @@ class sqlMovimientosDAO
                         $verdad = $UltimoMovimiento;
                     }
                 } else {
-                    $verdad = -2;
+                    $verdad = -1;
                 }
             } else {
-                $verdad = -3;
+                $verdad = -2;
             }
 
         } catch
         (Exception $exc) {
-            $verdad = -4;
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();

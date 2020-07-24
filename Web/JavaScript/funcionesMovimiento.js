@@ -40,7 +40,7 @@ function Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_pr
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-
+                alertify.success("Contrato generado.");
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr06)")
             }
