@@ -25,33 +25,40 @@ class sqlContratoDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
+
             $id_Cliente = $contrato->getIdCliente();
             $totalPrestamo = $contrato->getTotalPrestamo();
+            $totalAvaluo = $contrato->getTotalAvaluo();
             $totalInteres = $contrato->getTotalIntereses();
             $sumaInteresPrestamo = $contrato->getSumaInteresPrestamo();
-            $beneficiario = $contrato->getBeneficiario();
+            $diasAlm = $contrato->getDiasAlmonedaValue();
             $cotitular = $contrato->getCotitular();
+            $beneficiario = $contrato->getBeneficiario();
             $plazo = $contrato->getPlazo();
+            $periodo = $contrato->getPeriodo();
+            $tipoInteres = $contrato->getTipoInteres();
             $tasa = $contrato->getTasa();
             $alm = $contrato->getAlm();
             $seguro = $contrato->getSeguro();
             $iva = $contrato->getIva();
             $dias = $contrato->getDias();
-            $tipoFormulario = $contrato->getTipoFormulario();
+            $tipoFormulario = $contrato->getIdTipoFormulario();
             $aforo = $contrato->getAforo();
-            $diasAlm = $contrato->getDiasAlm();
             $fechaCreacion = date('Y-m-d H:i:s');
+            $fecha_vencimiento = $contrato->getFechaVencimiento();
+            $fecha_almoneda = $contrato->getFechaAlmoneda();
             $idCierreCaja = $_SESSION['idCierreCaja'];
             //tipoContrato (Articulos = 1, Autos = 2,)
             $tipoContrato = 1;
 
 
             $insertaContrato = "INSERT INTO contrato_tbl
-                (id_Cliente, total_Prestamo,total_Interes, suma_InteresPrestamo, diasAlm, cotitular,
-                 beneficiario, plazo,tasa, alm,seguro,iva,dias, id_Formulario,aforo, fecha_creacion,
-                 tipoContrato,id_cierreCaja) VALUES 
-                ( $id_Cliente, $totalPrestamo ,$totalInteres,$sumaInteresPrestamo,$diasAlm,'$cotitular','$beneficiario',
-                  $plazo,$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'$fechaCreacion',$tipoContrato,$idCierreCaja)";
+                (id_Cliente, total_Prestamo,total_Avaluo,total_Interes, suma_InteresPrestamo, diasAlm, cotitular,
+                 beneficiario, plazo,periodo,tipoInteres,tasa, alm,seguro,iva,dias, id_Formulario,Aforo, fecha_creacion,
+                 fecha_vencimiento,fecha_almoneda,tipoContrato,id_cierreCaja) VALUES 
+                ( $id_Cliente, $totalPrestamo ,$totalAvaluo,$totalInteres,$sumaInteresPrestamo,$diasAlm,'$cotitular','$beneficiario',
+                  $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'$fechaCreacion','$fecha_vencimiento',
+                  '$fecha_almoneda', $tipoContrato,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     $buscarContrato = "select max(id_Contrato) as UltimoContrato from contrato_tbl where id_cierreCaja = $idCierreCaja";

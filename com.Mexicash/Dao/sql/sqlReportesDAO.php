@@ -149,7 +149,7 @@ class sqlReportesDAO
                         WHERE DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 
                         OR ConM.tipo_movimiento = 21)  
-                        ORDER BY FORMU";
+                        ORDER BY CONTRATO";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

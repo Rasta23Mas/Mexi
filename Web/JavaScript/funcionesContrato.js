@@ -69,45 +69,47 @@ function tokenNuevo() {
 //Genera contrato
 function generarContrato() {
     //FEErr01
-    var clienteEmpeno = $("#idClienteEmpeno").val();
     var totalPrestamo = $("#idTotalPrestamo").val();
+    var totalAvaluo = $("#idTotalAvaluo").val();
     var diasAlmonedaValue = $('select[name="diasAlmName"] option:selected').text();
-    var tipoFormulario = $("#idTipoFormulario").val();
-    var aforo = $("#idAforo").val();
-    var idTipoInteres = $("#idTipoInteres").text();
-    var idPeriodo = $("#idPeriodo").text();
-    var plazo = $("#idPlazo").text();
     var fechaVencimiento = $("#idFecVencimiento").text();
     var fechaAlmoneda = $("#idFechaAlm").val();
     var Suma_InteresPrestamo = $("#idTotalInteres").val();
 
     totalPrestamo = Math.round(totalPrestamo * 100) / 100;
+    totalAvaluo = Math.round(totalAvaluo * 100) / 100;
     Suma_InteresPrestamo = Math.round(Suma_InteresPrestamo * 100) / 100;
     var Total_Intereses = Suma_InteresPrestamo - totalPrestamo;
     Total_Intereses = Math.round(Total_Intereses * 100) / 100;
 
     var dataEnviar = {
-        "idCliente": clienteEmpeno,
+        "idCliente": $("#idClienteEmpeno").val(),
         "totalPrestamo": totalPrestamo,
+        "totalAvaluo": totalAvaluo,
         "Total_Intereses": Total_Intereses,
         "Suma_InteresPrestamo": Suma_InteresPrestamo,
         "diasAlmonedaValue": diasAlmonedaValue,
         "cotitular": $("#nombreCotitular").val(),
         "beneficiario": $("#idNombreBen").val(),
-        "plazo": plazo,
+        "plazo":  $("#idPlazo").text(),
+        "periodo":  $("#idPeriodo").text(),
+        "tipoInteres":  $("#idTipoInteres").text(),
         "tasa": $("#idTasaPorcen").text(),
         "alm": $("#idAlmPorcen").text(),
         "seguro": $("#idSeguroPorcen").text(),
         "iva": $("#idIvaPorcen").text(),
         "dias": $("#diasInteres").val(),
-        "idTipoFormulario": tipoFormulario,
-        "aforo": aforo
+        "idTipoFormulario":  $("#idTipoFormulario").val(),
+        "aforo":  $("#idAforo").val(),
+        "fecha_vencimiento":  fechaVencimiento,
+        "fecha_almoneda":  fechaAlmoneda,
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Contrato.php',
+        url: '../../../com.Mexicash/Controlador/Contrato/Contrato.php',
         type: 'post',
         success: function (contrato) {
+            alert(contrato)
             if (contrato > 0) {
                 actualizarArticulo(contrato);
                 BitacoraTokenEmpeno(contrato,tipoFormulario)
@@ -203,7 +205,6 @@ function limpiarTabla() {
         },
     })
 }
-
 
 //Canelar
 function cancelar() {

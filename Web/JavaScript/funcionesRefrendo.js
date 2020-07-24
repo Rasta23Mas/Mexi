@@ -646,7 +646,6 @@ function cancelar() {
     location.reload();
 }
 
-
 function descuentoNuevo(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
@@ -972,7 +971,6 @@ function generarNuevo() {
         }
     }
 }
-
 
 function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {
     //tipo_movimiento = 3 cat_movimientos-->Operacion-->Empeño
