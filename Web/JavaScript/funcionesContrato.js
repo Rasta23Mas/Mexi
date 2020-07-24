@@ -1,4 +1,5 @@
 var errorToken = 0;
+var tokenBitacora = 0;
 function validarMonto() {
     var totalPrestamo = $("#idTotalPrestamo").val();
     var montoToken = $("#idMontoToken").val();
@@ -25,6 +26,7 @@ function validarMonto() {
         totalPrestamo = Number(totalPrestamo);
         montoToken = Number(montoToken);
         if(totalPrestamo>=montoToken){
+            tokenBitacora =1;
             $("#modalDescuento").modal();
         }else{
             generarContrato();
@@ -109,8 +111,7 @@ function generarContrato() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Contrato/Contrato.php',
         type: 'post',
-        success: function () {
-            alert(contrato)
+        success: function (contrato) {
             if (contrato > 0) {
                 actualizarArticulo(contrato,tipoFormulario,cliente);
                 var mov_contrato = contrato;
@@ -196,8 +197,7 @@ function actualizarArticulo(ultimoContrato,tipoFormulario,cliente) {
                 alertify.error("Error al agregar articulos al contrato. (FEErr03)");
             } else {
                 alertify.success("Articulos agregados al contrato.");
-                var tipoFormulario = $("#idTipoFormulario").val()
-                BitacoraTokenEmpeno(ultimoContrato,tipoFormulario,cliente);
+                BitacoraUsuarioEmpeno(ultimoContrato, cliente, 1);
             }
         },
     })
@@ -279,9 +279,14 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                setTimeout('location.reload();', 700)
-                verPDF(contrato);
                 alertify.success("Contrato generado.");
+                if(tokenBitacora==1){
+                    var tipoFormulario = $("#idTipoFormulario").val()
+                    BitacoraTokenEmpeno(contrato,tipoFormulario,cliente);
+                }else{
+                    var  recargar = setTimeout(function(){  verPDF(contrato); }, 2000);
+                    var  pdf = setTimeout(function(){ location.reload() }, 3000);
+                }
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr07)")
             }
@@ -290,7 +295,7 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
 }
 
 
-function BitacoraTokenEmpeno(contrato,tipoFormulario,cliente) {
+function BitacoraTokenEmpeno(contrato,tipoFormulario) {
     //tokenMovimiento= 9 ->Monto Electronicos/Metales
     //tokenMovimiento= 10->Monto Auto
     var tipoContrato = 1;
@@ -313,10 +318,17 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario,cliente) {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Token guardado.");
-                BitacoraUsuarioEmpeno(contrato, cliente, 1);
+                var  recargar = setTimeout(function(){  verPDF(contrato); }, 2000);
+                var  pdf = setTimeout(function(){ location.reload() }, 3000);
+
+
             } else {
                 alertify.error("Error en al guardar el token")
             }
         }
     });
+}
+
+function testContrato() {
+   var  myVar = setTimeout(function(){ alert("Hello") }, 3000);
 }

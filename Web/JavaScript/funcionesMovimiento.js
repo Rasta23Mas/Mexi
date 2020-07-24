@@ -11,7 +11,7 @@ function Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_pr
         "s_prestamo_nuevo": mov_prestamo_nuevo,
         "s_descuento_aplicado": mov_descuentoApl,
         "descuentoTotal": mov_descuentoTotal,
-        "abonoTotal": s_prestamo_nuevo,
+        "abonoTotal": mov_abonoTotal,
         "e_capital_recuperado": mov_capitalRecuperado,
         "e_pagoDesempeno": mov_pagoDesempeno,
         "e_abono": mov_abono,
