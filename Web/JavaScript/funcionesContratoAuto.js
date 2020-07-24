@@ -242,10 +242,41 @@ function generarContratoAuto() {
         type: 'post',
         success: function (contrato) {
             if (contrato > 0) {
-                $("#idFormAuto")[0].reset();
-                verPDFDocumentosCon(contrato);
-                BitacoraTokenEmpeno(contrato,tipoFormulario)
-                MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 2, totalAvaluo);
+                var mov_contrato = contrato;
+                var mov_fechaVencimiento = fechaVencimiento;
+                var mov_fechaAlmoneda = fechaAlmoneda;
+                var mov_prestamo_actual = totalPrestamo;
+                var mov_prestamo_nuevo = totalPrestamo;
+                var mov_descuentoApl = 0;
+                var mov_descuentoTotal = 0;
+                var mov_abonoTotal = 0;
+                var mov_capitalRecuperado = 0;
+                var mov_pagoDesempeno = 0;
+                var mov_abono = 0;
+                var mov_intereses = 0;
+                var mov_almacenaje = 0;
+                var mov_seguro = 0;
+                var mov_moratorios = 0;
+                var mov_iva = 0;
+                var mov_gps = 0;
+                var mov_poliza = 0;
+                var mov_pension = 0;
+                var mov_costoContrato = 0;
+                var mov_tipoContrato = 1;//Articulos y Electronicos
+                var mov_tipoMovimiento = 3;//Empeño
+                var mov_Informativo = totalPrestamo;
+                var mov_subtotal = 0;
+                var mov_total = 0;
+                var mov_efectivo = 0;
+                var mov_cambio = 0;
+
+                Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
+                    mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_almacenaje,mov_seguro,
+                    mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
+                    mov_subtotal,mov_total,mov_efectivo,mov_cambio);
+                BitacoraUsuarioEmpeno(contrato, clienteEmpeno, 2,tipoFormulario);
+
+                //MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 2, totalAvaluo);
                 alertify.success("Contrato generado exitosamente.");
             } else {
                 alertify.error("Error al generar contrato. (FEErr02)");
@@ -279,7 +310,7 @@ function cancelar() {
 }
 
 
-function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, totalPrestamo, clienteEmpeno,
+/*function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, totalPrestamo, clienteEmpeno,
                              fechaVencimiento, fechaAlmoneda, tipoContrato, totalAvaluo) {
     //FEErr06
     //tipo_movimiento = 3 cat_movimientos-->Operacion-->Empeño
@@ -349,23 +380,17 @@ function MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazoEnviado, t
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato);
+
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr06)")
             }
         }
     });
-}
+}*/
 
-function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
-    //id_Movimiento = 3 cat_movimientos-->Operacion-->Empeño
-    //FEErr07
-    var movimiento = 0;
-    if (tipoContrato == 1) {
-        movimiento = 3;
-    } else if (tipoContrato == 2) {
-        movimiento = 7;
-    }
+function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato,tipoFormulario) {
+
+    var movimiento = 7;
     var id_Movimiento = movimiento;
     var id_contrato = contrato;
     var id_almoneda = 0;
@@ -390,9 +415,9 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
         url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
         data: dataEnviar,
         success: function (response) {
-            alert(response)
             if (response > 0) {
-                verPDF(contrato);
+                BitacoraTokenEmpeno(contrato,tipoFormulario,tipoContrato)
+
                 alertify.success("Contrato generado.");
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr07)")
@@ -402,21 +427,17 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
 }
 
 function verPDF(id_ContratoPDF) {
-    alert("verpdf")
-    alert(id_ContratoPDF)
     window.open('../PDF/callPdfContrato.php?pdf=1&contrato=' + id_ContratoPDF);
 }
 
 function verPDFDocumentosCon(id_ContratoPDF) {
-    alert("verpdfdoc")
-    alert(id_ContratoPDF)
     window.open('../PDF/callPdfAutoDocumentos.php?pdf=1&contrato=' + id_ContratoPDF);
 }
 
-function BitacoraTokenEmpeno(contrato,tipoFormulario) {
+function BitacoraTokenEmpeno(contrato,tipoFormulario,tipoCon) {
     //tokenMovimiento= 9 ->Monto Electronicos/Metales
     //tokenMovimiento= 10->Monto Auto
-    var tipoContrato = 1;
+    var tipoContrato = tipoCon;
     var token = $("#idToken").val();
     var tokenDescripcion = $("#tokenDescripcion").val();
     var tokenMovimiento = 10;
@@ -436,6 +457,11 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Token guardado.");
+
+
+                var  recargar = setTimeout(function(){  location.reload() }, 3000);
+                var  pdf = setTimeout(function(){  verPDFDocumentosCon(contrato); }, 2000);
+                var  pdf = setTimeout(function(){ verPDF(contrato); }, 2000);
             } else {
                 alertify.error("Error en al guardar el token")
             }

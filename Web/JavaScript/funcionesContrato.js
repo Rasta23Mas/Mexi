@@ -279,7 +279,6 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                alertify.success("Contrato generado.");
                 if(tokenBitacora==1){
                     var tipoFormulario = $("#idTipoFormulario").val()
                     BitacoraTokenEmpeno(contrato,tipoFormulario,cliente);
@@ -327,8 +326,4 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
             }
         }
     });
-}
-
-function testContrato() {
-   var  myVar = setTimeout(function(){ alert("Hello") }, 3000);
 }
