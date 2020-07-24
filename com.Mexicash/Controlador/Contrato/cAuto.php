@@ -7,15 +7,17 @@ include_once(SQL_PATH . "sqlAutoDAO.php");
 $idClienteAuto = $_POST['idClienteAuto'];
 $fechaVencimiento = $_POST['fechaVencimiento'];
 $totalPrestamo = $_POST['totalPrestamo'];
+$totalAvaluo = $_POST['totalAvaluo'];
 $total_Interes = $_POST['total_Interes'];
 $sumaInteresPrestamo = $_POST['sumaInteresPrestamo'];
 $polizaSeguroCost = $_POST['polizaSeguro'];
 $gps = $_POST['gps'];
 $pension = $_POST['pension'];
-$estatus = $_POST['estatus'];
 $beneficiario = $_POST['beneficiario'];
 $cotitular = $_POST['cotitular'];
 $plazo = $_POST['plazo'];
+$periodo = $_POST['periodo'];
+$idTipoInteres = $_POST['idTipoInteres'];
 $tasa = $_POST['tasa'];
 $alm = $_POST['alm'];
 $seguro = $_POST['seguro'];
@@ -55,9 +57,6 @@ $idCheckLicencia = $_POST['idCheckLicencia'];
 $diasAlmoneda = $_POST['diasAlmoneda'];
 $fecha_Alm = $_POST['fecha_Alm'];
 
-
-
-
 $auto = new Auto(
 //Contrato
     $idClienteAuto,
@@ -68,7 +67,6 @@ $auto = new Auto(
     $polizaSeguroCost,
     $gps,
     $pension,
-    $estatus,
     $beneficiario,
     $cotitular,
     $plazo,

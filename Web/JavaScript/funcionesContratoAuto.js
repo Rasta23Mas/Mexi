@@ -177,23 +177,28 @@ function generarContratoAuto() {
     var idPeriodo = $("#idPeriodo").text();
     var plazo = $("#idPlazo").text();
     var totalPrestamo = $("#idTotalPrestamoAuto").val();
+    var totalAvaluo = $("#idTotalAvaluoAuto").val();
     var fechaVencimiento = $("#idFecVencimiento").text();
     var fechaAlmoneda = $("#idFechaAlm").val();
-    var totalAvaluo = $("#idTotalAvaluoAuto").val();
+
+    totalPrestamo = Math.round(totalPrestamo * 100) / 100;
+    totalAvaluo = Math.round(totalAvaluo * 100) / 100;
 
     var dataEnviar = {
         "idClienteAuto": clienteEmpeno,
         "fechaVencimiento": fechaVencimiento,
         "totalPrestamo": totalPrestamo,
+        "totalAvaluo": totalAvaluo,
         "total_Interes": interesAuto,
         "sumaInteresPrestamo": $("#idSumaInteresPrestamo").val(),
         "polizaSeguro": $("#idPolizaSeguro").val(),
         "gps": $("#idGPS").val(),
         "pension": $("#idPension").val(),
-        "estatus": 1,
         "beneficiario": $("#idNombreBen").val(),
         "cotitular": $("#nombreCotitular").val(),
-        "plazo": plazo,
+        "plazo":  $("#idPlazo").text(),
+        "periodo":  $("#idPeriodo").text(),
+        "idTipoInteres":  $("#idTipoInteres").text(),
         "tasa": $("#idTasaPorcen").text(),
         "alm": $("#idAlmPorcen").text(),
         "seguro": $("#idSeguroPorcen").text(),
@@ -229,14 +234,14 @@ function generarContratoAuto() {
         "idCheckPoliza": chkPoliza,
         "idCheckLicencia": chkLicencia,
         "diasAlmoneda": diasAlmonedaValue,
-        "fecha_Alm": $("#idFechaAlm").val()
-
+        "fecha_Alm":fechaAlmoneda
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/cAuto.php',
+        url: '../../../com.Mexicash/Controlador/Contrato/cAuto.php',
         type: 'post',
         success: function (contrato) {
+            alert(contrato)
             if (contrato > 0) {
                 $("#idFormAuto")[0].reset();
                 verPDFDocumentosCon(contrato);

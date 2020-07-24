@@ -25,50 +25,48 @@ class sqlAutoDAO
         try {
 
             $id_Cliente = $auto->getIdClienteAuto();
-            //$fechaVencimiento = $auto->getFechaVencimiento();
             $totalPrestamo = $auto->getTotalPrestamo();
+            $totalAvaluo = $auto->getTotalAvaluo();
             $totalInteres = $auto->getTotalInteres();
             $sumaInteresPrestamo = $auto->getSumaInteresPrestamo();
-            $polizaInteres = $auto->getPolizaSeguroCost();
-            $gps = $auto->getGps();
-            $pension = $auto->getPension();
-
-            $estatus = $auto->getEstatus();
-            $beneficiario = $auto->getBeneficiario();
+            $diasAlm = $auto->getDiasAlmoneda();
             $cotitular = $auto->getCotitular();
+            $beneficiario = $auto->getBeneficiario();
             $plazo = $auto->getPlazo();
+            $periodo = $auto->getPeriodo();
+            $tipoInteres = $auto->getIdTipoInteres();
             $tasa = $auto->getTasa();
             $alm = $auto->getAlm();
             $seguro = $auto->getSeguro();
             $iva = $auto->getIva();
             $dias = $auto->getDias();
-            $tipoFormulario = $auto->getTipoFormulario();
+            $polizaInteres = $auto->getPolizaSeguroCost();
+            $gps = $auto->getGps();
+            $pension = $auto->getPension();
+            $tipoFormulario = $auto->getIdTipoFormulario();
             $aforo = $auto->getAforo();
-            $diasAlm = $auto->getDiasAlmoneda();
-            $fechaAlm = $auto->getFechaAlm();
-
             $fechaCreacion = date('Y-m-d H:i:s');
-            $fechaModificacion = date('Y-m-d H:i:s');
-
+            $fechaVencimiento = $auto->getFechaVencimiento();
+            $fechaAlm = $auto->getFechaAlm();
             $idCierreCaja = $_SESSION['idCierreCaja'];
 
             $usuario = $_SESSION["idUsuario"];
             $sucursal = $_SESSION["sucursal"];
             $insertaContrato = "INSERT INTO contrato_tbl " .
-                "(id_Cliente, total_Prestamo,total_Interes, suma_InteresPrestamo, polizaSeguro, gps, pension, " .
-                "diasAlm, beneficiario, cotitular, plazo,tasa, alm, seguro,iva,dias,id_Formulario,aforo, fecha_creacion,tipoContrato,id_cierreCaja) VALUES " .
-                "('" . $id_Cliente . "','" . $totalPrestamo . "','" . $totalInteres . "', '" . $sumaInteresPrestamo . "', '" . $polizaInteres . "','" . $gps . "', '" . $pension .
-                "', '" . $diasAlm . "','" . $beneficiario . "','" . $cotitular . "','" . $plazo . "','" . $tasa . "','" . $alm . "','" . $seguro .
-                "','" . $iva . "','" . $dias . "','" . $tipoFormulario . "','" . $aforo . "','" . $fechaCreacion ."',2,$idCierreCaja)";
-
+                "(id_Cliente, total_Prestamo,total_Avaluo, total_Interes, suma_InteresPrestamo,diasAlm,cotitular, beneficiario, 
+                  plazo,periodo,tipoInteres,tasa, alm, seguro,iva,dias,PolizaSeguro, GPS, Pension,id_Formulario,Aforo, fecha_creacion,
+                  fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja) VALUES (
+                  $id_Cliente,$totalPrestamo,$totalAvaluo,$totalInteres,$sumaInteresPrestamo,$diasAlm,'$cotitular','$beneficiario',
+                  $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$polizaInteres,$gps,$pension,$tipoFormulario,$aforo,'$fechaCreacion'
+                  '$fechaVencimiento','$fechaAlm',2,$idCierreCaja)";
+            echo $insertaContrato;
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
-
                     if (mysqli_stmt_affected_rows($ps) == 1) {
                         $buscar = "select max(id_Contrato) as idContrato  from contrato_tbl ";
                         $statement = $this->conexion->query($buscar);
                         $fila = $statement->fetch_object();
-
+                        $fechaModificacion = date('Y-m-d H:i:s');
                         $idContratoAuto = $fila->idContrato;
                         $idTipoVehiculo = $auto->getidTipoVehiculo();
                         $idMarca = $auto->getidMarca();
@@ -98,7 +96,7 @@ class sqlAutoDAO
                         $idCheckPoliza = $auto->getidCheckPoliza();
                         $idCheckLicencia = $auto->getidCheckLicencia();
 
-                     
+                        $idColor = mb_strtoupper($idColor, 'UTF-8');
                         $idMarca = mb_strtoupper($idMarca, 'UTF-8');
                         $idModelo = mb_strtoupper($idModelo, 'UTF-8');
                         $idPlacas = mb_strtoupper($idPlacas, 'UTF-8');
@@ -120,7 +118,7 @@ class sqlAutoDAO
                             " '" . $idSerie . "', '" . $idVehiculo . "', '" . $idRepuve . "', '" . $idGasolina . "', '" . $idTarjeta . "','" . $idAseguradora . "','" . $idPoliza . "'," .
                             " '" . $idFecVencimientoAuto . "', '" . $idTipoPoliza . "', '" . $idObservacionesAuto . "', '" . $idCheckTarjeta . "', '" . $idCheckFactura . "','" . $idCheckINE . "'," .
                             " '" . $idCheckImportacion . "', '" . $idCheckTenecia . "', '" . $idCheckPoliza . "', '" . $idCheckLicencia . "', '" . $fechaCreacion . "','" . $fechaModificacion . "','" . $usuario . "','" . $sucursal . "','" . $estatus . "')";
-
+                        echo $insertaAuto;
                         if ($ps = $this->conexion->prepare($insertaAuto)) {
                             if ($ps->execute()) {
                                 $verdad =  $idContratoAuto;
