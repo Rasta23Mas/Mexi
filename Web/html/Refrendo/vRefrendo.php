@@ -76,7 +76,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     </script>
     <style>
         .propInvisible {
-            visibility: hidden;
+            visibility: visible;
         }
     </style>
 </head>

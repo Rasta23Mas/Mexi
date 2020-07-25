@@ -101,9 +101,39 @@ class sqlMovimientosDAO
             $verdad = -1;
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $fechaHoy = date('Y-m-d H:i:s');
+            $flagFecha = 0;
+            $fechaUpdateRealizado = 0;
 
-            $id_contrato = trim($id_contrato);
-            $insertaMovimiento = "INSERT INTO contrato_mov_tbl (id_contrato,fechaVencimiento,fechaAlmoneda,prestamo_actual, s_prestamo_nuevo,
+            if($tipo_movimiento==4||$tipo_movimiento==8) {
+                $updateFecha = "UPDATE contrato_tbl SET
+                                         fecha_vencimiento = '$fechaVencimiento',
+                                         fecha_almoneda = '$fechaAlmoneda'
+                                        WHERE id_Contrato =$id_contrato";
+                $flagFecha= 1;
+            }else if($tipo_movimiento==5||$tipo_movimiento==9) {
+                $updateFecha = "UPDATE contrato_tbl SET
+                                         fecha_vencimiento = '$fechaVencimiento',
+                                         fecha_almoneda = '$fechaAlmoneda'
+                                        WHERE id_Contrato =$id_contrato";
+                $flagFecha= 1;
+            }
+
+            if($flagFecha==1){
+                if ($ps = $this->conexion->prepare($updateFecha)) {
+                    if ($ps->execute()) {
+                        $fechaUpdateRealizado = 1;
+                    } else {
+                        $fechaUpdateRealizado = -1;
+                    }
+                } else {
+                    $fechaUpdateRealizado = -1;
+                }
+            }else{
+                $fechaUpdateRealizado = 1;
+            }
+            if($fechaUpdateRealizado==1){
+                $id_contrato = trim($id_contrato);
+                $insertaMovimiento = "INSERT INTO contrato_mov_tbl (id_contrato,fechaVencimiento,fechaAlmoneda,prestamo_actual, s_prestamo_nuevo,
                         s_descuento_aplicado, descuentoTotal, abonoTotal,e_capital_recuperado, e_pagoDesempeno, 
                         e_abono,e_intereses,e_interes, e_almacenaje, e_seguro,e_moratorios,e_iva, e_gps, e_poliza,e_pension, e_costoContrato,
                         tipo_Contrato, tipo_movimiento, id_cierreCaja, fecha_Movimiento, prestamo_Informativo, 
@@ -113,22 +143,25 @@ class sqlMovimientosDAO
                          $e_abono, $e_intereses, $e_interes,$e_almacenaje,$e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato,
                          $tipo_Contrato, $tipo_movimiento, $idCierreCaja,'$fechaHoy',$prestamo_Informativo,
                          $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio)";
-            if ($ps = $this->conexion->prepare($insertaMovimiento)) {
-                if ($ps->execute()) {
-                    // $verdad = mysqli_stmt_affected_rows($ps);
-                    $buscarContrato = "select max(id_movimiento) as ID_Movimiento from contrato_mov_tbl where id_cierreCaja = $idCierreCaja";
-                    $statement = $this->conexion->query($buscarContrato);
-                    $encontro = $statement->num_rows;
-                    if ($encontro > 0) {
-                        $fila = $statement->fetch_object();
-                        $UltimoMovimiento = $fila->ID_Movimiento;
-                        $verdad = $UltimoMovimiento;
+                if ($ps = $this->conexion->prepare($insertaMovimiento)) {
+                    if ($ps->execute()) {
+                        // $verdad = mysqli_stmt_affected_rows($ps);
+                        $buscarContrato = "select max(id_movimiento) as ID_Movimiento from contrato_mov_tbl where id_cierreCaja = $idCierreCaja";
+                        $statement = $this->conexion->query($buscarContrato);
+                        $encontro = $statement->num_rows;
+                        if ($encontro > 0) {
+                            $fila = $statement->fetch_object();
+                            $UltimoMovimiento = $fila->ID_Movimiento;
+                            $verdad = $UltimoMovimiento;
+                        }
+                    } else {
+                        $verdad = -1;
                     }
                 } else {
-                    $verdad = -1;
+                    $verdad = -2;
                 }
-            } else {
-                $verdad = -2;
+            }else{
+                $verdad = -7;
             }
 
         } catch
