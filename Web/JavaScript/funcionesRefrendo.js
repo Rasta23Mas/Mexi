@@ -1057,71 +1057,6 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     BitacoraUsuarioRefrendo();
 }
 
-//Guardar Bitacora Pagos
-/*function bitacoraPagosNuevo(ultimoMovimiento) {
-    //$tipe == 1 es refrendo normal
-    //$tipe == 2 es refrendo auto
-    //$tipe == 3 es desempeño normal
-    //$tipe == 4 es desempeño auto
-    efectivoPDF = $("#efectivoNuevoNota").val();
-    cambioPDF = $("#cambioNuevoNota").val();
-    descuentoAplicadoPDF = $("#descuentoNuevoNota").val();
-    var e_iva = $("#idIVAValue").val();
-    e_iva = Math.round(e_iva * 100) / 100;
-
-    if (descuentoAplicadoPDF == '' || descuentoAplicadoPDF == null) {
-        descuentoAplicadoPDF = 0;
-    }
-    var newFechaVencimiento = $("#fechaVencimientoNuevoNota").val();
-    var newFechaAlm = $("#fechaAlmNuevoNota").val();
-    var costo_Contrato = 0;
-
-    var totalVencInteres = $("#idTblInteresDesc").val();
-    var totalVencAlm = $("#idTblAlmacenajeDesc").val();
-    var totalVencSeg = $("#idTblSeguroDesc").val();
-
-    totalVencInteres = Math.round(totalVencInteres * 100) / 100;
-    totalVencAlm = Math.round(totalVencAlm * 100) / 100;
-    totalVencSeg = Math.round(totalVencSeg * 100) / 100;
-
-
-    var dataEnviar = {
-        "id_ContratoPDF": contratoGbl,
-        "id_ClientePDF": id_ClientePDF,
-        "prestamoPDF": prestamoPDF,
-        "abonoCapitalPDF": abonoCapitalPDF,
-        "interesesPDF": totalVencInteres,
-        "almacenajePDF": totalVencAlm,
-        "seguroPDF": totalVencSeg,
-        "desempeñoExtPDF": desempeñoExtPDF,
-        "moratoriosPDF": moratoriosPDF,
-        "otrosCobrosPDF": otrosCobrosPDF,
-        "descuentoAplicadoPDF": descuentoAplicadoPDF,
-        "descuentoPuntosPDF": descuentoPuntosPDF,
-        "ivaPDF": e_iva,
-        "efectivoPDF": efectivoPDF,
-        "cambioPDF": cambioPDF,
-        "mutuoPDF": mutuoPDF,
-        "refrendoPDF": refrendoPDF,
-        "newFechaVencimiento": newFechaVencimiento,
-        "newFechaAlm": newFechaAlm,
-        "tipeFormulario": tipeFormulario,
-        "costo_Contrato": costo_Contrato,
-        "ultimoMovimiento": ultimoMovimiento,
-    };
-
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Pagos/bitPagos.php',
-        type: 'post',
-        success: function (response) {
-            if (response == 1) {
-
-            }
-        },
-    })
-}*/
-
 function BitacoraUsuarioRefrendo() {
     //id_Movimiento = 3 cat_movimientos-->Operacion-->Empeño
     var movimiento = 0;
@@ -1155,8 +1090,9 @@ function BitacoraUsuarioRefrendo() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                var  recargar = setTimeout(function(){  location.reload(); }, 2000);
-                var  pdf = setTimeout(function(){ verPDFRefrendo(contratoGbl);}, 3000);
+                var  pdf = setTimeout(function(){ verPDFRefrendo(contratoGbl);}, 2000);
+                var  recargar = setTimeout(function(){  location.reload(); }, 3000);
+
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
