@@ -92,7 +92,6 @@ function busquedaMovimiento() {
     });
 }
 
-//Consultar contrato
 function estatusContrato() {
     tipeFormulario = $("#idFormulario").val();
     tipeFormulario = parseInt(tipeFormulario);
@@ -155,7 +154,6 @@ function estatusContrato() {
     }
 }
 
-//Buscar cliente
 function buscarCliente() {
     if (contratoGbl != '') {
         var dataEnviar = {
@@ -215,7 +213,6 @@ function buscarCliente() {
     }
 }
 
-//Buscar datos del contrato
 function buscarDatosContrato() {
     if (contratoGbl != '') {
         var dataEnviar = {
@@ -572,7 +569,6 @@ function buscarDatosContrato() {
     }
 }
 
-//Buscar detalle del contrato
 function buscarDetalle() {
     if (contratoGbl != '') {
         var dataEnviar = {
@@ -607,7 +603,6 @@ function buscarDetalle() {
     }
 }
 
-//Buscar detalle del auto
 function buscarDetalleAuto() {
     if (contratoGbl != '') {
         var dataEnviar = {
@@ -658,14 +653,6 @@ function buscarDetalleAuto() {
 
 function cancelar() {
     location.reload();
-}
-
-function cancelarSinInteres() {
-    if (tipoContrato == 1) {
-        location.href = 'vRefrendo.php?tipoFormGet=3';
-    } else if (tipoContrato == 2) {
-        location.href = 'vRefrendo.php?tipoFormGet=4';
-    }
 }
 
 function descuentoNuevo(e) {
@@ -838,7 +825,6 @@ function limpiarRefrendo() {
     }
 }
 
-//Generar pago
 function validaDescuentoNuevo() {
     var idValidaToken = $("#idValidaToken").val();
     idValidaToken = parseFloat(idValidaToken);
@@ -1226,16 +1212,14 @@ function BitacoraUsuarioRefrendoSinInteres() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                verPDFDesempenoSinInteres(contratoGbl);
                 var  pdf = setTimeout(function(){ verPDFDesempenoSinInteres(contratoGbl);}, 2000);
-                var  recargar = setTimeout(function(){  location.reload(); }, 3000);
+                limpiarRefrendo()
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
         }
     });
 }
-
 
 function verPDFDesempenoSinInteres(contratoGbl) {
     window.open('../PDF/callPdfDesempenoSinInteres.php?pdf=1&contrato=' + contratoGbl);

@@ -116,6 +116,12 @@ class sqlMovimientosDAO
                                          fecha_almoneda = '$fechaAlmoneda'
                                         WHERE id_Contrato =$id_contrato";
                 $flagFecha= 1;
+            }else if($tipo_movimiento==21) {
+                $updateFecha = "UPDATE contrato_tbl SET
+                                         fecha_vencimiento = '$fechaVencimiento',
+                                         fecha_almoneda = '$fechaAlmoneda'
+                                        WHERE id_Contrato =$id_contrato";
+                $flagFecha= 1;
             }
 
             if($flagFecha==1){
