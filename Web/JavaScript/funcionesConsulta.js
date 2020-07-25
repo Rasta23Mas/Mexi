@@ -347,6 +347,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
 }
 
 function cargarTablaNombre() {
+    alert("cargarTablaNombre");
     var idClienteConsulta = $("#idClienteConsulta").val();
     var dataEnviar = {
         "idClienteConsulta": idClienteConsulta,
@@ -440,6 +441,7 @@ function cargarTablaNombre() {
 }
 
 function cargarTablaFechas() {
+    alert("cargarTablaFechas");
     var fechaInicio = $("#idFechaInicial").val();
     var fechaFinal = $("#idFechaFinal").val();
     if (fechaInicio == "") {

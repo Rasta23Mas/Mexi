@@ -264,16 +264,18 @@ class sqlContratoDAO
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT id_Contrato AS Contrato,DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,CMov.descripcion as Movimiento,
-                        contratomovimientos_tbl.id_movimiento AS idMovimiento, s_prestamo_nuevo AS Prestamo,
-                         prestamo_actual  AS PrestamoActual,e_abono AS Abono,
-                        e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, s_descuento_aplicado AS DescuentoMov,
-                        e_pagoDesempeno AS PagoMov, CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
-                        FROM contratomovimientos_tbl 
+            $buscar = "SELECT ConM.id_Contrato AS Contrato,DATE_FORMAT(fecha_Movimiento,'%d-%m-%Y') AS FechaCreacion,
+                        CMov.descripcion as Movimiento, ConM.id_movimiento AS idMovimiento, 
+                        s_prestamo_nuevo AS Prestamo,prestamo_actual  AS PrestamoActual,e_abono AS Abono,
+                        e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, 
+                        s_descuento_aplicado AS DescuentoMov,e_pagoDesempeno AS PagoMov, 
+                        CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, 
+                        e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
+                        FROM contrato_mov_tbl  as ConM
+                        INNER JOIN contrato_tbl Con on ConM.id_contrato = Con.id_Contrato 
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE id_Contrato= $idContratoBusqueda AND tipo_Contrato  =$tipoContratoGlobal AND sucursal= $sucursal ORDER BY Contrato ";
+                        WHERE ConM.id_Contrato= $idContratoBusqueda AND tipo_Contrato  =$tipoContratoGlobal AND ConM.sucursal= $sucursal ORDER BY Contrato";
             $rs = $this->conexion->query($buscar);
-            echo $buscar;
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
@@ -311,16 +313,17 @@ class sqlContratoDAO
         $sucursal = $_SESSION["sucursal"];
 
         try {
-            $buscar = "SELECT Mov.id_Contrato AS Contrato,DATE_FORMAT(Mov.fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
+            $buscar = "SELECT Mov.id_Contrato AS Contrato,DATE_FORMAT(Mov.fecha_Movimiento,'%d-%m-%Y') AS FechaCreacion,
                        CMov.descripcion as Movimiento, Mov.id_movimiento AS idMovimiento, s_prestamo_nuevo AS Prestamo,
                        prestamo_actual  AS PrestamoActual,
                        e_abono AS Abono, e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, 
                        s_descuento_aplicado AS DescuentoMov, e_pagoDesempeno AS PagoMov,
-                       CONCAT(tipoInteres, ' ' ,periodo ,' ' ,Mov.plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo  
-                       FROM contratomovimientos_tbl Mov 
+                       CONCAT(Con.tipoInteres, ' ' ,Con.periodo ,' ' ,Con.plazo) AS PlazoMov, e_costoContrato AS CostoContrato,
+                       tipo_movimiento AS MovimientoTipo  
+                       FROM contrato_mov_tbl Mov 
                        INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                        INNER JOIN contrato_tbl Con on Mov.id_contrato = Con.id_Contrato 
-                       WHERE Con.id_Cliente= $idClienteConsulta AND tipo_Contrato =$tipoContratoGlobal AND Mov.sucursal=$sucursal ORDER BY Mov.id_Contrato ";
+                       WHERE Con.id_Cliente= $idClienteConsulta AND tipo_Contrato =$tipoContratoGlobal AND Mov.sucursal=$sucursal ORDER BY Mov.id_Contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -360,14 +363,16 @@ class sqlContratoDAO
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT id_Contrato AS Contrato,DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,CMov.descripcion as Movimiento,
-                        contratomovimientos_tbl.id_movimiento AS idMovimiento, s_prestamo_nuevo AS Prestamo,
+            $buscar = "SELECT Mov.id_contrato AS Contrato,DATE_FORMAT(fecha_Movimiento,'%d-%m-%Y') AS FechaCreacion,CMov.descripcion as Movimiento,
+                        Mov.id_movimiento AS idMovimiento, s_prestamo_nuevo AS Prestamo,
                         prestamo_actual  AS PrestamoActual,e_abono AS Abono,
                         e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, s_descuento_aplicado AS DescuentoMov,
                         e_pagoDesempeno AS PagoMov, CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
-                        FROM contratomovimientos_tbl 
+                        FROM contrato_mov_tbl as Mov
+                        INNER JOIN contrato_tbl Con on Mov.id_contrato = Con.id_Contrato 
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  fecha_Creacion BETWEEN '$fechaInicio' AND '$fechaFinal' ORDER BY Mov.id_Contrato";
+                        WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  fecha_Movimiento BETWEEN '$fechaInicio' AND '$fechaFinal' 
+                        ORDER BY Mov.id_Contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
