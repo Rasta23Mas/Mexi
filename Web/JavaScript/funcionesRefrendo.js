@@ -1060,10 +1060,10 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
 function BitacoraUsuarioRefrendo() {
     //id_Movimiento = 3 cat_movimientos-->Operacion-->Empeño
     var movimiento = 0;
-    if (tipeFormulario == 1) {
+    if (tipoContrato == 1) {
         movimiento = 4;
     }
-    if (tipeFormulario == 2) {
+    if (tipoContrato == 2) {
         movimiento = 8;
     }
 
