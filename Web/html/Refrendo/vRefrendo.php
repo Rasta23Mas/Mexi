@@ -22,6 +22,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mexicash</title>
     <script src="../../JavaScript/funcionesRefrendo.js"></script>
+    <script src="../../JavaScript/funcionesMovimiento.js"></script>
     <script type="application/javascript">
         var form = <?php echo $tipoFormularioGet?>;
         var nameForm = "Error";
