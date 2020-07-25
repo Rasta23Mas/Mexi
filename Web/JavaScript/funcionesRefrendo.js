@@ -1160,7 +1160,6 @@ function BitacoraUsuarioRefrendo() {
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
-            cancelar();
         }
     });
 }
