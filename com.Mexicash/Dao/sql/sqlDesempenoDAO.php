@@ -26,7 +26,7 @@ class sqlDesempenoDAO
         //Modifique los estatus de usuario
         $datos = array();
         try {
-            $buscar = "SELECT max(id_movimiento) as IdMovimiento FROM contratomovimientos_tbl 
+            $buscar = "SELECT max(id_movimiento) as IdMovimiento FROM contrato_mov_tbl 
                         WHERE id_contrato = '$idContratoDes' and tipo_Contrato= $tipoContrato and tipo_movimiento!=20";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -52,10 +52,10 @@ class sqlDesempenoDAO
         //Modifique los estatus de usuario
         $datos = array();
         try {
-            $buscar = "SELECT Mov.id_contrato as Contrato, Mov.fecha_Creacion  as Fecha,
+            $buscar = "SELECT Mov.id_contrato as Contrato, Mov.fecha_Movimiento  as Fecha,
                         CONCAT (Cli.nombre, ' ',Cli.apellido_Pat,' ', Cli.apellido_Mat) as NombreCompleto,
                         CatM.descripcion as Movimiento, Mov.tipo_movimiento as tipoMovimiento
-                        FROM contratomovimientos_tbl as Mov
+                        FROM contrato_mov_tbl as Mov
                         INNER JOIN contrato_tbl as Con on Mov.id_contrato = Con.id_Contrato  
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         INNER JOIN cat_movimientos as CatM on Mov.tipo_movimiento = CatM.id_Movimiento  
@@ -91,7 +91,7 @@ class sqlDesempenoDAO
                         CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ') as DireccionCompleta,
                         CONCAT (municipio,', ',Est.descripcion ) as DireccionCompletaEst,
                         Con.cotitular as Cotitular, Usu.usuario as UsuarioName
-                        FROM contratomovimientos_tbl as Mov
+                        FROM contrato_mov_tbl as Mov
                         INNER JOIN contrato_tbl as Con on Mov.id_contrato = Con.id_Contrato  
                         LEFT JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN cat_estado as Est on Cli.estado = Est.id_Estado  
@@ -127,8 +127,8 @@ class sqlDesempenoDAO
         $datos = array();
         try {
             $buscar = "SELECT
-                        ConMov.fecha_Creacion AS FechaEmpMovimiento,
-                        DATE(ConMov.fecha_creacion) AS FechaEmpConvertMovimiento,
+                        ConMov.fecha_Movimiento AS FechaEmpMovimiento,
+                        DATE(ConMov.fecha_Movimiento) AS FechaEmpConvertMovimiento,
                         DATE(ConMov.fechaVencimiento) AS FechaVenConvertMovimiento,
                         ConMov.fechaAlmoneda AS FechaAlmMovimiento,
                         Con.plazo AS PlazoDesc,
@@ -145,9 +145,9 @@ class sqlDesempenoDAO
                         Con.polizaSeguro AS PolizaSeguro,
                         Con.gps AS GPS,
                         Con.pension AS Pension,
-                        ConMov.total_Avaluo as TotalAvaluo,                        
+                        Con.total_Avaluo as TotalAvaluo,                        
                         ConMov.prestamo_Informativo as PrestamoInfo
-                        From contratomovimientos_tbl AS ConMov
+                        From contrato_mov_tbl AS ConMov
                         INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato
 						WHERE ConMov.id_movimiento = $IdMovimiento";
             $rs = $this->conexion->query($buscar);
@@ -195,7 +195,7 @@ class sqlDesempenoDAO
         try {
             $buscar = "SELECT Art.detalle as Detalle,Art.ubicacion as Ubicacion 
                         FROM articulo_tbl as Art
-                        INNER JOIN contratomovimientos_tbl as Mov ON Art.id_Contrato = Mov.id_contrato
+                        INNER JOIN contrato_mov_tbl  as Mov ON Art.id_Contrato = Mov.id_contrato
                         WHERE Mov.id_movimiento = $IdMovimiento";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -225,7 +225,7 @@ class sqlDesempenoDAO
                         COl.descripcion as ColorAuto, Auto.observaciones as Obs 
                         FROM auto_tbl as Auto 
                         INNER JOIN cat_color as COl on Auto.color = COl.id_Color
-                        INNER JOIN contratomovimientos_tbl as Mov ON Auto.id_Contrato = Mov.id_contrato
+                        INNER JOIN contrato_mov_tbl  as Mov ON Auto.id_Contrato = Mov.id_contrato
                         WHERE Mov.id_movimiento = $IdMovimiento";
 
             $rs = $this->conexion->query($buscar);

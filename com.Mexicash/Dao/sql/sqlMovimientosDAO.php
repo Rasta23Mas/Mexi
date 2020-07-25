@@ -93,7 +93,7 @@ class sqlMovimientosDAO
 
 
     public function insertContratoMov($id_contrato, $fechaVencimiento, $fechaAlmoneda, $prestamo_actual, $s_prestamo_nuevo,
-                                      $s_descuento_aplicado, $descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses, $e_almacenaje,
+                                      $s_descuento_aplicado, $descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses,$e_interes, $e_almacenaje,
                                       $e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato, $tipo_Contrato, $tipo_movimiento, $prestamo_Informativo,
                                       $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio){
         // TODO: Implement guardaCiente() method.
@@ -105,14 +105,15 @@ class sqlMovimientosDAO
             $id_contrato = trim($id_contrato);
             $insertaMovimiento = "INSERT INTO contrato_mov_tbl (id_contrato,fechaVencimiento,fechaAlmoneda,prestamo_actual, s_prestamo_nuevo,
                         s_descuento_aplicado, descuentoTotal, abonoTotal,e_capital_recuperado, e_pagoDesempeno, 
-                        e_abono,e_intereses,e_almacenaje, e_seguro,e_moratorios,e_iva, e_gps, e_poliza,e_pension, e_costoContrato,
+                        e_abono,e_intereses,e_interes, e_almacenaje, e_seguro,e_moratorios,e_iva, e_gps, e_poliza,e_pension, e_costoContrato,
                         tipo_Contrato, tipo_movimiento, id_cierreCaja, fecha_Movimiento, prestamo_Informativo, 
                         pag_subtotal, pag_total, pag_efectivo,pag_cambio) VALUES 
                         ($id_contrato, '$fechaVencimiento', '$fechaAlmoneda', $prestamo_actual, $s_prestamo_nuevo,
                          $s_descuento_aplicado, $descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, 
-                         $e_abono, $e_intereses, $e_almacenaje,$e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato,
+                         $e_abono, $e_intereses, $e_interes,$e_almacenaje,$e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato,
                          $tipo_Contrato, $tipo_movimiento, $idCierreCaja,'$fechaHoy',$prestamo_Informativo,
                          $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio)";
+            echo $insertaMovimiento;
             if ($ps = $this->conexion->prepare($insertaMovimiento)) {
                 if ($ps->execute()) {
                     // $verdad = mysqli_stmt_affected_rows($ps);

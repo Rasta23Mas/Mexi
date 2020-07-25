@@ -1059,6 +1059,7 @@ function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, ne
 }
 
 
+/*
 function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {
     //tipo_movimiento = 3 cat_movimientos-->Operacion-->Empeño
     var movimiento = 0;
@@ -1151,6 +1152,7 @@ function MovimientosRefrendo(descuentoFinal, abonoFinal, newFechaVencimiento, ne
         }
     });
 }
+*/
 
 //Guardar Bitacora Pagos
 function bitacoraPagosNuevo(ultimoMovimiento) {

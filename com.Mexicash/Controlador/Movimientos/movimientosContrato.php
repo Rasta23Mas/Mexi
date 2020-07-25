@@ -15,6 +15,7 @@ $e_capital_recuperado = $_POST['e_capital_recuperado'];
 $e_pagoDesempeno = $_POST['e_pagoDesempeno'];
 $e_abono = $_POST['e_abono'];
 $e_intereses = $_POST['e_intereses'];
+$e_interes = $_POST['e_interes'];
 $e_almacenaje = $_POST['e_almacenaje'];
 $e_seguro = $_POST['e_seguro'];
 $e_moratorios = $_POST['e_moratorios'];
@@ -37,7 +38,7 @@ $pag_cambio = $_POST['pag_cambio'];
 
 $sqlMovimientos = new sqlMovimientosDAO();
 $sqlMovimientos->insertContratoMov($id_contrato,$fechaVencimiento,$fechaAlmoneda,$prestamo_actual,$s_prestamo_nuevo,
-$s_descuento_aplicado,$descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses, $e_almacenaje,
+$s_descuento_aplicado,$descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses, $e_interes, $e_almacenaje,
 $e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato, $tipo_Contrato, $tipo_movimiento, $prestamo_Informativo,
 $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio);
 
