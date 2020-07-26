@@ -29,27 +29,33 @@ class sqlReportesDAO
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT  Con.id_contrato AS CONTRATO,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(Con.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        CONCAT(Con.plazo, ' ', Con.periodo, ' ', Con.tipoInteres),
+            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
+                        Con.id_contrato AS CONTRATO,
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
                         CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
                         CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
                         Aut.observaciones as ObserAuto,
-                        CONCAT(Art.detalle) as Detalle,
                         CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
-                        Cont.id_Formulario as FORMU
-                        FROM contratomovimientos_tbl as Con 
-                        INNER JOIN contrato_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
-                        INNER JOIN cliente_tbl as Cli on Cont.id_Cliente = Cli.id_Cliente 
+                        CONCAT(Art.detalle) as Detalle,
+                        Art.tipoArticulo, Con.id_Formulario as Form
+                        FROM contrato_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        LEFT JOIN cat_movimientos as Mov on Con.tipo_movimiento = Mov.id_Movimiento 
                         LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
                         LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
                         LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
                         LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
                         LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
-                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad";
+                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
+                        WHERE ConM.tipo_movimiento = 4
+                        AND Bit.sucursal = $sucursal 
+                        ORDER BY Form";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
