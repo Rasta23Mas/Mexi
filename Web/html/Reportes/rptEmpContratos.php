@@ -7,19 +7,16 @@
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
         <th>Fecha</th>
-        <th>Fecha Mov.</th>
-        <th>Fecha Venc.</th>
+        <th>Vencimiento.</th>
+        <th>Almoneda.</th>
         <th>Contrato</th>
+        <th>Cliente</th>
         <th>Préstamo</th>
-        <th>Intereses</th>
-        <th>Almacenaje</th>
-        <th>Seguro</th>
-        <th>Abono Capital</th>
-        <th>Desc</th>
-        <th>Costo C</th>
-        <th>SubTotal</th>
-        <th>Iva Int</th>
-        <th>Total Cobrado</th>
+        <th>Plazo</th>
+        <th>Periodo</th>
+        <th>Tipo Interés</th>
+        <th>Observaciones</th>
+        <th>Detalle</th>
     </tr>
     </thead>
     <tbody id="idTBodyContrato" class="letraChica" align="center">

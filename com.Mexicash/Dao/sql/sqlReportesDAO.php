@@ -85,39 +85,52 @@ class sqlReportesDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') AS FECHAMOV,
-                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        ConM.id_contrato AS CONTRATO,
-                        Con.total_Prestamo AS PRESTAMO, 
-                        Bit.intereses AS INTERESES,  Bit.almacenaje AS ALMACENAJE, 
-                        Bit.seguro AS SEGURO,  Bit.abonoCapital as ABONO,Bit.descuentoAplicado as DESCU,
-                        Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
-                        FROM contratomovimientos_tbl AS ConM
-                        INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
-                        LEFT JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
-                        WHERE CURDATE() BETWEEN DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') 
-                        AND DATE_FORMAT(ConM.fechaAlmoneda,'%Y-%m-%d')
-                        AND ConM.sucursal = $sucursal 
-                        AND (ConM.tipo_movimiento = 3 OR ConM.tipo_movimiento = 4 
-                        OR ConM.tipo_movimiento = 7 OR ConM.tipo_movimiento = 8)  
-                        ORDER BY FORMU";
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
+                        Con.id_contrato AS CONTRATO,
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
+                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
+                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
+                        Aut.observaciones as ObserAuto,
+                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
+                        CONCAT(Art.detalle) as Detalle,
+                        Art.tipoArticulo, Con.id_Formulario as Form
+                        FROM contrato_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
+                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
+                        LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
+                        LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
+                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
+                        WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
+                        AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
+                        AND Bit.sucursal = $sucursal 
+                        ORDER BY Form";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "FECHA" => $row["FECHA"],
-                        "FECHAMOV" => $row["FECHAMOV"],
                         "FECHAVEN" => $row["FECHAVEN"],
+                        "FECHAALM" => $row["FECHAALM"],
                         "CONTRATO" => $row["CONTRATO"],
+                        "NombreCompleto" => $row["NombreCompleto"],
                         "PRESTAMO" => $row["PRESTAMO"],
-                        "INTERESES" => $row["INTERESES"],
-                        "ALMACENAJE" => $row["ALMACENAJE"],
-                        "SEGURO" => $row["SEGURO"],
-                        "ABONO" => $row["ABONO"],
-                        "DESCU" => $row["DESCU"],
-                        "IVA" => $row["IVA"],
-                        "COSTO" => $row["COSTO"],
-                        "FORMU" => $row["FORMU"],
+                        "Plazo" => $row["Plazo"],
+                        "Periodo" => $row["Periodo"],
+                        "TipoInteres" => $row["TipoInteres"],
+                        "ObserElec" => $row["ObserElec"],
+                        "ObserMetal" => $row["ObserMetal"],
+                        "ObserAuto" => $row["ObserAuto"],
+                        "DetalleAuto" => $row["DetalleAuto"],
+                        "Detalle" => $row["Detalle"],
+                        "Form" => $row["Form"],
                     ];
                     array_push($datos, $data);
                 }
@@ -136,17 +149,17 @@ class sqlReportesDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') AS FECHAMOV,
+                        DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
                         DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         ConM.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO, 
                         Bit.intereses AS INTERESES,  Bit.almacenaje AS ALMACENAJE, 
                         Bit.seguro AS SEGURO,  Bit.abonoCapital as ABONO,Bit.descuentoAplicado as DESCU,
                         Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
-                        FROM contratomovimientos_tbl AS ConM
+                        FROM contrato_mov_tbl AS ConM
                         INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
                         LEFT JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
-                        WHERE DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
+                        WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 
                         OR ConM.tipo_movimiento = 21)  
                         ORDER BY CONTRATO";
@@ -185,17 +198,17 @@ class sqlReportesDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') AS FECHAMOV,
+                        DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
                         DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         ConM.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO, 
                         Bit.intereses AS INTERESES,  Bit.almacenaje AS ALMACENAJE, 
                         Bit.seguro AS SEGURO,  Bit.abonoCapital as ABONO,Bit.descuentoAplicado as DESCU,
                         Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
-                        FROM contratomovimientos_tbl AS ConM
+                        FROM contrato_mov_tbl AS ConM
                         INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
                         LEFT JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
-                        WHERE DATE_FORMAT(ConM.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
+                        WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  
                         ORDER BY FORMU";
             $rs = $this->conexion->query($buscar);

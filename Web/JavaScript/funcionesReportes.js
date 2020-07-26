@@ -309,86 +309,73 @@ function cargarRptVenci() {
                 alert("Refrescando tabla.");
                 for (i; i < datos.length; i++) {
                     var FECHA = datos[i].FECHA;
-                    var FECHAMOV = datos[i].FECHAMOV;
                     var FECHAVEN = datos[i].FECHAVEN;
+                    var FECHAALM = datos[i].FECHAALM;
                     var CONTRATO = datos[i].CONTRATO;
+                    var NombreCompleto = datos[i].NombreCompleto;
                     var PRESTAMO = datos[i].PRESTAMO;
-                    var INTERESES = datos[i].INTERESES;
-                    var ALMACENAJE = datos[i].ALMACENAJE;
-                    var SEGURO = datos[i].SEGURO;
-                    var ABONO = datos[i].ABONO;
-                    var DESCU = datos[i].DESCU;
-                    var IVA = datos[i].IVA;
-                    var COSTO = datos[i].COSTO;
-                    var FORMU = datos[i].FORMU;
-                    var SubTotal = 0;
-                    var Total = 0;
+                    var Plazo = datos[i].Plazo;
+                    var Periodo = datos[i].Periodo;
+                    var TipoInteres = datos[i].TipoInteres;
+                    var ObserElec = datos[i].ObserElec;
+                    var ObserMetal = datos[i].ObserMetal;
+                    var ObserAuto = datos[i].ObserAuto;
+                    var DetalleAuto = datos[i].DetalleAuto;
+                    var DetalleArt = datos[i].Detalle;
+                    var FORMU = datos[i].Form;
+                    var Observaciones = "";
+                    var Detalle = "";
+
                     FORMU = Number(FORMU)
                     PRESTAMO = Number(PRESTAMO);
-
-                    INTERESES = Number(INTERESES);
-                    ALMACENAJE = Number(ALMACENAJE);
-                    SEGURO = Number(SEGURO);
-                    ABONO = Number(ABONO);
-                    COSTO = Number(COSTO);
-                    DESCU = Number(DESCU);
-                    IVA = Number(IVA);
-                    SubTotal = PRESTAMO + ABONO + COSTO;
-                    SubTotal = SubTotal - DESCU;
-                    Total = SubTotal + IVA;
                     PRESTAMO = formatoMoneda(PRESTAMO);
-                    INTERESES = formatoMoneda(INTERESES);
-                    ALMACENAJE = formatoMoneda(ALMACENAJE);
-                    SEGURO = formatoMoneda(SEGURO);
-                    ABONO = formatoMoneda(ABONO);
-                    DESCU = formatoMoneda(DESCU);
-                    IVA = formatoMoneda(IVA);
-                    COSTO = formatoMoneda(COSTO);
-                    SubTotal = formatoMoneda(SubTotal);
-                    Total = formatoMoneda(Total);
+
                     if(FORMU==1){
                         tipoMetal++;
+                        Observaciones = ObserMetal;
+                        Detalle = DetalleArt;
                     }else if (FORMU==2){
                         tipoMetal = 0;
                         tipoElectro++;
+                        Observaciones = ObserElec;
+                        Detalle = DetalleArt;
                     }else if (FORMU==3){
                         tipoMetal = 0;
                         tipoElectro = 0;
                         tipoAuto++;
+                        Observaciones = ObserAuto;
+                        Detalle = DetalleAuto;
                     }
 
                     if(tipoMetal==1){
                         html +=
                             '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Metal </td>' +
+                            '<td colspan="14" style="background: dodgerblue; color:white;"> METAL </td>' +
                             '</tr>';
                     }else if (tipoElectro==1){
                         html +=
                             '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Electrónicos </td>' +
+                            '<td colspan="14" style="background: dodgerblue; color:white;"> ELECTRÓNICOS </td>' +
                             '</tr>';
                     }else if (tipoAuto == 1){
                         html +=
                             '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Auto </td>' +
+                            '<td colspan="14" style="background: dodgerblue; color:white;"> AUTO </td>' +
                             '</tr>';
                     }
 
                     html += '<tr>' +
                         '<td >' + FECHA + '</td>' +
-                        '<td>' + FECHAMOV + '</td>' +
                         '<td>' + FECHAVEN + '</td>' +
+                        '<td>' + FECHAALM + '</td>' +
                         '<td>' + CONTRATO + '</td>' +
+                        '<td>' + NombreCompleto + '</td>' +
                         '<td>' + PRESTAMO + '</td>' +
-                        '<td>' + INTERESES + '</td>' +
-                        '<td>' + ALMACENAJE + '</td>' +
-                        '<td>' + SEGURO + '</td>' +
-                        '<td>' + ABONO + '</td>' +
-                        '<td>' + DESCU + '</td>' +
-                        '<td>' + COSTO + '</td>' +
-                        '<td>' + SubTotal + '</td>' +
-                        '<td>' + IVA + '</td>' +
-                        '<td>' + Total + '</td>' +
+                        '<td>' + Plazo + '</td>' +
+                        '<td>' + Periodo + '</td>' +
+                        '<td>' + TipoInteres + '</td>' +
+                        '<td>' + Observaciones + '</td>' +
+                        '<td>' + Detalle + '</td>' +
                         '</tr>';
                 }
                 $('#idTBodyContrato').html(html);
