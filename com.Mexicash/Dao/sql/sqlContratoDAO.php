@@ -50,15 +50,19 @@ class sqlContratoDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             //tipoContrato (Articulos = 1, Autos = 2,)
             $tipoContrato = 1;
+            $fisico = 1;
+            $fecha_fisico_ini = $fechaCreacion;
+            $fecha_fisico_fin = $fecha_almoneda;
+            $id_cat_estatus = 1;
 
 
             $insertaContrato = "INSERT INTO contratos_tbl
-                (id_Cliente, total_Prestamo,total_Avaluo,total_Interes, suma_InteresPrestamo, diasAlm, cotitular,
+                (id_Cliente, total_Prestamo,total_Avaluo, diasAlm, cotitular,
                  beneficiario, plazo,periodo,tipoInteres,tasa, alm,seguro,iva,dias, id_Formulario,Aforo, fecha_creacion,
-                 fecha_vencimiento,fecha_almoneda,tipoContrato,id_cierreCaja) VALUES 
-                ( $id_Cliente, $totalPrestamo ,$totalAvaluo,$totalInteres,$sumaInteresPrestamo,$diasAlm,'$cotitular','$beneficiario',
+                 fecha_vencimiento,fecha_almoneda,tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus) VALUES 
+                ( $id_Cliente, $totalPrestamo ,$totalAvaluo,$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'$fechaCreacion','$fecha_vencimiento',
-                  '$fecha_almoneda', $tipoContrato,$idCierreCaja)";
+                  '$fecha_almoneda', $tipoContrato,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     $buscarContrato = "select max(id_Contrato) as UltimoContrato from contratos_tbl where id_cierreCaja = $idCierreCaja";

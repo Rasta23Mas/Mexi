@@ -6,8 +6,6 @@ class Contrato
     private $idCliente;
     private $totalPrestamo;
     private $totalAvaluo;
-    private $Total_Intereses;
-    private $Suma_InteresPrestamo;
     private $diasAlmonedaValue;
     private $cotitular;
     private $beneficiario;
@@ -29,8 +27,6 @@ class Contrato
      * @param $idCliente
      * @param $totalPrestamo
      * @param $totalAvaluo
-     * @param $Total_Intereses
-     * @param $Suma_InteresPrestamo
      * @param $diasAlmonedaValue
      * @param $cotitular
      * @param $beneficiario
@@ -47,15 +43,13 @@ class Contrato
      * @param $fecha_vencimiento
      * @param $fecha_almoneda
      */
-    public function __construct($idCliente, $totalPrestamo, $totalAvaluo, $Total_Intereses, $Suma_InteresPrestamo, $diasAlmonedaValue, $cotitular,
+    public function __construct($idCliente, $totalPrestamo, $totalAvaluo, $diasAlmonedaValue, $cotitular,
                                 $beneficiario, $plazo, $periodo, $tipoInteres, $tasa, $alm, $seguro, $iva, $dias, $idTipoFormulario, $aforo,
                                 $fecha_vencimiento, $fecha_almoneda)
     {
         $this->idCliente = $idCliente;
         $this->totalPrestamo = $totalPrestamo;
         $this->totalAvaluo = $totalAvaluo;
-        $this->Total_Intereses = $Total_Intereses;
-        $this->Suma_InteresPrestamo = $Suma_InteresPrestamo;
         $this->diasAlmonedaValue = $diasAlmonedaValue;
         $this->cotitular = $cotitular;
         $this->beneficiario = $beneficiario;
@@ -121,37 +115,6 @@ class Contrato
         $this->totalAvaluo = $totalAvaluo;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTotalIntereses()
-    {
-        return $this->Total_Intereses;
-    }
-
-    /**
-     * @param mixed $Total_Intereses
-     */
-    public function setTotalIntereses($Total_Intereses): void
-    {
-        $this->Total_Intereses = $Total_Intereses;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSumaInteresPrestamo()
-    {
-        return $this->Suma_InteresPrestamo;
-    }
-
-    /**
-     * @param mixed $Suma_InteresPrestamo
-     */
-    public function setSumaInteresPrestamo($Suma_InteresPrestamo): void
-    {
-        $this->Suma_InteresPrestamo = $Suma_InteresPrestamo;
-    }
 
     /**
      * @return mixed

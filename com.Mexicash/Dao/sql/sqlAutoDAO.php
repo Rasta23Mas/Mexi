@@ -27,8 +27,6 @@ class sqlAutoDAO
             $id_Cliente = $auto->getIdClienteAuto();
             $totalPrestamo = $auto->getTotalPrestamo();
             $totalAvaluo = $auto->getTotalAvaluo();
-            $totalInteres = $auto->getTotalInteres();
-            $sumaInteresPrestamo = $auto->getSumaInteresPrestamo();
             $diasAlm = $auto->getDiasAlmoneda();
             $cotitular = $auto->getCotitular();
             $beneficiario = $auto->getBeneficiario();
@@ -49,13 +47,18 @@ class sqlAutoDAO
             $fechaVencimiento = $auto->getFechaVencimiento();
             $fechaAlm = $auto->getFechaAlm();
             $idCierreCaja = $_SESSION['idCierreCaja'];
+            $fisico = 1;
+            $fecha_fisico_ini = $fechaCreacion;
+            $fecha_fisico_fin = $fechaAlm;
+            $id_cat_estatus = 1;
+
             $insertaContrato = "INSERT INTO contratos_tbl " .
-                "(id_Cliente, total_Prestamo,total_Avaluo, total_Interes, suma_InteresPrestamo,diasAlm,cotitular, beneficiario, 
+                "(id_Cliente, total_Prestamo,total_Avaluo,diasAlm,cotitular, beneficiario, 
                   plazo,periodo,tipoInteres,tasa, alm, seguro,iva,dias,PolizaSeguro, GPS, Pension,id_Formulario,Aforo, fecha_creacion,
-                  fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja) VALUES (
-                  $id_Cliente,$totalPrestamo,$totalAvaluo,$totalInteres,$sumaInteresPrestamo,$diasAlm,'$cotitular','$beneficiario',
+                  fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus) VALUES (
+                  $id_Cliente,$totalPrestamo,$totalAvaluo,$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$polizaInteres,$gps,$pension,$tipoFormulario,$aforo,'$fechaCreacion',
-                  '$fechaVencimiento','$fechaAlm',2,$idCierreCaja)";
+                  '$fechaVencimiento','$fechaAlm',2,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     if (mysqli_stmt_affected_rows($ps) == 1) {
