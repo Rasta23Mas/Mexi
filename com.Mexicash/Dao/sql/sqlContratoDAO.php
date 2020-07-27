@@ -52,7 +52,7 @@ class sqlContratoDAO
             $tipoContrato = 1;
 
 
-            $insertaContrato = "INSERT INTO contrato_tbl
+            $insertaContrato = "INSERT INTO contratos_tbl
                 (id_Cliente, total_Prestamo,total_Avaluo,total_Interes, suma_InteresPrestamo, diasAlm, cotitular,
                  beneficiario, plazo,periodo,tipoInteres,tasa, alm,seguro,iva,dias, id_Formulario,Aforo, fecha_creacion,
                  fecha_vencimiento,fecha_almoneda,tipoContrato,id_cierreCaja) VALUES 
@@ -61,7 +61,7 @@ class sqlContratoDAO
                   '$fecha_almoneda', $tipoContrato,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
-                    $buscarContrato = "select max(id_Contrato) as UltimoContrato from contrato_tbl where id_cierreCaja = $idCierreCaja";
+                    $buscarContrato = "select max(id_Contrato) as UltimoContrato from contratos_tbl where id_cierreCaja = $idCierreCaja";
                     $statement = $this->conexion->query($buscarContrato);
                     $encontro = $statement->num_rows;
                     if ($encontro > 0) {
@@ -146,7 +146,7 @@ class sqlContratoDAO
         try {
             $buscar = "SELECT  Cli.id_Cliente AS Cliente, CONCAT (Cli.apellido_Pat, '/',Cli.apellido_Mat,'/', Cli.nombre) as NombreCompleto,
                         CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS direccionCompleta
-                        FROM contrato_tbl as Con 
+                        FROM contratos_tbl as Con 
                         INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
                          INNER JOIN cat_estado as CatEst on Cli.estado = CatEst.id_Estado
                         WHERE Con.id_Contrato =" . $idContratoBusqueda . " AND Con.tipoContrato =" . $tipoContratoGlobal;
@@ -181,7 +181,7 @@ class sqlContratoDAO
                          ET.descripcion AS TipoElectronico, EM.descripcion AS MarcaElectronico,
                         EMOD.descripcion AS ModeloElectronico,
                         Art.detalle AS Detalle, TA.descripcion AS TipoMetal, TK.descripcion as Kilataje,
-                        TC.descripcion as Calidad FROM contrato_tbl as Con 
+                        TC.descripcion as Calidad FROM contratos_tbl as Con 
                         INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
                         INNER JOIN articulo_tbl as Art on Con.id_Contrato =  Art.id_Contrato
                         INNER JOIN cat_estado ON Cli.estado = cat_estado.id_Estado
@@ -229,7 +229,7 @@ class sqlContratoDAO
             $buscar = "SELECT  Con.id_Formulario AS Formulario,Auto.marca as Marca,Auto.modelo as Modelo,Auto.año as Anio, Art.descripcion as Vehiculo,
                         COl.descripcion as ColorAuto, Auto.observaciones as Obs 
                         FROM auto_tbl as Auto 
-                        INNER JOIN contrato_tbl AS Con on Auto.id_Contrato = Con.id_Contrato 
+                        INNER JOIN contratos_tbl AS Con on Auto.id_Contrato = Con.id_Contrato 
                         LEFT JOIN cat_color as COl on Auto.color = COl.id_Color
                         LEFT JOIN cat_articulos as Art on Auto.tipo_Vehiculo = Art.id_Cat_Articulo
                         WHERE Auto.id_Contrato = '$idContratoBusqueda' AND Con.tipoContrato =" . $tipoContratoGlobal;
@@ -272,7 +272,7 @@ class sqlContratoDAO
                         CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, 
                         e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
                         FROM contrato_mov_tbl  as ConM
-                        INNER JOIN contrato_tbl Con on ConM.id_contrato = Con.id_Contrato 
+                        INNER JOIN contratos_tbl Con on ConM.id_contrato = Con.id_Contrato 
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                         WHERE ConM.id_Contrato= $idContratoBusqueda AND tipo_Contrato  =$tipoContratoGlobal AND ConM.sucursal= $sucursal ORDER BY Contrato";
             $rs = $this->conexion->query($buscar);
@@ -322,7 +322,7 @@ class sqlContratoDAO
                        tipo_movimiento AS MovimientoTipo  
                        FROM contrato_mov_tbl Mov 
                        INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                       INNER JOIN contrato_tbl Con on Mov.id_contrato = Con.id_Contrato 
+                       INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato 
                        WHERE Con.id_Cliente= $idClienteConsulta AND tipo_Contrato =$tipoContratoGlobal AND Mov.sucursal=$sucursal ORDER BY Mov.id_Contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -369,7 +369,7 @@ class sqlContratoDAO
                         e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, s_descuento_aplicado AS DescuentoMov,
                         e_pagoDesempeno AS PagoMov, CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
                         FROM contrato_mov_tbl as Mov
-                        INNER JOIN contrato_tbl Con on Mov.id_contrato = Con.id_Contrato 
+                        INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato 
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                         WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  fecha_Movimiento BETWEEN '$fechaInicio' AND '$fechaFinal' 
                         ORDER BY Mov.id_Contrato";

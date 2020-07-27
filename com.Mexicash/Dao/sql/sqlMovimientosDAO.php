@@ -105,19 +105,19 @@ class sqlMovimientosDAO
             $fechaUpdateRealizado = 0;
 
             if($tipo_movimiento==4||$tipo_movimiento==8) {
-                $updateFecha = "UPDATE contrato_tbl SET
+                $updateFecha = "UPDATE contratos_tbl SET
                                          fecha_vencimiento = '$fechaVencimiento',
                                          fecha_almoneda = '$fechaAlmoneda'
                                         WHERE id_Contrato =$id_contrato";
                 $flagFecha= 1;
             }else if($tipo_movimiento==5||$tipo_movimiento==9) {
-                $updateFecha = "UPDATE contrato_tbl SET
+                $updateFecha = "UPDATE contratos_tbl SET
                                          fecha_vencimiento = '$fechaVencimiento',
                                          fecha_almoneda = '$fechaAlmoneda'
                                         WHERE id_Contrato =$id_contrato";
                 $flagFecha= 1;
             }else if($tipo_movimiento==21) {
-                $updateFecha = "UPDATE contrato_tbl SET
+                $updateFecha = "UPDATE contratos_tbl SET
                                          fecha_vencimiento = '$fechaVencimiento',
                                          fecha_almoneda = '$fechaAlmoneda'
                                         WHERE id_Contrato =$id_contrato";

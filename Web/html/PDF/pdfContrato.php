@@ -75,7 +75,8 @@ if (isset($_GET['contrato'])) {
     $idContrato = $_GET['contrato'];
 }
 $nombreContrato = 'Contrato Num _' . $idContrato . ".pdf";
-
+$this->db = new Conexion();
+$this->conexion = $this->db->connectDB();
 $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Mat, ' ',Cli.apellido_Pat) as NombreCompleto, 
                 CatCli.descripcion AS Identificacion, Cli.num_Identificacion AS NumIde,
                 CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS Direccion,
@@ -92,7 +93,9 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
                 INNER JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja  
                 INNER JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
                 WHERE Con.id_Contrato =$idContrato ";
-$resultado = $mysql->query($query);
+//$resultado = $mysql->query($query);
+$rs = $this->conexion->query($buscar);
+
 foreach ($resultado as $row) {
     //echo $fila['Contrato'];
     $FechaCreacion = $row["FechaCreacion"];

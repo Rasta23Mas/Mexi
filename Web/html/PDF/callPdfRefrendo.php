@@ -133,7 +133,7 @@ foreach ($resultado as $row) {
 
 $query = "SELECT ET.descripcion AS TipoElectronico, EM.descripcion AS MarcaElectronico, EMOD.descripcion AS ModeloElectronico,
                             Ar.detalle AS Detalle, TA.descripcion AS TipoMetal, TK.descripcion as Kilataje,
-                            TC.descripcion as Calidad FROM contrato_tbl as Con 
+                            TC.descripcion as Calidad FROM contratos_tbl as Con 
                             INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato
                             LEFT JOIN cat_electronico_tipo as ET on Ar.tipo = ET.id_tipo
                             LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca

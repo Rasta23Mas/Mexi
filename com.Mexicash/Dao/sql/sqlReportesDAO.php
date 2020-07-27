@@ -42,7 +42,7 @@ class sqlReportesDAO
                         CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
                         CONCAT(Art.detalle) as Detalle,
                         Art.tipoArticulo, Con.id_Formulario as Form
-                        FROM contrato_tbl AS Con 
+                        FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
@@ -103,7 +103,7 @@ class sqlReportesDAO
                         CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
                         CONCAT(Art.detalle) as Detalle,
                         Art.tipoArticulo, Con.id_Formulario as Form
-                        FROM contrato_tbl AS Con 
+                        FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
@@ -163,7 +163,7 @@ class sqlReportesDAO
                         Bit.seguro AS SEGURO,  Bit.abonoCapital as ABONO,Bit.descuentoAplicado as DESCU,
                         Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
                         FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
                         LEFT JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 
@@ -212,7 +212,7 @@ class sqlReportesDAO
                         Bit.seguro AS SEGURO,  Bit.abonoCapital as ABONO,Bit.descuentoAplicado as DESCU,
                         Bit.iva as IVA, Bit.costoContrato AS COSTO, Con.id_Formulario as FORMU
                         FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contrato_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
                         LEFT JOIN bit_pagos AS Bit ON ConM.id_movimiento = Bit.ultimoMovimiento
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  

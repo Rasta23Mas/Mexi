@@ -40,7 +40,7 @@ class sqlCancelarDAO
                         Mov.e_costoContrato AS CostoContrato,Mov.tipo_movimiento AS MovimientoTipo
                         FROM contratomovimientos_tbl Mov
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        INNER JOIN contrato_tbl Con on Mov.id_Contrato = Con.id_Contrato 
+                        INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
                         WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.tipo_movimiento  !=20 AND Mov.tipo_movimiento  =$tipoMovimiento AND Mov.sucursal= $sucursal
                         AND DATE_FORMAT(Mov.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaHoy' AND '$fechaHoy'";
 
@@ -90,7 +90,7 @@ class sqlCancelarDAO
                         Mov.e_pagoDesempeno AS PagoMov, CONCAT(Mov.tipoInteres, ' ' ,Mov.periodo ,' ' ,Mov.plazo) AS PlazoMov, Mov.e_costoContrato AS CostoContrato,Mov.tipo_movimiento AS MovimientoTipo
                         FROM contratomovimientos_tbl Mov
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        INNER JOIN contrato_tbl Con on Mov.id_Contrato = Con.id_Contrato 
+                        INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
                         WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.sucursal= $sucursal AND Mov.tipo_movimiento  !=20 AND Mov.tipo_movimiento  =$tipoMovimiento OR Mov.tipo_movimiento  =21
                                 AND DATE_FORMAT(Mov.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaHoy' AND '$fechaHoy'";
             $rs = $this->conexion->query($buscar);
@@ -137,7 +137,7 @@ class sqlCancelarDAO
                         Mov.e_pagoDesempeno AS PagoMov, CONCAT(Mov.tipoInteres, ' ' ,Mov.periodo ,' ' ,Mov.plazo) AS PlazoMov, Mov.e_costoContrato AS CostoContrato,Mov.tipo_movimiento AS MovimientoTipo
                         FROM contratomovimientos_tbl Mov
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        INNER JOIN contrato_tbl Con on Mov.id_Contrato = Con.id_Contrato 
+                        INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
                         WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.tipo_movimiento  !=20 AND Mov.sucursal= $sucursal
                         AND DATE_FORMAT(Mov.fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaHoy' AND '$fechaHoy'";
             $rs = $this->conexion->query($buscar);

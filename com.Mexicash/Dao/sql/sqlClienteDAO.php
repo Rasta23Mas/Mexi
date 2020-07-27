@@ -533,7 +533,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                         Art.tipoArticulo, Cont.id_Formulario as Form,
                         Mov.descripcion as EstDesc
                         FROM contratomovimientos_tbl as Con 
-                        INNER JOIN contrato_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
+                        INNER JOIN contratos_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
                         INNER JOIN cliente_tbl as Cli on Cont.id_Cliente = Cli.id_Cliente 
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
@@ -584,7 +584,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarEmpe = "SELECT COUNT(ConMov.id_contrato) AS TotalEmpenos 
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=1 
                  AND ConMov.id_contrato 
                  NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
@@ -596,7 +596,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarEmpeAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalEmpenos 
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND ConMov.id_contrato 
                  NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
@@ -608,7 +608,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarRefrendo = "SELECT COUNT(ConMov.id_contrato) AS TotalRefrendo
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2  
                  AND tipo_movimiento = 8
                  AND ConMov.id_contrato 
@@ -621,7 +621,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarRefrendoAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalRefrendo
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2  
                  AND tipo_movimiento = 8
                  AND ConMov.id_contrato 
@@ -634,7 +634,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarDesemp = "SELECT COUNT(ConMov.id_contrato) AS TotalDesemp 
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 9 || tipo_movimiento = 21
                  AND ConMov.id_contrato 
@@ -646,7 +646,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarDesempAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalDesemp 
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 9 || tipo_movimiento = 21
                  AND ConMov.id_contrato 
@@ -658,7 +658,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarBazar = "SELECT COUNT(ConMov.id_contrato) AS TotalBazar
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 24
                  AND ConMov.id_contrato 
@@ -670,7 +670,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarBazarAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalBazar
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 24
                  AND ConMov.id_contrato 
@@ -682,7 +682,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarVenta = "SELECT COUNT(ConMov.id_contrato) AS TotalVenta
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=1 
                  AND tipo_movimiento = 6
                  AND ConMov.id_contrato 
@@ -694,7 +694,7 @@ WHERE id_Cliente = '$idClienteEditar'";
 
             $buscarVentaAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalVenta
                  FROM contratomovimientos_tbl ConMov
-                 INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
+                 INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 10
                  AND ConMov.id_contrato 

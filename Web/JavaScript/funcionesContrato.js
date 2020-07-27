@@ -163,6 +163,10 @@ function verPDF(id_ContratoPDF) {
     window.open('../PDF/callPdfContrato.php?pdf=1&contrato=' + id_ContratoPDF);
 }
 
+function verPDFTEST(id_ContratoPDF) {
+    window.open('../PDF/pdfContrato.php?pdf=1&contrato=' + id_ContratoPDF);
+}
+
 //consultar contratos
 function consultarContratos() {
     var retorno;

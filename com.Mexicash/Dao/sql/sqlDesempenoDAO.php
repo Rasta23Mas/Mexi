@@ -56,7 +56,7 @@ class sqlDesempenoDAO
                         CONCAT (Cli.nombre, ' ',Cli.apellido_Pat,' ', Cli.apellido_Mat) as NombreCompleto,
                         CatM.descripcion as Movimiento, Mov.tipo_movimiento as tipoMovimiento
                         FROM contrato_mov_tbl as Mov
-                        INNER JOIN contrato_tbl as Con on Mov.id_contrato = Con.id_Contrato  
+                        INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato  
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         INNER JOIN cat_movimientos as CatM on Mov.tipo_movimiento = CatM.id_Movimiento  
                         WHERE Mov.id_movimiento = $IdMovimiento ";
@@ -92,7 +92,7 @@ class sqlDesempenoDAO
                         CONCAT (municipio,', ',Est.descripcion ) as DireccionCompletaEst,
                         Con.cotitular as Cotitular, Usu.usuario as UsuarioName
                         FROM contrato_mov_tbl as Mov
-                        INNER JOIN contrato_tbl as Con on Mov.id_contrato = Con.id_Contrato  
+                        INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato  
                         LEFT JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN cat_estado as Est on Cli.estado = Est.id_Estado  
                         LEFT JOIN bit_cierrecaja as Caj on Mov.id_CierreCaja = Caj.id_cierreCaja
@@ -148,7 +148,7 @@ class sqlDesempenoDAO
                         Con.total_Avaluo as TotalAvaluo,                        
                         ConMov.prestamo_Informativo as PrestamoInfo
                         From contrato_mov_tbl AS ConMov
-                        INNER JOIN contrato_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato
+                        INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato
 						WHERE ConMov.id_movimiento = $IdMovimiento";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -469,7 +469,7 @@ class sqlDesempenoDAO
         try {
             $fechaModificacion = date('Y-m-d H:i:s');
             $usuario = $_SESSION["idUsuario"];
-            $updateDesempeno = "UPDATE contrato_tbl SET pago=$pago,fecha_Pago='$fechaModificacion' ,
+            $updateDesempeno = "UPDATE contratos_tbl SET pago=$pago,fecha_Pago='$fechaModificacion' ,
                                 descuento=$idImporte, usuario= $usuario ,
                                 fecha_modificacion = '$fechaModificacion',	id_Estatus=2
                                 WHERE id_Contrato=$idContrato";
@@ -570,7 +570,7 @@ class sqlDesempenoDAO
                         CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ') as DireccionCompleta,
                         CONCAT (municipio,', ',Est.descripcion ) as DireccionCompletaEst,
                         Con.cotitular as Cotitular, Usu.usuario as UsuarioName
-                        FROM contrato_tbl as Con
+                        FROM contratos_tbl as Con
                         LEFT JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN cat_estado as Est on Cli.estado = Est.id_Estado
                         LEFT JOIN usuarios_tbl as Usu on Con.usuario = Usu.id_User
@@ -621,7 +621,7 @@ class sqlDesempenoDAO
                         Con.gps AS GPS,
                         Con.abono AS Abono,
                         Con.fecha_Abono AS FechaAbono
-                        FROM contrato_tbl as Con
+                        FROM contratos_tbl as Con
                         WHERE Con.id_Contrato = '$idContratoDes' and Con.tipoContrato= 2  and Con.id_Estatus= 1";
 
             $rs = $this->conexion->query($buscar);
@@ -683,7 +683,7 @@ class sqlDesempenoDAO
                         Con.gps AS GPS,
                         Con.abono AS Abono,
                         Con.fecha_Abono AS FechaAbono
-                        FROM contrato_tbl as Con
+                        FROM contratos_tbl as Con
                         WHERE Con.id_Contrato = '$idContratoDes' and Con.tipoContrato= 2  and Con.id_Estatus= 1";
 
             $rs = $this->conexion->query($buscar);
@@ -728,7 +728,7 @@ class sqlDesempenoDAO
         try {
             $buscar = "SELECT Con.id_Contrato as Contrato, Con.fecha_creacion as Fecha,
                         CONCAT (Cli.nombre, ' ',Cli.apellido_Pat,' ', Cli.apellido_Mat) as NombreCompleto,
-                        Est.descripcion as Estatus, Con.id_Estatus as idEstatus FROM contrato_tbl as Con
+                        Est.descripcion as Estatus, Con.id_Estatus as idEstatus FROM contratos_tbl as Con
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         INNER JOIN cat_estatus as Est on Con.id_Estatus = Est.id_Estatus
                         WHERE Con.id_Contrato = '$idContratoDes' and Con.tipoContrato= 2";
@@ -798,7 +798,7 @@ class sqlDesempenoDAO
 
         try {
             $resultado = -1;
-            $buscar = "SELECT Cos.costo AS Costo FROM contrato_tbl as Con
+            $buscar = "SELECT Cos.costo AS Costo FROM contratos_tbl as Con
                        INNER JOIN cat_costo_contrato AS Cos ON Con.id_Formulario = Cos.id_formulario
                        WHERE Con.id_Contrato = $contrato";
             $statement = $this->conexion->query($buscar);

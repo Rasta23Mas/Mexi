@@ -47,7 +47,7 @@ $Calidad = '';
 $Avaluo = '';
 $NombreUsuario = '';
 
-$buscarContrato = "select max(id_Contrato) as idContrato from contrato_tbl where usuario=$usuario and $sucursal=1";
+$buscarContrato = "select max(id_Contrato) as idContrato from contratos_tbl where usuario=$usuario and $sucursal=1";
 $contrato = $mysql->query($buscarContrato);
 foreach ($contrato as $fila) {
     $idContrato = $fila['idContrato'];
@@ -63,7 +63,7 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT (Cli.apellido_Mat, 
                             ET.descripcion AS TipoElectronico, EM.descripcion AS MarcaElectronico, EMOD.descripcion AS ModeloElectronico,
                             Ar.detalle AS Detalle, TA.descripcion AS TipoMetal, TK.descripcion as Kilataje,
                             TC.descripcion as Calidad, Con.Total_Avaluo AS Avaluo,CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario
-                            FROM contrato_tbl as Con 
+                            FROM contratos_tbl as Con 
                             INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente 
                             INNER JOIN cat_cliente as CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente
                             INNER JOIN cat_estado as CatEst on Cli.estado = CatEst.id_Estado

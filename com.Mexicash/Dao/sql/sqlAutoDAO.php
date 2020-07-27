@@ -49,7 +49,7 @@ class sqlAutoDAO
             $fechaVencimiento = $auto->getFechaVencimiento();
             $fechaAlm = $auto->getFechaAlm();
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $insertaContrato = "INSERT INTO contrato_tbl " .
+            $insertaContrato = "INSERT INTO contratos_tbl " .
                 "(id_Cliente, total_Prestamo,total_Avaluo, total_Interes, suma_InteresPrestamo,diasAlm,cotitular, beneficiario, 
                   plazo,periodo,tipoInteres,tasa, alm, seguro,iva,dias,PolizaSeguro, GPS, Pension,id_Formulario,Aforo, fecha_creacion,
                   fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja) VALUES (
@@ -59,7 +59,7 @@ class sqlAutoDAO
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     if (mysqli_stmt_affected_rows($ps) == 1) {
-                        $buscar = "select max(id_Contrato) as idContrato  from contrato_tbl ";
+                        $buscar = "select max(id_Contrato) as idContrato  from contratos_tbl ";
                         $statement = $this->conexion->query($buscar);
                         $fila = $statement->fetch_object();
                         $fechaModificacion = date('Y-m-d H:i:s');
