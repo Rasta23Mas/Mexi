@@ -19,7 +19,7 @@ class sqlAutoDAO
         $this->conexion = $this->db->connectDB();
     }
 
-    public function generaContratoAuto($auto)
+    public function generaContratoAuto(Auto $auto)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -117,6 +117,7 @@ class sqlAutoDAO
                             " '" . $idSerie . "', '" . $idVehiculo . "', '" . $idRepuve . "', '" . $idGasolina . "', '" . $idTarjeta . "','" . $idAseguradora . "','" . $idPoliza . "'," .
                             " '" . $idFecVencimientoAuto . "', '" . $idTipoPoliza . "', '" . $idObservacionesAuto . "', '" . $idCheckTarjeta . "', '" . $idCheckFactura . "','" . $idCheckINE . "'," .
                             " '" . $idCheckImportacion . "', '" . $idCheckTenecia . "', '" . $idCheckPoliza . "', '" . $idCheckLicencia . "', '" . $fechaCreacion . "','" . $fechaModificacion . "','" . $idCierreCaja . "','" . $estatus . "')";
+                        echo $insertaAuto;
                         if ($ps = $this->conexion->prepare($insertaAuto)) {
                             if ($ps->execute()) {
                                 $verdad =  $idContratoAuto;
@@ -141,8 +142,6 @@ class sqlAutoDAO
         } finally {
             $this->db->closeDB();
         }
-        //return $verdad;
         echo $verdad;
-
     }
 }

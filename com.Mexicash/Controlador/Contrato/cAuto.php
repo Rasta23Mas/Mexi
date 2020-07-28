@@ -8,8 +8,6 @@ $idClienteAuto = $_POST['idClienteAuto'];
 $fechaVencimiento = $_POST['fechaVencimiento'];
 $totalPrestamo = $_POST['totalPrestamo'];
 $totalAvaluo = $_POST['totalAvaluo'];
-$total_Interes = $_POST['total_Interes'];
-$sumaInteresPrestamo = $_POST['sumaInteresPrestamo'];
 $polizaSeguroCost = $_POST['polizaSeguro'];
 $gps = $_POST['gps'];
 $pension = $_POST['pension'];
@@ -25,7 +23,7 @@ $iva = $_POST['iva'];
 $dias = $_POST['dias'];
 $idTipoFormulario = $_POST['idTipoFormulario'];
 $aforo = $_POST['aforo'];
-
+//19
 //Auto
 $idTipoVehiculo = $_POST['idTipoVehiculo'];
 $idMarca = $_POST['idMarca'];
@@ -56,6 +54,7 @@ $idCheckPoliza = $_POST['idCheckPoliza'];
 $idCheckLicencia = $_POST['idCheckLicencia'];
 $diasAlmoneda = $_POST['diasAlmoneda'];
 $fecha_Alm = $_POST['fecha_Alm'];
+//48
 
 $auto = new Auto(
 //Contrato
@@ -63,8 +62,6 @@ $auto = new Auto(
     $fechaVencimiento,
     $totalPrestamo,
     $totalAvaluo,
-    $total_Interes,
-    $sumaInteresPrestamo,
     $polizaSeguroCost,
     $gps,
     $pension,

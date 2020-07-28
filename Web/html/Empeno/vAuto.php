@@ -606,8 +606,6 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         <td align="right">
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMontoAuto()">&nbsp;
                             <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
-                            <input type="button" class="btn btn-warning" value="test" onclick="funcionSeleccionarColor()">&nbsp;
-
                             <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
                         </td>
                     </tr>

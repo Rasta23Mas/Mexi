@@ -4,13 +4,10 @@
 class Auto
 {
 
-    //Contrato
     private $idClienteAuto;
     private $fechaVencimiento;
     private $totalPrestamo;
     private $totalAvaluo;
-    private $total_Interes;
-    private $sumaInteresPrestamo;
     private $polizaSeguroCost;
     private $gps;
     private $pension;
@@ -63,8 +60,6 @@ class Auto
      * @param $fechaVencimiento
      * @param $totalPrestamo
      * @param $totalAvaluo
-     * @param $total_Interes
-     * @param $sumaInteresPrestamo
      * @param $polizaSeguroCost
      * @param $gps
      * @param $pension
@@ -110,19 +105,14 @@ class Auto
      * @param $diasAlmoneda
      * @param $fecha_Alm
      */
-    public function __construct($idClienteAuto, $fechaVencimiento, $totalPrestamo, $totalAvaluo, $total_Interes, $sumaInteresPrestamo, $polizaSeguroCost,
-                                $gps, $pension, $beneficiario, $cotitular, $plazo, $periodo, $idTipoInteres, $tasa, $alm, $seguro, $iva,
-                                $dias, $idTipoFormulario, $aforo, $idTipoVehiculo, $idMarca, $idModelo, $idAnio, $idColor, $idPlacas, $idFactura,
-                                $idKms, $idAgencia, $idMotor, $idSerie, $idVehiculo, $idRepuve, $idGasolina, $idAseguradora, $idTarjeta, $idPoliza,
-                                $idFecVencimientoAuto, $idTipoPoliza, $idObservacionesAuto, $idCheckTarjeta, $idCheckFactura, $idCheckINE,
-                                $idCheckImportacion, $idCheckTenecia, $idCheckPoliza, $idCheckLicencia, $diasAlmoneda, $fecha_Alm)
+    public function __construct($idClienteAuto, $fechaVencimiento, $totalPrestamo, $totalAvaluo, $polizaSeguroCost, $gps, $pension, $beneficiario,
+                                $cotitular, $plazo, $periodo, $idTipoInteres, $tasa, $alm, $seguro, $iva, $dias, $idTipoFormulario,
+                                $aforo, $idTipoVehiculo, $idMarca, $idModelo, $idAnio, $idColor, $idPlacas, $idFactura, $idKms, $idAgencia, $idMotor, $idSerie, $idVehiculo, $idRepuve, $idGasolina, $idAseguradora, $idTarjeta, $idPoliza, $idFecVencimientoAuto, $idTipoPoliza, $idObservacionesAuto, $idCheckTarjeta, $idCheckFactura, $idCheckINE, $idCheckImportacion, $idCheckTenecia, $idCheckPoliza, $idCheckLicencia, $diasAlmoneda, $fecha_Alm)
     {
         $this->idClienteAuto = $idClienteAuto;
         $this->fechaVencimiento = $fechaVencimiento;
         $this->totalPrestamo = $totalPrestamo;
         $this->totalAvaluo = $totalAvaluo;
-        $this->total_Interes = $total_Interes;
-        $this->sumaInteresPrestamo = $sumaInteresPrestamo;
         $this->polizaSeguroCost = $polizaSeguroCost;
         $this->gps = $gps;
         $this->pension = $pension;
@@ -231,38 +221,6 @@ class Auto
     public function setTotalAvaluo($totalAvaluo): void
     {
         $this->totalAvaluo = $totalAvaluo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotalInteres()
-    {
-        return $this->total_Interes;
-    }
-
-    /**
-     * @param mixed $total_Interes
-     */
-    public function setTotalInteres($total_Interes): void
-    {
-        $this->total_Interes = $total_Interes;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSumaInteresPrestamo()
-    {
-        return $this->sumaInteresPrestamo;
-    }
-
-    /**
-     * @param mixed $sumaInteresPrestamo
-     */
-    public function setSumaInteresPrestamo($sumaInteresPrestamo): void
-    {
-        $this->sumaInteresPrestamo = $sumaInteresPrestamo;
     }
 
     /**

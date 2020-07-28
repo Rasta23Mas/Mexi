@@ -169,13 +169,8 @@ function generarContratoAuto() {
         chkImportacion = 1;
     }
     var diasAlmonedaValue = $('select[name="diasAlmName"] option:selected').text();
-    var prestamoAuto = $("#idTotalPrestamoAuto").val();
-    var interesAuto = calcularInteresAuto(prestamoAuto);
     var tipoFormulario = $("#idTipoFormulario").val();
     var aforo = $("#idAforo").val();
-    var idTipoInteres = $("#idTipoInteres").text();
-    var idPeriodo = $("#idPeriodo").text();
-    var plazo = $("#idPlazo").text();
     var totalPrestamo = $("#idTotalPrestamoAuto").val();
     var totalAvaluo = $("#idTotalAvaluoAuto").val();
     var fechaVencimiento = $("#idFecVencimiento").text();
@@ -189,8 +184,6 @@ function generarContratoAuto() {
         "fechaVencimiento": fechaVencimiento,
         "totalPrestamo": totalPrestamo,
         "totalAvaluo": totalAvaluo,
-        "total_Interes": interesAuto,
-        "sumaInteresPrestamo": $("#idSumaInteresPrestamo").val(),
         "polizaSeguro": $("#idPolizaSeguro").val(),
         "gps": $("#idGPS").val(),
         "pension": $("#idPension").val(),

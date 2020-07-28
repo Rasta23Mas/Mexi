@@ -29,8 +29,6 @@ class sqlContratoDAO
             $id_Cliente = $contrato->getIdCliente();
             $totalPrestamo = $contrato->getTotalPrestamo();
             $totalAvaluo = $contrato->getTotalAvaluo();
-            $totalInteres = $contrato->getTotalIntereses();
-            $sumaInteresPrestamo = $contrato->getSumaInteresPrestamo();
             $diasAlm = $contrato->getDiasAlmonedaValue();
             $cotitular = $contrato->getCotitular();
             $beneficiario = $contrato->getBeneficiario();

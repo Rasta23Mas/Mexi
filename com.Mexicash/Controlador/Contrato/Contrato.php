@@ -6,8 +6,6 @@ include_once(SQL_PATH . "sqlContratoDAO.php");
 $idCliente = $_POST['idCliente'];
 $totalPrestamo = $_POST['totalPrestamo'];
 $totalAvaluo = $_POST['totalAvaluo'];
-$Total_Intereses = $_POST['Total_Intereses'];
-$Suma_InteresPrestamo = $_POST['Suma_InteresPrestamo'];
 $diasAlmonedaValue = $_POST['diasAlmonedaValue'];
 $cotitular = $_POST['cotitular'];
 $beneficiario = $_POST['beneficiario'];
@@ -28,8 +26,6 @@ $contrato = new Contrato(
     $idCliente,
     $totalPrestamo,
     $totalAvaluo,
-    $Total_Intereses,
-    $Suma_InteresPrestamo,
     $diasAlmonedaValue,
     $cotitular,
     $beneficiario,

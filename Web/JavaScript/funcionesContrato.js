@@ -76,21 +76,16 @@ function generarContrato() {
     var diasAlmonedaValue = $('select[name="diasAlmName"] option:selected').text();
     var fechaVencimiento = $("#idFecVencimiento").text();
     var fechaAlmoneda = $("#idFechaAlm").val();
-    var Suma_InteresPrestamo = $("#idTotalInteres").val();
+    //var Suma_InteresPrestamo = $("#idTotalInteres").val();
 
     totalPrestamo = Math.round(totalPrestamo * 100) / 100;
     totalAvaluo = Math.round(totalAvaluo * 100) / 100;
-    Suma_InteresPrestamo = Math.round(Suma_InteresPrestamo * 100) / 100;
-    var Total_Intereses = Suma_InteresPrestamo - totalPrestamo;
-    Total_Intereses = Math.round(Total_Intereses * 100) / 100;
     var tipoFormulario = $("#idTipoFormulario").val();
     var cliente = $("#idClienteEmpeno").val();
     var dataEnviar = {
         "idCliente": $("#idClienteEmpeno").val(),
         "totalPrestamo": totalPrestamo,
         "totalAvaluo": totalAvaluo,
-        "Total_Intereses": Total_Intereses,
-        "Suma_InteresPrestamo": Suma_InteresPrestamo,
         "diasAlmonedaValue": diasAlmonedaValue,
         "cotitular": $("#nombreCotitular").val(),
         "beneficiario": $("#idNombreBen").val(),
@@ -112,6 +107,7 @@ function generarContrato() {
         url: '../../../com.Mexicash/Controlador/Contrato/Contrato.php',
         type: 'post',
         success: function (contrato) {
+            alert(contrato)
             if (contrato > 0) {
                 actualizarArticulo(contrato,tipoFormulario,cliente);
                 var mov_contrato = contrato;
