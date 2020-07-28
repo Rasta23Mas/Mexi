@@ -234,6 +234,7 @@ function generarContratoAuto() {
         url: '../../../com.Mexicash/Controlador/Contrato/cAuto.php',
         type: 'post',
         success: function (contrato) {
+            alert(contrato)
             if (contrato > 0) {
                 var mov_contrato = contrato;
                 var mov_fechaVencimiento = fechaVencimiento;
