@@ -574,7 +574,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         <td align="right">
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMonto()">&nbsp;
                             <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">
-                            <input type="button" class="btn btn-warning" value="test pdf" onclick="verPDFTEST()">&nbsp;
+                            <input type="button" class="btn btn-warning" value="test pdf" onclick="verPDFTEST(14)">&nbsp;
                             &nbsp;
                             <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
                         </td>
