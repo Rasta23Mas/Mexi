@@ -59,12 +59,10 @@ class sqlAutoDAO
                   $id_Cliente,$totalPrestamo,$totalAvaluo,$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$polizaInteres,$gps,$pension,$tipoFormulario,$aforo,'$fechaCreacion',
                   '$fechaVencimiento','$fechaAlm',2,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus)";
-            echo $insertaContrato;
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     if (mysqli_stmt_affected_rows($ps) == 1) {
                         $buscar = "select max(id_Contrato) as idContrato  from contratos_tbl ";
-                        echo $buscar;
                         $statement = $this->conexion->query($buscar);
                         $fila = $statement->fetch_object();
                         $fechaModificacion = date('Y-m-d H:i:s');
@@ -120,7 +118,6 @@ class sqlAutoDAO
                             " '" . $idFecVencimientoAuto . "', '" . $idTipoPoliza . "', '" . $idObservacionesAuto . "', '" . $idCheckTarjeta . "', '" . $idCheckFactura . "','" . $idCheckINE . "'," .
                             " '" . $idCheckImportacion . "', '" . $idCheckTenecia . "', '" . $idCheckPoliza . "', '" . $idCheckLicencia . "', '" . $fechaCreacion . "','" . $fechaModificacion . "','" . $idCierreCaja . "','" . $estatus . "')";
 
-                        echo $insertaAuto;
                         if ($ps = $this->conexion->prepare($insertaAuto)) {
                             if ($ps->execute()) {
                                 $verdad =  $idContratoAuto;
