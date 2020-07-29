@@ -21,6 +21,8 @@ $idTipoFormulario = $_POST['idTipoFormulario'];
 $aforo = $_POST['aforo'];
 $fecha_vencimiento = $_POST['fecha_vencimiento'];
 $fecha_almoneda = $_POST['fecha_almoneda'];
+$suma_InteresPrestamo = $_POST['Suma_InteresPrestamo'];
+$total_Intereses = $_POST['Total_Intereses'];
 
 $contrato = new Contrato(
     $idCliente,
@@ -41,6 +43,8 @@ $contrato = new Contrato(
     $aforo,
     $fecha_vencimiento,
     $fecha_almoneda,
+    $suma_InteresPrestamo,
+    $total_Intereses,
 );
 
 $sqlContrato = new sqlContratoDAO();

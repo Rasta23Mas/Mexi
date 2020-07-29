@@ -21,6 +21,8 @@ class Contrato
     private $aforo;
     private $fecha_vencimiento;
     private $fecha_almoneda;
+    private $suma_InteresPrestamo;
+    private $total_Intereses;
 
     /**
      * Contrato constructor.
@@ -42,10 +44,12 @@ class Contrato
      * @param $aforo
      * @param $fecha_vencimiento
      * @param $fecha_almoneda
+     * @param $suma_InteresPrestamo
+     * @param $total_Intereses
      */
     public function __construct($idCliente, $totalPrestamo, $totalAvaluo, $diasAlmonedaValue, $cotitular,
                                 $beneficiario, $plazo, $periodo, $tipoInteres, $tasa, $alm, $seguro, $iva, $dias, $idTipoFormulario, $aforo,
-                                $fecha_vencimiento, $fecha_almoneda)
+                                $fecha_vencimiento, $fecha_almoneda,$suma_InteresPrestamo,$total_Intereses)
     {
         $this->idCliente = $idCliente;
         $this->totalPrestamo = $totalPrestamo;
@@ -65,6 +69,40 @@ class Contrato
         $this->aforo = $aforo;
         $this->fecha_vencimiento = $fecha_vencimiento;
         $this->fecha_almoneda = $fecha_almoneda;
+        $this->suma_InteresPrestamo = $suma_InteresPrestamo;
+        $this->total_Intereses = $total_Intereses;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSumaInteresPrestamo()
+    {
+        return $this->suma_InteresPrestamo;
+    }
+
+    /**
+     * @param mixed $suma_InteresPrestamo
+     */
+    public function setSumaInteresPrestamo($suma_InteresPrestamo): void
+    {
+        $this->suma_InteresPrestamo = $suma_InteresPrestamo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalIntereses()
+    {
+        return $this->total_Intereses;
+    }
+
+    /**
+     * @param mixed $total_Intereses
+     */
+    public function setTotalIntereses($total_Intereses): void
+    {
+        $this->total_Intereses = $total_Intereses;
     }
 
     /**

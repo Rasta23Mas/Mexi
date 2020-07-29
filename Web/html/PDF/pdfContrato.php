@@ -28,6 +28,19 @@ if($web==1){
 
 //$mysql = new  mysqli($server, $user, $password, $db);
 
+/*include_once('claseConectar.php');
+$conexion = new conectar;
+$conexion->conexion();
+$sql = "SELECT algo FROM algunatabla WHERE algunacondicion etc";
+$result = mysql_query($sql,$conexion->link);*/
+
+/*
+$this->db = new Conexion();
+$this->conexion = $this->db->connectDB();*/
+
+$conexion = new Conexion();
+$conexion->connectDB();
+
 
 $idContrato = '';
 $FechaCreacion = '';
@@ -92,7 +105,8 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
                 INNER JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja  
                 INNER JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
                 WHERE Con.id_Contrato =$idContrato ";
-$rs = $this->conexion->query($buscar);
+$rs = $mysql->query($buscar);
+
 
 foreach ($resultado as $row) {
     //echo $fila['Contrato'];

@@ -16,9 +16,6 @@ class Conexion
 /*    protected $user = "u672450412_root";
     protected $password = "12345";*/
 
-
-
-
     public function connectDB(){
         try {
             $this->link = mysqli_connect($this->server, $this->user, $this->password, $this->db);

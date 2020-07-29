@@ -76,10 +76,13 @@ function generarContrato() {
     var diasAlmonedaValue = $('select[name="diasAlmName"] option:selected').text();
     var fechaVencimiento = $("#idFecVencimiento").text();
     var fechaAlmoneda = $("#idFechaAlm").val();
-    //var Suma_InteresPrestamo = $("#idTotalInteres").val();
+    var Suma_InteresPrestamo = $("#idTotalInteres").val();
 
     totalPrestamo = Math.round(totalPrestamo * 100) / 100;
     totalAvaluo = Math.round(totalAvaluo * 100) / 100;
+    Suma_InteresPrestamo = Math.round(Suma_InteresPrestamo * 100) / 100;
+    var Total_Intereses = Suma_InteresPrestamo - totalPrestamo;
+    Total_Intereses = Math.round(Total_Intereses * 100) / 100;
     var tipoFormulario = $("#idTipoFormulario").val();
     var cliente = $("#idClienteEmpeno").val();
     var dataEnviar = {
@@ -101,6 +104,8 @@ function generarContrato() {
         "aforo":  $("#idAforo").val(),
         "fecha_vencimiento":  fechaVencimiento,
         "fecha_almoneda":  fechaAlmoneda,
+        "Suma_InteresPrestamo":  Suma_InteresPrestamo,
+        "Total_Intereses":  Total_Intereses,
     };
     $.ajax({
         data: dataEnviar,
@@ -155,11 +160,7 @@ function generarContrato() {
 
 
 function verPDF(id_ContratoPDF) {
-    window.open('../PDF/callPdfContrato.php?pdf=1&contrato=' + id_ContratoPDF);
-}
-
-function verPDFTEST(id_ContratoPDF) {
-    window.open('../PDF/pdfContrato.php?pdf=1&contrato=' + id_ContratoPDF);
+    window.open('../PDF/callPdfContrato.php?contrato=' + id_ContratoPDF);
 }
 
 //consultar contratos

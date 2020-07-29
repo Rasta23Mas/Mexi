@@ -51,14 +51,16 @@ class sqlContratoDAO
             $fisico = 1;
             $fecha_fisico_ini = $fechaCreacion;
             $fecha_fisico_fin = $fecha_almoneda;
+            $suma_InteresPrestamo = $contrato->getSumaInteresPrestamo();;
+            $total_Intereses = $contrato->getTotalIntereses();
             $id_cat_estatus = 1;
 
 
             $insertaContrato = "INSERT INTO contratos_tbl
-                (id_Cliente, total_Prestamo,total_Avaluo, diasAlm, cotitular,
+                (id_Cliente, total_Prestamo,total_Avaluo, suma_InteresPrestamo,total_Interes,diasAlm, cotitular,
                  beneficiario, plazo,periodo,tipoInteres,tasa, alm,seguro,iva,dias, id_Formulario,Aforo, fecha_creacion,
                  fecha_vencimiento,fecha_almoneda,tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus) VALUES 
-                ( $id_Cliente, $totalPrestamo ,$totalAvaluo,$diasAlm,'$cotitular','$beneficiario',
+                ( $id_Cliente, $totalPrestamo ,$totalAvaluo,$suma_InteresPrestamo,$total_Intereses,$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'$fechaCreacion','$fecha_vencimiento',
                   '$fecha_almoneda', $tipoContrato,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
