@@ -179,7 +179,7 @@ function generarContratoAuto() {
 
     totalPrestamo = Math.round(totalPrestamo * 100) / 100;
     totalAvaluo = Math.round(totalAvaluo * 100) / 100;
-    
+
     var dataEnviar = {
         "idClienteAuto": clienteEmpeno,
         "fechaVencimiento": fechaVencimiento,
@@ -380,9 +380,4 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario,tipoCon) {
             }
         }
     });
-}
-
-function pruebaTest() {
-    var prestamoAuto = $("#idSumaInteresPrestamo").val();
-    alert(prestamoAuto);
 }

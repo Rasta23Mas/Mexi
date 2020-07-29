@@ -669,36 +669,6 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
         echo $verdad;
     }
 
-    public function agregarColor($color)
-    {
-        // TODO: Implement guardaCiente() method.
-        try {
-            $insertarMetal = "INSERT INTO cat_color(descripcion) VALUES ('$color')";
-            if ($ps = $this->conexion->prepare($insertarMetal)) {
-                if ($ps->execute()) {
-                    $buscarColor = "select max(id_Color) as ColorId from cat_color";
-                    $statement = $this->conexion->query($buscarColor);
-                    $encontro = $statement->num_rows;
-                    if ($encontro > 0) {
-                        $fila = $statement->fetch_object();
-                        $ColorID = $fila->ColorId;
-                        $verdad = $ColorID;
-                    }
-                } else {
-                    $verdad = -1;
-                }
-            } else {
-                $verdad = -1;
-            }
-        } catch (Exception $exc) {
-            $verdad = -1;
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-        //return $verdad;
-        echo $verdad;
-    }
 
     function llenarCmbReportes($tipo)
     {

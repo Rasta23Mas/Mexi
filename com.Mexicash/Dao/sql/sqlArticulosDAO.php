@@ -387,31 +387,6 @@ class sqlArticulosDAO
         return $datos;
     }
 
-    function llenarCmbColores()
-    {
-        $datos = array();
-
-        try {
-            $buscar = "SELECT id_Color, descripcion FROM cat_color";
-            $rs = $this->conexion->query($buscar);
-
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "id_Color" => $row["id_Color"],
-                        "descripcion" => $row["descripcion"]
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        return $datos;
-    }
 
     function llenarCmbTipoAuto()
     {
