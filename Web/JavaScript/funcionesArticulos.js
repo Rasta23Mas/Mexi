@@ -600,12 +600,10 @@ function calcularInteresAuto(prestamoAuto) {
     var varSeguroPorcen = parseFloat($("#idSeguroPorcen").text());
     var varIvaPorcen = "0." + $("#idIvaPorcen").text();
     varIvaPorcen = parseFloat(varIvaPorcen);
-
     var calculaTasa = Math.floor(prestamoAuto * varTasaPorcen) / 100;
     var calculaALm = Math.floor(prestamoAuto * varAlmPorcen) / 100;
     var calculaSeg = Math.floor(prestamoAuto * varSeguroPorcen) / 100;
     var calculaIva = Math.floor(prestamoAuto * varIvaPorcen) / 100;
-
     var interes = +calculaTasa + calculaALm + calculaSeg + calculaIva;
     var interesAuto = prestamoAuto + interes;
 
@@ -614,7 +612,6 @@ function calcularInteresAuto(prestamoAuto) {
     interes = interes.toFixed(2)
     interes = parseFloat(interes)
     $("#idSumaInteresPrestamo").val(interesAuto);
-
     return interes;
 }
 

@@ -45,7 +45,6 @@ function validarMontoAuto() {
 
 function validateFormAuto() {
 
-
     var validateForm = false;
     if($("#idTipoVehiculo").val()==0){
         $("#idTipoVehiculo").focus();
@@ -175,15 +174,19 @@ function generarContratoAuto() {
     var totalAvaluo = $("#idTotalAvaluoAuto").val();
     var fechaVencimiento = $("#idFecVencimiento").text();
     var fechaAlmoneda = $("#idFechaAlm").val();
+    var prestamoAuto = $("#idTotalPrestamoAuto").val();
+    var interesAuto = calcularInteresAuto(prestamoAuto);
 
     totalPrestamo = Math.round(totalPrestamo * 100) / 100;
     totalAvaluo = Math.round(totalAvaluo * 100) / 100;
-
+    
     var dataEnviar = {
         "idClienteAuto": clienteEmpeno,
         "fechaVencimiento": fechaVencimiento,
         "totalPrestamo": totalPrestamo,
         "totalAvaluo": totalAvaluo,
+        "total_Inter": interesAuto,
+        "sumaInteresPrestamo": $("#idSumaInteresPrestamo").val(),
         "polizaSeguro": $("#idPolizaSeguro").val(),
         "gps": $("#idGPS").val(),
         "pension": $("#idPension").val(),
@@ -377,4 +380,9 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario,tipoCon) {
             }
         }
     });
+}
+
+function pruebaTest() {
+    var prestamoAuto = $("#idSumaInteresPrestamo").val();
+    alert(prestamoAuto);
 }

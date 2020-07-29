@@ -23,6 +23,9 @@ $iva = $_POST['iva'];
 $dias = $_POST['dias'];
 $idTipoFormulario = $_POST['idTipoFormulario'];
 $aforo = $_POST['aforo'];
+$total_Inter = $_POST['total_Inter'];
+$sumaInteresPrestamo = $_POST['sumaInteresPrestamo'];
+
 //19
 //Auto
 $idTipoVehiculo = $_POST['idTipoVehiculo'];
@@ -77,6 +80,8 @@ $auto = new Auto(
     $dias,
     $idTipoFormulario,
     $aforo,
+    $total_Inter,
+    $sumaInteresPrestamo,
     //Auto
     $idTipoVehiculo,
     $idMarca,

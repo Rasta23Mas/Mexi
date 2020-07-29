@@ -23,6 +23,9 @@ class Auto
     private $dias;
     private $idTipoFormulario;
     private $aforo;
+    private $total_Inter;
+    private $sumaInteresPrestamo;
+
     //Auto
     private $idTipoVehiculo;
     private $idMarca;
@@ -75,6 +78,8 @@ class Auto
      * @param $dias
      * @param $idTipoFormulario
      * @param $aforo
+     * @param $total_Inter
+     * @param $sumaInteresPrestamo
      * @param $idTipoVehiculo
      * @param $idMarca
      * @param $idModelo
@@ -107,7 +112,7 @@ class Auto
      */
     public function __construct($idClienteAuto, $fechaVencimiento, $totalPrestamo, $totalAvaluo, $polizaSeguroCost, $gps, $pension, $beneficiario,
                                 $cotitular, $plazo, $periodo, $idTipoInteres, $tasa, $alm, $seguro, $iva, $dias, $idTipoFormulario,
-                                $aforo, $idTipoVehiculo, $idMarca, $idModelo, $idAnio, $idColor, $idPlacas, $idFactura, $idKms, $idAgencia, $idMotor, $idSerie, $idVehiculo, $idRepuve, $idGasolina, $idAseguradora, $idTarjeta, $idPoliza, $idFecVencimientoAuto, $idTipoPoliza, $idObservacionesAuto, $idCheckTarjeta, $idCheckFactura, $idCheckINE, $idCheckImportacion, $idCheckTenecia, $idCheckPoliza, $idCheckLicencia, $diasAlmoneda, $fecha_Alm)
+                                $aforo, $total_Inter, $sumaInteresPrestamo, $idTipoVehiculo, $idMarca, $idModelo, $idAnio, $idColor, $idPlacas, $idFactura, $idKms, $idAgencia, $idMotor, $idSerie, $idVehiculo, $idRepuve, $idGasolina, $idAseguradora, $idTarjeta, $idPoliza, $idFecVencimientoAuto, $idTipoPoliza, $idObservacionesAuto, $idCheckTarjeta, $idCheckFactura, $idCheckINE, $idCheckImportacion, $idCheckTenecia, $idCheckPoliza, $idCheckLicencia, $diasAlmoneda, $fecha_Alm)
     {
         $this->idClienteAuto = $idClienteAuto;
         $this->fechaVencimiento = $fechaVencimiento;
@@ -128,6 +133,8 @@ class Auto
         $this->dias = $dias;
         $this->idTipoFormulario = $idTipoFormulario;
         $this->aforo = $aforo;
+        $this->total_Inter = $total_Inter;
+        $this->sumaInteresPrestamo = $sumaInteresPrestamo;
         $this->idTipoVehiculo = $idTipoVehiculo;
         $this->idMarca = $idMarca;
         $this->idModelo = $idModelo;
@@ -157,6 +164,41 @@ class Auto
         $this->idCheckLicencia = $idCheckLicencia;
         $this->diasAlmoneda = $diasAlmoneda;
         $this->fecha_Alm = $fecha_Alm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalInter()
+    {
+        return $this->total_Inter;
+    }
+
+    /**
+     * @param mixed $total_Inter
+     */
+    public function setTotalInter($total_Inter): void
+    {
+        $this->total_Inter = $total_Inter;
+    }
+
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getSumaInteresPrestamo()
+    {
+        return $this->sumaInteresPrestamo;
+    }
+
+    /**
+     * @param mixed $sumaInteresPrestamo
+     */
+    public function setSumaInteresPrestamo($sumaInteresPrestamo): void
+    {
+        $this->sumaInteresPrestamo = $sumaInteresPrestamo;
     }
 
     /**
