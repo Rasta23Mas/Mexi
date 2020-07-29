@@ -24,11 +24,11 @@ class sqlBazarDAO
         $datos = array();
         try {
             $fechaHoy = date('Y-m-d');
-            $buscar = "SELECT id_movimiento,prestamo_Informativo FROM contratomovimientos_tbl
+            $buscar = "SELECT id_movimiento,prestamo_Informativo FROM contrato_mov_tbl
                         WHERE  DATE_FORMAT(fechaAlmoneda,'%Y-%m-%d') = '$fechaHoy' 
                         AND tipo_movimiento = 3 
                         AND id_contrato NOT IN 
-                        (select id_contrato from contratomovimientos_tbl where estatus != 3)";
+                        (select id_contrato from contrato_mov_tbl where estatus != 3)";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -52,11 +52,11 @@ class sqlBazarDAO
         $datos = array();
         try {
             $fechaHoy = date('Y-m-d');
-            $buscar = "SELECT id_movimiento,prestamo_Informativo FROM contratomovimientos_tbl
+            $buscar = "SELECT id_movimiento,prestamo_Informativo FROM contrato_mov_tbl
                         WHERE  DATE_FORMAT(fechaAlmoneda,'%Y-%m-%d') = '$fechaHoy' 
                         AND tipo_movimiento = 4 
                         AND id_contrato NOT IN 
-                        (select id_contrato from contratomovimientos_tbl where estatus != 4)";
+                        (select id_contrato from contrato_mov_tbl where estatus != 4)";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

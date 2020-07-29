@@ -195,7 +195,7 @@ class sqlCierreDAO
             $buscar = "SELECT Con.tipo_movimiento, Con.e_pagoDesempeno,Con.e_costoContrato,
                        Con.e_abono,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
                        e_gps,	e_poliza,e_pension,s_descuento_venta,e_venta_mostrador,e_venta_iva,e_venta_apartados,e_venta_abono 
-                       FROM contratomovimientos_tbl AS Con
+                       FROM contrato_mov_tbl AS Con
                        WHERE Con.sucursal= $sucursal AND Con.usuario=$idUsuarioSelect AND Con.id_CierreCaja=$idCierreCaja";
 
             $rs = $this->conexion->query($buscar);
@@ -373,7 +373,7 @@ class sqlCierreDAO
         $datos = array();
         try {
             $buscar = "SELECT s_prestamo_nuevo AS Prestamo
-                        FROM contratomovimientos_tbl AS Mov 
+                        FROM contrato_mov_tbl AS Mov 
                         WHERE Mov.id_CierreCaja=$idCierreCaja AND 
                          Mov.tipo_movimiento = 4 || Mov.tipo_movimiento = 8";
             $rs = $this->conexion->query($buscar);
@@ -403,7 +403,7 @@ class sqlCierreDAO
             $buscar = "SELECT Con.tipo_movimiento, Con.e_pagoDesempeno,Con.e_costoContrato,
                        Con.e_abono,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
                        e_gps,	e_poliza,e_pension 
-                       FROM contratomovimientos_tbl AS Con
+                       FROM contrato_mov_tbl AS Con
                        WHERE Con.id_CierreCaja=$idCierreCaja AND Con.tipo_movimiento !=20";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -667,7 +667,7 @@ class sqlCierreDAO
         try {
             $fechaCreacion = date('Y-m-d');
             $buscar = "SELECT prestamo_Informativo,v_PrecioVenta
-                        FROM contratomovimientos_tbl
+                        FROM contrato_mov_tbl
                         WHERE  fecha_Venta='$fechaCreacion' and tipo_movimiento = 6";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -694,7 +694,7 @@ class sqlCierreDAO
         try {
             $fechaCreacion = date('Y-m-d');
             $buscar = "SELECT prestamo_Informativo
-                        FROM contratomovimientos_tbl
+                        FROM contrato_mov_tbl
                         WHERE  fecha_Bazar='$fechaCreacion'";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -720,9 +720,9 @@ class sqlCierreDAO
         $datos = array();
         try {
 
-            $buscar = "SELECT s_prestamo_nuevo,tipo_movimiento FROM contratomovimientos_tbl 
+            $buscar = "SELECT s_prestamo_nuevo,tipo_movimiento FROM contrato_mov_tbl 
                         WHERE tipo_movimiento=3 and id_contrato not in 
-                        (select id_contrato FROM contratomovimientos_tbl 
+                        (select id_contrato FROM contrato_mov_tbl 
                         where tipo_movimiento = 4 || tipo_movimiento = 5 || tipo_movimiento = 5 
                         || tipo_movimiento = 20 || tipo_movimiento = 24 )";
             $rs = $this->conexion->query($buscar);
@@ -747,7 +747,7 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
-            $buscar = "SELECT prestamo_Informativo  FROM contratomovimientos_tbl
+            $buscar = "SELECT prestamo_Informativo  FROM contrato_mov_tbl
                         WHERE tipo_movimiento=24";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -873,7 +873,7 @@ class sqlCierreDAO
                         Art.id_SerieContrato,Art.id_SerieArticulo) as idSerie,
                         Con.fecha_Bazar,Art.vitrina,24,Art.prestamo,Art.vitrina,Art.id_SerieSucursal
                         FROM articulo_tbl as Art
-                        INNER JOIN contratomovimientos_tbl as Con on Art.id_Contrato = Con.id_contrato
+                        INNER JOIN contrato_mov_tbl as Con on Art.id_Contrato = Con.id_contrato
                         WHERE  Con.fecha_Bazar='$fechaCreacion'";
             if ($ps = $this->conexion->prepare($insertaBazar)) {
                 if ($ps->execute()) {
@@ -898,7 +898,7 @@ class sqlCierreDAO
     {
         try {
             $fechaCreacion = date('Y-m-d');
-            $updateBazar = "UPDATE contratomovimientos_tbl 
+            $updateBazar = "UPDATE contrato_mov_tbl 
                                 SET fecha_Bazar='',tipo_movimiento=24
                                 WHERE  fecha_Bazar='$fechaCreacion'";
             if ($ps = $this->conexion->prepare($updateBazar)) {

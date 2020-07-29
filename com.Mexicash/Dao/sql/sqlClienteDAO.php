@@ -524,7 +524,7 @@ WHERE id_Cliente = '$idClienteEditar'";
             $buscar = "SELECT Con.id_Contrato as Contrato,Cont.id_Cliente as Cliente,
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto, 
                         CONCAT(Con.plazo, ' ', Con.periodo, ' ',Con.tipoInteres) as Interes, 
-                        Con.fechaVencimiento as FechaVenc, Con.fecha_creacion as FechaCreac, 
+                        Con.fechaVencimiento as FechaVenc, Con.fecha_Movimiento as FechaCreac, 
                         CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
                         CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
                         Aut.observaciones as ObserAuto,
@@ -532,7 +532,7 @@ WHERE id_Cliente = '$idClienteEditar'";
                         CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
                         Art.tipoArticulo, Cont.id_Formulario as Form,
                         Mov.descripcion as EstDesc
-                        FROM contratomovimientos_tbl as Con 
+                        FROM contrato_mov_tbl as Con 
                         INNER JOIN contratos_tbl as Cont on Con.id_contrato = Cont.id_Contrato 
                         INNER JOIN cliente_tbl as Cli on Cont.id_Cliente = Cli.id_Cliente 
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
@@ -583,11 +583,11 @@ WHERE id_Cliente = '$idClienteEditar'";
         try {
 
             $buscarEmpe = "SELECT COUNT(ConMov.id_contrato) AS TotalEmpenos 
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=1 
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 4 || tipo_movimiento = 5 || tipo_movimiento = 6 
                         || tipo_movimiento = 20 || tipo_movimiento = 21 ||tipo_movimiento = 22 ||tipo_movimiento = 23 || tipo_movimiento = 24)";
             $statement = $this->conexion->query($buscarEmpe);
@@ -595,11 +595,11 @@ WHERE id_Cliente = '$idClienteEditar'";
             $TotalEmpenos = $fila->TotalEmpenos;
 
             $buscarEmpeAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalEmpenos 
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 8 || tipo_movimiento = 9 || tipo_movimiento = 10 
                         || tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 24)";
             $statement = $this->conexion->query($buscarEmpeAuto);
@@ -607,12 +607,12 @@ WHERE id_Cliente = '$idClienteEditar'";
             $TotalEmpenosAuto = $fila->TotalEmpenos;
 
             $buscarRefrendo = "SELECT COUNT(ConMov.id_contrato) AS TotalRefrendo
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2  
                  AND tipo_movimiento = 8
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 9 || tipo_movimiento = 10 
                         || tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 24)";
             $statement = $this->conexion->query($buscarRefrendo);
@@ -620,12 +620,12 @@ WHERE id_Cliente = '$idClienteEditar'";
             $TotalRefrendo = $fila->TotalRefrendo;
 
             $buscarRefrendoAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalRefrendo
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2  
                  AND tipo_movimiento = 8
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 9 || tipo_movimiento = 10 
                         || tipo_movimiento = 20 || tipo_movimiento = 21 || tipo_movimiento = 24)";
             $statement = $this->conexion->query($buscarRefrendoAuto);
@@ -633,72 +633,72 @@ WHERE id_Cliente = '$idClienteEditar'";
             $TotalRefrendoAuto = $fila->TotalRefrendo;
 
             $buscarDesemp = "SELECT COUNT(ConMov.id_contrato) AS TotalDesemp 
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 9 || tipo_movimiento = 21
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 20 )";
             $statement = $this->conexion->query($buscarDesemp);
             $fila = $statement->fetch_object();
             $TotalDesemp = $fila->TotalDesemp;
 
             $buscarDesempAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalDesemp 
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 9 || tipo_movimiento = 21
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 20 )";
             $statement = $this->conexion->query($buscarDesempAuto);
             $fila = $statement->fetch_object();
             $TotalDesempAuto = $fila->TotalDesemp;
 
             $buscarBazar = "SELECT COUNT(ConMov.id_contrato) AS TotalBazar
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 24
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT ConMov.id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 10 || tipo_movimiento = 20)";
             $statement = $this->conexion->query($buscarBazar);
             $fila = $statement->fetch_object();
             $TotalBazar = $fila->TotalBazar;
 
             $buscarBazarAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalBazar
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 24
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT ConMov.id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT ConMov.id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 10 || tipo_movimiento = 20)";
             $statement = $this->conexion->query($buscarBazarAuto);
             $fila = $statement->fetch_object();
             $TotalBazarAuto = $fila->TotalBazar;
 
             $buscarVenta = "SELECT COUNT(ConMov.id_contrato) AS TotalVenta
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=1 
                  AND tipo_movimiento = 6
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 20 )";
             $statement = $this->conexion->query($buscarVenta);
             $fila = $statement->fetch_object();
             $TotalVenta = $fila->TotalVenta;
 
             $buscarVentaAuto = "SELECT COUNT(ConMov.id_contrato) AS TotalVenta
-                 FROM contratomovimientos_tbl ConMov
+                 FROM contrato_mov_tbl ConMov
                  INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato = Con.id_Contrato
                  WHERE Con.id_Cliente = $clienteEmpeno AND ConMov.tipo_Contrato=2 
                  AND tipo_movimiento = 10
                  AND ConMov.id_contrato 
-                 NOT IN (SELECT id_contrato FROM contratomovimientos_tbl 
+                 NOT IN (SELECT id_contrato FROM contrato_mov_tbl 
                         WHERE tipo_movimiento = 20 )";
             $statement = $this->conexion->query($buscarVentaAuto);
             $fila = $statement->fetch_object();

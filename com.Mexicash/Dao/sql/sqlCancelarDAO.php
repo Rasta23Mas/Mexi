@@ -38,7 +38,7 @@ class sqlCancelarDAO
                         Mov.s_descuento_aplicado AS DescuentoMov,Mov.e_pagoDesempeno AS PagoMov,
                         CONCAT(Mov.tipoInteres, ' ' ,Mov.periodo ,' ' ,Mov.plazo) AS PlazoMov,
                         Mov.e_costoContrato AS CostoContrato,Mov.tipo_movimiento AS MovimientoTipo
-                        FROM contratomovimientos_tbl Mov
+                        FROM contrato_mov_tbl Mov
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                         INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
                         WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.tipo_movimiento  !=20 AND Mov.tipo_movimiento  =$tipoMovimiento AND Mov.sucursal= $sucursal
@@ -88,7 +88,7 @@ class sqlCancelarDAO
                          Mov.prestamo_actual  AS PrestamoActual,Mov.e_abono AS Abono,
                         Mov.e_intereses AS InteresMovimiento,Mov.e_moratorios AS MoratoriosMov, Mov.s_descuento_aplicado AS DescuentoMov,
                         Mov.e_pagoDesempeno AS PagoMov, CONCAT(Mov.tipoInteres, ' ' ,Mov.periodo ,' ' ,Mov.plazo) AS PlazoMov, Mov.e_costoContrato AS CostoContrato,Mov.tipo_movimiento AS MovimientoTipo
-                        FROM contratomovimientos_tbl Mov
+                        FROM contrato_mov_tbl Mov
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                         INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
                         WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.sucursal= $sucursal AND Mov.tipo_movimiento  !=20 AND Mov.tipo_movimiento  =$tipoMovimiento OR Mov.tipo_movimiento  =21
@@ -135,7 +135,7 @@ class sqlCancelarDAO
                          Mov.prestamo_actual  AS PrestamoActual,Mov.e_abono AS Abono,
                         Mov.e_intereses AS InteresMovimiento,Mov.e_moratorios AS MoratoriosMov, Mov.s_descuento_aplicado AS DescuentoMov,
                         Mov.e_pagoDesempeno AS PagoMov, CONCAT(Mov.tipoInteres, ' ' ,Mov.periodo ,' ' ,Mov.plazo) AS PlazoMov, Mov.e_costoContrato AS CostoContrato,Mov.tipo_movimiento AS MovimientoTipo
-                        FROM contratomovimientos_tbl Mov
+                        FROM contrato_mov_tbl Mov
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                         INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
                         WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.tipo_movimiento  !=20 AND Mov.sucursal= $sucursal
@@ -175,7 +175,7 @@ class sqlCancelarDAO
     {
         $datos = array();
         try {
-            $buscar = "SELECT  Con.id_movimiento as IdMovimiento,tipo_movimiento,CMov.descripcion as Movimiento FROM contratomovimientos_tbl AS Con
+            $buscar = "SELECT  Con.id_movimiento as IdMovimiento,tipo_movimiento,CMov.descripcion as Movimiento FROM contrato_mov_tbl AS Con
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento WHERE id_contrato = $Contrato ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -201,7 +201,7 @@ class sqlCancelarDAO
     function cancelarMovimiento($tipo_movimiento, $movimientoCancelado, $IdMovimiento, $fechaAlmoneda, $id_movimientoAnterior)
     {
         try {
-            $updateMovimiento = "UPDATE contratomovimientos_tbl SET
+            $updateMovimiento = "UPDATE contrato_mov_tbl SET
             tipo_movimiento = $movimientoCancelado,fecha_Bazar=''
             WHERE id_movimiento = $IdMovimiento";
             if ($ps = $this->conexion->prepare($updateMovimiento)) {
@@ -209,7 +209,7 @@ class sqlCancelarDAO
                     if ($tipo_movimiento == 3 || $tipo_movimiento == 7) {
                         $verdad = mysqli_stmt_affected_rows($ps);
                     } else {
-                        $updateFechaBazar = "UPDATE contratomovimientos_tbl SET
+                        $updateFechaBazar = "UPDATE contrato_mov_tbl SET
                                             fecha_Bazar = '$fechaAlmoneda'
                                             WHERE id_movimiento = $id_movimientoAnterior";
                         if ($ps = $this->conexion->prepare($updateFechaBazar)) {
@@ -256,9 +256,9 @@ class sqlCancelarDAO
         $datos = array();
         try {
             $buscar = "SELECT id_movimiento,fechaAlmoneda
-                         FROM contratomovimientos_tbl 
+                         FROM contrato_mov_tbl 
                          WHERE id_movimiento = 
-                         (select Max(id_movimiento) from contratomovimientos_tbl 
+                         (select Max(id_movimiento) from contrato_mov_tbl 
                          where id_contrato = $ContratoCancelar and id_movimiento != $IdMovimiento) ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
