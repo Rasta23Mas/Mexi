@@ -168,6 +168,7 @@ $Intereses = number_format($Intereses, 2,'.',',');
 if (!isset($_GET['pdf'])) {
 
     if (!isset($_GET['pdf'])) {
+
         $contenido = '<html>
 <head>
     <meta charset="utf-8">

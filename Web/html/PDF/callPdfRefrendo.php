@@ -69,21 +69,23 @@ if (isset($_GET['ultimoMovimiento'])) {
 }
 
 
-
-$query = "SELECT id_Recibo,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,prestamo,abonoCapital, 
-                    intereses, almacenaje, seguro, desempeñoExt, moratorios, otrosCobros, descuentoAplicado, descuentoPuntos, iva, 
-                    efectivo, cambio, mutuo, refrendo, Fecha_Almoneda, Fecha_Vencimiento, Bit.Fecha_Creacion, 
+$query = "SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
+                    Con.prestamo_Informativo,Con.e_abono, 
+                    Con.e_interes, Con.e_almacenaje, Con.e_seguro, Con.e_moratorios, Con.s_descuento_aplicado, Con.e_iva, 
+                    Con.pag_efectivo, Con.pag_cambio, Con.fechaAlmoneda, Con.fechaVencimiento, Con.fecha_Movimiento, 
                     CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, Suc.Nombre AS NombreSucursal, 
-                    Suc.direccion AS DirSucursal, Suc.telefono AS TelSucursal 
-                    FROM bit_pagos AS Bit 
-                    INNER JOIN cliente_tbl AS Cli on Bit.id_Cliente = Cli.id_Cliente 
+                    Suc.direccion AS DirSucursal, Suc.telefono AS TelSucursal ,Con.pag_total,Con.pag_subtotal
+                    FROM contrato_mov_tbl AS Con 
+                    INNER JOIN contratos_tbl AS CoT on Con.id_contrato = CoT.id_Contrato 
+                    INNER JOIN cliente_tbl AS Cli on Cot.id_Cliente = Cli.id_Cliente 
+                    INNER JOIN bit_cierrecaja AS Bit on Con.id_cierreCaja = Bit.id_CierreCaja 
                     INNER JOIN usuarios_tbl AS Usu on Bit.usuario = Usu.id_User 
-                    INNER JOIN cat_sucursal AS Suc on Bit.sucursal = Suc.id_Sucursal 
-                    WHERE Bit.id_Contrato =$idContrato ";
+                    INNER JOIN cat_sucursal AS Suc on Con.sucursal = Suc.id_Sucursal 
+                    WHERE Con.id_Contrato =$idContrato ";
                     if($ultimoMovimiento!=0){
-                        $query .= " and Bit.ultimoMovimiento = $ultimoMovimiento";
+                        $query .= " and Con.id_movimiento = $ultimoMovimiento";
                     }
-                    $query .= " ORDER BY id_Recibo DESC LIMIT 1";
+                    $query .= " ORDER BY id_movimiento DESC LIMIT 1";
 $resultado = $mysql->query($query);
 
 
@@ -92,29 +94,31 @@ foreach ($resultado as $row) {
     $NombreSucursal = $row["NombreSucursal"];
     $DirSucursal = $row["DirSucursal"];
     $TelSucursal = $row["TelSucursal"];
-    $id_Recibo = $row["id_Recibo"];
-    $Fecha_Creacion = $row["Fecha_Creacion"];
+    $id_Recibo = $row["id_movimiento"];
+    $Fecha_Creacion = $row["fecha_Movimiento"];
     $NombreCompleto = $row["NombreCompleto"];
-    $prestamo = $row["prestamo"];
-    $abonoCapital = $row["abonoCapital"];
-    $intereses = $row["intereses"];
-    $almacenaje = $row["almacenaje"];
-    $seguro = $row["seguro"];
-    $desempeñoExt = $row["desempeñoExt"];
-    $moratorios = $row["moratorios"];
-    $otrosCobros = $row["otrosCobros"];
-    $descuentoAplicado = $row["descuentoAplicado"];
-    $descuentoPuntos = $row["descuentoPuntos"];
-    $iva = $row["iva"];
-    $efectivo = $row["efectivo"];
-    $cambio = $row["cambio"];
-    $mutuo = $row["mutuo"];
-    $refrendo = $row["refrendo"];
-    $Fecha_Almoneda = $row["Fecha_Almoneda"];
-    $Fecha_Vencimiento = $row["Fecha_Vencimiento"];
+    $prestamo = $row["prestamo_Informativo"];
+    $abonoCapital = $row["e_abono"];
+    $intereses = $row["e_interes"];
+    $almacenaje = $row["e_almacenaje"];
+    $seguro = $row["e_seguro"];
+    $desempeñoExt = 0;
+    $moratorios = $row["e_moratorios"];
+    $otrosCobros = 0;
+    $descuentoAplicado = $row["s_descuento_aplicado"];
+    $descuentoPuntos = 0;
+    $iva = $row["e_iva"];
+    $efectivo = $row["pag_efectivo"];
+    $cambio = $row["pag_cambio"];
+    $mutuo = 0;
+    $refrendo = 0;
+    $Fecha_Almoneda = $row["fechaAlmoneda"];
+    $Fecha_Vencimiento = $row["fechaVencimiento"];
     $NombreUsuario = $row["NombreUsuario"];
+    $subTotal = $row["pag_subtotal"];
+    $Total = $row["pag_total"];
 
-    $subTotal = $abonoCapital + $intereses+ $almacenaje+$seguro+$desempeñoExt+$moratorios+$otrosCobros;
+    //$subTotal = $abonoCapital + $intereses+ $almacenaje+$seguro+$desempeñoExt+$moratorios+$otrosCobros;
     $abonoCapital= round($abonoCapital,2);
     $intereses= round($intereses,2);
     $almacenaje= round($almacenaje,2);
@@ -124,8 +128,8 @@ foreach ($resultado as $row) {
     $otrosCobros= round($otrosCobros,2);
 
     $subTotal= round($subTotal,2);
-    $Total = $subTotal +$iva;
-    $Total = $Total-$descuentoAplicado;
+    //$Total = $subTotal +$iva;
+    //$Total = $Total-$descuentoAplicado;
     $Total= round($Total,2);
     $iva= round($iva,2);
     $descuentoAplicado= round($descuentoAplicado,2);
@@ -194,7 +198,7 @@ $Fecha_Creacion = date("d-m-Y", strtotime($Fecha_Creacion));
 $Fecha_Almoneda = date("d-m-Y", strtotime($Fecha_Almoneda));
 $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
 
-$contenido = '<html>
+    $contenido = '<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -227,7 +231,7 @@ $contenido = '<html>
 </head>
 <body>
 <form>';
-$contenido .= '<table width="30%" border="1">
+    $contenido .= '<table width="30%" border="1">
         <tbody>
         <tr>
         <td>
@@ -239,17 +243,17 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursal">SUCURSAL: '. $NombreSucursal .'</label>
+                        <label ID="sucursal">SUCURSAL: ' . $NombreSucursal . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalDir">'. $DirSucursal .'</label>
+                        <label ID="sucursalDir">' . $DirSucursal . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalTel">Tel: '. $TelSucursal .'</label>
+                        <label ID="sucursalTel">Tel: ' . $TelSucursal . '</label>
                     </td>
                 </tr>
                 <tr>
@@ -260,7 +264,7 @@ $contenido .= '<table width="30%" border="1">
                 <tr>
                     <td colspan="3" align="center">
                         &nbsp;
-                        ' . $reimpresion. '
+                        ' . $reimpresion . '
                     </td>
                 </tr>
                 <tr>
@@ -285,57 +289,57 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label id="idContrato">CONTRATO NO: '. $idContrato.' </label>
+                        <label id="idContrato">CONTRATO NO: ' . $idContrato . ' </label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label id="id_Recibo">RECIBO NO: '. $id_Recibo.'</label>
+                        <label id="id_Recibo">RECIBO NO: ' . $id_Recibo . '</label>
                     </td>
                 </tr>
                 <tr><td><br></td></tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label id="idFechaHoy">FECHA: '. $Fecha_Creacion.'</label>
+                        <label id="idFechaHoy">FECHA: ' . $Fecha_Creacion . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label id="idCliente">CLIENTE: '. $NombreCompleto.'</label>
+                        <label id="idCliente">CLIENTE: ' . $NombreCompleto . '</label>
                     </td>
                 </tr>
                 <tr><td><br></td></tr>
                 <tr>
                     <td colspan="2" align="right"><label>PRÉSTAMO:</label></td>
-                    <td align="right"><label>$ '.$prestamo.'</label></td>
+                    <td align="right"><label>$ ' . $prestamo . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>ABONO A CAPITAL:</label></td>
-                    <td align="right"><label>$ '.$abonoCapital.'</label></td>
+                    <td align="right"><label>$ ' . $abonoCapital . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>INTERESES:</label></td>
-                    <td align="right"><label>$ '.$intereses.'</label></td>
+                    <td align="right"><label>$ ' . $intereses . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>ALMACENAJE:</label></td>
-                    <td align="right"><label>$ '.$almacenaje.'</label></td>
+                    <td align="right"><label>$ ' . $almacenaje . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>SEGURO:</label></td>
-                    <td align="right"><label>$ '.$seguro.'</label></td>
+                    <td align="right"><label>$ ' . $seguro . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>DESEMPEÑO EXT.:</label></td>
-                    <td align="right"><label>$ '.$desempeñoExt.'</label></td>
+                    <td align="right"><label>$ ' . $desempeñoExt . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>MORATORIOS:</label></td>
-                    <td align="right"><label>$ '.$moratorios.'</label></td>
+                    <td align="right"><label>$ ' . $moratorios . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>OTROS COBROS:</label></td>
-                    <td align="right"><label>$ '.$otrosCobros.'</label></td>
+                    <td align="right"><label>$ ' . $otrosCobros . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2"><label></label></td>
@@ -343,15 +347,15 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>SUBTOTAL:</label></td>
-                    <td align="right"><label>$ '.$subTotal.'</label></td>
+                    <td align="right"><label>$ ' . $subTotal . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>DESC. APLICADO:</label></td>
-                    <td align="right"><label>$ '.$descuentoAplicado.'</label></td>
+                    <td align="right"><label>$ ' . $descuentoAplicado . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>IVA:</label></td>
-                    <td align="right"><label>$ '.$iva.'</label></td>
+                    <td align="right"><label>$ ' . $iva . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2"><label></label></td>
@@ -359,15 +363,15 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>TOTAL:</label></td>
-                    <td align="right"><label>$ '.$Total.'</label></td>
+                    <td align="right"><label>$ ' . $Total . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>EFECTIVO:</label></td>
-                    <td align="right"><label>$ '.$efectivo.'</label></td>
+                    <td align="right"><label>$ ' . $efectivo . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="right"><label>CAMBIO:</label></td>
-                    <td align="right"><label>$ '.$cambio.'</label></td>
+                    <td align="right"><label>$ ' . $cambio . '</label></td>
                 </tr>
                 <tr>
                 <td>
@@ -375,7 +379,7 @@ $contenido .= '<table width="30%" border="1">
 </td>
 </tr>
                 <tr>
-                    <td colspan="3" align="left"><label>COMERCIALIZACION :'.$Fecha_Almoneda.'</label></td>
+                    <td colspan="3" align="left"><label>COMERCIALIZACION :' . $Fecha_Almoneda . '</label></td>
                 </tr>
                 <tr>
                     <td><label>N. MUTUO</label></td>
@@ -386,15 +390,15 @@ $contenido .= '<table width="30%" border="1">
                     <td colspan="3" align="center"><hr></td>
                 </tr>
                 <tr>
-                    <td><label>$ '.$prestamo.'</label></td>
-                    <td><label>$ '.$Total.'</label></td>
-                    <td><label id="idFechaVencimiento">'.$Fecha_Vencimiento.'</label></td>
+                    <td><label>$ ' . $prestamo . '</label></td>
+                    <td><label>$ ' . $Total . '</label></td>
+                    <td><label id="idFechaVencimiento">' . $Fecha_Vencimiento . '</label></td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="left"><label id="idDetalle">'.$detallePiePagina.'</label></td>
+                    <td colspan="3" align="left"><label id="idDetalle">' . $detallePiePagina . '</label></td>
                 </tr>
                 <tr>
-                    <td colspan="3"><label id="idUsuario">Usuario: '.$NombreUsuario.'</label></td>
+                    <td colspan="3"><label id="idUsuario">Usuario: ' . $NombreUsuario . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="3">
@@ -444,7 +448,7 @@ $contenido .= '<table width="30%" border="1">
             </table>
         </td>
         </tr>';
-$contenido .= '</tbody></table></form></body></html>';
+    $contenido .= '</tbody></table></form></body></html>';
 
 $nombreContrato = 'Refrendo Num ' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();

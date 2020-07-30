@@ -61,13 +61,15 @@ class sqlMovimientosDAO
                          $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses, $e_moratorios,$e_iva, $e_venta_mostrador,
                         $e_venta_iva, $e_venta_apartados, $e_gps,$e_poliza, $e_pension,$costo_Contrato, $tipo_Contrato, $tipo_movimiento,
                          $usuario, $sucursal, $idCierreCaja, $idCierreSucursal,'$fechaCreacion',$prestamo_Informativo)";
-                if ($ps = $this->conexion->prepare($insertaMovimiento)) {
+                if ($ps = $this->conexion->prepare($insertaMovimiento)
+                ) {
                     if ($ps->execute()) {
                         // $verdad = mysqli_stmt_affected_rows($ps);
                         $buscarContrato = "select max(id_movimiento) as ID_Movimiento from contrato_mov_tbl where usuario = " . $usuario . " and sucursal = $sucursal";
                         $statement = $this->conexion->query($buscarContrato);
                         $encontro = $statement->num_rows;
                         if ($encontro > 0) {
+                            
                             $fila = $statement->fetch_object();
                             $UltimoMovimiento = $fila->ID_Movimiento;
                             $verdad = $UltimoMovimiento;
@@ -105,22 +107,33 @@ class sqlMovimientosDAO
             $fechaUpdateRealizado = 0;
 
             if($tipo_movimiento==4||$tipo_movimiento==8) {
+                //Refrendo
                 $updateFecha = "UPDATE contratos_tbl SET
                                          fecha_vencimiento = '$fechaVencimiento',
-                                         fecha_almoneda = '$fechaAlmoneda'
+                                         fecha_almoneda = '$fechaAlmoneda',
+                                         fecha_fisico_fin = '$fechaAlmoneda',
+                                         id_cat_estatus = 2
                                         WHERE id_Contrato =$id_contrato";
                 $flagFecha= 1;
             }else if($tipo_movimiento==5||$tipo_movimiento==9) {
+                //Desempeño
                 $updateFecha = "UPDATE contratos_tbl SET
                                          fecha_vencimiento = '$fechaVencimiento',
-                                         fecha_almoneda = '$fechaAlmoneda'
+                                         fecha_almoneda = '$fechaAlmoneda',
+                                         fecha_fisico_fin = '$fechaAlmoneda',
+                                         id_cat_estatus = 3,
+                                         fisico= 0
                                         WHERE id_Contrato =$id_contrato";
                 $flagFecha= 1;
             }else if($tipo_movimiento==21) {
+                //Desempeño si interes
                 $updateFecha = "UPDATE contratos_tbl SET
                                          fecha_vencimiento = '$fechaVencimiento',
-                                         fecha_almoneda = '$fechaAlmoneda'
-                                        WHERE id_Contrato =$id_contrato";
+                                         fecha_almoneda = '$fechaAlmoneda',
+                                         fecha_fisico_fin = '$fechaAlmoneda',
+                                         id_cat_estatus = 3,
+                                         fisico= 0
+                                         WHERE id_Contrato =$id_contrato";
                 $flagFecha= 1;
             }
 
