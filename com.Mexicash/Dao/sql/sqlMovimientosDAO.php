@@ -103,6 +103,7 @@ class sqlMovimientosDAO
             $verdad = -1;
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $fechaHoy = date('Y-m-d H:i:s');
+            $fechaHoyShort = date('Y-m-d');
             $flagFecha = 0;
             $fechaUpdateRealizado = 0;
 
@@ -120,7 +121,7 @@ class sqlMovimientosDAO
                 $updateFecha = "UPDATE contratos_tbl SET
                                          fecha_vencimiento = '$fechaVencimiento',
                                          fecha_almoneda = '$fechaAlmoneda',
-                                         fecha_fisico_fin = '$fechaAlmoneda',
+                                         fecha_fisico_fin = '$fechaHoyShort',
                                          id_cat_estatus = 3,
                                          fisico= 0
                                         WHERE id_Contrato =$id_contrato";
@@ -130,7 +131,7 @@ class sqlMovimientosDAO
                 $updateFecha = "UPDATE contratos_tbl SET
                                          fecha_vencimiento = '$fechaVencimiento',
                                          fecha_almoneda = '$fechaAlmoneda',
-                                         fecha_fisico_fin = '$fechaAlmoneda',
+                                         fecha_fisico_fin = '$fechaHoyShort',
                                          id_cat_estatus = 3,
                                          fisico= 0
                                          WHERE id_Contrato =$id_contrato";

@@ -1106,7 +1106,7 @@ function MovimientosRefrendoSinInteres() {
     var prestamo_nuevo = 0;
     var s_descuento_aplicado = 0;
     var descuentoFinal = 0;
-    var abonoFinal  = 0;
+    var abonoFinal  =  $("#abonoAnteriorNuevoNota").val();
     var e_capital_recuperado = $("#totalSinInteresValue").val();
     var e_pagoDesempeno = $("#prestamoNuevoNota").val();
     var abono  = 0;
@@ -1134,6 +1134,7 @@ function MovimientosRefrendoSinInteres() {
     totalVencSeg = Math.round(totalVencSeg * 100) / 100;
     e_moratorios = Math.round(e_moratorios * 100) / 100;
     e_ivaValue = Math.round(e_ivaValue * 100) / 100;
+    abonoFinal = Math.round(abonoFinal * 100) / 100;
    if (tipeFormulario == 2) {
         e_gps = $("#gpsNuevoNota").val();
         e_poliza = $("#polizaNuevoNota").val();
@@ -1143,8 +1144,10 @@ function MovimientosRefrendoSinInteres() {
         e_pension = Math.round(e_pension * 100) / 100;
     }
     costo_Contrato = Math.round(costo_Contrato * 100) / 100;
+
+    totalPagar = $("#totalSinInteresValue").val();
     totalPagar = Math.round(totalPagar * 100) / 100;
-    var subtotal = totalPagar -e_ivaValue ;
+    var subtotal =  $("#prestamoNuevoNota").val();
     subtotal = Math.round(subtotal * 100) / 100;
     efectivoPDF = Math.round(efectivoPDF * 100) / 100;
     cambioPDF = Math.round(cambioPDF * 100) / 100;
@@ -1213,7 +1216,8 @@ function BitacoraUsuarioRefrendoSinInteres() {
         success: function (response) {
             if (response > 0) {
                 var  pdf = setTimeout(function(){ verPDFDesempenoSinInteres(contratoGbl);}, 2000);
-                limpiarRefrendo()
+                var  reload = setTimeout(function(){ location.href = '../Desempeno/vDesempeno.php?tipoFormGet=3';}, 3000);
+
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }

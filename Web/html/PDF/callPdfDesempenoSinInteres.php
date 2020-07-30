@@ -66,20 +66,23 @@ if (isset($_GET['ultimoMovimiento'])) {
 }
 
 
-$query = "SELECT id_Recibo,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,prestamo,abonoCapital, 
-                    intereses, almacenaje, seguro, desempeñoExt, moratorios, otrosCobros, descuentoAplicado, descuentoPuntos, iva, 
-                    efectivo, cambio, mutuo, refrendo, Bit.costoContrato AS CostoContrato, Fecha_Almoneda, Fecha_Vencimiento, Bit.Fecha_Creacion,  
+$query = " SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
+                    Con.e_pagoDesempeno,Con.e_abono, 
+                    Con.e_interes, Con.e_almacenaje, Con.e_seguro, Con.e_moratorios, Con.s_descuento_aplicado, Con.e_iva, 
+                    Con.pag_efectivo, Con.pag_cambio, Con.fechaAlmoneda, Con.fechaVencimiento, Con.fecha_Movimiento, 
                     CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, Suc.Nombre AS NombreSucursal, 
-                    Suc.direccion AS DirSucursal, Suc.telefono AS TelSucursal 
-                    FROM bit_pagos AS Bit 
-                    INNER JOIN cliente_tbl AS Cli on Bit.id_Cliente = Cli.id_Cliente 
+                    Suc.direccion AS DirSucursal, Suc.telefono AS TelSucursal ,Con.pag_total,Con.pag_subtotal,e_costoContrato
+                    FROM contrato_mov_tbl AS Con 
+                    INNER JOIN contratos_tbl AS CoT on Con.id_contrato = CoT.id_Contrato 
+                    INNER JOIN cliente_tbl AS Cli on Cot.id_Cliente = Cli.id_Cliente 
+                    INNER JOIN bit_cierrecaja AS Bit on Con.id_cierreCaja = Bit.id_CierreCaja 
                     INNER JOIN usuarios_tbl AS Usu on Bit.usuario = Usu.id_User 
-                    INNER JOIN cat_sucursal AS Suc on Bit.sucursal = Suc.id_Sucursal 
-                     WHERE Bit.id_Contrato =$idContrato";
-                    if($ultimoMovimiento!=0){
-                        $query .= " and Bit.ultimoMovimiento = $ultimoMovimiento ";
-                    }
-                    $query .= " ORDER BY id_Recibo DESC LIMIT 1";
+                    INNER JOIN cat_sucursal AS Suc on Con.sucursal = Suc.id_Sucursal 
+                    WHERE Con.id_Contrato =$idContrato ";
+                        if($ultimoMovimiento!=0){
+                            $query .= " and Con.id_movimiento = $ultimoMovimiento";
+                        }
+                    $query .= " ORDER BY id_movimiento DESC LIMIT 1";
 $resultado = $mysql->query($query);
 
 
@@ -88,44 +91,43 @@ foreach ($resultado as $row) {
     $NombreSucursal = $row["NombreSucursal"];
     $DirSucursal = $row["DirSucursal"];
     $TelSucursal = $row["TelSucursal"];
-    $id_Recibo = $row["id_Recibo"];
-    $Fecha_Creacion = $row["Fecha_Creacion"];
+    $id_Recibo = $row["id_movimiento"];
+    $Fecha_Creacion = $row["fecha_Movimiento"];
     $NombreCompleto = $row["NombreCompleto"];
-    $prestamo = $row["prestamo"];
-    $abonoCapital = $row["abonoCapital"];
-    $intereses = $row["intereses"];
-    $almacenaje = $row["almacenaje"];
-    $seguro = $row["seguro"];
-    $desempeñoExt = $row["desempeñoExt"];
-    $moratorios = $row["moratorios"];
-    $otrosCobros = $row["otrosCobros"];
-    $descuentoAplicado = $row["descuentoAplicado"];
-    $descuentoPuntos = $row["descuentoPuntos"];
-    $iva = $row["iva"];
-    $efectivo = $row["efectivo"];
-    $cambio = $row["cambio"];
-    $mutuo = $row["mutuo"];
-    $refrendo = $row["refrendo"];
-    $CostoContrato = $row["CostoContrato"];
-    $Fecha_Almoneda = $row["Fecha_Almoneda"];
-    $Fecha_Vencimiento = $row["Fecha_Vencimiento"];
+    $prestamo = $row["e_pagoDesempeno"];
+    $abonoCapital = $row["e_abono"];
+    $intereses = $row["e_interes"];
+    $almacenaje = $row["e_almacenaje"];
+    $seguro = $row["e_seguro"];
+    $desempeñoExt = 0;
+    $moratorios = $row["e_moratorios"];
+    $otrosCobros = 0;
+    $descuentoAplicado = $row["s_descuento_aplicado"];
+    $descuentoPuntos = 0;
+    $iva = $row["e_iva"];
+    $efectivo = $row["pag_efectivo"];
+    $cambio = $row["pag_cambio"];
+    $mutuo = 0;
+    $refrendo = 0;
+    $Fecha_Almoneda = $row["fechaAlmoneda"];
+    $Fecha_Vencimiento = $row["fechaVencimiento"];
     $NombreUsuario = $row["NombreUsuario"];
-
-    $subTotal =   $prestamo;
-
+    $subTotal = $row["pag_subtotal"];
+    $Total = $row["pag_total"];
+    $CostoContrato = $row["e_costoContrato"];
+    //$subTotal = $abonoCapital + $intereses+ $almacenaje+$seguro+$desempeñoExt+$moratorios+$otrosCobros;
+    $abonoCapital= round($abonoCapital,2);
     $intereses= round($intereses,2);
     $almacenaje= round($almacenaje,2);
     $seguro= round($seguro,2);
     $desempeñoExt= round($desempeñoExt,2);
     $moratorios= round($moratorios,2);
     $otrosCobros= round($otrosCobros,2);
-    $descuentoAplicado= round($descuentoAplicado,2);
-    $descuentoPuntos= round($descuentoPuntos,2);
-    $CostoContrato= round($CostoContrato,2);
+
     $subTotal= round($subTotal,2);
-    $iva= round($iva,2);
-    $Total = $subTotal +$CostoContrato +$iva ;
     $Total= round($Total,2);
+    $iva= round($iva,2);
+    $descuentoAplicado= round($descuentoAplicado,2);
 
 
 }

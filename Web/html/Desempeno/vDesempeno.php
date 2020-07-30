@@ -492,9 +492,9 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         <td align="right" colspan="4">
                             <input type="button" class="btn btn-warning" value="Limpiar" id="btnLimpiar" disabled
                                    onclick="limpiarRefrendo()">&nbsp;
-                            <input type="button" class="btn btn-primary" id="btnGenerar" value="Refrendo"
+                            <input type="button" class="btn btn-primary" id="btnGenerar" value="Desempeño"
                                    onclick="validaDescuentoNuevo()">&nbsp;
-                            <input type="button" class="btn btn-primary" id="btnGenerarSinInteres" value="Refrendo"
+                            <input type="button" class="btn btn-primary" id="btnGenerarSinInteres" value="Desempeño"
                                    onclick="MovimientosRefrendoSinInteres()">&nbsp;
                             <input type="button" class="btn btn-danger" value="Salir"
                                    onclick="location.href='vInicio.php'">&nbsp;
