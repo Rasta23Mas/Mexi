@@ -40,7 +40,8 @@ var diferenciaGbl = 0;
 
 
 //GUARDAR BIT_CIERRE CAJA
-
+var bitCant_Dotacion_glb = 0;
+var bitCant_Retiro_glb = 0;
 var bitDotacion_glb = 0;
 var bitRetiro_glb = 0;
 
@@ -718,6 +719,10 @@ function buscarArqueo() {
 
 function saldoCajaUser() {
     var idUsuarioCaja = $("#idUsuarioCaja").val();
+    bitDotacion_glb = 0;
+    bitRetiro_glb = 0;
+    bitCant_Dotacion_glb = 0;
+    bitCant_Retiro_glb = 0;
     var dataEnviar = {
         "idUsuarioCaja": idUsuarioCaja,
     };
@@ -739,11 +744,11 @@ function saldoCajaUser() {
                     importe = Number(importe);
                     if(id_cat_flujo==5){
                         //Dotacion
-                        alert("dot");
+                        bitCant_Dotacion_glb++;
                         dotacion += importe;
                     }else if (id_cat_flujo==6){
                         //Retiro
-                        alert("ret")
+                        bitCant_Retiro_glb++;
                         retiro += importe;
                     }
                 }
