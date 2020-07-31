@@ -38,7 +38,7 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
         if(usuariotipo==3){
             $("#idUsuarioCaja").prop('disabled', false);
         }
-        saldoCajaUsuario();
+        saldoCajaUser();
     })
 </script>
 <style type="text/css">

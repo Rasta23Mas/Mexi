@@ -38,6 +38,12 @@ var incrementoPatGbl = 0;
 var idArqueoGbl = 0;
 var diferenciaGbl = 0;
 
+
+//GUARDAR BIT_CIERRE CAJA
+
+var bitDotacion_glb = 0;
+var bitRetiro_glb = 0;
+
 function arqueo() {
     calculado = 1;
     var idMilCant = $("#idMilCant").val();
@@ -608,7 +614,7 @@ function cambioDeArqueo() {
     var NombreUsuario = $('select[name="usuarioCaja"] option:selected').text();
     var idCierreCaja = "";
     $("#idSaldoCajaSistema").val("");
-    saldoCajaUsuario();
+    saldoCajaUser();
     //buscarArqueoAnterior();
     if (idUserSesion != idUsuarioCaja) {
 
@@ -710,7 +716,7 @@ function buscarArqueo() {
     }
 }
 
-function saldoCajaUsuario() {
+function saldoCajaUser() {
     var idUsuarioCaja = $("#idUsuarioCaja").val();
     var dataEnviar = {
         "idUsuarioCaja": idUsuarioCaja,
@@ -719,15 +725,34 @@ function saldoCajaUsuario() {
         data: dataEnviar,
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Flujo/busquedaCaja.php',
-        dataType: "json",
+       dataType: "json",
         success: function (datos) {
             var i = 0;
             if (datos.length > 0) {
-                var importe = 0;
+
+                var dotacion = 0;
+                var retiro = 0;
                 for (i; i < datos.length; i++) {
+                    id_cat_flujo = datos[i].id_cat_flujo;
                     importe = datos[i].importe;
+                    id_cat_flujo = Number(id_cat_flujo);
+                    importe = Number(importe);
+                    if(id_cat_flujo==5){
+                        //Dotacion
+                        alert("dot");
+                        dotacion += importe;
+                    }else if (id_cat_flujo==6){
+                        //Retiro
+                        alert("ret")
+                        retiro += importe;
+                    }
                 }
-                $("#idSaldoCajaVal").val(importe);
+                bitDotacion_glb = dotacion;
+                bitRetiro_glb = retiro;
+                var SaldoCaja = dotacion- importe;
+                $("#idSaldoCajaVal").val(SaldoCaja);
+                alert("dotacion = " +bitDotacion_glb)
+                alert("ret = "+bitRetiro_glb)
             } else {
                 alertify.error("El usuario no tiene asignada una caja.");
                 //flujo totales tbl agregar usuario
