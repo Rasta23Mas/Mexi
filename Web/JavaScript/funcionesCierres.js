@@ -231,17 +231,6 @@ function entradasSalidas() {
             var CantPension = 0;
             var pension = 0;
 
-            //VENTA
-            var CantVenta = 0;
-            var venta = 0;
-            var CantVentaIVA = 0;
-            var ventaIVA = 0;
-            var CantApartado = 0;
-            var ventaApartado = 0;
-            var CantAbono = 0;
-            var ventaAbono = 0;
-            var CantDescuentoVenta = 0;
-            var ventaDescuento = 0;
 
             for (i; i < datos.length; i++) {
                 var tipo_movimiento = datos[i].tipo_movimiento;
@@ -256,12 +245,6 @@ function entradasSalidas() {
                 var e_gps = datos[i].e_gps;
                 var e_poliza = datos[i].e_poliza;
                 var e_pension = datos[i].e_pension;
-                //VENTA
-                var s_descuento_venta = datos[i].s_descuento_venta;
-                var e_venta_mostrador = datos[i].e_venta_mostrador;
-                var e_venta_iva = datos[i].e_venta_iva;
-                var e_venta_apartados = datos[i].e_venta_apartados;
-                var e_venta_abono = datos[i].e_venta_abono;
 
 
                 e_pagoDesempeno = Math.round(e_pagoDesempeno * 100) / 100;
@@ -275,13 +258,6 @@ function entradasSalidas() {
                 e_gps = Math.round(e_gps * 100) / 100;
                 e_poliza = Math.round(e_poliza * 100) / 100;
                 e_pension = Math.round(e_pension * 100) / 100;
-                //VENTA
-                s_descuento_venta = Math.round(s_descuento_venta * 100) / 100;
-                e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
-                e_venta_iva = Math.round(e_venta_iva * 100) / 100;
-                e_venta_apartados = Math.round(e_venta_apartados * 100) / 100;
-                e_venta_abono = Math.round(e_venta_abono * 100) / 100;
-
 
                 //Empeño y Empeño Auto 3 y 7
                 if (tipo_movimiento == 3 || tipo_movimiento == 7) {
@@ -301,14 +277,12 @@ function entradasSalidas() {
                         CantIntereses++;
                         intereses += e_moratorios;
                     }
-
                     if (s_descuento_aplicado != 0) {
                         CantDescuento++;
                         descuento += s_descuento_aplicado;
                     }
-
-
                 }
+
                 //DESEMPEÑO 5
                 if (tipo_movimiento == 5) {
                     //DESEMPEÑO
@@ -395,43 +369,12 @@ function entradasSalidas() {
                     CantIva++;
                     iva += e_IVA;
                 }
-                //Venta y Venta Auto 6 y 10
-                if (tipo_movimiento == 6 || tipo_movimiento == 10) {
-                    CantVenta++;
-                    venta += e_venta_mostrador;
-                    CantVentaIVA++;
-                    ventaIVA = e_venta_iva;
-                    if (s_descuento_venta != 0) {
-                        CantDescuentoVenta++;
-                        ventaDescuento += s_descuento_venta;
-                    }
-                }
-                //Venta y Venta Auto 6 y 10
-                if (tipo_movimiento == 6 || tipo_movimiento == 10) {
-                    CantVenta++;
-                    venta += e_venta_mostrador;
-                    CantVentaIVA++;
-                    ventaIVA = e_venta_iva;
-                    if (s_descuento_venta != 0) {
-                        CantDescuentoVenta++;
-                        ventaDescuento += s_descuento_venta;
-                    }
-                }
-                //Venta apartado 22
-                if (tipo_movimiento == 22) {
-                    CantApartado++;
-                    ventaApartado += e_venta_apartados;
-                }
-                //Venta apartado 23
-                if (tipo_movimiento == 23) {
-                    CantAbono++;
-                    ventaAbono += e_venta_abono;
-                }
+
             }
 
-            var totalEntrada = capitalRecuperado + costoContrato + abonoCapital;
-            var totalSalidas = prestamoNuevo + descuento;
-            saldoCajaGlobal = saldoCajaGlobal + totalEntrada;
+            var totalEntrada = capitalRecuperado + costoContrato + abonoCapital+intereses+gps+poliza+pension;
+            var totalSalidas = prestamoNuevo ;
+            saldoCajaGlobal = saldoCajaGlobal + totalEntrada + iva;
             saldoCajaGlobal = saldoCajaGlobal - totalSalidas;
             //Guardar Cierre en Caja
             CantCapitalRecuperadoGlb = CantCapitalRecuperado;
@@ -442,16 +385,6 @@ function entradasSalidas() {
             interesesGlb = intereses;
             CantIvaGlb = CantIva;
             ivaGlb = iva;
-            CantMostradorGlb = CantVenta;
-            mostradorGlb = venta;
-            CantIvaVentaGlb = CantVentaIVA;
-            ivaVentaGlb = ventaIVA;
-            CantApartadosGlb = CantApartado;
-            abonoApartadosGlb = ventaApartado;
-            CantAbonosGlb = CantAbono;
-            abonoAbonosGlb = ventaAbono;
-            CantDescuentoVentasGlb = CantDescuentoVenta;
-            descuentoVentasGlb = ventaDescuento;
             CantGPSGlb = CantGPS;
             gpsGlb = gps;
             CantPolizaGlb = CantPoliza;
@@ -483,12 +416,7 @@ function entradasSalidas() {
             gps = formatoMoneda(gps);
             poliza = formatoMoneda(poliza);
             pension = formatoMoneda(pension);
-            //Venta
-            venta = formatoMoneda(venta);
-            ventaIVA = formatoMoneda(ventaIVA);
-            ventaDescuento = formatoMoneda(ventaDescuento);
-            ventaApartado = formatoMoneda(ventaApartado);
-            ventaAbono = formatoMoneda(ventaAbono);
+
             var saldoCaja = formatoMoneda(saldoCajaGlobal);
 
 
@@ -525,6 +453,109 @@ function entradasSalidas() {
             document.getElementById('totalSalidas').innerHTML = totalSalidas;
             //SALDO EN CAJA
             document.getElementById('saldoCaja').innerHTML = saldoCaja;
+
+            entradasSalidasVentas()
+        }
+    })
+}
+
+
+function entradasSalidasVentas() {
+    //1 llena entradas y salidas
+    var tipo = 9;
+    var idUsuarioSelect = $("#idUsuarioCaja").val();
+    var idCierreCaja = $("#idCierreCaja").text();
+    var dataEnviar = {
+        "tipo": tipo,
+        "idUsuarioSelect": idUsuarioSelect,
+        "idCierreCaja": idCierreCaja,
+
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreCaja.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+
+            //VENTA
+            var CantVenta = 0;
+            var venta = 0;
+            var CantVentaIVA = 0;
+            var ventaIVA = 0;
+            var CantApartado = 0;
+            var ventaApartado = 0;
+            var CantAbono = 0;
+            var ventaAbono = 0;
+            var CantDescuentoVenta = 0;
+            var ventaDescuento = 0;
+
+            for (i; i < datos.length; i++) {
+                var tipo_movimiento = datos[i].tipo_movimiento;
+                tipo_movimiento = Number(tipo_movimiento);
+                //VENTA
+                var s_descuento_venta = datos[i].s_descuento_venta;
+                var e_venta_mostrador = datos[i].e_venta_mostrador;
+                var e_venta_iva = datos[i].e_venta_iva;
+                var e_venta_apartados = datos[i].e_venta_apartados;
+                var e_venta_abono = datos[i].e_venta_abono;
+
+                //VENTA
+
+                //Venta y Venta Auto 6 y 10
+                if (tipo_movimiento == 6 || tipo_movimiento == 10) {
+                    e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
+                    e_venta_iva = Math.round(e_venta_iva * 100) / 100;
+
+                    CantVenta++;
+                    venta += e_venta_mostrador;
+                    CantVentaIVA++;
+                    ventaIVA = e_venta_iva;
+                    if (s_descuento_venta != 0) {
+                        s_descuento_venta = Math.round(s_descuento_venta * 100) / 100;
+                        CantDescuentoVenta++;
+                        ventaDescuento += s_descuento_venta;
+                    }
+                }
+                //Venta apartado 22
+                if (tipo_movimiento == 22) {
+                    e_venta_apartados = Math.round(e_venta_apartados * 100) / 100;
+
+                    CantApartado++;
+                    ventaApartado += e_venta_apartados;
+                }
+                //Venta apartado 23
+                if (tipo_movimiento == 23) {
+
+                    e_venta_abono = Math.round(e_venta_abono * 100) / 100;
+
+                    CantAbono++;
+                    ventaAbono += e_venta_abono;
+                }
+            }
+
+            var totalEntrada = venta + ventaApartado + ventaAbono;
+            TotalEntradaGlb += totalEntrada;
+            TotalIvaGlb += ventaIVA;
+            //Guardar Cierre en Caja
+
+            //SaldoCajaGlb += saldoCajaGlobal;
+            //EfectivoCajaGlb += totalEntrada;
+
+
+            saldoCajaGlobal += totalEntrada;
+            //Venta
+            venta = formatoMoneda(venta);
+            ventaIVA = formatoMoneda(ventaIVA);
+            ventaDescuento = formatoMoneda(ventaDescuento);
+            ventaApartado = formatoMoneda(ventaApartado);
+            ventaAbono = formatoMoneda(ventaAbono);
+            var totalEntrada = formatoMoneda(TotalEntradaGlb);
+            var iva = formatoMoneda(TotalIvaGlb);
+            var saldoCaja = formatoMoneda(saldoCajaGlobal);
+
             //Venta
             document.getElementById('CantMostrador').innerHTML = "( " + CantVenta + " )";
             document.getElementById('mostrador').innerHTML = venta;
@@ -537,6 +568,9 @@ function entradasSalidas() {
             document.getElementById('CantAbono').innerHTML = "( " + CantAbono + " )";
             document.getElementById('abono').innerHTML = ventaAbono;
 
+            document.getElementById('totalEntradas').innerHTML = totalEntrada;
+            document.getElementById('totalIVA').innerHTML = iva;
+            document.getElementById('saldoCaja').innerHTML = saldoCaja;
             movimientosCaja()
         }
     })
@@ -544,6 +578,7 @@ function entradasSalidas() {
 
 function movimientosCaja() {
     //1 llena movimientos de dotacion y retiro
+    alert("Mov caja");
     var tipo = 3;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var idCierreCaja = $("#idCierreCaja").text();
@@ -586,6 +621,7 @@ function movimientosCaja() {
 
 function cajaAjustes() {
     //1 llena movimientos de dotacion y retiro
+    alert("Ajustes");
     var tipo = 7;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var idCierreCaja = $("#idCierreCaja").text();
@@ -642,6 +678,7 @@ function cajaAjustes() {
 
 function informeRefrendos() {
     //1 llena movimientos de dotacion y retiro
+    alert("Refrendos");
     var tipo = 6;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var idCierreCaja = $("#idCierreCaja").text();
@@ -671,7 +708,7 @@ function informeRefrendos() {
 
             CantRefrendosGlb = CantInformaRefrendo;
             refrendosGlb = informeRefrendo;
-            alert(refrendosGlb)
+
             informeRefrendo = formatoMoneda(informeRefrendo);
 
             //INFORMES REFRENDOS

@@ -342,6 +342,74 @@ function validarAjustes() {
             $("#idSaldoCajaAuto").val(cajaAuto);
 
             $("#idSaldoCajaSistema").val(saldoCajaGlobal);
+            validarAjustesVenta();
+        }
+    })
+
+}
+
+function validarAjustesVenta() {
+    //1 llena movimientos de dotacion y retiro
+    var idCierreCaja = $("#idCierreCaja").text();
+    var dataEnviar = {
+        "idCierreCaja": idCierreCaja,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/ArqueoAjustesVentas.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            var entradas = 0;
+            var cajaIva = 0;
+
+            for (i; i < datos.length; i++) {
+                var tipo_movimiento = datos[i].tipo_movimiento;
+                tipo_movimiento = Number(tipo_movimiento);
+                //VENTA
+                var s_descuento_venta = datos[i].s_descuento_venta;
+                var e_venta_mostrador = datos[i].e_venta_mostrador;
+                var e_venta_iva = datos[i].e_venta_iva;
+                var e_venta_apartados = datos[i].e_venta_apartados;
+                var e_venta_abono = datos[i].e_venta_abono;
+
+                //Salidas
+                s_descuento_venta = Math.round(s_descuento_venta * 100) / 100;
+                //Entradas
+                e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
+                e_venta_iva = Math.round(e_venta_iva * 100) / 100;
+                e_venta_apartados = Math.round(e_venta_apartados * 100) / 100;
+                e_venta_abono = Math.round(e_venta_abono * 100) / 100;
+
+                //Entradas
+                entradas += e_venta_mostrador;
+                entradas += e_venta_apartados;
+                entradas += e_venta_abono;
+
+                //IVA
+                cajaIva += e_venta_iva;
+
+            }
+            var saldoSistema = $("#idSaldoCajaIva").val();
+            saldoSistema = Math.round(saldoSistema * 100) / 100;
+
+            var cajaConVenta = entradas + saldoSistema;
+            cajaConVenta = Math.round(cajaConVenta * 100) / 100;
+            saldoCajaGlobal += cajaConVenta;
+
+            var iva = $("#idSaldoCajaIva").val();
+            iva = Math.round(iva * 100) / 100;
+            cajaIva = Math.round(cajaIva * 100) / 100;
+            iva += cajaIva;
+
+
+
+            $("#idSaldoVenta").val(entradas);
+            $("#idSaldoCajaIva").val(iva);
+
+            $("#idSaldoCajaSistema").val(saldoCajaGlobal);
         }
     })
 

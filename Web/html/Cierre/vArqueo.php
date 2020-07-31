@@ -334,6 +334,9 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                             <label>interes auto</label>
                             <input type="text" name="saldoCajaAuto" id="idSaldoCajaAuto" style="width: 100px"
                                    disabled/>
+                            <label>vanta</label>
+                            <input type="text" name="saldoVenta" id="idSaldoVenta" style="width: 100px"
+                                   disabled/>
                             <label>saldo caja</label>
                             <input type="text" name="saldoCajaSistema" id="idSaldoCajaSistema" style="width: 100px"
                                    disabled/>

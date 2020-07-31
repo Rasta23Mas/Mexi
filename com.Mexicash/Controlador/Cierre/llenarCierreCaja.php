@@ -12,7 +12,7 @@ $sqlTblCierre = new sqlCierreDAO();
 if($tipo==1){
     $sqlTblCierre->llenarMovimientosCaja($idUsuarioSelect);
 } else if($tipo==2){
-    $sqlTblCierre->llenarEntradasySalidas($idUsuarioSelect,$idCierreCaja);
+    $sqlTblCierre->llenarEntradasySalidas($idCierreCaja);
 }else if($tipo==3){
     $sqlTblCierre->llenarEfectivoCaja($idCierreCaja);
 }else if($tipo==4){
@@ -25,6 +25,8 @@ if($tipo==1){
     $sqlTblCierre->llenarAjustesCaja($idCierreCaja);
 }else if($tipo==8){
     $sqlTblCierre->validaCierreCajaArqueo($idCierreCaja);
+}else if($tipo==9){
+    $sqlTblCierre->llenarEntradasySalidasVentas($idCierreCaja);
 }
 
 

@@ -186,17 +186,16 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function llenarEntradasySalidas($idUsuarioSelect, $idCierreCaja)
+    function llenarEntradasySalidas( $idCierreCaja)
     {
         $datos = array();
         try {
-            $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT Con.tipo_movimiento, Con.e_pagoDesempeno,Con.e_costoContrato,
                        Con.e_abono,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
-                       e_gps,	e_poliza,e_pension,s_descuento_venta,e_venta_mostrador,e_venta_iva,e_venta_apartados,e_venta_abono 
+                       e_gps,	e_poliza,e_pension
                        FROM contrato_mov_tbl AS Con
-                       WHERE Con.sucursal= $sucursal AND Con.usuario=$idUsuarioSelect AND Con.id_CierreCaja=$idCierreCaja";
+                       WHERE Con.id_CierreCaja=$idCierreCaja AND Con.tipo_movimiento !=20";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -214,11 +213,38 @@ class sqlCierreDAO
                         "e_gps" => $row["e_gps"],
                         "e_poliza" => $row["e_poliza"],
                         "e_pension" => $row["e_pension"],
-                        "s_descuento_venta" => $row["s_descuento_venta"],
-                        "e_venta_mostrador" => $row["e_venta_mostrador"],
-                        "e_venta_iva" => $row["e_venta_iva"],
-                        "e_venta_apartados" => $row["e_venta_apartados"],
-                        "e_venta_abono" => $row["e_venta_abono"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    function llenarEntradasySalidasVentas($idCierreCaja)
+    {
+        $datos = array();
+        try {
+
+            $buscar = "SELECT Baz.tipo_movimiento, Baz.descuento_Venta,Baz.precio_venta,Baz.iva,Baz.apartado,Baz.abono 
+                       FROM bazar_articulos Baz 
+                       WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20";
+
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "tipo_movimiento" => $row["tipo_movimiento"],
+                        "s_descuento_venta" => $row["descuento_Venta"],
+                        "e_venta_mostrador" => $row["precio_venta"],
+                        "e_venta_iva" => $row["iva"],
+                        "e_venta_apartados" => $row["apartado"],
+                        "e_venta_abono" => $row["abono"],
 
 
                     ];
@@ -435,6 +461,38 @@ class sqlCierreDAO
 
         echo json_encode($datos);
     }
+
+    function ArqueoEntradasySalidasVentas( $idCierreCaja)
+    {
+        $datos = array();
+        try {
+
+            $buscar = "SELECT Baz.tipo_movimiento, Baz.descuento_Venta,Baz.precio_venta,Baz.iva,Baz.apartado,Baz.abono 
+                       FROM bazar_articulos Baz 
+                       WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "tipo_movimiento" => $row["tipo_movimiento"],
+                        "s_descuento_venta" => $row["descuento_Venta"],
+                        "e_venta_mostrador" => $row["precio_venta"],
+                        "e_venta_iva" => $row["iva"],
+                        "e_venta_apartados" => $row["apartado"],
+                        "e_venta_abono" => $row["abono"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
 
     public function busquedaPorFechasCajaCierre($fechaInicial, $fechaFinal)
     {
