@@ -52,10 +52,8 @@ include_once (HTML_PATH."menuGeneral.php");
         <div>
             <br>
             <h2 align="center">Menú acceso rápido</h2>
-            <br>
             <h2 align="center" id="sesionInactiva" style="color:#FF0000";>¡IMPORTANTE NO PODRA HACER OPERACIONES DE DOTACIÓN!</h2>
             <h2 align="center" id="cajaInactiva" style="color:#FF0000";>¡IMPORTANTE NO PODRA HACER OPERACIONES, EL CIERRE DE CAJA YA FUE REALIZADO!</h2>
-
             <br>
             <h4 align="center">Bienvenido: <?php echo $_SESSION["usuario"]; ?></h4>
             <br>
@@ -153,6 +151,9 @@ include_once (HTML_PATH."menuGeneral.php");
                     </tr>
                 </table>
             </div>
+        </div>
+        <div class="row">
+            <br>&nbsp;
         </div>
     </div>
 </form>

@@ -136,7 +136,7 @@ function arqueo() {
     idDosCant = 2 * idDosCant;
     idUnoCant = 1 * idUnoCant;
     idCincuentaCCant = .50 * idCincuentaCCant;
-    idCentavosCant = .10 * idCentavosCant;
+    idCentavosCant = .01 * idCentavosCant;
 
     idMilGlobal = idMilCant;
     idQuinientosGlobal = idQuinientosCant;
@@ -293,13 +293,13 @@ function validarAjustes() {
 
                 //Salidas
                 salidas += s_prestamo_nuevo;
-                salidas += s_descuento_aplicado;
+                //salidas += s_descuento_aplicado;
                 //Entradas
 
                 entradas += e_pagoDesempeno;
                 entradas += e_costoContrato;
                 entradas += e_abono;
-                entradas += e_IVA;
+                //entradas += e_IVA;
                 entradas += e_intereses;
                 entradas += e_moratorios;
                 entradas += e_gps;
@@ -323,6 +323,7 @@ function validarAjustes() {
             }
             var dotacionCaja = $("#idSaldoCajaVal").val();
             dotacionCaja = Math.round(dotacionCaja * 100) / 100;
+
             var entradasConCaja = entradas + dotacionCaja;
             saldoCajaGlobal += entradasConCaja;
             saldoCajaGlobal -= salidas;

@@ -623,7 +623,7 @@ $contenido .='
                 8:30 A 20:00 HRS Y SABADOS DE 09:00 A 15:00 HRS.
                 • O EN SU CASO A PROFECO A LOS TELEFONOS: 55 68 87 22 O AL 01 800 468 87 22 , PAGINA DE INTERNET:
                 www.gob.mx/profeco
-                ESTADO DE CUENTA/CONSULTA DE MOVIMIENTOS: NO APLICA O CONSULTA EN _______________________________.
+                ESTADO DE CUENTA/CONSULTA DE MOVIMIENTOS: NO APLICA O CONSULTA EN
                 EL HORARIO DE SERVICIO AL PUBLICO EN ESTE ESTABLECIMIENTO ES DE : EL HORARIO DE SERVICIO AL PÚBLICO DE
                 ESTE ESTABLECIMIENTO ES DE LUNES A
                 VIERNES DE 8:30 A 20:00 HRS Y SABADOS DE 09:00 A 15:00 HRS. Para todo lo relativo a la interpretación,
@@ -720,7 +720,8 @@ $contenido .='
             </td>
         </tr>';
 $contenido .=' </tbody></table></form></body></html>';
-
+//echo $contenido;
+//exit;
 
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
