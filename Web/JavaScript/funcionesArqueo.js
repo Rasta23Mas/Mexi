@@ -347,6 +347,7 @@ function validarAjustes() {
             $("#idSaldoCajaInteres").val(cajaInteres);
             $("#idSaldoCajaMor").val(cajaMoratorio);
             $("#idSaldoCajaAuto").val(cajaAuto);
+            alert(saldoCajaGlobal)
 
             $("#idSaldoCajaSistema").val(saldoCajaGlobal);
             validarAjustesVenta();
@@ -404,6 +405,7 @@ function validarAjustesVenta() {
 
             var cajaConVenta = entradas + saldoSistema;
             cajaConVenta = Math.round(cajaConVenta * 100) / 100;
+            alert(saldoCajaGlobal)
             saldoCajaGlobal += cajaConVenta;
 
             var iva = $("#idSaldoCajaIva").val();
@@ -730,7 +732,7 @@ function saldoCajaUser() {
         data: dataEnviar,
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Flujo/busquedaCaja.php',
-       dataType: "json",
+        dataType: "json",
         success: function (datos) {
             var i = 0;
             if (datos.length > 0) {
@@ -756,8 +758,6 @@ function saldoCajaUser() {
                 bitRetiro_glb = retiro;
                 var SaldoCaja = dotacion- importe;
                 $("#idSaldoCajaVal").val(SaldoCaja);
-                alert("dotacion = " +bitDotacion_glb)
-                alert("ret = "+bitRetiro_glb)
             } else {
                 alertify.error("El usuario no tiene asignada una caja.");
                 //flujo totales tbl agregar usuario
