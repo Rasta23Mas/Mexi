@@ -53,10 +53,6 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                 muestraTR = true;
             } else if (tipoUsuario == 3) {
                 muestraTR = false;
-             /*   $("#idCentral_BancoCheck").prop('disabled', true);
-                $("#idBanco_CentralCheck").prop('disabled', true);
-                $("#idBanco_BovedaCheck").prop('disabled', true);
-                $("#idBoveda_BancoCheck").prop('disabled', true);*/
             } else {
                 $("#idCentral_BancoCheck").prop('disabled', true);
                 $("#idBanco_CentralCheck").prop('disabled', true);
@@ -68,7 +64,6 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                 $("#btnReimprimirCentral").prop('disabled', true);
                 $("#btnAceptarCentral").prop('disabled', true);
                 $("#importeMovimientoCentral").prop('disabled', true);
-
             }
 
             if (muestraTR) {
@@ -253,12 +248,12 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                             <input type="button" class="btn btn-warning "
                                    data-toggle="modal" data-target="#modalBusqueda" id="btnReimprimirCentral"
                                    value="Re-Imprimir" >
-                            <input type="button" class="btn btn-danger" value="Salir"
-                                   style="width: 125px" onclick="salirCentral()">&nbsp;
+                          <!--  <input type="button" class="btn btn-danger" value="Salir"
+                                   style="width: 125px" onclick="salirCentral()">&nbsp;-->
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4" class="invisible">
+                        <td colspan="4" class="">
                             <input id="idTipoUsuario" name="tipoUsuario" type="text"
                                    style="width: 100px; text-align: right" value=""/>
                             <input id="idSaldoCentralVal" name="saldoCentral" type="text"
@@ -268,7 +263,7 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                             <input id="idSaldoBovedaVal" name="saldoBoveda" type="text"
                                    style="width: 100px; text-align: right" value=""/>
                             <input id="idSaldoCajaVal" name="saldoCaja" type="text"
-                                   style="width: 100px; text-align: right" value=""/>
+                                   style="width: 100px; text-align: right" value=""/>a
                         </td>
                     </tr>
                 </table>

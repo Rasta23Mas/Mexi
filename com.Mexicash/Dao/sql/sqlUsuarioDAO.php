@@ -272,10 +272,9 @@ class sqlUsuarioDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT  Flu.usuario as id_User, Usu.usuario as NombreUser
-                        FROM flujototales_tbl AS Flu
-                        INNER JOIN usuarios_tbl as Usu on Flu.usuario = Usu.id_User
-                        Where Usu.id_Estatus=1 AND tipoUsuario != 1 AND id_Sucursal=$sucursal ";
+            $buscar = "SELECT Usu.id_User as id_User, Usu.usuario as NombreUser 
+                        FROM usuarios_tbl  as Usu
+                        Where Usu.id_Estatus=1 AND Usu.id_Caja != 0 AND id_Sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
 
             if ($rs->num_rows > 0) {

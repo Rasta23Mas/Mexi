@@ -29,19 +29,20 @@ function buscarTotales() {
                 var saldoBancos = 0;
                 var saldoBoveda = 0;
                 for (i; i < datos.length; i++) {
-                    var id_flujototal = datos[i].id_flujototal;
+                    //var id_flujototal = datos[i].id_flujototal;
                     var id_flujoAgente = datos[i].id_flujoAgente;
                     var importe = datos[i].importe;
+                    var sucursal = datos[i].sucursal;
+                    var sucursalSesion = datos[i].sucursalSesion;
 
                     if(id_flujoAgente==1){
                         saldoCentral = importe;
                     }else if(id_flujoAgente==2){
                         saldoBancos = importe;
-                    }else if(id_flujoAgente==3){
+                    }else if(id_flujoAgente==3 && sucursal==sucursalSesion){
                         saldoBoveda = importe;
                     }
                 }
-
 
                 $("#idSaldoCentralVal").val(saldoCentral);
                 $("#idSaldoBancosVal").val(saldoBancos);
@@ -79,6 +80,7 @@ function validaCajaUsuario() {
 }
 
 function saldoCajaUsuario() {
+    alert("000caja")
     var idUsuarioCaja = $("#idUsuarioCaja").val();
 
     var dataEnviar = {
@@ -99,7 +101,7 @@ function saldoCajaUsuario() {
                 $("#idSaldoCajaVal").val(importe);
             } else {
                 alertify.error("El usuario no tiene asignada una caja.");
-                //flujo totales tbl agregar usuario
+                $("#idSaldoCajaVal").val(0);
             }
         }
     });
@@ -334,7 +336,7 @@ function guardarFlujoTotales(importe) {
                 alertify.success("Totales guardados correctamente.");
                 guardarFlujo(importe);
             } else {
-                    alertify.error("Erroral guardar los Totales.");
+                    alertify.error("Error al guardar los totales.");
             }
         },
     })
@@ -364,20 +366,21 @@ function guardarFlujo(importe) {
         success: function (response) {
             if (response > 0) {
                 alert("Movimiento guardado.");
-                cargarPDFDepositaria(idFolio);
-                recargarPagina();
+                var  recargar = setTimeout(function(){  cargarPDFDepositaria(idFolio); }, 2000);
+                var  pdf = setTimeout(function(){ location.reload() }, 3000);
             } else {
-                alertify.error("Erroral guardar els movimiento.");
+                alertify.error("Error al guardar el movimiento.");
             }
         },
     })
 }
 
-function cargarPDFDepositaria(idFolio) {
+/*function cargarPDFDepositaria(idFolio) {
+    //ANterior para visualizar
     window.open('../PDF/callPdfFlujo.php?folio=' + idFolio);
-}
+}*/
 
-function verPDFDepositaria(idFolio) {
+function cargarPDFDepositaria(idFolio) {
     window.open('../PDF/callPdfFlujo.php?pdf=1&folio=' + idFolio);
 }
 
@@ -401,11 +404,6 @@ function buscarFolio() {
             }
         },
     })
-
-}
-
-function salirCentral() {
-    location.href='../Empeno/vInicio.php';
 
 }
 

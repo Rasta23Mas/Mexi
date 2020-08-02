@@ -30,8 +30,8 @@ class sqlFlujoDAO
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT id_flujototal, id_flujoAgente, importe FROM flujototales_tbl
-                       WHERE sucursal= $sucursal and id_flujoAgente != 4";
+            $buscar = "SELECT id_flujototal, id_flujoAgente, importe, sucursal FROM flujototales_tbl
+                       WHERE id_flujoAgente = 1 OR id_flujoAgente = 2 OR id_flujoAgente =3";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -39,6 +39,8 @@ class sqlFlujoDAO
                         "id_flujototal" => $row["id_flujototal"],
                         "id_flujoAgente" => $row["id_flujoAgente"],
                         "importe" => $row["importe"],
+                        "sucursal" => $row["sucursal"],
+                        "sucursalSesion" => $sucursal,
                     ];
                     array_push($datos, $data);
                 }
@@ -82,7 +84,7 @@ class sqlFlujoDAO
         try {
             $idCierreSucursal = $_SESSION["idCierreSucursal"];
             $buscar = "SELECT id_cat_flujo, importe FROM flujo_tbl 
-                        WHERE usuarioCaja=$idUsuarioCaja and id_cierreSucursal= $idCierreSucursal";
+                        WHERE usuarioCaja=$idUsuarioCaja AND id_cierreSucursal= $idCierreSucursal AND (id_cat_flujo=5 || id_cat_flujo=6)";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

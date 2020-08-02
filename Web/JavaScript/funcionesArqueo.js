@@ -759,7 +759,7 @@ function saldoCajaUser() {
                 var SaldoCaja = dotacion- importe;
                 $("#idSaldoCajaVal").val(SaldoCaja);
             } else {
-                alertify.error("El usuario no tiene asignada una caja.");
+                alertify.error("El usuario no tiene una dotación a caja.");
                 //flujo totales tbl agregar usuario
             }
         }

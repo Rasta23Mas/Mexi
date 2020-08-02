@@ -47,41 +47,7 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
         color: white;
     }
 
-    .titleTableEntrada {
-        background: #33cc33;
-        color: white;
-    }
 
-    .titleTableSalida {
-        background: #ff0000;
-        color: white;
-    }
-
-    .primeraColTotales {
-        width: 75px;
-        text-align: right;
-    }
-
-    .espacioEnmedio {
-        width: 50px;
-    }
-
-    .terceraCol {
-        text-align: right;
-    }
-
-    .primeraCol {
-        width: 75px;
-        text-align: center;
-    }
-
-    .segundaCol {
-        width: 200px;
-    }
-
-    .terceraCol {
-        width: 100px;
-    }
 
 </style>
 <body>
