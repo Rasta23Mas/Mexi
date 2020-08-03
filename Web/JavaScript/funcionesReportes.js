@@ -38,7 +38,6 @@ function llenarReporte() {
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
 
-alert(tipoReporte)
     if(tipoReporte==2){
         cargarRptInv()
     }else if(tipoReporte==3){
@@ -72,7 +71,6 @@ function exportarPDF() {
 //Reporte HISTORICO
 function cargarRptHisto(fechaIni,fechaFin) {
     var tipoReporte = $('#idTipoReporte').val();
-    alert(tipoReporte)
     var tipoMetal = 0;
     var tipoElectro = 0;
     var tipoAuto = 0;
@@ -85,9 +83,8 @@ function cargarRptHisto(fechaIni,fechaFin) {
             type: "POST",
             url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
             data: dataEnviar,
-           // dataType: "json",
+           dataType: "json",
             success: function (datos) {
-                alert(datos)
                 var html = '';
                 var i = 0;
                 alert("Refrescando tabla.");

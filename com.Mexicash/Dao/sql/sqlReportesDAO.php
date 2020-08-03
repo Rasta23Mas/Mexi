@@ -52,11 +52,10 @@ class sqlReportesDAO
                         LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
                         LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
                         LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
-                        WHERE Con.fecha_fisico_fin >= $fechaIni
-                        AND Con.fecha_fisico_fin  <=$fechaFin
+                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
+                        AND '$fechaFin'  <= Con.fecha_fisico_fin
                         AND Bit.sucursal = $sucursal 
                         ORDER BY Form";
-            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
