@@ -10,14 +10,7 @@ if (!isset($_SESSION)) {
 }
 $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
-$fechaIni='';
-$fechaFin='';
-if (isset($_GET['fechaIni'])) {
-    $fechaIni = $_GET['fechaIni'];
-}
-if (isset($_GET['fechaFin'])) {
-    $fechaFin = $_GET['fechaFin'];
-}
+
 
 $web = 2;
 if($web==1){
@@ -60,14 +53,14 @@ $contenido = '<html>
             table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-   font-size: .5em;
+    font-size: .5em;
   width: 100%;
 }
 
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 8px;
+  padding: 6px;
 }
 
 tr:nth-child(even) {
@@ -79,7 +72,7 @@ tr:nth-child(even) {
 <body>
 <form>';
 $contenido .= '
-                    <center><h3><b>Histórico</b></h3></center>
+                    <center><h3><b>Inventario</b></h3></center>
                     <br>
          <table  width="100%"border="1">
                         <thead style="background: dodgerblue; color:white;">
@@ -97,7 +90,7 @@ $contenido .= '
                                 <th>Detalle</th>
                             </tr>
                         </thead>
-                        <tbody id="idTBodyHistorico"  align="center">
+                        <tbody id="idTBodyInventario"  align="center">
                         ';
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
@@ -123,8 +116,7 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
                         LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
                         LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
-                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin
+                        WHERE Con.fisico = 1
                         AND Bit.sucursal = $sucursal 
                         ORDER BY Form";
 $resultado = $mysql->query($query);
@@ -172,15 +164,15 @@ foreach ($resultado as $row) {
     }
     if($tipoMetal==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > METAL </td>
+        <td colspan="11" style="background: dodgerblue; color:white; text-align: center" > METAL </td>
         </tr>';
     }else if($tipoElectro==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > ELECTRÓNICOS </td>
+        <td colspan="11" style="background: dodgerblue; color:white; text-align: center"> ELECTRÓNICOS </td>
         </tr>';
     }else if($tipoAuto==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > AUTO </td>
+        <td colspan="11" style="background: dodgerblue; color:white; text-align: center"> AUTO </td>
         </tr>';
     }
 
@@ -209,7 +201,7 @@ $contenido .='
                         </table>';
 $contenido .= '</form></body></html>';
 
-$nombreContrato = 'Reporte Historico.pdf';
+$nombreContrato = 'Reporte Inventario.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');

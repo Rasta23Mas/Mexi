@@ -70,9 +70,12 @@ function exportarPDF() {
     var tipoReporte = $('#idTipoReporte').val();
 
     if(tipoReporte==2){
-        cargarRptInv()
+        window.open('../PDF/callPdf_R_Inventario.php');
+
     }else if(tipoReporte==3){
         cargarRptVenci()
+        window.open('../PDF/callPdf_R_Contratos.php');
+
     }else{
         if(fechaFin!=""&&fechaIni!=""){
             fechaIni = fechaSQL(fechaIni);
@@ -80,9 +83,13 @@ function exportarPDF() {
             if(tipoReporte==1){
                 window.open('../PDF/callPdf_R_Historico.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
             }else if(tipoReporte==4){
-                cargarRptDesempe(fechaIni,fechaFin)
+                cargarRptDesempe(fechaIni,fechaFin);
+                window.open('../PDF/callPdf_R_Desempeno.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
+
             }else if(tipoReporte==5){
                 cargarRptRefrendo(fechaIni,fechaFin);
+                window.open('../PDF/callPdf_R_Refrendo.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
+
             }
         }else{
             alertify.error("Seleccione fecha de inicio y fecha final.");
@@ -213,7 +220,6 @@ function cargarRptInv() {
                     var FECHAVEN = datos[i].FECHAVEN;
                     var FECHAALM = datos[i].FECHAALM;
                     var CONTRATO = datos[i].CONTRATO;
-                    alert(CONTRATO)
                     var NombreCompleto = datos[i].NombreCompleto;
                     var PRESTAMO = datos[i].PRESTAMO;
                     var Plazo = datos[i].Plazo;
