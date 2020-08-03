@@ -65,7 +65,29 @@ function exportarExcel() {
 }
 
 function exportarPDF() {
-    alert("Exportar a PDF");
+    var fechaIni = $("#idFechaInicial").val();
+    var fechaFin = $("#idFechaFinal").val();
+    var tipoReporte = $('#idTipoReporte').val();
+
+    if(tipoReporte==2){
+        cargarRptInv()
+    }else if(tipoReporte==3){
+        cargarRptVenci()
+    }else{
+        if(fechaFin!=""&&fechaIni!=""){
+            fechaIni = fechaSQL(fechaIni);
+            fechaFin = fechaSQL(fechaFin);
+            if(tipoReporte==1){
+                window.open('../PDF/callPdf_R_Historico.php?fechaIni'+fechaIni+'&fechaFin'+fechaFin);
+            }else if(tipoReporte==4){
+                cargarRptDesempe(fechaIni,fechaFin)
+            }else if(tipoReporte==5){
+                cargarRptRefrendo(fechaIni,fechaFin);
+            }
+        }else{
+            alertify.error("Seleccione fecha de inicio y fecha final.");
+        }
+    }
 }
 
 //Reporte HISTORICO
@@ -583,3 +605,4 @@ function cargarRptRefrendo(fechaIni,fechaFin) {
     );
     $("#divRpt").load('rptEmpRefrendo.php');
 }
+
