@@ -7,8 +7,8 @@
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
         <th>Fecha</th>
-        <th>Vencimiento.</th>
-        <th>Almoneda.</th>
+        <th>Vencimiento</th>
+        <th>Almoneda</th>
         <th>Contrato</th>
         <th>Cliente</th>
         <th>Préstamo</th>

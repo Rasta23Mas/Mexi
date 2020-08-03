@@ -78,7 +78,7 @@ function exportarPDF() {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
             if(tipoReporte==1){
-                window.open('../PDF/callPdf_R_Historico.php?fechaIni'+fechaIni+'&fechaFin'+fechaFin);
+                window.open('../PDF/callPdf_R_Historico.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
             }else if(tipoReporte==4){
                 cargarRptDesempe(fechaIni,fechaFin)
             }else if(tipoReporte==5){

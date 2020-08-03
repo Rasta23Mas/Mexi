@@ -10,8 +10,14 @@ if (!isset($_SESSION)) {
 }
 $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
-$fechaIni = $_GET['fechaIni'];
-$fechaFin = $_GET['fechaFin'];
+$fechaIni='';
+$fechaFin='';
+if (isset($_GET['fechaIni'])) {
+    $fechaIni = $_GET['fechaIni'];
+}
+if (isset($_GET['fechaFin'])) {
+    $fechaFin = $_GET['fechaFin'];
+}
 
 $web = 2;
 if($web==1){
@@ -50,58 +56,40 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .letraNormalNegrita{
-          font-size: .5em;
-          font-weight: bold;
-         }
+  
           .letraGrandeNegrita{
           font-size: .9em;
           font-weight: bold;
-         }
-          .letraChicaNegrita{
-          font-size: .3em;
-          font-weight: bold;
-         }
-          .letraNormal{
-          font-size: .5em;
-         }
-          .letraGrande{
-          font-size: .9em;
-         }
-          .letraChica{
-          font-size: .3em;
-         }
-        .tituloCelda{
-          background-color: #ebebe0
-        }
+            }
+            table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
     </style>
 </head>
 <body>
 <form>';
-$contenido .= '<table width="30%" border="1">
-        <tbody>
-        <tr>
-        <td>
-         <table width="100%" border="0" class="letraNormalNegrita">
-                <tr>
-                    <td colspan="3" align="center">
-                        <label >Histórico</label>
-                    </td>
-                </tr>
-        
-                <tr>
-                    <td colspan="3" align="center">
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <table class="table table-hover table-condensed table-bordered letraChica" width="100%">
+$contenido .= '
+                    <center><h3><b>Histórico</b></h3></center>
+                    <br>
+         <table class="letraGrandeNegrita" width="100%"border="1">
                         <thead style="background: dodgerblue; color:white;">
                             <tr align="center">
                                 <th>Fecha</th>
-                                <th>Vencimiento.</th>
-                                <th>Almoneda.</th>
+                                <th>Vencimiento</th>
+                                <th>Almoneda</th>
                                 <th>Contrato</th>
                                 <th>Cliente</th>
                                 <th>Préstamo</th>
@@ -112,7 +100,7 @@ $contenido .= '<table width="30%" border="1">
                                 <th>Detalle</th>
                             </tr>
                         </thead>
-                        <tbody id="idTBodyHistorico" class="letraChica" align="center">
+                        <tbody id="idTBodyHistorico" class="letraGrandeNegrita" align="center">
                         ';
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
@@ -143,7 +131,10 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         AND Bit.sucursal = $sucursal 
                         ORDER BY Form";
 $resultado = $mysql->query($query);
-
+$tipoMetal = 0;
+$tipoElectro = 0;
+$tipoAuto = 0;
+$tablaArticulos = '';
 
 foreach ($resultado as $row) {
     $FECHA = $row["FECHA"];
@@ -161,74 +152,70 @@ foreach ($resultado as $row) {
     $DetalleAuto = $row["DetalleAuto"];
     $Detalle = $row["Detalle"];
     $Form = $row["Form"];
+
+    $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
+
+    $Obser = "";
+    $DetalleFin = "";
+    if($Form==1){
+        $tipoMetal++;
+        $Obser = $ObserMetal;
+        $DetalleFin = $Detalle;
+    }else if($Form==2){
+        $tipoMetal=0;
+        $tipoElectro++;
+        $Obser = $ObserElec;
+        $DetalleFin = $Detalle;
+    }else if($Form ==3){
+        $tipoMetal=0;
+        $tipoElectro=0;
+        $tipoAuto++;
+        $Obser = $ObserAuto;
+        $DetalleFin = $DetalleAuto;
+    }
+    if($tipoMetal==1){
+        $tablaArticulos .= '<tr>
+        <td colspan="14" style="background: dodgerblue; color:white;"> METAL </td>
+        </tr>';
+    }else if($tipoElectro==1){
+        $tablaArticulos .= '<tr>
+        <td colspan="14" style="background: dodgerblue; color:white;"> ELECTRÓNICOS </td>
+        </tr>';
+    }else if($tipoAuto==1){
+        $tablaArticulos .= '<tr>
+        <td colspan="14" style="background: dodgerblue; color:white;"> AUTO </td>
+        </tr>';
+    }
+
+    $tablaArticulos .= '<tr><td >' . $FECHA . '</td>
+                        <td>' . $FECHAVEN . '</td>
+                        <td>' . $FECHAALM . '</td>
+                        <td>' . $CONTRATO . '</td>
+                        <td>' . $NombreCompleto . '</td>
+                        <td>' . $PRESTAMO . '</td>
+                        <td>' . $Plazo . '</td>
+                        <td>' . $Periodo . '</td>
+                        <td>' . $TipoInteres . '</td>
+                        <td>' . $Obser . '</td>
+                        <td>' . $DetalleFin . '</td>
+                        </tr>';
 }
 
-$PRESTAMO = number_format($PRESTAMO, 2,'.',',');
-$tablaArticulos .= 'if(FORMU==1){
-    tipoMetal++;
-    Observaciones = ObserMetal;
-    Detalle = DetalleArt;
-}else if (FORMU==2){
-    tipoMetal = 0;
-    tipoElectro++;
-    Observaciones = ObserElec;
-    Detalle = DetalleArt;
-}else if (FORMU==3){
-    tipoMetal = 0;
-    tipoElectro = 0;
-    tipoAuto++;
-    Observaciones = ObserAuto;
-    Detalle = DetalleAuto;
-}
 
-                    if(tipoMetal==1){
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> METAL </td>' +
-                            '</tr>';
-                    }else if (tipoElectro==1){
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> ELECTRÓNICOS </td>' +
-                            '</tr>';
-                    }else if (tipoAuto == 1){
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> AUTO </td>' +
-                            '</tr>';
-                    }
 
-                    html += '<tr>' +
-                        '<td >' + FECHA + '</td>' +
-                        '<td>' + FECHAVEN + '</td>' +
-                        '<td>' + FECHAALM + '</td>' +
-                        '<td>' + CONTRATO + '</td>' +
-                        '<td>' + NombreCompleto + '</td>' +
-                        '<td>' + PRESTAMO + '</td>' +
-                        '<td>' + Plazo + '</td>' +
-                        '<td>' + Periodo + '</td>' +
-                        '<td>' + TipoInteres + '</td>' +
-                        '<td>' + Observaciones + '</td>' +
-                        '<td>' + Detalle + '</td>' +
-                        '</tr>';
 
-                    
 
+
+$contenido .= $tablaArticulos;
 $contenido .='
                         </tbody>
-                        </table>
-                    </td>
-                </tr>
+                        </table>';
+$contenido .= '</form></body></html>';
 
-            </table>
-        </td>
-        </tr>';
-$contenido .= '</tbody></table></form></body></html>';
-
-$nombreContrato = 'Abono Num ' . $id_Bazar . ".pdf";
+$nombreContrato = 'Reporte Historico.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-$dompdf->setPaper('letter', 'portrait');
+$dompdf->setPaper('letter', 'landscape');
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);
