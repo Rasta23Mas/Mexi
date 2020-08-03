@@ -226,12 +226,13 @@ class sqlReportesDAO
                         Con.total_Prestamo AS PRESTAMO, 
                         ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
                         ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
-                        ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU
+                        ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
+                        Con.id_Formulario as FORMU, ConM.pag_subtotal, 
+                        ConM.pag_total
                         FROM contrato_mov_tbl AS ConM
                         INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
-                        AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 
-                        OR ConM.tipo_movimiento = 21)  
+                        AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 )  
                         ORDER BY CONTRATO";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -250,6 +251,8 @@ class sqlReportesDAO
                         "IVA" => $row["IVA"],
                         "COSTO" => $row["COSTO"],
                         "FORMU" => $row["FORMU"],
+                        "pag_subtotal" => $row["pag_subtotal"],
+                        "pag_total" => $row["pag_total"],
                     ];
                     array_push($datos, $data);
                 }

@@ -82,13 +82,10 @@ function exportarPDF() {
             if(tipoReporte==1){
                 window.open('../PDF/callPdf_R_Historico.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
             }else if(tipoReporte==4){
-                cargarRptDesempe(fechaIni,fechaFin);
                 window.open('../PDF/callPdf_R_Desempeno.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
 
             }else if(tipoReporte==5){
-                cargarRptRefrendo(fechaIni,fechaFin);
                 window.open('../PDF/callPdf_R_Refrendo.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
-
             }
         }else{
             alertify.error("Seleccione fecha de inicio y fecha final.");
