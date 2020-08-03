@@ -736,7 +736,6 @@ function saldoCajaUser() {
         success: function (datos) {
             var i = 0;
             if (datos.length > 0) {
-
                 var dotacion = 0;
                 var retiro = 0;
                 for (i; i < datos.length; i++) {
@@ -756,11 +755,10 @@ function saldoCajaUser() {
                 }
                 bitDotacion_glb = dotacion;
                 bitRetiro_glb = retiro;
-                var SaldoCaja = dotacion- importe;
+                var SaldoCaja = dotacion- retiro;
                 $("#idSaldoCajaVal").val(SaldoCaja);
             } else {
                 alertify.error("El usuario no tiene una dotación a caja.");
-                //flujo totales tbl agregar usuario
             }
         }
     });

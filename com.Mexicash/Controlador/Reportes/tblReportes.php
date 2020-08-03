@@ -10,7 +10,7 @@ $fechaFin = $_POST['fechaFin'];
 $sqlReportesDAO = new sqlReportesDAO();
 
 if ($tipoReporte == 1) {
-    $sqlReportesDAO->reporteDesempe($fechaIni,$fechaFin);
+    $sqlReportesDAO->reporteHistorico($fechaIni,$fechaFin);
 }else if ($tipoReporte == 2) {
     $sqlReportesDAO->reporteInve($fechaIni,$fechaFin);
 }else if ($tipoReporte == 3) {
