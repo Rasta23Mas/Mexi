@@ -423,8 +423,8 @@ function cargarRptDesempe(fechaIni,fechaFin) {
                     var IVA = datos[i].IVA;
                     var COSTO = datos[i].COSTO;
                     var FORMU = datos[i].FORMU;
-                    var SubTotal = 0;
-                    var Total = 0;
+                    var SubTotal =  datos[i].pag_subtotal;
+                    var Total =  datos[i].pag_total;
                     FORMU = Number(FORMU)
                     PRESTAMO = Number(PRESTAMO);
                     INTERESES = Number(INTERESES);
@@ -434,9 +434,6 @@ function cargarRptDesempe(fechaIni,fechaFin) {
                     COSTO = Number(COSTO);
                     DESCU = Number(DESCU);
                     IVA = Number(IVA);
-                    SubTotal = PRESTAMO + ABONO + COSTO;
-                    SubTotal = SubTotal - DESCU;
-                    Total = SubTotal + IVA;
                     PRESTAMO = formatoMoneda(PRESTAMO);
                     INTERESES = formatoMoneda(INTERESES);
                     ALMACENAJE = formatoMoneda(ALMACENAJE);
@@ -533,8 +530,8 @@ function cargarRptRefrendo(fechaIni,fechaFin) {
                     var IVA = datos[i].IVA;
                     var COSTO = datos[i].COSTO;
                     var FORMU = datos[i].FORMU;
-                    var SubTotal = 0;
-                    var Total = 0;
+                    var SubTotal =  datos[i].pag_subtotal;
+                    var Total =  datos[i].pag_total;
                     FORMU = Number(FORMU)
                     INTERESES = Number(INTERESES);
                     ALMACENAJE = Number(ALMACENAJE);
@@ -543,9 +540,6 @@ function cargarRptRefrendo(fechaIni,fechaFin) {
                     COSTO = Number(COSTO);
                     DESCU = Number(DESCU);
                     IVA = Number(IVA);
-                    SubTotal = INTERESES + ALMACENAJE + SEGURO + ABONO + COSTO;
-                    SubTotal = SubTotal - DESCU;
-                    Total = SubTotal + IVA;
                     PRESTAMO = formatoMoneda(PRESTAMO);
                     INTERESES = formatoMoneda(INTERESES);
                     ALMACENAJE = formatoMoneda(ALMACENAJE);
