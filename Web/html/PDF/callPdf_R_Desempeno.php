@@ -56,14 +56,11 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-  
-          .letraGrandeNegrita{
-          font-size: .9em;
-          font-weight: bold;
-            }
+
             table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
+   font-size: .5em;
   width: 100%;
 }
 
@@ -84,7 +81,7 @@ tr:nth-child(even) {
 $contenido .= '
                     <center><h3><b>Histórico</b></h3></center>
                     <br>
-         <table class="letraGrandeNegrita" width="100%"border="1">
+         <table  width="100%"border="1">
                         <thead style="background: dodgerblue; color:white;">
                             <tr align="center">
                                 <th>Fecha</th>
@@ -100,36 +97,22 @@ $contenido .= '
                                 <th>Detalle</th>
                             </tr>
                         </thead>
-                        <tbody id="idTBodyHistorico" class="letraGrandeNegrita" align="center">
+                        <tbody id="idTBodyHistorico"  align="center">
                         ';
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
-                        Con.id_contrato AS CONTRATO,
-                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
-                        Con.total_Prestamo AS PRESTAMO,
-                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
-                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
-                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
-                        Aut.observaciones as ObserAuto,
-                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
-                        CONCAT(Art.detalle) as Detalle,
-                        Art.tipoArticulo, Con.id_Formulario as Form
-                        FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
-                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
-                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
-                        LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
-                        LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
-                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
-                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin
-                        AND Bit.sucursal = $sucursal 
-                        ORDER BY Form";
+                        DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
+                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        ConM.id_contrato AS CONTRATO,
+                        Con.total_Prestamo AS PRESTAMO, 
+                        ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
+                        ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
+                        ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU
+                        FROM contrato_mov_tbl AS ConM
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
+                        AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 
+                        OR ConM.tipo_movimiento = 21)  
+                        ORDER BY CONTRATO";
 $resultado = $mysql->query($query);
 $tipoMetal = 0;
 $tipoElectro = 0;
@@ -175,15 +158,15 @@ foreach ($resultado as $row) {
     }
     if($tipoMetal==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;"> METAL </td>
+        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > METAL </td>
         </tr>';
     }else if($tipoElectro==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;"> ELECTRÓNICOS </td>
+        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > ELECTRÓNICOS </td>
         </tr>';
     }else if($tipoAuto==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;"> AUTO </td>
+        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > AUTO </td>
         </tr>';
     }
 
@@ -212,7 +195,7 @@ $contenido .='
                         </table>';
 $contenido .= '</form></body></html>';
 
-$nombreContrato = 'Reporte Historico.pdf';
+$nombreContrato = 'Reporte Desempeno.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');

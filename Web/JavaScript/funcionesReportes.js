@@ -73,7 +73,6 @@ function exportarPDF() {
         window.open('../PDF/callPdf_R_Inventario.php');
 
     }else if(tipoReporte==3){
-        cargarRptVenci()
         window.open('../PDF/callPdf_R_Contratos.php');
 
     }else{

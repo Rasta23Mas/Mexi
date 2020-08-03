@@ -56,14 +56,11 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-  
-          .letraGrandeNegrita{
-          font-size: .9em;
-          font-weight: bold;
-            }
+
             table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
+   font-size: .5em;
   width: 100%;
 }
 
@@ -84,7 +81,7 @@ tr:nth-child(even) {
 $contenido .= '
                     <center><h3><b>Histórico</b></h3></center>
                     <br>
-         <table class="letraGrandeNegrita" width="100%"border="1">
+         <table  width="100%"border="1">
                         <thead style="background: dodgerblue; color:white;">
                             <tr align="center">
                                 <th>Fecha</th>
@@ -100,7 +97,7 @@ $contenido .= '
                                 <th>Detalle</th>
                             </tr>
                         </thead>
-                        <tbody id="idTBodyHistorico" class="letraGrandeNegrita" align="center">
+                        <tbody id="idTBodyHistorico"  align="center">
                         ';
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
@@ -175,15 +172,15 @@ foreach ($resultado as $row) {
     }
     if($tipoMetal==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;"> METAL </td>
+        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > METAL </td>
         </tr>';
     }else if($tipoElectro==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;"> ELECTRÓNICOS </td>
+        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > ELECTRÓNICOS </td>
         </tr>';
     }else if($tipoAuto==1){
         $tablaArticulos .= '<tr>
-        <td colspan="14" style="background: dodgerblue; color:white;"> AUTO </td>
+        <td colspan="14" style="background: dodgerblue; color:white;  text-align: center" > AUTO </td>
         </tr>';
     }
 
@@ -212,7 +209,7 @@ $contenido .='
                         </table>';
 $contenido .= '</form></body></html>';
 
-$nombreContrato = 'Reporte Historico.pdf';
+$nombreContrato = 'Reporte Refrendo.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');
