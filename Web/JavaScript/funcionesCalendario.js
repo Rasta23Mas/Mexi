@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    var anioActual =  (new Date).getFullYear();
+    var anioMenor = anioActual - 18;
+    var anioMayor = anioActual + 1;
     $( ".calendarioMod" ).datepicker({
         showOn: "focus",
         buttonImage: "../../img/calendario3.png",
@@ -6,7 +9,7 @@ $(document).ready(function () {
         buttonText: "Selecciona el día",
         changeMonth: true,
         changeYear: true,
-        yearRange: "1960:-18",
+        yearRange: anioMenor +":" + anioMayor,
         dateFormat: 'dd-mm-yy'
     });
     $( ".calendarioModBoton" ).datepicker({
@@ -16,7 +19,7 @@ $(document).ready(function () {
         buttonText: "Selecciona el día",
         changeMonth: true,
         changeYear: true,
-        yearRange: "1960:-18",
+        yearRange:  anioMenor +":" + anioMayor,
         dateFormat: 'dd-mm-yy'
     });
 
@@ -41,10 +44,10 @@ $(document).ready(function () {
 
 });
 
-
-$(document).ready(function() {
+/*
+$(document).ready(function () {
     var dateFormat = "dd-mm-yy",
-        from = $( "#idFechaInicial" )
+        from = $("#idFechaInicial")
             .datepicker({
                 showOn: "focus",
                 buttonImage: "../../img/calendario3.png",
@@ -54,32 +57,32 @@ $(document).ready(function() {
                 changeYear: true,
                 yearRange: "1960:-18",
                 dateFormat: 'dd-mm-yy'
-             })
-            .on( "change", function() {
-                to.datepicker( "option", "minDate", getDate( this ) );
+            })
+            .on("change", function () {
+                to.datepicker("option", "minDate", getDate(this));
             }),
-        to = $( "#idFechaFinal" ).datepicker({
+        to = $("#idFechaFinal").datepicker({
             showOn: "focus",
             buttonImage: "../../img/calendario3.png",
             buttonImageOnly: true,
             buttonText: "Selecciona el día",
             changeMonth: true,
             changeYear: true,
-            yearRange: "1960:-18",
+            yearRange: "1960:+1",
             dateFormat: 'dd-mm-yy'
         })
-            .on( "change", function() {
-                from.datepicker( "option", "maxDate", getDate( this ) );
+            .on("change", function () {
+                from.datepicker("option", "maxDate", getDate(this));
             });
 
-    function getDate( element ) {
+    function getDate(element) {
         var date;
         try {
-            date = $.datepicker.parseDate( dateFormat, element.value );
-        } catch( error ) {
+            date = $.datepicker.parseDate(dateFormat, element.value);
+        } catch (error) {
             date = null;
         }
 
         return date;
     }
-} );
+});*/

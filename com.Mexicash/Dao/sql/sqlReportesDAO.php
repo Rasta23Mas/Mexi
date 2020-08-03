@@ -56,6 +56,7 @@ class sqlReportesDAO
                         AND Con.fecha_fisico_fin  <=$fechaFin
                         AND Bit.sucursal = $sucursal 
                         ORDER BY Form";
+            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
