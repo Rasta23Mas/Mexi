@@ -54,6 +54,8 @@ function llenarReporte() {
             }else if(tipoReporte==5){
                 cargarRptRefrendo(fechaIni,fechaFin);
             }
+        }else{
+            alertify.error("Seleccione fecha de inicio y fecha final.");
         }
     }
 
@@ -162,7 +164,7 @@ function cargarRptHisto(fechaIni,fechaFin) {
             }
         }
     );
-    $("#divRpt").load('rptEmpContratos.php');
+    $("#divRpt").load('rptEmpHistorico.php');
 }
 
 //Reporte INVENTARIO
@@ -190,6 +192,7 @@ function cargarRptInv() {
                     var FECHAVEN = datos[i].FECHAVEN;
                     var FECHAALM = datos[i].FECHAALM;
                     var CONTRATO = datos[i].CONTRATO;
+                    alert(CONTRATO)
                     var NombreCompleto = datos[i].NombreCompleto;
                     var PRESTAMO = datos[i].PRESTAMO;
                     var Plazo = datos[i].Plazo;
@@ -260,7 +263,7 @@ function cargarRptInv() {
             }
         }
     );
-    $("#divRpt").load('rptEmpContratos.php');
+    $("#divRpt").load('rptEmpInventario.php');
 }
 
 //Reporte Contrato Venc
@@ -353,7 +356,9 @@ function cargarRptVenci() {
                         '<td>' + Observaciones + '</td>' +
                         '<td>' + Detalle + '</td>' +
                         '</tr>';
+                    alert("hola");
                 }
+
                 $('#idTBodyContrato').html(html);
             }
         }

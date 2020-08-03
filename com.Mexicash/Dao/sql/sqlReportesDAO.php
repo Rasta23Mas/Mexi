@@ -52,9 +52,8 @@ class sqlReportesDAO
                         LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
                         LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
                         LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
-                        WHERE $fechaIni BETWEEN DATE_FORMAT(fecha_fisico_ini) 
-                        AND DATE_FORMAT(fecha_fisico_fin) AND $fechaFin BETWEEN DATE_FORMAT(fecha_fisico_ini) 
-                        AND DATE_FORMAT(fecha_fisico_fin)
+                        WHERE Con.fecha_fisico_fin >= $fechaIni
+                        AND Con.fecha_fisico_fin  <=$fechaFin
                         AND Bit.sucursal = $sucursal 
                         ORDER BY Form";
             $rs = $this->conexion->query($buscar);
@@ -125,18 +124,20 @@ class sqlReportesDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "FECHA" => $row["FECHA"],
-                        "FECHAMOV" => $row["FECHAMOV"],
                         "FECHAVEN" => $row["FECHAVEN"],
+                        "FECHAALM" => $row["FECHAALM"],
                         "CONTRATO" => $row["CONTRATO"],
+                        "NombreCompleto" => $row["NombreCompleto"],
                         "PRESTAMO" => $row["PRESTAMO"],
-                        "INTERESES" => $row["INTERESES"],
-                        "ALMACENAJE" => $row["ALMACENAJE"],
-                        "SEGURO" => $row["SEGURO"],
-                        "ABONO" => $row["ABONO"],
-                        "DESCU" => $row["DESCU"],
-                        "IVA" => $row["IVA"],
-                        "COSTO" => $row["COSTO"],
-                        "FORMU" => $row["FORMU"],
+                        "Plazo" => $row["Plazo"],
+                        "Periodo" => $row["Periodo"],
+                        "TipoInteres" => $row["TipoInteres"],
+                        "ObserElec" => $row["ObserElec"],
+                        "ObserMetal" => $row["ObserMetal"],
+                        "ObserAuto" => $row["ObserAuto"],
+                        "DetalleAuto" => $row["DetalleAuto"],
+                        "Detalle" => $row["Detalle"],
+                        "Form" => $row["Form"],
                     ];
                     array_push($datos, $data);
                 }

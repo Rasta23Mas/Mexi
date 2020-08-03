@@ -1,9 +1,9 @@
 <style>
-    .letraExtraChica {
-        font-size: .6em;
+    .letraChica {
+        font-size: .8em;
     }
 </style>
-<table class="table table-hover table-condensed table-bordered letraExtraChica" width="100%">
+<table class="table table-hover table-condensed table-bordered letraChica" width="100%">
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
         <th>Fecha</th>
@@ -19,6 +19,6 @@
         <th>Detalle</th>
     </tr>
     </thead>
-    <tbody id="idTBodyHistorico" class="letraExtraChica" align="center">
+    <tbody id="idTBodyHistorico" class="letraChica" align="center">
     </tbody>
 </table>
