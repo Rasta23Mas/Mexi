@@ -6,6 +6,8 @@ if (!isset($_SESSION)) {
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(HTML_PATH . "menuGeneral.php");
 include_once(SQL_PATH . "sqlCatalogoDAO.php");
+
+$sucursal = $_SESSION["sucursal"];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -27,89 +29,93 @@ include_once(SQL_PATH . "sqlCatalogoDAO.php");
         }
     </style>
 </head>
-    <body>
-        <div class="row" align="center">
-            <table width="100%" border="0">
-                <tr>
-                    <td colspan="6">
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" colspan="6" style=" color:darkblue; ">
-                        <h3><label id="NombreReporte">Reportes</label></h3>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6">
-                        &nbsp;
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="row" align="center">
-            <table width="60%" class="border border-primary" align="center">
-                <tr align="center">
-                    <td class="titleTable">
-                        <label>Reporte</label>
-                    </td>
-                    <td class="titleTable">
-                        <label>Fecha Inicial</label>
-                    </td>
-                    <td class="titleTable">
-                        <label>Fecha Final</label>
-                    </td>
-                    <td class="titleTable">
-                        <label>Exportar</label>
-                    </td>
-                    <td class="titleTable">
+<body>
+<div class="row" align="center">
+    <table width="100%" border="0">
+        <tr>
+            <td colspan="6">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="6" style=" color:darkblue; ">
+                <h3><label id="NombreReporte">Reportes</label></h3>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="row" align="center">
+    <table width="60%" class="border border-primary" align="center">
+        <tr align="center">
+            <td class="titleTable">
+                <label>Reporte</label>
+            </td>
+            <td class="titleTable">
+                <label>Fecha Inicial</label>
+            </td>
+            <td class="titleTable">
+                <label>Fecha Final</label>
+            </td>
+            <td class="titleTable">
+                <label>Exportar</label>
+            </td>
+            <td class="titleTable">
 
-                    </td>
-                </tr>
-                <tr align="center">
-                    <td align="center">
-                        <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker"
-                                onchange="selectReporte()" >
-                            <option value="1">Seleccione:</option>
-                            <?php
-                            $data = array();
-                            $sql = new sqlCatalogoDAO();
-                            $data = $sql->llenarCmbReportes(1);
-                            for ($i = 0; $i < count($data); $i++) {
-                                echo "<option value=" . $data[$i]['id_cat_rpt'] . ">" . $data[$i]['descripcion'] . "</option>";
-                            }
-                            ?>
-                        </select>
-                    </td>
-                    <td align="center">
-                        <input type="text" name="fechaInicial" id="idFechaInicial" style="width: 100px"
-                               class="calendarioModBoton" value="05-08-2020"
-                               disabled/>
-                    </td>
-                    <td>
-                        <input type="text" name="fechaFinal" id="idFechaFinal" style="width: 100px"
-                               class="calendarioModBoton" value="07-08-2020"
-                               disabled/>
-                    </td>
-                    <td align="center">
-                        <img src="../../style/Img/excel.png" alt="Excel" onclick="exportarExcel()">
-                        &nbsp;&nbsp;
-                        <img src="../../style/Img/pdf_xs.png" alt="PDF" onclick="exportarPDF()">
-                    </td>
-                    <td align="center">
-                        <input type="button" class="btn btn-success w-75"
-                               onclick="llenarReporte()"
-                               value="Buscar"/>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="row" align="center">
-            <br>&nbsp;
-        </div>
-        <div class="row" align="center">
-            <div id="divRpt" class="col col-lg-12">
-            </div>
-        </div>
-    </body>
+            </td>
+        </tr>
+        <tr align="center">
+            <td align="center">
+                <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker"
+                        onchange="selectReporte()">
+                    <option value="1">Seleccione:</option>
+                    <?php
+                    $data = array();
+                    $sql = new sqlCatalogoDAO();
+                    $data = $sql->llenarCmbReportes(1);
+                    for ($i = 0; $i < count($data); $i++) {
+                        echo "<option value=" . $data[$i]['id_cat_rpt'] . ">" . $data[$i]['descripcion'] . "</option>";
+                    }
+                    ?>
+                </select>
+            </td>
+            <td align="center">
+                <input type="text" name="fechaInicial" id="idFechaInicial" style="width: 100px"
+                       class="calendarioModBoton" value="05-08-2020"
+                       disabled/>
+            </td>
+            <td>
+                <input type="text" name="fechaFinal" id="idFechaFinal" style="width: 100px"
+                       class="calendarioModBoton" value="07-08-2020"
+                       disabled/>
+            </td>
+            <td align="center">
+                <img src="../../style/Img/excel.png" alt="Excel" onclick="exportarExcel()">
+                &nbsp;&nbsp;
+                <img src="../../style/Img/pdf_xs.png" alt="PDF" onclick="exportarPDF()">
+            </td>
+            <td align="center">
+                <input type="button" class="btn btn-success w-75"
+                       onclick="llenarReporte()"
+                       value="Buscar"/>
+            </td>
+
+        </tr>
+    </table>
+</div>
+<div class="row" align="center">
+    <br>&nbsp;
+</div>
+<div class="row" align="center">
+    <div id="divRpt" class="col col-lg-12">
+    </div>
+</div>
+<div class="row" align="center">
+    <input type="text" name="sucursa" id="idSucursal" value="<?php echo $sucursal ?>" style="visibility: hidden"/>
+</div>
+</body>
 </html>

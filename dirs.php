@@ -24,7 +24,8 @@ define('MENU_PATH', HTML_PATH.'Menu/');
 define('EMPE_PATH', HTML_PATH.'Empeno/');
 define('DESC_PATH', HTML_PATH.'Descuento/');
 define('ADMIN_PATH', HTML_PATH.'Admin/');
-define('EXC_PATH', WEB_PATH.'phpExcel/');
+//VENDOR
+define('VEN_PATH', ROOT_PATH.'vendor/');
 ?>
 
 

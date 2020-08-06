@@ -64,7 +64,7 @@ function exportarExcel() {
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
-
+    var sucursal = $('#idSucursal').val();
     if(tipoReporte==2){
         window.open('../EXCEL/callPdf_R_Inventario.php');
 
@@ -76,7 +76,7 @@ function exportarExcel() {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
             if(tipoReporte==1){
-                window.open('../EXCEL/rpt_Exc_Historico.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
+                window.open('../EXCEL/rpt_Exc_Historico.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&sucursal='+sucursal);
             }else if(tipoReporte==4){
                 window.open('../EXCEL/callPdf_R_Desempeno.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin);
 
