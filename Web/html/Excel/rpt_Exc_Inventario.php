@@ -4,15 +4,9 @@ require_once "../../../com.Mexicash/Base/Conectar.php";
 require_once "../../../vendor/autoload.php";
 
 //require_once "bd.php";
-$fechaIni='';
-$fechaFin='';
+
 $sucursal='';
-if (isset($_GET['fechaIni'])) {
-    $fechaIni = $_GET['fechaIni'];
-}
-if (isset($_GET['fechaFin'])) {
-    $fechaFin = $_GET['fechaFin'];
-}
+
 if (isset($_GET['sucursal'])) {
     $sucursal = $_GET['sucursal'];
 }
@@ -69,7 +63,7 @@ $spreadsheet->getDefaultStyle()
 
 //heading
 $spreadsheet->getActiveSheet()
-    ->setCellValue('A1', "Reporte Histórico");
+    ->setCellValue('A1', "Reporte Inventario");
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading
@@ -137,8 +131,7 @@ $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
                         LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
                         LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
-                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin
+                        WHERE Con.fisico = 1
                         AND Bit.sucursal = $sucursal 
                         ORDER BY Form";
 $query = $db->query($rptHisto);
@@ -196,6 +189,24 @@ if($query->num_rows > 0) {
         }
         $i++;
     }
+}else{
+    $i = 3;
+
+    $spreadsheet->getActiveSheet()
+        ->setCellValue('A'.$i , "")
+        ->setCellValue('B'.$i , "")
+        ->setCellValue('C'.$i , "")
+        ->setCellValue('D'.$i , "")
+        ->setCellValue('E'.$i , "")
+        ->setCellValue('F'.$i , "")
+        ->setCellValue('G'.$i , "")
+        ->setCellValue('H'.$i , "")
+        ->setCellValue('I'.$i , "")
+        ->setCellValue('J'.$i , "")
+        ->setCellValue('K'.$i , "")
+        ->setCellValue('L'.$i , "");
+    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':L' . $i)->applyFromArray($evenRow);
+
 }
 
 $firstRow = 2;
@@ -203,7 +214,7 @@ $lastRow = $i - 1;
 $spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":L" . $lastRow);
 
 
-$filename = 'Reporte_Historicos';
+$filename = 'Reporte_Inventario';
 
 //header('Content-Type: application/vnd.ms-excel');
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

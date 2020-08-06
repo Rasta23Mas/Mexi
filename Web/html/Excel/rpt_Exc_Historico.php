@@ -196,6 +196,24 @@ if($query->num_rows > 0) {
         }
         $i++;
     }
+}else{
+    $i = 3;
+
+    $spreadsheet->getActiveSheet()
+        ->setCellValue('A'.$i , "")
+        ->setCellValue('B'.$i , "")
+        ->setCellValue('C'.$i , "")
+        ->setCellValue('D'.$i , "")
+        ->setCellValue('E'.$i , "")
+        ->setCellValue('F'.$i , "")
+        ->setCellValue('G'.$i , "")
+        ->setCellValue('H'.$i , "")
+        ->setCellValue('I'.$i , "")
+        ->setCellValue('J'.$i , "")
+        ->setCellValue('K'.$i , "")
+        ->setCellValue('L'.$i , "");
+    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':L' . $i)->applyFromArray($evenRow);
+
 }
 
 $firstRow = 2;
