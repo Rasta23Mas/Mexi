@@ -8,7 +8,6 @@ use Dompdf\Dompdf;
 if (!isset($_SESSION)) {
     session_start();
 }
-$usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
 $fechaIni='';
 $fechaFin='';

@@ -69,8 +69,8 @@ include_once(SQL_PATH . "sqlCatalogoDAO.php");
                 <tr align="center">
                     <td align="center">
                         <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker"
-                                onchange="selectReporte()">
-                            <option value="0">Seleccione:</option>
+                                onchange="selectReporte()" >
+                            <option value="1">Seleccione:</option>
                             <?php
                             $data = array();
                             $sql = new sqlCatalogoDAO();
@@ -83,12 +83,12 @@ include_once(SQL_PATH . "sqlCatalogoDAO.php");
                     </td>
                     <td align="center">
                         <input type="text" name="fechaInicial" id="idFechaInicial" style="width: 100px"
-                               class="calendarioModBoton"
+                               class="calendarioModBoton" value="05-08-2020"
                                disabled/>
                     </td>
                     <td>
                         <input type="text" name="fechaFinal" id="idFechaFinal" style="width: 100px"
-                               class="calendarioModBoton"
+                               class="calendarioModBoton" value="07-08-2020"
                                disabled/>
                     </td>
                     <td align="center">
