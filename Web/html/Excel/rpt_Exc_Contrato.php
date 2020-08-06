@@ -69,7 +69,7 @@ $spreadsheet->getDefaultStyle()
 
 //heading
 $spreadsheet->getActiveSheet()
-    ->setCellValue('A1', "Reporte Histórico");
+    ->setCellValue('A1', "Reporte Contratos Vencidos");
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading

@@ -69,7 +69,7 @@ $spreadsheet->getDefaultStyle()
 
 //heading
 $spreadsheet->getActiveSheet()
-    ->setCellValue('A1', "Reporte Refrendo");
+    ->setCellValue('A1', "Reporte Desempeño");
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading
@@ -207,7 +207,7 @@ $lastRow = $i - 1;
 $spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":O" . $lastRow);
 
 
-$filename = 'Reporte_Refrendo';
+$filename = 'Reporte_Desempeno';
 
 //header('Content-Type: application/vnd.ms-excel');
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
