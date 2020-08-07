@@ -80,7 +80,6 @@ function validaCajaUsuario() {
 }
 
 function saldoCajaUsuario() {
-    alert("000caja")
     var idUsuarioCaja = $("#idUsuarioCaja").val();
 
     var dataEnviar = {
@@ -89,7 +88,7 @@ function saldoCajaUsuario() {
     $.ajax({
         data: dataEnviar,
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Flujo/busquedaCaja.php',
+        url: '../../../com.Mexicash/Controlador/Flujo/busquedaCajaDot.php',
         dataType: "json",
         success: function (datos) {
             var i = 0;
@@ -310,15 +309,20 @@ function guardarFlujoTotales(importe) {
         saldoCajaFinal = Math.round(saldoCajaFinal * 100) / 100;
     }else if(checkCentral==6){
         //CAJA A BOVEDA
+        alert("entra")
         saldoCentralFinal = saldoCentral;
         saldoBancoFinal = saldoBanco ;
         saldoBovedaFinal = saldoBoveda + importe;
+        alert(saldoCaja)
+        alert("menos")
+        alert(importe)
         saldoCajaFinal = saldoCaja - importe;
+        alert(saldoCajaFinal)
         saldoBovedaFinal = Math.round(saldoBovedaFinal * 100) / 100;
         saldoCajaFinal = Math.round(saldoCajaFinal * 100) / 100;
     }
 
-
+alert("SALDO CAJA FINA = " + saldoCajaFinal)
     var dataEnviar = {
         "saldoCentralFinal": saldoCentralFinal,
         "saldoBancoFinal": saldoBancoFinal,

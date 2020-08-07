@@ -78,6 +78,30 @@ class sqlFlujoDAO
         echo $retorna;
     }
 
+    function busquedaCajaDot($idUsuarioCaja)
+    {
+        $datos = array();
+        try {
+            $buscar = "SELECT importe FROM flujototales_tbl 
+                        WHERE usuario=$idUsuarioCaja";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "importe" => $row["importe"]
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
     function busquedaCaja($idUsuarioCaja)
     {
         $datos = array();
@@ -85,7 +109,6 @@ class sqlFlujoDAO
             $idCierreSucursal = $_SESSION["idCierreSucursal"];
             $buscar = "SELECT id_cat_flujo, importe FROM flujo_tbl 
                         WHERE usuarioCaja=$idUsuarioCaja AND id_cierreSucursal= $idCierreSucursal AND (id_cat_flujo=5 || id_cat_flujo=6)";
-
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -254,9 +277,11 @@ class sqlFlujoDAO
             $fechaCreacion = date('Y-m-d H:i:s');
             $usuario = $_SESSION["idUsuario"];
             $concepto = mb_strtoupper($concepto, 'UTF-8');
+            $idCierreSucursal = $_SESSION["idCierreSucursal"];
 
             $updateFlujo = "UPDATE flujo_tbl SET importe=$importe,importeLetra='$importeLetra',id_cat_flujo=$id_catFlujo,
-                fechaCreacion='$fechaCreacion',estatus=1,concepto = '$concepto',usuario=$usuario,usuarioCaja=$usuarioCaja 
+                fechaCreacion='$fechaCreacion',estatus=1,concepto = '$concepto',usuario=$usuario,usuarioCaja=$usuarioCaja,
+                id_cierreSucursal=$idCierreSucursal  
                 WHERE id_flujo=$idFolio";
             if ($ps = $this->conexion->prepare($updateFlujo)) {
                 if ($ps->execute()) {

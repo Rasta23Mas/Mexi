@@ -263,7 +263,7 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                             <input id="idSaldoBovedaVal" name="saldoBoveda" type="text"
                                    style="width: 100px; text-align: right" value=""/>
                             <input id="idSaldoCajaVal" name="saldoCaja" type="text"
-                                   style="width: 100px; text-align: right" value=""/>a
+                                   style="width: 100px; text-align: right" value=""/>
                         </td>
                     </tr>
                 </table>
