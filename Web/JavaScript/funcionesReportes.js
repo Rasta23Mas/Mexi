@@ -6,7 +6,7 @@ function selectReporte() {
         nameForm = "Histórico"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         $("#idFechaInicial").datepicker('option','disabled',false);
-        $("#idFechaInicial").prop('disabled',true);
+       // $("#idFechaInicial").prop('disabled',true);
         //$("#divReporte").load('rptEmpHistorico.php');
     } else if (reporte == 2) {
         nameForm = "Inventarios"
@@ -16,20 +16,23 @@ function selectReporte() {
     } else if (reporte == 3) {
         nameForm = "Contratos Vencidos"
         document.getElementById('NombreReporte').innerHTML = nameForm;
-        $("#idFechaInicial").datepicker('disable');
-        $("#idFechaFinal").datepicker('disable');
+        $("#idFechaInicial").datepicker('option','disabled',false);
+        $("#idFechaFinal").datepicker('option','disabled',false);
+
         //$("#divReporte").load('rptEmpContratos.php');
     } else if (reporte == 4) {
         nameForm = "Desempeños"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         $("#idFechaInicial").datepicker('option','disabled',false);
-        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").datepicker('option','disabled',false);
+
         //$("#divReporte").load('rptEmpDesempeno.php');
     } else if (reporte == 5) {
         nameForm = "Refrendo"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         $("#idFechaInicial").datepicker('option','disabled',false);
-        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").datepicker('option','disabled',false);
+
     }
 }
 
