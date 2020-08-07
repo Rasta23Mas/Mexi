@@ -309,20 +309,14 @@ function guardarFlujoTotales(importe) {
         saldoCajaFinal = Math.round(saldoCajaFinal * 100) / 100;
     }else if(checkCentral==6){
         //CAJA A BOVEDA
-        alert("entra")
         saldoCentralFinal = saldoCentral;
         saldoBancoFinal = saldoBanco ;
         saldoBovedaFinal = saldoBoveda + importe;
-        alert(saldoCaja)
-        alert("menos")
-        alert(importe)
         saldoCajaFinal = saldoCaja - importe;
-        alert(saldoCajaFinal)
         saldoBovedaFinal = Math.round(saldoBovedaFinal * 100) / 100;
         saldoCajaFinal = Math.round(saldoCajaFinal * 100) / 100;
     }
 
-alert("SALDO CAJA FINA = " + saldoCajaFinal)
     var dataEnviar = {
         "saldoCentralFinal": saldoCentralFinal,
         "saldoBancoFinal": saldoBancoFinal,

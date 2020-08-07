@@ -72,7 +72,7 @@ $sucursal = $_SESSION["sucursal"];
             <td align="center">
                 <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker"
                         onchange="selectReporte()">
-                    <option value="1">Seleccione:</option>
+                    <option value="0">Seleccione:</option>
                     <?php
                     $data = array();
                     $sql = new sqlCatalogoDAO();
@@ -85,12 +85,12 @@ $sucursal = $_SESSION["sucursal"];
             </td>
             <td align="center">
                 <input type="text" name="fechaInicial" id="idFechaInicial" style="width: 100px"
-                       class="calendarioModBoton" value="05-08-2020"
+                       class="calendarioModBoton"
                        disabled/>
             </td>
             <td>
                 <input type="text" name="fechaFinal" id="idFechaFinal" style="width: 100px"
-                       class="calendarioModBoton" value="07-08-2020"
+                       class="calendarioModBoton"
                        disabled/>
             </td>
             <td align="center">

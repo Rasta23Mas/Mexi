@@ -283,11 +283,7 @@ function buscarDatosContrato() {
                         //Si la fecha es igual el dia de interes generado es 1
                         diasForInteres = 0;
                         if (DiasContrato != 0) {
-                            if (tipeFormulario == 1 || tipeFormulario == 2) {
-                                refrendoConfirmar();
-                            } else {
-                                costoContrato(contratoGbl);
-                            }
+                            costoContrato(contratoGbl);
                         }
                     } else {
                         //Si la fecha es menor que hoy  el dia de interes generado es  el total -1
@@ -384,7 +380,7 @@ function buscarDatosContrato() {
                     var polizaSumarAInteres = 0.00;
                     //Si es auto
 
-                    if (tipeFormulario == 2 || tipeFormulario == 4) {
+                    if (tipeFormulario == 4) {
                         if (PolizaSeguro == '' || PolizaSeguro == null) {
                             PolizaSeguro = 0.00;
                         }
@@ -981,9 +977,10 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     var e_poliza = 0;
     var e_pension = 0;
     var movimiento = 0;
-    if (tipeFormulario == 1) {
+    alert(tipeFormulario)
+    if (tipeFormulario == 3) {
         movimiento = 5;
-    } else if (tipeFormulario == 2) {
+    } else if (tipeFormulario == 4) {
         movimiento = 9;
         e_gps = $("#gpsNuevoNota").val();
         e_poliza = $("#polizaNuevoNota").val();
@@ -1135,7 +1132,7 @@ function MovimientosRefrendoSinInteres() {
     e_moratorios = Math.round(e_moratorios * 100) / 100;
     e_ivaValue = Math.round(e_ivaValue * 100) / 100;
     abonoFinal = Math.round(abonoFinal * 100) / 100;
-   if (tipeFormulario == 2) {
+   if (tipeFormulario == 4) {
         e_gps = $("#gpsNuevoNota").val();
         e_poliza = $("#polizaNuevoNota").val();
         e_pension = $("#pensionNuevoNota").val();

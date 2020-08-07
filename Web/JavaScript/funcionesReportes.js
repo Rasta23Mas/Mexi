@@ -403,7 +403,6 @@ function cargarRptVenci() {
                         '<td>' + Observaciones + '</td>' +
                         '<td>' + Detalle + '</td>' +
                         '</tr>';
-                    alert("hola");
                 }
 
                 $('#idTBodyContrato').html(html);
