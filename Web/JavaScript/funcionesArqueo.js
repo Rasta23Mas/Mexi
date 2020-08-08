@@ -331,6 +331,12 @@ function validarAjustes() {
             var dotacionCaja = $("#idSaldoCajaVal").val();
             dotacionCaja = Math.round(dotacionCaja * 100) / 100;
 
+            alert("entradas")
+            alert(entradas)
+            alert("dotacion")
+            alert(dotacionCaja)
+            alert("salidas")
+            alert(salidas)
             var entradasConCaja = entradas + dotacionCaja;
             saldoCajaGlobal += entradasConCaja;
             saldoCajaGlobal -= salidas;
@@ -347,7 +353,8 @@ function validarAjustes() {
             $("#idSaldoCajaInteres").val(cajaInteres);
             $("#idSaldoCajaMor").val(cajaMoratorio);
             $("#idSaldoCajaAuto").val(cajaAuto);
-            alert(saldoCajaGlobal)
+
+            saldoCajaGlobal = Math.round(saldoCajaGlobal * 100) / 100;
 
             $("#idSaldoCajaSistema").val(saldoCajaGlobal);
             validarAjustesVenta();
