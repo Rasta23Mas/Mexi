@@ -69,21 +69,21 @@ function exportarExcel() {
     var tipoReporte = $('#idTipoReporte').val();
     var sucursal = $('#idSucursal').val();
     if(tipoReporte==2){
-        window.open('../EXCEL/rpt_Exc_Inventario.php?sucursal='+sucursal);
+        window.open('../Excel/rpt_Exc_Inventario.php?sucursal='+sucursal);
 
     }else if(tipoReporte==3){
-        window.open('../EXCEL/rpt_Exc_Contrato.php?sucursal='+sucursal);
+        window.open('../Excel/rpt_Exc_Contrato.php?sucursal='+sucursal);
 
     }else{
         if(fechaFin!=""&&fechaIni!=""){
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
             if(tipoReporte==1){
-                window.open('../EXCEL/rpt_Exc_Historico.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&sucursal='+sucursal);
+                window.open('../Excel/rpt_Exc_Historico.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&sucursal='+sucursal);
             }else if(tipoReporte==4){
-                window.open('../EXCEL/rpt_Exc_Desempeno.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&sucursal='+sucursal);
+                window.open('../Excel/rpt_Exc_Desempeno.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&sucursal='+sucursal);
             }else if(tipoReporte==5){
-                window.open('../EXCEL/rpt_Exc_Refrendo.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&sucursal='+sucursal);
+                window.open('../Excel/rpt_Exc_Refrendo.php?fechaIni='+fechaIni+'&fechaFin='+fechaFin+'&sucursal='+sucursal);
             }
         }else{
             alertify.error("Seleccione fecha de inicio y fecha final.");

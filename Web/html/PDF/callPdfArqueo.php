@@ -50,7 +50,7 @@ $totalMonedas = 0;
 $totalArqueo = 0;
 $fecha_Creacion = "";
 
-$web = 2;
+$web = 1;
 if ($web == 1) {
     $server = "localhost";
     $user = "u672450412_root";

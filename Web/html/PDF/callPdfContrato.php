@@ -13,7 +13,7 @@ $sucursal = $_SESSION["sucursal"];
 
 
 
-$web = 2;
+$web = 1;
 if($web==1){
     $server = "localhost";
     $user = "u672450412_root";

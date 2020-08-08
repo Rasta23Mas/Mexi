@@ -18,7 +18,7 @@ if (isset($_GET['fechaFin'])) {
     $fechaFin = $_GET['fechaFin'];
 }
 
-$web = 2;
+$web = 1;
 if($web==1){
     $server = "localhost";
     $user = "u672450412_root";

@@ -1,11 +1,8 @@
 <?php
 
 $Localhost = 'localhost';
-$Usuario_BD = 'root';
-$Password_BD = '';
-/*$Usuario_BD = "u672450412_root";
-$Password_BD = "12345";*/
-
+$Usuario_BD = "u672450412_root";
+$Password_BD = "12345";
 $Nombre_BD = 'u672450412_Mexicash';
 
 

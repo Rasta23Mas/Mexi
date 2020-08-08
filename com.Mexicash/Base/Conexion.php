@@ -6,15 +6,15 @@ include_once (SERVICIOS_PATH."Errores.php");
 class Conexion
 {
     protected $server = "localhost";
-    protected $user = "root";
-    protected $password = "";
+    //protected $user = "root";
+    //protected $password = "";
     protected $db = "u672450412_Mexicash";
     protected $link;
     protected $error;
 
     //conexión web
-/*    protected $user = "u672450412_root";
-    protected $password = "12345";*/
+   protected $user = "u672450412_root";
+    protected $password = "123456";
 
     public function connectDB(){
         try {
