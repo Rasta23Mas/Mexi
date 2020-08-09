@@ -372,7 +372,6 @@ function nombreAutocompletar() {
     });
 }
 
-
 //funcion limpiar modal registro
 function LimpiarRegistroCliente() {
     $("#idNombre").val("");

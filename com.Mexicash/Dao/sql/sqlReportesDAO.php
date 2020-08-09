@@ -317,5 +317,47 @@ class sqlReportesDAO
         echo json_encode($datos);
     }
 
+    public function reporteMon($tipo,$fechaIni,$fechaFin)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT Bit.id_BitacoraToken,Bit.id_Contrato,Bit.tipo_formulario,Bit.token,Bit.descripcion,
+                        Bit.descuento,Bit.interes, Cat.tipo, Bit.id_tokenMovimiento,Bit.importe_flujo,Bit.id_flujo,
+                        Bit.fecha_Creacion FROM bit_token as Bit
+                        INNER JOIN cat_token_movimiento as Cat on Bit.id_tokenMovimiento = Cat.id_tokenMovimiento
+                        WHERE Bit.fecha_Creacion BETWEEN '$fechaIni' 
+                        AND '$fechaFin'
+                        AND Bit.sucursal = $sucursal 
+                        ORDER BY Bit.id_BitacoraToken";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_BitacoraToken" => $row["id_BitacoraToken"],
+                        "id_Contrato" => $row["id_Contrato"],
+                        "tipo_formulario" => $row["tipo_formulario"],
+                        "token" => $row["token"],
+                        "descripcion" => $row["descripcion"],
+                        "descuento" => $row["descuento"],
+                        "interes" => $row["interes"],
+                        "tipo" => $row["tipo"],
+                        "id_tokenMovimiento" => $row["id_tokenMovimiento"],
+                        "importe_flujo" => $row["importe_flujo"],
+                        "id_flujo" => $row["id_flujo"],
+                        "fecha_Creacion" => $row["fecha_Creacion"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
 
 }

@@ -70,7 +70,7 @@ $sucursal = $_SESSION["sucursal"];
         </tr>
         <tr align="center">
             <td align="center">
-                <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker">
+                <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker"  onchange="selectReporteMon()">
                     <option value="0">Todos</option>
                     <?php
                     $data = array();
