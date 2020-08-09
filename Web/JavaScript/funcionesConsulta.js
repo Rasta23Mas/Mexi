@@ -347,7 +347,6 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
 }
 
 function cargarTablaNombre() {
-    alert("cargarTablaNombre");
     var idClienteConsulta = $("#idClienteConsulta").val();
     var dataEnviar = {
         "idClienteConsulta": idClienteConsulta,
@@ -360,7 +359,6 @@ function cargarTablaNombre() {
         dataType: "json",
         success: function (datos) {
             alert("Refrescando tabla.");
-
             var html = '';
             var htmlAuto = '';
             var htmlfinal = '';

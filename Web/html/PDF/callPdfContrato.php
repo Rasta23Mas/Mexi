@@ -2,6 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
 include_once(BASE_PATH . "Conexion.php");
+
 use Dompdf\Dompdf;
 
 
@@ -12,14 +13,13 @@ $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
 
 
-
 $web = 1;
-if($web==1){
+if ($web == 1) {
     $server = "localhost";
     $user = "u672450412_root";
     $password = "12345";
     $db = "u672450412_Mexicash";
-}else{
+} else {
     $server = "localhost";
     $user = "root";
     $password = "";
@@ -67,7 +67,7 @@ $diasLabel = '';
 $totalInteres = 0;
 $ivaPorcentaje = 0;
 
-$reimpresion='';
+$reimpresion = '';
 if (isset($_GET['reimpresion'])) {
     $reimpresion = "Reimpresión";
 }
@@ -128,25 +128,25 @@ foreach ($resultado as $row) {
         $diasLabel = "1 Mes";
     } else if ($Dias == 0) {
         $diasLabel = "1 Día";
-        $Dias =1;
-    }else {
+        $Dias = 1;
+    } else {
         $diasLabel = $Dias;
     }
     $ivaPorcentaje = '.' . $Iva;
     $ivaPorcentaje = floatval($ivaPorcentaje);
     //Se saca los porcentajes mensuales
-    $calculaInteres = round($MontoPrestamo*$Tasa/100,2);
-    $calculaALm = round($MontoPrestamo*$Almacenaje/100,2);
-    $calculaSeg = round($MontoPrestamo*$Seguro/100,2);
-    $calculaIva = round($MontoPrestamo*$ivaPorcentaje/100,2);
+    $calculaInteres = round($MontoPrestamo * $Tasa / 100, 2);
+    $calculaALm = round($MontoPrestamo * $Almacenaje / 100, 2);
+    $calculaSeg = round($MontoPrestamo * $Seguro / 100, 2);
+    $calculaIva = round($MontoPrestamo * $ivaPorcentaje / 100, 2);
     $totalInteres = $calculaInteres + $calculaALm + $calculaSeg + $calculaIva;
 
     //interes por dia
-   
+
     $interesDia = $totalInteres / $Dias;
     //TASA:
     $tasaIvaTotal = $Tasa + $Almacenaje + $Seguro + $Iva;
-    $tasaDiaria = round($tasaIvaTotal /$Dias,2);
+    $tasaDiaria = round($tasaIvaTotal / $Dias, 2);
 
 
 }
@@ -154,14 +154,14 @@ $FechaCreacion = date("d-m-Y", strtotime($FechaCreacion));
 $FechaAlmoneda = date("d-m-Y", strtotime($FechaAlmoneda));
 $FechaVenc = date("d-m-Y", strtotime($FechaVenc));
 
-$MontoPrestamo = number_format($MontoPrestamo, 2,'.',',');
-$MontoTotal = number_format($MontoTotal, 2,'.',',');
-$Avaluo = number_format($Avaluo, 2,'.',',');
+$MontoPrestamo = number_format($MontoPrestamo, 2, '.', ',');
+$MontoTotal = number_format($MontoTotal, 2, '.', ',');
+$Avaluo = number_format($Avaluo, 2, '.', ',');
 
-$calculaALm = number_format($calculaALm, 2,'.',',');
-$calculaInteres = number_format($calculaInteres, 2,'.',',');
-$calculaIva = number_format($calculaIva, 2,'.',',');
-$Intereses = number_format($Intereses, 2,'.',',');
+$calculaALm = number_format($calculaALm, 2, '.', ',');
+$calculaInteres = number_format($calculaInteres, 2, '.', ',');
+$calculaIva = number_format($calculaIva, 2, '.', ',');
+$Intereses = number_format($Intereses, 2, '.', ',');
 
 
 $contenido = '<html>
@@ -169,37 +169,33 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-          .letraNormalNegrita{
-              font-size: .7em;
-              font-weight: bold;
-            }
+           .letraNormalNegrita{
+          font-size: .7em;
+          font-weight: bold;
+         }
          
           .letraExtraGrandeNegrita {
-                font-size: 2em;
-                font-weight: bold;
+            font-size: 2em;
+            font-weight: bold;
             }
             
           .letraGrandeNegrita{
-              font-size: 1.1em;
-              font-weight: bold;
-            }
-          
+          font-size: 1.1em;
+          font-weight: bold;
+         }
           .letraChicaNegrita{
-              font-size: .5em;
-              font-weight: bold;
-            }
-          
+          font-size: .5em;
+          font-weight: bold;
+         }
           .letraNormal{
-             font-size: .8em;
-            }
-          
+          font-size: .8em;
+         }
           .letraGrande{
-             font-size: 1.2em;
-            }
-            
+          font-size: 1.2em;
+         }
           .letraChica{
-              font-size: .6em;
-            }
+          font-size: .6em;
+         }
             
           .tituloCelda{
               background-color: #ebebe0
@@ -413,36 +409,36 @@ $contenido = '<html>
             </td>
             <td colspan="2" align="center">
                 <label class="letraNormal">
-                    $ '. $MontoPrestamo .'
+                    $ ' . $MontoPrestamo . '
                 </label>
             </td>
             <td align="center">
                 <label class="letraNormal">
-                    $ ' .$calculaALm. '
+                    $ ' . $calculaALm . '
                 </label>
             </td>
             <td align="center">
                 <label class="letraNormal">
-                    $ ' .$calculaInteres. '
+                    $ ' . $calculaInteres . '
                 </label>
             </td align="center">
             <td width="80px"><label class="letraNormal">
-                    $ ' .$calculaIva. '
+                    $ ' . $calculaIva . '
                 </label>
             </td>
             <td colspan="2" align="center">
                 <label class="letraNormal">
-                    $ ' .$Intereses. '
+                    $ ' . $Intereses . '
                 </label>
             </td>
             <td colspan="2" align="center">
                 <label class="letraNormal">
-                    $ ' .$MontoTotal. '
+                    $ ' . $MontoTotal . '
                 </label>
             </td>
             <td colspan="2" align="center">
                 <label class="letraNormal">
-                    ' .$FechaVenc. '
+                    ' . $FechaVenc . '
                 </label>
             </td>
         </tr>
@@ -452,10 +448,10 @@ $contenido = '<html>
         </tr>
         <tr>
             <td colspan="6"><label class="letraNormalNegrita"> Para fines informativos y de comparación:
-                    '.$tasaIvaTotal.'% FIJO SIN IVA</label>
+                    ' . $tasaIvaTotal . '% FIJO SIN IVA</label>
             </td>
             <td colspan="6"><label class="letraNormalNegrita"> Para fines informativos y de comparación:
-                    '.$tasaDiaria.'% FIJO SIN IVA</label>
+                    ' . $tasaDiaria . '% FIJO SIN IVA</label>
             </td>
         </tr>
         <tr>
@@ -497,9 +493,9 @@ $contenido = '<html>
 $i = 1;
 $tablaArticulos = '';
 $detallePiePagina = '';
-$detalleDescripcion ='';
-$tipoDescripcion ='';
-if($TipFormulario==1){
+$detalleDescripcion = '';
+$tipoDescripcion = '';
+if ($TipFormulario == 1) {
     $query = "SELECT Ar.detalle AS Detalle, TA.descripcion AS TipoMetal, TK.descripcion as Kilataje,
                             TC.descripcion as Calidad FROM contratos_tbl as Con 
                             INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato
@@ -513,18 +509,18 @@ if($TipFormulario==1){
         $TipoMetal = $row["TipoMetal"];
         $Kilataje = $row["Kilataje"];
         $Calidad = $row["Calidad"];
-        $detalleDescripcion = $TipoMetal . ' '. $Kilataje  . ' '. $Calidad . ' '. $Detalle;
+        $detalleDescripcion = $TipoMetal . ' ' . $Kilataje . ' ' . $Calidad . ' ' . $Detalle;
         $detallePiePagina .= $detalleDescripcion . '//';
         $tablaArticulos .= '<tr>
             <td align="center">' . $tipoDescripcion . '</td>
             <td align="center" colspan="5">' . $detalleDescripcion . '</td>
             <td align="center" colspan="2">$ ' . $Avaluo . '</td>
             <td align="center" colspan="2">$ ' . $MontoPrestamo . '</td>
-            <td align="center" colspan="2">&nbsp;'. $Aforo .' %</td></tr>';
+            <td align="center" colspan="2">&nbsp;' . $Aforo . ' %</td></tr>';
         $i++;
     }
 
-}else if ($TipFormulario==2){
+} else if ($TipFormulario == 2) {
 
     $query = "SELECT ET.descripcion AS TipoElectronico, EM.descripcion AS MarcaElectronico, EMOD.descripcion AS ModeloElectronico,
                             Ar.detalle AS Detalle FROM contratos_tbl as Con 
@@ -539,18 +535,18 @@ if($TipFormulario==1){
         $TipoElectronico = $row["TipoElectronico"];
         $MarcaElectronico = $row["MarcaElectronico"];
         $ModeloElectronico = $row["ModeloElectronico"];
-        $detalleDescripcion = $TipoElectronico . ' '. $MarcaElectronico  . ' '. $ModeloElectronico . ' '. $Detalle;
+        $detalleDescripcion = $TipoElectronico . ' ' . $MarcaElectronico . ' ' . $ModeloElectronico . ' ' . $Detalle;
         $detallePiePagina .= $detalleDescripcion . '//';
         $tablaArticulos .= '<tr>
             <td  align="center">' . $tipoDescripcion . '</td>
             <td colspan="5"  align="center">' . $detalleDescripcion . '</td>
             <td colspan="2"  align="center">$ ' . $Avaluo . '</td>
             <td colspan="2"  align="center">$ ' . $MontoPrestamo . '</td>
-            <td colspan="2" align="center" >&nbsp; '. $Aforo .'%</td></tr>';
+            <td colspan="2" align="center" >&nbsp; ' . $Aforo . '%</td></tr>';
         $i++;
     }
 
-}else if ($TipFormulario==3){
+} else if ($TipFormulario == 3) {
     $query = "SELECT Aut.marca AS Marca, Aut.modelo AS Modelo, Aut.año AS Anio,Col.descripcion AS Color, 
                     Aut.placas AS Placas, Aut.factura AS Factura, Aut.num_motor AS NumMotor,Aut.observaciones AS Detalle,
                     Aut.color as Color 
@@ -567,30 +563,30 @@ if($TipFormulario==1){
         $Factura = $row["Factura"];
         $NumMotor = $row["NumMotor"];
         $Detalle = $row["Detalle"];
-        $detalleDescripcion = $Marca . ' '. $Modelo  . ' '. $Anio . ' '. $Color. ' '. $Placas. ' '. $Factura. ' '. $NumMotor. ' '. $Detalle;
+        $detalleDescripcion = $Marca . ' ' . $Modelo . ' ' . $Anio . ' ' . $Color . ' ' . $Placas . ' ' . $Factura . ' ' . $NumMotor . ' ' . $Detalle;
         $detallePiePagina .= $detalleDescripcion . '//';
         $tablaArticulos .= '<tr>
             <td  align="center">' . $tipoDescripcion . '</td>
             <td colspan="5"  align="center">' . $detalleDescripcion . '</td>
             <td colspan="2"  align="center">$ ' . $Avaluo . '</td>
             <td colspan="2"  align="center">$ ' . $MontoPrestamo . '</td>
-            <td colspan="2"  align="center"> &nbsp;'. $Aforo .'%</td></tr>';
+            <td colspan="2"  align="center"> &nbsp;' . $Aforo . '%</td></tr>';
         $i++;
     }
 }
 $contenido .= $tablaArticulos;
-$contenido .=' 
+$contenido .= ' 
         <tr>
             <td colspan="6"><label class="letraNormalNegrita">MONTO DEL AVALUO: </label></td>
-            <td colspan="6"><label class="letraNormalNegrita">$ '. $Avaluo . '</label></td>
+            <td colspan="6"><label class="letraNormalNegrita">$ ' . $Avaluo . '</label></td>
         </tr>
         <tr>
             <td colspan="6"><label class="letraNormalNegrita">PORCENTAJE DEL PRÉSTAMO SOBRE EL AVALÚO:</label></td>
-            <td colspan="6"><label class="letraNormalNegrita">&nbsp;'. $Aforo .'%</label></td>
+            <td colspan="6"><label class="letraNormalNegrita">&nbsp;' . $Aforo . '%</label></td>
         </tr>
         <tr>
             <td colspan="6"><label class="letraNormalNegrita">FECHA DE INICIO DE COMERCIALIZACIÓN:</label></td>
-            <td colspan="6"><label class="letraNormalNegrita">'. $FechaAlmoneda.'</label></td>
+            <td colspan="6"><label class="letraNormalNegrita">' . $FechaAlmoneda . '</label></td>
         </tr>
         <tr>
             <td colspan="6"><label class="letraChicaNegrita">El monto del préstamo se realizara en:</label></td>
@@ -615,15 +611,14 @@ $contenido .='
         </tr>
         <tr>
             <td colspan="12"><label class="letraChicaNegrita">
-                DUDAS, ACLARACIONES Y RECLAMACIONES:
-                • PARA CUALQUIER DUDA, ACLARACION O RECLAMACION, FAVOR DE DIRIGIRSE A:
-                Domicilio: AV. AZTECAS CIUDAD DE MEXICO NA 4,380 .
-                Telefono: 5525252125, Correo electronico: na, Pagina de internet: en un horario de EL HORARIO DE
-                SERVICIO AL PÚBLICO DE ESTE ESTABLECIMIENTO ES DE LUNES A VIERNES DE
-                8:30 A 20:00 HRS Y SABADOS DE 09:00 A 15:00 HRS.
-                • O EN SU CASO A PROFECO A LOS TELEFONOS: 55 68 87 22 O AL 01 800 468 87 22 , PAGINA DE INTERNET:
-                www.gob.mx/profeco
-                ESTADO DE CUENTA/CONSULTA DE MOVIMIENTOS: NO APLICA O CONSULTA EN
+            <p>
+                DUDAS, ACLARACIONES Y RECLAMACIONES:• PARA CUALQUIER DUDA, ACLARACION O RECLAMACION, FAVOR DE DIRIGIRSE A: Domicilio: AV. AZTECAS</p>
+                  <p>
+                 CIUDAD DE MEXICO NA 4,380 . Telefono: 5525252125, Correo electronico: na, Pagina de internet: en un horario de EL HORARIO DE  SERVICIO AL PÚBLICO DE ESTE</p> 
+                  <p>
+                 ESTABLECIMIENTO ES DE LUNES A VIERNES DE 8:30 A 20:00 HRS Y SABADOS DE 09:00 A 15:00 HRS. O EN SU CASO A PROFECO A LOS TELEFONOS: 55 68 87 22</p>
+                <p>
+                  O AL 01 800 468 87 22 , PAGINA DE INTERNET:  www.gob.mx/profeco  ESTADO DE CUENTA/CONSULTA DE MOVIMIENTOS: NO APLICA O CONSULTA EN </p>
                 EL HORARIO DE SERVICIO AL PUBLICO EN ESTE ESTABLECIMIENTO ES DE : EL HORARIO DE SERVICIO AL PÚBLICO DE
                 ESTE ESTABLECIMIENTO ES DE LUNES A
                 VIERNES DE 8:30 A 20:00 HRS Y SABADOS DE 09:00 A 15:00 HRS. Para todo lo relativo a la interpretación,
@@ -658,20 +653,20 @@ $contenido .='
                 por
                 lo que otorga a MIRIAM GAMA VAZQUEZ el finiquito más amplio que en derecho corresponda,
                 liberándolo de cualquier responsabilidad jurídica que hubiere surgido ó pudiese surgir en relación
-                al contrato y la prenda. '. $FechaAlmoneda.'</label></td>
-            <td colspan="6"><label class="letraChicaNegrita">FECHA: '. $FechaCreacion.' <br>
-              '. $NombreCompleto .'
+                al contrato y la prenda. ' . $FechaAlmoneda . '</label></td>
+            <td colspan="6"><label class="letraChicaNegrita">FECHA: ' . $FechaCreacion . ' <br>
+              ' . $NombreCompleto . '
                 "EL CONSUMIDOR"
             </td>
         </tr>
         <tr>
-            <td colspan="4"><label class="letraChicaNegrita">'. $NombreCompleto .'
+            <td colspan="4"><label class="letraChicaNegrita">' . $NombreCompleto . '
                 EL CONSUMIDOR</label>
             </td>
             <td colspan="4"><label class="letraChicaNegrita">MIRIAM GAMA VAZQUEZ
                 EL PROVEEDOR</label>
             </td>
-            <td colspan="4"><label class="letraChicaNegrita">'.$NombreUsuario.'
+            <td colspan="4"><label class="letraChicaNegrita">' . $NombreUsuario . '
                 EL VALUADOR</label>
             </td>
         </tr>
@@ -698,28 +693,28 @@ $contenido .='
             </td>
             <td colspan="4">
             <label class="letraExtraGrandeNegrita">NO.
-              '. $idContrato.'</label>
+              ' . $idContrato . '</label>
             </td>
             <td colspan="4">
                  <label class="letraExtraGrandeNegrita">NO.
-              '. $idContrato.'</label>
+              ' . $idContrato . '</label>
             </td>
         </tr>
         <tr>
             <td colspan="12"><label class="letraNormalNegrita">
                 NOMBRE:   
-              '. $NombreCompleto.'
+              ' . $NombreCompleto . '
               &nbsp;&nbsp;&nbsp;&nbsp;
-                PRÉSTAMO:&nbsp;$ '. $MontoPrestamo.'</label>
+                PRÉSTAMO:&nbsp;$ ' . $MontoPrestamo . '</label>
             </td>
         </tr>
         <tr>
             <td colspan="12"><label class="letraNormalNegrita">
-                FECHA: '. $FechaCreacion .' PLAZO: 1 MENSUAL
-                DESCRIPCIÓN:'. $detallePiePagina.'</label>
+                FECHA: ' . $FechaCreacion . ' PLAZO: 1 MENSUAL
+                DESCRIPCIÓN:' . $detallePiePagina . '</label>
             </td>
         </tr>';
-$contenido .=' </tbody></table></form></body></html>';
+$contenido .= ' </tbody></table></form></body></html>';
 //echo $contenido;
 //exit;
 

@@ -14,7 +14,7 @@ class Conexion
 
     //conexión web
    protected $user = "u672450412_root";
-    protected $password = "123456";
+    protected $password = "12345";
 
     public function connectDB(){
         try {

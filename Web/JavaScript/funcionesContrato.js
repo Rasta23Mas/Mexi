@@ -142,7 +142,6 @@ function generarContrato() {
                 var mov_total = 0;
                 var mov_efectivo = 0;
                 var mov_cambio = 0;
-
                 Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
                 mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_interes,mov_almacenaje,mov_seguro,
                     mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
@@ -282,7 +281,7 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
             if (response > 0) {
                 if(tokenBitacora==1){
                     var tipoFormulario = $("#idTipoFormulario").val()
-                    BitacoraTokenEmpeno(contrato,tipoFormulario,cliente);
+                    BitacoraTokenEmpeno(contrato,tipoFormulario,clienteEmpeno);
                 }else{
                     var  recargar = setTimeout(function(){  verPDF(contrato); }, 2000);
                     var  pdf = setTimeout(function(){ location.reload() }, 3000);
@@ -309,6 +308,7 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
         "token": token,
         "tokenDescripcion": tokenDescripcion,
         "tokenMovimiento": tokenMovimiento,
+        "importe": tokenMovimiento,
     };
 
     $.ajax({
