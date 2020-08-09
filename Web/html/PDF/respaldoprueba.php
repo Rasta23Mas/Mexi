@@ -557,9 +557,9 @@ if (!isset($_GET['pdf'])) {
 
         }else if ($TipFormulario==3){
             $query = "SELECT Aut.marca AS Marca, Aut.modelo AS Modelo, Aut.año AS Anio,Col.descripcion AS Color, 
-                    Aut.placas AS Placas, Aut.factura AS Factura, Aut.num_motor AS NumMotor,Aut.observaciones AS Detalle
+                    Aut.placas AS Placas, Aut.factura AS Factura, Aut.num_motor AS NumMotor,Aut.observaciones AS Detalle,
+                    Aut.color as Color 
                     FROM auto_tbl AS Aut
-                    LEFT JOIN cat_color AS Col on Aut.color = Col.id_Color 
                     WHERE Aut.id_Contrato  =$idContrato ";
             $tablaArt = $mysql->query($query);
             foreach ($tablaArt as $row) {
@@ -1120,9 +1120,9 @@ if($TipFormulario==1){
 
 }else if ($TipFormulario==3){
     $query = "SELECT Aut.marca AS Marca, Aut.modelo AS Modelo, Aut.año AS Anio,Col.descripcion AS Color, 
-                    Aut.placas AS Placas, Aut.factura AS Factura, Aut.num_motor AS NumMotor,Aut.observaciones AS Detalle
+                    Aut.placas AS Placas, Aut.factura AS Factura, Aut.num_motor AS NumMotor,Aut.observaciones AS Detalle,
+                    Aut.color as Color 
                     FROM auto_tbl AS Aut
-                    LEFT JOIN cat_color AS Col on Aut.color = Col.id_Color 
                     WHERE Aut.id_Contrato  =$idContrato ";
     $tablaArt = $mysql->query($query);
     foreach ($tablaArt as $row) {

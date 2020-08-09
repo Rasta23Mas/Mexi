@@ -222,9 +222,8 @@ class sqlDesempenoDAO
         $datos = array();
         try {
             $buscar = "SELECT Auto.marca as Marca,Auto.modelo as Modelo,Auto.año as Anio,
-                        COl.descripcion as ColorAuto, Auto.observaciones as Obs 
+                        COl.descripcion as ColorAuto, Auto.observaciones as Obs, Auto.color as ColorAuto 
                         FROM auto_tbl as Auto 
-                        INNER JOIN cat_color as COl on Auto.color = COl.id_Color
                         INNER JOIN contrato_mov_tbl  as Mov ON Auto.id_Contrato = Mov.id_contrato
                         WHERE Mov.id_movimiento = $IdMovimiento";
 

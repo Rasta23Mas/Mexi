@@ -231,10 +231,9 @@ class sqlContratoDAO
 
         try {
             $buscar = "SELECT  Con.id_Formulario AS Formulario,Auto.marca as Marca,Auto.modelo as Modelo,Auto.año as Anio, Art.descripcion as Vehiculo,
-                        COl.descripcion as ColorAuto, Auto.observaciones as Obs 
+                        COl.descripcion as ColorAuto, Auto.observaciones as Obs, Auto.color as ColorAuto  
                         FROM auto_tbl as Auto 
                         INNER JOIN contratos_tbl AS Con on Auto.id_Contrato = Con.id_Contrato 
-                        LEFT JOIN cat_color as COl on Auto.color = COl.id_Color
                         LEFT JOIN cat_articulos as Art on Auto.tipo_Vehiculo = Art.id_Cat_Articulo
                         WHERE Auto.id_Contrato = '$idContratoBusqueda' AND Con.tipoContrato =" . $tipoContratoGlobal;
             $rs = $this->conexion->query($buscar);
