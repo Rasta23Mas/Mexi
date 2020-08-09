@@ -523,7 +523,7 @@ WHERE id_Cliente = '$idClienteEditar'";
         try {
             $buscar = "SELECT Con.id_Contrato as Contrato,Cont.id_Cliente as Cliente,
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto, 
-                        CONCAT(Con.plazo, ' ', Con.periodo, ' ',Con.tipoInteres) as Interes, 
+                        CONCAT(Cont.plazo, ' ', Cont.periodo, ' ',Cont.tipoInteres) as Interes, 
                         Con.fechaVencimiento as FechaVenc, Con.fecha_Movimiento as FechaCreac, 
                         CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
                         CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,

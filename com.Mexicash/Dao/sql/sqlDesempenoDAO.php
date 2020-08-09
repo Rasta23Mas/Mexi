@@ -24,26 +24,24 @@ class sqlDesempenoDAO
     public function busquedaMovimiento($idContratoDes, $tipoContrato)
     {
         //Modifique los estatus de usuario
-        $datos = array();
+        //$datos = array();
+        $id="";
         try {
             $buscar = "SELECT max(id_movimiento) as IdMovimiento FROM contrato_mov_tbl 
                         WHERE id_contrato = '$idContratoDes' and tipo_Contrato= $tipoContrato and tipo_movimiento!=20";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
-
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "IdMovimiento" => $row["IdMovimiento"]
-                    ];
-                    array_push($datos, $data);
-                }
+                $fila = $rs->fetch_object();
+                $id = $fila->IdMovimiento;
+            } else {
+                $id = -1;
             }
         } catch (Exception $exc) {
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
-        echo json_encode($datos);
+        echo $id;
     }
 
     //Busqueda de Contrato

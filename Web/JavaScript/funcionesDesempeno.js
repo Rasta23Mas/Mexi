@@ -76,19 +76,19 @@ function busquedaMovimiento() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Desempeno/busquedaMovimiento.php',
         data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            if (datos.length > 0) {
-                for (i = 0; i < datos.length; i++) {
-                    IdMovimientoGbl = datos[i].IdMovimiento;
-                    estatusContrato();
-                }
+
+        success: function (response) {
+            if (response > 0) {
+                IdMovimientoGbl = response;
+                estatusContrato();
             } else {
                 $("#idContrato").prop('disabled', false);
+                $("#idContrato").val("");
                 $("#btnBuscar").prop('disabled', false);
                 alertify.error("No se encontro ningun contrato activo con ese número.");
             }
         }
+
     });
 }
 

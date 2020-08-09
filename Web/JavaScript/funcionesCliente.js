@@ -206,15 +206,18 @@ function historial($clienteEmpeno) {
                         var FechaCreac = datos[i].FechaCreac;
                         var EstDesc = datos[i].EstDesc;
                         var Form = datos[i].Form;
-
+                        var Observ  = "";
+                        var Detalle = "";
+                        var tipoArticulo = "";
                         if (Form == 3) {
-                            var Observ = datos[i].ObserAuto;
-                            var Detalle = datos[i].DetalleAuto;
+                             Observ = datos[i].ObserAuto;
+                             Detalle = datos[i].DetalleAuto;
 
                         } else  {
-                            var tipoArticulo = datos[i].tipoArticulo;
-                            var Detalle = datos[i].Detalle;
-                            var Observ = 0;
+                             tipoArticulo = datos[i].tipoArticulo;
+                             Detalle = datos[i].Detalle;
+
+                             Observ = 0;
                             if (tipoArticulo == 1) {
                                 Observ = datos[i].ObserMetal;
                             } else if (tipoArticulo == 2) {
@@ -222,8 +225,7 @@ function historial($clienteEmpeno) {
                             }
 
                         }
-                        Observ = Observ.toUpperCase();
-                        EstDesc = EstDesc.toUpperCase();
+
                         if (NombreCompleto === null) {
                             NombreCompleto = '';
                         }
@@ -254,6 +256,10 @@ function historial($clienteEmpeno) {
                         if (Detalle === null) {
                             Detalle = '';
                         }
+
+                        Observ = Observ.toUpperCase();
+                        EstDesc = EstDesc.toUpperCase();
+
 
                         html += '<tr>' +
                             '<td>' + contrato + '</td>' +

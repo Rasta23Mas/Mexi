@@ -127,11 +127,9 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
 
                         </ul>
                     </li>
-                    <li><a class="dropdown-item dropdown-toggle" href="#">Monitoreo (P)</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Autorizaciones(P)</a></li>
-                        </ul>
-                    </li>
+
+                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Moitoreo</a>
+
                     <li><a class="dropdown-item dropdown-toggle" href="#">Cierres</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="../Empeno/pruebas.php">Reporte Cierre.</a></li>

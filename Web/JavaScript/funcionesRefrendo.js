@@ -77,15 +77,14 @@ function busquedaMovimiento() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Desempeno/busquedaMovimiento.php',
         data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            if (datos.length > 0) {
-                for (i = 0; i < datos.length; i++) {
-                    IdMovimientoGbl = datos[i].IdMovimiento;
-                    estatusContrato();
-                }
+
+        success: function (response) {
+            if (response > 0) {
+                IdMovimientoGbl = response;
+                estatusContrato();
             } else {
                 $("#idContrato").prop('disabled', false);
+                $("#idContrato").val("");
                 $("#btnBuscar").prop('disabled', false);
                 alertify.error("No se encontro ningun contrato activo con ese número.");
             }
@@ -959,7 +958,7 @@ function generarNuevo() {
                 success: function (response) {
                     if (response > 0) {
                         alertify.success(nombreMensaje + " generado.")
-                        MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
+                        MovimientosRefrendo(descuentoAplicado, descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm);
                     } else {
                         alertify.error("Error al generar " + nombreMensaje);
                     }
@@ -972,8 +971,8 @@ function generarNuevo() {
     }
 }
 
-function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {
-   // var descuento_aplicado = $("#descuentoNuevoNota").val();
+function MovimientosRefrendo(descuentoAplicado, descuentoFinal, abonoFinal, newFechaVencimiento, newFechaAlm) {
+    // var descuento_aplicado = $("#descuentoNuevoNota").val();
     var e_capital_recuperado = $("#totalPagarNuevoNota").val();
     var intereses = $("#interesPagarNuevoNota").val();
     var e_moratorios = $("#moratoriosNuevoNota").val();
@@ -1009,7 +1008,7 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     cambioPDF = Math.round(cambioPDF * 100) / 100;
     var totalPagar = $("#totalPagarNuevoNota").val();
     totalPagar = Math.round(totalPagar * 100) / 100;
-    var subtotal = totalPagar -e_ivaValue ;
+    var subtotal = totalPagar - e_ivaValue;
     subtotal = Math.round(subtotal * 100) / 100;
 
 
@@ -1018,7 +1017,6 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     e_moratorios = Math.round(e_moratorios * 100) / 100;
     e_ivaValue = Math.round(e_ivaValue * 100) / 100;
     prestamo_actual = Math.round(prestamo_actual * 100) / 100;
-
 
 
     var mov_contrato = contratoGbl;
@@ -1050,10 +1048,10 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     var mov_efectivo = efectivoPDF;
     var mov_cambio = cambioPDF;
 
-    Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
-        mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_interes,mov_almacenaje,mov_seguro,
-        mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
-        mov_subtotal,mov_total,mov_efectivo,mov_cambio);
+    Contrato_Mov(mov_contrato, mov_fechaVencimiento, mov_fechaAlmoneda, mov_prestamo_actual, mov_prestamo_nuevo, mov_descuentoApl, mov_descuentoTotal,
+        mov_abonoTotal, mov_capitalRecuperado, mov_pagoDesempeno, mov_abono, mov_intereses, mov_interes, mov_almacenaje, mov_seguro,
+        mov_moratorios, mov_iva, mov_gps, mov_poliza, mov_pension, mov_costoContrato, mov_tipoContrato, mov_tipoMovimiento, mov_Informativo,
+        mov_subtotal, mov_total, mov_efectivo, mov_cambio);
     BitacoraUsuarioRefrendo();
 }
 
@@ -1090,8 +1088,12 @@ function BitacoraUsuarioRefrendo() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                var  pdf = setTimeout(function(){ verPDFRefrendo(contratoGbl);}, 2000);
-                var  recargar = setTimeout(function(){  location.reload(); }, 3000);
+                var pdf = setTimeout(function () {
+                    verPDFRefrendo(contratoGbl);
+                }, 2000);
+                var recargar = setTimeout(function () {
+                    location.reload();
+                }, 3000);
 
             } else {
                 alertify.error("Error en al conectar con el servidor.")

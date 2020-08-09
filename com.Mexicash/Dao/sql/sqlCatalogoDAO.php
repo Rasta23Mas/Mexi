@@ -696,6 +696,33 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
         return $datos;
     }
 
+    function llenarCmbMonitoreoTipo()
+    {
+        $datos = array();
+
+        try {
+            $buscar = "SELECT id_tokenMovimiento, descripcion FROM cat_token_movimiento ";
+            $rs = $this->conexion->query($buscar);
+
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_tokenMovimiento" => $row["id_tokenMovimiento"],
+                        "descripcion" => $row["descripcion"]
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        return $datos;
+    }
+
+
     function llenarSucursal()
     {
         $datos = array();
