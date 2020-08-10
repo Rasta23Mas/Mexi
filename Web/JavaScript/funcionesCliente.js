@@ -120,58 +120,61 @@ function buscarClienteAgregado() {
 //Funcion mostrar todos los clientes con un mismo nombre
 function mostrarTodos($idNombres) {
     $('#suggestionsNombreEmpeno').fadeOut(1000);
+    var Mostrar = 0;
     if ($idNombres == '' || $idNombres == null) {
-        alert("Por favor escribe un nombre.")
+        Mostrar = 1;
     } else {
-        var dataEnviar = {
-            "$idNombres": $idNombres
-        };
-        $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Cliente/VerTodos.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                var html = '';
-                var i = 0;
-                $("#modalBusquedaCliente").modal();
-                if (datos.length == 0) {
-                    $("#idNombres").val('');
-                    $("#idClienteEmpeno").val('');
-                    $("#idCelularEmpeno").val('');
-                    $("#idDireccionEmpeno").val('');
-                    html += '<tr>' +
-                        '<td colspan="4" align="center">Sin datos a mostrar.</td>' +
-                        '</tr>';
-                } else {
-                    for (i; i < datos.length; i++) {
-                        var id_Cliente = datos[i].id_Cliente;
-                        var NombreCompleto = datos[i].NombreCompleto;
-                        var celular = datos[i].celular;
-                        var direccionCompleta = datos[i].direccionCompleta;
-                        if (NombreCompleto === null) {
-                            NombreCompleto = '';
-                        }
-                        if (celular === null) {
-                            celular = '';
-                        }
-                        if (direccionCompleta === null) {
-                            direccionCompleta = '';
-                        }
-
-                        html += '<tr>' +
-                            '<td>' + NombreCompleto + '</td>' +
-                            '<td>' + celular + '</td>' +
-                            '<td>' + direccionCompleta + '</td>' +
-                            '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                            'onclick="buscarClienteEditado(' + id_Cliente + ')"></td>' +
-                            '</tr>';
-                    }
-                }
-                $('#idTBodyVerTodos').html(html);
-            }
-        });
+        Mostrar = 2;
     }
+    var dataEnviar = {
+        "Mostrar": Mostrar,
+        "$idNombres": $idNombres
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Cliente/VerTodos.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            var html = '';
+            var i = 0;
+            $("#modalBusquedaCliente").modal();
+            if (datos.length == 0) {
+                $("#idNombres").val('');
+                $("#idClienteEmpeno").val('');
+                $("#idCelularEmpeno").val('');
+                $("#idDireccionEmpeno").val('');
+                html += '<tr>' +
+                    '<td colspan="4" align="center">Sin datos a mostrar.</td>' +
+                    '</tr>';
+            } else {
+                for (i; i < datos.length; i++) {
+                    var id_Cliente = datos[i].id_Cliente;
+                    var NombreCompleto = datos[i].NombreCompleto;
+                    var celular = datos[i].celular;
+                    var direccionCompleta = datos[i].direccionCompleta;
+                    if (NombreCompleto === null) {
+                        NombreCompleto = '';
+                    }
+                    if (celular === null) {
+                        celular = '';
+                    }
+                    if (direccionCompleta === null) {
+                        direccionCompleta = '';
+                    }
+
+                    html += '<tr>' +
+                        '<td>' + NombreCompleto + '</td>' +
+                        '<td>' + celular + '</td>' +
+                        '<td>' + direccionCompleta + '</td>' +
+                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
+                        'onclick="buscarClienteEditado(' + id_Cliente + ')"></td>' +
+                        '</tr>';
+                }
+            }
+            $('#idTBodyVerTodos').html(html);
+        }
+    });
 }
 
 //Funcion ver el historial de un cliente
@@ -206,18 +209,18 @@ function historial($clienteEmpeno) {
                         var FechaCreac = datos[i].FechaCreac;
                         var EstDesc = datos[i].EstDesc;
                         var Form = datos[i].Form;
-                        var Observ  = "";
+                        var Observ = "";
                         var Detalle = "";
                         var tipoArticulo = "";
                         if (Form == 3) {
-                             Observ = datos[i].ObserAuto;
-                             Detalle = datos[i].DetalleAuto;
+                            Observ = datos[i].ObserAuto;
+                            Detalle = datos[i].DetalleAuto;
 
-                        } else  {
-                             tipoArticulo = datos[i].tipoArticulo;
-                             Detalle = datos[i].Detalle;
+                        } else {
+                            tipoArticulo = datos[i].tipoArticulo;
+                            Detalle = datos[i].Detalle;
 
-                             Observ = 0;
+                            Observ = 0;
                             if (tipoArticulo == 1) {
                                 Observ = datos[i].ObserMetal;
                             } else if (tipoArticulo == 2) {

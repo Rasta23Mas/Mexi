@@ -2,6 +2,15 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlClienteDAO.php");
 
+
+$Mostrar = $_POST['Mostrar'];
 $idNombres = $_POST['$idNombres'];
 $sqlCliente = new sqlClienteDAO();
-$sqlCliente->verTodos($idNombres);
+
+if($Mostrar==1){
+    $sqlCliente->traerTodos();
+}else if($Mostrar==2){
+    $sqlCliente->verTodos($idNombres);
+}
+
+
