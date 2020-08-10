@@ -97,15 +97,15 @@ class sqlClienteDAO
     {
         try {
             $html = '';
+            $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT id_Cliente,
-                       CONCAT(apellido_Pat,'/',  apellido_Mat, '/', nombre) AS NombreCompleto,
-                       celular,
-                       CONCAT(calle, ', ',num_interior,', ', num_exterior, ', ',localidad, ', ', municipio, ', ', cat_estado.descripcion ) AS direccionCompleta
+                       CONCAT(apellido_Pat,'/',  apellido_Mat, '/', nombre) AS NombreCompleto, celular,
+                       CONCAT(calle, ', ',num_interior,', ', num_exterior, ', ',localidad, ', ', municipio, 
+                       ', ', cat_estado.descripcion ) AS direccionCompleta
                        FROM cliente_tbl
                        INNER JOIN cat_estado ON cliente_tbl.estado = cat_estado.id_Estado
-                       WHERE
-                       CONCAT(apellido_Pat, ' ', apellido_Mat, ' ',nombre) LIKE '%" . strip_tags($idCliente) . "%' LIMIT 5 ";
+                       WHERE sucursal = $sucursal AND CONCAT(apellido_Pat, ' ', apellido_Mat, ' ',nombre) LIKE '%" . strip_tags($idCliente) . "%' LIMIT 5 ";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 while ($row = $statement->fetch_assoc()) {
@@ -154,7 +154,7 @@ class sqlClienteDAO
         echo $html;
 
     }
-    
+
     public function buscarClienteDatos($idClienteEditar)
     {
         $datos = array();
@@ -326,7 +326,7 @@ WHERE id_Cliente = '$idClienteEditar' AND sucursal=".$sucursal;
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT id_Cliente, CONCAT (apellido_Pat , ' ',apellido_Mat,' ',  nombre) as NombreCompleto, celular , CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ',municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl " .
+            $buscar = "SELECT id_Cliente, CONCAT (apellido_Pat,'/',  apellido_Mat, '/', nombre) as NombreCompleto, celular , CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ',municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl " .
                 " INNER JOIN cat_estado on cliente_tbl.estado = cat_estado.id_Estado " .
                 " WHERE  id_Cliente = (SELECT MAX(id_Cliente) FROM cliente_tbl) AND sucursal =$sucursal";
             $rs = $this->conexion->query($buscar);
@@ -349,7 +349,7 @@ WHERE id_Cliente = '$idClienteEditar' AND sucursal=".$sucursal;
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT id_Cliente, CONCAT (apellido_Pat , ' ', apellido_Mat,' ', nombre) as NombreCompleto, celular , CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ',municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl " .
+            $buscar = "SELECT id_Cliente, CONCAT (apellido_Pat,'/',  apellido_Mat, '/', nombre) as NombreCompleto, celular , CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ',municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl " .
                 " INNER JOIN cat_estado on cliente_tbl.estado = cat_estado.id_Estado " .
                 " WHERE  id_Cliente = '$idClienteEditado' AND sucursal =$sucursal ";
             $rs = $this->conexion->query($buscar);
@@ -378,9 +378,8 @@ WHERE id_Cliente = '$idClienteEditar' AND sucursal=".$sucursal;
                         municipio,', ',cat_estado.descripcion ) as direccionCompleta FROM cliente_tbl 
                         INNER JOIN cat_estado on cliente_tbl.estado = cat_estado.id_Estado 
                         WHERE sucursal=". $sucursal . " AND 
-                        (nombre LIKE '%" . strip_tags($idNombres) . "%' 
-                        OR apellido_Mat  LIKE '%" . strip_tags($idNombres) . "%' 
-                        OR apellido_Mat  LIKE '%" . strip_tags($idNombres) . "%')";
+                        CONCAT(apellido_Pat, ' ', apellido_Mat, ' ',nombre) LIKE 
+                        '%" . strip_tags($idNombres) . "%')";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

@@ -418,8 +418,9 @@ class sqlArticulosDAO
     {
         $datos = array();
 
+        $sucursal = $_SESSION["sucursal"];
         try {
-            $buscar = "SELECT id_tipo, descripcion FROM cat_electronico_tipo";
+            $buscar = "SELECT id_tipo, descripcion FROM cat_electronico_tipo where sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
 
             if ($rs->num_rows > 0) {

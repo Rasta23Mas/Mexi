@@ -4,6 +4,10 @@ include_once(MODELO_PATH . "Identificacion.php");
 include_once(MODELO_PATH . "Promocion.php");
 include_once(BASE_PATH . "Conexion.php");
 date_default_timezone_set('America/Mexico_City');
+if(!isset($_SESSION)) {
+    session_start();
+}
+
 
 class sqlCatalogoDAO
 {
@@ -15,54 +19,6 @@ class sqlCatalogoDAO
     {
         $this->db = new Conexion();
         $this->conexion = $this->db->connectDB();
-    }
-
-    public function guardaPromocion(Promocion $promocion)
-    {
-        try {
-            $tipo_Promocion = $promocion->getTipoPromocion();
-            $descripcion_Promocion = $promocion->getDescripcionPromocion();
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-    }
-
-    public function borraPromocion(Promocion $promocion)
-    {
-        try {
-            $tipo_Promocion = $promocion->getTipoPromocion();
-            $descripcion_Promocion = $promocion->getDescripcionPromocion();
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-    }
-
-    public function guardaIdentificacion(Identificacion $identificacion)
-    {
-        try {
-            $tipo_Identificacion = $identificacion->getTipoIdentificacion();
-            $descripcion_Identificacion = $identificacion->getDescripcionIdentificacion();
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-    }
-
-    public function borraIdentificacion(Identificacion $identificacion)
-    {
-        try {
-            $tipo_Identificacion = $identificacion->getTipoIdentificacion();
-            $descripcion_Identificacion = $identificacion->getDescripcionIdentificacion();
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
     }
 
     public function traePromociones()
@@ -342,9 +298,10 @@ class sqlCatalogoDAO
     public function cmbElectroTipo()
     {
         $datos = array();
+        $sucursal = $_SESSION["sucursal"];
 
         try {
-            $buscar = "SELECT id_tipo, descripcion FROM cat_electronico_tipo ";
+            $buscar = "SELECT id_tipo, descripcion FROM cat_electronico_tipo where sucursal=$sucursal";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -423,7 +380,9 @@ class sqlCatalogoDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
-            $insertarMetal = "INSERT INTO cat_electronico_tipo(descripcion) VALUES ('$descripcion')";
+            $sucursal = $_SESSION["sucursal"];
+
+            $insertarMetal = "INSERT INTO cat_electronico_tipo(descripcion,sucursal) VALUES ('$descripcion',$sucursal)";
             if ($ps = $this->conexion->prepare($insertarMetal)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
@@ -723,19 +682,33 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
     }
 
 
-    function llenarSucursal()
+
+
+    public function catClientesConsulta($sucursal)
     {
         $datos = array();
-
         try {
-            $buscar = "SELECT id_Sucursal, nombre FROM cat_sucursal";
+            $buscar = "SELECT id_Cliente,fecha_Nacimiento,
+                        CONCAT(apellido_Pat,'/',  apellido_Mat, '/', nombre) AS NombreCompleto, 
+                        CONCAT(calle, ', ',num_interior,', ', num_exterior, ', ',localidad, ', ', municipio, 
+                        ', ', cat_estado.descripcion ) AS direccionCompleta,  Sex.descripcion as Sexo,
+                        PROM.descripcion as Promo, mensaje
+                        FROM cliente_tbl
+                        INNER JOIN cat_estado ON cliente_tbl.estado = cat_estado.id_Estado
+                        LEFT JOIN cat_cliente AS SEX ON cliente_tbl.sexo = Sex.id_Cat_Cliente
+                        LEFT JOIN cat_cliente AS PROM ON cliente_tbl.promocion = PROM.id_Cat_Cliente
+                        WHERE sucursal =$sucursal";
             $rs = $this->conexion->query($buscar);
-
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "id_Sucursal" => $row["id_Sucursal"],
-                        "nombre" => $row["nombre"]
+                        "id_Cliente" => $row["id_Cliente"],
+                        "fecha_Nacimiento" => $row["fecha_Nacimiento"],
+                        "NombreCompleto" => $row["NombreCompleto"],
+                        "direccionCompleta" => $row["direccionCompleta"],
+                        "Sexo" => $row["Sexo"],
+                        "Promo" => $row["Promo"],
+                        "mensaje" => $row["mensaje"],
                     ];
                     array_push($datos, $data);
                 }
@@ -746,7 +719,7 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
             $this->db->closeDB();
         }
 
-        return $datos;
+        echo json_encode($datos);
     }
 
 }

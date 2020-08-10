@@ -249,7 +249,16 @@ function llenarComboModeloE() {
     });
 }
 
-function agregarTipoE() {
+function validarTipoE(tipoUsuario) {
+    alert(tipoUsuario)
+    if(tipoUsuario==1||tipoUsuario==2){
+        agregarTipoE();
+    }else{
+        $("#modalTokenElec").modal();
+    }
+}
+
+function agregarTipoE(tipoUsuario) {
     var tipoText = $('#idTipoAgregar').val();
     if (tipoText == '') {
         alert("Ingrese el tipo.");
