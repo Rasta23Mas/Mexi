@@ -1,154 +1,3 @@
-/*function llenarComboMunicipio() {
-    $('#idMunicipio').prop('disabled', false);
-    $('#idLocalidad').prop('disabled', true);
-    $('#idMunicipio').val(0);
-    $('#idLocalidad').val(0);
-    var dataEnviar = {
-        "Estado": $('#idEstado').val(),
-        "tipoConsulta": 1
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Catalogos.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_Municipio = datos[i].id_Municipio;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_Municipio + '>' + descripcion + '</option>';
-            }
-            $('#idMunicipio').html(html);
-        }
-    });
-}
-function llenarComboLocalidad() {
-    $('#idLocalidad').prop('disabled', false);
-    $('#idLocalidad').val(0);
-    var dataEnviar = {
-        "Estado": $('#idEstado').val(),
-        "Municipio": $('#idMunicipio').val(),
-        "tipoConsulta": 2
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Catalogos.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_Localidad = datos[i].id_Localidad;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_Localidad + '>' + descripcion + '</option>';
-            }
-            $('#idLocalidad').html(html);
-        }
-    });
-}
-//Editar
-function llenarComboMunicipioEdit() {
-    var dataEnviar = {
-        "Estado": $('#idEstadoNameEdit').val(),
-        "tipoConsulta": 1
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Catalogos.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_Municipio = datos[i].id_Municipio;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_Municipio + '>' + descripcion + '</option>';
-            }
-            $('#idMunicipioNameEdit').html(html);
-        }
-    });
-}
-function llenarComboLocalidadEdit() {
-    var dataEnviar = {
-        "Estado": $('#idEstadoNameEdit').val(),
-        "Municipio": $('#idMunicipioNameEdit').val(),
-        "tipoConsulta": 2
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Catalogos.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_Localidad = datos[i].id_Localidad;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_Localidad + '>' + descripcion + '</option>';
-            }
-            $('#idLocalidadNameEdit').html(html);
-        }
-    });
-}
-//Editar modal
-function llenarComboMunFromModal($idEstado) {
-    var dataEnviar = {
-        "Estado": $idEstado,
-        "tipoConsulta": 1
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Catalogos.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_Municipio = datos[i].id_Municipio;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_Municipio + '>' + descripcion + '</option>';
-            }
-            $('#idMunicipioNameEdit').html(html);
-        }
-    });
-}
-function llenarComboLocFromModal($idEstado,$idMunicipio) {
-    var dataEnviar = {
-        "Estado":$idEstado,
-        "Municipio": $idMunicipio,
-        "tipoConsulta": 2
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Catalogos.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_Localidad = datos[i].id_Localidad;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_Localidad + '>' + descripcion + '</option>';
-            }
-            $('#idLocalidadNameEdit').html(html);
-        }
-    });
-}*/
-
-
 function cargarTablaCatMetales($tipoMetal) {
     var dataEnviar = {
         "tipoMetal": $tipoMetal
@@ -791,4 +640,56 @@ function eliminarProductoProd($idProducto) {
 
 }
 
+
+//CATALOGO CLIENTES
+
+function cargarCatClientes(sucursal) {
+    var dataEnviar = {
+        "sucursal": sucursal,
+    };
+    $.ajax({
+            type: "POST",
+            url: '../../../com.Mexicash/Controlador/Catalogos/tblClientes.php',
+            data: dataEnviar,
+            dataType: "json",
+            success: function (datos) {
+                var html = '';
+                var i = 0;
+                alert("Refrescando tabla.");
+                for (i; i < datos.length; i++) {
+                    var id_Cliente = datos[i].id_Cliente;
+                    var fecha_Nacimiento = datos[i].fecha_Nacimiento;
+                    var NombreCompleto = datos[i].NombreCompleto;
+                    var direccionCompleta = datos[i].direccionCompleta;
+                    var Sexo = datos[i].Sexo;
+                    var Promo = datos[i].Promo;
+                    var mensaje = datos[i].mensaje;
+
+                    html += '<tr>' +
+                        '<td >' + id_Cliente + '</td>' +
+                        '<td>' + NombreCompleto + '</td>' +
+                        '<td>' + fecha_Nacimiento + '</td>' +
+                        '<td>' + Sexo + '</td>' +
+                        '<td>' + direccionCompleta + '</td>' +
+                        '<td>' + Promo + '</td>' +
+                        '<td>' + mensaje + '</td>' +
+                        '</tr>';
+                }
+                $('#idTBodyClientes').html(html);
+            }
+        }
+    );
+    $("#divCat").load('tblClientes.php');
+}
+
+
+function exportarExcelCliente() {
+   var sucursal = $("#idSucursal").val();
+   window.open('../Excel/rpt_Exc_Clientes.php?sucursal=' + sucursal);
+}
+
+function exportarPDFCliente() {
+    var sucursal = $("#idSucursal").val();
+    window.open('../PDF/callPdf_Cat_Clientes.php?sucursal=' + sucursal );
+}
 
