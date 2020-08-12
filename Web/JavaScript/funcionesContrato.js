@@ -167,7 +167,7 @@ function consultarContratos() {
     var retorno;
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/tblArticulos.php',
+        url: '../../../com.Mexicash/Controlador/Articulos/tblArticulos.php',
         dataType: "json",
         success: function (datos) {
             retorno = datos.length;
