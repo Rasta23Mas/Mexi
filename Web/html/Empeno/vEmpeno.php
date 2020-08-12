@@ -53,6 +53,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             $("#idNombres").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
+            selectPrenda();
         })
     </script>
     <style type="text/css">
@@ -320,15 +321,6 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                             <select id="idTipoMetal" name="cmbTipoMetal" class="selectpicker"
                                                     onchange="selectMetalCmb($('#idTipoMetal').val())"
                                                     style="width: 150px">
-                                                <option value="0">Seleccione:</option>
-                                                <?php
-                                                $data = array();
-                                                $sql = new sqlArticulosDAO();
-                                                $data = $sql->llenarCmbTipoPrenda();
-                                                for ($i = 0; $i < count($data); $i++) {
-                                                    echo "<option value=" . $data[$i]['id_tipo'] . ">" . $data[$i]['descripcion'] . "</option>";
-                                                }
-                                                ?>
                                             </select>
                                         </td>
                                     </tr>

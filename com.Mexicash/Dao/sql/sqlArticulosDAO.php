@@ -238,7 +238,7 @@ class sqlArticulosDAO
         echo $verdad;
     }
 
-    function llenarCmbTipoPrenda()
+   /* function llenarCmbTipoPrenda()
     {
         $datos = array();
 
@@ -262,8 +262,31 @@ class sqlArticulosDAO
         }
 
         return $datos;
-    }
+    }*/
+    function llenarCmbTipoPrenda(){
+        $datos = array();
 
+        try {
+            $buscar = "SELECT id_tipo, descripcion FROM cat_tipoarticulo where grupo=1";
+
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_tipo" => $row["id_tipo"],
+                        "descripcion" => $row["descripcion"]
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
     function llenarCmbPrenda($idTipoCombo){
         $datos = array();
 
@@ -361,31 +384,6 @@ class sqlArticulosDAO
         echo json_encode($datos);
     }
 
-    function llenarCmbTipoArticulo()
-    {
-        $datos = array();
-
-        try {
-            $buscar = "SELECT id_tipo, descripcion FROM cat_tipoarticulo where grupo=2";
-            $rs = $this->conexion->query($buscar);
-
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "id_tipo" => $row["id_tipo"],
-                        "descripcion" => $row["descripcion"]
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        return $datos;
-    }
 
 
     function llenarCmbTipoAuto()
