@@ -1,6 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(MODELO_PATH . "Contrato.php");
+include_once(MODELO_PATH . "Contratos.php");
 include_once(SQL_PATH . "sqlContratoDAO.php");
 
 $idCliente = $_POST['idCliente'];
@@ -24,7 +24,7 @@ $fecha_almoneda = $_POST['fecha_almoneda'];
 $suma_InteresPrestamo = $_POST['Suma_InteresPrestamo'];
 $total_Intereses = $_POST['Total_Intereses'];
 
-$contrato = new Contrato(
+$contrato = new Contratos(
     $idCliente,
     $totalPrestamo,
     $totalAvaluo,
