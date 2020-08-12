@@ -178,7 +178,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                         <td colspan="3" class="border border-dark">&nbsp;Tasa Interés</td>
                         <td colspan="3" class="border border-dark">
                             <select id="tipoInteresEmpeno" name="cmbTipoInteres" class="selectpicker"
-                                    onchange="SeleccionarInteres($('#tipoInteresEmpeno').val())">
+                                    onchange="SeleccionarInteres($('#tipoInteresEmpeno').val(),$('#idTipoFormulario').val())">
                                 <option value="0">Seleccione:</option>
                                 <?php
                                 $data = array();
@@ -593,7 +593,6 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     <tr>
                         <td align="right">
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMontoAuto()">&nbsp;
-                            <input type="button" class="btn btn-warning" value="Cancelar" onclick="pruebaTest()">&nbsp;
                             <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
                         </td>
                     </tr>
@@ -602,7 +601,7 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
         </div>
         <div class="row">
             <div>
-                <table >
+                <table class="invisible">
                     <tr>
                         <td>
                         <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="20"

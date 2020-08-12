@@ -182,7 +182,7 @@ class sqlArticulosDAO
     {
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT Porcentaje FROM cat_avaluoaforo WHERE id_cat_Avaluo=$idTipoFormulario and sucursal =". $sucursal;
+            $buscar = "SELECT Porcentaje FROM cat_avaluoaforo WHERE id_campoRef=$idTipoFormulario and sucursal =". $sucursal;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 $consulta = $rs->fetch_assoc();

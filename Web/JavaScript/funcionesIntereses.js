@@ -1,5 +1,4 @@
-function SeleccionarInteres(tipoInteresValue) {
-
+function SeleccionarInteres(tipoInteresValue,tipoFormulario) {
     if (tipoInteresValue != "null" || tipoInteresValue != 0) {
         var dataEnviar = {
             "tipoInteresValue": tipoInteresValue
@@ -25,7 +24,7 @@ function SeleccionarInteres(tipoInteresValue) {
                     document.getElementById('idSeguroPorcen').innerHTML = response.result.seguro + ".00";
                     document.getElementById('idIvaPorcen').innerHTML = response.result.iva ;
                     limpiarTablaInteres();
-                    llenarAforoAvaluo();
+                    llenarAforoAvaluo(tipoFormulario);
                    llenarMontoToken();
                     $("#divTablaMetales").load('tablaMetales.php');
                     $("#divTablaArticulos").load('tablaArticulos.php');
@@ -37,9 +36,9 @@ function SeleccionarInteres(tipoInteresValue) {
     }
 }
 
-function llenarAforoAvaluo() {
+function llenarAforoAvaluo(tipoFormulario) {
     var dataEnviar = {
-        "idTipoFormulario": 3
+        "idTipoFormulario": tipoFormulario
     };
     $.ajax({
         data: dataEnviar,

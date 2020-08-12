@@ -201,7 +201,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         <td colspan="6" class="border border-primary" id="idComboInteresTD">
                             <select id="tipoInteresEmpeno" name="cmbTipoInteres" class="selectpicker"
                                     style="width:150px"
-                                    onchange="SeleccionarInteres($('#tipoInteresEmpeno').val())">
+                                    onchange="SeleccionarInteres($('#tipoInteresEmpeno').val(),$('#idTipoFormulario').val())">
                             </select>
                         </td>
                     </tr>
