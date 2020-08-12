@@ -44,7 +44,7 @@ $contrato = new Contratos(
     $fecha_vencimiento,
     $fecha_almoneda,
     $suma_InteresPrestamo,
-    $total_Intereses,
+    $total_Intereses
 );
 
 $sqlContrato = new sqlContratoDAO();
