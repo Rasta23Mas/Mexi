@@ -338,9 +338,9 @@ class sqlArticulosDAO
 
     function llenarKilatajePrecio($idKilataje){
         $datos = array();
-
+        $sucursal = $_SESSION["sucursal"];
         try {
-            $buscar = "SELECT precio FROM cat_kilataje WHERE id_Kilataje=$idKilataje";
+            $buscar = "SELECT precio FROM cat_kilataje_precio WHERE id_kilataje=$idKilataje and sucursal=$sucursal";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {

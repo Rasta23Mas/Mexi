@@ -154,7 +154,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr class="headt">
                         <td colspan="12" rowspan="2" name="direccionEmpeno">
-                                    <textarea rows="2" cols="35" id="idDireccionEmpeno" class="textArea" disabled>
+                                    <textarea rows="2" cols="40" id="idDireccionEmpeno" class="textArea" disabled>
                                     </textarea>
                         </td>
                     </tr>
