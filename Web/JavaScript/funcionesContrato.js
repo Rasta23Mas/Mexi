@@ -109,7 +109,7 @@ function generarContrato() {
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Contrato/Contrato.php',
+        url: '../../../com.Mexicash/Controlador/Contrato/cContrato.php',
         type: 'post',
         success: function (contrato) {
             if (contrato > 0) {
