@@ -35,7 +35,7 @@ function validarUser() {
                     } else {
                         var validateMobile = isMobile();
                         if (validateMobile) {
-                            alert("El sistema Mexicash se encuentra inavilitado para dispositivos moviles.");
+                            alert("El sistema Mexicash se encuentra inhabilitado para dispositivos moviles.");
                         } else {
                             validarHorario();
                         }
@@ -180,7 +180,7 @@ function validarHorario() {
                 if ($tipoUserGlb == 3) {
                     confirmarModificarHorario();
                 } else {
-                    alert("El sistema Mexicash se encuentra inavilitado por horario.");
+                    alert("El sistema Mexicash se encuentra inhabilitado por horario.");
                 }
             }
         }
@@ -189,7 +189,7 @@ function validarHorario() {
 
 function confirmarModificarHorario() {
     alertify.confirm('Cambio de horario',
-        'Por horario, el sistema esta inavilitado. ' + '<br>' + '\n¿Desea modificar el horario usando un token?',
+        'Por horario, el sistema esta inhabilitado. ' + '<br>' + '\n¿Desea modificar el horario usando un token?',
         function () {
             location.href = '../Configuracion/vHorario.php'
         },

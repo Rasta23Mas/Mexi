@@ -417,7 +417,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                         <td colspan="12">Observaciones de la tienda:
                                             <input type="text" id="idKilatajePrecio" name="kilatajePrecio" size="6"
                                                    value="0"
-                                                   class="invisible"/></td>
+                                                   class=""/></td>
 
                                     </tr>
                                     <tr>

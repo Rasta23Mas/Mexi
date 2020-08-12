@@ -15,6 +15,7 @@
     <script src="../../librerias/bootstrap/js/bootstrapNav.js"></script>
     <script src="../../librerias/alertifyjs/alertify.js"></script>
     <script src="../../librerias/popper.min.js"></script>
+    <link rel="shortcut icon" href="#" />
     <link rel="stylesheet" type="text/css" href="../../style/General/StyloGeneral.css">
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script type="application/javascript">
@@ -77,7 +78,7 @@
                     Catalogos
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Catalogos/catMetales.php">Metales</a></li>
+                    <li><a class="dropdown-item" href="">Metales</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuDotaciones">
