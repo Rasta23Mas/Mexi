@@ -21,7 +21,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
     <script src="../../librerias/bootstrap/js/bootstrapNav.js"></script>
     <script src="../../librerias/alertifyjs/alertify.js"></script>
     <script src="../../librerias/popper.min.js"></script>
-    <link rel="shortcut icon" href="#" />
+    <link rel="shortcut icon" href="#"/>
     <link rel="stylesheet" type="text/css" href="../../style/General/StyloGeneral.css">
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script type="application/javascript">
@@ -30,7 +30,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
 
             var cajaInactiva = <?php echo $cajaInactiva; ?>;
 
-             if (tipoUser == 3) {
+            if (tipoUser == 3) {
                 if (cajaInactiva == 0) {
                     $("#menuEmpeno").show();
                     $("#menuEmpenoAuto").show();
@@ -119,22 +119,10 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                     Reportes
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php">Empeños</a>
-                    </li>
-                    <li><a class="dropdown-item dropdown-toggle" href="#">Financieros</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="pruebas.php">Ingresos(P)</a></li>
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Corporativo(P)</a></li>
-
-                        </ul>
-                    </li>
-
-                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Moitoreo</a>
-
-                    <li><a class="dropdown-item dropdown-toggle" href="#">Cierres</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../Empeno/pruebas.php">Reporte Cierre.</a></li>
-                        </ul>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php">Empeños</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesFinancieros.php">Financieros</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Moitoreo</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesCierres.php">Cierres</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCatalogos">

@@ -39,7 +39,7 @@ $sucursal = $_SESSION["sucursal"];
         </tr>
         <tr>
             <td align="center" colspan="6" style=" color:darkblue; ">
-                <h3><label id="NombreReporte">Autorizaciones : Todos</label></h3>
+                <h3><label id="NombreReporte">Autorizaciones</label></h3>
             </td>
         </tr>
         <tr>

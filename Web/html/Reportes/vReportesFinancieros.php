@@ -39,7 +39,7 @@ $sucursal = $_SESSION["sucursal"];
         </tr>
         <tr>
             <td align="center" colspan="6" style=" color:darkblue; ">
-                <h3><label id="NombreReporte">Autorizaciones : Todos</label></h3>
+                <h3><label id="NombreReporte">Financieros : Ingresos</label></h3>
             </td>
         </tr>
         <tr>
@@ -70,16 +70,9 @@ $sucursal = $_SESSION["sucursal"];
         </tr>
         <tr align="center">
             <td align="center">
-                <select id="idTipoReporteMon" name="nombreReporte" class="selectpicker"  onchange="selectReporteMon()">
-                    <option value="0">Todos</option>
-                    <?php
-                    $data = array();
-                    $sql = new sqlCatalogoDAO();
-                    $data = $sql->llenarCmbMonitoreoTipo();
-                    for ($i = 0; $i < count($data); $i++) {
-                        echo "<option value=" . $data[$i]['id_tokenMovimiento'] . ">" . $data[$i]['descripcion'] . "</option>";
-                    }
-                    ?>
+                <select id="idTipoReporteFin" name="nombreReporte" class="selectpicker"  onchange="selectReporteFin()">
+                    <option value="1">Ingresos</option>
+                    <option value="2">Corporativo</option>
                 </select>
             </td>
 
@@ -100,7 +93,7 @@ $sucursal = $_SESSION["sucursal"];
             </td>
             <td align="center">
                 <input type="button" class="btn btn-success w-75"
-                       onclick="llenarReporteMonitoreo()"
+                       onclick="llenarReporteFinanciero()"
                        value="Buscar"/>
             </td>
 
@@ -111,11 +104,11 @@ $sucursal = $_SESSION["sucursal"];
     <br>&nbsp;
 </div>
 <div class="row" align="center">
-    <div id="divRptMonitoreo" class="col col-lg-12">
+    <div id="divRptFinancieros" class="col col-lg-12">
     </div>
 </div>
 <div class="row" align="center">
-    <input type="text" name="sucursa" id="idSucursal" value="<?php echo $sucursal ?>" style="visibility: hidden"/>
+    <input type="text" name="sucursal" id="idSucursal" value="<?php echo $sucursal ?>" style="visibility: hidden"/>
 </div>
 </body>
 </html>

@@ -753,3 +753,122 @@ function exportarMonitoreo(tipoExportar) {
 
 }
 
+// FINANCIERO
+function selectReporteFin() {
+    var nombre = $('select[name="nombreReporte"] option:selected').text();
+    var titulo = "Financieros : " + nombre;
+    document.getElementById('NombreReporte').innerHTML = titulo;
+}
+
+function llenarReporteFinanciero() {
+    var fechaIni = $("#idFechaInicial").val();
+    var fechaFin = $("#idFechaFinal").val();
+    var tipoReporte = $('#idTipoReporteFin').val();
+
+    if (fechaFin != "" && fechaIni != "") {
+        fechaIni = fechaSQL(fechaIni);
+        fechaFin = fechaSQL(fechaFin);
+        if(tipoReporte==1){
+            cargarRptFinIng(fechaIni, fechaFin,tipoReporte)
+        }else if(tipoReporte==2){
+            cargarRptFinIng(fechaIni, fechaFin,tipoReporte)
+        }
+    } else {
+        alertify.error("Seleccione fecha de inicio y fecha final.");
+    }
+}
+//Reporte MONITOREO
+function cargarRptFinIng(fechaIni, fechaFin,tipoReporte) {
+
+    var dataEnviar = {
+        "tipoReporte": tipoReporte,
+        "fechaIni": fechaIni,
+        "fechaFin": fechaFin,
+    };
+    $.ajax({
+            type: "POST",
+            url: '../../../com.Mexicash/Controlador/Reportes/tblReportesFin.php',
+            data: dataEnviar,
+            dataType: "json",
+            success: function (datos) {
+                // alert(datos)
+                var html = '';
+                var i = 0;
+                alert("Refrescando tabla.");
+                for (i; i < datos.length; i++) {
+                    var id_CierreSucursal = datos[i].id_CierreSucursal;
+                    var Desem = datos[i].Desem;
+                    var AbonoRef = datos[i].AbonoRef;
+                    var Inte = datos[i].Inte;
+                    var costoContrato = datos[i].costoContratoFin;
+                    var Iva = datos[i].Iva;
+                    var Ventas = datos[i].Ventas;
+                    var IvaVenta = datos[i].IvaVenta;
+                    var Utilidad = datos[i].Utilidad;
+                    var Apartados = datos[i].Apartados;
+                    var AbonoVen = datos[i].AbonoVen;
+                    var Fecha = datos[i].Fecha;
+
+                    if(Desem===null){Desem=0;}
+                    if(AbonoRef===null){ AbonoRef=0;}
+                    if(Inte===null){Inte=0;}
+                    if(costoContrato===null){costoContrato=0;}
+                    if(Iva===null){ Iva=0;}
+                    if(Ventas===null){ Ventas=0;}
+                    if(IvaVenta===null){ IvaVenta=0;}
+                    if(Utilidad===null){ Utilidad=0;}
+                    if(Apartados===null){ Apartados=0;}
+                    if(AbonoVen===null){ AbonoVen=0;}
+                    Desem = formatoMoneda(Desem);
+                    AbonoRef = formatoMoneda(AbonoRef);
+                    Inte = formatoMoneda(Inte);
+                    costoContrato = formatoMoneda(costoContrato);
+                    Iva = formatoMoneda(Iva);
+                    Ventas = formatoMoneda(Ventas);
+                    IvaVenta = formatoMoneda(IvaVenta);
+                    Utilidad = formatoMoneda(Utilidad);
+                    Apartados = formatoMoneda(Apartados);
+                    AbonoVen = formatoMoneda(AbonoVen);
+
+                    html += '<tr>' +
+                        '<td >' + id_CierreSucursal + '</td>' +
+                        '<td>' + Desem + '</td>' +
+                        '<td>' + costoContrato + '</td>' +
+                        '<td>' + AbonoRef + '</td>' +
+                        '<td>' + Inte + '</td>' +
+                        '<td>' + Iva + '</td>' +
+                        '<td>' + Ventas + '</td>' +
+                        '<td>' + IvaVenta + '</td>' +
+                        '<td>' + Apartados + '</td>' +
+                        '<td>' + AbonoVen + '</td>' +
+                        '<td>' + Utilidad + '</td>' +
+                        '<td>' + Fecha + '</td>' +
+                        '</tr>';
+                }
+                $('#idTBodyIngresos').html(html);
+            }
+        }
+    );
+    $("#divRptFinancieros").load('rptFinancierosIng.php');
+}
+function exportarMonitoreo(tipoExportar) {
+    //tipoExportar = 1 Excel //2 PDF
+    var fechaIni = $("#idFechaInicial").val();
+    var fechaFin = $("#idFechaFinal").val();
+    var tipo = $('#idTipoReporteFin').val();
+    var sucursal = $('#idSucursal').val();
+    var nombre = $("#NombreReporte").text();
+    if (fechaFin != "" && fechaIni != "") {
+        fechaIni = fechaSQL(fechaIni);
+        fechaFin = fechaSQL(fechaFin);
+        if(tipoExportar==1){
+            window.open('../Excel/rpt_Exc_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipo + '&nombre=' + nombre);
+        }else if(tipoExportar==2){
+            window.open('../PDF/callPdf_R_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipo + '&nombre=' + nombre);
+        }
+
+    } else {
+        alertify.error("Seleccione fecha de inicio y fecha final.");
+    }
+
+}

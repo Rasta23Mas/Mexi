@@ -363,6 +363,48 @@ class sqlReportesDAO
 
         echo json_encode($datos);
     }
+    public function reporteIngresos($fechaIni,$fechaFin)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
+                       costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
+                       utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
+                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
+                       FROM bit_cierresucursal
+                       WHERE fecha_Creacion BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY folio_CierreSucursal";
 
+            // echo $buscar;
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_CierreSucursal" => $row["id_CierreSucursal"],
+                        "Desem" => $row["Desem"],
+                        "AbonoRef" => $row["AbonoRef"],
+                        "Inte" => $row["Inte"],
+                        "costoContratoFin" => $row["costoContrato"],
+                        "Iva" => $row["Iva"],
+                        "Ventas" => $row["Ventas"],
+                        "IvaVenta" => $row["IvaVenta"],
+                        "Utilidad" => $row["Utilidad"],
+                        "Apartados" => $row["Apartados"],
+                        "AbonoVen" => $row["AbonoVen"],
+                        "Fecha" => $row["Fecha"],
+
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
 
 }
