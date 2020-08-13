@@ -731,17 +731,21 @@ function cargarRptMon(fechaIni, fechaFin) {
     $("#divRptMonitoreo").load('rptMonitoreo.php');
 }
 
-function exportarExcelMon() {
+function exportarMonitoreo(tipoExportar) {
+    //tipoExportar = 1 Excel //2 PDF
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
-    var tipoReporte = $('#idTipoReporteMon').val();
+    var tipo = $('#idTipoReporteMon').val();
     var sucursal = $('#idSucursal').val();
     var nombre = $("#NombreReporte").text();
-alert(tipoReporte)
     if (fechaFin != "" && fechaIni != "") {
         fechaIni = fechaSQL(fechaIni);
         fechaFin = fechaSQL(fechaFin);
-        window.open('../Excel/rpt_Exc_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipoReporte + '&nombre=' + nombre);
+        if(tipoExportar==1){
+            window.open('../Excel/rpt_Exc_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipo + '&nombre=' + nombre);
+        }else if(tipoExportar==2){
+            window.open('../PDF/callPdf_R_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipo + '&nombre=' + nombre);
+        }
 
     } else {
         alertify.error("Seleccione fecha de inicio y fecha final.");
@@ -749,31 +753,3 @@ alert(tipoReporte)
 
 }
 
-function exportarPDFMon() {
-    var fechaIni = $("#idFechaInicial").val();
-    var fechaFin = $("#idFechaFinal").val();
-    var tipoReporte = $('#idTipoReporte').val();
-
-    if (tipoReporte == 2) {
-        window.open('../PDF/callPdf_R_Inventario.php');
-
-    } else if (tipoReporte == 3) {
-        window.open('../PDF/callPdf_R_Contratos.php');
-
-    } else {
-        if (fechaFin != "" && fechaIni != "") {
-            fechaIni = fechaSQL(fechaIni);
-            fechaFin = fechaSQL(fechaFin);
-            if (tipoReporte == 1) {
-                window.open('../PDF/callPdf_R_Historico.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
-            } else if (tipoReporte == 4) {
-                window.open('../PDF/callPdf_R_Desempeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
-
-            } else if (tipoReporte == 5) {
-                window.open('../PDF/callPdf_R_Refrendo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
-            }
-        } else {
-            alertify.error("Seleccione fecha de inicio y fecha final.");
-        }
-    }
-}
