@@ -323,13 +323,18 @@ class sqlReportesDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Bit.id_BitacoraToken,Bit.id_Contrato,Bit.tipo_formulario,Bit.token,Bit.descripcion,
-                        Bit.descuento,Bit.interes, Cat.tipo, Bit.id_tokenMovimiento,Bit.importe_flujo,Bit.id_flujo,
-                        Bit.fecha_Creacion FROM bit_token as Bit
+                        Bit.descuento,Bit.interes, Cat.descripcion as Descripcion, Usu.usuario,Bit.importe_flujo,Bit.id_flujo,
+                        DATE_FORMAT(Bit.fecha_Creacion,'%Y-%m-%d') as Fecha FROM bit_token as Bit
                         INNER JOIN cat_token_movimiento as Cat on Bit.id_tokenMovimiento = Cat.id_tokenMovimiento
-                        WHERE Bit.fecha_Creacion BETWEEN '$fechaIni' 
-                        AND '$fechaFin'
-                        AND Bit.sucursal = $sucursal 
-                        ORDER BY Bit.id_BitacoraToken";
+                        LEFT JOIN usuarios_tbl as Usu on Bit.usuario = Usu.id_User  ";
+            if($tipo==0){
+                $buscar .= " WHERE Bit.fecha_Creacion BETWEEN '$fechaIni' 
+                            AND '$fechaFin' AND Bit.sucursal = $sucursal  ORDER BY Bit.id_BitacoraToken";
+            }else{
+                $buscar .= "WHERE Bit.id_tokenMovimiento=$tipo AND  Bit.fecha_Creacion BETWEEN '$fechaIni' 
+                            AND '$fechaFin' AND Bit.sucursal = $sucursal  ORDER BY Bit.id_BitacoraToken";
+            }
+           // echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -341,11 +346,11 @@ class sqlReportesDAO
                         "descripcion" => $row["descripcion"],
                         "descuento" => $row["descuento"],
                         "interes" => $row["interes"],
-                        "tipo" => $row["tipo"],
-                        "id_tokenMovimiento" => $row["id_tokenMovimiento"],
+                        "Descripcion" => $row["Descripcion"],
+                        "usuario" => $row["usuario"],
                         "importe_flujo" => $row["importe_flujo"],
                         "id_flujo" => $row["id_flujo"],
-                        "fecha_Creacion" => $row["fecha_Creacion"],
+                        "Fecha" => $row["Fecha"],
                     ];
                     array_push($datos, $data);
                 }

@@ -628,50 +628,29 @@ function cargarRptRefrendo(fechaIni, fechaFin) {
     $("#divRpt").load('rptEmpRefrendo.php');
 }
 
+
+// MONITOREO
 function selectReporteMon() {
-    var reporte = $('#idTipoReporte').val();
-    $("#idFechaInicial").val('');
-    $("#idFechaFinal").val('');
-    if (reporte == 0) {
-        nameForm = "Autorizaciones: Todos"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-    } else if (reporte == 2) {
-        nameForm = "Inventarios"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-    } else if (reporte == 3) {
-        nameForm = "Contratos Vencidos"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-    } else if (reporte == 4) {
-        nameForm = "Desempeños"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-    } else if (reporte == 5) {
-        nameForm = "Refrendo"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-    }
+    var nombre = $('select[name="nombreReporte"] option:selected').text();
+    var titulo = "Autorizaciones : " + nombre;
+   document.getElementById('NombreReporte').innerHTML = titulo;
 }
 
 function llenarReporteMonitoreo() {
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
-    var tipoReporte = $('#idTipoReporte').val();
+
     if (fechaFin != "" && fechaIni != "") {
         fechaIni = fechaSQL(fechaIni);
         fechaFin = fechaSQL(fechaFin);
-        if (tipoReporte == 0) {
-            cargarRptMon(fechaIni, fechaFin)
-        } else if (tipoReporte == 4) {
-            cargarRptDesempe(fechaIni, fechaFin)
-        } else if (tipoReporte == 5) {
-            cargarRptRefrendo(fechaIni, fechaFin);
-        }
+        cargarRptMon(fechaIni, fechaFin)
     } else {
         alertify.error("Seleccione fecha de inicio y fecha final.");
     }
 }
-
 //Reporte MONITOREO
 function cargarRptMon(fechaIni, fechaFin) {
-    var tipoReporte = $('#idTipoReporte').val();
+    var tipoReporte = $('#idTipoReporteMon').val();
     var tipoMetal = 0;
     var tipoElectro = 0;
     var tipoAuto = 0;
@@ -686,6 +665,7 @@ function cargarRptMon(fechaIni, fechaFin) {
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
+               // alert(datos)
                 var html = '';
                 var i = 0;
                 alert("Refrescando tabla.");
@@ -697,10 +677,11 @@ function cargarRptMon(fechaIni, fechaFin) {
                     var descripcion = datos[i].descripcion;
                     var descuento = datos[i].descuento;
                     var interes = datos[i].interes;
-                    var tipo = datos[i].tipo;
-                    var id_tokenMovimiento = datos[i].id_tokenMovimiento;
+                    var Descr = datos[i].Descripcion;
+                    var user = datos[i].usuario;
                     var importe_flujo = datos[i].importe_flujo;
                     var id_flujo = datos[i].id_flujo;
+                    var Fecha = datos[i].Fecha;
                     var tipoContrato = "";
 
                     if(tipo_formulario==1){
@@ -711,8 +692,21 @@ function cargarRptMon(fechaIni, fechaFin) {
                         tipoContrato = "AUTO";
                     }
 
+
+                    if(tipo_formulario===null){
+                        tipo_formulario="";
+                    }
                     if(descuento===null){
-                        descuento="0";
+                        descuento="";
+                    }
+                    if(interes===null){
+                        interes="";
+                    }
+                    if(importe_flujo===null){
+                        importe_flujo="";
+                    }
+                    if(id_flujo===null){
+                        id_flujo="";
                     }
 
                     html += '<tr>' +
@@ -723,10 +717,11 @@ function cargarRptMon(fechaIni, fechaFin) {
                         '<td>' + descripcion + '</td>' +
                         '<td>' + descuento + '</td>' +
                         '<td>' + interes + '</td>' +
-                        '<td>' + tipo + '</td>' +
-                        '<td>' + id_tokenMovimiento + '</td>' +
                         '<td>' + importe_flujo + '</td>' +
                         '<td>' + id_flujo + '</td>' +
+                        '<td>' + Descr + '</td>' +
+                        '<td>' + user + '</td>' +
+                        '<td>' + Fecha + '</td>' +
                         '</tr>';
                 }
                 $('#idTBodyMonitoreo').html(html);
@@ -734,4 +729,51 @@ function cargarRptMon(fechaIni, fechaFin) {
         }
     );
     $("#divRptMonitoreo").load('rptMonitoreo.php');
+}
+
+function exportarExcelMon() {
+    var fechaIni = $("#idFechaInicial").val();
+    var fechaFin = $("#idFechaFinal").val();
+    var tipoReporte = $('#idTipoReporteMon').val();
+    var sucursal = $('#idSucursal').val();
+    var nombre = $("#NombreReporte").text();
+alert(tipoReporte)
+    if (fechaFin != "" && fechaIni != "") {
+        fechaIni = fechaSQL(fechaIni);
+        fechaFin = fechaSQL(fechaFin);
+        window.open('../Excel/rpt_Exc_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipoReporte + '&nombre=' + nombre);
+
+    } else {
+        alertify.error("Seleccione fecha de inicio y fecha final.");
+    }
+
+}
+
+function exportarPDFMon() {
+    var fechaIni = $("#idFechaInicial").val();
+    var fechaFin = $("#idFechaFinal").val();
+    var tipoReporte = $('#idTipoReporte').val();
+
+    if (tipoReporte == 2) {
+        window.open('../PDF/callPdf_R_Inventario.php');
+
+    } else if (tipoReporte == 3) {
+        window.open('../PDF/callPdf_R_Contratos.php');
+
+    } else {
+        if (fechaFin != "" && fechaIni != "") {
+            fechaIni = fechaSQL(fechaIni);
+            fechaFin = fechaSQL(fechaFin);
+            if (tipoReporte == 1) {
+                window.open('../PDF/callPdf_R_Historico.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+            } else if (tipoReporte == 4) {
+                window.open('../PDF/callPdf_R_Desempeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+
+            } else if (tipoReporte == 5) {
+                window.open('../PDF/callPdf_R_Refrendo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+            }
+        } else {
+            alertify.error("Seleccione fecha de inicio y fecha final.");
+        }
+    }
 }

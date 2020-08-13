@@ -70,14 +70,14 @@ $sucursal = $_SESSION["sucursal"];
         </tr>
         <tr align="center">
             <td align="center">
-                <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker"  onchange="selectReporteMon()">
+                <select id="idTipoReporteMon" name="nombreReporte" class="selectpicker"  onchange="selectReporteMon()">
                     <option value="0">Todos</option>
                     <?php
                     $data = array();
                     $sql = new sqlCatalogoDAO();
                     $data = $sql->llenarCmbMonitoreoTipo();
                     for ($i = 0; $i < count($data); $i++) {
-                        echo "<option value=" . $data[$i]['id_cat_rpt'] . ">" . $data[$i]['descripcion'] . "</option>";
+                        echo "<option value=" . $data[$i]['id_tokenMovimiento'] . ">" . $data[$i]['descripcion'] . "</option>";
                     }
                     ?>
                 </select>
@@ -94,9 +94,9 @@ $sucursal = $_SESSION["sucursal"];
                        disabled/>
             </td>
             <td align="center">
-                <img src="../../style/Img/excel.png" alt="Excel" onclick="exportarExcel()">
+                <img src="../../style/Img/excel.png" alt="Excel" onclick="exportarExcelMon()">
                 &nbsp;&nbsp;
-                <img src="../../style/Img/pdf_xs.png" alt="PDF" onclick="exportarPDF()">
+                <img src="../../style/Img/pdf_xs.png" alt="PDF" onclick="exportarPDFMon()">
             </td>
             <td align="center">
                 <input type="button" class="btn btn-success w-75"

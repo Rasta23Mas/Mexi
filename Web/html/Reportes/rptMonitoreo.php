@@ -13,10 +13,10 @@
         <th>Descripción</th>
         <th>Descuento</th>
         <th>Interés</th>
-        <th>Tipo Token</th>
-        <th>Tipo</th>
         <th>Importe</th>
         <th>Flujo</th>
+        <th>Tipo Token</th>
+        <th>Usuario</th>
         <th>Fecha</th>
     </tr>
     </thead>
