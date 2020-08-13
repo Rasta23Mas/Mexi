@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-
+require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
 
 
@@ -19,20 +19,7 @@ if (isset($_GET['fechaFin'])) {
     $fechaFin = $_GET['fechaFin'];
 }
 
-$web = 1;
-if($web==1){
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-}else{
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
 
-$mysql = new  mysqli($server, $user, $password, $db);
 
 
 $FECHA = "";
@@ -116,7 +103,7 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  
                         ORDER BY CONTRATO";
-$resultado = $mysql->query($query);
+$resultado = $db->query($query);
 $tipoMetal = 0;
 $tipoElectro = 0;
 $tipoAuto = 0;

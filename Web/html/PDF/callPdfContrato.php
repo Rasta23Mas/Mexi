@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-include_once(BASE_PATH . "Conexion.php");
+require_once (BASE_PATH . "Conectar.php");
 
 use Dompdf\Dompdf;
 
@@ -11,22 +11,6 @@ if (!isset($_SESSION)) {
 }
 $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
-
-
-$web = 1;
-if ($web == 1) {
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-} else {
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
-
-$mysql = new  mysqli($server, $user, $password, $db);
 
 
 $idContrato = '';
@@ -92,7 +76,7 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
                 INNER JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja  
                 INNER JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
                 WHERE Con.id_Contrato =$idContrato ";
-$resultado = $mysql->query($query);
+$resultado = $db->query($query);
 foreach ($resultado as $row) {
     //echo $fila['Contrato'];
     $FechaCreacion = $row["FechaCreacion"];
@@ -503,7 +487,7 @@ if ($TipFormulario == 1) {
                             LEFT JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
                             LEFT JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
                             WHERE Con.id_Contrato =$idContrato ";
-    $tablaArt = $mysql->query($query);
+    $tablaArt = $db->query($query);
     foreach ($tablaArt as $row) {
         $tipoDescripcion = 'Metales';
         $TipoMetal = $row["TipoMetal"];
@@ -529,7 +513,7 @@ if ($TipFormulario == 1) {
                             LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca
                             LEFT JOIN cat_electronico_modelo as EMOD on Ar.modelo = EMOD.id_modelo
                             WHERE Con.id_Contrato =$idContrato ";
-    $tablaArt = $mysql->query($query);
+    $tablaArt = $db->query($query);
     foreach ($tablaArt as $row) {
         $tipoDescripcion = 'Electronicos';
         $TipoElectronico = $row["TipoElectronico"];
@@ -552,7 +536,7 @@ if ($TipFormulario == 1) {
                     Aut.color as Color 
                     FROM auto_tbl AS Aut
                     WHERE Aut.id_Contrato  =$idContrato ";
-    $tablaArt = $mysql->query($query);
+    $tablaArt = $db->query($query);
     foreach ($tablaArt as $row) {
         $tipoDescripcion = 'Auto';
         $Marca = $row["Marca"];

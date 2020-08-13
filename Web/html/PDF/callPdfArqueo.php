@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-
+require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
 
 
@@ -50,22 +50,6 @@ $totalMonedas = 0;
 $totalArqueo = 0;
 $fecha_Creacion = "";
 
-$web = 1;
-if ($web == 1) {
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-} else {
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
-
-
-$mysql = new  mysqli($server, $user, $password, $db);
-
 if (isset($_GET['idArqueo'])) {
     $idArqueo = $_GET['idArqueo'];
 }
@@ -78,7 +62,7 @@ $buscarArqueo = "
 FROM
     bit_arqueo
     WHERE id_Arqueo = $idArqueo ";
-$arqueo = $mysql->query($buscarArqueo);
+$arqueo = $db->query($buscarArqueo);
 foreach ($arqueo as $fila) {
     $totalArqueo = $fila['total_Cierre'];
     $totalBilletes = $fila['total_Billetes'];
@@ -137,9 +121,8 @@ $cincuentaMon_efe = number_format($cincuentaMon_efe, 2,'.',',');
 $centavos = number_format($centavos, 2,'.',',');
 
 
-$mysql = new  mysqli($server, $user, $password, $db);
 $buscar = "SELECT Nombre, direccion, telefono, NombreCasa,rfc FROM cat_sucursal WHERE id_Sucursal = " . $sucursal;
-$contrato = $mysql->query($buscar);
+$contrato = $db->query($buscar);
 foreach ($contrato as $fila) {
     $sucNombre = $fila['Nombre'];
     $sucDireccion = $fila['direccion'];

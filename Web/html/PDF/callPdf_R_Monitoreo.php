@@ -3,8 +3,6 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
 require_once (BASE_PATH . "Conectar.php");
 
-
-
 use Dompdf\Dompdf;
 
 

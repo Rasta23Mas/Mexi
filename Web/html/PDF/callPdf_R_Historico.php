@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-
+require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
 
 
@@ -17,21 +17,6 @@ if (isset($_GET['fechaIni'])) {
 if (isset($_GET['fechaFin'])) {
     $fechaFin = $_GET['fechaFin'];
 }
-
-$web = 1;
-if($web==1){
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-}else{
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
-
-$mysql = new  mysqli($server, $user, $password, $db);
 
 
 $FECHA = "";
@@ -126,7 +111,7 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         AND '$fechaFin'  <= Con.fecha_fisico_fin
                         AND Bit.sucursal = $sucursal 
                         ORDER BY Form";
-$resultado = $mysql->query($query);
+$resultado = $db->query($query);
 $tipoMetal = 0;
 $tipoElectro = 0;
 $tipoAuto = 0;

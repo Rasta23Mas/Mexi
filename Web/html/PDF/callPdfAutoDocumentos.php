@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-
+require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
 
 
@@ -11,21 +11,7 @@ if (!isset($_SESSION)) {
 $usuario = $_SESSION["idUsuario"];
 $NombreUsuario = $_SESSION["usuario"];
 $sucursal = $_SESSION["sucursal"];
-$web = 1;
-if($web==1){
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-}else{
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
 
-
-$mysql = new  mysqli($server, $user, $password, $db);
 
 
 $NombreCompleto = "";
@@ -59,7 +45,7 @@ FROM contratos_tbl AS Con
 INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
 INNER JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato 
 WHERE Con.id_Contrato=$idContrato AND Con.tipoContrato = 2";
-$resultado = $mysql->query($query);
+$resultado = $db->query($query);
 
 
 foreach ($resultado as $row) {
@@ -113,7 +99,7 @@ foreach ($resultado as $row) {
 }
 
 $buscar = "SELECT Nombre, direccion, telefono, NombreCasa,rfc FROM cat_sucursal WHERE id_Sucursal = " . $sucursal;
-$contrato = $mysql->query($buscar);
+$contrato = $db->query($buscar);
 foreach ($contrato as $fila) {
     $sucNombre = $fila['Nombre'];
     $sucDireccion = $fila['direccion'];

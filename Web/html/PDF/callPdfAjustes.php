@@ -2,7 +2,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-
+require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
 
 
@@ -23,21 +23,6 @@ $sucRfc = "";
 
 $fecha_Creacion = "";
 
-$web = 1;
-if ($web == 1) {
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-} else {
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
-
-
-$mysql = new  mysqli($server, $user, $password, $db);
 
 if (isset($_GET['tipoAjuste'])) {
     $tipoAjuste = $_GET['tipoAjuste'];
@@ -50,7 +35,7 @@ $buscarAjustes = "
 FROM
     bit_arqueo
     WHERE id_Arqueo = $idArqueo ";
-$arqueo = $mysql->query($buscarAjustes);
+$arqueo = $db->query($buscarAjustes);
 foreach ($arqueo as $fila) {
     $incremento_pat = $fila['incremento_pat'];
     $ajustes = $fila['ajustes'];
@@ -72,7 +57,7 @@ if($tipoAjuste==1){
 
 
 $buscar = "SELECT Nombre, direccion, telefono, NombreCasa,rfc FROM cat_sucursal WHERE id_Sucursal = " . $sucursal;
-$contrato = $mysql->query($buscar);
+$contrato = $db->query($buscar);
 foreach ($contrato as $fila) {
     $sucNombre = $fila['Nombre'];
     $sucDireccion = $fila['direccion'];

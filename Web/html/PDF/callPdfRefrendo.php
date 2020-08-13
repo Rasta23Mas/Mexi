@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-
+require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
 
 
@@ -12,20 +12,6 @@ $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
 
 
-$web = 1;
-if($web==1){
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-}else{
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
-
-$mysql = new  mysqli($server, $user, $password, $db);
 
 
 $NombreCompleto = "";
@@ -86,7 +72,7 @@ $query = "SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pa
                         $query .= " and Con.id_movimiento = $ultimoMovimiento";
                     }
                     $query .= " ORDER BY id_movimiento DESC LIMIT 1";
-$resultado = $mysql->query($query);
+$resultado = $db->query($query);
 
 
 foreach ($resultado as $row) {
@@ -146,7 +132,7 @@ $query = "SELECT ET.descripcion AS TipoElectronico, EM.descripcion AS MarcaElect
                             LEFT JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
                             LEFT JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
                             WHERE Con.id_Contrato =$idContrato ";
-$tablaArt = $mysql->query($query);
+$tablaArt = $db->query($query);
 $tablaArticulos = '';
 $detallePiePagina = '';
 foreach ($tablaArt as $row) {

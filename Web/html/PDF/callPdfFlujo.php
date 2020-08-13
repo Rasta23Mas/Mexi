@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-
+require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
 
 
@@ -22,21 +22,7 @@ $sucRfc = "";
 
 $fecha_Creacion = "";
 
-$web = 1;
-if ($web == 1) {
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-} else {
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
 
-
-$mysql = new  mysqli($server, $user, $password, $db);
 if (isset($_GET['folio'])) {
     $idFolio = $_GET['folio'];
 
@@ -50,7 +36,7 @@ $buscarFlujo = "SELECT Cat.descripcion as Descrip,Flu.importe as Importe,Flu.imp
                 INNER JOIN usuarios_tbl as Usu on Flu.usuario = Usu.id_User 
                 WHERE id_flujo = $idFolio ";
 
-$flujo = $mysql->query($buscarFlujo);
+$flujo = $db->query($buscarFlujo);
 
 foreach ($flujo as $fila) {
     $Desc = $fila['Descrip'];
@@ -68,14 +54,14 @@ if($UserCaja!=0){
     $buscarVendedor = "SELECT Usu.usuario as UserCaja FROM flujo_tbl as Flu
     INNER JOIN usuarios_tbl as Usu on Flu.usuarioCaja = Usu.id_User      
     WHERE id_flujo = $idFolio";
-    $folio = $mysql->query($buscarVendedor);
+    $folio = $db->query($buscarVendedor);
     foreach ($folio as $fila) {
         $Vendedor = $fila['UserCaja'];
     }
 }
 
 $buscar = "SELECT Nombre, direccion, telefono, NombreCasa,rfc FROM cat_sucursal WHERE id_Sucursal = " . $sucursal;
-$contrato = $mysql->query($buscar);
+$contrato = $db->query($buscar);
 foreach ($contrato as $fila) {
     $sucNombre = $fila['Nombre'];
     $sucDireccion = $fila['direccion'];

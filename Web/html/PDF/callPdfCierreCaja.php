@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-
+require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
 
 
@@ -13,25 +13,10 @@ $sucursal = $_SESSION["sucursal"];
 $NombreUsuario = $_SESSION["usuario"];
 
 
-$web = 1;
-if ($web == 1) {
-    $server = "localhost";
-    $user = "u672450412_root";
-    $password = "12345";
-    $db = "u672450412_Mexicash";
-} else {
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db = "u672450412_Mexicash";
-}
-
-$mysql = new  mysqli($server, $user, $password, $db);
-
 $querySucursal = "SELECT NombreCasa, Nombre FROM cat_sucursal
                     WHERE id_Sucursal =$sucursal ";
 
-$resultadoSucursal = $mysql->query($querySucursal);
+$resultadoSucursal = $db->query($querySucursal);
 
 
 foreach ($resultadoSucursal as $row) {
@@ -50,7 +35,7 @@ $CerradoNombreUsuario = "";
 $queryCierreCaja = "SELECT * FROM bit_cierrecaja
                     WHERE folio_CierreCaja =$folioCierreCaja ";
 
-$resultado = $mysql->query($queryCierreCaja);
+$resultado = $db->query($queryCierreCaja);
 
 
 foreach ($resultado as $row) {
@@ -163,7 +148,7 @@ $informeRefrendo = "$" . $informeRefrendo;
 if ($CerradoPorGerente != 0) {
     $queryCierrePorGerente = "SELECT usuario FROM usuarios_tbl
                     WHERE id_User =$CerradoPorGerente ";
-    $resultadoCierrePor = $mysql->query($queryCierrePorGerente);
+    $resultadoCierrePor = $db->query($queryCierrePorGerente);
     foreach ($resultadoCierrePor as $row) {
         $CerradoNombreUsuario = "Cerrado por: " . $row["usuario"];
     }
