@@ -10,9 +10,9 @@ $fechaFin = $_POST['fechaFin'];
 $sqlReportesDAO = new sqlReportesDAO();
 
 if($tipoReporte==1){
-    $sqlReportesDAO->reporteIngresos($tipoReporte, $fechaIni, $fechaFin);
+    $sqlReportesDAO->reporteIngresos( $fechaIni, $fechaFin);
 }else if($tipoReporte==2){
-    $sqlReportesDAO->reporteIngresos($tipoReporte, $fechaIni, $fechaFin);
+    $sqlReportesDAO->reporteIngresos( $fechaIni, $fechaFin);
 
 }
 

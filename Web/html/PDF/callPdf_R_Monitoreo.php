@@ -30,22 +30,6 @@ if (isset($_GET['nombre'])) {
     $nombre = $_GET['nombre'];
 }
 
-$FECHA = "";
-$FECHAMOV ="";
-$FECHAVEN = "";
-$CONTRATO = "";
-$PRESTAMO = "";
-$INTERESES = "";
-$ALMACENAJE = "";
-$SEGURO = "";
-$ABONO = "";
-$DESC = "";
-$COSTO = "";
-$SUBTOTAL = "";
-$IVA ="";
-$TOTAL ="";
-$Form ="";
-
 $contenido = '<html>
 <head>
     <meta charset="utf-8">

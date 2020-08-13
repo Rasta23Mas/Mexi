@@ -373,10 +373,9 @@ class sqlReportesDAO
                        utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
                        DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
                        FROM bit_cierresucursal
-                       WHERE fecha_Creacion BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND sucursal = $sucursal  ORDER BY folio_CierreSucursal";
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
 
-            // echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

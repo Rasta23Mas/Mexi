@@ -1,6 +1,5 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(MODELO_PATH . "Identificacion.php");
 include_once(MODELO_PATH . "Promocion.php");
 include_once(BASE_PATH . "Conexion.php");
 date_default_timezone_set('America/Mexico_City');

@@ -791,7 +791,6 @@ function cargarRptFinIng(fechaIni, fechaFin,tipoReporte) {
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
-                // alert(datos)
                 var html = '';
                 var i = 0;
                 alert("Refrescando tabla.");
@@ -851,7 +850,7 @@ function cargarRptFinIng(fechaIni, fechaFin,tipoReporte) {
     );
     $("#divRptFinancieros").load('rptFinancierosIng.php');
 }
-function exportarMonitoreo(tipoExportar) {
+function exportarFinanciero(tipoExportar) {
     //tipoExportar = 1 Excel //2 PDF
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
@@ -862,9 +861,17 @@ function exportarMonitoreo(tipoExportar) {
         fechaIni = fechaSQL(fechaIni);
         fechaFin = fechaSQL(fechaFin);
         if(tipoExportar==1){
-            window.open('../Excel/rpt_Exc_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipo + '&nombre=' + nombre);
+            if(tipo==1){
+                window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&nombre=' + nombre);
+            }else if(tipo==2){
+                window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&nombre=' + nombre);
+            }
         }else if(tipoExportar==2){
-            window.open('../PDF/callPdf_R_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipo + '&nombre=' + nombre);
+            if(tipo==1){
+                window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&nombre=' + nombre);
+            }else if(tipo==2){
+                window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&nombre=' + nombre);
+            }
         }
 
     } else {

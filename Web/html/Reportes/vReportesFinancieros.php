@@ -87,9 +87,9 @@ $sucursal = $_SESSION["sucursal"];
                        disabled/>
             </td>
             <td align="center">
-                <img src="../../style/Img/excel.png" alt="Excel" onclick="exportarMonitoreo(1)">
+                <img src="../../style/Img/excel.png" alt="Excel" onclick="exportarFinanciero(1)">
                 &nbsp;&nbsp;
-                <img src="../../style/Img/pdf_xs.png" alt="PDF" onclick="exportarMonitoreo(2)">
+                <img src="../../style/Img/pdf_xs.png" alt="PDF" onclick="exportarFinanciero(2)">
             </td>
             <td align="center">
                 <input type="button" class="btn btn-success w-75"
