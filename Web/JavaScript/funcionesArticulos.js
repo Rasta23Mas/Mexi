@@ -16,7 +16,7 @@ function Limpiar() {
     $("#idPiedras").val("");
     $("#idPrestamo").val("");
     $("#idAvaluo").val("");
-    $("#idUbicacion").val("");
+    $("#idObs").val("");
     $("#idDetallePrenda").val("");
     <!--   Limpiar Electronicos-->
     $("#idTipoElectronico").val(0);
@@ -28,10 +28,10 @@ function Limpiar() {
     $("#idPrecioCat").val("");
     $("#idPrestamoElectronico").val("");
     $("#idAvaluoElectronico").val("");
-    $("#idUbicacionElectronico").val("");
+    $("#idObsElectronico").val("");
     $("#idDetallePrendaElectronico").val("");
-    $("#idCantidad").val(0);
-    $("#idPeso").val(0);
+    $("#idCantidad").val("");
+    $("#idPeso").val("");
     $("#idPiedras").val(0);
     $("#idPesoPiedra").val(0);
     idArticuloGlb = 0;
@@ -48,7 +48,7 @@ function LimpiarSinResetearIdArticulo() {
     $("#idPiedras").val("");
     $("#idPrestamo").val("");
     $("#idAvaluo").val("");
-    $("#idUbicacion").val("");
+    $("#idObs").val("");
     $("#idDetallePrenda").val("");
     <!--   Limpiar Electronicos-->
     $("#idTipoElectronico").val(0);
@@ -60,10 +60,10 @@ function LimpiarSinResetearIdArticulo() {
     $("#idPrecioCat").val("");
     $("#idPrestamoElectronico").val("");
     $("#idAvaluoElectronico").val("");
-    $("#idUbicacionElectronico").val("");
+    $("#idObsElectronico").val("");
     $("#idDetallePrendaElectronico").val("");
-    $("#idCantidad").val(0);
-    $("#idPeso").val(0);
+    $("#idCantidad").val("");
+    $("#idPeso").val("");
     $("#idPiedras").val(0);
     $("#idPesoPiedra").val(0);
 }
@@ -128,7 +128,7 @@ function Agregar() {
                                     "idPrestamo": metalPrestamo,
                                     "idAvaluo": metalAvaluo,
                                     "idVitrina": $("#idVitrina").val(),
-                                    "idUbicacion": $("#idUbicacion").val(),
+                                    "idObs": $("#idObs").val(),
                                     "idDetallePrenda": $("#idDetallePrenda").val(),
                                     "interes": interesMetal,
                                     "idArticulo": idArticulo,
@@ -178,7 +178,7 @@ function Agregar() {
                                     "idAvaluoElectronico": artiAvaluo,
                                     "idVitrina": $("#idVitrinaElectronico").val(),
                                     "idPrecioCat": $("#idPrecioCat").val(),
-                                    "idUbicacionElectronico": $("#idUbicacionElectronico").val(),
+                                    "idObsElectronico": $("#idObsElectronico").val(),
                                     "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
                                     "interes": interesArti,
                                     "idArticulo": idArticulo,
@@ -374,8 +374,8 @@ function Metales() {
     LimpiarInteres();
     llenarComboInteres(1);
     limpiarTabla();
-    $("#idCantidad").val(0);
-    $("#idPeso").val(0);
+    $("#idCantidad").val("");
+    $("#idPeso").val("");
     $("#idPiedras").val(0);
     $("#idPesoPiedra").val(0);
 
@@ -806,8 +806,9 @@ function calculaPrestamoBtn() {
             var pesoTotal = pesoTotalMetal - pesoTotalPiedra;
             var prestamo = pesoTotal * kilPrecio;
 
-            //$("#idAvaluo").val(prestamo);
-            var avaluoImporte = Math.floor(prestamo * 100) / 90;
+            var aforo = $("#idAforo").val();
+            aforo = parseInt(aforo);
+            var avaluoImporte = Math.floor(prestamo * 100) / aforo;
             $("#idPrestamo").val(prestamo);
             avaluoImporte = Math.round(avaluoImporte * 100) / 100;
             $("#idAvaluo").val(avaluoImporte);

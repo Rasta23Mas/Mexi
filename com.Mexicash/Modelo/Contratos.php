@@ -23,6 +23,7 @@ class Contratos
     private $fecha_almoneda;
     private $suma_InteresPrestamo;
     private $total_Intereses;
+    private $totalAvaluoLetra;
 
     /**
      * Contrato constructor.
@@ -46,10 +47,11 @@ class Contratos
      * @param $fecha_almoneda
      * @param $suma_InteresPrestamo
      * @param $total_Intereses
+     * @param $totalAvaluoLetra
      */
     public function __construct($idCliente, $totalPrestamo, $totalAvaluo, $diasAlmonedaValue, $cotitular,
                                 $beneficiario, $plazo, $periodo, $tipoInteres, $tasa, $alm, $seguro, $iva, $dias, $idTipoFormulario, $aforo,
-                                $fecha_vencimiento, $fecha_almoneda,$suma_InteresPrestamo,$total_Intereses)
+                                $fecha_vencimiento, $fecha_almoneda,$suma_InteresPrestamo,$total_Intereses,$totalAvaluoLetra)
     {
         $this->idCliente = $idCliente;
         $this->totalPrestamo = $totalPrestamo;
@@ -71,6 +73,23 @@ class Contratos
         $this->fecha_almoneda = $fecha_almoneda;
         $this->suma_InteresPrestamo = $suma_InteresPrestamo;
         $this->total_Intereses = $total_Intereses;
+        $this->totalAvaluoLetra = $totalAvaluoLetra;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalAvaluoLetra()
+    {
+        return $this->totalAvaluoLetra;
+    }
+
+    /**
+     * @param mixed $totalAvaluoLetra
+     */
+    public function setTotalAvaluoLetra($totalAvaluoLetra): void
+    {
+        $this->totalAvaluoLetra = $totalAvaluoLetra;
     }
 
     /**

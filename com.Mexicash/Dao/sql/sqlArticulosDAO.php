@@ -49,17 +49,17 @@ class sqlArticulosDAO
                 $idPrestamo = $articulo->getPrestamo();
                 $idAvaluo = $articulo->getAvaluo();
 
-                $idUbicacion = $articulo->getUbicacion();
+                $idObs = $articulo->getObs();
                 $idDetallePrenda = $articulo->getDetallePrenda();
-                $idUbicacion = mb_strtoupper($idUbicacion, 'UTF-8');
+                $idObs = mb_strtoupper($idObs, 'UTF-8');
                 $idDetallePrenda = mb_strtoupper($idDetallePrenda, 'UTF-8');
-                $idUbicacion = strtoupper($idUbicacion);
+                $idObs = strtoupper($idObs);
                 $idDetallePrenda = strtoupper($idDetallePrenda);
                 $insert = "INSERT INTO articulo_tbl " .
-                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, ubicacion," .
+                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, observaciones," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
                     "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
-                    . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "', '" . $interes . "','" . $idUbicacion . "','"
+                    . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "', '" . $interes . "','" . $idObs . "','"
                     . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . " )";
 
             } else if ($tipoPost == "2") {
@@ -69,20 +69,20 @@ class sqlArticulosDAO
                 $idSerie = $articulo->getSerie();
                 $idPrestamoE = $articulo->getPrestamoE();
                 $idAvaluoE = $articulo->getAvaluoE();
-                $idUbicacionE = $articulo->getUbicacionE();
+                $idObsE = $articulo->getObsE();
                 $precioCat = $articulo->getPrecioCat();
                 $idDetallePrendaE = $articulo->getDetallePrendaE();
 
 
-                $idUbicacionE = mb_strtoupper($idUbicacionE, 'UTF-8');
+                $idObsE = mb_strtoupper($idObsE, 'UTF-8');
                 $idDetallePrendaE = mb_strtoupper($idDetallePrendaE, 'UTF-8');
 
 
                 $insert = "INSERT INTO articulo_tbl " .
-                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  ubicacion," .
+                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  observaciones," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
                     "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
-                    . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $interes . "','" . $idUbicacionE . "','"
+                    . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $interes . "','" . $idObsE . "','"
                     . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . "  )";
             }
             if ($ps = $this->conexion->prepare($insert)) {
@@ -182,7 +182,7 @@ class sqlArticulosDAO
     {
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT Porcentaje FROM cat_avaluoaforo WHERE id_campoRef=$idTipoFormulario and sucursal =". $sucursal;
+            $buscar = "SELECT Porcentaje FROM cat_avaluoaforo WHERE id_campoRef=$idTipoFormulario and sucursal =$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 $consulta = $rs->fetch_assoc();

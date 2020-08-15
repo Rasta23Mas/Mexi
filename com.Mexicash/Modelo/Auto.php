@@ -56,6 +56,7 @@ class Auto
     private $idCheckLicencia;
     private $diasAlmoneda;
     private $fecha_Alm;
+    private $totalAvaluoLetra;
 
     /**
      * Auto constructor.
@@ -109,10 +110,15 @@ class Auto
      * @param $idCheckLicencia
      * @param $diasAlmoneda
      * @param $fecha_Alm
+     * @param $totalAvaluoLetra
      */
     public function __construct($idClienteAuto, $fechaVencimiento, $totalPrestamo, $totalAvaluo, $polizaSeguroCost, $gps, $pension, $beneficiario,
                                 $cotitular, $plazo, $periodo, $idTipoInteres, $tasa, $alm, $seguro, $iva, $dias, $idTipoFormulario,
-                                $aforo, $total_Inter, $sumaInteresPrestamo, $idTipoVehiculo, $idMarca, $idModelo, $idAnio, $idColor, $idPlacas, $idFactura, $idKms, $idAgencia, $idMotor, $idSerie, $idVehiculo, $idRepuve, $idGasolina, $idAseguradora, $idTarjeta, $idPoliza, $idFecVencimientoAuto, $idTipoPoliza, $idObservacionesAuto, $idCheckTarjeta, $idCheckFactura, $idCheckINE, $idCheckImportacion, $idCheckTenecia, $idCheckPoliza, $idCheckLicencia, $diasAlmoneda, $fecha_Alm)
+                                $aforo, $total_Inter, $sumaInteresPrestamo, $idTipoVehiculo, $idMarca, $idModelo, $idAnio, $idColor,
+                                $idPlacas, $idFactura, $idKms, $idAgencia, $idMotor, $idSerie, $idVehiculo, $idRepuve, $idGasolina,
+                                $idAseguradora, $idTarjeta, $idPoliza, $idFecVencimientoAuto, $idTipoPoliza, $idObservacionesAuto,
+                                $idCheckTarjeta, $idCheckFactura, $idCheckINE, $idCheckImportacion, $idCheckTenecia, $idCheckPoliza,
+                                $idCheckLicencia, $diasAlmoneda, $fecha_Alm,$totalAvaluoLetra)
     {
         $this->idClienteAuto = $idClienteAuto;
         $this->fechaVencimiento = $fechaVencimiento;
@@ -164,6 +170,23 @@ class Auto
         $this->idCheckLicencia = $idCheckLicencia;
         $this->diasAlmoneda = $diasAlmoneda;
         $this->fecha_Alm = $fecha_Alm;
+        $this->totalAvaluoLetra = $totalAvaluoLetra;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalAvaluoLetra()
+    {
+        return $this->totalAvaluoLetra;
+    }
+
+    /**
+     * @param mixed $totalAvaluoLetra
+     */
+    public function setTotalAvaluoLetra($totalAvaluoLetra): void
+    {
+        $this->totalAvaluoLetra = $totalAvaluoLetra;
     }
 
     /**

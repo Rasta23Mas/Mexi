@@ -57,6 +57,7 @@ $idCheckPoliza = $_POST['idCheckPoliza'];
 $idCheckLicencia = $_POST['idCheckLicencia'];
 $diasAlmoneda = $_POST['diasAlmoneda'];
 $fecha_Alm = $_POST['fecha_Alm'];
+$totalAvaluoLetra = $_POST['totalAvaluoLetra'];
 //48
 
 $auto = new Auto(
@@ -111,7 +112,8 @@ $auto = new Auto(
     $idCheckPoliza,
     $idCheckLicencia,
     $diasAlmoneda,
-    $fecha_Alm
+    $fecha_Alm,
+    $totalAvaluoLetra
 );
 
 $sqlAuto = new sqlAutoDAO();

@@ -51,15 +51,16 @@ class sqlAutoDAO
             $fecha_fisico_ini = $fechaCreacion;
             $fecha_fisico_fin = $fechaAlm;
             $id_cat_estatus = 1;
+            $AvaluoLetra = $auto->getTotalAvaluoLetra();
 
             $total_Inter = $auto->getTotalInter();
             $sumaInteresPrestamo = $auto->getSumaInteresPrestamo();
 
             $insertaContrato = "INSERT INTO contratos_tbl " .
-                "(id_Cliente, total_Prestamo,total_Avaluo,diasAlm,cotitular, beneficiario, 
+                "(id_Cliente, total_Prestamo,total_Avaluo,avaluo_Letra,diasAlm,cotitular, beneficiario, 
                   plazo,periodo,tipoInteres,tasa, alm, seguro,iva,dias,PolizaSeguro, GPS, Pension,id_Formulario,Aforo, total_Interes,suma_InteresPrestamo,fecha_creacion,
                   fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus) VALUES 
-                  ($id_Cliente,$totalPrestamo,$totalAvaluo,$diasAlm,'$cotitular','$beneficiario',
+                  ($id_Cliente,$totalPrestamo,$totalAvaluo,'$AvaluoLetra',$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$polizaInteres,$gps,$pension,$tipoFormulario,$aforo,$total_Inter,$sumaInteresPrestamo,'$fechaCreacion',
                   '$fechaVencimiento','$fechaAlm',2,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
@@ -112,7 +113,7 @@ class sqlAutoDAO
                         $idTipoPoliza = mb_strtoupper($idTipoPoliza, 'UTF-8');
                         $idObservacionesAuto = mb_strtoupper($idObservacionesAuto, 'UTF-8');
 
-                        $insertaAuto = "INSERT INTO auto_tbl(id_Contrato, tipo_Vehiculo,marca, modelo, año, color, placas, factura," .
+                        $insertaAuto = "INSERT INTO auto_tbl(id_Contrato, tipo_Vehiculo,marca, modelo, anio, color, placas, factura," .
                             " kilometraje, agencia, num_motor, serie_chasis, vin, repuve, gasolina, tarjeta_circulacion, aseguradora, poliza, fechaVencimiento," .
                             " tipoPoliza, observaciones, chkTarjeta, chkFactura, chkINE, chkImportacion, chkTenencias, chkPoliza, chkLicencia, fecha_creacion, fecha_modificacion, id_cierreCaja,id_Estatus)" .
                             " VALUES ('" . $idContratoAuto . "', '" . $idTipoVehiculo . "', '" . $idMarca . "', '" . $idModelo . "'," .

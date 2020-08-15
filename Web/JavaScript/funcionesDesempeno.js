@@ -581,15 +581,15 @@ function buscarDetalle() {
                 var detallePiePagina = "";
                 for (i = 0; i < datos.length; i++) {
                     var Detalle = datos[i].Detalle;
-                    var Ubicacion = datos[i].Ubicacion;
+                    var Obseracion = datos[i].Obseracion;
 
                     if (Detalle === null) {
                         Detalle = '';
                     }
-                    if (Ubicacion === null) {
-                        Ubicacion = '';
+                    if (Obseracion === null) {
+                        Obseracion = '';
                     }
-                    detalleContrato = Detalle + "\n" + " Observaciones:" + Ubicacion + "\n";
+                    detalleContrato = Detalle + "\n" + " Observaciones:" + Obseracion + "\n";
                     detallePiePagina = detallePiePagina + detalleContrato
                     $("#idContrato").val(contratoGbl);
                 }

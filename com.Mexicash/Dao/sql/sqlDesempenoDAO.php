@@ -191,7 +191,7 @@ class sqlDesempenoDAO
     {
         $datos = array();
         try {
-            $buscar = "SELECT Art.detalle as Detalle,Art.ubicacion as Ubicacion 
+            $buscar = "SELECT Art.detalle as Detalle,Art.observaciones as Obseracion 
                         FROM articulo_tbl as Art
                         INNER JOIN contrato_mov_tbl  as Mov ON Art.id_Contrato = Mov.id_contrato
                         WHERE Mov.id_movimiento = $IdMovimiento";
@@ -201,7 +201,7 @@ class sqlDesempenoDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "Detalle" => $row["Detalle"],
-                        "Ubicacion" => $row["Ubicacion"]
+                        "Obseracion" => $row["Obseracion"]
                     ];
                     array_push($datos, $data);
                 }
@@ -219,8 +219,8 @@ class sqlDesempenoDAO
     {
         $datos = array();
         try {
-            $buscar = "SELECT Auto.marca as Marca,Auto.modelo as Modelo,Auto.año as Anio,
-                        COl.descripcion as ColorAuto, Auto.observaciones as Obs, Auto.color as ColorAuto 
+            $buscar = "SELECT Auto.marca as Marca,Auto.modelo as Modelo,Auto.anio as Anio,
+                        Auto.observaciones as Obs, Auto.color as ColorAuto 
                         FROM auto_tbl as Auto 
                         INNER JOIN contrato_mov_tbl  as Mov ON Auto.id_Contrato = Mov.id_contrato
                         WHERE Mov.id_movimiento = $IdMovimiento";

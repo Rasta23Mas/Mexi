@@ -83,7 +83,7 @@ function busquedaCodigoMostradorBoton() {
                     var empeno = datos[i].empeno;
                     var avaluo = datos[i].avaluo;
                     var precio_venta = datos[i].precio_venta;
-                    var ubicacion = datos[i].ubicacion;
+                    var observaciones = datos[i].observaciones;
                     var marca = datos[i].marca;
                     var modelo = datos[i].modelo;
                     var tipo = datos[i].tipoArt;
@@ -95,7 +95,7 @@ function busquedaCodigoMostradorBoton() {
                     tipoTabla = tipo;
 
                     if (tipo == 1) {
-                        ubicacion = ubicacion.toUpperCase();
+                        observaciones = observaciones.toUpperCase();
                         html += '<tr>' +
                             '<td>' + id_serie + '</td>' +
                             '<td>' + detalle + '</td>' +
@@ -103,7 +103,7 @@ function busquedaCodigoMostradorBoton() {
                             '<td>' + empeno + '</td>' +
                             '<td>' + avaluo + '</td>' +
                             '<td>' + precio_venta + '</td>' +
-                            '<td>' + ubicacion + '</td>' +
+                            '<td>' + observaciones + '</td>' +
                             '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
                             'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
                             '</tr>';

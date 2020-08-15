@@ -26,7 +26,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Art.tipoArticulo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
+                        Art.marca,Art.modelo,Art.observaciones,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
                         Baz.precio_venta
                         FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
@@ -47,7 +47,7 @@ class sqlVentasDAO
                         "kilataje" => $row["kilataje"],
                         "marca" => $row["marca"],
                         "modelo" => $row["modelo"],
-                        "ubicacion" => $row["ubicacion"],
+                        "observaciones" => $row["observaciones"],
                         "detalle" => $row["detalle"],
                         "empeno" => $row["prestamo_Empeno"],
                         "avaluo" => $row["avaluo"],
@@ -71,8 +71,8 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,Art.tipoArticulo,
-                        CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',Art.detalle,'/ ', Art.ubicacion) as ElectronicoArt,
-                        CONCAT (Art.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  Art.ubicacion) as ElectronicoMetal                        FROM bazar_articulos as Baz
+                        CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',Art.detalle,'/ ', Art.observaciones) as ElectronicoArt,
+                        CONCAT (Art.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  Art.observaciones) as ElectronicoMetal                        FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) 
                         LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
@@ -147,7 +147,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Art.tipoArticulo,Art.kilataje,
-                        CatM.descripcion as Marca,CatE.descripcion as Modelo,Art.ubicacion,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
+                        CatM.descripcion as Marca,CatE.descripcion as Modelo,Art.observaciones,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
                         Baz.precio_venta FROM bazar_articulos as Baz 
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, Art.id_SerieContrato,Art.id_SerieArticulo) 
                         LEFT JOIN cat_electronico_modelo as CatE on Art.modelo = CatE.id_modelo
@@ -165,7 +165,7 @@ class sqlVentasDAO
                         "kilataje" => $row["kilataje"],
                         "marca" => $row["Marca"],
                         "modelo" => $row["Modelo"],
-                        "ubicacion" => $row["ubicacion"],
+                        "observaciones" => $row["observaciones"],
                         "detalle" => $row["detalle"],
                         "empeno" => $row["prestamo_Empeno"],
                         "avaluo" => $row["avaluo"],
@@ -190,7 +190,7 @@ class sqlVentasDAO
             $buscar = "SELECT Baz.id_Bazar,Art.id_Articulo,Baz.precio_venta,
                         Baz.tipo_movimiento,Art.tipo,Art.kilataje,Art.calidad,
                         Art.cantidad,Art.peso,Art.peso_Piedra,Art.piedras,Art.marca,Art.modelo,
-                        Art.num_Serie,Art.avaluo,Art.vitrina,Art.precioCat,Art.ubicacion,Art.detalle,
+                        Art.num_Serie,Art.avaluo,Art.vitrina,Art.precioCat,Art.observaciones,Art.detalle,
                         Art.fecha_creacion,Baz.fecha_Modificacion FROM bazar_articulos as Baz
                         INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
                         Art.id_SerieContrato,Art.id_SerieArticulo) 
@@ -216,7 +216,7 @@ class sqlVentasDAO
                         "avaluo" => $row["avaluo"],
                         "vitrina" => $row["vitrina"],
                         "precioCat" => $row["precioCat"],
-                        "ubicacion" => $row["ubicacion"],
+                        "observaciones" => $row["observaciones"],
                         "detalle" => $row["detalle"],
                         "fecha_creacion" => $row["fecha_creacion"],
                         "fecha_Modificacion" => $row["fecha_Modificacion"],

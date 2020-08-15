@@ -439,7 +439,6 @@ function cargarTablaNombre() {
 }
 
 function cargarTablaFechas() {
-    alert("cargarTablaFechas");
     var fechaInicio = $("#idFechaInicial").val();
     var fechaFinal = $("#idFechaFinal").val();
     if (fechaInicio == "") {

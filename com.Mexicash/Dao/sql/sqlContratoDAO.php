@@ -53,14 +53,15 @@ class sqlContratoDAO
             $fecha_fisico_fin = $fecha_almoneda;
             $suma_InteresPrestamo = $contrato->getSumaInteresPrestamo();;
             $total_Intereses = $contrato->getTotalIntereses();
+            $AvaluoLetra = $contrato->getTotalAvaluoLetra();
             $id_cat_estatus = 1;
 
 
             $insertaContrato = "INSERT INTO contratos_tbl
-                (id_Cliente, total_Prestamo,total_Avaluo, suma_InteresPrestamo,total_Interes,diasAlm, cotitular,
+                (id_Cliente, total_Prestamo,total_Avaluo,avaluo_Letra, suma_InteresPrestamo,total_Interes,diasAlm, cotitular,
                  beneficiario, plazo,periodo,tipoInteres,tasa, alm,seguro,iva,dias, id_Formulario,Aforo, fecha_creacion,
                  fecha_vencimiento,fecha_almoneda,tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus) VALUES 
-                ( $id_Cliente, $totalPrestamo ,$totalAvaluo,$suma_InteresPrestamo,$total_Intereses,$diasAlm,'$cotitular','$beneficiario',
+                ( $id_Cliente, $totalPrestamo ,$totalAvaluo,'$AvaluoLetra',$suma_InteresPrestamo,$total_Intereses,$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'$fechaCreacion','$fecha_vencimiento',
                   '$fecha_almoneda', $tipoContrato,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
@@ -230,8 +231,8 @@ class sqlContratoDAO
         $sucursal = $_SESSION["sucursal"];
 
         try {
-            $buscar = "SELECT  Con.id_Formulario AS Formulario,Auto.marca as Marca,Auto.modelo as Modelo,Auto.año as Anio, Art.descripcion as Vehiculo,
-                        COl.descripcion as ColorAuto, Auto.observaciones as Obs, Auto.color as ColorAuto  
+            $buscar = "SELECT  Con.id_Formulario AS Formulario,Auto.marca as Marca,Auto.modelo as Modelo,Auto.anio as Anio, Art.descripcion as Vehiculo,
+                        Auto.observaciones as Obs, Auto.color as ColorAuto  
                         FROM auto_tbl as Auto 
                         INNER JOIN contratos_tbl AS Con on Auto.id_Contrato = Con.id_Contrato 
                         LEFT JOIN cat_articulos as Art on Auto.tipo_Vehiculo = Art.id_Cat_Articulo

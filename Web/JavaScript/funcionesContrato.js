@@ -85,6 +85,7 @@ function generarContrato() {
     Total_Intereses = Math.round(Total_Intereses * 100) / 100;
     var tipoFormulario = $("#idTipoFormulario").val();
     var cliente = $("#idClienteEmpeno").val();
+    var totalAvaluoLetra = NumeroALetras(totalAvaluo);
     var dataEnviar = {
         "idCliente": $("#idClienteEmpeno").val(),
         "totalPrestamo": totalPrestamo,
@@ -106,6 +107,7 @@ function generarContrato() {
         "fecha_almoneda":  fechaAlmoneda,
         "Suma_InteresPrestamo":  Suma_InteresPrestamo,
         "Total_Intereses":  Total_Intereses,
+        "totalAvaluoLetra":  totalAvaluoLetra
     };
     $.ajax({
         data: dataEnviar,

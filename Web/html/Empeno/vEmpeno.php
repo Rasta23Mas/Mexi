@@ -37,6 +37,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     <script src="../../JavaScript/funcionesContrato.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesMovimiento.js"></script>
+    <script src="../../JavaScript/funcionNumerosLetras.js"></script>
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
@@ -409,12 +410,12 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                         <td colspan="12">Observaciones de la tienda:
                                             <input type="text" id="idKilatajePrecio" name="kilatajePrecio" size="6"
                                                    value="0"
-                                                   class=""/></td>
+                                                   class="invisible"/></td>
 
                                     </tr>
                                     <tr>
                                         <td colspan="12">
-                                            <p><textarea name="mensaje" id="idUbicacion"
+                                            <p><textarea name="mensaje" id="idObs"
                                                          class="textArea" rows="1" cols="40"></textarea></p>
                                         </td>
                                     </tr>
@@ -522,8 +523,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                     </tr>
                                     <tr>
                                         <td colspan="12">
-                                            <textarea rows="2" cols="40" id="idUbicacionElectronico" class="textArea"
-                                                      name="ubicacionE"></textarea>
+                                            <textarea rows="2" cols="40" id="idObsElectronico" class="textArea"
+                                                      name="observacionesE"></textarea>
 
                                         </td>
                                     </tr>
@@ -588,7 +589,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                             <input id="idTipoFormulario" name="tipoFormulario" disabled type="text" value="1"
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idAforo" name="aforo" disabled type="text" value="1"
-                                   style="width: 150px; text-align: right" class="invisible"/>
+                                   style="width: 150px; text-align: right" class=""/>
                             <input id="idMontoToken" name="MontoToken" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idToken" name="token" disabled type="text" value="0"

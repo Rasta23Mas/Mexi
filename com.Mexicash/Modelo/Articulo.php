@@ -13,7 +13,7 @@ class Articulo
     private $idPiedras;
     private $idPrestamo;
     private $idAvaluo;
-    private $idUbicacion;
+    private $idObs;
     private $idDetallePrenda;
     private $idVitrina;
     private $idPrecioCat;
@@ -26,7 +26,7 @@ class Articulo
     private $idSerie;
     private $idPrestamoE;
     private $idAvaluoE;
-    private $idUbicacionE;
+    private $idObsE;
     private $idDetallePrendaE;
 
 
@@ -42,7 +42,7 @@ class Articulo
      * @param $idPiedras
      * @param $idPrestamo
      * @param $idAvaluo
-     * @param $idUbicacion
+     * @param $idObs
      * @param $idDetallePrenda
      * @param $idVitrina
      * @param $idPrecioCat
@@ -55,7 +55,7 @@ class Articulo
      * @param $idSerie
      * @param $idPrestamoE
      * @param $idAvaluoE
-     * @param $idUbicacionE
+     * @param $idObsE
      * @param $idDetallePrendaE
      */
     public function __construct(
@@ -71,7 +71,7 @@ class Articulo
         $idVitrina,
         $idPrecioCat,
         $interes,
-        $idUbicacion,
+        $idObs,
         $idDetallePrenda,
         $idTipoE,
         $idMarca,
@@ -80,7 +80,7 @@ class Articulo
         $idSerie,
         $idPrestamoE,
         $idAvaluoE,
-        $idUbicacionE,
+        $idObsE,
         $idDetallePrendaE)
     {
         //Metales
@@ -96,7 +96,7 @@ class Articulo
         $this->vitrina = $idVitrina;
         $this->precioCat = $idPrecioCat;
         $this->interes = $interes;
-        $this->ubicacion = $idUbicacion;
+        $this->observaciones = $idObs;
         $this->detallePrenda = $idDetallePrenda;
         //ELECTRONICOS
         $this->tipoE = $idTipoE;
@@ -107,7 +107,7 @@ class Articulo
         $this->prestamoE = $idPrestamoE;
         $this->avaluoE = $idAvaluoE;
 
-        $this->ubicacionE = $idUbicacionE;
+        $this->observacionesE = $idObsE;
         $this->detallePrendaE = $idDetallePrendaE;
 
     }
@@ -458,33 +458,33 @@ class Articulo
     /**
      * @return mixed
      */
-    public function getUbicacion()
+    public function getObs()
     {
-        return $this->ubicacion;
+        return $this->observaciones;
     }
 
     /**
-     * @param mixed $ubicacion
+     * @param mixed $observaciones
      */
-    public function setUbicacion($ubicacion): void
+    public function setObseracion($observaciones): void
     {
-        $this->ubicacion = $ubicacion;
+        $this->observaciones = $observaciones;
     }
 
     /**
      * @return mixed
      */
-    public function getUbicacionE()
+    public function getObsE()
     {
-        return $this->ubicacionE;
+        return $this->observacionesE;
     }
 
     /**
-     * @param mixed $ubicacionE
+     * @param mixed $observacionesE
      */
-    public function setUbicacionE($ubicacionE): void
+    public function setObseracionE($observacionesE): void
     {
-        $this->ubicacionE = $ubicacionE;
+        $this->observacionesE = $observacionesE;
     }
 
 

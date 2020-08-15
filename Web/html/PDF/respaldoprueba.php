@@ -556,7 +556,7 @@ if (!isset($_GET['pdf'])) {
             }
 
         }else if ($TipFormulario==3){
-            $query = "SELECT Aut.marca AS Marca, Aut.modelo AS Modelo, Aut.año AS Anio,Col.descripcion AS Color, 
+            $query = "SELECT Aut.marca AS Marca, Aut.modelo AS Modelo, Aut.anio AS Anio,
                     Aut.placas AS Placas, Aut.factura AS Factura, Aut.num_motor AS NumMotor,Aut.observaciones AS Detalle,
                     Aut.color as Color 
                     FROM auto_tbl AS Aut
@@ -1119,7 +1119,7 @@ if($TipFormulario==1){
     }
 
 }else if ($TipFormulario==3){
-    $query = "SELECT Aut.marca AS Marca, Aut.modelo AS Modelo, Aut.año AS Anio,Col.descripcion AS Color, 
+    $query = "SELECT Aut.marca AS Marca, Aut.modelo AS Modelo, Aut.anio AS Anio, 
                     Aut.placas AS Placas, Aut.factura AS Factura, Aut.num_motor AS NumMotor,Aut.observaciones AS Detalle,
                     Aut.color as Color 
                     FROM auto_tbl AS Aut

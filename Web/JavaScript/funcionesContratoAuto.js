@@ -179,7 +179,7 @@ function generarContratoAuto() {
 
     totalPrestamo = Math.round(totalPrestamo * 100) / 100;
     totalAvaluo = Math.round(totalAvaluo * 100) / 100;
-
+    var totalAvaluoLetra = NumeroALetras(totalAvaluo);
     var dataEnviar = {
         "idClienteAuto": clienteEmpeno,
         "fechaVencimiento": fechaVencimiento,
@@ -230,7 +230,8 @@ function generarContratoAuto() {
         "idCheckPoliza": chkPoliza,
         "idCheckLicencia": chkLicencia,
         "diasAlmoneda": diasAlmonedaValue,
-        "fecha_Alm":fechaAlmoneda
+        "fecha_Alm":fechaAlmoneda,
+        "totalAvaluoLetra":  totalAvaluoLetra
     };
     $.ajax({
         data: dataEnviar,
