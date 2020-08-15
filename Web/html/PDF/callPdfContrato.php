@@ -426,8 +426,8 @@ $contenido .= '     <tr>
                                 </tr>
                             </table>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>';
+$contenido .= '     <tr>
                        <td> 
                             <table class="tableFormat " width="100%">
                                 <tr class="tituloCelda">
