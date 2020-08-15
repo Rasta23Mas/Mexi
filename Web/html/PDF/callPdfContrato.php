@@ -283,12 +283,12 @@ $contenido .= '     <tr>
                        <td> 
                             <table class="tableFormat" width="160mm" >
                                 <tr class="tituloCelda">
-                                    <th colspan="9" class="tableFormat" >
+                                    <th colspan="8" class="tableFormat" >
                                         <label class="letraCelda">Opciones de pago para refrendo o desempeño</label>
                                     </th>
                                 </tr>
                                 <tr class="tituloCelda">
-                                    <td colspan="6" class="tableFormat">
+                                    <td colspan="5" class="tableFormat">
                                         <label class="letraCelda">MONTO</label>
                                     </td>
                                     <td colspan="3" class="tableFormat">
@@ -382,25 +382,25 @@ $contenido .= '     <tr>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" class="tableFormat">
+                                    <td colspan="4" class="tableFormat">
                                         <label class="letraCelda">
                                             <b>COSTO MENSUAL TOTAL</b>
                                         </label>
                                     </td>
-                                    <td colspan="6" class="tableFormat">
+                                    <td colspan="4" class="tableFormat">
                                         <label class="letraCelda">
                                             <b>COSTO DIARIO TOTAL</b>
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" class="tableFormat">
+                                    <td colspan="4" class="tableFormat">
                                         <label class="letraNormal">
                                             Para fines informativos y de comparación:<br>
                                             ' . $tasaIvaTotal . '% FIJO SIN IVA
                                         </label>
                                     </td>
-                                    <td colspan="6" class="tableFormat">
+                                    <td colspan="4" class="tableFormat">
                                         <label class="letraNormal">
                                             Para fines informativos y de comparación:<br>
                                             ' . $tasaDiaria . '% FIJO SIN IVA
@@ -408,7 +408,7 @@ $contenido .= '     <tr>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="12" class="tableFormat" style="text-align: left">
+                                    <td colspan="8" class="tableFormat" style="text-align: left">
                                         <label class="letraNormal">
                                             <b>"Cuide su capacidad de pago, generalmente no debe de exceder del 35% de sus ingresos".<br>
                                             "Si usted no paga en tiempo y forma corre el riesgo de perder sus prendas".</b>
@@ -416,7 +416,7 @@ $contenido .= '     <tr>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="12" class="tableFormat" style="text-align: left">
+                                    <td colspan="8" class="tableFormat" style="text-align: left">
                                         <label class="letraNormal">
                                             GARANTÍA: Para garantizar el pago de este préstamo, EL CONSUMIDOR deja en garantia el bien que se describe a continuacion:
                                         </label>
@@ -429,7 +429,7 @@ $contenido .= '     <tr>
                        <td> 
                             <table class="tableFormat " width="160mm">
                                 <tr class="tituloCelda">
-                                    <th colspan="12" class="tableFormat" >
+                                    <th colspan="8" class="tableFormat" >
                                        <label class="letraCelda">
                                             DESCRIPCIÓN DE LA PRENDA
                                         </label>
@@ -438,24 +438,25 @@ $contenido .= '     <tr>
                                 <tr class="tituloCelda">
                                     <th class="tableFormat" >
                                        <label class="letraCelda">
-                                            DESCRIPCIÓN GENÉRICA
+                                            DESCRIPCIÓN <br>
+                                            GENÉRICA
                                     </label>
-                                    <th colspan="5" class="tableFormat" >
+                                    <th colspan="4" class="tableFormat" >
                                         <label class="letraCelda">
                                             CARACTERISTICAS
                                         </label>
                                     </th>
-                                    <th colspan="2" class="tableFormat" >
+                                    <th  class="tableFormat" >
                                         <label class="letraCelda">
                                             AVALÚO
                                         </label>
                                     </th>
-                                    <th colspan="2" class="tableFormat" >
+                                    <th  class="tableFormat" >
                                         <label class="letraCelda">
                                             PRÉSTAMO
                                         </label>
                                     </th>
-                                    <th colspan="2" class="tableFormat" >
+                                    <th class="tableFormat" >
                                         <label class="letraCelda">
                                             %PRÉSTAMO SOBRE<br>
                                             AVALÚO
@@ -511,10 +512,10 @@ foreach ($tablaArt as $row) {
     $tablaArticulos .= '
                                 <tr>
                                     <td class="tableFormat " ><label  class="letraNormal">' . $tipoDescripcion . '</label></td>
-                                    <td class="tableFormat"  colspan="5"><label  class="letraNormal">' . $detalleDescripcion . '</label></td>
-                                    <td class="tableFormat"  colspan="2"><label  class="letraNormal">$ ' . $Avaluo . '</label></td>
-                                    <td class="tableFormat"  colspan="2"><label  class="letraNormal">$ ' . $MontoPrestamo . '</label></td>
-                                    <td class="tableFormat"  colspan="2"><label  class="letraNormal">' . $Aforo . ' %</label></td>
+                                    <td class="tableFormat"  colspan="4"><label  class="letraNormal">' . $detalleDescripcion . '</label></td>
+                                    <td class="tableFormat" ><label  class="letraNormal">$ ' . $Avaluo . '</label></td>
+                                    <td class="tableFormat" ><label  class="letraNormal">$ ' . $MontoPrestamo . '</label></td>
+                                    <td class="tableFormat" ><label  class="letraNormal">' . $Aforo . ' %</label></td>
                                 </tr>';
 
     if($i==1){
@@ -533,60 +534,60 @@ $contenido .= '
                         <td> 
                             <table class="tableFormat " width="160mm">
                                 <tr>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                         <label class="letraCelda">
                                             MONTO DEL AVALUO: $ ' . $Avaluo . '
                                         </label>
                                     </td>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                         <label class="letraCelda">
                                             ' . $avaluo_Letra . '
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                         <label class="letraCelda">
                                            PORCENTAJE DEL PRÉSTAMO SOBRE EL AVALÚO:
                                         </label>
                                     </td>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                         <label class="letraCelda">
                                             ' . $Aforo . ' %
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                         <label class="letraCelda">
                                            FECHA DE INICIO DE COMERCIALIZACIÓN:
                                         </label>
                                     </td>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                         <label class="letraCelda">
                                             ' . $FechaAlmoneda . '
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                          <label class="letraCelda">
                                            El monto del préstamo se realizara en:
                                         </label>
                                     </td>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                          <label class="letraCelda">
                                            Efectivo
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                          <label class="letraCelda">
                                            FECHA LÍMITE DE FINIQUITO:
                                         </label>
                                     </td>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
+                                    <td colspan="4" class="tableFormat" style="text-align: left">
                                         <label class="letraPDF">
                                            Terminos y condiciones para recibir pagos anticipados: Clausula 13 (decimo Tercera, Inciso b)
                                         </label>
@@ -604,14 +605,21 @@ $contenido .= '
                     </tr>
                     <tr>
                         <td>
-                            <label class="letraPDF">
+                        <table width="160mm">
+                        <tr>
+                        <td>
+                        <label class="letraPDF">
                                 *EL PROCEDIMIENTO PARA DESEMPEÑO, REFRENDO, FINIQUITO Y RECLAMO DEL REMANENTE SE ENCUENTRA DESCRITO EN EL CONTRATO.
                             </label>
+                        </td>
+                        </tr>
+                        </table>
+                                                    
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <table class="tableFormat " >
+                            <table class="tableFormat " width="160mm">
                                 <tr>
                                     <td colspan="12" style="text-align: left">
                                         <label class="letraPDF">
@@ -631,11 +639,12 @@ $contenido .= '
                     <tr>
                         <td> 
                             <table class="tableFormat ">
-                                <tr class="tituloCeldaPDF">
-                                    <th colspan="12" >
+                                <tr class="tituloCeldaPDF" width="160mm">
+                                    <th  >
                                         <label class="letraNormal">
-                                            Contrato de Adhesión registrado en el Registro Público de Contratos de Adhesión de la Procuraduría Federal del Consumidor, bajo el número 11327-2018 de fecha 29-oct-2018. <br>
-                                            El proveedor tiene la obligación de entregar al consumidor el documento en el cual se señale la descripción del préstamo, saldos, movimientos y la descripción de la Prenda en garantía.
+                                            Contrato de Adhesión registrado en el Registro Público de Contratos de Adhesión de la Procuraduría Federal del Consumidor, bajo el número 11327-2018 <br>
+                                            de fecha 29-oct-2018.  El proveedor tiene la obligación de entregar al consumidor el documento en el cual se señale la descripción del préstamo, saldos, <br>
+                                            movimientos y la descripción de la Prenda en garantía.
                                         </label>
                                     </th>
                                 </tr>
@@ -644,7 +653,7 @@ $contenido .= '
                     </tr>
                     <tr>
                         <td> 
-                            <table class="tableFormat">
+                            <table class="tableFormat" width="160mm">
                                 <tr>
                                     <td colspan="6" class="tableFormat" >
                                          <label class="letraCelda">DESEMPEÑO</label></td>
@@ -697,22 +706,30 @@ $contenido .= '
                     </tr>
                     <tr>
                         <td >
-                            <label class="letraPDF">
+                        <table width="160mm">
+                        <tr>
+                        <td>
+                        <label class="letraPDF">
                                 ' . $horarioCasa .'<br>
                                 Para todo lo relativo a la interpretación, aplicación y cumplimiento del contrato, LAS PARTES acuerdan
                                 someterse en la vía administrativa a la Procuraduría Federal del Consumidor, y en caso de subsistir
                                 diferencias, a la jurisdicción de los tribunales competentes del lugar donde se celebra este Contrato.
                             </label>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            ----------------------------------------
+                        </tr>
+                        <tr>
+                                                <td>
+                                                    ----------------------------------------
+                                                </td>
+                                            </tr>
+</table>
+                            
                         </td>
                     </tr>
+                    
                     <tr>
                         <td> 
-                            <table >
+                            <table width="160mm">
                                 <tr>
                                     <td>
                                         <label>&nbsp;</label>
