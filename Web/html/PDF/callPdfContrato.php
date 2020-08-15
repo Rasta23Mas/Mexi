@@ -278,30 +278,21 @@ $contenido .= '     <tr>
                        <td> 
                             <table class="tableFormat " width="100%">
                                 <tr class="tituloCelda">
-                                    <th colspan="2" rowspan="3" class="tableFormat" >
+                                    <th colspan="12" class="tableFormat" >
                                         <label class="letraCelda">
-                                            Opciones de pago<br>
-                                            para refrendo o <br>
-                                            desempeño<br>
+                                            Opciones de pago para refrendo o desempeño
                                         </label>
                                     </th>
                                 </tr>
                                 <tr class="tituloCelda">
-                                    <th colspan="6" class="tableFormat">
+                                    <th colspan="7" class="tableFormat">
                                         <label class="letraCelda">
                                             MONTO
                                         </label>
                                     </th>
-                                    <th colspan="3" class="tableFormat">
+                                    <th colspan="5" class="tableFormat">
                                         <label class="letraCelda">
                                             TOTAL A PAGAR
-                                        </label>
-                                    </th>
-                                     <th colspan="1" rowspan="2" class="tableFormat">
-                                        <label class="letraCelda">
-                                            CUANDO SE<br>
-                                            REALIZAN LOS<br>
-                                            PAGOS
                                         </label>
                                     </th>
                                 </tr>
