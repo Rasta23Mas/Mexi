@@ -224,8 +224,8 @@ $contenido = '
                             </label>
                                
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>';
+$contenido .= '     <tr>
                         <td>
                             <table class="tableFormat " width="100%">
                                 <tr class="tituloCelda">
@@ -235,46 +235,26 @@ $contenido = '
                                     <th colspan="2"  class="tableFormat"><label class="letraCelda">MONTO TOTAL A<br> PAGAR </label></th>
                                     <th colspan="4" class="tableFormat"><label class="letraCelda">COMISIONES<br> Montos y cláusulas  </label></th>
                                 </tr>
-                                <tr>
-                                    <td colspan="2" class="tableFormat">
-                                        <label class="letraNormal">
-                                            Para fines<br>
-                                            informativos<br>
-                                            y de comparación<br>
-                                            155.70 %<br>
-                                            FIJO SIN IVA
-                                        </label>
-                                    </td>
-                                    <td colspan="2" class="tableFormat">
-                                       <label class="letraNormal">
-                                            <u>36.00 % </u><br>
-                                            TASA FIJA
-                                        </label>
-                                    </td>
-                                    <td colspan="2" class="tableFormat">
-                                        <label class="letraNormal">
-                                            <u>$ ' . $MontoPrestamo . '</u><br>
-                                            Moneda Nacional
-                                        </label>
-                                    </td>
-                                    <td colspan="2" class="tableFormat">
-                                        <label class="letraNormal">
-                                            <u>$ ' . $MontoTotal . '</u><br>
-                                            Estimado al plazo máximo de desempeño<br>
-                                            o refrendo.
-                                        </label>
-                                    </td>
-                                    <td colspan="4" class="tableFormat" style="text-align: left;">
-                                        <label class="letraPDF">
-                                            Comisión por Almacenaje:<u>' . $Almacenaje . ' % </u>(Claus. 11a)<br>
-                                            Comisión por Avalúo <u>$ 0.00</u> (Claus. 11b)<br>
-                                            Comisión por Comercialización: <u>10.00%</u> (Claus. 11c)<br>
-                                            Comisión por reposición de contrato <u>$ 0.00</u> (Claus. 11d)<br>
-                                            Desempeño Extemporáneo: <u>0.00%</u> (Claus. 11e)<br>
-                                            Gastos de Administración <u>$ 0.00</u> (Claus 11f)<br>
-                                        </label>
-                                    </td>
-                                </tr>
+                                <tr >
+<td colspan="2"  class="tableFormat"><label class="letraNormal">Para fines<br>
+informativos<br>
+y de comparación<br>
+155.70 %<br>
+FIJO SIN IVA</label></td>
+<td colspan="2"  class="tableFormat"><label class="letraNormal"> <u>36.00 % </u><br>
+TASA FIJA</label></td>
+<td colspan="2"  class="tableFormat"><label class="letraNormal"> <u>$ ' . $MontoPrestamo . '</u><br>
+Moneda Nacional </label></td>
+<td colspan="2"  class="tableFormat"><label class="letraNormal"> <u>$ ' . $MontoTotal . '</u><br>
+Estimado al plazo máximo de desempeño<br>
+o refrendo.</label></td>
+<td colspan="4" class="tableFormat" style="text-align: left"><label class="letraPDF">Comisión por Almacenaje:<u>' . $Almacenaje . ' % </u>(Claus. 11a)<br>
+Comisión por Avalúo <u>$ 0.00</u> (Claus. 11b)<br>
+Comisión por Comercialización: <u>10.00%</u> (Claus. 11c)<br>
+Comisión por reposición de contrato <u>$ 0.00</u> (Claus. 11d)<br>
+Desempeño Extemporáneo: <u>0.00%</u> (Claus. 11e)<br>
+Gastos de Administración <u>$ 0.00</u> (Claus 11f)<br> </label></td>
+</tr>
                                 <tr>
                                     <td colspan="12" class="tituloCelda" style="text-align: left">
                                         <label class="letraCelda">
@@ -293,8 +273,8 @@ $contenido = '
                                 </tr>
                             </table>
                         </td>
-                    </tr>
-                    <tr>
+                    </tr>';
+$contenido .= '     <tr>
                        <td> 
                             <table class="tableFormat " width="100%">
                                 <tr class="tituloCelda">
