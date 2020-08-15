@@ -279,21 +279,15 @@ $contenido .= '     <tr>
                             <table class="tableFormat " width="100%">
                                 <tr class="tituloCelda">
                                     <th colspan="12" class="tableFormat" >
-                                        <label class="letraCelda">
-                                            Opciones de pago para refrendo o desempeño
-                                        </label>
+                                        <label class="letraCelda">Opciones de pago para refrendo o desempeño</label>
                                     </th>
                                 </tr>
                                 <tr class="tituloCelda">
                                     <th colspan="7" class="tableFormat">
-                                        <label class="letraCelda">
-                                            MONTO
-                                        </label>
+                                        <label class="letraCelda">MONTO</label>
                                     </th>
                                     <th colspan="5" class="tableFormat">
-                                        <label class="letraCelda">
-                                            TOTAL A PAGAR
-                                        </label>
+                                        <label class="letraCelda">TOTAL A PAGAR</label>
                                     </th>
                                 </tr>
                                 <tr class="tituloCelda">
