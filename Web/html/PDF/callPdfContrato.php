@@ -229,18 +229,11 @@ $contenido = '
                         <td>
                             <table class="tableFormat " width="100%">
                                 <tr class="tituloCelda">
-                                    <th colspan="2" rowspan="2" class="tableFormat"><label class="letraCelda">Cat<br> Costo Anual Total </label></th>
-                                    <th colspan="2" rowspan="2" class="tableFormat"><label class="letraCelda">TASA DE <br>INTERÉS <br>ANUAL </label></th>
-                                    <th colspan="2" rowspan="2" class="tableFormat"><label class="letraCelda">MONTO DEL<br> PRÉSTAMO<br> (MUTUO) </label></th>
-                                    <th colspan="2" rowspan="2" class="tableFormat"><label class="letraCelda">MONTO TOTAL A<br> PAGAR </label></th>
-                                    <th colspan="4" class="tableFormat"><label class="letraCelda">COMISIONES </label></th>
-                                </tr>
-                                <tr class="tituloCelda">
-                                    <td colspan="4">
-                                        <label class="letraNormal">
-                                            Montos y cláusulas 
-                                         </label>
-                                     </td>
+                                    <th colspan="2"  class="tableFormat"><label class="letraCelda">Cat<br> Costo Anual Total </label></th>
+                                    <th colspan="2"  class="tableFormat"><label class="letraCelda">TASA DE <br>INTERÉS <br>ANUAL </label></th>
+                                    <th colspan="2"  class="tableFormat"><label class="letraCelda">MONTO DEL<br> PRÉSTAMO<br> (MUTUO) </label></th>
+                                    <th colspan="2"  class="tableFormat"><label class="letraCelda">MONTO TOTAL A<br> PAGAR </label></th>
+                                    <th colspan="4" class="tableFormat"><label class="letraCelda">COMISIONES<br> Montos y cláusulas  </label></th>
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="tableFormat">
