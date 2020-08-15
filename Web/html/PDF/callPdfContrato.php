@@ -164,17 +164,17 @@ $contenido = '
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             .letraTitulo{
-                font-size: 1.3em;
+                font-size: .8em;
                 font-weight: bold;
             }
             .letraPDF{
-                font-size: .5em;
+                font-size: .4em;
             }
             .letraNormal{
-                font-size: .6em;
+                font-size: .5em;
             }
             .letraCelda{
-                font-size: .7em;
+                font-size: .6em;
             }
             .tableFormat{
                 border: 1px solid black; 
@@ -191,7 +191,6 @@ $contenido = '
             }
             .tituloCeldaPDF{
                 background-color: #ebebe0;
-                font-size: .6em;
                 text-align: left;
                 border-collapse: collapse;
                 border: 1px solid black;
@@ -205,29 +204,35 @@ $contenido = '
     </head>
     <body>
         <form>
-            <table width="90%"  align="center" >
+            <table  align="center" width="220mm" >
                 <tbody >
                     <tr>
-                        <td align="right"  >
-                            <label class="letraTitulo"> ' . $reimpresion . ' Contrato No. ' . $idContrato . '</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                            <label class="letraPDF">
-                                Fecha de celebración del contrato: CIUDAD DE MEXICO a ' . $FechaCreacion . '<br>
-                                <b>CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO)</b>, que celebran: ' . $NombreCasa . ',<b>"EL PROVEEDOR"</b>, con
-                                domicilio en: ' . $direccionCasa . ', R.F.C.: ' . $rfcCasa . ', Tel.: ' . $telefonoCasa . ', correo electrónico: ' . $correoCasa . ', y el <b>"EL CONSUMIDOR"</b>,
-                                ' . $NombreCompleto . ' que se identifica con: ' . $Identificacion . ' número: ' . $NumIde . ' con domicilio en: ' . $Direccion . '
-                                Tel.: ' . $Telefono . ' y Cel: ' . $Celular . 'correo electrónico:' . $Correo . '
-                                quien designa como cotitular a:' . $Cotitular . ' y beneficiario a: ' . $Beneficiario . ' solo para efectos de este contrato.
-                            </label>
-                               
+                        <td>
+                            <table width="160mm">
+                                <tr>
+                                    <td align="right"  >
+                                        <label class="letraTitulo"> ' . $reimpresion . ' Contrato No. ' . $idContrato . '</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <label class="letraPDF">
+                                            Fecha de celebración del contrato: CIUDAD DE MEXICO a ' . $FechaCreacion . '<br>
+                                            <b>CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO)</b>, que celebran: ' . $NombreCasa . ',<b>"EL PROVEEDOR"</b>, con
+                                            domicilio en: ' . $direccionCasa . ', R.F.C.: ' . $rfcCasa . ', Tel.: ' . $telefonoCasa . ', correo electrónico: ' . $correoCasa . ', y el <b>"EL CONSUMIDOR"</b>,
+                                            ' . $NombreCompleto . ' que se identifica con: ' . $Identificacion . ' número: ' . $NumIde . ' con domicilio en: ' . $Direccion . '
+                                            Tel.: ' . $Telefono . ' y Cel: ' . $Celular . 'correo electrónico:' . $Correo . '<br>
+                                            quien designa como cotitular a:' . $Cotitular . ' y beneficiario a: ' . $Beneficiario . ' solo para efectos de este contrato.
+                                        </label> 
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>';
-$contenido .= '     <tr>
+$contenido .= '     
+     <tr>
                         <td>
-                            <table class="tableFormat " width="100%">
+                            <table class="tableFormat " width="160mm">
                                 <tr class="tituloCelda">
                                     <th colspan="2"  class="tableFormat"><label class="letraCelda">Cat<br> Costo Anual Total </label></th>
                                     <th colspan="2"  class="tableFormat"><label class="letraCelda">TASA DE <br>INTERÉS <br>ANUAL </label></th>
@@ -257,7 +262,7 @@ Gastos de Administración <u>$ 0.00</u> (Claus 11f)<br> </label></td>
 </tr>
                                 <tr>
                                     <td colspan="12" class="tituloCelda" style="text-align: left">
-                                        <label class="letraCelda">
+                                        <label class="letraPDF">
                                             <b>METODOLOGIA DE CALCULO DE INTERÉS: TASA DE INTERÉS FIJA DIVIDIDA ENTRE 360 DIAS POR EL IMPORTE DEL SALDO INSOLUTO DEL PRÉSTAMO POR EL<br> 
                                             NÚMERO DE DÍAS EFECTIVAMENTE TRANSCURRIDOS.</b>
                                         </label>
@@ -276,56 +281,64 @@ Gastos de Administración <u>$ 0.00</u> (Claus 11f)<br> </label></td>
                     </tr>';
 $contenido .= '     <tr>
                        <td> 
-                            <table class="tableFormat " width="100%">
+                            <table class="tableFormat" width="160mm" >
                                 <tr class="tituloCelda">
-                                    <th colspan="12" class="tableFormat" >
+                                    <th colspan="9" class="tableFormat" >
                                         <label class="letraCelda">Opciones de pago para refrendo o desempeño</label>
                                     </th>
                                 </tr>
                                 <tr class="tituloCelda">
-                                    <th colspan="7" class="tableFormat">
+                                    <td colspan="6" class="tableFormat">
                                         <label class="letraCelda">MONTO</label>
-                                    </th>
-                                    <th colspan="5" class="tableFormat">
+                                    </td>
+                                    <td colspan="3" class="tableFormat">
                                         <label class="letraCelda">TOTAL A PAGAR</label>
-                                    </th>
+                                    </td>
                                 </tr>
                                 <tr class="tituloCelda">
-                                    <th class="tableFormat">
-                                        <label class="letraCelda">
+                                    <td class="tableFormat" >
+                                        <label class="letraCelda" >
                                             NÚMERO
                                         </label>
-                                    </th>
-                                    <th class="tableFormat" colspan="2">
+                                    </td>
+                                    <td class="tableFormat">
                                         <label class="letraCelda">
                                             IMPORTE MUTUO
                                         </label>
-                                    </th>
-                                    <th class="tableFormat">
+                                    </td>
+                                    <td class="tableFormat">
                                         <label class="letraCelda">
                                             INTERESES
                                         </label>
-                                    </th>
-                                    <th class="tableFormat">
-                                        <label class="letraCelda">
+                                    </td>
+                                    <td class="tableFormat" > 
+                                        <label class="letraCelda" >
                                             ALMACENAJE
                                         </label>
-                                    </th>
-                                    <th class="tableFormat">
+                                    </td>
+                                    <td class="tableFormat">
                                         <label class="letraCelda">
                                             IVA
                                         </label>
-                                    </th>
-                                    <th class="tableFormat">
-                                        <label class="letraCelda">
+                                    </td>
+                                    <td class="tableFormat">
+                                        <label class="letraCelda" >
                                             POR REFRENDO
                                         </label>
-                                    </th>
-                                    <th class="tableFormat" colspan="2">
+                                    </td>
+                                    <td class="tableFormat">
                                         <label class="letraCelda">
                                             POR DESEMPEÑO
                                         </label>
-                                    </th>
+                                    </td>
+                                    <td class="tableFormat" >
+                                        <label class="letraCelda">
+                                            CUANDO SE<br>
+                                            REALIZAN LOS<br>
+                                            PAGOS
+                                        </label>
+                                    </td>
+                                    
                                 </tr>
                                 <tr>
                                     <td class="tableFormat">
@@ -342,7 +355,7 @@ $contenido .= '     <tr>
                                             $ ' . $calculaInteres . '
                                         </label>
                                     </td>
-                                    <td class="tableFormat">
+                                    <td class="tableFormat" colspan="2">
                                         <label class="letraNormal">
                                             $ ' . $calculaALm . '
                                         </label>
@@ -352,8 +365,8 @@ $contenido .= '     <tr>
                                             $ ' . $calculaIva . '
                                         </label>
                                     </td>
-                                    <td class="tableFormat">
-                                        <label class="letraNormal">
+                                    <td class="tableFormat" colspan="2">
+                                        <label class="letraNormal" >
                                             $ ' . $Intereses . '
                                         </label>
                                     </td>
@@ -414,7 +427,7 @@ $contenido .= '     <tr>
                     </tr>';
 $contenido .= '     <tr>
                        <td> 
-                            <table class="tableFormat " width="100%">
+                            <table class="tableFormat " width="160mm">
                                 <tr class="tituloCelda">
                                     <th colspan="12" class="tableFormat" >
                                        <label class="letraCelda">
@@ -518,7 +531,7 @@ $contenido .= '
                     </tr>
                     <tr>
                         <td> 
-                            <table class="tableFormat " width="100%">
+                            <table class="tableFormat " width="160mm">
                                 <tr>
                                     <td colspan="6" class="tableFormat" style="text-align: left">
                                         <label class="letraCelda">
@@ -598,7 +611,7 @@ $contenido .= '
                     </tr>
                     <tr>
                         <td>
-                            <table class="tableFormat " width="100%">
+                            <table class="tableFormat " >
                                 <tr>
                                     <td colspan="12" style="text-align: left">
                                         <label class="letraPDF">
@@ -617,10 +630,10 @@ $contenido .= '
                     </tr>
                     <tr>
                         <td> 
-                            <table class="tableFormat " width="100%">
+                            <table class="tableFormat ">
                                 <tr class="tituloCeldaPDF">
                                     <th colspan="12" >
-                                        <label>
+                                        <label class="letraNormal">
                                             Contrato de Adhesión registrado en el Registro Público de Contratos de Adhesión de la Procuraduría Federal del Consumidor, bajo el número 11327-2018 de fecha 29-oct-2018. <br>
                                             El proveedor tiene la obligación de entregar al consumidor el documento en el cual se señale la descripción del préstamo, saldos, movimientos y la descripción de la Prenda en garantía.
                                         </label>
@@ -631,7 +644,7 @@ $contenido .= '
                     </tr>
                     <tr>
                         <td> 
-                            <table class="tableFormat" width="100%">
+                            <table class="tableFormat">
                                 <tr>
                                     <td colspan="6" class="tableFormat" >
                                          <label class="letraCelda">DESEMPEÑO</label></td>
@@ -657,21 +670,21 @@ $contenido .= '
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" class="tableFormat" style="width: 33%" >
+                                    <td colspan="4" class="tableFormat" >
                                         <label class="letraNormal">
                                             ' . $NombreCompleto . '<br>
                                             <br>
                                             EL CONSUMIDOR
                                         </label>
                                     </td>
-                                     <td colspan="4" class="tableFormat" style="width: 33%" >
+                                     <td colspan="4" class="tableFormat" >
                                         <label class="letraNormal">
                                             ' . $NombreCasa . '<br>
                                             <br>
                                              EL PROVEEDOR
                                         </label>
                                     </td>
-                                     <td colspan="4" class="tableFormat" style="width: 33%" >
+                                     <td colspan="4" class="tableFormat"  >
                                         <label class="letraNormal">
                                             ' . $NombreUsuario . '<br>
                                             <br>
@@ -683,7 +696,7 @@ $contenido .= '
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="12">
+                        <td >
                             <label class="letraPDF">
                                 ' . $horarioCasa .'<br>
                                 Para todo lo relativo a la interpretación, aplicación y cumplimiento del contrato, LAS PARTES acuerdan
@@ -694,48 +707,45 @@ $contenido .= '
                     </tr>
                     <tr>
                         <td>
-                            <hr style="border-top: 1px dashed black;"  />
+                            ----------------------------------------
                         </td>
                     </tr>
                     <tr>
                         <td> 
-                            <table width="100%">
+                            <table >
                                 <tr>
-                                    <td colspan="4">
+                                    <td>
                                         <label>&nbsp;</label>
                                     </td>
-                                    <td colspan="4" style="text-align: right">
+                                    <td style="text-align: right">
                                         <label class="letraTitulo">
                                             NO. ' . $idContrato . '
-                                        </label>
-                                    </td>
-                                    <td colspan="4" style="text-align: right">
-                                        <label class="letraTitulo">
+                                   &nbsp;&nbsp;&nbsp;&nbsp;
                                             NO. ' . $idContrato . '
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="8" style="text-align: left">
+                                    <td  style="text-align: left">
                                         <label class="letraTitulo">
                                             NOMBRE:' . $NombreCompleto . '
                                         </label>
                                     </td>
-                                    <td colspan="4">
-                                        <label class="letraTitulo">
+                                    <td >
+                                        <label class="letraTitulo" >
                                             PRÉSTAMO:&nbsp;$ ' . $MontoPrestamo . '
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="12" style="text-align: left">
+                                    <td  style="text-align: left" colspan="2">
                                         <label class="letraTitulo">
                                              FECHA: ' . $FechaCreacion . ' PLAZO: 1 MENSUAL
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="12" style="text-align: left">
+                                    <td style="text-align: left" colspan="2">
                                         <label class="letraTitulo" >
                                              PRENDA:' . $detallePiePagina . '
                                         </label>
