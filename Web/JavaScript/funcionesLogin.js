@@ -50,14 +50,13 @@ function validarUser() {
 
 //Login Administradores
 function LoginAdministradores(sucursal) {
-    alert("entra" + sucursal)
     var dataEnviar = {
         "sucursal": sucursal,
     };
     $.ajax({
         type: "POST",
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Usuario/LogginAdministrador.php',
+        url: '../../../com.Mexicash/Controlador/Usuario/LogginAdministradores.php',
         success: function (HaySucursales) {
             if (HaySucursales == 0) {
                 insertaCajaSucursal(1);
@@ -273,7 +272,6 @@ function buscaridCaja() {
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCaja.php',
         success: function (response) {
             if (response > 0) {
-                //Adminisradores -> 5 Inicia la sesion
                 if($tipoUserGlb==1||$tipoUserGlb ==2){
                     location.href = '../Empeno/vInicio.php'
                 }else{
@@ -326,7 +324,6 @@ function saldosSucursal(saldoInicialInfo) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
         success: function (response) {
-            alert(response)
             if (response == 1) {
                 buscaridCaja()
             } else {

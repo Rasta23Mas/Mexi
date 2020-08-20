@@ -14,7 +14,14 @@ $sesionInactiva = $_SESSION['sesionInactiva'];
 
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once (HTML_PATH."menuGeneral.php");
+
+if($tipoUsuario==2){
+    include_once (HTML_PATH."menuAdmin.php");
+}elseif ($tipoUsuario==3){
+    include_once (HTML_PATH."menuGeneral.php");
+}elseif ($tipoUsuario==4){
+    include_once (HTML_PATH."menuGeneral.php");
+}
 include_once(HTML_PATH . "Dotacion/modalFlujo.php");
 include_once(HTML_PATH . "Dotacion/modalBusqueda.php");
 

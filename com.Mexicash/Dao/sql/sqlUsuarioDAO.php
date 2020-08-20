@@ -62,12 +62,14 @@ class sqlUsuarioDAO
     function sucursalAdmin($sucursal){
         try {
             $retorna = 0;
-            $buscar = "select id_CierreSucursal from bit_cierresucursal where sucursal=$sucursal";
+            $_SESSION['sucursal'] = $sucursal;
+            $buscar = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=1 AND sucursal=$sucursal";
             $statement = $this->conexion->query($buscar);
             $encontro = $statement->num_rows;
             if ($encontro > 0) {
                 $fechaHoy = date('Y-m-d');
                 $buscarHoy = "select estatus,id_CierreSucursal from bit_cierresucursal WHERE  sucursal = " . $sucursal . " AND DATE(fecha_Creacion) = '$fechaHoy' and estatus !=20";
+                echo $buscarHoy;
                 $statement = $this->conexion->query($buscar);
                 if ($statement->num_rows > 0) {
                     $fila = $statement->fetch_object();
@@ -77,7 +79,7 @@ class sqlUsuarioDAO
                     ///PENDIENTES AQUI
                 }
             } else {
-                $retorna = -1;
+                $retorna = 0;
             }
         } catch (Exception $exc) {
             echo $exc->getMessage();
@@ -191,14 +193,14 @@ class sqlUsuarioDAO
             $sucursal = $_SESSION["sucursal"];
 
             $insertarCierreSucursal = "INSERT INTO bit_cierresucursal " .
-                "(	id_CierreSucursal, usuario, sucursal, fecha_Creacion, estatus)  VALUES " .
-                "(" . $idCierreSuc . ",'" . $usuario . "','" . $sucursal . "','" . $fechaCreacion . "', '" . $estatus . "' )";
+                "(	id_CierreSucursal, usuario, sucursal, fecha_Creacion, estatus,flag_Activa)  VALUES " .
+                "(" . $idCierreSuc . ",'" . $usuario . "','" . $sucursal . "','" . $fechaCreacion . "', '" . $estatus . "',1 )";
 
             if ($ps = $this->conexion->prepare($insertarCierreSucursal)) {
                 if ($ps->execute()) {
                     $insertoFila = mysqli_stmt_affected_rows($ps);
                     if ($insertoFila > 0) {
-                        $buscarIdCierre = "select id_CierreSucursal  from bit_cierresucursal where sucursal = " . $sucursal . " and estatus = $estatus AND DATE(fecha_Creacion) = '$fechaHoy'";
+                        $buscarIdCierre = "select id_CierreSucursal  from bit_cierresucursal where sucursal = " . $sucursal . " and flag_Activa =1";
                         $resultado = $this->conexion->query($buscarIdCierre);
                         if ($resultado->num_rows > 0) {
                             $fila = $resultado->fetch_object();
@@ -210,11 +212,9 @@ class sqlUsuarioDAO
                     }
                 } else {
                     $retorna = -2;
-
                 }
             } else {
                 $retorna = -3;
-
             }
 
         } catch (Exception $exc) {

@@ -20,8 +20,14 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 $tipoUsuario = $_SESSION['tipoUsuario'];
-include_once (HTML_PATH."menuGeneral.php");
 
+if($tipoUsuario==2){
+    include_once (HTML_PATH."menuAdmin.php");
+}elseif ($tipoUsuario==3){
+    include_once (HTML_PATH."menuGeneral.php");
+}elseif ($tipoUsuario==4){
+    include_once (HTML_PATH."menuGeneral.php");
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -32,16 +38,23 @@ include_once (HTML_PATH."menuGeneral.php");
     <script type="application/javascript">
         $(document).ready(function () {
             var sesionInactiva =<?php echo $sesionInactiva ?>;
-            var $cajaInactiva =<?php echo $cajaInactiva ?>;
+            var cajaInactiva =<?php echo $cajaInactiva ?>;
+            var tipoUsuario =<?php echo $tipoUsuario ?>;
             if(sesionInactiva==0){
                 $("#sesionInactiva").hide();
             }else{
                 $("#sesionInactiva").show();
             }
-            if($cajaInactiva==0){
+            if(cajaInactiva==0){
                 $("#cajaInactiva").hide();
             }else{
                 $("#cajaInactiva").show();
+            }
+            if(tipoUsuario==2){
+                $("#OpSesion").hide();
+                $("#menuGerente").hide();
+            }else{
+                $("#menuAdmin").show();
             }
         })
     </script>
@@ -58,11 +71,12 @@ include_once (HTML_PATH."menuGeneral.php");
             <h4 align="center">Bienvenido: <?php echo $_SESSION["usuario"]; ?></h4>
             <br>
             <h5 align="left">Sucursal: <?php echo $sucName; ?></h5>
-            <h5 align="left">Operación Caja: <?php echo $_SESSION["idCierreCaja"]; ?></h5>
             <h5 align="left">Operación Sucursal: <?php echo $_SESSION["idCierreSucursal"]; ?></h5>
+            <h5 align="left"><label id="OpSesion">Operación Sesión: <?php echo $_SESSION["idCierreCaja"]; ?></label></h5>
+
             <br>
         </div>
-        <div class="row">
+        <div class="row" id="menuGerente">
             <div class="col-1" >
             </div>
             <div class="col-2 border border-info " align="center">
@@ -150,6 +164,16 @@ include_once (HTML_PATH."menuGeneral.php");
                         </td>
                     </tr>
                 </table>
+            </div>
+        </div>
+        <div class="row" id="menuAdmin">
+            <div class="col-1" >
+            </div>
+            <div class="col-2 border border-info " align="center">
+
+            </div>
+            <div class="col-2 border border-info " align="center">
+
             </div>
         </div>
         <div class="row">
