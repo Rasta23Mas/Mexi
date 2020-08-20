@@ -7,7 +7,7 @@ use Dompdf\Dompdf;
 
 
 if (!isset($_SESSION)) {
-session_start();
+    session_start();
 }
 $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
@@ -78,6 +78,7 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
             INNER JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
             INNER JOIN cat_sucursal CSuc ON Mov.sucursal=CSUC.id_Sucursal
             WHERE Con.id_Contrato =$idContrato ";
+
 $resultado = $db->query($query);
 
 foreach ($resultado as $row) {
@@ -132,11 +133,9 @@ if ($Dias == 30) {
 $ivaPorcentaje = '.' . $Iva;
 $ivaPorcentaje = floatval($ivaPorcentaje);
 //Se saca los porcentajes mensuales
-//$calculaInteres = round($MontoPrestamo * $Tasa / 100, 2);
-$calculaInteres = 30;
-$calculaALm = 120;
+$calculaInteres = round($MontoPrestamo * $Tasa / 100, 2);
+$calculaALm = round($MontoPrestamo * $Almacenaje / 100, 2);
 $calculaSeg = round($MontoPrestamo * $Seguro / 100, 2);
-// $calculaIva = round($MontoPrestamo * $ivaPorcentaje / 100, 2);
 $calculaIva = round(($calculaInteres + $calculaALm) * $ivaPorcentaje, 2);
 $totalInteres = $calculaInteres + $calculaALm + $calculaSeg + $calculaIva;
 //interes por dia
@@ -156,313 +155,6 @@ $calculaALm = number_format($calculaALm, 2, '.', ',');
 $calculaInteres = number_format($calculaInteres, 2, '.', ',');
 $calculaIva = number_format($calculaIva, 2, '.', ',');
 $Intereses = number_format($Intereses, 2, '.', ',');
-
-$contenido = '
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            .letraTitulo{
-                font-size: .8em;
-                font-weight: bold;
-            }
-            .letraPDF{
-                font-size: .4em;
-            }
-            .letraNormal{
-                font-size: .5em;
-            }
-            .letraCelda{
-                font-size: .6em;
-            }
-            .tableFormat{
-                border: 1px solid black; 
-                border-collapse: collapse;
-                text-align: center;
-                 
-            }
-            .tituloCelda{
-                background-color: #ebebe0;
-                font-weight: bold;
-                text-align: center;
-                border-collapse: collapse;
-                border: 1px solid black;
-            }
-            .tituloCeldaPDF{
-                background-color: #ebebe0;
-                text-align: left;
-                border-collapse: collapse;
-                border: 1px solid black;
-            }
-            body {
-                font-family: "Times New Roman", serif;
-                margin: 35mm 10mm 25mm 10mm;
-            }
-                
-        </style>
-    </head>
-    <body>
-        <form>
-            <table  align="center" width="220mm" >
-                <tbody >
-                    <tr>
-                        <td>
-                            <table width="160mm">
-                                <tr>
-                                    <td align="right"  >
-                                        <label class="letraTitulo"> ' . $reimpresion . ' Contrato No. ' . $idContrato . '</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td >
-                                        <label class="letraPDF">
-                                            Fecha de celebración del contrato: CIUDAD DE MEXICO a ' . $FechaCreacion . '<br>
-                                            <b>CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO)</b>, que celebran: ' . $NombreCasa . ',<b>"EL PROVEEDOR"</b>, con
-                                            domicilio en: ' . $direccionCasa . ', R.F.C.: ' . $rfcCasa . ', Tel.: ' . $telefonoCasa . ', correo electrónico: ' . $correoCasa . ', y el <b>"EL CONSUMIDOR"</b>,
-                                            ' . $NombreCompleto . ' que se identifica con: ' . $Identificacion . ' número: ' . $NumIde . ' con domicilio en: ' . $Direccion . '
-                                            Tel.: ' . $Telefono . ' y Cel: ' . $Celular . 'correo electrónico:' . $Correo . '<br>
-                                            quien designa como cotitular a:' . $Cotitular . ' y beneficiario a: ' . $Beneficiario . ' solo para efectos de este contrato.
-                                        </label> 
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>';
-$contenido .= '     
-     <tr>
-                        <td>
-                            <table class="tableFormat " width="160mm">
-                                <tr class="tituloCelda">
-                                    <th colspan="2"  class="tableFormat"><label class="letraCelda">Cat<br> Costo Anual Total </label></th>
-                                    <th colspan="2"  class="tableFormat"><label class="letraCelda">TASA DE <br>INTERÉS <br>ANUAL </label></th>
-                                    <th colspan="2"  class="tableFormat"><label class="letraCelda">MONTO DEL<br> PRÉSTAMO<br> (MUTUO) </label></th>
-                                    <th colspan="2"  class="tableFormat"><label class="letraCelda">MONTO TOTAL A<br> PAGAR </label></th>
-                                    <th colspan="4" class="tableFormat"><label class="letraCelda">COMISIONES<br> Montos y cláusulas  </label></th>
-                                </tr>
-                                <tr >
-<td colspan="2"  class="tableFormat"><label class="letraNormal">Para fines<br>
-informativos<br>
-y de comparación<br>
-155.70 %<br>
-FIJO SIN IVA</label></td>
-<td colspan="2"  class="tableFormat"><label class="letraNormal"> <u>36.00 % </u><br>
-TASA FIJA</label></td>
-<td colspan="2"  class="tableFormat"><label class="letraNormal"> <u>$ ' . $MontoPrestamo . '</u><br>
-Moneda Nacional </label></td>
-<td colspan="2"  class="tableFormat"><label class="letraNormal"> <u>$ ' . $MontoTotal . '</u><br>
-Estimado al plazo máximo de desempeño<br>
-o refrendo.</label></td>
-<td colspan="4" class="tableFormat" style="text-align: left"><label class="letraPDF">Comisión por Almacenaje:<u>' . $Almacenaje . ' % </u>(Claus. 11a)<br>
-Comisión por Avalúo <u>$ 0.00</u> (Claus. 11b)<br>
-Comisión por Comercialización: <u>10.00%</u> (Claus. 11c)<br>
-Comisión por reposición de contrato <u>$ 0.00</u> (Claus. 11d)<br>
-Desempeño Extemporáneo: <u>0.00%</u> (Claus. 11e)<br>
-Gastos de Administración <u>$ 0.00</u> (Claus 11f)<br> </label></td>
-</tr>
-                                <tr>
-                                    <td colspan="12" class="tituloCelda" style="text-align: left">
-                                        <label class="letraPDF">
-                                            <b>METODOLOGIA DE CALCULO DE INTERÉS: TASA DE INTERÉS FIJA DIVIDIDA ENTRE 360 DIAS POR EL IMPORTE DEL SALDO INSOLUTO DEL PRÉSTAMO POR EL<br> 
-                                            NÚMERO DE DÍAS EFECTIVAMENTE TRANSCURRIDOS.</b>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="12" style="text-align: left">
-                                        <label class="letraNormal">
-                                            PLAZO DEL PRÉSTAMO (Fecha limite para el refrendo o desempeño):' . $FechaAlmoneda . '. Total de refrendos aplicables:<br>
-                                            Su pago sera: ' . $diasLabel . '. Metodos de pago aceptado: efectivo. En caso de que el vencimiento sea en dia inhabil, se considerara el dia habil siguiente.
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>';
-$contenido .= '     <tr>
-                       <td> 
-                            <table class="tableFormat" width="160mm" >
-                                <tr class="tituloCelda">
-                                    <th colspan="8" class="tableFormat" >
-                                        <label class="letraCelda">Opciones de pago para refrendo o desempeño</label>
-                                    </th>
-                                </tr>
-                                <tr class="tituloCelda">
-                                    <td colspan="5" class="tableFormat">
-                                        <label class="letraCelda">MONTO</label>
-                                    </td>
-                                    <td colspan="3" class="tableFormat">
-                                        <label class="letraCelda">TOTAL A PAGAR</label>
-                                    </td>
-                                </tr>
-                                <tr class="tituloCelda">
-                                    <td class="tableFormat" >
-                                        <label class="letraCelda" >
-                                            NÚMERO
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat">
-                                        <label class="letraCelda">
-                                            IMPORTE MUTUO
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat">
-                                        <label class="letraCelda">
-                                            INTERESES
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat" > 
-                                        <label class="letraCelda" >
-                                            ALMACENAJE
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat">
-                                        <label class="letraCelda">
-                                            IVA
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat">
-                                        <label class="letraCelda" >
-                                            POR REFRENDO
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat">
-                                        <label class="letraCelda">
-                                            POR DESEMPEÑO
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat" >
-                                        <label class="letraCelda">
-                                            CUANDO SE<br>
-                                            REALIZAN LOS<br>
-                                            PAGOS
-                                        </label>
-                                    </td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td class="tableFormat">
-                                        <label  class="letraNormal">
-                                            1
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat" colspan="2">
-                                        <label class="letraNormal">
-                                            $ ' . $MontoPrestamo . '
-                                        </label>
-                                    <td class="tableFormat">
-                                        <label class="letraNormal">
-                                            $ ' . $calculaInteres . '
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat" colspan="2">
-                                        <label class="letraNormal">
-                                            $ ' . $calculaALm . '
-                                        </label>
-                                    </td align="center">
-                                    <td class="tableFormat">
-                                        <label class="letraNormal">
-                                            $ ' . $calculaIva . '
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat" colspan="2">
-                                        <label class="letraNormal" >
-                                            $ ' . $Intereses . '
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat" colspan="2">
-                                        <label class="letraNormal">
-                                            $ ' . $MontoTotal . '
-                                        </label>
-                                    </td>
-                                    <td class="tableFormat">
-                                        <label class="letraNormal">
-                                            ' . $FechaVenc . '
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="tableFormat">
-                                        <label class="letraCelda">
-                                            <b>COSTO MENSUAL TOTAL</b>
-                                        </label>
-                                    </td>
-                                    <td colspan="4" class="tableFormat">
-                                        <label class="letraCelda">
-                                            <b>COSTO DIARIO TOTAL</b>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="tableFormat">
-                                        <label class="letraNormal">
-                                            Para fines informativos y de comparación:<br>
-                                            ' . $tasaIvaTotal . '% FIJO SIN IVA
-                                        </label>
-                                    </td>
-                                    <td colspan="4" class="tableFormat">
-                                        <label class="letraNormal">
-                                            Para fines informativos y de comparación:<br>
-                                            ' . $tasaDiaria . '% FIJO SIN IVA
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="8" class="tableFormat" style="text-align: left">
-                                        <label class="letraNormal">
-                                            <b>"Cuide su capacidad de pago, generalmente no debe de exceder del 35% de sus ingresos".<br>
-                                            "Si usted no paga en tiempo y forma corre el riesgo de perder sus prendas".</b>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="8" class="tableFormat" style="text-align: left">
-                                        <label class="letraNormal">
-                                            GARANTÍA: Para garantizar el pago de este préstamo, EL CONSUMIDOR deja en garantia el bien que se describe a continuacion:
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>';
-$contenido .= '     <tr>
-                       <td> 
-                            <table class="tableFormat " width="160mm">
-                                <tr class="tituloCelda">
-                                    <th colspan="8" class="tableFormat" >
-                                       <label class="letraCelda">
-                                            DESCRIPCIÓN DE LA PRENDA
-                                        </label>
-                                    </th>
-                                </tr>
-                                <tr class="tituloCelda">
-                                    <th class="tableFormat" >
-                                       <label class="letraCelda">
-                                            DESCRIPCIÓN <br>
-                                            GENÉRICA
-                                    </label>
-                                    <th colspan="4" class="tableFormat" >
-                                        <label class="letraCelda">
-                                            CARACTERISTICAS
-                                        </label>
-                                    </th>
-                                    <th  class="tableFormat" >
-                                        <label class="letraCelda">
-                                            AVALÚO
-                                        </label>
-                                    </th>
-                                    <th  class="tableFormat" >
-                                        <label class="letraCelda">
-                                            PRÉSTAMO
-                                        </label>
-                                    </th>
-                                    <th class="tableFormat" >
-                                        <label class="letraCelda">
-                                            %PRÉSTAMO SOBRE<br>
-                                            AVALÚO
-                                        </label>
-                                    </th>  
-                                </tr>';
 $i = 1;
 $tablaArticulos = '';
 $detallePiePagina = '';
@@ -486,7 +178,6 @@ $query = "SELECT
             LEFT JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato
             WHERE Con.id_Contrato =$idContrato ";
 $tablaArt = $db->query($query);
-
 foreach ($tablaArt as $row) {
     if ($TipFormulario == 1) {
         $tipoDescripcion = 'METALES';
@@ -511,10 +202,10 @@ foreach ($tablaArt as $row) {
     $detalleDescripcion = $detalle . " " . $Obs;
     $tablaArticulos .= '
                                 <tr>
-                                    <td class="tableFormat " ><label  class="letraNormal">' . $tipoDescripcion . '</label></td>
-                                    <td class="tableFormat"  colspan="4"><label  class="letraNormal">' . $detalleDescripcion . '</label></td>
-                                    <td class="tableFormat" ><label  class="letraNormal">$ ' . $Avaluo . '</label></td>
-                                    <td class="tableFormat" ><label  class="letraNormal">$ ' . $MontoPrestamo . '</label></td>
+                                    <td class="tableFormat " colspan="2"><label  class="letraNormal">' . $tipoDescripcion . '</label></td>
+                                    <td class="tableFormat"  colspan="5"><label  class="letraNormal">' . $detalleDescripcion . '</label></td>
+                                    <td class="tableFormat" colspan="2"><label  class="letraNormal">$ ' . $avaluoArt . '</label></td>
+                                    <td class="tableFormat" colspan="2"><label  class="letraNormal">$ ' . $prestamoArt . '</label></td>
                                     <td class="tableFormat" ><label  class="letraNormal">' . $Aforo . ' %</label></td>
                                 </tr>';
 
@@ -525,257 +216,429 @@ foreach ($tablaArt as $row) {
     }
     $i++;
 }
+$contenido = '<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+           .letraNormalNegrita{
+          font-size: .6em;
+          font-weight: bold;
+         }
+         
+          .letraExtraGrandeNegrita {
+            font-size: 1.8em;
+            font-weight: bold;
+            }
+            
+          .letraGrandeNegrita{
+          font-size: 1.1em;
+          font-weight: bold;
+         }
+          .letraChicaNegrita{
+          font-size: .5em;
+          font-weight: bold;
+         }
+          .letraNormal{
+          font-size: .6em;
+         }
+          .letraGrande{
+          font-size: 1.1em;
+         }
+          .letraChica{
+          font-size: .5em;
+         }
+            
+          .tituloCelda{
+              background-color: #ebebe0
+            }
+            
+            html {
+                margin: 35mm 10mm 25mm 10mm;
+            }
+    </style>
+</head>
+<body><form>
+    <table width="80%" border="1" align="center">
+        <tbody>
+        <tr>
+            <td colspan="12" align="right">
+                <label class="letraGrandeNegrita"> ' . $reimpresion . ' Contrato No. ' . $idContrato . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <label class="letraChica">
+                    Fecha de celebración del contrato: CIUDAD DE MEXICO a ' . $FechaCreacion . '<br>
+                    <b>CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO)</b>, que celebran: ' . $NombreCasa . ',<b>"EL PROVEEDOR"</b>, con
+                    domicilio en: ' . $direccionCasa . ', R.F.C.: ' . $rfcCasa . ', Tel.: ' . $telefonoCasa . ', correo electrónico: ' . $correoCasa . ', y el <b>"EL CONSUMIDOR"</b>,
+                    ' . $NombreCompleto . ' que se identifica con: ' . $Identificacion . ' número: ' . $NumIde . ' con domicilio en: ' . $Direccion . '
+                    Tel.: ' . $Telefono . ' y Cel: ' . $Celular . 'correo electrónico:' . $Correo . '<br>
+                    quien designa como cotitular a:' . $Cotitular . ' y beneficiario a: ' . $Beneficiario . ' solo para efectos de este contrato.
+                </label>
+            </td>
+        </tr>
+        <tr class="tituloCelda">
+            <td colspan="2" rowspan="2" align="center"><label class="letraNormalNegrita">Cat<br> Costo Anual Total </label></td>
+            <td colspan="2" rowspan="2" align="center"><label class="letraNormalNegrita">TASA DE <br>INTERÉS <br>ANUAL </label></td>
+            <td colspan="2" rowspan="2" align="center"><label class="letraNormalNegrita">MONTO DEL<br> PRÉSTAMO<br> (MUTUO) </label></td>
+            <td colspan="2" rowspan="2" align="center"><label class="letraNormalNegrita">MONTO TOTAL A<br> PAGAR </label></td>
+            <td colspan="4" align="center"><label class="letraNormalNegrita">COMISIONES</label></td>
+        </tr>
+        <tr class="tituloCelda">
+            <td colspan="4" align="center"><label class="letraNormalNegrita"> Montos y cláusulas </label></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <label class="letraNormal">
+                    Para fines<br>
+                    informativos<br>
+                    y de comparación<br>
+                    155.70 %<br>
+                    FIJO SIN IVA
+                </label>
+            </td>
+            <td colspan="2">
+                <label class="letraNormal">
+                    <u>36.00 % </u><br>
+                    TASA FIJA
+                </label>
+            </td>
+            <td colspan="2">
+                <label class="letraNormal">
+                    <u>$ ' . $MontoPrestamo . '</u><br>
+                    Moneda Nacional </label>
+                </label>
+            </td>
+            <td colspan="2"><label class="letraNormal">
+                $ ' . $MontoTotal . '</u><br>
+                Estimado al plazo máximo de desempeño<br>
+                o refrendo.</label>
+            </td>
+            <td colspan="4">
+                <label class="letraChica">
+                    Comisión por Almacenaje:
+                    <u>' . $Almacenaje . ' % </u>(Claus. 11a)<br>
+                    Comisión por Avalúo <u>$ 0.00</u> (Claus. 11b)<br>
+                    Comisión por Comercialización: <u>10.00%</u> (Claus. 11c)<br>
+                    Comisión por reposición de contrato <u>$ 0.00</u> (Claus. 11d)<br>
+                    Desempeño Extemporáneo: <u>0.00%</u> (Claus. 11e)<br>
+                    Gastos de Administración <u>$ 0.00</u> (Claus 11f)<br> 
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" class="tituloCelda">
+                <label class="letraChica">
+                    <b>METODOLOGIA DE CALCULO DE INTERÉS: TASA DE INTERÉS FIJA DIVIDIDA ENTRE 360 DIAS POR EL IMPORTE DEL SALDO INSOLUTO DEL PRÉSTAMO POR EL<br> 
+                                NÚMERO DE DÍAS EFECTIVAMENTE TRANSCURRIDOS.</b>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <label class="letraChica">
+                    PLAZO DEL PRÉSTAMO (Fecha limite para el refrendo o desempeño):' . $FechaAlmoneda . '. Total de refrendos aplicables:<br>
+                                Su pago sera: ' . $diasLabel . '. Metodos de pago aceptado: efectivo. En caso de que el vencimiento sea en dia inhabil, se considerara el dia habil siguiente.
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" class="tituloCelda" align="center">
+                <label class="letraNormal">
+                    Opciones de pago para refrendo o desempeño
+                </label>
+            </td>
+        </tr>
+        <tr class="tituloCelda">
+            <td colspan="6" align="center">
+                <label class="letraNormal">
+                    MONTO
+                </label>
+            </td>
+            <td colspan="6" align="center">
+                <label class="letraNormal">
+                    TOTAL A PAGAR
+                </label>
+            </td>
+        </tr>
+        <tr class="tituloCelda" align="center">
+            <td>
+                <label class="letraNormal">
+                    NÚMERO
+                </label>
+            </td>
+            <td colspan="2">
+                <label class="letraNormal">
+                    IMPORTE MUTUO
+                </label>
+            </td>
+            <td>
+                <label class="letraNormal">
+                    INTERESES
+                </label>
+            </td>
+            <td>
+                <label class="letraNormal">
+                    ALMACENAJE
+                </label>
+            </td>
+            <td><label class="letraNormal">
+                    IVA
+                </label>
+            </td>
+            <td colspan="2">
+                <label class="letraNormal">
+                    POR REFRENDO
+                </label>
+            </td>
+            <td colspan="2">
+                <label class="letraNormal">
+                    POR DESEMPEÑO
+                </label>
+            </td>
+            <td colspan="2">
+                <label class="letraNormal">
+                    CUANDO SE<br>
+                    REALIZAN LOS<br>
+                    PAGOS
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <label class="letraNormal">
+                    1
+                </label>
+            </td>
+            <td colspan="2" align="center">
+                <label class="letraNormal">
+                    $ ' . $MontoPrestamo . '
+                </label>
+            </td>
+            <td align="center">
+                <label class="letraNormal">
+                    $ ' . $calculaInteres . '
+                </label>
+            </td>
+            <td align="center">
+                <label class="letraNormal">
+                    $ ' . $calculaALm . '
+                </label>
+            </td align="center">
+            <td width="80px"><label class="letraNormal">
+                    $ ' . $calculaIva . '
+                </label>
+            </td>
+            <td colspan="2" align="center">
+                <label class="letraNormal">
+                    $ ' . $Intereses . '
+                </label>
+            </td>
+            <td colspan="2" align="center">
+                <label class="letraNormal">
+                    $ ' . $MontoTotal . '
+                </label>
+            </td>
+            <td colspan="2" align="center">
+                <label class="letraNormal">
+                    ' . $FechaVenc . '
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5"><label class="letraNormalNegrita"> <b>COSTO MENSUAL TOTAL</b></label></td>
+            <td colspan="7"><label class="letraNormalNegrita"> <b>COSTO DIARIO TOTAL</b></label></td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <label class="letraNormalNegrita"> 
+                    Para fines informativos y de comparación:<br>
+                    ' . $tasaIvaTotal . '% FIJO SIN IVA
+                </label>
+            </td>
+            <td colspan="7">
+                <label class="letraNormalNegrita"> 
+                    Para fines informativos y de comparación:<br>
+                    ' . $tasaDiaria . '% FIJO SIN IVA
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <label class="letraChicaNegrita">
+                    <b>"Cuide su capacidad de pago, generalmente no debe de exceder del 35% de sus ingresos".<br>
+                    "Si usted no paga en tiempo y forma corre el riesgo de perder sus prendas".</b>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <label class="letraChicaNegrita">
+                    GARANTÍA: Para garantizar el pago de este préstamo, EL CONSUMIDOR deja en garantia el bien que se describe a continuacion:
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" class="tituloCelda" align="center">
+                <label class="letraNormalNegrita">
+                    DESCRIPCION DE LA PRENDA
+                </label>
+            </td>
+        </tr>
+        <tr class="tituloCelda" align="center">
+            <td colspan="2">
+                <label class="letraNormalNegrita">DESCRIPCIÓN
+                    GENÉRICA
+                </label>
+            </td>
+            <td colspan="5"><label class="letraNormalNegrita">CARACTERISTICAS</label></td>
+            <td colspan="2"><label class="letraNormalNegrita">AVALÚO</label></td>
+            <td colspan="2"><label class="letraNormalNegrita">PRÉSTAMO</label></td>
+            <td ><label class="letraNormalNegrita">%PRÉSTAMO SOBRE<br>AVALÚO</label>
+            </td>
+        </tr>';
 $contenido .= $tablaArticulos;
 $contenido .= ' 
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> 
-                            <table class="tableFormat " width="160mm">
-                                <tr>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                        <label class="letraCelda">
-                                            MONTO DEL AVALUO: $ ' . $Avaluo . '
-                                        </label>
-                                    </td>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                        <label class="letraCelda">
-                                            ' . $avaluo_Letra . '
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                        <label class="letraCelda">
-                                           PORCENTAJE DEL PRÉSTAMO SOBRE EL AVALÚO:
-                                        </label>
-                                    </td>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                        <label class="letraCelda">
-                                            ' . $Aforo . ' %
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                        <label class="letraCelda">
-                                           FECHA DE INICIO DE COMERCIALIZACIÓN:
-                                        </label>
-                                    </td>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                        <label class="letraCelda">
-                                            ' . $FechaAlmoneda . '
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                         <label class="letraCelda">
-                                           El monto del préstamo se realizara en:
-                                        </label>
-                                    </td>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                         <label class="letraCelda">
-                                           Efectivo
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                         <label class="letraCelda">
-                                           FECHA LÍMITE DE FINIQUITO:
-                                        </label>
-                                    </td>
-                                    <td colspan="4" class="tableFormat" style="text-align: left">
-                                        <label class="letraPDF">
-                                           Terminos y condiciones para recibir pagos anticipados: Clausula 13 (decimo Tercera, Inciso b)
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="12" class="tableFormat" style="text-align: left">
-                                         <label class="letraCelda">
-                                           Estos conceptos causaran el pago al impuesto del valor agregado (IVA) a la tasa del ' . $Iva . '%
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        <table width="160mm">
-                        <tr>
-                        <td>
-                        <label class="letraPDF">
-                                *EL PROCEDIMIENTO PARA DESEMPEÑO, REFRENDO, FINIQUITO Y RECLAMO DEL REMANENTE SE ENCUENTRA DESCRITO EN EL CONTRATO.
-                            </label>
-                        </td>
-                        </tr>
-                        </table>
-                                                    
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table class="tableFormat " width="160mm">
-                                <tr>
-                                    <td colspan="12" style="text-align: left">
-                                        <label class="letraPDF">
-                                            <b>DUDAS, ACLARACIONES Y RECLAMACIONES:</b><br>
-                                            * PARA CUALQUIER DUDA, ACLARACIÓN O RECLAMACIÓN, FAVOR DE DIRIGIRSE A:<br>
-                                            Domicilio: ' . $direccionCasa .'<br>
-                                            Telefono: ' . $telefonoCasa .', Correo electronico: ' . $correoCasa . ', Pagina de internet: ' . $paginaCasa .'<br>
-                                            ' . $horarioCasa .'<br>
-                                            * O EN SU CASO A PROFECO A LOS TELEFONOS: 55 68 87 22 O AL 01 800 468 87 22 , PAGINA DE INTERNET:  www.gob.mx/profeco <br>  
-                                            ESTADO DE CUENTA/CONSULTA DE MOVIMIENTOS: NO APLICA O CONSULTA EN ____________
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> 
-                            <table class="tableFormat ">
-                                <tr class="tituloCeldaPDF" width="160mm">
-                                    <th  >
-                                        <label class="letraNormal">
-                                            Contrato de Adhesión registrado en el Registro Público de Contratos de Adhesión de la Procuraduría Federal del Consumidor, bajo el número 11327-2018 <br>
-                                            de fecha 29-oct-2018.  El proveedor tiene la obligación de entregar al consumidor el documento en el cual se señale la descripción del préstamo, saldos, <br>
-                                            movimientos y la descripción de la Prenda en garantía.
-                                        </label>
-                                    </th>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> 
-                            <table class="tableFormat" width="160mm">
-                                <tr>
-                                    <td colspan="6" class="tableFormat" >
-                                         <label class="letraCelda">DESEMPEÑO</label></td>
-                                    <td colspan="6" class="tableFormat" >
-                                         <label class="letraCelda">FIRMAS</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="6" class="tableFormat" style="text-align: left">
-                                        <label class="letraNormal">
-                                            El CONSUMIDOR recoge en el acto y a su entera satisfacción la(s) prenda(s) arriba descritas, por <br>
-                                            lo que otorga a ' . $NombreCasa . ' el finiquito más amplio que en derecho corresponda, <br>
-                                            liberándolo de cualquier responsabilidad jurídica que hubiere surgido ó pudiese surgir en relación <br>
-                                            al contrato y la prenda. ' . $FechaAlmoneda . '
-                                        </label>
-                                    </td>
-                                    <td colspan="6" class="tableFormat" >
-                                         <label class="letraCelda">
-                                            FECHA: ' . $FechaCreacion . ' <br>
-                                            <u>'.  $NombreCompleto . '</u><br>
-                                            "EL CONSUMIDOR"
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="tableFormat" >
-                                        <label class="letraNormal">
-                                            ' . $NombreCompleto . '<br>
-                                            <br>
-                                            EL CONSUMIDOR
-                                        </label>
-                                    </td>
-                                     <td colspan="4" class="tableFormat" >
-                                        <label class="letraNormal">
-                                            ' . $NombreCasa . '<br>
-                                            <br>
-                                             EL PROVEEDOR
-                                        </label>
-                                    </td>
-                                     <td colspan="4" class="tableFormat"  >
-                                        <label class="letraNormal">
-                                            ' . $NombreUsuario . '<br>
-                                            <br>
-                                            EL VALUADOR
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >
-                        <table width="160mm">
-                        <tr>
-                        <td>
-                        <label class="letraPDF">
-                                ' . $horarioCasa .'<br>
-                                Para todo lo relativo a la interpretación, aplicación y cumplimiento del contrato, LAS PARTES acuerdan
-                                someterse en la vía administrativa a la Procuraduría Federal del Consumidor, y en caso de subsistir
-                                diferencias, a la jurisdicción de los tribunales competentes del lugar donde se celebra este Contrato.
-                            </label>
-                        </td>
-                        </tr>
-                        <tr>
-                                                <td>
-                                                    ----------------------------------------
-                                                </td>
-                                            </tr>
-</table>
-                            
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td> 
-                            <table width="160mm">
-                                <tr>
-                                    <td>
-                                        <label>&nbsp;</label>
-                                    </td>
-                                    <td style="text-align: right">
-                                        <label class="letraTitulo">
-                                            NO. ' . $idContrato . '
-                                   &nbsp;&nbsp;&nbsp;&nbsp;
-                                            NO. ' . $idContrato . '
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td  style="text-align: left">
-                                        <label class="letraTitulo">
-                                            NOMBRE:' . $NombreCompleto . '
-                                        </label>
-                                    </td>
-                                    <td >
-                                        <label class="letraTitulo" >
-                                            PRÉSTAMO:&nbsp;$ ' . $MontoPrestamo . '
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td  style="text-align: left" colspan="2">
-                                        <label class="letraTitulo">
-                                             FECHA: ' . $FechaCreacion . ' PLAZO: 1 MENSUAL
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left" colspan="2">
-                                        <label class="letraTitulo" >
-                                             PRENDA:' . $detallePiePagina . '
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-    </body>
-</html>';
+        <tr>
+            <td colspan="5"><label class="letraNormalNegrita">MONTO DEL AVALUO: </label></td>
+            <td colspan="7"><label class="letraNormalNegrita">$ ' . $Avaluo . '</label></td>
+        </tr>
+        <tr>
+            <td colspan="5"><label class="letraNormalNegrita">PORCENTAJE DEL PRÉSTAMO SOBRE EL AVALÚO:</label></td>
+            <td colspan="7"><label class="letraNormalNegrita">&nbsp;' . $Aforo . '%</label></td>
+        </tr>
+        <tr>
+            <td colspan="5"><label class="letraNormalNegrita">FECHA DE INICIO DE COMERCIALIZACIÓN:</label></td>
+            <td colspan="7"><label class="letraNormalNegrita">' . $FechaAlmoneda . '</label></td>
+        </tr>
+        <tr>
+            <td colspan="5"><label class="letraChicaNegrita">El monto del préstamo se realizara en:</label></td>
+            <td colspan="7"><label class="letraChicaNegrita">Efectivo</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5"><label class="letraChicaNegrita">FECHA LÍMITE DE FINIQUITO: </label></td>
+            <td colspan="7"><label class="letraChicaNegrita">Terminos y condiciones para recibir pagos anticipados: Clausula 13 (decimo Tercera, Inciso b)</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12"><label class="letraChicaNegrita">Estos conceptos causaran el pago al impuesto del valor agregado (IVA) a la tasa del ' . $Iva . '%
+            </label></td>
+        </tr>
+        <tr>
+            <td colspan="12"><label class="letraChicaNegrita">*EL PROCEDIMIENTO PARA DESEMPEÑO, REFRENDO, FINIQUITO Y RECLAMO DEL REMANENTE SE ENCUENTRA
+                DESCRITO EN EL CONTRATO.</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <label class="letraChicaNegrita">
+                    <b>DUDAS, ACLARACIONES Y RECLAMACIONES:</b><br>
+                    * PARA CUALQUIER DUDA, ACLARACIÓN O RECLAMACIÓN, FAVOR DE DIRIGIRSE A:<br>
+                    Domicilio: ' . $direccionCasa .'<br>
+                    Telefono: ' . $telefonoCasa .', Correo electronico: ' . $correoCasa . ', Pagina de internet: ' . $paginaCasa .'<br>
+                    ' . $horarioCasa .'<br>
+                    * O EN SU CASO A PROFECO A LOS TELEFONOS: 55 68 87 22 O AL 01 800 468 87 22 , PAGINA DE INTERNET:  www.gob.mx/profeco <br>  
+                    ESTADO DE CUENTA/CONSULTA DE MOVIMIENTOS: NO APLICA O CONSULTA EN ____________
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" class="tituloCelda">
+                <label class="letraChicaNegrita">
+                    Contrato de Adhesión registrado en el Registro Público de Contratos de Adhesión de la Procuraduría Federal del Consumidor, bajo el número 11327-2018 <br>
+                    de fecha 29-oct-2018.  El proveedor tiene la obligación de entregar al consumidor el documento en el cual se señale la descripción del préstamo, saldos, <br>
+                    movimientos y la descripción de la Prenda en garantía.
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6"><label class="letraChicaNegrita">DESEMPEÑO</label></td>
+            <td colspan="6"><label class="letraChicaNegrita">FIRMAS</label></td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <label class="letraChicaNegrita">
+                    El CONSUMIDOR recoge en el acto y a su entera satisfacción la(s) prenda(s) arriba descritas, por <br>
+                    lo que otorga a ' . $NombreCasa . ' el finiquito más amplio que en derecho corresponda, <br>
+                    liberándolo de cualquier responsabilidad jurídica que hubiere surgido ó pudiese surgir en relación <br>
+                    al contrato y la prenda. ' . $FechaAlmoneda . '
+                </label>    
+            </td>
+            <td colspan="6">
+                <label class="letraChicaNegrita">
+                    FECHA: ' . $FechaCreacion . ' <br>
+                    ' . $NombreCompleto . '
+                    "EL CONSUMIDOR"
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center"><label class="letraChicaNegrita">' . $NombreCompleto . '<br>
+                    <br>
+                     <br>  
+                      <br>              
+                EL CONSUMIDOR</label>
+            </td>
+            <td colspan="4" align="center"><label class="letraChicaNegrita">
+                    ' . $NombreCasa . '<br>
+                    <br>
+                     <br>  
+                      <br>             
+                    EL PROVEEDOR
+                </label>
+            </td>
+            <td colspan="4" align="center"><label class="letraChicaNegrita">' . $NombreUsuario . '
+                <br>
+                <br>
+                <br>  
+                <br>  
+                EL VALUADOR</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <label class="letraChicaNegrita">
+                    ' . $horarioCasa .'<br>
+                    Para todo lo relativo a la interpretación, aplicación y cumplimiento del contrato, LAS PARTES acuerdan
+                    someterse en la vía administrativa a la Procuraduría Federal del Consumidor, y en caso de subsistir
+                    diferencias, a la jurisdicción de los tribunales competentes del lugar donde se celebra este Contrato.
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" align="center">
+             <hr style="border-style: dashed;">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+            </td>
+            <td colspan="4">
+            <label class="letraExtraGrandeNegrita">NO.
+              ' . $idContrato . '</label>
+            </td>
+            <td colspan="4">
+                 <label class="letraExtraGrandeNegrita">NO.
+              ' . $idContrato . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12"><label class="letraNormalNegrita">
+                NOMBRE:   
+              ' . $NombreCompleto . '
+              &nbsp;&nbsp;&nbsp;&nbsp;
+                PRÉSTAMO:&nbsp;$ ' . $MontoPrestamo . '</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12"><label class="letraNormalNegrita">
+                FECHA: ' . $FechaCreacion . ' PLAZO: 1 MENSUAL <br>
+                PRENDA:' . $detallePiePagina . '</label>
+            </td>
+        </tr>';
+$contenido .= ' </tbody></table></form></body></html>';
 //echo $contenido;
 //exit;
 
