@@ -439,7 +439,7 @@ $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
 $nombreContrato = 'Refrendo Num ' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-$dompdf->setPaper('letter', 'portrait');
+$customPaper = array(0,0,226.772,625.197);
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);

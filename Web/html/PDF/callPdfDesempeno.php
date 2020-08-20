@@ -423,7 +423,7 @@ $contenido .= '</tbody></table></form></body></html>';
 $nombreContrato = 'Desempeno Num ' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-$dompdf->setPaper('letter', 'landscape');
+$customPaper = array(0,0,226.772,525.197);
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);
