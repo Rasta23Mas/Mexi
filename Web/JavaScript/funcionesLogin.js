@@ -59,7 +59,6 @@ function LoginAdministradores(sucursal) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/LogginAdministradores.php',
         success: function (HaySucursales) {
-            alert(HaySucursales)
             if (HaySucursales == 1) {
                 location.href = '../Empeno/vInicio.php';
             } else if (HaySucursales == 0) {

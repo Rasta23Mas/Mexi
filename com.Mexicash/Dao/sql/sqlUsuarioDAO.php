@@ -548,8 +548,8 @@ echo $idSucursalMax;
         try {
             $verdad = 0;
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
-
-            $saldoBoveda = "SELECT importe FROM flujototales_tbl where id_flujoAgente=3";
+            $sucursal = $_SESSION["sucursal"];
+            $saldoBoveda = "SELECT importe FROM flujototales_tbl where id_flujoAgente=3 and sucursal=$sucursal";
             $statement = $this->conexion->query($saldoBoveda);
             $fila = $statement->fetch_object();
             $importeSaldoBoveda = $fila->importe;
