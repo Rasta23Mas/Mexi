@@ -870,11 +870,11 @@ function guardarCierreCaja() {
 
 
 function guardarFlujoCaja() {
-    var importeLetra = NumeroALetras(EfectivoCajaGlb);
+    var importeLetra = NumeroALetras(efectivoGlobalNuevo);
     var idUsuarioCaja = $("#idUsuarioCaja").val();
     var dataEnviar = {
         "id_catFlujo": 9,
-        "importe": EfectivoCajaGlb,
+        "importe": efectivoGlobalNuevo,
         "importeLetra": importeLetra,
         "usuarioCaja": idUsuarioCaja,
     };
@@ -886,7 +886,7 @@ function guardarFlujoCaja() {
             if (response > 0) {
                 generarFolioCaja();
             } else {
-                alertify.error("Error al guardar el arqueo.");
+                alertify.error("Error al guardar la recolección de efectivo.");
             }
         },
     })

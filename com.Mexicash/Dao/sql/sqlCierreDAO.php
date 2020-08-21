@@ -186,7 +186,7 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function llenarEntradasySalidas( $idCierreCaja)
+    function llenarEntradasySalidas($idCierreCaja)
     {
         $datos = array();
         try {
@@ -281,7 +281,7 @@ class sqlCierreDAO
                         array_push($datos, $data);
                     }
                 }
-            }else{
+            } else {
                 echo -1;
             }
         } catch (Exception $exc) {
@@ -318,11 +318,11 @@ class sqlCierreDAO
     }
 
     function guardarCierreCaja($cantDotaciones, $dotacionesA_Caja, $cantCapitalRecuperado, $capitalRecuperado, $cantAbono, $abonoCapital, $cantInteres, $intereses,
-                               $cantIva, $iva, $cantMostrador, $mostrador, $cantIvaVenta, $iva_venta, $cantApartados,$apartadosVenta,$cantAbonoVenta,$abonoVentas,
+                               $cantIva, $iva, $cantMostrador, $mostrador, $cantIvaVenta, $iva_venta, $cantApartados, $apartadosVenta, $cantAbonoVenta, $abonoVentas,
                                $cantGps, $gps,
                                $cantPoliza, $poliza, $cantPension, $pension, $cantRetiros, $retirosCaja, $cantPrestamos, $prestamosNuevos, $cantDescuentos, $descuentosAplicados,
-                               $cantDescuentosVentas, $descuento_Ventas, $cantCostoContrato, $costoContrato, $total_Salida, $total_Entrada, $total_Iva,$saldo_Caja, $efectivo_Caja,
-                               $cantAjustes, $ajuste,$CantIncremento, $incrementoPatrimonio, $cantRefrendos, $informeRefrendo, $idCierreCaja, $cerradoPorGerenteGlb)
+                               $cantDescuentosVentas, $descuento_Ventas, $cantCostoContrato, $costoContrato, $total_Salida, $total_Entrada, $total_Iva, $saldo_Caja, $efectivo_Caja,
+                               $cantAjustes, $ajuste, $CantIncremento, $incrementoPatrimonio, $cantRefrendos, $informeRefrendo, $idCierreCaja, $cerradoPorGerenteGlb)
     {
         try {
             $fechaCreacion = date('Y-m-d H:i:s');
@@ -337,7 +337,7 @@ class sqlCierreDAO
                             cantDescuentos=$cantDescuentos,descuentosAplicados=$descuentosAplicados,cantDescuentosVentas=$cantDescuentosVentas,
                             descuento_Ventas=$descuento_Ventas,cantCostoContrato=$cantCostoContrato,costoContrato=$costoContrato,total_Salida=$total_Salida,
                             total_Entrada=$total_Entrada,total_Iva=$total_Iva,saldo_Caja=$saldo_Caja,efectivo_Caja=$efectivo_Caja,cantAjustes=$cantAjustes,ajuste=$ajuste,cantIncremento=$CantIncremento,incremento=$incrementoPatrimonio,
-                            cantRefrendos=$cantRefrendos,informeRefrendo=$informeRefrendo,fecha_Creacion='$fechaCreacion',estatus=2, CerradoPorGerente=$cerradoPorGerenteGlb WHERE id_CierreCaja=$idCierreCaja and estatus =1";
+                            cantRefrendos=$cantRefrendos,informeRefrendo=$informeRefrendo,fecha_Creacion='$fechaCreacion',estatus=2, CerradoPorGerente=$cerradoPorGerenteGlb,flag_Activa=0 WHERE id_CierreCaja=$idCierreCaja and estatus =1";
             if ($ps = $this->conexion->prepare($updateArqueo)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
@@ -356,7 +356,7 @@ class sqlCierreDAO
         echo $verdad;
     }
 
-    public function guardarFlujoDeCaja($id_catFlujo,$importe,$importeLetra,$usuarioCaja)
+    public function guardarFlujoDeCaja($id_catFlujo, $importe, $importeLetra, $usuarioCaja)
     {
         //Funcion Verificada
         // TODO: Implement guardaCiente() method.
@@ -389,30 +389,26 @@ class sqlCierreDAO
                                             WHERE sucursal=$sucursal and id_flujoAgente=3";
                             if ($ps = $this->conexion->prepare($updateBoveda)) {
                                 if ($ps->execute()) {
-                                    if ($id_catFlujo == 7) {
-                                        $buscarSaldoBoveda = "SELECT importe as ImporteCaja FROM flujototales_tbl  
+                                    $buscarSaldoBoveda = "SELECT importe as ImporteCaja FROM flujototales_tbl  
                                                 WHERE usuario=$usuarioCaja";
-                                        $statement = $this->conexion->query($buscarSaldoBoveda);
-                                        $encontro = $statement->num_rows;
-                                        if ($encontro > 0) {
-                                            $fila = $statement->fetch_object();
-                                            $ImporteCaja = $fila->ImporteCaja;
-                                            $nuevoImporteCaja = $ImporteCaja - $importe;
-                                            $updateCaja = "UPDATE flujototales_tbl SET importe=$nuevoImporteCaja,
+                                    $statement = $this->conexion->query($buscarSaldoBoveda);
+                                    $encontro = $statement->num_rows;
+                                    if ($encontro > 0) {
+                                        $fila = $statement->fetch_object();
+                                        $ImporteCaja = $fila->ImporteCaja;
+                                        $nuevoImporteCaja = $ImporteCaja - $importe;
+                                        $updateCaja = "UPDATE flujototales_tbl SET importe=$nuevoImporteCaja,
                                             fechaModificacion='$fechaCreacion'
                                             WHERE usuario=$usuarioCaja";
-                                            if ($ps = $this->conexion->prepare($updateCaja)) {
-                                                if ($ps->execute()) {
-                                                    $verdad = 33;
-                                                } else {
-                                                    $verdad = -1;
-                                                }
+                                        if ($ps = $this->conexion->prepare($updateCaja)) {
+                                            if ($ps->execute()) {
+                                                $verdad = 33;
+                                            } else {
+                                                $verdad = -1;
                                             }
-                                        } else {
-                                            $verdad = -12;
                                         }
                                     } else {
-                                        $verdad = 3;
+                                        $verdad = -12;
                                     }
                                 } else {
                                     $verdad = -1;
@@ -508,7 +504,7 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function ArqueoEntradasySalidas( $idCierreCaja)
+    function ArqueoEntradasySalidas($idCierreCaja)
     {
         $datos = array();
         try {
@@ -550,7 +546,7 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function ArqueoEntradasySalidasVentas( $idCierreCaja)
+    function ArqueoEntradasySalidasVentas($idCierreCaja)
     {
         $datos = array();
         try {
@@ -806,6 +802,7 @@ class sqlCierreDAO
 
         echo json_encode($datos);
     }
+
     function ventasInfo()
     {
         $datos = array();
@@ -888,6 +885,7 @@ class sqlCierreDAO
 
         echo json_encode($datos);
     }
+
     function saldoInicialInformativo()
     {
         $datos = array();
@@ -912,12 +910,12 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function guardarCierreSucursal($dotacionesA_Caja,$CantAportacionesBoveda,$aportaciones_Boveda,$CantCapitalRecuperado,$capitalRecuperado,$CantAbono,
-                                   $abonoCapital,$intereses, $iva,$CantVentasMostrador,$mostrador,$iva_venta, $cantCostoContrato, $costoContrato,
-                                   $utilidadVenta, $CantApartados, $apartados, $CantAbonosVenta, $abonoVenta, $gps,$poliza,$pension,$CantAjustes,
-                                   $ajustes,$CantRetirosCaja, $retirosCaja,$retiros_boveda,$CantPrestamosNuevos,$prestamosNuevos,$CantDescuentos,
-                                   $descuentosAplicados,$CantDescuentosVentas,$descuentos_ventas, $cantIncremento, $incrementoPatrimonio,
-                                   $total_Entrada,$total_Iva,$total_Salida,$saldo_final, $InfoSaldoInicial, $InfoEntradas, $InfoSalidas,$InfoSaldoFinal,
+    function guardarCierreSucursal($dotacionesA_Caja, $CantAportacionesBoveda, $aportaciones_Boveda, $CantCapitalRecuperado, $capitalRecuperado, $CantAbono,
+                                   $abonoCapital, $intereses, $iva, $CantVentasMostrador, $mostrador, $iva_venta, $cantCostoContrato, $costoContrato,
+                                   $utilidadVenta, $CantApartados, $apartados, $CantAbonosVenta, $abonoVenta, $gps, $poliza, $pension, $CantAjustes,
+                                   $ajustes, $CantRetirosCaja, $retirosCaja, $retiros_boveda, $CantPrestamosNuevos, $prestamosNuevos, $CantDescuentos,
+                                   $descuentosAplicados, $CantDescuentosVentas, $descuentos_ventas, $cantIncremento, $incrementoPatrimonio,
+                                   $total_Entrada, $total_Iva, $total_Salida, $saldo_final, $InfoSaldoInicial, $InfoEntradas, $InfoSalidas, $InfoSaldoFinal,
                                    $InfoApartados, $InfoAbono, $InfoTotalInventario, $idCierreSucursal)
     {
         try {

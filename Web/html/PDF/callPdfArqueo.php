@@ -379,7 +379,7 @@ $contenido .= '  <div class="container-fluid">
 $contenido .= '</tbody></table></form></body></html>';
 //echo $contenido;
 //exit();
-$nombreContrato = 'Arqueo Caja ' . $idCierreCaja . ".pdf";
+$nombreContrato = 'Arqueo Caja ' . $idArqueo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 //Horizontal
