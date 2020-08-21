@@ -406,7 +406,6 @@ function validarAjustesVenta() {
 
             var cajaConVenta = entradas + saldoSistema;
             cajaConVenta = Math.round(cajaConVenta * 100) / 100;
-            alert(saldoCajaGlobal)
             saldoCajaGlobal += cajaConVenta;
 
             var iva = $("#idSaldoCajaIva").val();

@@ -3,6 +3,7 @@ var errorToken = 0;
 var tokenmovimientoGlo = 0;
 
 function generarFolio() {
+    var respuesta= 0;
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Flujo/generarFolio.php',

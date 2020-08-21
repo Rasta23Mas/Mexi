@@ -260,7 +260,7 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4" class="invisible">
+                        <td colspan="4" class="">
                             <input id="idTipoUsuario" name="tipoUsuario" type="text"
                                    style="width: 100px; text-align: right" value=""/>
                             <input id="idSaldoCentralVal" name="saldoCentral" type="text"

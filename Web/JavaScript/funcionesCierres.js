@@ -859,7 +859,6 @@ function guardarCierreCaja() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                BitacoraUsuarioCierreCaja();
                 guardarFlujoCaja()
             } else {
                 alertify.error("Error de conexion, intente más tarde.")
@@ -885,7 +884,7 @@ function guardarFlujoCaja() {
         type: 'post',
         success: function (response) {
             if (response > 0) {
-                generarFolioArqueo();
+                generarFolioCaja();
             } else {
                 alertify.error("Error al guardar el arqueo.");
             }
@@ -893,14 +892,14 @@ function guardarFlujoCaja() {
     })
 }
 
-function generarFolioArqueo() {
+function generarFolioCaja() {
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Flujo/generarFolio.php',
         success: function (respuesta) {
             if(respuesta>0){
                 alert("Movimiento guardado.");
-                BitacoraUsuarioArqueo();
+                BitacoraUsuarioCierreCaja();
             }else {
                 alertify.error("Error al guardar el arqueo.");
             }
@@ -908,47 +907,6 @@ function generarFolioArqueo() {
     });
 }
 
-function BitacoraUsuarioArqueo() {
-    //id_Movimiento = 17
-    //FEErr08
-
-    var id_Movimiento = 17;
-    var id_contrato = 0;
-    var id_almoneda = 0;
-    var id_cliente = 0;
-    var consulta_fechaInicio = null;
-    var consulta_fechaFinal = null;
-
-
-    var dataEnviar = {
-        "id_Movimiento": id_Movimiento,
-        "id_contrato": id_contrato,
-        "id_almoneda": id_almoneda,
-        "id_cliente": id_cliente,
-        "consulta_fechaInicio": consulta_fechaInicio,
-        "consulta_fechaFinal": consulta_fechaFinal,
-        "idArqueo": idArqueoGbl,
-    };
-
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
-        data: dataEnviar,
-        success: function (response) {
-            if (response > 0) {
-                cargarPDFArqueo(idArqueoGbl)
-                setTimeout('location.reload();', 700)
-                if(ajustesGbl!=0){
-                    cargarPDFAjustes(1);
-                }else if(incrementoPatGbl!=0){
-                    cargarPDFAjustes(2);
-                }
-            } else {
-                alertify.error("Error en al conectar con el servidor. (FEErr08)")
-            }
-        }
-    });
-}
 
 function BitacoraUsuarioCierreCaja() {
     //id_Movimiento = 18 Ciere de Caja

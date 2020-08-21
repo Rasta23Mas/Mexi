@@ -10,6 +10,7 @@ $id_cliente = $_POST['id_cliente'];
 $consulta_fechaInicio = $_POST['consulta_fechaInicio'];
 $consulta_fechaFinal = $_POST['consulta_fechaFinal'];
 $idArqueo = $_POST['idArqueo'];
+$idArqueo = $_POST['idArqueo'];
 
 $usu = new sqlUsuarioDAO();
 $usu->bitacoraUsuario($id_Movimiento,$id_contrato,$id_almoneda,$id_cliente,$consulta_fechaInicio,$consulta_fechaFinal,$idArqueo);

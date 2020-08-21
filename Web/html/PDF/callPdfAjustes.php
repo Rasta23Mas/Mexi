@@ -159,7 +159,7 @@ $contenido .= '  <div class="container-fluid">
 
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Arqueo Caja ' . $idCierreCaja . ".pdf";
+$nombreContrato = 'Arqueo Caja ' . $idArqueo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 //Horizontal
@@ -167,7 +167,6 @@ $dompdf->load_html($contenido);
 //letter carta, legal oficio
 //Vertical
 $dompdf->setPaper('letter', 'portrait');
-
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);
