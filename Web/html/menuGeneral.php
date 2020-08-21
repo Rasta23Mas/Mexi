@@ -101,8 +101,8 @@ $_SESSION['dotaciones'] = 0;
                     Compras
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Metales</a></li>
-                    <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Electrónicos</a></li>
+                    <li><a class="dropdown-item" href="../Compras/vComprasMetal.php">Metales</a></li>
+                    <li><a class="dropdown-item" href="../Compras/vComprasMetal.php">Electrónicos</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCierre">
