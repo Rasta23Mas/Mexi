@@ -54,17 +54,10 @@ $_SESSION['dotaciones'] = 0;
                     $("#menuCierre").hide();
                 }
 
-                $("#menuCatalogos").hide();
+                $("#menuCatalogos").show();
                 $("#menuCancelaciones").show();
                 $("#menuConfiguracion").show();
 
-            } else if (tipoUser == 4) {
-                $("#menuEmpeno").show();
-                $("#menuEmpenoAuto").show();
-                $("#menuVentas").show();
-                $("#menuCatalogos").hide();
-                $("#menuDotaciones").hide();
-                $("#menuCancelaciones").hide();
             }
         })
     </script>
@@ -100,6 +93,16 @@ $_SESSION['dotaciones'] = 0;
                     <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
                     <li><a class="dropdown-item" href="../Desempeno/vDesempeno.php?tipoFormGet=4">Desempeños</a></li>
                     <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown" id="menuCompras">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    Compras
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Metales</a></li>
+                    <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Electrónicos</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCierre">
@@ -144,6 +147,8 @@ $_SESSION['dotaciones'] = 0;
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="">Metales</a></li>
+                    <li><a class="dropdown-item" href="../Catalogos/catClientes.php">Clientes</a></li>
+
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuDotaciones">
@@ -173,15 +178,6 @@ $_SESSION['dotaciones'] = 0;
                     <li><a class="dropdown-item" href="../Configuracion/vAltaUsuario.php">Alta Usuario</a></li>
                     <li><a class="dropdown-item" href="../Configuracion/vHorario.php">Horario</a></li>
                     <li><a class="dropdown-item" href="../Configuracion/vCancelarSucursal.php">Cancelaciones</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown" id="menuCatalogos">
-                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Catalogos
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Catalogos/catClientes.php">Clientes</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">

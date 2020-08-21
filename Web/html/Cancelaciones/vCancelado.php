@@ -18,7 +18,7 @@ if($tipoUsuario==2){
 }elseif ($tipoUsuario==3){
     include_once (HTML_PATH."menuGeneral.php");
 }elseif ($tipoUsuario==4){
-    include_once (HTML_PATH."menuGeneral.php");
+    include_once (HTML_PATH."menuVendedor.php");
 }
 include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
 

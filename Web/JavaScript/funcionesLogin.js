@@ -131,7 +131,7 @@ function validarHorario() {
                 if ($tipoUserGlb == 3) {
                     LoginGerente();
                 } else {
-                    HaySucursalesRegistradas();
+                    LoginVendedor();
                 }
             } else {
                 if ($tipoUserGlb == 3) {
@@ -161,7 +161,6 @@ function LoginGerente() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/LogginGerente.php',
         success: function (HaySucursales) {
-            alert(HaySucursales)
             if (HaySucursales == 1) {
                 buscaridCajaGerente();
             } else if (HaySucursales == 0) {
@@ -215,13 +214,13 @@ function saldosSucursalGerente(saldoInicialInfo) {
     });
 }
 
+
 function buscaridCajaGerente() {
     //ErrFn05
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/LogginGerenteCaja.php',
         success: function (response) {
-            alert(response)
             if (response == 1) {
                 BitacoraUsuario();
             } else {
@@ -266,6 +265,122 @@ function BitacoraUsuario() {
         }
     });
 }
+
+function LoginVendedor() {
+    //ErrFn03
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Usuario/LogginVendedor.php',
+        success: function (HaySucursales) {
+            if (HaySucursales == 1) {
+                buscaridCajaVendedor();
+            } else if (HaySucursales == 2) {
+                alertify.error('Sistema cerrado por cierre de sucursal.')
+            }  else if (HaySucursales == 0) {
+                saldosInformativoVendedor();
+            } else {
+                alertify.error("Error en al conectar con el servidor. (ErrFn03)")
+            }
+        }
+    });
+}
+
+function saldosInformativoVendedor() {
+
+    //FLErr09
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            var saldoInicialInfo = 0;
+            for (i; i < datos.length; i++) {
+                var prestamo_Informativo = datos[i].prestamo_Informativo;
+
+                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                saldoInicialInfo += prestamo_Informativo;
+            }
+            saldoInicialInfo = Math.round(saldoInicialInfo * 100) / 100;
+            saldosSucursalVendedor(saldoInicialInfo)
+        }
+    })
+}
+
+function saldosSucursalVendedor(saldoInicialInfo) {
+    //ErrFn04
+    var dataEnviar = {
+        "saldoInicialInfo": saldoInicialInfo,
+    };
+    $.ajax({
+        type: "POST",
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
+        success: function (response) {
+            if (response == 1) {
+                buscaridCajaVendedor();
+            } else {
+                alertify.error("Error en al conectar con el servidor. (ErrFn04)")
+            }
+        }
+    });
+}
+
+
+function buscaridCajaVendedor() {
+    //ErrFn05
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Usuario/LogginVendedorCaja.php',
+        success: function (response) {
+            if (response == 1) {
+                BitacoraUsuario();
+            } else if (response == 1) {
+                alertify.error('Sistema cerrado. El usuario ha realizado el cierre de su caja.')
+            } else {
+                alertify.error("Error en al conectar con el servidor.  (ErrFn05)")
+            }
+        }
+    });
+}
+
+function BitacoraUsuario() {
+    //ErrFn06
+    //id_Movimiento = 1 cat_movimientos-->Sesion-->Iniciar Sesion
+    var id_Movimiento = 1;
+    var id_contrato = 0;
+    var id_almoneda = 0;
+    var id_cliente = 0;
+    var consulta_fechaInicio = null;
+    var consulta_fechaFinal = null;
+    var idArqueo = 0;
+
+
+    var dataEnviar = {
+        "id_Movimiento": id_Movimiento,
+        "id_contrato": id_contrato,
+        "id_almoneda": id_almoneda,
+        "id_cliente": id_cliente,
+        "consulta_fechaInicio": consulta_fechaInicio,
+        "consulta_fechaFinal": consulta_fechaFinal,
+        "idArqueo": idArqueo,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                location.href = '../Empeno/vInicio.php'
+            } else {
+                alertify.error("Error en al conectar con el servidor.  (ErrFn06)")
+            }
+        }
+    });
+}
+
 
 //-----
 function HaySucursalesRegistradas() {
