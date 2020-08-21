@@ -28,6 +28,7 @@ if($tipoUsuario==2){
 }elseif ($tipoUsuario==4){
     include_once (HTML_PATH."menuGeneral.php");
 }
+$dotaciones = $_SESSION['dotaciones'];
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -55,6 +56,16 @@ if($tipoUsuario==2){
                 $("#menuGerente").hide();
             }else{
                 $("#menuAdmin").show();
+            }
+
+            var dotaciones = <?php echo $dotaciones; ?>;
+
+            if (dotaciones == 1) {
+
+                $("#MenRapDotacion").show();
+
+            } else if (dotaciones == 0) {
+                $("#MenRapDotacion").hide();
             }
         })
     </script>
@@ -170,10 +181,121 @@ if($tipoUsuario==2){
             <div class="col-1" >
             </div>
             <div class="col-2 border border-info " align="center">
-
+                <table width="80%">
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <h2>Reportes</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="50%">
+                            <br>
+                            <input type="button" class="btn btn-info w-100" value="Consultas" onclick="location.href='../Consultas/vConsultaContrato.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="50%">
+                            <br>
+                            <input type="button" class="btn btn-info w-100" value="Empeños" onclick="location.href='../Reportes/vReportesEmpenos.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <input type="button" class="btn btn-info  w-100" value="Financieros" onclick="location.href='../Reportes/vReportesFinancieros.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <input type="button" class="btn btn-info  w-100" value="Monitoreo" onclick="location.href='../Reportes/vReportesMonitoreo.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <input type="button" class="btn btn-info  w-100" value="Cierres" onclick="location.href='../Reportes/vReportesCierres.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left">
+                            <br>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="col-2 border border-info " align="center">
-
+                <table width="80%">
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <h2>Catalogos</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="50%">
+                            <br>
+                            <input type="button" class="btn btn-info w-100" value="Clientes" onclick="location.href='../Catalogos/catClientes.php">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="50%">
+                            <br>
+                            <input type="button" class="btn btn-info w-100" value="Cancelaciones" onclick="location.href='../Cancelaciones/vCancelado.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <input type="button" class="btn btn-info  w-100" value="Alta Usuario" onclick="location.href='../Configuracion/vAltaUsuario.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <input type="button" class="btn btn-info  w-100" value="Horario" onclick="location.href='../Configuracion/vHorario.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <input type="button" class="btn btn-info  w-100" value="Cancelaciones" onclick="location.href='../Configuracion/vCancelarSucursal.php'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left">
+                            <br>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-2 border border-info " align="center" id="MenRapDotacion">
+                <table width="80%">
+                    <tr>
+                        <td align="center">
+                            <br>
+                            <h2>Dotaciones</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="50%">
+                            <br>
+                            <input type="button" class="btn btn-info w-100" value="Movimientos" onclick="location.href='../Dotacion/vMovimientosCentral.php">
+                            <br>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="row">

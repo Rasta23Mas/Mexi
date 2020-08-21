@@ -50,6 +50,7 @@ function validarUser() {
 
 //Login Administradores
 function LoginAdministradores(sucursal) {
+    //ErrFn01
     var dataEnviar = {
         "sucursal": sucursal,
     };
@@ -58,17 +59,58 @@ function LoginAdministradores(sucursal) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/LogginAdministradores.php',
         success: function (HaySucursales) {
-            if (HaySucursales == 0) {
-                insertaCajaSucursal(1);
+            alert(HaySucursales)
+            if (HaySucursales == 1) {
+                location.href = '../Empeno/vInicio.php';
+            } else if (HaySucursales == 0) {
+                saldosInformativoAdmin();
             } else {
-                validarSucursalHoyAdmin();
+                alertify.error("Error en al conectar con el servidor. (ErrFn01)")
             }
         }
     });
 }
+function saldosInformativoAdmin() {
 
+    //FLErr09
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
+        type: 'post',
+        dataType: "json",
 
+        success: function (datos) {
+            var i = 0;
+            var saldoInicialInfo = 0;
+            for (i; i < datos.length; i++) {
+                var prestamo_Informativo = datos[i].prestamo_Informativo;
 
+                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                saldoInicialInfo += prestamo_Informativo;
+            }
+            saldoInicialInfo = Math.round(saldoInicialInfo * 100) / 100;
+            saldosSucursalAdmin(saldoInicialInfo)
+        }
+    })
+}
+
+function saldosSucursalAdmin(saldoInicialInfo) {
+    //FLErr09
+    var dataEnviar = {
+        "saldoInicialInfo": saldoInicialInfo,
+    };
+    $.ajax({
+        type: "POST",
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
+        success: function (response) {
+            if (response == 1) {
+                location.href = '../Empeno/vInicio.php'
+            } else {
+                alertify.error("Error en al conectar con el servidor. (FLErr091)")
+            }
+        }
+    });
+}
 
 
 

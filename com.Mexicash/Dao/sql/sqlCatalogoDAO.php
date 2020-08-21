@@ -690,11 +690,11 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
             $buscar = "SELECT id_Cliente,fecha_Nacimiento,
                         CONCAT(apellido_Pat,'/',  apellido_Mat, '/', nombre) AS NombreCompleto, 
                         CONCAT(calle, ', ',num_interior,', ', num_exterior, ', ',localidad, ', ', municipio, 
-                        ', ', cat_estado.descripcion ) AS direccionCompleta,  Sex.descripcion as Sexo,
+                        ', ', cat_estado.descripcion ) AS direccionCompleta,  SEX.descripcion as Sexo,
                         PROM.descripcion as Promo, mensaje
                         FROM cliente_tbl
                         INNER JOIN cat_estado ON cliente_tbl.estado = cat_estado.id_Estado
-                        LEFT JOIN cat_cliente AS SEX ON cliente_tbl.sexo = Sex.id_Cat_Cliente
+                        LEFT JOIN cat_cliente AS SEX ON cliente_tbl.sexo = SEX.id_Cat_Cliente
                         LEFT JOIN cat_cliente AS PROM ON cliente_tbl.promocion = PROM.id_Cat_Cliente
                         WHERE sucursal =$sucursal";
             $rs = $this->conexion->query($buscar);

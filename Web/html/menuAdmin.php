@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+$dotaciones = $_SESSION['dotaciones'];
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +23,17 @@
     <link rel="stylesheet" type="text/css" href="../../style/General/StyloGeneral.css">
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script type="application/javascript">
+        $(document).ready(function () {
+            var dotaciones = <?php echo $dotaciones; ?>;
+
+            if (dotaciones == 1) {
+
+                $("#menuDotaciones").show();
+
+            } else if (dotaciones == 0) {
+                $("#menuDotaciones").hide();
+            }
+        })
     </script>
 </head>
 <body>
@@ -47,7 +62,7 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesFinancieros.php">Financieros</a></li>
-                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Moitoreo</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Monitoreo</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesCierres.php">Cierres</a></li>
                 </ul>
             </li>

@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
 }
 $tipoUsuario = $_SESSION['tipoUsuario'];
 $cajaInactiva = $_SESSION['cajaInactiva'];
-
+$_SESSION['dotaciones'] = 0;
 ?>
 
 <!DOCTYPE html>
@@ -121,7 +121,7 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesFinancieros.php">Financieros</a></li>
-                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Moitoreo</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Monitoreo</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesCierres.php">Cierres</a></li>
                 </ul>
             </li>
