@@ -69,6 +69,7 @@ function LoginAdministradores(sucursal) {
         }
     });
 }
+
 function saldosInformativoAdmin() {
 
     //FLErr09
@@ -93,7 +94,7 @@ function saldosInformativoAdmin() {
 }
 
 function saldosSucursalAdmin(saldoInicialInfo) {
-    //FLErr09
+    //ErrFn02
     var dataEnviar = {
         "saldoInicialInfo": saldoInicialInfo,
     };
@@ -105,21 +106,168 @@ function saldosSucursalAdmin(saldoInicialInfo) {
             if (response == 1) {
                 location.href = '../Empeno/vInicio.php'
             } else {
-                alertify.error("Error en al conectar con el servidor. (FLErr091)")
+                alertify.error("Error en al conectar con el servidor. (ErrFn02)")
             }
         }
     });
 }
 
+function isMobile() {
+    try {
+        document.createEvent("TouchEvent");
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+function validarHorario() {
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Usuario/Horario.php',
+        success: function (response) {
+            var horario = Number(response);
+            if (horario > 0) {
+                if ($tipoUserGlb == 3) {
+                    LoginGerente();
+                } else {
+                    HaySucursalesRegistradas();
+                }
+            } else {
+                if ($tipoUserGlb == 3) {
+                    confirmarModificarHorario();
+                } else {
+                    alert("El sistema Mexicash se encuentra inhabilitado por horario.");
+                }
+            }
+        }
+    });
+}
+
+function confirmarModificarHorario() {
+    alertify.confirm('Cambio de horario',
+        'Por horario, el sistema esta inhabilitado. ' + '<br>' + '\n¿Desea modificar el horario usando un token?',
+        function () {
+            location.href = '../Configuracion/vModHorario.php'
+        },
+        function () {
+            alertify.error('Cerrado por horario.')
+        });
+}
+
+function LoginGerente() {
+    //ErrFn03
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Usuario/LogginGerente.php',
+        success: function (HaySucursales) {
+            alert(HaySucursales)
+            if (HaySucursales == 1) {
+                buscaridCajaGerente();
+            } else if (HaySucursales == 0) {
+                saldosInformativoGerente();
+            } else {
+                alertify.error("Error en al conectar con el servidor. (ErrFn03)")
+            }
+        }
+    });
+}
+
+function saldosInformativoGerente() {
+
+    //FLErr09
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            var saldoInicialInfo = 0;
+            for (i; i < datos.length; i++) {
+                var prestamo_Informativo = datos[i].prestamo_Informativo;
+
+                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                saldoInicialInfo += prestamo_Informativo;
+            }
+            saldoInicialInfo = Math.round(saldoInicialInfo * 100) / 100;
+            saldosSucursalGerente(saldoInicialInfo)
+        }
+    })
+}
+
+function saldosSucursalGerente(saldoInicialInfo) {
+    //ErrFn04
+    var dataEnviar = {
+        "saldoInicialInfo": saldoInicialInfo,
+    };
+    $.ajax({
+        type: "POST",
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
+        success: function (response) {
+            if (response == 1) {
+                buscaridCajaGerente();
+            } else {
+                alertify.error("Error en al conectar con el servidor. (ErrFn04)")
+            }
+        }
+    });
+}
+
+function buscaridCajaGerente() {
+    //ErrFn05
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Usuario/LogginGerenteCaja.php',
+        success: function (response) {
+            alert(response)
+            if (response == 1) {
+                BitacoraUsuario();
+            } else {
+                alertify.error("Error en al conectar con el servidor.  (ErrFn05)")
+            }
+        }
+    });
+}
+
+function BitacoraUsuario() {
+    //ErrFn06
+    //id_Movimiento = 1 cat_movimientos-->Sesion-->Iniciar Sesion
+    var id_Movimiento = 1;
+    var id_contrato = 0;
+    var id_almoneda = 0;
+    var id_cliente = 0;
+    var consulta_fechaInicio = null;
+    var consulta_fechaFinal = null;
+    var idArqueo = 0;
 
 
+    var dataEnviar = {
+        "id_Movimiento": id_Movimiento,
+        "id_contrato": id_contrato,
+        "id_almoneda": id_almoneda,
+        "id_cliente": id_cliente,
+        "consulta_fechaInicio": consulta_fechaInicio,
+        "consulta_fechaFinal": consulta_fechaFinal,
+        "idArqueo": idArqueo,
+    };
 
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                location.href = '../Empeno/vInicio.php'
+            } else {
+                alertify.error("Error en al conectar con el servidor.  (ErrFn06)")
+            }
+        }
+    });
+}
 
-
-
-
-
-
+//-----
 function HaySucursalesRegistradas() {
     //VAlida si esta inactiva
     var dataEnviar = {
@@ -208,35 +356,9 @@ function insertaCajaSelectMaxSucursal() {
     });
 }
 
-function validarHorario() {
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Usuario/Horario.php',
-        success: function (response) {
-            var horario = Number(response);
-            if (horario > 0) {
-                HaySucursalesRegistradas();
-            } else {
-                if ($tipoUserGlb == 3) {
-                    confirmarModificarHorario();
-                } else {
-                    alert("El sistema Mexicash se encuentra inhabilitado por horario.");
-                }
-            }
-        }
-    });
-}
 
-function confirmarModificarHorario() {
-    alertify.confirm('Cambio de horario',
-        'Por horario, el sistema esta inhabilitado. ' + '<br>' + '\n¿Desea modificar el horario usando un token?',
-        function () {
-            location.href = '../Configuracion/vHorario.php'
-        },
-        function () {
-            alertify.error('Cerrado por horario.')
-        });
-}
+
+
 
 function confirmarCancelarCierre() {
     alertify.confirm('Cierre de Sucursal',
@@ -261,50 +383,9 @@ function confirmarEntrarSucursalInactiva() {
         });
 }
 
-function BitacoraUsuario() {
-    //FLErr03
-    //id_Movimiento = 1 cat_movimientos-->Sesion-->Iniciar Sesion
-    var id_Movimiento = 1;
-    var id_contrato = 0;
-    var id_almoneda = 0;
-    var id_cliente = 0;
-    var consulta_fechaInicio = null;
-    var consulta_fechaFinal = null;
-    var idArqueo = 0;
 
 
-    var dataEnviar = {
-        "id_Movimiento": id_Movimiento,
-        "id_contrato": id_contrato,
-        "id_almoneda": id_almoneda,
-        "id_cliente": id_cliente,
-        "consulta_fechaInicio": consulta_fechaInicio,
-        "consulta_fechaFinal": consulta_fechaFinal,
-        "idArqueo": idArqueo,
-    };
 
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
-        data: dataEnviar,
-        success: function (response) {
-            if (response > 0) {
-                location.href = '../Empeno/vInicio.php'
-            } else {
-                alertify.error("Error en al conectar con el servidor.  (FLErr03)")
-            }
-        }
-    });
-}
-
-function isMobile() {
-    try {
-        document.createEvent("TouchEvent");
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
 
 function buscaridCaja() {
     //FLErr02

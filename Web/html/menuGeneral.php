@@ -4,6 +4,7 @@ if (!isset($_SESSION)) {
 }
 $tipoUsuario = $_SESSION['tipoUsuario'];
 $cajaInactiva = $_SESSION['cajaInactiva'];
+$sesionInactiva = $_SESSION['sesionInactiva'];
 $_SESSION['dotaciones'] = 0;
 ?>
 
@@ -27,22 +28,33 @@ $_SESSION['dotaciones'] = 0;
     <script type="application/javascript">
         $(document).ready(function () {
             var tipoUser = <?php echo $tipoUsuario; ?>;
-
-            var cajaInactiva = <?php echo $cajaInactiva; ?>;
+            var cajaInactiva = <?php echo $sesionInactiva; ?>;
+            var sesionInactiva = <?php echo $sesionInactiva; ?>;
 
             if (tipoUser == 3) {
                 if (cajaInactiva == 0) {
                     $("#menuEmpeno").show();
                     $("#menuEmpenoAuto").show();
                     $("#menuVentas").show();
+                    $("#menuDotaciones").show();
+                    $("#CI_Arqueo").show();
+                    $("#CI_Caja").show();
                 } else {
                     $("#menuEmpeno").hide();
                     $("#menuEmpenoAuto").hide();
                     $("#menuVentas").hide();
+                    $("#menuDotaciones").hide();
+                    $("#CI_Arqueo").hide();
+                    $("#CI_Caja").hide();
+                }
+
+                if (sesionInactiva == 0) {
+                    $("#menuCierre").show();
+                } else {
+                    $("#menuCierre").hide();
                 }
 
                 $("#menuCatalogos").hide();
-                $("#menuDotaciones").show();
                 $("#menuCancelaciones").show();
                 $("#menuConfiguracion").show();
 
@@ -96,9 +108,9 @@ $_SESSION['dotaciones'] = 0;
                     Cierre
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Cierre/vArqueo.php">Arqueo</a></li>
-                    <li><a class="dropdown-item" href="../Cierre/vCaja.php">Cierre de Caja</a></li>
-                    <li><a class="dropdown-item" href="../Cierre/vCierre.php">Cierre de Sucursal</a></li>
+                    <li><a class="dropdown-item" id="CI_Arqueo" href="../Cierre/vArqueo.php">Arqueo</a></li>
+                    <li><a class="dropdown-item" id="CI_Caja" href="../Cierre/vCaja.php">Cierre de Caja</a></li>
+                    <li><a class="dropdown-item"   href="../Cierre/vCierre.php">Cierre de Sucursal</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuVentas">

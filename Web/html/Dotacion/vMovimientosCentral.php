@@ -105,7 +105,7 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
         <div class="row">
             <div class="col-12">
                 <h4 align="center">Dotaciones</h4>
-                <h2 align="center" id="sesionInactiva" style="color:#FF0000";>¡IMPORTANTE NO PODRA HACER OPERACIONES DE DOTACIÓN!</h2>
+                <h2 align="center" id="sesionInactiva" style="color:#FF0000";>¡IMPORTANTE. NO PODRA HACER OPERACIONES DE DOTACIÓN!</h2>
                 <br>
                 <table width="450" align="center" class="border border-primary" border="0">
                     <tr style="background: dodgerblue; color:white;">

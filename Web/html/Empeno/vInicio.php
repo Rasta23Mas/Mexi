@@ -51,17 +51,20 @@ $dotaciones = $_SESSION['dotaciones'];
             }else{
                 $("#cajaInactiva").show();
             }
+
             if(tipoUsuario==2){
                 $("#OpSesion").hide();
                 $("#menuGerente").hide();
-            }else{
                 $("#menuAdmin").show();
+            }else{
+                $("#OpSesion").show();
+                $("#menuGerente").show();
+                $("#menuAdmin").hide();
             }
 
             var dotaciones = <?php echo $dotaciones; ?>;
 
             if (dotaciones == 1) {
-
                 $("#MenRapDotacion").show();
 
             } else if (dotaciones == 0) {
@@ -76,8 +79,8 @@ $dotaciones = $_SESSION['dotaciones'];
         <div>
             <br>
             <h2 align="center">Menú acceso rápido</h2>
-            <h2 align="center" id="sesionInactiva" style="color:#FF0000";>¡IMPORTANTE NO PODRA HACER OPERACIONES DE DOTACIÓN!</h2>
-            <h2 align="center" id="cajaInactiva" style="color:#FF0000";>¡IMPORTANTE NO PODRA HACER OPERACIONES, EL CIERRE DE CAJA YA FUE REALIZADO!</h2>
+            <h2 align="center" id="sesionInactiva" style="color:#FF0000";>¡IMPORTANTE. NO PODRA HACER OPERACIONES DE DOTACIÓN!</h2>
+            <h2 align="center" id="cajaInactiva" style="color:#FF0000";>¡IMPORTANTE. NO PODRA HACER OPERACIONES, EL CIERRE DE CAJA YA FUE REALIZADO!</h2>
             <br>
             <h4 align="center">Bienvenido: <?php echo $_SESSION["usuario"]; ?></h4>
             <br>
