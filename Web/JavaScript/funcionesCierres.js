@@ -542,7 +542,6 @@ function entradasSalidasVentas() {
             //Guardar Cierre en Caja
 
             //SaldoCajaGlb += saldoCajaGlobal;
-            //EfectivoCajaGlb += totalEntrada;
 
 
             saldoCajaGlobal += totalEntrada;
@@ -578,7 +577,6 @@ function entradasSalidasVentas() {
 
 function movimientosCaja() {
     //1 llena movimientos de dotacion y retiro
-    alert("Mov caja");
     var tipo = 3;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var idCierreCaja = $("#idCierreCaja").text();
@@ -621,7 +619,6 @@ function movimientosCaja() {
 
 function cajaAjustes() {
     //1 llena movimientos de dotacion y retiro
-    alert("Ajustes");
     var tipo = 7;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var idCierreCaja = $("#idCierreCaja").text();
@@ -678,7 +675,6 @@ function cajaAjustes() {
 
 function informeRefrendos() {
     //1 llena movimientos de dotacion y retiro
-    alert("Refrendos");
     var tipo = 6;
     var idUsuarioSelect = $("#idUsuarioCaja").val();
     var idCierreCaja = $("#idCierreCaja").text();
@@ -864,11 +860,93 @@ function guardarCierreCaja() {
         success: function (response) {
             if (response > 0) {
                 BitacoraUsuarioCierreCaja();
+                guardarFlujoCaja()
             } else {
                 alertify.error("Error de conexion, intente más tarde.")
             }
         }
 
+    });
+}
+
+
+function guardarFlujoCaja() {
+    var importeLetra = NumeroALetras(EfectivoCajaGlb);
+    var idUsuarioCaja = $("#idUsuarioCaja").val();
+    var dataEnviar = {
+        "id_catFlujo": 9,
+        "importe": EfectivoCajaGlb,
+        "importeLetra": importeLetra,
+        "usuarioCaja": idUsuarioCaja,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/GuardarFlujoCaja.php',
+        type: 'post',
+        success: function (response) {
+            if (response > 0) {
+                generarFolioArqueo();
+            } else {
+                alertify.error("Error al guardar el arqueo.");
+            }
+        },
+    })
+}
+
+function generarFolioArqueo() {
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Flujo/generarFolio.php',
+        success: function (respuesta) {
+            if(respuesta>0){
+                alert("Movimiento guardado.");
+                BitacoraUsuarioArqueo();
+            }else {
+                alertify.error("Error al guardar el arqueo.");
+            }
+        }
+    });
+}
+
+function BitacoraUsuarioArqueo() {
+    //id_Movimiento = 17
+    //FEErr08
+
+    var id_Movimiento = 17;
+    var id_contrato = 0;
+    var id_almoneda = 0;
+    var id_cliente = 0;
+    var consulta_fechaInicio = null;
+    var consulta_fechaFinal = null;
+
+
+    var dataEnviar = {
+        "id_Movimiento": id_Movimiento,
+        "id_contrato": id_contrato,
+        "id_almoneda": id_almoneda,
+        "id_cliente": id_cliente,
+        "consulta_fechaInicio": consulta_fechaInicio,
+        "consulta_fechaFinal": consulta_fechaFinal,
+        "idArqueo": idArqueoGbl,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                cargarPDFArqueo(idArqueoGbl)
+                setTimeout('location.reload();', 700)
+                if(ajustesGbl!=0){
+                    cargarPDFAjustes(1);
+                }else if(incrementoPatGbl!=0){
+                    cargarPDFAjustes(2);
+                }
+            } else {
+                alertify.error("Error en al conectar con el servidor. (FEErr08)")
+            }
+        }
     });
 }
 

@@ -459,8 +459,7 @@ class sqlFlujoDAO
         echo $verdad;
     }
 
-    public
-    function updateBovedaAjustes($saldoCentralFinal, $saldoBancoFinal, $saldoBovedaFinal)
+    public function updateBovedaAjustes($saldoCentralFinal, $saldoBancoFinal, $saldoBovedaFinal)
     {
         //Funcion Verificada
         // TODO: Implement guardaCiente() method.

@@ -132,270 +132,6 @@ foreach ($contrato as $fila) {
 }
 
 $newFechaCreacion = date("d-m-Y", strtotime($fecha_Creacion));
-if (!isset($_GET['pdf'])) {
-    $contenido = '<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-            <script src="../../JavaScript/funcionesArqueo.js"></script>
-
-    <style>
-        .letraNormalNegrita {
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        .letraGrandeNegrita {
-            font-size: 1.6em;
-            font-weight: bold;
-        }
-
-        .letraChicaNegrita {
-            font-size: .8em;
-            font-weight: bold;
-        }
-
-        .letraNormal {
-            font-size: 1.2em;
-        }
-
-        .letraGrande {
-            font-size: 1.6em;
-        }
-
-        .letraChica {
-            font-size: .8em;
-        }
-        .btn{
-        color: #0099CC;
-        background: transparent;
-        border: 2px solid #0099CC;
-        border-radius: 6px;
-      padding: 16px 32px;
-      text-align: center;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      -webkit-transition-duration: 0.4s; /* Safari */
-      transition-duration: 0.4s;
-      cursor: pointer;
-      text-decoration: none;
-      text-transform: uppercase;
-}
-        }
-        .btnGenerarPDF {
-        background-color: white; 
-        color: black; 
-        border: 2px solid #008CBA;
-        }
-        .btnGenerarPDF:hover {
-        background-color: #008CBA;
-        color: white;
-        }
-        
-        .borderBlue{
-        border-style: solid;
-         border-color: dodgerblue;
-          border-collapse: collapse;
-        }
-        
-        .tdborderBlue{
-        border-style: solid;
-         border-color: dodgerblue;
-          border-collapse: collapse;
-            padding: 10px;
-        }
-    </style>
-</head>
-<body >
-<form align="center">';
-    $contenido .= '  <div class="container-fluid">
-        <div>
-            <br>
-        </div>
-        <div class="row">
-            <div class="col-12" >
-                <table width="80%" border="0" align="center" >
-                    <tr><td align="center" class="letraNormalNegrita" colspan="4"><label >' . $sucNombreCasa . '</label>
-                        </td></tr>
-                    <tr><td align="center" class="letraNormalNegrita" colspan="4"><label > SUCURSAL: ' . $sucNombre . '</label>
-                        </td></tr>
-                    <tr><td align="center" class="letraNormalNegrita" colspan="4"><label >' . $sucDireccion . '</label>
-                        </td></tr>
-                    <tr><td align="center" class="letraNormalNegrita" colspan="4"><label>TEL: ' . $sucTelefono . '</label>&nbsp;<label >RFC: ' . $sucRfc . '</label>
-                        </td></tr>
-                    <tr><td align="center" class="letraNormalNegrita" colspan="4">ARQUEO DE CAJA
-                    </td></tr>
-                    <tr>
-                    <td colspan="4"> <br>
-                    </td>
-                    </tr>
-                    <tr>
-                        <td align="center"  colspan="2" style="width: 700px;">
-                            <table width="50%" class="borderBlue">
-                                <tr style="background: dodgerblue; color:white;" >
-                                    <td align="center" colspan="5" >
-                                        <label>BILLETES</label>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td colspan="2" align="right" style="width: 40%"><label> $1,000.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idMilCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value="' . $mil_cant . '" disabled/></td>
-                                    <td colspan="2" align="right" style="width: 20%"><label id="lblMil"> $' . $mil_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label> $500.00</label></td>
-                                    <td  align="center" style="width: 70px"/>
-                                        <input type="text" name="billete" placeholder="0" id="idQuinientosCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value="' . $quinientos_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblQuinientos"> $' . $quinientos_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label>  $200.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idDoscientosCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $doscientos_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblDoscientos"> $' . $doscientos_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label>  $100.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idCienCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $cien_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblCien"> $' . $cien_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label>  $50.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idCincuentaCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $cincuenta_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblCincuenta"> $' . $cincuenta_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%" ><label>  $20.00</label></td>
-                                    <td  align="center" style="width: 70px" >
-                                        <input type="text" name="billete" placeholder="0" id="idVeinteCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $veinte_cant . '" disabled/></td>
-                                    <td colspan="2" align="right" ><label id="lblVeinte"> $' . $veinte_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" align="center" style="width: 40%" >
-                                        &nbsp;
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td colspan="5" align="center" style="width: 40%" >
-                                        &nbsp;
-                                    </td>
-                                </tr>
-                                <tr >
-                                     <td colspan="5" align="left" class="tdborderBlue">
-                                        TOTAL BILLETES:&nbsp;
-                                        <label id="lblTotalBilletes"> $' . $totalBilletes . '</label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td align="center" colspan="2" style="width: 700px;">
-                            <table class="borderBlue"  width="50%">
-                                <tr style="background: dodgerblue; color:white;">
-                                    <td align="center" colspan="5">
-                                        <label>MONEDAS</label>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td colspan="2" align="right" style="width: 40%"><label> $20.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idVeinteMonCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $veinteMon_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblVeinteMon"> $' . $veinteMon_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label> $10.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idDiezCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $diez_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblDiez"> $' . $diez_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label>  $5.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idCincoCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $cinco_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblCinco"> $' . $cinco_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label>  $2.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idDosCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $dos_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblDos"> $' . $dos_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label>  $1.00</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idUnoCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $uno_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblUno"> $' . $uno_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label>  $0.50</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idCincuentaCCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $cincuentaMon_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblCincuentaC"> $' . $cincuentaMon_efe . '</label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="right" style="width: 40%"><label>Centavos</label></td>
-                                    <td  align="center" style="width: 70px">
-                                        <input type="text" name="billete" placeholder="0" id="idCentavosCant" onkeypress="return soloNumeros(event)" maxlength="3"
-                                               style="width: 50px; text-align: center" value=" ' . $centavos_cant . '" disabled/></td>
-                                    <td colspan="2" align="right"><label id="lblCentavos"> $' . $centavos . '</label></td>
-                                </tr>
-                                 <tr>
-                                    <td colspan="5" align="center" style="width: 40%" >
-                                        &nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" align="left" class="tdborderBlue">
-                                        TOTAL MONEDAS:&nbsp;
-                                  
-                                        <label id="lblTotalMonedas">  $' . $totalMonedas . '</label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                    <td style="width: 150px;">
-                        &nbsp;
-</td>
-                        <td align="left" >
-                            <h4><label>TOTAL ARQUEO:  $' . $totalArqueo . '</label></h4>
-                        </td>
-                        <td>
-                        &nbsp;
-</td>
-<td>
-                        &nbsp;
-</td>
-                    </tr>';
-    $contenido .= '<tr><td align="center" colspan="4">
-        <input type="button" class="btn btnGenerarPDF" value="Generar PDF"  onclick="verPDFArqueo(' . $idArqueo . ');" >
-        </td></tr>';
-    $contenido .= '</table></div></div>
-    </div></form></body></html>';
-    echo $contenido;
-    exit;
-}
 $contenido = '<html>
 <head>
     <meta charset="utf-8">
@@ -613,6 +349,16 @@ $contenido .= '  <div class="container-fluid">
                             <br>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="4">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <br>
+                        </td>
+                    </tr>
                       <tr>
                         <td colspan="2" align="center">
                             ---------------------------
@@ -630,9 +376,9 @@ $contenido .= '  <div class="container-fluid">
                         </td>
                     </tr>
                     ';
-
 $contenido .= '</tbody></table></form></body></html>';
-
+//echo $contenido;
+//exit();
 $nombreContrato = 'Arqueo Caja ' . $idCierreCaja . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

@@ -111,7 +111,7 @@ $contenido = '<html>
 <body>
 <form>';
 $contenido .= '
-                <table width="100%" border="1" align="center" >
+                <table width="100%" border="0" align="center" >
                   <tr><td align="center" class="letraGrandeNegrita" colspan="2"><br>
                         </td></tr>
                     <tr><td align="center" class="letraGrandeNegrita" colspan="2"><label >' . $sucNombreCasa . '</label>
@@ -165,7 +165,7 @@ if($UserCaja!=0) {
 $contenido .= '</tbody></table></form></body></html>';
 //echo $contenido;
 //exit;
-$nombreContrato = 'Arqueo Caja ' . $idCierreCaja . ".pdf";
+$nombreContrato = 'Flujo_' . $idFolio . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 //$customPaper = array(0,0,ANCHO,Largo);

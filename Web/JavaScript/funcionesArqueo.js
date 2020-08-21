@@ -331,12 +331,6 @@ function validarAjustes() {
             var dotacionCaja = $("#idSaldoCajaVal").val();
             dotacionCaja = Math.round(dotacionCaja * 100) / 100;
 
-            alert("entradas")
-            alert(entradas)
-            alert("dotacion")
-            alert(dotacionCaja)
-            alert("salidas")
-            alert(salidas)
             var entradasConCaja = entradas + dotacionCaja;
             saldoCajaGlobal += entradasConCaja;
             saldoCajaGlobal -= salidas;
@@ -775,15 +769,6 @@ function saldoCajaUser() {
 function cargarPDFArqueo() {
     window.open('../PDF/callPdfArqueo.php?idArqueo=' + idArqueoGbl);
 }
-function verPDFArqueo() {
-    window.open('../PDF/callPdfArqueo.php?pdf=1&idArqueo=' + idArqueoGbl);
-}
 function cargarPDFAjustes(tipoAjuste) {
     window.open('../PDF/callPdfAjustes.php?tipoAjuste='+tipoAjuste + '&idArqueo=' + idArqueoGbl);
-}
-function verPDFAjustes() {
-    window.open('../PDF/callPdfAjustes.php?pdf=1&tipoAjuste=1&idArqueo=' + idArqueoGbl);
-}
-function verPDFIncremento() {
-    window.open('../PDF/callPdfAjustes.php?pdf=1&tipoAjuste=2&idArqueo=' + idArqueoGbl);
 }

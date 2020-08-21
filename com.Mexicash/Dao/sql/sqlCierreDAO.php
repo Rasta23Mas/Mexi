@@ -356,6 +356,94 @@ class sqlCierreDAO
         echo $verdad;
     }
 
+    public function guardarFlujoDeCaja($id_catFlujo,$importe,$importeLetra,$usuarioCaja)
+    {
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        try {
+            $buscarFlujoGenerado = "SELECT id_flujo FROM flujo_tbl WHERE id_cat_flujo= 0";
+            $statement = $this->conexion->query($buscarFlujoGenerado);
+            $encontro = $statement->num_rows;
+            if ($encontro > 0) {
+                $fila = $statement->fetch_object();
+                $id_flujo = $fila->id_flujo;
+                $fechaCreacion = date('Y-m-d H:i:s');
+                $usuario = $_SESSION["idUsuario"];
+                $concepto = "CIERRE DE CAJA";
+                $updateFlujo = "UPDATE flujo_tbl SET importe=$importe,importeLetra='$importeLetra',id_cat_flujo=$id_catFlujo,
+                fechaCreacion='$fechaCreacion',estatus=1,concepto = '$concepto',usuario=$usuario,usuarioCaja=$usuarioCaja 
+                WHERE id_flujo=$id_flujo";
+                if ($ps = $this->conexion->prepare($updateFlujo)) {
+                    if ($ps->execute()) {
+                        $sucursal = $_SESSION["sucursal"];
+                        $buscarSaldoBoveda = "SELECT importe as ImporteBoveda FROM flujototales_tbl  
+                                                WHERE sucursal=$sucursal and id_flujoAgente=3";
+                        $statement = $this->conexion->query($buscarSaldoBoveda);
+                        $encontro = $statement->num_rows;
+                        if ($encontro > 0) {
+                            $fila = $statement->fetch_object();
+                            $importeBoveda = $fila->ImporteBoveda;
+                            $nuevoImporte = $importeBoveda + $importe;
+                            $updateBoveda = "UPDATE flujototales_tbl SET importe=$nuevoImporte,
+                                            fechaModificacion='$fechaCreacion'
+                                            WHERE sucursal=$sucursal and id_flujoAgente=3";
+                            if ($ps = $this->conexion->prepare($updateBoveda)) {
+                                if ($ps->execute()) {
+                                    if ($id_catFlujo == 7) {
+                                        $buscarSaldoBoveda = "SELECT importe as ImporteCaja FROM flujototales_tbl  
+                                                WHERE usuario=$usuarioCaja";
+                                        $statement = $this->conexion->query($buscarSaldoBoveda);
+                                        $encontro = $statement->num_rows;
+                                        if ($encontro > 0) {
+                                            $fila = $statement->fetch_object();
+                                            $ImporteCaja = $fila->ImporteCaja;
+                                            $nuevoImporteCaja = $ImporteCaja - $importe;
+                                            $updateCaja = "UPDATE flujototales_tbl SET importe=$nuevoImporteCaja,
+                                            fechaModificacion='$fechaCreacion'
+                                            WHERE usuario=$usuarioCaja";
+                                            if ($ps = $this->conexion->prepare($updateCaja)) {
+                                                if ($ps->execute()) {
+                                                    $verdad = 33;
+                                                } else {
+                                                    $verdad = -1;
+                                                }
+                                            }
+                                        } else {
+                                            $verdad = -12;
+                                        }
+                                    } else {
+                                        $verdad = 3;
+                                    }
+                                } else {
+                                    $verdad = -1;
+                                }
+                            }
+                        } else {
+                            $verdad = -1;
+                        }
+                    } else {
+                        $verdad = -1;
+                    }
+
+
+                } else {
+                    $verdad = -1;
+                }
+
+            } else {
+                $verdad = -1;
+            }
+
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
+
+
     function cargarUsuariosCaja()
     {
         $datos = array();
@@ -492,7 +580,6 @@ class sqlCierreDAO
 
         echo json_encode($datos);
     }
-
 
     public function busquedaPorFechasCajaCierre($fechaInicial, $fechaFinal)
     {
