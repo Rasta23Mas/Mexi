@@ -146,7 +146,7 @@ $_SESSION['dotaciones'] = 0;
                     Catalogos
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="">Metales</a></li>
+                    <li><a class="dropdown-item" href="../Catalogos/catMetales.php">Metales</a></li>
                     <li><a class="dropdown-item" href="../Catalogos/catClientes.php">Clientes</a></li>
 
                 </ul>

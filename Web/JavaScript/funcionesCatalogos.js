@@ -1,6 +1,6 @@
-function cargarTablaCatMetales($tipoMetal) {
+function cargarTablaCatMetales(tipoMetal) {
     var dataEnviar = {
-        "tipoMetal": $tipoMetal
+        "tipoMetal": tipoMetal
     };
     $.ajax({
         type: "POST",
@@ -75,10 +75,10 @@ function eliminarMetal($idMetal) {
 
 }
 
-function modalEditarMetal($idMetal) {
+function modalEditarMetal(idMetal) {
     var dataEnviar = {
         "tipo": 4,
-        "idMetal": $idMetal
+        "idMetal": idMetal
     };
     $.ajax({
         data: dataEnviar,
@@ -137,13 +137,23 @@ function guardarMetal() {
 
 }
 
+function validarTipoUser() {
+    var idUser = $('#idTipoUserCat').val();
+
+    if(idUser==2){
+        actualizarMetal();
+    }else{
+
+    }
+}
+
 function actualizarMetal() {
-    var $idMetal = $('#idKilatajeEditModal').val();
+    var idMetal = $('#idKilatajeEditModal').val();
     var precio = $('#idPrecioEditModal').val();
     var $tipoMetal = $("#idTipoMetalCat").val();
     var dataEnviar = {
         "tipo": 2,
-        "idMetal": $idMetal,
+        "idMetal": idMetal,
         "precio": precio
     };
     $.ajax({

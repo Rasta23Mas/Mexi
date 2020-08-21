@@ -170,9 +170,13 @@ class sqlCatalogoDAO
     {
         $datos = array();
         try {
-            $buscar = "SELECT id_Kilataje,Tip.descripcion as TipoMetal,Kil.descripcion as DesMetal,precio
-                        FROM cat_kilataje as Kil
-                        INNER JOIN cat_tipoarticulo as Tip on Kil.id_tipoArticulo = Tip.id_tipo WHERE Tip.id_tipo=$idMetal";
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT Kil.id_Kilataje,Tip.descripcion as TipoMetal,CKil.descripcion as DesMetal,precio
+                        FROM cat_kilataje_precio as Kil
+                        INNER JOIN cat_kilataje as CKil on Kil.id_kilataje = CKil.id_Kilataje 
+                        INNER JOIN cat_tipoarticulo as Tip on CKil.id_tipoArticulo = Tip.id_tipo 
+                         WHERE Tip.id_tipo=$idMetal and Kil.sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -270,9 +274,11 @@ class sqlCatalogoDAO
     {
         $datos = array();
         try {
-            $buscar = "SELECT id_Kilataje,Tip.descripcion as TipoMetal,Kil.descripcion as DesMetal,precio
-                        FROM cat_kilataje as Kil
-                        INNER JOIN cat_tipoarticulo as Tip on Kil.id_tipoArticulo = Tip.id_tipo WHERE id_Kilataje=$idMetal";
+            $buscar = "SELECT Kil.id_Kilataje,Tip.descripcion as TipoMetal,CKil.descripcion as DesMetal,precio
+                        FROM cat_kilataje_precio as Kil
+                        INNER JOIN cat_kilataje as CKil on Kil.id_kilataje = CKil.id_Kilataje 
+                        INNER JOIN cat_tipoarticulo as Tip on CKil.id_tipoArticulo = Tip.id_tipo
+                         WHERE Kil.id_Kilataje=$idMetal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

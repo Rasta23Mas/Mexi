@@ -72,7 +72,7 @@ $dotaciones = $_SESSION['dotaciones'];
                     Catalogos
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="#modalActualizarMetal">Metales</a></li>
+                    <li><a class="dropdown-item" href="../Catalogos/catMetales.php">Metales</a></li>
                     <li><a class="dropdown-item" href="../Catalogos/catClientes.php">Clientes</a></li>
                 </ul>
             </li>

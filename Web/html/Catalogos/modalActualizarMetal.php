@@ -55,7 +55,7 @@ include_once(SQL_PATH . "sqlCatalogoDAO.php");
             </div>
             <div class="modal-footer">
                 <input type="button" class="btn btn-primary" data-dismiss="modal"
-                       value="Guardar" onclick="actualizarMetal()">
+                       value="Guardar" onclick="validarTipoUser()">
             </div>
         </div>
     </div>
