@@ -74,11 +74,10 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
             INNER JOIN cat_cliente AS CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente
             INNER JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado
             INNER JOIN contrato_mov_tbl AS Mov on Con.id_Contrato = Mov.id_contrato 
-            INNER JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja  
-            INNER JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
-            INNER JOIN cat_sucursal CSuc ON Mov.sucursal=CSUC.id_Sucursal
+            LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja  
+            LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
+            LEFT JOIN cat_sucursal CSuc ON Mov.sucursal=CSUC.id_Sucursal
             WHERE Con.id_Contrato =$idContrato ";
-
 $resultado = $db->query($query);
 
 foreach ($resultado as $row) {
