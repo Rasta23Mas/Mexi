@@ -90,7 +90,10 @@ function exportarExcel() {
     } else if (tipoReporte == 3) {
         window.open('../Excel/rpt_Exc_Contrato.php?sucursal=' + sucursal);
 
-    } else {
+    } else if (tipoReporte == 6) {
+        window.open('../Excel/rpt_Exc_Bazar.php?sucursal=' + sucursal);
+
+    }else {
         if (fechaFin != "" && fechaIni != "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
@@ -118,7 +121,10 @@ function exportarPDF() {
     } else if (tipoReporte == 3) {
         window.open('../PDF/callPdf_R_Contratos.php');
 
-    } else {
+    } else if (tipoReporte == 6) {
+        window.open('../PDF/callPdf_R_Bazar.php');
+
+    }else {
         if (fechaFin != "" && fechaIni != "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
@@ -647,9 +653,6 @@ function cargarRptRefrendo(fechaIni, fechaFin) {
 //Reporte Contrato Venc
 function cargarRptBazar() {
     var tipoReporte = $('#idTipoReporte').val();
-    var tipoMetal = 0;
-    var tipoElectro = 0;
-    var tipoAuto = 0;
     var dataEnviar = {
         "tipoReporte": tipoReporte,
         "fechaIni": '',
