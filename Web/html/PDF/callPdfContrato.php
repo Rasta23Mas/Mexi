@@ -60,24 +60,8 @@ if (isset($_GET['contrato'])) {
 }
 $nombreContrato = 'Contrato Num _' . $idContrato . ".pdf";
 
-$query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Mat, ' ',Cli.apellido_Pat) as NombreCompleto, 
-            CatCli.descripcion AS Identificacion, Cli.num_Identificacion AS NumIde,
-            CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS Direccion,
-            Cli.telefono AS Tel, Cli.celular AS Celular,Cli.correo AS Correo, Con.cotitular AS Cotitular,Con.beneficiario AS Beneficiario,
-            Con.total_Prestamo AS MontoPrestamo, Con.suma_InteresPrestamo AS MontoTotal, Con.total_Interes AS Intereses,Con.tasa AS Tasa,Con.alm AS Almacenaje, 
-            Con.seguro AS Seguro,Con.Iva AS Iva,Mov.fechaAlmoneda AS FechaAlmoneda, Con.dias AS Dias,Mov.fechaVencimiento AS FechaVenc,
-            Con.total_Avaluo AS Avaluo,avaluo_Letra,CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario,
-            Con.id_Formulario AS TipFormulario, Con.Aforo AS Aforo,CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,
-            CSUC.correo as CorreoCasa, CSUC.pagina as PaginaCasa,CSUC.horario as HorarioCasa
-            FROM contratos_tbl AS Con 
-            INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
-            INNER JOIN cat_cliente AS CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente
-            INNER JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado
-            INNER JOIN contrato_mov_tbl AS Mov on Con.id_Contrato = Mov.id_contrato 
-            LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja  
-            LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
-            LEFT JOIN cat_sucursal CSuc ON Mov.sucursal=CSUC.id_Sucursal
-            WHERE Con.id_Contrato =$idContrato ";
+$query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Mat, ' ',Cli.apellido_Pat) as NombreCompleto, CatCli.descripcion AS Identificacion, Cli.num_Identificacion AS NumIde, CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS Direccion, Cli.telefono AS Tel, Cli.celular AS Celular,Cli.correo AS Correo, Con.cotitular AS Cotitular,Con.beneficiario AS Beneficiario, Con.total_Prestamo AS MontoPrestamo, Con.suma_InteresPrestamo AS MontoTotal, Con.total_Interes AS Intereses,Con.tasa AS Tasa,Con.alm AS Almacenaje, Con.seguro AS Seguro,Con.Iva AS Iva,Mov.fechaAlmoneda AS FechaAlmoneda, Con.dias AS Dias,Mov.fechaVencimiento AS FechaVenc, Con.total_Avaluo AS Avaluo,avaluo_Letra,CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, Con.id_Formulario AS TipFormulario, Con.Aforo AS Aforo,CATS.NombreCasa, CATS.Nombre,CATS.direccion, CATS.telefono,CATS.rfc, CATS.correo as CorreoCasa, CATS.pagina as PaginaCasa,CATS.horario as HorarioCasa FROM contratos_tbl AS Con INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente INNER JOIN cat_cliente AS CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente INNER JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado INNER JOIN contrato_mov_tbl AS Mov on Con.id_Contrato = Mov.id_contrato LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User LEFT JOIN cat_sucursal CATS ON Mov.sucursal= CATS.id_Sucursal  WHERE Con.id_Contrato =$idContrato ";
+;
 $resultado = $db->query($query);
 
 foreach ($resultado as $row) {
@@ -160,38 +144,37 @@ $detallePiePagina = '';
 $detalleDescripcion = '';
 $tipoDescripcion = '';
 
-$query = "SELECT
-            CONCAT ( Ar.detalle,' ', TA.descripcion, ' ',TK.descripcion ,' ', TC.descripcion) as detalleMetal,
-            CONCAT ( ET.descripcion,' ', EM.descripcion, ' ',EMOD.descripcion ,' ',  Ar.detalle) as detalleElec,
-            Ar.observaciones AS ObsArt,
-            CONCAT ( Aut.marca,' ', Aut.modelo, ' ',Aut.anio ,' ',  Aut.color, ' ' , Aut.placas, ' ',Aut.factura, ' ',Aut.num_motor) as detalleAuto, 
-            Aut.observaciones AS ObsAuto, Ar.prestamo as PrestamoArt, Ar.avaluo as AvaluoArt
-            FROM contratos_tbl as Con 
-            INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato
-            LEFT JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
-            LEFT JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
-            LEFT JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
-            LEFT JOIN cat_electronico_tipo as ET on Ar.tipo = ET.id_tipo
-            LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca
-            LEFT JOIN cat_electronico_modelo as EMOD on Ar.modelo = EMOD.id_modelo
-            LEFT JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato
+$query = "SELECT CONCAT ( Ar.detalle,' ', TA.descripcion, ' ',TK.descripcion ,' ', TC.descripcion) as detalleMetal, 
+    CONCAT ( ET.descripcion,' ', EM.descripcion, ' ',EMOD.descripcion ,' ', Ar.detalle) as detalleElec,
+    Ar.observaciones AS ObsArt, 
+    CONCAT ( Aut.marca,' ', Aut.modelo, ' ',Aut.anio ,' ', Aut.color, ' ' , Aut.placas, ' ',Aut.factura, ' ',Aut.num_motor) as detalleAuto, Aut.observaciones AS ObsAuto, 
+    Ar.prestamo as PrestamoArt, Ar.avaluo as AvaluoArt
+FROM contratos_tbl as Con 
+INNER JOIN articulo_tbl as Ar on Con.id_Contrato = Ar.id_Contrato 
+LEFT JOIN cat_tipoarticulo as TA on Ar.tipo = TA.id_tipo 
+LEFT JOIN cat_kilataje as TK on Ar.kilataje = TK.id_Kilataje 
+LEFT JOIN cat_calidad as TC on Ar.calidad = TC.id_calidad 
+LEFT JOIN cat_electronico_tipo as ET on Ar.tipo = ET.id_tipo 
+LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca 
+LEFT JOIN cat_electronico_modelo as EMOD on Ar.modelo = EMOD.id_modelo 
+LEFT JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato 
             WHERE Con.id_Contrato =$idContrato ";
 $tablaArt = $db->query($query);
+
 foreach ($tablaArt as $row) {
-    if ($TipFormulario == 1) {
+    if ($TipFormulario == "1") {
         $tipoDescripcion = 'METALES';
         $detalle = $row["detalleMetal"];
         $Obs = $row["ObsArt"];
-
         $avaluoArt = $row["PrestamoArt"];
         $prestamoArt = $row["AvaluoArt"];
-    }elseif ($TipFormulario == 2) {
+    }elseif ($TipFormulario == "2") {
         $tipoDescripcion = 'ELECTRÓNICOS';
         $detalle = $row["detalleElec"];
         $Obs = $row["ObsArt"];
         $avaluoArt = $row["PrestamoArt"];
         $prestamoArt = $row["AvaluoArt"];
-    }elseif ($TipFormulario == 3) {
+    }elseif ($TipFormulario == "3") {
         $tipoDescripcion = 'AUTO';
         $detalle = $row["detalleAuto"];
         $Obs = $row["ObsAuto"];
