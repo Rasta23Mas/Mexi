@@ -19,6 +19,8 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->reporteDesempe($fechaIni,$fechaFin);
 }else if ($tipoReporte == 5) {
     $sqlReportesDAO->reporteRefrendo($fechaIni,$fechaFin);
+}else if ($tipoReporte == 6) {
+    $sqlReportesDAO->reporteBazar();
 }
 
 ?>

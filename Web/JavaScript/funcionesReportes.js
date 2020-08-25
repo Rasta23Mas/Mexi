@@ -6,7 +6,7 @@ function selectReporte() {
         nameForm = "Histórico"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         $("#idFechaInicial").datepicker('option', 'disabled', false);
-        // $("#idFechaInicial").prop('disabled',true);
+         $("#idFechaInicial").prop('disabled',true);
         //$("#divReporte").load('rptEmpHistorico.php');
     } else if (reporte == 2) {
         nameForm = "Inventarios"
@@ -18,6 +18,8 @@ function selectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         $("#idFechaInicial").datepicker('option', 'disabled', false);
         $("#idFechaFinal").datepicker('option', 'disabled', false);
+        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").prop('disabled',true);
 
         //$("#divReporte").load('rptEmpContratos.php');
     } else if (reporte == 4) {
@@ -25,6 +27,8 @@ function selectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         $("#idFechaInicial").datepicker('option', 'disabled', false);
         $("#idFechaFinal").datepicker('option', 'disabled', false);
+        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").prop('disabled',true);
 
         //$("#divReporte").load('rptEmpDesempeno.php');
     } else if (reporte == 5) {
@@ -32,6 +36,16 @@ function selectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         $("#idFechaInicial").datepicker('option', 'disabled', false);
         $("#idFechaFinal").datepicker('option', 'disabled', false);
+        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").prop('disabled',true);
+
+    }else if (reporte == 6) {
+        nameForm = "Bazar"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        $("#idFechaInicial").datepicker('disable');
+        $("#idFechaFinal").datepicker('disable');
+        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").prop('disabled',true);
 
     }
 }
@@ -45,7 +59,9 @@ function llenarReporte() {
         cargarRptInv()
     } else if (tipoReporte == 3) {
         cargarRptVenci()
-    } else {
+    } else if (tipoReporte == 6) {
+        cargarRptBazar()
+    }else {
         if (fechaFin != "" && fechaIni != "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
@@ -628,6 +644,56 @@ function cargarRptRefrendo(fechaIni, fechaFin) {
     $("#divRpt").load('rptEmpRefrendo.php');
 }
 
+//Reporte Contrato Venc
+function cargarRptBazar() {
+    var tipoReporte = $('#idTipoReporte').val();
+    var tipoMetal = 0;
+    var tipoElectro = 0;
+    var tipoAuto = 0;
+    var dataEnviar = {
+        "tipoReporte": tipoReporte,
+        "fechaIni": '',
+        "fechaFin": '',
+    };
+    $.ajax({
+            type: "POST",
+            url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
+            data: dataEnviar,
+            dataType: "json",
+            success: function (datos) {
+                var html = '';
+                var i = 0;
+                alert("Refrescando tabla.");
+                for (i; i < datos.length; i++) {
+                    var id_Contrato = datos[i].id_Contrato;
+                    var id_serie = datos[i].id_serie;
+                    var Movimiento = datos[i].Movimiento;
+                    var fecha_Bazar = datos[i].fecha_Bazar;
+                    var precio_venta = datos[i].precio_venta;
+                    var Detalle = datos[i].Detalle;
+                    var CatDesc = datos[i].CatDesc;
+                    var id_ContratoMig = datos[i].id_ContratoMig;
+
+                    precio_venta = formatoMoneda(precio_venta);
+
+                    html += '<tr>' +
+                        '<td >' + fecha_Bazar + '</td>' +
+                        '<td>' + id_Contrato + '</td>' +
+                        '<td>' + id_serie + '</td>' +
+                        '<td>' + Movimiento + '</td>' +
+                        '<td>' + Detalle + '</td>' +
+                        '<td>' + precio_venta + '</td>' +
+                        '<td>' + CatDesc + '</td>' +
+                        '<td>' + id_ContratoMig + '</td>' +
+                        '</tr>';
+                }
+
+                $('#idTBodyBazar').html(html);
+            }
+        }
+    );
+    $("#divRpt").load('rptEmpBazar.php');
+}
 
 // MONITOREO
 function selectReporteMon() {
