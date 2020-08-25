@@ -302,6 +302,8 @@ function buscarDatosContrato() {
                         PlazoDesc = PlazoDesc + " Mensual";
                     } else if (DiasContrato == 1) {
                         PlazoDesc = PlazoDesc + " Diario";
+                    } else if (DiasContrato == 14) {
+                        PlazoDesc = PlazoDesc + " Catorcenal";
                     }
 
 

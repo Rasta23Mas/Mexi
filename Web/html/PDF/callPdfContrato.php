@@ -60,8 +60,29 @@ if (isset($_GET['contrato'])) {
 }
 $nombreContrato = 'Contrato Num _' . $idContrato . ".pdf";
 
-$query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Mat, ' ',Cli.apellido_Pat) as NombreCompleto, CatCli.descripcion AS Identificacion, Cli.num_Identificacion AS NumIde, CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS Direccion, Cli.telefono AS Tel, Cli.celular AS Celular,Cli.correo AS Correo, Con.cotitular AS Cotitular,Con.beneficiario AS Beneficiario, Con.total_Prestamo AS MontoPrestamo, Con.suma_InteresPrestamo AS MontoTotal, Con.total_Interes AS Intereses,Con.tasa AS Tasa,Con.alm AS Almacenaje, Con.seguro AS Seguro,Con.Iva AS Iva,Mov.fechaAlmoneda AS FechaAlmoneda, Con.dias AS Dias,Mov.fechaVencimiento AS FechaVenc, Con.total_Avaluo AS Avaluo,avaluo_Letra,CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, Con.id_Formulario AS TipFormulario, Con.Aforo AS Aforo,CATS.NombreCasa, CATS.Nombre,CATS.direccion, CATS.telefono,CATS.rfc, CATS.correo as CorreoCasa, CATS.pagina as PaginaCasa,CATS.horario as HorarioCasa FROM contratos_tbl AS Con INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente INNER JOIN cat_cliente AS CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente INNER JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado INNER JOIN contrato_mov_tbl AS Mov on Con.id_Contrato = Mov.id_contrato LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User LEFT JOIN cat_sucursal CATS ON Mov.sucursal= CATS.id_Sucursal  WHERE Con.id_Contrato =$idContrato ";
-;
+$query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Mat, ' ',Cli.apellido_Pat) as NombreCompleto,
+ CatCli.descripcion AS Identificacion, Cli.num_Identificacion AS NumIde, 
+ CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS Direccion,
+  Cli.telefono AS Tel, Cli.celular AS Celular,Cli.correo AS Correo, 
+  Con.cotitular AS Cotitular,Con.beneficiario AS Beneficiario, Con.total_Prestamo AS MontoPrestamo, 
+  Con.suma_InteresPrestamo AS MontoTotal, Con.total_Interes AS Intereses,Con.tasa AS Tasa,
+  Con.alm AS Almacenaje, Con.seguro AS Seguro,Con.Iva AS Iva,Mov.fechaAlmoneda AS FechaAlmoneda, 
+  Con.dias AS Dias,Mov.fechaVencimiento AS FechaVenc, Con.total_Avaluo AS Avaluo,avaluo_Letra,
+  CONCAT(Con.plazo, ' ' ,Con.periodo ) AS PlazoMov, 
+  CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, 
+  Con.id_Formulario AS TipFormulario, Con.Aforo AS Aforo,CATS.NombreCasa, 
+  CATS.Nombre,CATS.direccion, CATS.telefono,CATS.rfc, CATS.correo as CorreoCasa, 
+  CATS.pagina as PaginaCasa,CATS.horario as HorarioCasa 
+  FROM contratos_tbl AS Con 
+  INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
+  INNER JOIN cat_cliente AS CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente 
+  INNER JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado
+  INNER JOIN contrato_mov_tbl AS Mov on Con.id_Contrato = Mov.id_contrato 
+  LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja 
+  LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
+  LEFT JOIN cat_sucursal CATS ON Mov.sucursal= CATS.id_Sucursal  
+  WHERE Con.id_Contrato =$idContrato ";
+
 $resultado = $db->query($query);
 
 foreach ($resultado as $row) {
@@ -85,6 +106,7 @@ foreach ($resultado as $row) {
     $Correo = $row["Correo"];
     $Cotitular = $row["Cotitular"];
     $Beneficiario = $row["Beneficiario"];
+    $PlazoMov = $row["PlazoMov"];
     //Tabla
     $MontoPrestamo = $row["MontoPrestamo"];
     $MontoTotal = $row["MontoTotal"];
@@ -616,7 +638,7 @@ $contenido .= '
         </tr>
         <tr>
             <td colspan="12"><label class="letraNormalNegrita">
-                FECHA: ' . $FechaCreacion . ' PLAZO: 1 MENSUAL <br>
+                FECHA: ' . $FechaCreacion . ' PLAZO: ' . $PlazoMov . ' <br>
                 PRENDA:' . $detallePiePagina . '</label>
             </td>
         </tr>';
