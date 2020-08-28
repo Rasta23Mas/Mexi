@@ -149,7 +149,8 @@ class sqlArticulosComprasDAO
                         INNER JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
                         INNER JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
                         INNER JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
-                        WHERE id_Contrato='' and id_cierreCaja=" . $idCierreCaja;
+                        WHERE id_Contrato='0' and id_cierreCaja=" . $idCierreCaja;
+            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

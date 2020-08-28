@@ -195,6 +195,7 @@ function cargarTablaMetales() {
         url: '../../../com.Mexicash/Controlador/Vendedor/tblMetalesCompras.php',
         dataType: "json",
         success: function (datos) {
+            alert(datos);
             alert("Refrescando tabla.");
             var html = '';
             var i = 0;
