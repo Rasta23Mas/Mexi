@@ -48,13 +48,8 @@ if ($tipoUsuario == 2) {
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            // $('.menuContainer').load('menu.php');
-            $("#divElectronicos").hide();
-            $("#divMetales").show();
             $("#idFormEmpeno").trigger("reset");
-            //$("#divTablaMetales").load('tablaMetales.php');
-            $("#divTablaArticulos").load('tablaArticulos.php');
-            $("#divTablaArticulos").hide();
+            $("#divTablaMetales").load('tablaMetalesCompras.php');
             $("#btnEditar").prop('disabled', true);
             llenarComboInteres(1);
             $("#idNombres").blur(function () {
@@ -107,11 +102,11 @@ if ($tipoUsuario == 2) {
             <br>
         </div>
         <div class="row">
-            <div class="col col-lg-3">
+            <div class="col col-lg-4">
                 <table border="0" width="100%" class="tableInteres">
                     <tbody>
                     <tr class="headt">
-                        <td colspan="3">
+                        <td>
                             <input type="button" class="btn btn-success "
                                    data-toggle="modal" data-target="#modalRegistroVenNuevo"
                                    value="Agregar">
@@ -125,12 +120,12 @@ if ($tipoUsuario == 2) {
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="12">
+                        <td>
                             <label for="nombreCliente">Nombre:</label>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="12">
+                        <td >
                             <div>
                                 <input id="idNombresVendedor" name="Nombres" type="text" style="width: 300px"
                                        class="inputCliente" onkeypress="nombreVenAutocompletar()"
@@ -140,24 +135,24 @@ if ($tipoUsuario == 2) {
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="12">
+                        <td >
                             <label for="celular">Celular:</label>
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="12">
+                        <td >
                             <input type="text" name="celularVendedor" placeholder="" id="idCelularVendedor"
                                    style="width: 120px"
                                    required disabled/>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="12">
+                        <td >
                             <label for="direccion">Dirección:</label>
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td colspan="12" rowspan="2" name="direccionEmpeno">
+                        <td  rowspan="2" name="direccionEmpeno">
                                     <textarea rows="2" cols="40" id="idDireccionVendedor" class="textArea" disabled>
                                     </textarea>
                         </td>
@@ -170,13 +165,13 @@ if ($tipoUsuario == 2) {
                     </tbody>
                 </table>
             </div>
-            <div class="col col-lg-9 ">
-                <table width="100%" class="border-primary border">
+            <div class="col col-lg-8 ">
+                <table width="90%" class="border-primary border">
                     <tr style="background: dodgerblue; color:white;">
-                        <td colspan="8" align="center">Compra Metales</td>
+                        <td colspan="4" align="center">Compra Metales</td>
                     </tr>
-                    <tr>
-                        <td>Tipo:</td>
+                    <tr class="headt">
+                        <td >Tipo:</td>
                         <td >
                             <select id="idTipoMetal" name="cmbTipoMetal" class="selectpicker"
                                     onchange="selectMetalCmb($('#idTipoMetal').val())"
@@ -189,6 +184,8 @@ if ($tipoUsuario == 2) {
                                     style="width: 150px" onchange="llenaPrecioKilataje()">
                             </select>
                         </td>
+                    </tr>
+                    <tr class="headt">
                         <td >Calidad:</td>
                         <td >
                             <select id="idCalidad" name="cmbCalidad" class="selectpicker"
@@ -199,10 +196,7 @@ if ($tipoUsuario == 2) {
                             &nbsp;
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="8">&nbsp;</td>
-                    </tr>
-                    <tr>
+                    <tr class="headt">
                         <td >Cantidad:</td>
                         <td >
                             <input type="text" id="idCantidad" name="cantidad" size="5"
@@ -215,6 +209,8 @@ if ($tipoUsuario == 2) {
                                    onkeypress="return isNumberDecimal(event)" placeholder="0"
                                    style="text-align:center"/>
                             <label>grs</label></td>
+                    </tr>
+                    <tr>
                         <td >Piedras:</td>
                         <td >
                             <input type="text" id="idPiedras" name="piedras" size="5"
@@ -229,10 +225,7 @@ if ($tipoUsuario == 2) {
                                    style="text-align:center"/>
                             <label>grs</label></td>
                     </tr>
-                    <tr>
-                        <td colspan="8">&nbsp;</td>
-                    </tr>
-                    <tr>
+                    <tr class="headt">
                         <td>Préstamo:</td>
                         <td>
                             <input type="text" id="idPrestamo" name="prestamo" size="8"
@@ -245,6 +238,8 @@ if ($tipoUsuario == 2) {
                                    disabled
                                    style="text-align:center"/>
                         </td>
+                    </tr>
+                    <tr class="headt">
                         <td>Vitrina:</td>
                         <td>
                             <input type="text" id="idVitrina" name="vitrina" size="8"
@@ -254,30 +249,29 @@ if ($tipoUsuario == 2) {
                         <td>
                             <input type="button" class="btn btn-info" value="Calcular" onclick="calculaPrestamoBtn()">
                         </td>
+                        <td>&nbsp;</td>
                     </tr>
-                    <tr>
-                        <td colspan="8">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" align="left">Descripción de la prenda:
+                    <tr class="headt">
+                        <td colspan="2" align="left">Descripción de la prenda:
                         </td>
-                        <td colspan="4">Observaciones de la tienda:
+                        <td colspan="2">Observaciones de la tienda:
                             <input type="text" id="idKilatajePrecio" name="kilatajePrecio" size="6"
                                    value="0"
                                    class="invisible"/></td>
-                    <tr>
-                        <td colspan="4" name="detallePrenda">
+                    </tr>
+                    <tr class="headt">
+                        <td colspan="2" name="detallePrenda">
                             <p>
                                               <textarea name="detalle" id="idDetallePrenda"
                                                         class="textArea" rows="1" cols="40"></textarea></p>
                         </td>
-                        <td colspan="4">
+                        <td colspan="2">
                             <p><textarea name="mensaje" id="idObs"
                                          class="textArea" rows="1" cols="40"></textarea></p>
                         </td>
                     </tr>
                     <tr >
-                        <td align="right" colspan="8">
+                        <td align="right" colspan="4">
                             <input type="button" class="btn btn-warning" value="Limpiar" onclick="Limpiar()">
                             <input type="button" class="btn btn-success" value="Agregar a la lista" onclick="Agregar()">
                         </td>

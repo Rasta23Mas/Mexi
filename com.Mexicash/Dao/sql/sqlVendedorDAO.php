@@ -332,7 +332,7 @@ class sqlVendedorDAO
                         INNER JOIN cat_estado on cat_vendedores.estado = cat_estado.id_Estado 
                         WHERE sucursal=" . $sucursal . " AND 
                         CONCAT(apellido_Pat, ' ', apellido_Mat, ' ',nombre) LIKE 
-                        '%" . strip_tags($idNombresVendedor) . "%')";
+                        '%" . strip_tags($idNombresVendedor) . "%'";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
