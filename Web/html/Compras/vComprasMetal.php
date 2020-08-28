@@ -10,14 +10,11 @@ if (!isset($_SESSION["idUsuario"])) {
 
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(SQL_PATH . "sqlClienteDAO.php");
 include_once(SQL_PATH . "sqlInteresesDAO.php");
 include_once(SQL_PATH . "sqlArticulosDAO.php");
-include_once(SQL_PATH . "sqlContratoDAO.php");
-include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
-include_once(HTML_PATH . "Clientes/modalHistorial.php");
-include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
-include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
+include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
+include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
+include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
 include_once(HTML_PATH . "Empeno/modalArticulos.php");
 include_once(HTML_PATH . "Empeno/modalAgregarArticulos.php");
 include_once(DESC_PATH . "modalDescuentoToken.php");
@@ -44,8 +41,7 @@ if ($tipoUsuario == 2) {
     <!--Funciones-->
     <script src="../../JavaScript/funcionesArticulos.js"></script>
     <script src="../../JavaScript/funcionesIntereses.js"></script>
-    <script src="../../JavaScript/funcionesCliente.js"></script>
-    <script src="../../JavaScript/funcionesContrato.js"></script>
+    <script src="../../JavaScript/funcionesVendedor.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesMovimiento.js"></script>
     <script src="../../JavaScript/funcionNumerosLetras.js"></script>
@@ -53,11 +49,10 @@ if ($tipoUsuario == 2) {
     <script type="application/javascript">
         $(document).ready(function () {
             // $('.menuContainer').load('menu.php');
-            articulosObsoletos();
             $("#divElectronicos").hide();
             $("#divMetales").show();
             $("#idFormEmpeno").trigger("reset");
-            $("#divTablaMetales").load('tablaMetales.php');
+            //$("#divTablaMetales").load('tablaMetales.php');
             $("#divTablaArticulos").load('tablaArticulos.php');
             $("#divTablaArticulos").hide();
             $("#btnEditar").prop('disabled', true);
@@ -112,6 +107,69 @@ if ($tipoUsuario == 2) {
             <br>
         </div>
         <div class="row">
+            <div class="col col-lg-3">
+                <table border="0" width="100%" class="tableInteres">
+                    <tbody>
+                    <tr class="headt">
+                        <td colspan="3">
+                            <input type="button" class="btn btn-success "
+                                   data-toggle="modal" data-target="#modalRegistroVenNuevo"
+                                   value="Agregar">
+                            <input type="button" class="btn btn-warning "
+                                   data-toggle="modal" data-target="#modalEditarVendedor" id="btnEditar"
+                                   value="Editar" onclick="modalEditarVendedor($('#idVendedor').val())" disabled>
+                            <input type="button" class="btn btn-info "
+                                   data-toggle="modal" data-target="#modalBusquedaCliente"
+                                   onclick="mostrarTodos($('#idNombresVendedor').val())"
+                                   value="Ver todos">
+                        </td>
+                    </tr>
+                    <tr class="headt">
+                        <td colspan="12">
+                            <label for="nombreCliente">Nombre:</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="12">
+                            <div>
+                                <input id="idNombresVendedor" name="Nombres" type="text" style="width: 300px"
+                                       class="inputCliente" onkeypress="nombreVenAutocompletar()"
+                                       placeholder="Buscar Cliente..."/>
+                            </div>
+                            <div id="suggestionsNombreEmpeno"></div>
+                        </td>
+                    </tr>
+                    <tr class="headt">
+                        <td colspan="12">
+                            <label for="celular">Celular:</label>
+                        </td>
+                    </tr>
+                    <tr class="headt">
+                        <td colspan="12">
+                            <input type="text" name="celularVendedor" placeholder="" id="idCelularVendedor"
+                                   style="width: 120px"
+                                   required disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="12">
+                            <label for="direccion">Dirección:</label>
+                        </td>
+                    </tr>
+                    <tr class="headt">
+                        <td colspan="12" rowspan="2" name="direccionEmpeno">
+                                    <textarea rows="2" cols="40" id="idDireccionVendedor" class="textArea" disabled>
+                                    </textarea>
+                        </td>
+                    </tr>
+                    <tr class="headt">
+                        <td>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="col col-lg-9 ">
                 <table width="100%" class="border-primary border">
                     <tr style="background: dodgerblue; color:white;">
@@ -259,7 +317,7 @@ if ($tipoUsuario == 2) {
                 <table>
                     <tr>
                         <td colspan="12">
-                            <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="5"
+                            <input type="text" id="idVendedor" name="clienteEmpeno" size="5"
                                    style="text-align:center" class="invisible"/>
                             <input type="text" id="idFechaAlm" name="fechaAlm" size="12"
                                    style="text-align:center" class="invisible"/>
