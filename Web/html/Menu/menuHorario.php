@@ -25,6 +25,15 @@ include_once(MENU_PATH . "modalSucursal.php");
         <li class="nav-item active">
             <a class="nav-link" href="MenuLoggin.php">Ingresar</a>
         </li>
+        <li class="nav-item dropdown" id="menuConfiguracion">
+            <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false">
+                Configuración
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="../Menu/vModHorario.php">Horario</a></li>
+            </ul>
+        </li>
     </ul>
 
 </nav>

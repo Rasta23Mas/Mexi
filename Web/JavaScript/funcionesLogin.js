@@ -148,7 +148,7 @@ function confirmarModificarHorario() {
     alertify.confirm('Cambio de horario',
         'Por horario, el sistema esta inhabilitado. ' + '<br>' + '\n¿Desea modificar el horario usando un token?',
         function () {
-            location.href = '../Configuracion/vModHorario.php'
+            location.href = '../Menu/vModHorario.php'
         },
         function () {
             alertify.error('Cerrado por horario.')

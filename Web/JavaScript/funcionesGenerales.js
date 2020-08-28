@@ -197,3 +197,7 @@ function DosDecimales(monto) {
 //style="border-top-style: hidden"
 //MAyusculas
 //color.toUpperCase();
+//Check false o true
+//document.getElementById("myCheck").checked = false;
+//reload
+//var  recargar = setTimeout(function(){ location.reload() }, 3000);

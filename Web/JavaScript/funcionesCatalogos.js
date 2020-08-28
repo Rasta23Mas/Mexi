@@ -260,7 +260,6 @@ function llenarComboModeloE() {
 }
 
 function validarTipoE(tipoUsuario) {
-    alert(tipoUsuario)
     if(tipoUsuario==1||tipoUsuario==2){
         agregarTipoE();
     }else{

@@ -1,34 +1,16 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-if (!isset($_SESSION["idUsuario"])) {
-    header("Location: ../index.php");
-    session_destroy();
-}
 
-$sucursal = $_SESSION['sucursal'];
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlCierreDAO.php");
-$tipoUsuario = $_SESSION['tipoUsuario'];
-
-if ($tipoUsuario == 2) {
-    include_once(HTML_PATH . "menuAdmin.php");
-} elseif ($tipoUsuario == 3) {
-    include_once(HTML_PATH . "menuGeneral.php");
-} elseif ($tipoUsuario == 4) {
-    include_once(HTML_PATH . "menuVendedor.php");
-}
-$idUserSesion = $_SESSION["idUsuario"];
-$idCierreCaja = $_SESSION["idCierreCaja"];
-include_once (DESC_PATH."modalTokenHorario.php");
+include_once(HTML_PATH . "Menu/menuHorario.php");
+include_once(DESC_PATH . "modalTokenHorario.php");
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HORARIO</title>
+<title>HORsARIO</title>
 <script src="../../JavaScript/funcionesConfiguracion.js"></script>
 <script src="../../JavaScript/funcionesGenerales.js"></script>
 
@@ -36,8 +18,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
 <script type="application/javascript">
     $(document).ready(function () {
         cargarHorario();
-        var tipoUser = <?php echo $tipoUsuario; ?>;
-        $("#tipoUser").val(tipoUser);
+        $("#tipoUser").val(3);
     })
 </script>
 <style type="text/css">
@@ -49,6 +30,12 @@ include_once (DESC_PATH."modalTokenHorario.php");
 <body>
 <form id="idFormEmpeno" name="formEmpeno">
     <div class="container-fluid">
+        <div>
+            <br>
+        </div>
+        <div>
+            <br>
+        </div>
         <div>
             <br>
         </div>
@@ -85,7 +72,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
                                     <td colspan="2" align="center" style="width: 40%"><label>LUNES</label></td>
                                     <td colspan="2" align="center" >
                                         <input type="time" name="hora" step="3600"
-                                        id="lunesEntrada" disabled/>
+                                               id="lunesEntrada" disabled/>
 
                                     </td>
                                     <td colspan="2" align="center">
@@ -96,7 +83,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
                                         <input type="checkbox" id="checkLunes" value="LUNES" checked disabled>
                                     </td>
                                     <td colspan="2" align="center" >
-                                        <img src="../../style/Img/editarNor.jpg"  alt="Editar"  onclick="editarHorario(1)">
+                                        <img src="../../style/Img/editarNor.jpg" alt="Editar" onclick="editarHorario(1)">
                                     </td>
                                     <td colspan="2" align="center" >
                                         <input type="button" class="btn btn-success" id="btnGuardarLun" value="Guardar" onclick="validarHorario(1)" disabled>
@@ -116,7 +103,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
                                         <input type="checkbox" id="checkMartes" value="MARTES" checked disabled>
                                     </td>
                                     <td colspan="2" align="center" >
-                                        <img src="../../style/Img/editarNor.jpg"  alt="Editar"  onclick="editarHorario(2)">
+                                        <img src="../../style/Img/editarNor.jpg" alt="Editar" onclick="editarHorario(2)">
                                     </td>
                                     <td colspan="2" align="center" >
                                         <input type="button" class="btn btn-success" id="btnGuardarMar" value="Guardar" onclick="validarHorario(2)" disabled>
@@ -136,7 +123,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
                                         <input type="checkbox" id="checkMiercoles" value="MIERCOLES" checked disabled>
                                     </td>
                                     <td colspan="2" align="center">
-                                        <img src="../../style/Img/editarNor.jpg"  alt="Editar"  onclick="editarHorario(3)">
+                                        <img src="../../style/Img/editarNor.jpg" alt="Editar" onclick="editarHorario(3)">
                                     </td>
                                     <td colspan="2" align="center">
                                         <input type="button" class="btn btn-success" id="btnGuardarMie" value="Guardar" onclick="validarHorario(3)" disabled>
@@ -156,7 +143,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
                                         <input type="checkbox" id="checkJueves" value="JUEVES" checked disabled>
                                     </td>
                                     <td colspan="2" align="center" >
-                                        <img src="../../style/Img/editarNor.jpg"  alt="Editar"  onclick="editarHorario(4)">
+                                        <img src="../../style/Img/editarNor.jpg" alt="Editar" onclick="editarHorario(4)">
                                     </td>
                                     <td colspan="2" align="center" >
                                         <input type="button" class="btn btn-success" id="btnGuardarJue" value="Guardar" onclick="validarHorario(4)" disabled>
@@ -175,7 +162,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
                                         <input type="checkbox" id="checkViernes" value="VIERNES" checked disabled>
                                     </td>
                                     <td colspan="2" align="center" >
-                                        <img src="../../style/Img/editarNor.jpg"  alt="Editar"  onclick="editarHorario(5)">
+                                        <img src="../../style/Img/editarNor.jpg" alt="Editar" onclick="editarHorario(5)">
                                     </td>
                                     <td colspan="2" align="center">
                                         <input type="button" class="btn btn-success" id="btnGuardarVie" value="Guardar" onclick="validarHorario(5)" disabled>
@@ -194,7 +181,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
                                         <input type="checkbox" id="checkSabado" value="SABADO" checked disabled>
                                     </td>
                                     <td colspan="2" align="center" >
-                                        <img src="../../style/Img/editarNor.jpg"  alt="Editar"  onclick="editarHorario(6)">
+                                        <img src="../../style/Img/editarNor.jpg" alt="Editar" onclick="editarHorario(6)">
                                     </td>
                                     <td colspan="2" align="center" >
                                         <input type="button" class="btn btn-success" id="btnGuardarSab" value="Guardar" onclick="validarHorario(6)" disabled>
@@ -213,7 +200,7 @@ include_once (DESC_PATH."modalTokenHorario.php");
                                         <input type="checkbox" id="checkDomingo" value="DOMINGO" checked disabled>
                                     </td>
                                     <td colspan="2" align="center" >
-                                        <img src="../../style/Img/editarNor.jpg"  alt="Editar"  onclick="editarHorario(7)">
+                                        <img src="../../style/Img/editarNor.jpg" alt="Editar" onclick="editarHorario(7)">
                                     </td>
                                     <td colspan="2" align="center" >
                                         <input type="button" class="btn btn-success" id="btnGuardarDom" value="Guardar" onclick="validarHorario(7)" disabled>

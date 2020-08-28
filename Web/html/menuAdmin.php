@@ -112,7 +112,6 @@ $dotaciones = $_SESSION['dotaciones'];
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Configuracion/vAltaUsuario.php">Alta Usuario</a></li>
                     <li><a class="dropdown-item" href="../Configuracion/vHorario.php">Horario</a></li>
-                    <li><a class="dropdown-item" href="../Configuracion/vCancelarSucursal.php">Cancelaciones</a></li>
                 </ul>
             </li>
 
