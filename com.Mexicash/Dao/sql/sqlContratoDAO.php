@@ -128,7 +128,7 @@ class sqlContratoDAO
         $idCierreCaja = $_SESSION['idCierreCaja'];
 
         try {
-            $eliminarArticulo = "DELETE FROM articulo_tbl WHERE id_Contrato = '' and id_cierreCaja=$idCierreCaja ";
+            $eliminarArticulo = "DELETE FROM articulo_tbl WHERE id_Contrato = 0 and id_cierreCaja=$idCierreCaja ";
 
             if ($this->conexion->query($eliminarArticulo) === TRUE) {
                 $verdad = 1;

@@ -113,10 +113,9 @@ function AgregarArtCompra() {
                             url: '../../../com.Mexicash/Controlador/Vendedor/ArticuloCompra.php',
                             type: 'post',
                             success: function (response) {
-                                alert(response)
                                 if (response == 1) {
                                     cargarTablaMetales();
-                                    $("#divTablaMetales").load('tablaMetales.php');
+                                    $("#divTablaMetales").load('tablaMetalesCompras.php');
                                     LimpiarSinResetearIdArticulo();
                                     alertify.success("Articulo agregado exitosamente.");
                                 } else {
@@ -193,7 +192,7 @@ function cargarTablaMetales() {
     var metalAvaluo = 0;
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Articulos/tblMetales.php',
+        url: '../../../com.Mexicash/Controlador/Vendedor/tblMetalesCompras.php',
         dataType: "json",
         success: function (datos) {
             alert("Refrescando tabla.");
@@ -256,7 +255,7 @@ function cargarTablaMetales() {
         }
     });
 
-    $("#divTablaMetales").load('tablaMetales.php');
+    $("#divTablaMetales").load('tablaMetalesCompras.php');
 
 }
 
@@ -329,7 +328,7 @@ function cargarTablaArticulo() {
 }
 
 //Alerta para confirmar la Eliminacion
-function confirmarEliminar($idArticulo) {
+function confirmarEliminar(idArticulo) {
     alertify.confirm('Eliminar',
         'Confirme eliminacion de articulo seleccionado.',
         function () {
@@ -340,11 +339,11 @@ function confirmarEliminar($idArticulo) {
         });
 }
 
-function confirmarEliminarMetales($idArticulo) {
+function confirmarEliminarMetales(idArticulo) {
     alertify.confirm('Eliminar',
         'Confirme eliminacion de articulo seleccionado.',
         function () {
-            eliminarMetales($idArticulo)
+            eliminarMetales(idArticulo)
         },
         function () {
             alertify.error('Cancelado')
@@ -352,14 +351,14 @@ function confirmarEliminarMetales($idArticulo) {
 }
 
 //Elimina articulos
-function eliminarArticulo($idArticulo) {
+function eliminarArticulo(idArticulo) {
     idArticuloGlb--;
     var dataEnviar = {
-        "$idArticulo": $idArticulo
+        "$idArticulo": idArticulo
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/EliminarArticulo.php',
+        url: '../../../com.Mexicash/Controlador/Vendedor/EliminarArticuloCompras.php',
         type: 'post',
         success: function (response) {
             if (response == 1) {
@@ -374,19 +373,19 @@ function eliminarArticulo($idArticulo) {
 
 }
 
-function eliminarMetales($idArticulo) {
+function eliminarMetales(idArticulo) {
     idArticuloGlb--;
     var dataEnviar = {
-        "$idArticulo": $idArticulo
+        "idArticulo": idArticulo
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/EliminarArticulo.php',
+        url: '../../../com.Mexicash/Controlador/Vendedor/EliminarArticuloCompras.php',
         type: 'post',
         success: function (response) {
             if (response == 1) {
                 cargarTablaMetales();
-                $("#divTablaMetales").load('tablaMetales.php');
+                $("#divTablaMetales").load('tablaMetalesCompras.php');
                 alertify.success("Eliminado con éxito.");
             } else {
                 alertify.error("Error al eliminar articulo.");
@@ -903,4 +902,21 @@ function llenarAforoAvaluo(tipoFormulario) {
     })
 
 
+}
+
+//Agrega articulos obsololetos
+function articulosObsoletosCom() {
+    //FEErr04
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Vendedor/ArticulosComObsoletos.php',
+        type: 'post',
+        success: function (response) {
+            if (response == -1 || response == 0) {
+                alertify.error("Error FEErr04.");
+            } else {
+                $("#idFormEmpeno")[0].reset();
+                alertify.success("Bienvenidos");
+            }
+        },
+    })
 }

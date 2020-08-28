@@ -52,7 +52,8 @@ if ($tipoUsuario == 2) {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
             selectPrenda();
-            llenarAforoAvaluo(1)
+            llenarAforoAvaluo(1);
+            articulosObsoletosCom();
         })
     </script>
     <style type="text/css">

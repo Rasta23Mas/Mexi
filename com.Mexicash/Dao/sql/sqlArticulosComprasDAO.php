@@ -60,7 +60,6 @@ class sqlArticulosComprasDAO
                     "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
                     . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "','" . $idObs . "','"
                     . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . " )";
-                echo $insert;
             } else if ($tipoPost == "2") {
                 $idTipoE = $articulo->getTipoE();
                 $idMarca = $articulo->getMarca();
@@ -71,8 +70,6 @@ class sqlArticulosComprasDAO
                 $idObsE = $articulo->getObsE();
                 $precioCat = $articulo->getPrecioCat();
                 $idDetallePrendaE = $articulo->getDetallePrendaE();
-
-
                 $idObsE = mb_strtoupper($idObsE, 'UTF-8');
                 $idDetallePrendaE = mb_strtoupper($idDetallePrendaE, 'UTF-8');
 
@@ -83,7 +80,6 @@ class sqlArticulosComprasDAO
                     "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
                     . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $idObsE . "','"
                     . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . "  )";
-                echo $insert;
 
             }
             if ($ps = $this->conexion->prepare($insert)) {
@@ -143,13 +139,13 @@ class sqlArticulosComprasDAO
         echo json_encode($datos);
         //echo json_encode($datos);
     }
-    public function buscarMetales()
+    public function buscarMetalesCompras()
     {
         $datos = array();
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $buscar = "SELECT id_Articulo, TA.descripcion as tipoMetal, TK.descripcion as kilataje,TC.descripcion as calidad, 
-                        prestamo,avaluo, detalle FROM articulo_tbl AR
+                        prestamo,avaluo, detalle FROM articulocompras_tbl AR
                         INNER JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
                         INNER JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
                         INNER JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
@@ -415,5 +411,27 @@ class sqlArticulosComprasDAO
         return $datos;
     }
 
+    public function articulosComObsoletos()
+    {
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        $idCierreCaja = $_SESSION['idCierreCaja'];
+
+        try {
+            $eliminarArticulo = "DELETE FROM articulocompras_tbl WHERE id_Contrato = 0 and id_cierreCaja=$idCierreCaja ";
+            if ($this->conexion->query($eliminarArticulo) === TRUE) {
+                $verdad = 1;
+            } else {
+                $verdad = 2;
+            }
+        } catch (Exception $exc) {
+            $verdad = 4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $verdad;
+    }
 
 }
