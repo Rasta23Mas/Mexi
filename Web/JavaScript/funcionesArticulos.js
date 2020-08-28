@@ -982,10 +982,10 @@ function llenarDatosElectronico(tipoSelect, marcaSelect, modeloSelect) {
     });
 }
 
-function llenarDatosFromModal($idProducto) {
+function llenarDatosFromModal(idProducto) {
     var dataEnviar = {
         "tipo": 1,
-        "idProducto": $idProducto
+        "idProducto": idProducto
     };
     $.ajax({
         type: "POST",
@@ -993,8 +993,9 @@ function llenarDatosFromModal($idProducto) {
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
+            alert("Cargando tipo.")
             for (i = 0; i < datos.length; i++) {
-                var idElectronico = datos[i].idElectronico;
+                //var idElectronico = datos[i].idElectronico;
                 var tipoId = datos[i].tipoId;
                 var tipoEditar = datos[i].tipoEditar;
                 var marcaId = datos[i].marcaId;
@@ -1033,7 +1034,7 @@ function llenarDatosFromModal($idProducto) {
                 }
                 combMarcaVEmpeFromModal(tipoId);
                 cmbModeloVEmpeFromModal(tipoId, marcaId);
-                alert("Cargando datos.")
+                alert("Cargando marca y modelo.");
                 var pretamoElec = parseFloat(precio);
                 var avaluoImporte = Math.floor(pretamoElec * 75) / 100;
                 avaluoImporte = pretamoElec + avaluoImporte;

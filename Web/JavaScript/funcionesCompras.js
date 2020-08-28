@@ -752,7 +752,7 @@ function llenarDatosElectronico(tipoSelect, marcaSelect, modeloSelect) {
     });
 }
 
-function llenarDatosFromModal($idProducto) {
+function llenarDatosFromModalCompras($idProducto) {
     var dataEnviar = {
         "tipo": 1,
         "idProducto": $idProducto
