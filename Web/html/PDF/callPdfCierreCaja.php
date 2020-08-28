@@ -15,7 +15,6 @@ $NombreUsuario = $_SESSION["usuario"];
 
 $querySucursal = "SELECT NombreCasa, Nombre FROM cat_sucursal
                     WHERE id_Sucursal =$sucursal ";
-
 $resultadoSucursal = $db->query($querySucursal);
 
 
@@ -161,63 +160,32 @@ $contenido = '<html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         .letraNormalNegrita {
-            font-size: 1.2em;
+            font-size: .6em;
             font-weight: bold;
         }
 
         .letraGrandeNegrita {
-            font-size: 1.6em;
+            font-size: 1em;
             font-weight: bold;
         }
 
         .letraChicaNegrita {
-            font-size: .8em;
+            font-size: .6em;
             font-weight: bold;
         }
 
         .letraNormal {
-            font-size: 1.2em;
+            font-size: .8em;
         }
 
         .letraGrande {
-            font-size: 1.6em;
+            font-size: 1em;
         }
 
         .letraChica {
-            font-size: .8em;
+            font-size: .6em;
         }
-          .btn{
-        color: #0099CC;
-        background: transparent;
-        border: 2px solid #0099CC;
-        border-radius: 6px;
-      padding: 16px 32px;
-      text-align: center;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      -webkit-transition-duration: 0.4s; /* Safari */
-      transition-duration: 0.4s;
-      cursor: pointer;
-      text-decoration: none;
-      text-transform: uppercase;
-}
-        }
-        .btnGenerarPDF {
-        background-color: white; 
-        color: black; 
-        border: 2px solid #008CBA;
-        }
-        .btnGenerarPDF:hover {
-        background-color: #008CBA;
-        color: white;
-        }
-        
-        .borderBlue{
-        border-style: solid;
-         border-color: dodgerblue;
-          border-collapse: collapse;
-        }
+      
         
         .tdborderBlue{
         border-style: solid;
@@ -242,12 +210,12 @@ $contenido = '<html>
         }
 
         .primeraColTotales {
-            width: 75px;
+            width: 25px;
             text-align: right;
         }
 
         .espacioEnmedio {
-            width: 50px;
+            width: 20px;
         }
 
         .terceraCol {
@@ -255,16 +223,16 @@ $contenido = '<html>
         }
 
         .primeraCol {
-            width: 75px;
+            width: 25px;
             text-align: center;
         }
 
         .segundaCol {
-            width: 200px;
+            width: 130px;
         }
 
         .terceraCol {
-            width: 100px;
+            width: 40px;
         }
         
 
@@ -282,68 +250,53 @@ $contenido = '<html>
 <body>
 <form>';
 $contenido .= '
-<table align="center" border="0" class="letraGrandeNegrita">
+<table align="center" border="0" width="90%" class="letraGrandeNegrita">
         <tbody>
                 <tr>
-                    <td colspan="7" align="center" class="letraGrandeNegrita">
+                    <td colspan="3" align="center" class="letraGrandeNegrita">
                         <label>' . $NombreCasa . '</label>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="7" align="center" class="letraGrandeNegrita">
+                    <td colspan="3" align="center" class="letraGrandeNegrita">
                         <label ID="sucursal">SUCURSAL: ' . $Nombre . '</label>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" align="left">
+                    <td colspan="3" align="center">
                         <label class="letraGrandeNegrita">&nbsp;&nbsp;CIERRE DE CAJA</label>
                     </td>
-                    <td colspan="3" align="right">
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
                         <label class="letraGrandeNegrita">' . $CerradoNombreUsuario . '</label>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="7">
+                    <td colspan="3">
                         <br>
                     </td>
                 </tr>
                 <tr class="letraGrandeNegrita">
-                        <td colspan="2" >
+                        <td >
                             <label>&nbsp;&nbsp;&nbsp;CAJA:  ' . $id_CierreCaja . '</label>
                         </td>
-                       <td colspan="3" >
+                       <td>
                             <label>&nbsp;&nbsp;&nbsp;CAJERO:  ' . $NombreUsuario . '</label>
                         </td>
-                        <td colspan="2" align="right">
+                        <td align="right">
                             <label>&nbsp;&nbsp;&nbsp;FECHA:  ' . $fecha_Creacion . '</label>
                         </td>
                     </tr>
-                <tr>
-                        <td class="primeraCol">
-                          <br>
-                        </td>
-                        <td class="segundaCol">
-                           <br>
-                        </td>
-                        <td class="terceraCol">
-                            <br>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                        <td class="primeraCol">
-                             <br>
-                        </td>
-                        <td class="segundaCol">
-                              <br>
-                        </td>
-                        <td class="terceraCol">
-                               <br>
-                        </td>
-                    </tr>
+                    <tr>
+                    <td colspan="3">
+                        <br>
+                    </td>
+                </tr>
+           
         <tr>
-            <td colspan="7">
-                <table align="center" class="tableCierre letraNormalNegrita">
+            <td colspan="3">
+                <table align="center" class="tableCierre letraNormalNegrita" width="90%">
                 <tr>
                         <td colspan="3" class="titleTable tableTDCierre">
                             <label>&nbsp;&nbsp;&nbsp;DOTACIONES DE EFECTIVO</label>
@@ -700,8 +653,9 @@ $contenido .= '
         </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
-
-$nombreContrato = 'Cierre Caja Num ' . $folioCierreCaja . ".pdf";
+//echo $contenido;
+//exit();
+$nombreContrato = 'Caja Num ' . $folioCierreCaja . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'portrait');

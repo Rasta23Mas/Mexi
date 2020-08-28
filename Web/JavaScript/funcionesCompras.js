@@ -884,7 +884,7 @@ function cmbModeloVEmpeFromModal(tipoId, marcaId) {
 
 
 
-function llenarAforoAvaluo(tipoFormulario) {
+function llenarAforoCompras(tipoFormulario) {
     var dataEnviar = {
         "idTipoFormulario": tipoFormulario
     };
@@ -896,6 +896,7 @@ function llenarAforoAvaluo(tipoFormulario) {
         success: function (response) {
             if (response.status == 'ok') {
                 var porcentajeAforo = response.result.Porcentaje;
+                alert(porcentajeAforo);
                 $("#idAforo").val(porcentajeAforo);
             }
         },
