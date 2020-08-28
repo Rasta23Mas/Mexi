@@ -10,13 +10,9 @@ if (!isset($_SESSION["idUsuario"])) {
 
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once(SQL_PATH . "sqlInteresesDAO.php");
-include_once(SQL_PATH . "sqlArticulosDAO.php");
 include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
 include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
 include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
-include_once(HTML_PATH . "Empeno/modalArticulos.php");
-include_once(HTML_PATH . "Empeno/modalAgregarArticulos.php");
 include_once(DESC_PATH . "modalDescuentoToken.php");
 
 $sucursal = $_SESSION['sucursal'];
@@ -39,7 +35,7 @@ if ($tipoUsuario == 2) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Empeño</title>
     <!--Funciones-->
-    <script src="../../JavaScript/funcionesArticulos.js"></script>
+    <script src="../../JavaScript/funcionesCompras.js"></script>
     <script src="../../JavaScript/funcionesIntereses.js"></script>
     <script src="../../JavaScript/funcionesVendedor.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
@@ -56,6 +52,7 @@ if ($tipoUsuario == 2) {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
             selectPrenda();
+            llenarAforoAvaluo(1)
         })
     </script>
     <style type="text/css">
@@ -257,7 +254,7 @@ if ($tipoUsuario == 2) {
                         <td colspan="2">Observaciones de la tienda:
                             <input type="text" id="idKilatajePrecio" name="kilatajePrecio" size="6"
                                    value="0"
-                                   class="invisible"/></td>
+                                   class="invisible" disabled/></td>
                     </tr>
                     <tr class="headt">
                         <td colspan="2" name="detallePrenda">
@@ -273,7 +270,7 @@ if ($tipoUsuario == 2) {
                     <tr >
                         <td align="right" colspan="4">
                             <input type="button" class="btn btn-warning" value="Limpiar" onclick="Limpiar()">
-                            <input type="button" class="btn btn-success" value="Agregar a la lista" onclick="Agregar()">
+                            <input type="button" class="btn btn-success" value="Agregar a la lista" onclick="AgregarArtCompra()">
                         </td>
                     </tr>
                 </table>
@@ -313,21 +310,11 @@ if ($tipoUsuario == 2) {
                         <td colspan="12">
                             <input type="text" id="idVendedor" name="clienteEmpeno" size="5"
                                    style="text-align:center" class="invisible"/>
-                            <input type="text" id="idFechaAlm" name="fechaAlm" size="12"
-                                   style="text-align:center" class="invisible"/>
-                            <input type="text" id="diasInteres" name="diasInteres" size="3"
-                                   style="text-align:center" class="invisible"/>
-                            <input id="idTotalInteres" name="totalInteres" disabled type="text"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idTipoFormulario" name="tipoFormulario" disabled type="text" value="1"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idAforo" name="aforo" disabled type="text" value="1"
-                                   style="width: 150px; text-align: right" class=""/>
-                            <input id="idMontoToken" name="MontoToken" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idToken" name="token" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
+                                   style="width: 150px; text-align: right" class="invisible"/>
+                            <input id="idAforo" name="aforo" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
                         </td>
 
