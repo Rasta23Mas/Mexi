@@ -65,29 +65,60 @@ function busquedaCodigoMostradorBoton() {
         "idCodigo": idCodigo,
     };
     $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigo.php',
         data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigo.php',
+        type: 'post',
         dataType: "json",
-
         success: function (datos) {
             if (datos.length > 0) {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
-                    var id_Contrato = datos[i].id_Contrato;
+                    var id_Contrato = datos[i].id_ContratoBaz;
                     var id_Bazar = datos[i].id_Bazar;
-                    var id_serie = datos[i].id_serie;
-                    var detalle = datos[i].detalle;
-                    var kilataje = datos[i].kilataje;
+                    var id_serie = datos[i].id_serieBaz;
+                    var id_serieTipo = datos[i].id_serieTipo;
                     var empeno = datos[i].empeno;
-                    var avaluo = datos[i].avaluo;
                     var precio_venta = datos[i].precio_venta;
-                    var observaciones = datos[i].observaciones;
-                    var marca = datos[i].marca;
-                    var modelo = datos[i].modelo;
-                    var tipo = datos[i].tipoArt;
+                    var detalle = "";
+                    var kilataje = "";
+                    var avaluo = 0;
+                    var observaciones = "";
+                    var marca = "";
+                    var modelo = "";
+                    var tipo = 0;
                     var precioEnviar = precio_venta;
+
+                    if(id_serieTipo==1){
+                        //BAZAR FROM EMPEÑO
+                        tipo = datos[i].tipoArt;
+                        kilataje = datos[i].kilataje;
+                        marca = datos[i].marca;
+                        modelo = datos[i].modelo;
+                        observaciones = datos[i].observaciones;
+                        detalle = datos[i].detalle;
+                        avaluo = datos[i].avaluo;
+                    }else if(id_serieTipo==2){
+                        //BAZAR FROM COMPRAS
+                        tipo = datos[i].tipoArtC;
+                        kilataje = datos[i].kilatajeC;
+                        marca = datos[i].marcaC;
+                        modelo = datos[i].modeloC;
+                        observaciones = datos[i].observacionesC;
+                        detalle = datos[i].detalleC;
+                        avaluo = datos[i].avaluoC;
+                    }else if(id_serieTipo==3){
+                        //BAZAR FROM MIGRACION
+                        tipo = datos[i].tipoArtM;
+                        kilataje = "";
+                        marca = "";
+                        modelo = "";
+                        observaciones = "";
+                        detalle = datos[i].detalleM;
+                        avaluo = datos[i].avaluoM;
+                    }
+
+
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
@@ -95,7 +126,7 @@ function busquedaCodigoMostradorBoton() {
                     tipoTabla = tipo;
 
                     if (tipo == 1) {
-                        observaciones = observaciones.toUpperCase();
+                        //observaciones = observaciones.toUpperCase();
                         html += '<tr>' +
                             '<td>' + id_serie + '</td>' +
                             '<td>' + detalle + '</td>' +
@@ -108,9 +139,9 @@ function busquedaCodigoMostradorBoton() {
                             'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
                             '</tr>';
                     } else if (tipo == 2) {
-                        modelo = modelo.toUpperCase();
-                        marca = marca.toUpperCase();
-                        detalle = detalle.toUpperCase();
+                        //modelo = modelo.toUpperCase();
+                        //marca = marca.toUpperCase();
+                        //detalle = detalle.toUpperCase();
 
                         html += '<tr>' +
                             '<td>' + id_serie + '</td>' +

@@ -9,7 +9,7 @@ include_once(SQL_PATH . "sqlCatalogoDAO.php");
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registro Clientes</title>
+    <title>Busqueda Vendedor</title>
     <script src="../../JavaScript/funcionesCatalogos.js"></script>
     <script src="../../JavaScript/funcionesCliente.js"></script>
 </head>

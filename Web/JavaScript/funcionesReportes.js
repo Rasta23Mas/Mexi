@@ -664,18 +664,28 @@ function cargarRptBazar() {
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
+                alert(datos)
                 var html = '';
                 var i = 0;
                 alert("Refrescando tabla.");
                 for (i; i < datos.length; i++) {
-                    var id_Contrato = datos[i].id_Contrato;
-                    var id_serie = datos[i].id_serie;
+                    var id_Contrato = datos[i].id_ContratoRepBaz;
+                    var id_serie = datos[i].id_serieRepBaz;
                     var Movimiento = datos[i].Movimiento;
                     var fecha_Bazar = datos[i].fecha_Bazar;
                     var precio_venta = datos[i].precio_venta;
-                    var Detalle = datos[i].Detalle;
+                    var Detalle = "";
                     var CatDesc = datos[i].CatDesc;
-                    var id_ContratoMig = datos[i].id_ContratoMig;
+                    var id_ContratoMig ="";
+                    var id_serieTipo = datos[i].id_serieTipo;
+                    if(id_serieTipo==1){
+                        Detalle = datos[i].Detalle;
+                    }else if (id_serieTipo==2){
+                        Detalle = datos[i].DetalleC;
+                    }else if (id_serieTipo==3){
+                        Detalle = datos[i].DetalleM;
+                        id_ContratoMig = datos[i].id_ContratoMig;
+                    }
 
                     precio_venta = formatoMoneda(precio_venta);
 

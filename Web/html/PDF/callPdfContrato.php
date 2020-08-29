@@ -160,6 +160,11 @@ $calculaALm = number_format($calculaALm, 2, '.', ',');
 $calculaInteres = number_format($calculaInteres, 2, '.', ',');
 $calculaIva = number_format($calculaIva, 2, '.', ',');
 $Intereses = number_format($Intereses, 2, '.', ',');
+$porRefrendo = $calculaALm + $calculaInteres + $calculaIva;
+$porRefrendo = number_format($porRefrendo, 2, '.', ',');
+$porDesempeño = $MontoPrestamo +$porRefrendo;
+$porDesempeño = number_format($porDesempeño, 2, '.', ',');
+
 $i = 1;
 $tablaArticulos = '';
 $detallePiePagina = '';
@@ -436,12 +441,12 @@ $contenido = '<html>
             </td>
             <td colspan="2" align="center">
                 <label class="letraNormal">
-                    $ ' . $Intereses . '
+                    $ ' . $porRefrendo . '
                 </label>
             </td>
             <td colspan="2" align="center">
                 <label class="letraNormal">
-                    $ ' . $MontoTotal . '
+                    $ ' . $porDesempeño . '
                 </label>
             </td>
             <td colspan="2" align="center">

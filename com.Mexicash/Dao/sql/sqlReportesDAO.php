@@ -323,24 +323,30 @@ class sqlReportesDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,precio_venta, 
-                        ART.detalle as Detalle, CAT.descripcion as CatDesc, ART.id_ContratoMig
+                        ART.detalle as Detalle,ARTC.detalle as DetalleC,ARTM.detalle as DetalleM, 
+                        CAT.descripcion as CatDesc, ARTM.id_ContratoMig,Baz.id_serieTipo 
                         FROM bazar_articulos as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_serie = CONCAT (ART.id_SerieSucursal, ART.id_SerieContrato,ART.id_SerieArticulo)
-                        LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
+                        LEFT JOIN articulocompras_tbl AS ARTC on Baz.id_serie = CONCAT (ARTC.id_SerieSucursal, ARTC.id_SerieContrato,ARTC.id_SerieArticulo)
+                        LEFT JOIN articulomigracion_tbl AS ARTM on Baz.id_serie = CONCAT (ARTM.id_SerieSucursal, ARTM.id_SerieContrato,ARTM.id_SerieArticulo)
+                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
                         LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
-                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
+                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal Limit 25";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "id_Contrato" => $row["id_Contrato"],
-                        "id_serie" => $row["id_serie"],
+                        "id_ContratoRepBaz" => $row["id_Contrato"],
+                        "id_serieRepBaz" => $row["id_serie"],
                         "Movimiento" => $row["Movimiento"],
                         "fecha_Bazar" => $row["fecha_Bazar"],
                         "precio_venta" => $row["precio_venta"],
                         "Detalle" => $row["Detalle"],
+                        "DetalleC" => $row["DetalleC"],
+                        "DetalleM" => $row["DetalleM"],
                         "CatDesc" => $row["CatDesc"],
                         "id_ContratoMig" => $row["id_ContratoMig"],
+                        "id_serieTipo" => $row["id_serieTipo"],
                     ];
                     array_push($datos, $data);
                 }
