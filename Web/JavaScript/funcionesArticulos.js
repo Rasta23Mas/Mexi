@@ -115,6 +115,13 @@ function Agregar() {
                                 idArticuloGlb++;
                                 var idArticulo = String(idArticuloGlb);
                                 var idArticulo = idArticulo.padStart(2, "0");
+                                var descTipoMetal = $('select[name="cmbTipoMetal"] option:selected').text();
+                                var descKilataje = $('select[name="cmbKilataje"] option:selected').text();
+                                var descCalidad = $('select[name="cmbCalidad"] option:selected').text();
+                                var descObs = $("#idObs").val();
+                                var descDetalle =  $("#idDetallePrenda").val();
+
+                                var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + " " + descDetalle;
 
                                 var dataEnviar = {
                                     "$idTipoEnviar": 1,
@@ -128,16 +135,17 @@ function Agregar() {
                                     "idPrestamo": metalPrestamo,
                                     "idAvaluo": metalAvaluo,
                                     "idVitrina": $("#idVitrina").val(),
-                                    "idObs": $("#idObs").val(),
-                                    "idDetallePrenda": $("#idDetallePrenda").val(),
+                                    "idObs": descObs,
+                                    "idDetallePrenda": descDetalle,
                                     "interes": interesMetal,
                                     "idArticulo": idArticulo,
+                                    "descCorto": descripcionCorta,
 
 
                                 };
                                 $.ajax({
                                     data: dataEnviar,
-                                    url: '../../../com.Mexicash/Controlador/Articulo.php',
+                                    url: '../../../com.Mexicash/Controlador/Articulos/Articulo.php',
                                     type: 'post',
                                     success: function (response) {
                                         if (response == 1) {
@@ -166,6 +174,14 @@ function Agregar() {
                                 var idArticulo = String(idArticuloGlb);
                                 var idArticulo = idArticulo.padStart(2, "0");
 
+                                var descTipoElectro = $('select[name="cmbTipoElectronico"] option:selected').text();
+                                var descMarca= $('select[name="marcaSelect"] option:selected').text();
+                                var descModelo = $('select[name="modeloSelect"] option:selected').text();
+                                var descObs = $("#idObsElectronico").val();
+                                var descDetalle = $("#idDetallePrendaElectronico").val();
+
+                                var descripcionCorta = descTipoElectro + " " + descMarca + " " + descModelo + " " + descDetalle;
+
                                 //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
                                 var dataEnviar = {
                                     "$idTipoEnviar": 2,
@@ -178,15 +194,15 @@ function Agregar() {
                                     "idAvaluoElectronico": artiAvaluo,
                                     "idVitrina": $("#idVitrinaElectronico").val(),
                                     "idPrecioCat": $("#idPrecioCat").val(),
-                                    "idObsElectronico": $("#idObsElectronico").val(),
-                                    "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
+                                    "idObsElectronico": descObs,
+                                    "idDetallePrendaElectronico": descDetalle,
                                     "interes": interesArti,
                                     "idArticulo": idArticulo,
-
+                                    "descCortoElectro": descripcionCorta,
                                 };
                                 $.ajax({
                                     data: dataEnviar,
-                                    url: '../../../com.Mexicash/Controlador/Articulo.php',
+                                    url: '../../../com.Mexicash/Controlador/Articulos/Articulo.php',
                                     type: 'post',
                                     success: function (response) {
                                         if (response == 1) {

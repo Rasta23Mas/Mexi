@@ -171,19 +171,12 @@ $detallePiePagina = '';
 $detalleDescripcion = '';
 $tipoDescripcion = '';
 
-$query = "SELECT CONCAT ( Ar.detalle,' ', TA.descripcion, ' ',TK.descripcion ,' ', TC.descripcion) as detalleMetal, 
-    CONCAT ( ET.descripcion,' ', EM.descripcion, ' ',EMOD.descripcion ,' ', Ar.detalle) as detalleElec,
+$query = "SELECT Ar.descripcionCorta,
     Ar.observaciones AS ObsArt, 
     CONCAT ( Aut.marca,' ', Aut.modelo, ' ',Aut.anio ,' ', Aut.color, ' ' , Aut.placas, ' ',Aut.factura, ' ',Aut.num_motor) as detalleAuto, Aut.observaciones AS ObsAuto, 
     Ar.prestamo as PrestamoArt, Ar.avaluo as AvaluoArt
 FROM contratos_tbl as Con 
 INNER JOIN articulo_tbl as Ar on Con.id_Contrato = Ar.id_Contrato 
-LEFT JOIN cat_tipoarticulo as TA on Ar.tipo = TA.id_tipo 
-LEFT JOIN cat_kilataje as TK on Ar.kilataje = TK.id_Kilataje 
-LEFT JOIN cat_calidad as TC on Ar.calidad = TC.id_calidad 
-LEFT JOIN cat_electronico_tipo as ET on Ar.tipo = ET.id_tipo 
-LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca 
-LEFT JOIN cat_electronico_modelo as EMOD on Ar.modelo = EMOD.id_modelo 
 LEFT JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato 
             WHERE Con.id_Contrato =$idContrato ";
 $tablaArt = $db->query($query);
@@ -191,13 +184,13 @@ $tablaArt = $db->query($query);
 foreach ($tablaArt as $row) {
     if ($TipFormulario == "1") {
         $tipoDescripcion = 'METALES';
-        $detalle = $row["detalleMetal"];
+        $detalle = $row["descripcionCorta"];
         $Obs = $row["ObsArt"];
         $avaluoArt = $row["PrestamoArt"];
         $prestamoArt = $row["AvaluoArt"];
     }elseif ($TipFormulario == "2") {
         $tipoDescripcion = 'ELECTRÓNICOS';
-        $detalle = $row["detalleElec"];
+        $detalle = $row["descripcionCorta"];
         $Obs = $row["ObsArt"];
         $avaluoArt = $row["PrestamoArt"];
         $prestamoArt = $row["AvaluoArt"];
@@ -491,16 +484,12 @@ $contenido = '<html>
         <tr>
             <td colspan="12" class="tituloCelda" align="center">
                 <label class="letraNormalNegrita">
-                    DESCRIPCION DE LA PRENDA
+                    DESCRIPCIÓN DE LA PRENDA
                 </label>
             </td>
         </tr>
         <tr class="tituloCelda" align="center">
-            <td colspan="2">
-                <label class="letraNormalNegrita">DESCRIPCIÓN
-                    GENÉRICA
-                </label>
-            </td>
+            <td colspan="2"><label class="letraNormalNegrita">DESCRIPCIÓN GENÉRICA</label></td>
             <td colspan="5"><label class="letraNormalNegrita">CARACTERISTICAS</label></td>
             <td colspan="2"><label class="letraNormalNegrita">AVALÚO</label></td>
             <td colspan="2"><label class="letraNormalNegrita">PRÉSTAMO</label></td>

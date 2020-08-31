@@ -24,8 +24,7 @@ if ($idTipoEnviar == 1) {
     $interes = $_POST['interes'];
     $idDetallePrenda = $_POST['idDetallePrenda'];
     $idObs = $_POST['idObs'];
-    $idDetallePrenda = $_POST['idDetallePrenda'];
-
+    $descCorto = $_POST['descCorto'];
     $idTipoE = null;
     $idMarca = null;
     $idEstado = null;
@@ -37,6 +36,7 @@ if ($idTipoEnviar == 1) {
     $interesArt = null;
     $idObsE = null;
     $idDetallePrendaE = null;
+    $descCortoElectro = null;
 
 } else if ($idTipoEnviar == 2) {
 
@@ -53,6 +53,7 @@ if ($idTipoEnviar == 1) {
     $interesMetal = null;
     $idObs = null;
     $idDetallePrenda = null;
+    $descCorto = null;
     $idTipoE = $_POST['idTipoElectronico'];
     $idMarca = $_POST['idMarca'];
     $idEstado = $_POST['idEstado'];
@@ -65,6 +66,7 @@ if ($idTipoEnviar == 1) {
     $interes = $_POST['interes'];
     $idObsE = $_POST['idObsElectronico'];
     $idDetallePrendaE = $_POST['idDetallePrendaElectronico'];
+    $descCortoElectro = $_POST['descCortoElectro'];
 }
 
 $articulo = new Articulo(
@@ -82,6 +84,7 @@ $articulo = new Articulo(
     $interes,
     $idObs,
     $idDetallePrenda,
+    $descCorto,
     $idTipoE,
     $idMarca,
     $idEstado,
@@ -90,7 +93,8 @@ $articulo = new Articulo(
     $idPrestamoE,
     $idAvaluoE,
     $idObsE,
-    $idDetallePrendaE
+    $idDetallePrendaE,
+    $descCortoElectro
 );
 
 $sqlArticulo = new sqlArticulosDAO();

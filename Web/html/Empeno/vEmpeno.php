@@ -379,7 +379,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                         </td>
                                         <td colspan="3">Avalúo:</td>
                                         <td colspan="3">
-                                            <input type="text" id="idAvaluo" name="avaluo" size="8"
+                                            <input type="text" id="idAvaluo" name="avaluo" size="10"
                                                     disabled
                                                    style="text-align:center" />
                                         </td>
@@ -588,7 +588,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idTipoFormulario" name="tipoFormulario" disabled type="text" value="1"
                                    style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idAforo" name="aforo" disabled type="text" value="1"
+                            <input id="idAforo" name="aforo" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class=""/>
                             <input id="idMontoToken" name="MontoToken" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>

@@ -15,6 +15,7 @@ class Articulo
     private $idAvaluo;
     private $idObs;
     private $idDetallePrenda;
+    private $descCorto;
     private $idVitrina;
     private $idPrecioCat;
     private $interes;
@@ -28,6 +29,7 @@ class Articulo
     private $idAvaluoE;
     private $idObsE;
     private $idDetallePrendaE;
+    private $descCortoElectro;
 
 
     /**
@@ -44,6 +46,7 @@ class Articulo
      * @param $idAvaluo
      * @param $idObs
      * @param $idDetallePrenda
+     * @param $descCorto
      * @param $idVitrina
      * @param $idPrecioCat
      * @param $interes
@@ -57,6 +60,7 @@ class Articulo
      * @param $idAvaluoE
      * @param $idObsE
      * @param $idDetallePrendaE
+     * @param $descCortoElectro
      */
     public function __construct(
         $idTipoM,
@@ -73,6 +77,7 @@ class Articulo
         $interes,
         $idObs,
         $idDetallePrenda,
+        $descCorto,
         $idTipoE,
         $idMarca,
         $idEstado,
@@ -81,7 +86,8 @@ class Articulo
         $idPrestamoE,
         $idAvaluoE,
         $idObsE,
-        $idDetallePrendaE)
+        $idDetallePrendaE,
+        $descCortoElectro)
     {
         //Metales
         $this->tipoM = $idTipoM;
@@ -98,6 +104,7 @@ class Articulo
         $this->interes = $interes;
         $this->observaciones = $idObs;
         $this->detallePrenda = $idDetallePrenda;
+        $this->descCorto = $descCorto;
         //ELECTRONICOS
         $this->tipoE = $idTipoE;
         $this->marca = $idMarca;
@@ -106,10 +113,42 @@ class Articulo
         $this->serie = $idSerie;
         $this->prestamoE = $idPrestamoE;
         $this->avaluoE = $idAvaluoE;
-
         $this->observacionesE = $idObsE;
         $this->detallePrendaE = $idDetallePrendaE;
+        $this->descCortoElectro = $descCortoElectro;
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescCorto()
+    {
+        return $this->descCorto;
+    }
+
+    /**
+     * @param mixed $descCorto
+     */
+    public function setDescCorto($descCorto): void
+    {
+        $this->descCorto = $descCorto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescCortoElectro()
+    {
+        return $this->descCortoElectro;
+    }
+
+    /**
+     * @param mixed $descCortoElectro
+     */
+    public function setDescCortoElectro($descCortoElectro): void
+    {
+        $this->descCortoElectro = $descCortoElectro;
     }
 
     /**

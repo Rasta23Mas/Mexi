@@ -48,19 +48,21 @@ class sqlArticulosDAO
                 $idPiedras = $articulo->getPiedras();
                 $idPrestamo = $articulo->getPrestamo();
                 $idAvaluo = $articulo->getAvaluo();
-
                 $idObs = $articulo->getObs();
                 $idDetallePrenda = $articulo->getDetallePrenda();
+                $descCorto = $articulo->getDescCorto();
                 $idObs = mb_strtoupper($idObs, 'UTF-8');
                 $idDetallePrenda = mb_strtoupper($idDetallePrenda, 'UTF-8');
                 $idObs = strtoupper($idObs);
                 $idDetallePrenda = strtoupper($idDetallePrenda);
+                $descCorto = mb_strtoupper($descCorto, 'UTF-8');
+
                 $insert = "INSERT INTO articulo_tbl " .
                     "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, observaciones," .
-                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
+                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja,descripcionCorta)  VALUES " .
                     "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
                     . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "', '" . $interes . "','" . $idObs . "','"
-                    . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . " )";
+                    . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . ",'$descCorto' )";
 
             } else if ($tipoPost == "2") {
                 $idTipoE = $articulo->getTipoE();
@@ -72,18 +74,18 @@ class sqlArticulosDAO
                 $idObsE = $articulo->getObsE();
                 $precioCat = $articulo->getPrecioCat();
                 $idDetallePrendaE = $articulo->getDetallePrendaE();
-
+                $descCortoElectro = $articulo->getDescCortoElectro();
 
                 $idObsE = mb_strtoupper($idObsE, 'UTF-8');
                 $idDetallePrendaE = mb_strtoupper($idDetallePrendaE, 'UTF-8');
-
+                $descCortoElectro = mb_strtoupper($descCortoElectro, 'UTF-8');
 
                 $insert = "INSERT INTO articulo_tbl " .
                     "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  observaciones," .
-                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
+                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja,descripcionCorta)  VALUES " .
                     "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
                     . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $interes . "','" . $idObsE . "','"
-                    . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . "  )";
+                    . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . ",'$descCortoElectro')";
             }
             if ($ps = $this->conexion->prepare($insert)) {
                 if ($ps->execute()) {
