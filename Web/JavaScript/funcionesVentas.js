@@ -79,93 +79,38 @@ function busquedaCodigoMostradorBoton() {
                     var id_serie = datos[i].id_serieBaz;
                     var id_serieTipo = datos[i].id_serieTipo;
                     var empeno = datos[i].empeno;
-                    var precio_venta = datos[i].precio_venta;
-                    var detalle = "";
-                    var kilataje = "";
-                    var avaluo = 0;
-                    var observaciones = "";
-                    var marca = "";
-                    var modelo = "";
-                    var tipo = 0;
+                    var precio_venta = datos[i].precioVenta;
+                    var descripcionCorta = datos[i].descripcionCorta;
+                    var observaciones = datos[i].observaciones;
+                    var avaluo = datos[i].avaluo;
+                    var tipo = tipo = datos[i].tipoArt;
                     var precioEnviar = precio_venta;
-
-                    if(id_serieTipo==1){
-                        //BAZAR FROM EMPEÑO
-                        tipo = datos[i].tipoArt;
-                        kilataje = datos[i].kilataje;
-                        marca = datos[i].marca;
-                        modelo = datos[i].modelo;
-                        observaciones = datos[i].observaciones;
-                        detalle = datos[i].detalle;
-                        avaluo = datos[i].avaluo;
-                    }else if(id_serieTipo==2){
-                        //BAZAR FROM COMPRAS
-                        tipo = datos[i].tipoArtC;
-                        kilataje = datos[i].kilatajeC;
-                        marca = datos[i].marcaC;
-                        modelo = datos[i].modeloC;
-                        observaciones = datos[i].observacionesC;
-                        detalle = datos[i].detalleC;
-                        avaluo = datos[i].avaluoC;
-                    }else if(id_serieTipo==3){
-                        //BAZAR FROM MIGRACION
-                        tipo = datos[i].tipoArtM;
-                        kilataje = "";
-                        marca = "";
-                        modelo = "";
-                        observaciones = "";
-                        detalle = datos[i].detalleM;
-                        avaluo = datos[i].avaluoM;
-                    }
-
 
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
 
+                    if(observaciones===null){
+                        observaciones=="";
+                    }
                     tipoTabla = tipo;
 
-                    if (tipo == 1) {
-                        //observaciones = observaciones.toUpperCase();
-                        html += '<tr>' +
-                            '<td>' + id_serie + '</td>' +
-                            '<td>' + detalle + '</td>' +
-                            '<td>' + kilataje + '</td>' +
-                            '<td>' + empeno + '</td>' +
-                            '<td>' + avaluo + '</td>' +
-                            '<td>' + precio_venta + '</td>' +
-                            '<td>' + observaciones + '</td>' +
-                            '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
-                            '</tr>';
-                    } else if (tipo == 2) {
-                        //modelo = modelo.toUpperCase();
-                        //marca = marca.toUpperCase();
-                        //detalle = detalle.toUpperCase();
-
-                        html += '<tr>' +
-                            '<td>' + id_serie + '</td>' +
-                            '<td>' + modelo + '</td>' +
-                            '<td>' + marca + '</td>' +
-                            '<td>' + empeno + '</td>' +
-                            '<td>' + avaluo + '</td>' +
-                            '<td>' + precio_venta + '</td>' +
-                            '<td>' + detalle + '</td>' +
-                            '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
-                            '</tr>';
-                    }
+                    //observaciones = observaciones.toUpperCase();
+                    html += '<tr>' +
+                        '<td>' + id_serie + '</td>' +
+                        '<td>' + descripcionCorta + '</td>' +
+                        '<td>' + empeno + '</td>' +
+                        '<td>' + avaluo + '</td>' +
+                        '<td>' + precio_venta + '</td>' +
+                        '<td>' + observaciones + '</td>' +
+                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
+                        'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
+                        '</tr>';
 
                 }
-                if (tipoTabla == 1) {
-                    $("#divTablaArticulos").hide();
-                    $("#divTablaMetales").show();
-                    $('#idTBodyMetales').html(html);
-                } else if (tipoTabla == 2) {
-                    $("#divTablaMetales").hide();
-                    $("#divTablaArticulos").show();
-                    $('#idTBodyArticulos').html(html);
-                }
+
+                $('#idTBodyMetales').html(html);
+
                 $("#btnVenta").prop('disabled', false);
             } else {
                 alertify.error("No se encontro ningún artiículo en bazar.");

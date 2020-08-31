@@ -149,23 +149,9 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
-                        Baz.precio_venta,
-                        Art.tipoArticulo, Art.kilataje,CatM.descripcion as Marca,CatE.descripcion as Modelo,
-                        Art.observaciones, Art.detalle, Art.avaluo, 
-                        ArtC.tipoArticulo AS tipoArticuloC, ArtC.kilataje AS kilatajeC,CatMC.descripcion as MarcaC,CatEC.descripcion as ModeloC,
-                        ArtC.observaciones AS observacionesC, ArtC.detalle AS detalleC, ArtC.avaluo AS avaluoC, 
-                        ArtM.tipoArticulo AS tipoArticuloM, ArtM.kilataje AS kilatajeM,CatMM.descripcion as MarcaM,CatEM.descripcion as ModeloM,
-                        ArtM.observaciones AS observacionesM, ArtM.detalle AS detalleM, ArtM.avaluo AS avaluoM 
+                        Baz.precio_venta, Art.descripcionCorta,Art.observaciones, Art.avaluo
                         FROM bazar_articulos as Baz 
                         LEFT JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, Art.Adquisiciones_Tipo, Art.id_SerieContrato,Art.id_SerieArticulo) 
-                        LEFT JOIN articulocompras_tbl as ArtC on baz.id_serie = CONCAT (ArtC.id_SerieSucursal, ArtC.Adquisiciones_Tipo, ArtC.id_SerieContrato,ArtC.id_SerieArticulo) 
-                        LEFT JOIN articulomigracion_tbl as ArtM on baz.id_serie = CONCAT (ArtM.id_SerieSucursal, ArtM.Adquisiciones_Tipo, ArtM.id_SerieContrato,ArtM.id_SerieArticulo) 
-                        LEFT JOIN cat_electronico_modelo as CatE on Art.modelo = CatE.id_modelo
-                        LEFT JOIN cat_electronico_marca as CatM on Art.marca = CatM.id_marca
-                        LEFT JOIN cat_electronico_modelo as CatEC on ArtC.modelo = CatEC.id_modelo
-                        LEFT JOIN cat_electronico_marca as CatMC on ArtC.marca = CatMC.id_marca
-                        LEFT JOIN cat_electronico_modelo as CatEM on ArtM.modelo = CatEM.id_modelo
-                        LEFT JOIN cat_electronico_marca as CatMM on ArtM.marca = CatMM.id_marca
                         WHERE Baz.id_serie like '%$idCodigo%' and sucursal= '$sucursal' and Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos where tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 || tipo_movimiento = 23 ) 
                         LIMIT 20";
@@ -179,27 +165,9 @@ class sqlVentasDAO
                         "id_serieTipo" => $row["id_serieTipo"],
                         "empeno" => $row["prestamo_Empeno"],
                         "precio_venta" => $row["precio_venta"],
-                        "tipoArt" => $row["tipoArticulo"],
-                        "kilataje" => $row["kilataje"],
-                        "marca" => $row["Marca"],
-                        "modelo" => $row["Modelo"],
+                        "descripcionCorta" => $row["descripcionCorta"],
                         "observaciones" => $row["observaciones"],
-                        "detalle" => $row["detalle"],
                         "avaluo" => $row["avaluo"],
-                        "tipoArtC" => $row["tipoArticuloC"],
-                        "kilatajeC" => $row["kilatajeC"],
-                        "marcaC" => $row["MarcaC"],
-                        "modeloC" => $row["ModeloC"],
-                        "observacionesC" => $row["observacionesC"],
-                        "detalleC" => $row["detalleC"],
-                        "avaluoC" => $row["avaluoC"],
-                        "tipoArtM" => $row["tipoArticuloM"],
-                        "kilatajeM" => $row["kilatajeM"],
-                        "marcaM" => $row["MarcaM"],
-                        "modeloM" => $row["ModeloM"],
-                        "observacionesM" => $row["observacionesM"],
-                        "detalleM" => $row["detalleM"],
-                        "avaluoM" => $row["avaluoM"],
                     ];
                     array_push($datos, $data);
                 }

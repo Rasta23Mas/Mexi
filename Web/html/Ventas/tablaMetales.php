@@ -8,7 +8,6 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
     <tr>
         <th>Código</th>
         <th>Artículo</th>
-        <th>Marca / Kilates</th>
         <th>Precio Empeño</th>
         <th>Precio Avaluo</th>
         <th>Precio Vitrina</th>

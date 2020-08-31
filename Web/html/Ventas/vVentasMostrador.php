@@ -35,8 +35,6 @@ include_once (HTML_PATH."menuGeneral.php");
             $("#btnVenta").prop('disabled', true);
             document.getElementById('idFechaHoy').innerHTML =fechaActual();
             $("#divTablaMetales").load('tablaMetales.php');
-            $("#divTablaArticulos").load('tablaArticulos.php');
-            $("#divTablaArticulos").hide();
             $("#idNombreVenta").blur(function () {
                 $('#suggestionsNombreVenta').fadeOut(500);
             });
@@ -198,8 +196,6 @@ include_once (HTML_PATH."menuGeneral.php");
         </div>
         <div class="row">
             <div id="divTablaMetales" class="col col-md-12 " >
-            </div>
-            <div id="divTablaArticulos" class="col col-md-12 ">
             </div>
         </div>
         <div class="row">
