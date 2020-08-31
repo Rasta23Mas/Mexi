@@ -152,9 +152,7 @@ $FechaCreacion = date("d-m-Y", strtotime($FechaCreacion));
 $FechaAlmoneda = date("d-m-Y", strtotime($FechaAlmoneda));
 $FechaVenc = date("d-m-Y", strtotime($FechaVenc));
 
-$MontoPrestamo = number_format($MontoPrestamo, 2, '.', ',');
-$MontoTotal = number_format($MontoTotal, 2, '.', ',');
-$Avaluo = number_format($Avaluo, 2, '.', ',');
+
 
 $calculaALm = number_format($calculaALm, 2, '.', ',');
 $calculaInteres = number_format($calculaInteres, 2, '.', ',');
@@ -164,7 +162,9 @@ $porRefrendo = $calculaALm + $calculaInteres + $calculaIva;
 $porRefrendo = number_format($porRefrendo, 2, '.', ',');
 $porDesempeño = $MontoPrestamo +$porRefrendo;
 $porDesempeño = number_format($porDesempeño, 2, '.', ',');
-
+$MontoPrestamo = number_format($MontoPrestamo, 2, '.', ',');
+$MontoTotal = number_format($MontoTotal, 2, '.', ',');
+$Avaluo = number_format($Avaluo, 2, '.', ',');
 $i = 1;
 $tablaArticulos = '';
 $detallePiePagina = '';
@@ -320,7 +320,7 @@ $contenido = '<html>
                 </label>
             </td>
             <td colspan="2"><label class="letraNormal">
-                $ ' . $MontoTotal . '</u><br>
+                $ ' . $porDesempeño . '</u><br>
                 Estimado al plazo máximo de desempeño<br>
                 o refrendo.</label>
             </td>
