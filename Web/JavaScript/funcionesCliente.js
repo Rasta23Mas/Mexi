@@ -178,13 +178,13 @@ function mostrarTodos($idNombres) {
 }
 
 //Funcion ver el historial de un cliente
-function historial($clienteEmpeno) {
+function historial(clienteEmpeno) {
     $('#suggestionsNombreEmpeno').fadeOut(1000);
-    if ($clienteEmpeno == '' || $clienteEmpeno == null) {
+    if (clienteEmpeno == '' || clienteEmpeno == null) {
         alert("Por seleccione un cliente.")
     } else {
         var dataEnviar = {
-            "clienteEmpeno": $clienteEmpeno,
+            "clienteEmpeno": clienteEmpeno,
         };
         $.ajax({
             type: "POST",

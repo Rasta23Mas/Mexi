@@ -172,11 +172,10 @@ function cargarRptHisto(fechaIni, fechaFin) {
                     var Plazo = datos[i].Plazo;
                     var Periodo = datos[i].Periodo;
                     var TipoInteres = datos[i].TipoInteres;
-                    var ObserElec = datos[i].ObserElec;
-                    var ObserMetal = datos[i].ObserMetal;
+                    var DescripcionCorta = datos[i].DescripcionCorta;
+                    var Obs = datos[i].Obs;
                     var ObserAuto = datos[i].ObserAuto;
                     var DetalleAuto = datos[i].DetalleAuto;
-                    var DetalleArt = datos[i].Detalle;
                     var FORMU = datos[i].Form;
                     var Observaciones = "";
                     var Detalle = "";
@@ -187,13 +186,13 @@ function cargarRptHisto(fechaIni, fechaFin) {
 
                     if (FORMU == 1) {
                         tipoMetal++;
-                        Observaciones = ObserMetal;
-                        Detalle = DetalleArt;
+                        Observaciones = DescripcionCorta;
+                        Detalle = Obs;
                     } else if (FORMU == 2) {
                         tipoMetal = 0;
                         tipoElectro++;
-                        Observaciones = ObserElec;
-                        Detalle = DetalleArt;
+                        Observaciones = DescripcionCorta;
+                        Detalle = Obs;
                     } else if (FORMU == 3) {
                         tipoMetal = 0;
                         tipoElectro = 0;
