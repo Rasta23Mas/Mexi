@@ -95,7 +95,6 @@ $spreadsheet->getActiveSheet()
 
 $spreadsheet->getActiveSheet()->getStyle('A2:G2')->applyFromArray($tableHead);
 
-
 $rptCliente = "SELECT id_Cliente,fecha_Nacimiento,
                         CONCAT(apellido_Pat,'/',  apellido_Mat, '/', nombre) AS NombreCompleto, 
                         CONCAT(calle, ', ',num_interior,', ', num_exterior, ', ',localidad, ', ', municipio, 

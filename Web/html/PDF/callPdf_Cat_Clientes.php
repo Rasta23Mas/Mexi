@@ -64,8 +64,8 @@ $contenido .= '
                                 <th>Como se entero</th>
                             </tr>
                         </thead>
-                        <tbody id="idTBodyInventario"  align="center">
-                        ';
+                        <tbody id="idTBodyInventario"  align="center">';
+$db = "";
 $query = "SELECT id_Cliente,fecha_Nacimiento,
                         CONCAT(apellido_Pat,'/',  apellido_Mat, '/', nombre) AS NombreCompleto, 
                         CONCAT(calle, ', ',num_interior,', ', num_exterior, ', ',localidad, ', ', municipio, 

@@ -85,8 +85,8 @@ $contenido .= '
         <th>Total Cobrado</th>
                             </tr>
                         </thead>
-                        <tbody id="idTBodyHistorico"  align="center">
-                        ';
+                        <tbody id="idTBodyHistorico"  align="center"> ';
+$db = "";
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
                         DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 

@@ -3,7 +3,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
 require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
-
+$db = "";
 
 if (!isset($_SESSION)) {
     session_start();
@@ -44,20 +44,15 @@ if (isset($_GET['idBazar'])) {
 
 
 
-
+$db = "";
 $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,BAZ.id_Bazar,
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
-            BAZ.id_Contrato, ART.detalle,TK.descripcion as Kilataje,ET.descripcion AS TipoElectronico,
-            EM.descripcion AS MarcaElectronico,EMOD.descripcion AS ModeloElectronico,Baz.id_serie,baz.precio_venta,
+            BAZ.id_Contrato, ART.descripcionCorta,ART.observaciones, Baz.id_serie,baz.precio_venta,
             BAZ.precio_Actual,BAZ.iva,BAZ.apartado,BAZ.abono,BAZ.abono_Total,BAZ.efectivo,BAZ.cambio,USU.usuario
             FROM bazar_articulos as Baz 
-            INNER JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
-            INNER JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
+            LEFT JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
+            LEFT JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
             LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-            LEFT JOIN cat_kilataje as TK on ART.kilataje = TK.id_Kilataje
-            LEFT JOIN cat_electronico_tipo as ET on ART.tipo = ET.id_tipo
-            LEFT JOIN cat_electronico_marca as EM on ART.marca = EM.id_marca
-            LEFT JOIN cat_electronico_modelo as EMOD on ART.modelo = EMOD.id_modelo
             LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
             WHERE id_Bazar=$idBazar";
 $resultado = $db->query($query);
@@ -73,11 +68,8 @@ foreach ($resultado as $row) {
     $fecha_Modificacion = $row["fecha_Modificacion"];
     $NombreCompleto = $row["NombreCompleto"];
     $id_Contrato = $row["id_Contrato"];
-    $detalle = $row["detalle"];
-    $Kilataje = $row["Kilataje"];
-    $TipoElectronico = $row["TipoElectronico"];
-    $MarcaElectronico = $row["MarcaElectronico"];
-    $ModeloElectronico = $row["ModeloElectronico"];
+    $descripcionCorta = $row["descripcionCorta"];
+    $observaciones = $row["observaciones"];
     $id_serie = $row["id_serie"];
     $precio_venta = $row["precio_venta"];
     $precio_Actual = $row["precio_Actual"];
@@ -103,8 +95,8 @@ $precio_Actual = number_format($precio_Actual, 2,'.',',');
 
 $Fecha_Creacion = date("d-m-Y", strtotime($Fecha_Creacion));
 
-$detalle = strtoupper($detalle);
-$Kilataje = strtoupper($Kilataje);
+$descripcionCorta = strtoupper($descripcionCorta);
+$observaciones = strtoupper($observaciones);
 
 
 $contenido = '<html>
@@ -224,7 +216,7 @@ $contenido .= '<table width="30%" border="1">
                 <tr><td><br></td></tr>
                 <tr>
                     <td  align="CENTER"><label>DESCRIPCION</label></td>
-                        <td  align="CENTER"><label>KILATES</label></td>
+                        <td  align="CENTER"><label>OBSERVACIONES</label></td>
                       <td  align="CENTER"><label>PRECIO</label></td>
                 </tr>
                 <tr>
@@ -233,8 +225,8 @@ $contenido .= '<table width="30%" border="1">
                     </td>
                 </tr>
                 <tr>
-                    <td  align="CENTER"><label>'.$detalle.'</label></td>
-                    <td  align="CENTER"><label>'.$Kilataje.'</label></td>
+                    <td  align="CENTER"><label>'.$descripcionCorta.'</label></td>
+                    <td  align="CENTER"><label>'.$observaciones.'</label></td>
                     <td  align="right"><label>$ '.$precio_venta.'</label></td>
                 </tr>
                 <tr>

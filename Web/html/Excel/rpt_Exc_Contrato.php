@@ -111,7 +111,6 @@ $spreadsheet->getActiveSheet()
 
 $spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);
 
-
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 

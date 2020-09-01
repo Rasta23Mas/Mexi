@@ -38,7 +38,7 @@ $dotaciones = $_SESSION['dotaciones'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="application/javascript">
         $(document).ready(function () {
-            var sesionInactiva =<?php echo $sesionInactiva ?>;
+            //var sesionInactiva =<?php echo $sesionInactiva ?>;
             var cajaInactiva =<?php echo $cajaInactiva ?>;
             var tipoUsuario =<?php echo $tipoUsuario ?>;
             if(sesionInactiva==0){

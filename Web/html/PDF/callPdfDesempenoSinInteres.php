@@ -50,7 +50,7 @@ if (isset($_GET['ultimoMovimiento'])) {
     $ultimoMovimiento = 0;
 }
 
-
+$db = "";
 $query = " SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
                     Con.e_pagoDesempeno,Con.e_abono, 
                     Con.e_interes, Con.e_almacenaje, Con.e_seguro, Con.e_moratorios, Con.s_descuento_aplicado, Con.e_iva, 
@@ -117,43 +117,19 @@ foreach ($resultado as $row) {
 
 }
 
-$query = "SELECT ET.descripcion AS TipoElectronico, EM.descripcion AS MarcaElectronico, EMOD.descripcion AS ModeloElectronico,
-                            Ar.detalle AS Detalle, TA.descripcion AS TipoMetal, TK.descripcion as Kilataje,
-                            TC.descripcion as Calidad FROM contratos_tbl as Con 
-                            INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato
-                            LEFT JOIN cat_electronico_tipo as ET on Ar.tipo = ET.id_tipo
-                            LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca
-                            LEFT JOIN cat_electronico_modelo as EMOD on Ar.modelo = EMOD.id_modelo
-                            LEFT JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
-                            LEFT JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
-                            LEFT JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
-                            WHERE Con.id_Contrato =$idContrato ";
+$query = "SELECT  Ar.descripcionCorta AS DescripcionCorta,  Ar.observaciones AS Obs
+                    FROM contratos_tbl as Con 
+                    INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato
+                    WHERE Con.id_Contrato =$idContrato ";
 $tablaArt = $db->query($query);
 $tablaArticulos = '';
 $detallePiePagina = '';
 foreach ($tablaArt as $row) {
     //Tabla MEt
-    $TipoMetal = $row["TipoMetal"];
-    $Kilataje = $row["Kilataje"];
-    $Calidad = $row["Calidad"];
-    $Detalle = $row["Detalle"];
-    $tipoDescripcion ='';
-    $detalleDescripcion ='';
+    $DescripcionCorta = $row["DescripcionCorta"];
+    $observaciones = $row["Obs"];
+    $detallePiePagina .= $DescripcionCorta . '/' . $observaciones;
 
-    if ($Kilataje==''||$Kilataje==null){
-        $tipoDescripcion = 'Electronicos';
-        $TipoElectronico = $row["TipoElectronico"];
-        $MarcaElectronico = $row["MarcaElectronico"];
-        $ModeloElectronico = $row["ModeloElectronico"];
-        $detalleDescripcion = $TipoElectronico . ' '. $MarcaElectronico  . ' '. $ModeloElectronico . ' '. $Detalle;
-        $detallePiePagina .= $detalleDescripcion . '//';
-    }else{
-        $tipoDescripcion = 'Metales';
-        $TipoMetal = $row["TipoMetal"];
-        $Calidad = $row["Calidad"];
-        $detalleDescripcion = $TipoMetal . ' '. $Kilataje  . ' '. $Calidad . ' '. $Detalle;
-        $detallePiePagina .= $detalleDescripcion . '/';
-    }
 }
 
 

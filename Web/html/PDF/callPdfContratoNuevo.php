@@ -59,7 +59,7 @@ if (isset($_GET['contrato'])) {
     $idContrato = $_GET['contrato'];
 }
 $nombreContrato = 'Contrato Num _' . $idContrato . ".pdf";
-
+$db = "";
 $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Mat, ' ',Cli.apellido_Pat) as NombreCompleto, 
             CatCli.descripcion AS Identificacion, Cli.num_Identificacion AS NumIde,
             CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS Direccion,
@@ -163,34 +163,24 @@ $detallePiePagina = '';
 $detalleDescripcion = '';
 $tipoDescripcion = '';
 
-$query = "SELECT
-            CONCAT ( Ar.detalle,' ', TA.descripcion, ' ',TK.descripcion ,' ', TC.descripcion) as detalleMetal,
-            CONCAT ( ET.descripcion,' ', EM.descripcion, ' ',EMOD.descripcion ,' ',  Ar.detalle) as detalleElec,
-            Ar.observaciones AS ObsArt,
+$query = "SELECT Ar.descripcionCorta,  Ar.observaciones AS ObsArt,
             CONCAT ( Aut.marca,' ', Aut.modelo, ' ',Aut.anio ,' ',  Aut.color, ' ' , Aut.placas, ' ',Aut.factura, ' ',Aut.num_motor) as detalleAuto, 
             Aut.observaciones AS ObsAuto, Ar.prestamo as PrestamoArt, Ar.avaluo as AvaluoArt
             FROM contratos_tbl as Con 
-            INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato
-            LEFT JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
-            LEFT JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
-            LEFT JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
-            LEFT JOIN cat_electronico_tipo as ET on Ar.tipo = ET.id_tipo
-            LEFT JOIN cat_electronico_marca as EM on Ar.marca = EM.id_marca
-            LEFT JOIN cat_electronico_modelo as EMOD on Ar.modelo = EMOD.id_modelo
             LEFT JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato
             WHERE Con.id_Contrato =$idContrato ";
 $tablaArt = $db->query($query);
 foreach ($tablaArt as $row) {
     if ($TipFormulario == 1) {
         $tipoDescripcion = 'METALES';
-        $detalle = $row["detalleMetal"];
+        $detalle = $row["descripcionCorta"];
         $Obs = $row["ObsArt"];
 
         $avaluoArt = $row["PrestamoArt"];
         $prestamoArt = $row["AvaluoArt"];
     }elseif ($TipFormulario == 2) {
         $tipoDescripcion = 'ELECTRÓNICOS';
-        $detalle = $row["detalleElec"];
+        $detalle = $row["descripcionCorta"];
         $Obs = $row["ObsArt"];
         $avaluoArt = $row["PrestamoArt"];
         $prestamoArt = $row["AvaluoArt"];
@@ -203,13 +193,13 @@ foreach ($tablaArt as $row) {
     }
     $detalleDescripcion = $detalle . " " . $Obs;
     $tablaArticulos .= '
-                                <tr>
-                                    <td class="tableFormat " colspan="2"><label  class="letraNormal">' . $tipoDescripcion . '</label></td>
-                                    <td class="tableFormat"  colspan="5"><label  class="letraNormal">' . $detalleDescripcion . '</label></td>
-                                    <td class="tableFormat" colspan="2"><label  class="letraNormal">$ ' . $Avaluo . '</label></td>
-                                    <td class="tableFormat" colspan="2"><label  class="letraNormal">$ ' . $MontoPrestamo . '</label></td>
-                                    <td class="tableFormat" ><label  class="letraNormal">' . $Aforo . ' %</label></td>
-                                </tr>';
+                <tr>
+                    <td class="tableFormat " colspan="2"><label  class="letraNormal">' . $tipoDescripcion . '</label></td>
+                    <td class="tableFormat"  colspan="5"><label  class="letraNormal">' . $detalleDescripcion . '</label></td>
+                    <td class="tableFormat" colspan="2"><label  class="letraNormal">$ ' . $Avaluo . '</label></td>
+                    <td class="tableFormat" colspan="2"><label  class="letraNormal">$ ' . $MontoPrestamo . '</label></td>
+                    <td class="tableFormat" ><label  class="letraNormal">' . $Aforo . ' %</label></td>
+                </tr>';
 
     if($i==1){
         $detallePiePagina .= $detalleDescripcion;

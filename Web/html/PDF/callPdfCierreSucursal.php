@@ -12,7 +12,7 @@ $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
 $NombreUsuario = $_SESSION["usuario"];
 
-
+$db = "";
 $querySucursal = "SELECT NombreCasa, Nombre FROM cat_sucursal
                     WHERE id_Sucursal =$sucursal ";
 

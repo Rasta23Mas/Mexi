@@ -53,7 +53,7 @@ $fecha_Creacion = "";
 if (isset($_GET['idArqueo'])) {
     $idArqueo = $_GET['idArqueo'];
 }
-
+$db = "";
 $buscarArqueo = "
     SELECT total_Cierre,total_Billetes,total_Monedas,
     mil_cant,quinientos_cant,doscientos_cant,cien_cant,cincuenta_cant,veinte_cant,veinteMon_cant,diez_cant,cinco_cant,dos_cant,

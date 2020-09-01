@@ -117,7 +117,6 @@ $spreadsheet->getActiveSheet()
 
 $spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
 
-
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptRef = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,

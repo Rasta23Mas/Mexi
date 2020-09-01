@@ -42,22 +42,18 @@ if (isset($_GET['idBazar'])) {
 
 
 
-
-
+$db = "";
 $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,BAZ.id_Bazar,
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             BAZ.id_Contrato, ART.descripcionCorta,ART.observaciones, Baz.id_serie,baz.precio_venta,
             BAZ.precio_Actual,BAZ.apartado,BAZ.iva,BAZ.efectivo,BAZ.cambio,USU.usuario
             FROM bazar_articulos as Baz 
-            INNER JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
-            INNER JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
+            LEFT JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
+            LEFT JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
             LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-            LEFT JOIN cat_kilataje as TK on ART.kilataje = TK.id_Kilataje
-            LEFT JOIN cat_electronico_tipo as ET on ART.tipo = ET.id_tipo
-            LEFT JOIN cat_electronico_marca as EM on ART.marca = EM.id_marca
-            LEFT JOIN cat_electronico_modelo as EMOD on ART.modelo = EMOD.id_modelo
             LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
             WHERE id_Bazar=$idBazar";
+
 $resultado = $db->query($query);
 
 
@@ -216,7 +212,7 @@ $contenido .= '<table width="30%" border="1">
                 <tr><td><br></td></tr>
                 <tr>
                     <td  align="CENTER"><label>DESCRIPCION</label></td>
-                        <td  align="CENTER"><label>KILATES</label></td>
+                        <td  align="CENTER"><label>OBSERVACIONES</label></td>
                       <td  align="CENTER"><label>PRECIO</label></td>
                 </tr>
                 <tr>

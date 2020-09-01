@@ -95,7 +95,7 @@ $spreadsheet->getActiveSheet()
 
 $spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
 
-
+//$db = "";
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptRef = "SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,precio_venta, 
                         ART.detalle as Detalle, CAT.descripcion as CatDesc, ART.id_ContratoMig

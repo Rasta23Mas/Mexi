@@ -121,7 +121,6 @@ $spreadsheet->getActiveSheet()
 
 $spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);
 
-
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptMon = "SELECT Bit.id_BitacoraToken,Bit.id_Contrato,Bit.tipo_formulario as FORMU,Bit.token,Bit.descripcion,
                         Bit.descuento,Bit.interes, Cat.descripcion as Descrip, Usu.usuario,Bit.importe_flujo,

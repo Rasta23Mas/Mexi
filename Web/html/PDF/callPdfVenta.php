@@ -44,7 +44,7 @@ if (isset($_GET['idBazar'])) {
 
 
 $descuento_Venta = 0;
-
+$db = "";
 $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,BAZ.id_Bazar,
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             BAZ.id_Contrato, ART.detalle,TK.descripcion as Kilataje,ET.descripcion AS TipoElectronico,

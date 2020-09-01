@@ -117,7 +117,6 @@ $spreadsheet->getActiveSheet()
 
 $spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);
 
-
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptIng = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
                        costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,

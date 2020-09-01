@@ -15,8 +15,8 @@
         <th>Plazo</th>
         <th>Periodo</th>
         <th>Tipo Interés</th>
-        <th>Observaciones</th>
         <th>Detalle</th>
+        <th>Observaciones</th>
     </tr>
     </thead>
     <tbody id="idTBodyInventario" class="letraChica" align="center">
