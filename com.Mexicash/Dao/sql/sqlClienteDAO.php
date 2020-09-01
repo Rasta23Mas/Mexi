@@ -441,10 +441,8 @@ WHERE id_Cliente = '$idClienteEditar' AND sucursal=".$sucursal;
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto, 
                         CONCAT(Cont.plazo, ' ', Cont.periodo, ' ',Cont.tipoInteres) as Interes, 
                         Con.fechaVencimiento as FechaVenc, Con.fecha_Movimiento as FechaCreac, 
-                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
-                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
+                        Art.descripcionCorta AS DescripcionCorta,  Art.observaciones AS Obs,
                         Aut.observaciones as ObserAuto,
-                        CONCAT(Art.detalle) as Detalle,
                         CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
                         Art.tipoArticulo, Cont.id_Formulario as Form,
                         Mov.descripcion as EstDesc
@@ -465,21 +463,20 @@ WHERE id_Cliente = '$idClienteEditar' AND sucursal=".$sucursal;
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "Contrato" => $row["Contrato"],
+                        "ContratoHistorial" => $row["Contrato"],
                         "Cliente" => $row["Cliente"],
                         "NombreCompleto" => $row["NombreCompleto"],
                         "Interes" => $row["Interes"],
                         "FechaVenc" => $row["FechaVenc"],
                         "FechaCreac" => $row["FechaCreac"],
-                        "ObserElec" => $row["ObserElec"],
-                        "ObserMetal" => $row["ObserMetal"],
+                        "EstDesc" => $row["EstDesc"],
+                        "Form" => $row["Form"],
+                        "DescripcionCorta" => $row["DescripcionCorta"],
+                        "Obs" => $row["Obs"],
                         "ObserAuto" => $row["ObserAuto"],
-                        "Detalle" => $row["Detalle"],
                         "DetalleAuto" => $row["DetalleAuto"],
                         "tipoArticulo" => $row["tipoArticulo"],
-                        "tipoArticulo" => $row["tipoArticulo"],
-                        "Form" => $row["Form"],
-                        "EstDesc" => $row["EstDesc"],
+
                     ];
                     array_push($datos, $data);
                 }

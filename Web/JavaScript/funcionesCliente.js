@@ -201,8 +201,8 @@ function historial($clienteEmpeno) {
                         '</tr>';
                 } else {
                     for (i; i < datos.length; i++) {
+                        var contrato = datos[i].ContratoHistorial;
                         var id_Cliente = datos[i].Cliente;
-                        var contrato = datos[i].Contrato;
                         var NombreCompleto = datos[i].NombreCompleto;
                         var Interes = datos[i].Interes;
                         var FechaVenc = datos[i].FechaVenc;
@@ -218,15 +218,9 @@ function historial($clienteEmpeno) {
 
                         } else {
                             tipoArticulo = datos[i].tipoArticulo;
-                            Detalle = datos[i].Detalle;
+                            Detalle = datos[i].DescripcionCorta;
 
-                            Observ = 0;
-                            if (tipoArticulo == 1) {
-                                Observ = datos[i].ObserMetal;
-                            } else if (tipoArticulo == 2) {
-                                Observ = datos[i].ObserElec;
-                            }
-
+                            Observ = datos[i].Obs;
                         }
 
                         if (NombreCompleto === null) {
