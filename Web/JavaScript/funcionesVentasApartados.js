@@ -5,7 +5,6 @@ var id_ClienteGlb = 0;
 var tipo_movimientoGlb = 22;
 
 
-
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
         var key = $('#idNombreVenta').val();
@@ -43,10 +42,23 @@ function nombreAutocompletarVenta() {
     });
 }
 
+function busquedaCodigoApartados(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode === 13 && !e.shiftKey) {
+        busquedaCodigoBazar();
+    }
+}
+
 function busquedaCodigoBazar() {
-    // alert("busqueda mov");
     var codigo = $("#idCodigoApartado").val();
-    var tipoTabla = 0;
     var dataEnviar = {
         "codigo": codigo,
     };
@@ -60,59 +72,34 @@ function busquedaCodigoBazar() {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
-                    var id_Contrato = datos[i].id_Contrato;
                     var id_Bazar = datos[i].id_Bazar;
-                    var id_serie = datos[i].id_serie;
-                    var detalle = datos[i].detalle;
-                    var kilataje = datos[i].kilataje;
+                    var id_Contrato = datos[i].id_ContratoApartado;
+                    var id_serie = datos[i].id_serieApartado;
+                    var descripcionCorta = datos[i].descripcionCorta;
+                    var observaciones = datos[i].observaciones;
                     var empeno = datos[i].empeno;
                     var avaluo = datos[i].avaluo;
                     var precio_venta = datos[i].precio_venta;
-                    var observaciones = datos[i].observaciones;
-                    var marca = datos[i].marca;
-                    var modelo = datos[i].modelo;
-                    var tipo = datos[i].tipoArt;
+
                     var precioEnviar = precio_venta;
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
-                    tipoTabla = tipo;
-                    if (tipo == 1) {
-                        html += '<tr>' +
-                            '<td>' + id_serie + '</td>' +
-                            '<td>' + detalle + '</td>' +
-                            '<td>' + kilataje + '</td>' +
-                            '<td>' + empeno + '</td>' +
-                            '<td>' + avaluo + '</td>' +
-                            '<td>' + precio_venta + '</td>' +
-                            '<td>' + observaciones + '</td>' +
-                            '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
-                            '</tr>';
-                    } else if (tipo == 2) {
-                        html += '<tr>' +
-                            '<td>' + id_serie + '</td>' +
-                            '<td>' + modelo + '</td>' +
-                            '<td>' + marca + '</td>' +
-                            '<td>' + empeno + '</td>' +
-                            '<td>' + avaluo + '</td>' +
-                            '<td>' + precio_venta + '</td>' +
-                            '<td>' + observaciones + '</td>' +
-                            '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                            'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
-                            '</tr>';
-                    }
+
+                    html += '<tr>' +
+                        '<td>' + id_serie + '</td>' +
+                        '<td>' + descripcionCorta + '</td>' +
+                        '<td>' + empeno + '</td>' +
+                        '<td>' + avaluo + '</td>' +
+                        '<td>' + precio_venta + '</td>' +
+                        '<td>' + observaciones + '</td>' +
+                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
+                        'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
+                        '</tr>';
 
                 }
-                if (tipoTabla == 1) {
-                   $("#divTablaArticulos").hide();
-                    $("#divTablaMetales").show();
                     $('#idTBodyMetales').html(html);
-                } else if (tipoTabla == 2) {
-                    $("#divTablaMetales").hide();
-                    $("#divTablaArticulos").show();
-                    $('#idTBodyArticulos').html(html);
-                }
+
                 $("#btnVenta").prop('disabled', false);
             } else {
                 alertify.error("No se encontro ningún artiículo en bazar.");
@@ -122,7 +109,7 @@ function busquedaCodigoBazar() {
 
 }
 
-function calcularIva(id_Bazar,precio,id_Contrato,id_serie) {
+function calcularIva(id_Bazar, precio, id_Contrato, id_serie) {
 
     var precioFinal = Math.floor(precio * 100) / 100;
     var calculaIva = Math.floor(precioFinal * 16) / 100;
@@ -132,9 +119,9 @@ function calcularIva(id_Bazar,precio,id_Contrato,id_serie) {
     var calculaIvaFormat = formatoMoneda(calculaIva);
     var totalPagarFormat = formatoMoneda(totalPagar);
 
-     id_ContratoGlb = id_Contrato;
-     id_serieGlb = id_serie;
-     idBazarGlb = id_Bazar;
+    id_ContratoGlb = id_Contrato;
+    id_serieGlb = id_serie;
+    idBazarGlb = id_Bazar;
 
     $("#idSubTotal").val(precioFinalFormat);
     $("#idIva").val(calculaIvaFormat);
@@ -248,22 +235,22 @@ function guardarApartado() {
     /*
      22->Apartado
      */
-     id_ClienteGlb = $("#idClienteVenta").val();
-    if(id_ClienteGlb==0){
+    id_ClienteGlb = $("#idClienteVenta").val();
+    if (id_ClienteGlb == 0) {
         alert("Debe seleccionar un cliente para el apartado.");
-    }else{
+    } else {
         var vendedor = $("#idVendedor").val();
-        if(vendedor==0){
+        if (vendedor == 0) {
             alert("Debe seleccionar un vendedor para el apartado.");
-        }else{
+        } else {
             var apartado = $("#idApartadoInicialValue").val();
-            if(apartado==0){
+            if (apartado == 0) {
                 alert("Debe calcular el apartado inicial.");
-            }else{
+            } else {
                 var efectivo = $("#idEfectivoValue").val();
-                if(efectivo==0){
+                if (efectivo == 0) {
                     alert("Debe calcular el cambio del cliente.");
-                }else{
+                } else {
                     var iva = $("#idIvaValue").val();
                     var totalValue = $("#idTotalValue").val();
                     var fechaVencimiento = $("#idFechaVencimiento").val();
@@ -291,7 +278,7 @@ function guardarApartado() {
                         type: 'post',
                         success: function (response) {
                             if (response > 0) {
-                                idBazarGlb=response;
+                                idBazarGlb = response;
                                 alertify.success("El artículo se ha apartado correctamente.")
                                 BitacoraApartado()
                             } else {

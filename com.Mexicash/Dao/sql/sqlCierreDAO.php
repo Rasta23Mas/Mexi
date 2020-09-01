@@ -1011,9 +1011,9 @@ class sqlCierreDAO
         try {
             $fechaCreacion = date('Y-m-d');
             $insertaBazar = "INSERT INTO bazar_articulos 
-                       (id_Contrato, id_serie, fecha_Bazar,precio_venta,tipo_movimiento,prestamo_Empeno,precio_Actual,sucursal)
-                        SELECT Art.id_Contrato, CONCAT (Art.id_SerieSucursal, 
-                        Art.id_SerieContrato,Art.id_SerieArticulo) as idSerie,
+                       (id_Contrato, id_serie, id_Articulo,fecha_Bazar,precio_venta,tipo_movimiento,prestamo_Empeno,precio_Actual,sucursal)
+                        SELECT Art.id_Contrato, CONCAT (Art.id_SerieSucursal, Art.Adquisiciones_Tipo,
+                        Art.id_SerieContrato,Art.id_SerieArticulo) as idSerie, Art.id_Articulo,
                         Con.fecha_Bazar,Art.vitrina,24,Art.prestamo,Art.vitrina,Art.id_SerieSucursal
                         FROM articulo_tbl as Art
                         INNER JOIN contrato_mov_tbl as Con on Art.id_Contrato = Con.id_contrato

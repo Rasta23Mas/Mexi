@@ -38,8 +38,6 @@ include_once (HTML_PATH."menuGeneral.php");
             var sumarMes = sumarDias(30);
             $("#idFechaVencimiento").val(sumarMes);
             $("#divTablaMetales").load('tablaMetales.php');
-            $("#divTablaArticulos").load('tablaArticulos.php');
-            $("#divTablaArticulos").hide();
             $("#idNombreVenta").blur(function () {
                 $('#suggestionsNombreVenta').fadeOut(500);
             });
@@ -192,7 +190,7 @@ include_once (HTML_PATH."menuGeneral.php");
                     </tr>
                     <tr >
                         <td colspan="3">
-                            <input id="idCodigoApartado" name="codigo" type="text" style="width: 130px" value=""/>
+                            <input id="idCodigoApartado" name="codigo" type="text" style="width: 130px" value=""  onkeypress="return busquedaCodigoApartados(event)"/>
                             &nbsp;&nbsp;
                             <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="busquedaCodigoBazar()">&nbsp;
                         </td>
@@ -229,8 +227,6 @@ include_once (HTML_PATH."menuGeneral.php");
         </div>
         <div class="row">
             <div id="divTablaMetales" class="col col-lg-11 " >
-            </div>
-            <div id="divTablaArticulos" class="col col-lg-11 ">
             </div>
         </div>
         <div class="row">

@@ -25,8 +25,8 @@ class sqlVentasDAO
         //Modifique los estatus de usuario
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,ART.tipoArticulo,ART.kilataje,
-                        ART.marca,ART.modelo,ART.observaciones,ART.detalle,Baz.prestamo_Empeno,ART.avaluo,
+            $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,ART.descripcionCorta,
+                        ART.observaciones, Baz.prestamo_Empeno,ART.avaluo,
                         Baz.precio_venta
                         FROM bazar_articulos as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
@@ -40,14 +40,10 @@ class sqlVentasDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "id_Bazar" => $row["id_Bazar"],
-                        "id_Contrato" => $row["id_Contrato"],
-                        "id_serie" => $row["id_serie"],
-                        "tipoArt" => $row["tipoArticulo"],
-                        "kilataje" => $row["kilataje"],
-                        "marca" => $row["marca"],
-                        "modelo" => $row["modelo"],
+                        "id_ContratoApartado" => $row["id_Contrato"],
+                        "id_serieApartado" => $row["id_serie"],
+                        "descripcionCorta" => $row["descripcionCorta"],
                         "observaciones" => $row["observaciones"],
-                        "detalle" => $row["detalle"],
                         "empeno" => $row["prestamo_Empeno"],
                         "avaluo" => $row["avaluo"],
                         "precio_venta" => $row["precio_venta"],
