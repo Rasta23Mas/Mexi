@@ -65,17 +65,10 @@ class sqlVentasDAO
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,ART.tipoArticulo,
-                        CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',ART.detalle,'/ ', ART.observaciones) as ElectronicoArt,
-                        CONCAT (ART.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  ART.observaciones) as ElectronicoMetal
+            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,
+                         ART.descripcionCorta,ART.observaciones
                         FROM bazar_articulos as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        LEFT JOIN cat_electronico_tipo as ET on ART.tipo = ET.id_tipo
-                        LEFT JOIN cat_electronico_marca as EM on ART.marca = EM.id_marca
-                        LEFT JOIN cat_electronico_modelo as EMOD on ART.modelo = EMOD.id_modelo
-                        LEFT JOIN cat_tipoarticulo as TA on ART.tipo = TA.id_tipo
-                        LEFT JOIN cat_kilataje as TK on ART.kilataje = TK.id_Kilataje
-                        LEFT JOIN cat_calidad as TC on ART.calidad = TC.id_calidad
                         WHERE Baz.id_Cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos 
                         where  Baz.sucursal= $sucursal  AND tipo_movimiento = 6 || tipo_movimiento = 20 )";
@@ -85,10 +78,9 @@ class sqlVentasDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "id_Bazar" => $row["id_Bazar"],
-                        "id_Contrato" => $row["id_Contrato"],
-                        "tipoArticulo" => $row["tipoArticulo"],
-                        "ElectronicoArt" => $row["ElectronicoArt"],
-                        "ElectronicoMetal" => $row["ElectronicoMetal"],
+                        "id_ContratoVentas" => $row["id_Contrato"],
+                        "descripcionCorta" => $row["descripcionCorta"],
+                        "observaciones" => $row["observaciones"],
                     ];
                     array_push($datos, $data);
                 }

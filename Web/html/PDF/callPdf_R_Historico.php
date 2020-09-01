@@ -77,8 +77,8 @@ $contenido .= '
                                 <th>Plazo</th>
                                 <th>Periodo</th>
                                 <th>Tipo Interés</th>
-                                <th>Observaciones</th>
                                 <th>Detalle</th>
+                                <th>Observaciones</th>
                             </tr>
                         </thead>
                         <tbody id="idTBodyHistorico"  align="center"> ';
@@ -90,23 +90,16 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
                         Con.total_Prestamo AS PRESTAMO,
                         Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
-                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
-                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
+                        Art.descripcionCorta, 
                         Aut.observaciones as ObserAuto,
                         CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
-                        CONCAT(Art.detalle) as Detalle,
+                        Art.observaciones,
                         Art.tipoArticulo, Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
-                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
-                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
-                        LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
-                        LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
-                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
                         WHERE '$fechaIni' >= Con.fecha_fisico_ini
                         AND '$fechaFin'  <= Con.fecha_fisico_fin
                         AND Bit.sucursal = $sucursal 
@@ -127,11 +120,10 @@ foreach ($resultado as $row) {
     $Plazo = $row["Plazo"];
     $Periodo = $row["Periodo"];
     $TipoInteres = $row["TipoInteres"];
-    $ObserElec = $row["ObserElec"];
-    $ObserMetal = $row["ObserMetal"];
+    $descripcionCorta = $row["descripcionCorta"];
+    $observaciones = $row["observaciones"];
     $ObserAuto = $row["ObserAuto"];
     $DetalleAuto = $row["DetalleAuto"];
-    $Detalle = $row["Detalle"];
     $Form = $row["Form"];
 
     $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
@@ -140,13 +132,13 @@ foreach ($resultado as $row) {
     $DetalleFin = "";
     if($Form==1){
         $tipoMetal++;
-        $Obser = $ObserMetal;
-        $DetalleFin = $Detalle;
+        $Obser = $descripcionCorta;
+        $DetalleFin = $observaciones;
     }else if($Form==2){
         $tipoMetal=0;
         $tipoElectro++;
-        $Obser = $ObserElec;
-        $DetalleFin = $Detalle;
+        $Obser = $descripcionCorta;
+        $DetalleFin = $observaciones;
     }else if($Form ==3){
         $tipoMetal=0;
         $tipoElectro=0;

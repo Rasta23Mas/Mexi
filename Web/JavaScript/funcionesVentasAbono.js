@@ -57,16 +57,11 @@ function busquedaClienteBazar() {
                 var i = 0;
                 for (i; i < datos.length; i++) {
                     var id_Bazar = datos[i].id_Bazar;
-                    var id_Contrato = datos[i].id_Contrato;
-                    var tipoArticulo = datos[i].tipoArticulo;
-                    var ElectronicoArt = datos[i].ElectronicoArt;
-                    var ElectronicoMetal = datos[i].ElectronicoMetal;
-                    var articulo = "";
-                    if (tipoArticulo == 1) {
-                        articulo = ElectronicoMetal;
-                    } else if (tipoArticulo == 2) {
-                        articulo = ElectronicoArt;
-                    }
+                    var id_Contrato = datos[i].id_ContratoVentas;
+                    var descripcionCorta = datos[i].descripcionCorta;
+                    var observaciones = datos[i].observaciones;
+                    var articulo = descripcionCorta + " " + observaciones;
+
                     html += '<tr>' +
                         '<td>' + id_Contrato + '</td>' +
                         '<td>' + articulo + '</td>' +

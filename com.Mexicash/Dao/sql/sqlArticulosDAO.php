@@ -160,7 +160,7 @@ class sqlArticulosDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "id_Articulo" => $row["id_Articulo"],
-                        "tipoMetal" => $row["tipoMetal"],
+                        "tipoMetalArt" => $row["tipoMetal"],
                         "kilataje" => $row["kilataje"],
                         "calidad" => $row["calidad"],
                         "prestamo" => $row["prestamo"],

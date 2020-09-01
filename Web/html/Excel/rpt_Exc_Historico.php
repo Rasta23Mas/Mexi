@@ -105,8 +105,8 @@ $spreadsheet->getActiveSheet()
         ->setCellValue('G2', 'PLAZO')
         ->setCellValue('H2', 'PERIODO')
         ->setCellValue('I2', 'TIPO INTERÉS')
-        ->setCellValue('J2', 'OBSERVACIONES')
-        ->setCellValue('K2', 'DETALLE')
+        ->setCellValue('J2', 'DETALLE')
+        ->setCellValue('K2', 'OBSERVACIONES')
         ->setCellValue('L2', 'TIPO');
 
 $spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);

@@ -256,7 +256,7 @@ function cargarTablaMetales() {
             } else {
                 for (i; i < datos.length; i++) {
 
-                    var tipoMetal = datos[i].tipoMetal;
+                    var tipoMetal = datos[i].tipoMetalArt;
                     var kilataje = datos[i].kilataje;
                     var calidad = datos[i].calidad;
                     var prestamo = datos[i].prestamo;
