@@ -324,11 +324,12 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,precio_venta, 
                         ART.descripcionCorta as Detalle,
-                        CAT.descripcion as CatDesc, ARTM.id_ContratoMig,Baz.id_serieTipo 
+                        CAT.descripcion as CatDesc, ART.id_ContratoMig,
                         FROM bazar_articulos as Baz
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
                         LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
-                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal Limit 25";
+                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal LIMIT 25";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -341,7 +342,6 @@ class sqlReportesDAO
                         "Detalle" => $row["Detalle"],
                         "CatDesc" => $row["CatDesc"],
                         "id_ContratoMig" => $row["id_ContratoMig"],
-                        "id_serieTipo" => $row["id_serieTipo"],
                     ];
                     array_push($datos, $data);
                 }

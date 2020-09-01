@@ -100,7 +100,7 @@ $spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
 $rptRef = "SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,precio_venta, 
                         ART.detalle as Detalle, CAT.descripcion as CatDesc, ART.id_ContratoMig
                         FROM bazar_articulos as Baz
-                        LEFT JOIN articulo_tbl AS ART on Baz.id_serie = CONCAT (ART.id_SerieSucursal, ART.id_SerieContrato,ART.id_SerieArticulo)
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
                         LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
                         WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";

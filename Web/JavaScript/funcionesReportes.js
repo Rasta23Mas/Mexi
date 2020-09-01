@@ -664,7 +664,6 @@ function cargarRptBazar() {
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
-                alert(datos)
                 var html = '';
                 var i = 0;
                 alert("Refrescando tabla.");
@@ -677,7 +676,6 @@ function cargarRptBazar() {
                     var Detalle =  datos[i].Detalle;
                     var CatDesc = datos[i].CatDesc;
                     var id_ContratoMig = datos[i].id_ContratoMig;;
-                    var id_serieTipo = datos[i].id_serieTipo;
 
                     precio_venta = formatoMoneda(precio_venta);
 

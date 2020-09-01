@@ -53,7 +53,7 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             FROM bazar_articulos as Baz 
             INNER JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
             INNER JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
-            LEFT JOIN articulo_tbl AS ART on Baz.id_serie = CONCAT (ART.id_SerieSucursal, ART.id_SerieContrato,ART.id_SerieArticulo) 
+            LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
             LEFT JOIN cat_kilataje as TK on ART.kilataje = TK.id_Kilataje
             LEFT JOIN cat_electronico_tipo as ET on ART.tipo = ET.id_tipo
             LEFT JOIN cat_electronico_marca as EM on ART.marca = EM.id_marca

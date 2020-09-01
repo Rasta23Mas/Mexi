@@ -79,19 +79,19 @@ function busquedaCodigoMostradorBoton() {
                     var id_serie = datos[i].id_serieBaz;
                     var id_serieTipo = datos[i].id_serieTipo;
                     var empeno = datos[i].empeno;
-                    var precio_venta = datos[i].precioVenta;
+                    var precio_venta = datos[i].precio_venta;
                     var descripcionCorta = datos[i].descripcionCorta;
                     var observaciones = datos[i].observaciones;
                     var avaluo = datos[i].avaluo;
-                    var tipo = tipo = datos[i].tipoArt;
+                    var tipo = datos[i].tipoArt;
                     var precioEnviar = precio_venta;
 
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
 
-                    if(observaciones===null){
-                        observaciones=="";
+                    if(observaciones==""){
+                        observaciones=="1";
                     }
                     tipoTabla = tipo;
 

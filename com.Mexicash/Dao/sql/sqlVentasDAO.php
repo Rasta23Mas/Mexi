@@ -25,12 +25,11 @@ class sqlVentasDAO
         //Modifique los estatus de usuario
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Art.tipoArticulo,Art.kilataje,
-                        Art.marca,Art.modelo,Art.observaciones,Art.detalle,Baz.prestamo_Empeno,Art.avaluo,
+            $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,ART.tipoArticulo,ART.kilataje,
+                        ART.marca,ART.modelo,ART.observaciones,ART.detalle,Baz.prestamo_Empeno,ART.avaluo,
                         Baz.precio_venta
                         FROM bazar_articulos as Baz
-                        INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
-                        Art.id_SerieContrato,Art.id_SerieArticulo) 
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie like '$codigo%'  and Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos 
                         where  tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 
@@ -70,17 +69,17 @@ class sqlVentasDAO
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,Art.tipoArticulo,
-                        CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',Art.detalle,'/ ', Art.observaciones) as ElectronicoArt,
-                        CONCAT (Art.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  Art.observaciones) as ElectronicoMetal                        FROM bazar_articulos as Baz
-                        INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
-                        Art.id_SerieContrato,Art.id_SerieArticulo) 
-                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
-                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
-                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
-                        LEFT JOIN cat_tipoarticulo as TA on Art.tipo = TA.id_tipo
-                        LEFT JOIN cat_kilataje as TK on Art.kilataje = TK.id_Kilataje
-                        LEFT JOIN cat_calidad as TC on Art.calidad = TC.id_calidad
+            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,ART.tipoArticulo,
+                        CONCAT (ET.descripcion,'/ ', EM.descripcion,'/ ',EMOD.descripcion,'/ ',ART.detalle,'/ ', ART.observaciones) as ElectronicoArt,
+                        CONCAT (ART.detalle,'/ ', TA.descripcion,'/ ', TK.descripcion,'/ ',TC.descripcion,'/ ',  ART.observaciones) as ElectronicoMetal
+                        FROM bazar_articulos as Baz
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
+                        LEFT JOIN cat_electronico_tipo as ET on ART.tipo = ET.id_tipo
+                        LEFT JOIN cat_electronico_marca as EM on ART.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo as EMOD on ART.modelo = EMOD.id_modelo
+                        LEFT JOIN cat_tipoarticulo as TA on ART.tipo = TA.id_tipo
+                        LEFT JOIN cat_kilataje as TK on ART.kilataje = TK.id_Kilataje
+                        LEFT JOIN cat_calidad as TC on ART.calidad = TC.id_calidad
                         WHERE Baz.id_Cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos 
                         where  Baz.sucursal= $sucursal  AND tipo_movimiento = 6 || tipo_movimiento = 20 )";
@@ -149,9 +148,9 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
-                        Baz.precio_venta, Art.descripcionCorta,Art.observaciones, Art.avaluo
+                        Baz.precio_venta, ART.descripcionCorta,ART.observaciones, ART.avaluo
                         FROM bazar_articulos as Baz 
-                        LEFT JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, Art.Adquisiciones_Tipo, Art.id_SerieContrato,Art.id_SerieArticulo) 
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie like '%$idCodigo%' and sucursal= '$sucursal' and Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos where tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 || tipo_movimiento = 23 ) 
                         LIMIT 20";
@@ -185,13 +184,12 @@ class sqlVentasDAO
     {
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Art.id_Articulo,Baz.precio_venta,
-                        Baz.tipo_movimiento,Art.tipo,Art.kilataje,Art.calidad,
-                        Art.cantidad,Art.peso,Art.peso_Piedra,Art.piedras,Art.marca,Art.modelo,
-                        Art.num_Serie,Art.avaluo,Art.vitrina,Art.precioCat,Art.observaciones,Art.detalle,
-                        Art.fecha_creacion,Baz.fecha_Modificacion FROM bazar_articulos as Baz
-                        INNER JOIN articulo_tbl as Art on baz.id_serie = CONCAT (Art.id_SerieSucursal, 
-                        Art.id_SerieContrato,Art.id_SerieArticulo) 
+            $buscar = "SELECT Baz.id_Bazar,ART.id_Articulo,Baz.precio_venta,
+                        Baz.tipo_movimiento,ART.tipo,ART.kilataje,ART.calidad,
+                        ART.cantidad,ART.peso,ART.peso_Piedra,ART.piedras,ART.marca,ART.modelo,
+                        ART.num_Serie,ART.avaluo,ART.vitrina,ART.precioCat,ART.observaciones,ART.detalle,
+                        ART.fecha_creacion,Baz.fecha_Modificacion FROM bazar_articulos as Baz
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie= '$idCodigo'";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
