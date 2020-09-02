@@ -389,15 +389,13 @@ class sqlArticulosDAO
         return $datos;
     }
 
-    function llenarCmbCatArticulos()
-    {
+    function llenarCmbCatArticulos(){
         $datos = array();
 
         $sucursal = $_SESSION["sucursal"];
         try {
             $buscar = "SELECT id_tipo, descripcion FROM cat_electronico_tipo where sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
-
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
@@ -412,7 +410,6 @@ class sqlArticulosDAO
         } finally {
             $this->db->closeDB();
         }
-
         return $datos;
     }
 

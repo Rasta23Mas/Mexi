@@ -155,8 +155,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr class="headt">
                         <td colspan="12" rowspan="2" name="direccionEmpeno">
-                                    <textarea rows="2" cols="40" id="idDireccionEmpeno" class="textArea" disabled>
-                                    </textarea>
+                            <textarea rows="2" cols="40" id="idDireccionEmpeno" class="textArea" disabled>
+                            </textarea>
                         </td>
                     </tr>
                     <tr class="headt">
@@ -433,15 +433,6 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                                     class="selectpicker"
                                                     onchange="combMarcaVEmpe($('#idTipoElectronico').val())"
                                                     style="width: 150px">
-                                                <option value="0">Seleccione:</option>
-                                                <?php
-                                                $data = array();
-                                                $sql = new sqlArticulosDAO();
-                                                $data = $sql->llenarCmbCatArticulos();
-                                                for ($i = 0; $i < count($data); $i++) {
-                                                    echo "<option value=" . $data[$i]['id_tipo'] . ">" . $data[$i]['descripcion'] . "</option>";
-                                                }
-                                                ?>
                                             </select>
                                             <img src="../../style/Img/lupa.png" data-toggle="modal"
                                                  data-target="#modalArticulos" alt="Buscar"
@@ -589,7 +580,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                             <input id="idTipoFormulario" name="tipoFormulario" disabled type="text" value="1"
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idAforo" name="aforo" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class=""/>
+                                   style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idMontoToken" name="MontoToken" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idToken" name="token" disabled type="text" value="0"

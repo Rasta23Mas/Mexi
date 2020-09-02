@@ -6,8 +6,6 @@ include_once(SQL_PATH . "sqlInteresesDAO.php");
 $idTipoCombo = $_POST['idTipoCombo'];
 
 $interes = new sqlInteresesDAO();
-$interes->llenarCmbTipoInteres($idTipoCombo) ;
-
-
+$interes->llenarCmbTipoInteres($idTipoCombo);
 ?>
 

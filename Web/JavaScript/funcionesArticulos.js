@@ -119,7 +119,7 @@ function Agregar() {
                                 var descKilataje = $('select[name="cmbKilataje"] option:selected').text();
                                 var descCalidad = $('select[name="cmbCalidad"] option:selected').text();
                                 var descObs = $("#idObs").val();
-                                var descDetalle =  $("#idDetallePrenda").val();
+                                var descDetalle = $("#idDetallePrenda").val();
 
                                 var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + " " + descDetalle;
 
@@ -175,7 +175,7 @@ function Agregar() {
                                 var idArticulo = idArticulo.padStart(2, "0");
 
                                 var descTipoElectro = $('select[name="cmbTipoElectronico"] option:selected').text();
-                                var descMarca= $('select[name="marcaSelect"] option:selected').text();
+                                var descMarca = $('select[name="marcaSelect"] option:selected').text();
                                 var descModelo = $('select[name="modeloSelect"] option:selected').text();
                                 var descObs = $("#idObsElectronico").val();
                                 var descDetalle = $("#idDetallePrendaElectronico").val();
@@ -410,6 +410,7 @@ function Electronicos() {
     LimpiarInteres();
     llenarComboInteres(2);
     limpiarTabla();
+    llenarComboTipoElec();
 
 }
 
@@ -485,6 +486,7 @@ function selectMetalCmb($tipoMetal) {
     selectKilataje($tipoMetal);
     selectCalidad($tipoMetal);
 }
+
 function selectPrenda() {
     var dataEnviar = {
         "clase": 5,
@@ -509,10 +511,11 @@ function selectPrenda() {
         }
     });
 }
-function selectKilataje($tipoMetal) {
+
+function selectKilataje(tipoMetal) {
     var dataEnviar = {
         "clase": 2,
-        "idTipoMetal": $tipoMetal
+        "idTipoMetal": tipoMetal
     };
     $.ajax({
         type: "POST",
@@ -555,10 +558,10 @@ function llenaPrecioKilataje() {
     });
 }
 
-function selectCalidad($tipoMetal) {
+function selectCalidad(tipoMetal) {
     var dataEnviar = {
         "clase": 3,
-        "idTipoMetal": $tipoMetal
+        "idTipoMetal": tipoMetal
     };
     $.ajax({
         type: "POST",
@@ -1009,7 +1012,6 @@ function llenarDatosFromModal(idProducto) {
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
-            alert("Cargando tipo.")
             for (i = 0; i < datos.length; i++) {
                 //var idElectronico = datos[i].idElectronico;
                 var tipoId = datos[i].tipoId;
@@ -1048,14 +1050,13 @@ function llenarDatosFromModal(idProducto) {
                 if (caracteristicas === null) {
                     caracteristicas = '';
                 }
-                combMarcaVEmpeFromModal(tipoId);
-                cmbModeloVEmpeFromModal(tipoId, marcaId);
+                combTipoVEmpeFromModal(tipoId,marcaId);
                 alert("Cargando marca y modelo.");
                 var pretamoElec = parseFloat(precio);
                 var avaluoImporte = Math.floor(pretamoElec * 75) / 100;
                 avaluoImporte = pretamoElec + avaluoImporte;
                 avaluoImporte = avaluoImporte.toFixed(2)
-                avaluoImporte = parseFloat(avaluoImporte)
+                avaluoImporte = parseFloat(avaluoImporte);
                 $("#idTipoElectronico").val(tipoId);
                 $("#idMarca").val(marcaId);
                 $("#idModelo").val(modeloId);
@@ -1064,15 +1065,39 @@ function llenarDatosFromModal(idProducto) {
                 $("#idVitrinaElectronico").val(vitrina);
                 $("#idPrecioCat").val(vitrina);
                 $("#idDetallePrendaElectronico").val(caracteristicas);
-
-
             }
         }
     });
 
 }
+function combTipoVEmpeFromModal(tipoId,marcaId) {
+    var tipoSelect = tipoId;
+    var dataEnviar = {
+        "tipo": 1,
+        "tipoCombo": 0
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            var html = "";
+            html += " <option value=0>Seleccione:</option>"
+            var i = 0;
+            for (i; i < datos.length; i++) {
+                var id_tipo = datos[i].id_tipo;
+                var descripcion = datos[i].descripcion;
+                html += '<option value=' + id_tipo + '>' + descripcion + '</option>';
+            }
+            $('#idTipoElectronico').html(html);
+            combMarcaVEmpeFromModal(tipoId,marcaId);
 
-function combMarcaVEmpeFromModal(tipoId) {
+        }
+    });
+}
+
+function combMarcaVEmpeFromModal(tipoId,marcaId) {
     $('#idMarca').prop('disabled', false);
     $('#idMarca').val(0);
 
@@ -1096,6 +1121,7 @@ function combMarcaVEmpeFromModal(tipoId) {
                 html += '<option value=' + id_marca + '>' + descripcion + '</option>';
             }
             $('#idMarca').html(html);
+            cmbModeloVEmpeFromModal(tipoId, marcaId);
         }
     });
 }
@@ -1161,4 +1187,29 @@ function calcularGps() {
     $("#idGPSMon").val(idGpsMon);
     $("#idGPSMon").prop('disabled', true);
     $("#idTipoVehiculo").focus();
+}
+
+
+function llenarComboTipoElec() {
+    var dataEnviar = {
+        "tipo": 1,
+        "tipoCombo": 0
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            var html = "";
+            html += " <option value=0>Seleccione:</option>"
+            var i = 0;
+            for (i; i < datos.length; i++) {
+                var id_tipo = datos[i].id_tipo;
+                var descripcion = datos[i].descripcion;
+                html += '<option value=' + id_tipo + '>' + descripcion + '</option>';
+            }
+            $('#idTipoElectronico').html(html);
+        }
+    });
 }

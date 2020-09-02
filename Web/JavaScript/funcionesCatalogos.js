@@ -569,8 +569,8 @@ function cargarTblProducto(tipoSelect, marcaSelect, modeloSelect) {
                     '<td>' + tipo + '</td>' +
                     '<td>' + marca + '</td>' +
                     '<td>' + modelo + '</td>' +
-                    '<td>' + precio + '</td>' +
-                    '<td>' + vitrina + '</td>' +
+                    '<td>$' + precio + '</td>' +
+                    '<td>$' + vitrina + '</td>' +
                     '<td>' + caracteristicas + '</td>' +
                     '<td><img src="../../style/Img/editarNor.jpg"  data-toggle="modal" ' +
                     'data-target="#modalEditarProducto" alt="Editar"  onclick="editarProducto(' + idElectronico + ')"></td>' +

@@ -84,9 +84,9 @@ function limpiarTablaInteres() {
     })
 }
 
-function llenarComboInteres($tipoCombo) {
+function llenarComboInteres(tipoCombo) {
     var dataEnviar = {
-        "idTipoCombo": $tipoCombo
+        "idTipoCombo": tipoCombo
     };
     $.ajax({
         type: "POST",
@@ -105,8 +105,6 @@ function llenarComboInteres($tipoCombo) {
             $('#tipoInteresEmpeno').html(html);
         }
     });
-
-
 }
 
 function LimpiarInteres() {

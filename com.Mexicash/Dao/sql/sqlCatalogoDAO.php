@@ -386,6 +386,7 @@ class sqlCatalogoDAO
         // TODO: Implement guardaCiente() method.
         try {
             $sucursal = $_SESSION["sucursal"];
+            $descripcion = mb_strtoupper($descripcion, 'UTF-8');
 
             $insertarMetal = "INSERT INTO cat_electronico_tipo(descripcion,sucursal) VALUES ('$descripcion',$sucursal)";
             if ($ps = $this->conexion->prepare($insertarMetal)) {
@@ -411,6 +412,8 @@ class sqlCatalogoDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
+            $descripcion = mb_strtoupper($descripcion, 'UTF-8');
+
             $insertarMarca = "INSERT INTO cat_electronico_marca (id_tipo, descripcion) VALUES ($tipoCombo,'$descripcion')";
             if ($ps = $this->conexion->prepare($insertarMarca)) {
                 if ($ps->execute()) {
@@ -435,6 +438,8 @@ class sqlCatalogoDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
+            $descripcion = mb_strtoupper($descripcion, 'UTF-8');
+
             $insertarMarca = "INSERT INTO cat_electronico_modelo (id_tipo,id_marca, descripcion) VALUES ($tipoCombo,$marcaCombo,'$descripcion')";
             if ($ps = $this->conexion->prepare($insertarMarca)) {
                 if ($ps->execute()) {
@@ -459,6 +464,8 @@ class sqlCatalogoDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
+            $caracteristicas = mb_strtoupper($caracteristicas, 'UTF-8');
+
             $insertarProducto = "INSERT INTO cat_electronico (tipo,marca, modelo,precio,vitrina,caracteristicas) VALUES ($cmbTipo,$cmbMarca,$cmbModelo,$precio,$vitrina,'$caracteristicas')";
             if ($ps = $this->conexion->prepare($insertarProducto)) {
                 if ($ps->execute()) {
@@ -531,7 +538,6 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
                         INNER JOIN cat_electronico_tipo as CT on E.tipo = CT.id_tipo
                         INNER JOIN cat_electronico_marca as CM on E.marca = CM.id_marca
                         INNER JOIN cat_electronico_modelo as CMO on E.modelo = CMO.id_modelo WHERE idElectronico = $idProducto";
-
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
