@@ -9,7 +9,6 @@ var idBazarGlb = 0;
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
         var key = $('#idNombreVenta').val();
-        var dataString = 'idNombres=' + key;
         var dataEnviar = {
             "idNombres": key
         };
@@ -46,7 +45,7 @@ function nombreAutocompletarVenta() {
 function busquedaCodigoMostrador(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -77,7 +76,6 @@ function busquedaCodigoMostradorBoton() {
                     var id_Contrato = datos[i].id_ContratoBaz;
                     var id_Bazar = datos[i].id_Bazar;
                     var id_serie = datos[i].id_serieBaz;
-                    var id_serieTipo = datos[i].id_serieTipo;
                     var empeno = datos[i].empeno;
                     var precio_venta = datos[i].precio_venta;
                     var descripcionCorta = datos[i].descripcionCorta;
@@ -90,8 +88,8 @@ function busquedaCodigoMostradorBoton() {
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
 
-                    if(observaciones==""){
-                        observaciones=="1";
+                    if(observaciones===""){
+                        observaciones="1";
                     }
                     tipoTabla = tipo;
 
@@ -145,7 +143,7 @@ function calcularIva(id_Bazar, precio, id_Contrato, id_serie) {
 function descuentoVenta(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -161,7 +159,7 @@ function descuentoVenta(e) {
 
         if (totalPagar < descuento) {
             alert("El descuento no puede ser mayor que el total a pagar.")
-        } else if (totalPagar == descuento) {
+        } else if (totalPagar === descuento) {
             alert("El descuento no puede ser igual que el total a pagar.")
         } else {
             $("#idEfectivo").val("");
@@ -186,7 +184,7 @@ function descuentoVenta(e) {
 function efectivoVenta(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -229,18 +227,18 @@ function validaVenta() {
     var efectivoValue = $("#idEfectivoValue").val();
     var vendedor = $("#idVendedor").val();
     var cliente = $("#idClienteSeleccion").val();
-    if (cliente == 0) {
+    if (cliente === 0) {
         alertify.warning("Favor de seleccionar el cliente.");
-    } else if (vendedor == 0) {
+    } else if (vendedor === 0) {
         alertify.warning("Favor de seleccionar el vendedor.");
-    } else if (efectivo == "" || idEfectivo == null) {
+    } else if (efectivo === "" || idEfectivo == null) {
         alertify.warning("Favor de llenar el campo de efectivo.");
     } else {
-        if (efectivoValue == 0) {
+        if (efectivoValue === 0) {
             alertify.warning("Favor de calcular el cambio.");
         } else {
             descuento = Math.floor(descuento * 100) / 100;
-            if (descuento == 0) {
+            if (descuento === 0) {
                 guardarVenta();
             } else {
                 $("#modalDescuentoVenta").modal();
@@ -306,15 +304,15 @@ function guardarVenta() {
      22->Apartado
      */
     id_ClienteGlb = $("#idClienteSeleccion").val();
-    if (id_ClienteGlb == 0) {
+    if (id_ClienteGlb === 0) {
         alert("Debe seleccionar un cliente para el apartado.");
     } else {
         var vendedor = $("#idVendedor").val();
-        if (vendedor == 0) {
+        if (vendedor === 0) {
             alert("Debe seleccionar un vendedor para el apartado.");
         } else {
             var efectivo = $("#idEfectivoValue").val();
-            if (efectivo == 0) {
+            if (efectivo === 0) {
                 alert("Debe calcular el cambio del cliente.");
             } else {
 
@@ -325,7 +323,7 @@ function guardarVenta() {
                 var idToken = $("#idToken").val();
                 var tokenDesc = "";
 
-                if (idToken != 0) {
+                if (idToken !== 0) {
                     tokenDesc = $("#tokenDescripcion").val();
                 }
 

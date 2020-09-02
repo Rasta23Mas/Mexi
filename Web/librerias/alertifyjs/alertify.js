@@ -2284,8 +2284,8 @@
              *  A minimum height equal to the sum of header/footer heights.
              *
              *
-             * @param {Number or String} width    The new dialog width in pixels or in percent.
-             * @param {Number or String} height   The new dialog height in pixels or in percent.
+             * @param Number or String width    The new dialog width in pixels or in percent.
+             * @param Number or String height   The new dialog height in pixels or in percent.
              *
              * @return {Object} The dialog instance.
              */

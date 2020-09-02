@@ -14,10 +14,7 @@ function empenosBazar() {
         success: function (datos) {
             var i = 0;
             var entradasInfo = 0;
-            var utilidadVenta = 0;
-
             for (i; i < datos.length; i++) {
-                var id_movimiento = datos[i].id_movimiento;
                 var prestamo_Informativo = datos[i].prestamo_Informativo;
                 prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
                 entradasInfo += prestamo_Informativo;
@@ -46,10 +43,8 @@ function refrendosBazar() {
         success: function (datos) {
             var i = 0;
             var entradasInfo = 0;
-            var utilidadVenta = 0;
 
             for (i; i < datos.length; i++) {
-                var id_movimiento = datos[i].id_movimiento;
                 var prestamo_Informativo = datos[i].prestamo_Informativo;
                 prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
                 entradasInfo += prestamo_Informativo;

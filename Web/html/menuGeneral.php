@@ -30,8 +30,8 @@ $_SESSION['dotaciones'] = 0;
             var cajaInactiva = <?php echo $sesionInactiva; ?>;
             var sesionInactiva = <?php echo $sesionInactiva; ?>;
 
-            if (tipoUser == 3) {
-                if (cajaInactiva == 0) {
+            if (tipoUser === 3) {
+                if (cajaInactiva === 0) {
                     $("#menuEmpeno").show();
                     $("#menuEmpenoAuto").show();
                     $("#menuVentas").show();
@@ -47,7 +47,7 @@ $_SESSION['dotaciones'] = 0;
                     $("#CI_Caja").hide();
                 }
 
-                if (sesionInactiva == 0) {
+                if (sesionInactiva === 0) {
                     $("#menuCierre").show();
                 } else {
                     $("#menuCierre").hide();

@@ -1,5 +1,5 @@
 function SeleccionarInteres(tipoInteresValue,tipoFormulario) {
-    if (tipoInteresValue != "null" || tipoInteresValue != 0) {
+    if (tipoInteresValue !== "null" || tipoInteresValue !== 0) {
         var dataEnviar = {
             "tipoInteresValue": tipoInteresValue
         };
@@ -9,7 +9,7 @@ function SeleccionarInteres(tipoInteresValue,tipoFormulario) {
             type: 'post',
             dataType: "json",
             success: function (response) {
-                if (response.status == 'ok') {
+                if (response.status === 'ok') {
                     document.getElementById('idTipoInteres').innerHTML = response.result.tipoInteres;
                     document.getElementById('idPeriodo').innerHTML = response.result.periodo;
                     var diasPeriodo = response.result.dias;
@@ -46,7 +46,7 @@ function llenarAforoAvaluo(tipoFormulario) {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 var porcentajeAforo = response.result.Porcentaje;
                 $("#idAforo").val(porcentajeAforo);
             }
@@ -63,7 +63,7 @@ function llenarMontoToken() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 var Monto = response.result.Monto;
                 $("#idMontoToken").val(Monto);
             }
@@ -75,7 +75,7 @@ function limpiarTablaInteres() {
         url: '../../../com.Mexicash/Controlador/ArticulosObsoletos.php',
         type: 'post',
         success: function (response) {
-            if (response == -1 || response == 0) {
+            if (response === -1 || response === 0) {
                 alertify.error("Error 0001.");
             } else {
                 alertify.warning("Se limpio tabla por modificar el tipo de interes.");

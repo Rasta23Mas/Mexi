@@ -268,7 +268,7 @@ jQuery.extend( {
 
 	isWindow: function( obj ) {
 		/* jshint eqeqeq: false */
-		return obj != null && obj == obj.window;
+		return obj != null && obj === obj.window;
 	},
 
 	isNumeric: function( obj ) {
@@ -3999,7 +3999,7 @@ function internalRemoveData( elem, name, pvt ) {
 
 	// Use delete when supported for expandos or `cache` is not a window per isWindow (#10080)
 	/* jshint eqeqeq: false */
-	} else if ( support.deleteExpando || cache != cache.window ) {
+	} else if ( support.deleteExpando || cache !== cache.window ) {
 		/* jshint eqeqeq: true */
 		delete cache[ id ];
 
@@ -5259,7 +5259,7 @@ jQuery.event = {
 			( event.type !== "click" || isNaN( event.button ) || event.button < 1 ) ) {
 
 			/* jshint eqeqeq: false */
-			for ( ; cur != this; cur = cur.parentNode || this ) {
+			for ( ; cur !== this; cur = cur.parentNode || this ) {
 				/* jshint eqeqeq: true */
 
 				// Don't check non-elements (#13208)

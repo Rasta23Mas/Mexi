@@ -31,7 +31,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     <script src="../../JavaScript/funcionesMovimiento.js"></script>
     <script type="application/javascript">
         var form = <?php echo $tipoFormularioGet?>;
-        var $ContratoEnviado = <?php echo $ContratoGet?>;
+        var ContratoEnviado = <?php echo $ContratoGet?>;
         var nameForm = "Error";
         var tipoArticuloOAuto = 0;
         form = parseInt(form);
@@ -39,7 +39,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             $("#btnGenerar").prop('disabled', true);
             $("#idFormulario").val(form);
 
-             if (form == 3) {
+             if (form === 3) {
                 nameForm = "Desempeño";
                 $("#idGPSTH").hide();
                 $("#idPensionTH").hide();
@@ -59,7 +59,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                 tipoArticuloOAuto = 1;
                 $("#idTipoDeContrato").val(tipoArticuloOAuto);
                 $("#trAbonoNotaNuevo").hide();
-            } else if (form == 4) {
+            } else if (form === 4) {
                 nameForm = "Desempeño Auto";
                 tipoArticuloOAuto = 2;
                 $("#trAbonoNotaNuevo").hide();
@@ -72,8 +72,8 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             }
 
             document.getElementById('nameFormLbl').innerHTML = nameForm;
-            if ($ContratoEnviado != 0) {
-                $("#idContrato").val($ContratoEnviado);
+            if (ContratoEnviado !== 0) {
+                $("#idContrato").val(ContratoEnviado);
                 busquedaMovimiento();
                 $("#btnGenerar").hide();
                 $("#btnGenerarSinInteres").show();

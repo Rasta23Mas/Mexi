@@ -16,46 +16,46 @@ function cargarHorario() {
                     var Salida = datos[i].Salida;
                     var Estatus = datos[i].Estatus;
 
-                    if(dia_Num==1){
+                    if(dia_Num===1){
                         $("#lunesEntrada").val(Entrada);
                         $("#lunesSalida").val(Salida);
-                        if(Estatus==0){
+                        if(Estatus===0){
                             document.getElementById("checkLunes").checked = false;
                         }
-                    } else if(dia_Num==2){
+                    } else if(dia_Num===2){
                         $("#martesEntrada").val(Entrada);
                         $("#martesSalida").val(Salida);
-                        if(Estatus==0){
+                        if(Estatus===0){
                             document.getElementById("checkMartes").checked = false;
                         }
-                    }else if(dia_Num==3){
+                    }else if(dia_Num===3){
                         $("#miercolesEntrada").val(Entrada);
                         $("#miercolesSalida").val(Salida);
-                        if(Estatus==0){
+                        if(Estatus===0){
                             document.getElementById("checkMiercoles").checked = false;
                         }
-                    } else if(dia_Num==4){
+                    } else if(dia_Num===4){
                         $("#juevesEntrada").val(Entrada);
                         $("#juevesSalida").val(Salida);
-                        if(Estatus==0){
+                        if(Estatus===0){
                             document.getElementById("checkJueves").checked = false;
                         }
-                    } else if(dia_Num==5){
+                    } else if(dia_Num===5){
                         $("#viernesEntrada").val(Entrada);
                         $("#viernesSalida").val(Salida);
-                        if(Estatus==0){
+                        if(Estatus===0){
                             document.getElementById("checkViernes").checked = false;
                         }
-                    } else if(dia_Num==6){
+                    } else if(dia_Num===6){
                         $("#sabadoEntrada").val(Entrada);
                         $("#sabadoSalida").val(Salida);
-                        if(Estatus==0){
+                        if(Estatus===0){
                             document.getElementById("checkSabado").checked = false;
                         }
-                    } else if(dia_Num==7){
+                    } else if(dia_Num===7){
                         $("#domingoEntrada").val(Entrada);
                         $("#domingoSalida").val(Salida);
-                        if(Estatus==0){
+                        if(Estatus===0){
                             document.getElementById("checkDomingo").checked = false;
                         }
                     }
@@ -65,7 +65,7 @@ function cargarHorario() {
     }
 
 function editarHorario(idHorario) {
-    if (idHorario == 1) {
+    if (idHorario === 1) {
         $("#lunesEntrada").prop('disabled', false);
         $("#lunesSalida").prop('disabled', false);
         $("#btnGuardarLun").prop('disabled', false);
@@ -97,7 +97,7 @@ function editarHorario(idHorario) {
         $("#checkDomingo").prop('disabled', true);
 
 
-    } else if (idHorario == 2) {
+    } else if (idHorario === 2) {
         $("#lunesEntrada").prop('disabled', true);
         $("#lunesSalida").prop('disabled', true);
         $("#btnGuardarLun").prop('disabled', true);
@@ -127,7 +127,7 @@ function editarHorario(idHorario) {
         $("#checkViernes").prop('disabled', true);
         $("#checkSabado").prop('disabled', true);
         $("#checkDomingo").prop('disabled', true);
-    } else if (idHorario == 3) {
+    } else if (idHorario === 3) {
         $("#lunesEntrada").prop('disabled', true);
         $("#lunesSalida").prop('disabled', true);
         $("#btnGuardarLun").prop('disabled', true);
@@ -157,7 +157,7 @@ function editarHorario(idHorario) {
         $("#checkViernes").prop('disabled', true);
         $("#checkSabado").prop('disabled', true);
         $("#checkDomingo").prop('disabled', true);
-    } else if (idHorario == 4) {
+    } else if (idHorario === 4) {
         $("#lunesEntrada").prop('disabled', true);
         $("#lunesSalida").prop('disabled', true);
         $("#btnGuardarLun").prop('disabled', true);
@@ -187,7 +187,7 @@ function editarHorario(idHorario) {
         $("#checkViernes").prop('disabled', true);
         $("#checkSabado").prop('disabled', true);
         $("#checkDomingo").prop('disabled', true);
-    } else if (idHorario == 5) {
+    } else if (idHorario === 5) {
         $("#lunesEntrada").prop('disabled', true);
         $("#lunesSalida").prop('disabled', true);
         $("#btnGuardarLun").prop('disabled', true);
@@ -217,7 +217,7 @@ function editarHorario(idHorario) {
         $("#checkViernes").prop('disabled', false);
         $("#checkSabado").prop('disabled', true);
         $("#checkDomingo").prop('disabled', true);
-    } else if (idHorario == 6) {
+    } else if (idHorario === 6) {
         $("#lunesEntrada").prop('disabled', true);
         $("#lunesSalida").prop('disabled', true);
         $("#btnGuardarLun").prop('disabled', true);
@@ -247,7 +247,7 @@ function editarHorario(idHorario) {
         $("#checkViernes").prop('disabled', true);
         $("#checkSabado").prop('disabled', false);
         $("#checkDomingo").prop('disabled', true);
-    } else if (idHorario == 7) {
+    } else if (idHorario === 7) {
         $("#lunesEntrada").prop('disabled', true);
         $("#lunesSalida").prop('disabled', true);
         $("#btnGuardarLun").prop('disabled', true);
@@ -284,7 +284,7 @@ function validarHorario(idGuardar) {
     var idHorarioIni = "";
     var idHorarioFin = "";
     var idEstatus = 0;
-    if (idGuardar == 1) {
+    if (idGuardar === 1) {
          idHorarioIni = $("#lunesEntrada").val();
          idHorarioFin = $("#lunesSalida").val();
         $("#lunesEntrada").prop('disabled', true);
@@ -293,7 +293,7 @@ function validarHorario(idGuardar) {
         if ($('#checkLunes').is(":checked")) {
             idEstatus = 1;
         }
-    } else if (idGuardar == 2) {
+    } else if (idGuardar === 2) {
         idHorarioIni = $("#martesEntrada").val();
         idHorarioFin = $("#martesSalida").val();
         $("#martesEntrada").prop('disabled', true);
@@ -302,7 +302,7 @@ function validarHorario(idGuardar) {
         if ($('#checkMartes').is(":checked")) {
             idEstatus = 1;
         }
-    } else if (idGuardar == 3) {
+    } else if (idGuardar === 3) {
         idHorarioIni = $("#miercolesEntrada").val();
         idHorarioFin = $("#miercolesSalida").val();
         $("#miercolesEntrada").prop('disabled', true);
@@ -312,7 +312,7 @@ function validarHorario(idGuardar) {
             idEstatus = 1;
         }
 
-    } else if (idGuardar == 4) {
+    } else if (idGuardar === 4) {
         idHorarioIni = $("#juevesEntrada").val();
         idHorarioFin = $("#juevesSalida").val();
         $("#juevesEntrada").prop('disabled', true);
@@ -321,7 +321,7 @@ function validarHorario(idGuardar) {
         if ($('#checkJueves').is(":checked")) {
             idEstatus = 1;
         }
-    } else if (idGuardar == 5) {
+    } else if (idGuardar === 5) {
         idHorarioIni = $("#viernesEntrada").val();
         idHorarioFin = $("#viernesSalida").val();
         $("#viernesEntrada").prop('disabled', true);
@@ -330,7 +330,7 @@ function validarHorario(idGuardar) {
         if ($('#checkViernes').is(":checked")) {
             idEstatus = 1;
         }
-    } else if (idGuardar == 6) {
+    } else if (idGuardar === 6) {
         idHorarioIni = $("#sabadoEntrada").val();
         idHorarioFin = $("#sabadoSalida").val();
         $("#sabadoEntrada").prop('disabled', true);
@@ -339,7 +339,7 @@ function validarHorario(idGuardar) {
         if ($('#checkSabado').is(":checked")) {
             idEstatus = 1;
         }
-    } else if (idGuardar == 7) {
+    } else if (idGuardar === 7) {
         idHorarioIni = $("#viernesEntrada").val();
         idHorarioFin = $("#viernesSalida").val();
         $("#domingoEntrada").prop('disabled', true);
@@ -363,7 +363,7 @@ function validarToken(idGuardar,idHorarioIni,idHorarioFin,idEstatus){
      idHorarioFinGlb = idHorarioFin;
      idEstatusGlb = idEstatus;
     var tipoUser = $("#tipoUser").val();
-     if(tipoUser==2){
+     if(tipoUser===2){
          guardarHorario();
      }else{
          $("#modalTokenHorario").modal();
@@ -417,12 +417,12 @@ function guardarHorario(){
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Configuracion/GuardarHorario.php',
         success: function (retorna) {
-            if (retorna == 1) {
+            if (retorna === 1) {
                 var tipoUser = $("#tipoUser").val();
 
-                if(tipoUser==2){
+                if(tipoUser===2){
                     alert("Horario modificado con éxito.");
-                    var  recargar = setTimeout(function(){ location.reload() }, 3000);
+                    setTimeout(function(){ location.reload() }, 3000);
 
                 }else{
                     actualizarToken();
@@ -450,9 +450,9 @@ function actualizarToken(){
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Configuracion/BitacoraToken.php',
         success: function (retorna) {
-            if (retorna == 1) {
+            if (retorna === 1) {
                 alert("Horario modificado con éxito.");
-                var  recargar = setTimeout(function(){ location.reload() }, 3000);
+                setTimeout(function(){ location.reload() }, 3000);
 
             } else {
                 alertify.error("Error al guardar modificación de horario. Por favor actualice y vuelva a intentar");

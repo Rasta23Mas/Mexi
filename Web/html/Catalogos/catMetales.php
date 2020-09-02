@@ -33,7 +33,8 @@ include_once(SQL_PATH . "sqlCatalogoDAO.php");
     <script type="application/javascript">
         $(document).ready(function () {
             selectPrenda();
-            var tipoUsuario = <?php echo $tipoUsuario; ?>;
+            var tipoUsuario = 0;
+            tipoUsuario = <?php echo $tipoUsuario; ?>;
             $("#idTipoUserCat").val(tipoUsuario);
         })
     </script>

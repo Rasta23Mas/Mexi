@@ -28,12 +28,12 @@ include_once (HTML_PATH."menuAdmin.php");
         $(document).ready(function () {
             var sesionInactiva =<?php echo $sesionInactiva ?>;
             var $cajaInactiva =<?php echo $cajaInactiva ?>;
-            if(sesionInactiva==0){
+            if(sesionInactiva===0){
                 $("#sesionInactiva").hide();
             }else{
                 $("#sesionInactiva").show();
             }
-            if($cajaInactiva==0){
+            if($cajaInactiva===0){
                 $("#cajaInactiva").hide();
             }else{
                 $("#cajaInactiva").show();

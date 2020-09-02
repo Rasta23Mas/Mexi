@@ -14,46 +14,46 @@ function agregarCliente() {
     var idCalle = $("#idCalle").val();
     var idNumExt = $("#idNumExt").val();
     var validacion = true;
-    if (idNombre == "" || idNombre == null) {
+    if (idNombre === "" || idNombre == null) {
         alert("Por favor ingrese un nombre.");
         validacion = false;
-    } else if (idApPat == "" || idApPat == null) {
+    } else if (idApPat === "" || idApPat == null) {
         alert("Por favor ingrese apellido paterno.");
         validacion = false;
-    } else if (idSexo == 0 || idSexo == null) {
+    } else if (idSexo === 0 || idSexo == null) {
         alert("Por favor seleccione el campo sexo.");
         validacion = false;
-    } else if (idFechaNac == "" || idFechaNac == null) {
+    } else if (idFechaNac === "" || idFechaNac == null) {
         alert("Por favor ingrese fecha de nacimiento.");
         validacion = false;
-    } else if (idCelular == "" || idCelular == null) {
+    } else if (idCelular === "" || idCelular == null) {
         alert("Por favor ingrese numero celular.");
         validacion = false;
-    } else if (idIdentificacion == 0 || idIdentificacion == null) {
+    } else if (idIdentificacion === 0 || idIdentificacion == null) {
         alert("Por favor ingrese tipo de identificacion.");
         validacion = false;
-    } else if (idNumIdentificacion == "" || idNumIdentificacion == null) {
+    } else if (idNumIdentificacion === "" || idNumIdentificacion == null) {
         alert("Por favor ingrese número de identificación.");
         validacion = false;
-    } else if (idEstado == 0 || idEstado == null) {
+    } else if (idEstado === 0 || idEstado == null) {
         alert("Por favor seleccione un estado.");
         validacion = false;
-    } else if (idMunicipio == 0 || idMunicipio == null) {
+    } else if (idMunicipio === 0 || idMunicipio == null) {
         alert("Por favor seleccione un municipio.");
         validacion = false;
-    } else if (idLocalidad == 0 || idLocalidad == null) {
+    } else if (idLocalidad === 0 || idLocalidad == null) {
         alert("Por favor seleccione una Localidad.");
         validacion = false;
-    } else if (idCalle == "" || idCalle == null) {
+    } else if (idCalle === "" || idCalle == null) {
         alert("Por favor ingrese la calle.");
         validacion = false;
-    } else if (idNumExt == "" || idNumExt == null) {
+    } else if (idNumExt === "" || idNumExt == null) {
         alert("Por favor ingrese número exterior.");
         validacion = false;
     }
 
 
-    if (validacion == true) {
+    if (validacion === true) {
         var dataEnviar = {
             "idNombre": idNombre,
             "idApPat": idApPat,
@@ -83,7 +83,7 @@ function agregarCliente() {
             url: '../../../com.Mexicash/Controlador/Cliente/RegistroCliente.php',
             type: 'post',
             success: function (response) {
-                if (response == 1) {
+                if (response === 1) {
                     $("#idFormRegistro")[0].reset();
                     $("#modalRegistroNuevo").modal('hide');//ocultamos el modal
                     $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
@@ -106,7 +106,7 @@ function buscarClienteAgregado() {
         url: '../../../com.Mexicash/Controlador/Cliente/BuscarClienteAgregado.php',
         dataType: "json",
         success: function (response) {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 $("#idClienteEmpeno").val(response.result.id_Cliente);
                 $("#idNombres").val(response.result.NombreCompleto);
                 $("#idCelularEmpeno").val(response.result.celular);
@@ -118,13 +118,11 @@ function buscarClienteAgregado() {
 }
 
 //Funcion mostrar todos los clientes con un mismo nombre
-function mostrarTodos($idNombres) {
+function mostrarTodos(idNombres) {
     $('#suggestionsNombreEmpeno').fadeOut(1000);
-    var Mostrar = 0;
-    if ($idNombres == '' || $idNombres == null) {
+    var Mostrar = 2;
+    if (idNombres = '' || idNombres === null) {
         Mostrar = 1;
-    } else {
-        Mostrar = 2;
     }
     var dataEnviar = {
         "Mostrar": Mostrar,
@@ -139,7 +137,7 @@ function mostrarTodos($idNombres) {
             var html = '';
             var i = 0;
             $("#modalBusquedaCliente").modal();
-            if (datos.length == 0) {
+            if (datos.length === 0) {
                 $("#idNombres").val('');
                 $("#idClienteEmpeno").val('');
                 $("#idCelularEmpeno").val('');
@@ -180,7 +178,7 @@ function mostrarTodos($idNombres) {
 //Funcion ver el historial de un cliente
 function historial(clienteEmpeno) {
     $('#suggestionsNombreEmpeno').fadeOut(1000);
-    if (clienteEmpeno == '' || clienteEmpeno == null) {
+    if (clienteEmpeno === '' || clienteEmpeno == null) {
         alert("Por seleccione un cliente.")
     } else {
         var dataEnviar = {
@@ -195,14 +193,13 @@ function historial(clienteEmpeno) {
                 $("#modalHistorial").modal();
                 var html = '';
                 var i = 0;
-                if (datos.length == 0) {
+                if (datos.length === 0) {
                     html += '<tr>' +
                         '<td colspan="8" align="center">Sin datos para mostrar</td>' +
                         '</tr>';
                 } else {
                     for (i; i < datos.length; i++) {
                         var contrato = datos[i].ContratoHistorial;
-                        var id_Cliente = datos[i].Cliente;
                         var NombreCompleto = datos[i].NombreCompleto;
                         var Interes = datos[i].Interes;
                         var FechaVenc = datos[i].FechaVenc;
@@ -212,7 +209,7 @@ function historial(clienteEmpeno) {
                         var Observ = "";
                         var Detalle = "";
                         var tipoArticulo = "";
-                        if (Form == 3) {
+                        if (Form === 3) {
                             Observ = datos[i].ObserAuto;
                             Detalle = datos[i].DetalleAuto;
 
@@ -221,37 +218,6 @@ function historial(clienteEmpeno) {
                             Detalle = datos[i].DescripcionCorta;
 
                             Observ = datos[i].Obs;
-                        }
-
-                        if (NombreCompleto === null) {
-                            NombreCompleto = '';
-                        }
-                        if (Interes === null) {
-                            Interes = '';
-                        }
-                        if (FechaVenc === null) {
-                            FechaVenc = '';
-                        }
-                        if (NombreCompleto === null) {
-                            NombreCompleto = '';
-                        }
-                        if (FechaVenc === null) {
-                            FechaVenc = '';
-                        }
-                        if (FechaCreac === null) {
-                            FechaCreac = '';
-                        }
-                        if (Observ === null) {
-                            Observ = '';
-                        }
-                        if (EstDesc === null) {
-                            EstDesc = '';
-                        }
-                        if (NombreCompleto === null) {
-                            NombreCompleto = '';
-                        }
-                        if (Detalle === null) {
-                            Detalle = '';
                         }
 
                         Observ = Observ.toUpperCase();
@@ -335,7 +301,6 @@ function historialCount($clienteEmpeno) {
 function nombreAutocompletar() {
     $('#idNombres').on('keyup', function () {
         var key = $('#idNombres').val();
-        var dataString = 'idNombres=' + key;
         var dataEnviar = {
             "idNombres": key
         };
@@ -369,40 +334,15 @@ function nombreAutocompletar() {
     });
 }
 
-//funcion limpiar modal registro
-function LimpiarRegistroCliente() {
-    $("#idNombre").val("");
-    $("#idApPat").val("");
-    $("#idApMat").val("");
-    $("#idFechaNac").val("");
-    $("#idSexo").val("");
-    $("#idRfc").val("");
-    $("#idCurp").val("");
-    $("#idCelular").val("");
-    $("#idTelefono").val("");
-    $("#idCorreo").val("");
-    $("#idOcupacion").val("");
-    $("#idIdentificacion").val("");
-    $("#idNumIdentificacion").val("");
-    $("#idEstado").val("");
-    $("#idMunicipio").val("");
-    $("#idLocalidad").val("");
-    $("#idCalle").val("");
-    $("#idCP").val("");
-    $("#idNumExt").val("");
-    $("#idNumInt").val("");
-    $("#idPromocion").val("");
-    $("#idMensajeInterno").val("");
-}
 
 //Funcion modal Editar cliente
 function modalEditarCliente($clienteEmpeno) {
     $("#idFormRegistro")[0].reset();
     $("#idClienteEditar").val($clienteEmpeno);
-    if ($clienteEmpeno == '' || $clienteEmpeno == null) {
+    if ($clienteEmpeno === '' || $clienteEmpeno == null) {
         alert("Por favor selecciona un cliente.")
     } else {
-        if ($("#idNombres").val() == '' || $("#idNombres").val == null) {
+        if ($("#idNombres").val() === '' || $("#idNombres").val == null) {
             alert("Por favor selecciona un cliente.")
         } else {
             var dataEnviar = {
@@ -414,7 +354,8 @@ function modalEditarCliente($clienteEmpeno) {
                 data: dataEnviar,
                 dataType: "json",
                 success: function (datos) {
-                    for (i = 0; i < datos.length; i++) {
+                    var i = 0;
+                    for (i; i < datos.length; i++) {
                         var nombre = datos[i].nombre;
                         var apellido_Pat = datos[i].apellido_Pat;
                         var apellido_Mat = datos[i].apellido_Mat;
@@ -539,7 +480,7 @@ function modalEditarCliente($clienteEmpeno) {
 //Alerta para confirmar la actualizacion
 function confirmarActualizacion() {
     var idClienteEdit = $("#idClienteEditar").val();
-    if (idClienteEdit == "" || idClienteEdit == null) {
+    if (idClienteEdit === "" || idClienteEdit == null) {
         alert("Por favor seleccione un usuario en la pantalla anterior.");
         $("#modalEditarNuevo").modal('hide');//ocultamos el modal
         $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
@@ -575,46 +516,46 @@ function actualizarCliente() {
     var idCalle = $("#idCalleEdit").val();
     var idNumExt = $("#idNumExtEdit").val();
     var validacion = true;
-    if (idNombre == "" || idNombre == null) {
+    if (idNombre === "" || idNombre == null) {
         alert("Por favor ingrese un nombre.");
         validacion = false;
-    } else if (idApPat == "" || idApPat == null) {
+    } else if (idApPat === "" || idApPat == null) {
         alert("Por favor ingrese apellido paterno.");
         validacion = false;
-    } else if (idSexo == "" || idSexo == null) {
+    } else if (idSexo === "" || idSexo == null) {
         alert("Por favor seleccione el campo sexo.");
         validacion = false;
-    } else if (idFechaNac == "" || idFechaNac == null) {
+    } else if (idFechaNac === "" || idFechaNac == null) {
         alert("Por favor ingrese fecha de nacimiento.");
         validacion = false;
-    } else if (idCelular == "" || idCelular == null) {
+    } else if (idCelular === "" || idCelular == null) {
         alert("Por favor ingrese numero celular.");
         validacion = false;
-    } else if (idIdentificacion == "" || idIdentificacion == null) {
+    } else if (idIdentificacion === "" || idIdentificacion == null) {
         alert("Por favor ingrese tipo de identificacion.");
         validacion = false;
-    } else if (idNumIdentificacion == "" || idNumIdentificacion == null) {
+    } else if (idNumIdentificacion === "" || idNumIdentificacion == null) {
         alert("Por favor ingrese número de identificación.");
         validacion = false;
-    } else if (idEstado == "" || idEstado == null) {
+    } else if (idEstado === "" || idEstado == null) {
         alert("Por favor seleccione un estado.");
         validacion = false;
-    } else if (idMunicipio == "" || idMunicipio == null) {
+    } else if (idMunicipio === "" || idMunicipio == null) {
         alert("Por favor seleccione un municipio.");
         validacion = false;
-    } else if (idLocalidad == "" || idLocalidad == null) {
+    } else if (idLocalidad === "" || idLocalidad == null) {
         alert("Por favor seleccione una Localidad.");
         validacion = false;
-    } else if (idCalle == "" || idCalle == null) {
+    } else if (idCalle === "" || idCalle == null) {
         alert("Por favor ingrese la calle.");
         validacion = false;
-    } else if (idNumExt == "" || idNumExt == null) {
+    } else if (idNumExt === "" || idNumExt == null) {
         alert("Por favor ingrese número exterior.");
         validacion = false;
     }
 
 
-    if (validacion == true) {
+    if (validacion === true) {
         var dataEnviar = {
             "idClienteEditar": $("#idClienteEditar").val(),
             "idNombre": idNombre,
@@ -645,7 +586,7 @@ function actualizarCliente() {
             url: '../../../com.Mexicash/Controlador/Cliente/ActualizarCliente.php',
             type: 'post',
             success: function (response) {
-                if (response == 1) {
+                if (response === 1) {
                     $("#idFormRegistro")[0].reset();
                     $("#modalEditarNuevo").modal('hide');//ocultamos el modal
                     $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
@@ -672,7 +613,7 @@ function buscarClienteEditado($clienteEditado) {
         url: '../../../com.Mexicash/Controlador/Cliente/BuscarClienteEditado.php',
         dataType: "json",
         success: function (response) {
-            if (response.status == 'ok') {
+            if (response.status === 'ok') {
                 $("#idClienteEmpeno").val($clienteEditado);
                 $("#idNombres").val(response.result.NombreCompleto);
                 $("#idCelularEmpeno").val(response.result.celular);

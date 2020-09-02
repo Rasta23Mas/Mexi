@@ -42,7 +42,7 @@ function Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_pr
         success: function (response) {
             if (response > 0) {
                 alertify.success("Contrato guardado.");
-            } else if (response==-7){
+            } else if (response===-7){
                 alertify.error("Error al actualizar las fechas del contrato.");
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr06)");

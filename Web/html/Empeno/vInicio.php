@@ -34,21 +34,21 @@ $dotaciones = $_SESSION['dotaciones'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="application/javascript">
         $(document).ready(function () {
-            //var sesionInactiva =<?php echo $sesionInactiva ?>;
+            var sesionInactiva =<?php echo $sesionInactiva ?>;
             var cajaInactiva =<?php echo $cajaInactiva ?>;
             var tipoUsuario =<?php echo $tipoUsuario ?>;
-            if(sesionInactiva==0){
+            if(sesionInactiva===0){
                 $("#sesionInactiva").hide();
             }else{
                 $("#sesionInactiva").show();
             }
-            if(cajaInactiva==0){
+            if(cajaInactiva===0){
                 $("#cajaInactiva").hide();
             }else{
                 $("#cajaInactiva").show();
             }
 
-            if(tipoUsuario==2){
+            if(tipoUsuario===2){
                 $("#OpSesion").hide();
                 $("#menuGerente").hide();
                 $("#menuAdmin").show();
@@ -60,10 +60,10 @@ $dotaciones = $_SESSION['dotaciones'];
 
             var dotaciones = <?php echo $dotaciones; ?>;
 
-            if (dotaciones == 1) {
+            if (dotaciones === 1) {
                 $("#MenRapDotacion").show();
 
-            } else if (dotaciones == 0) {
+            } else if (dotaciones === 0) {
                 $("#MenRapDotacion").hide();
             }
         })

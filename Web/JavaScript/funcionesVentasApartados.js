@@ -8,7 +8,6 @@ var tipo_movimientoGlb = 22;
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
         var key = $('#idNombreVenta').val();
-        var dataString = 'idNombres=' + key;
         var dataEnviar = {
             "idNombres": key
         };
@@ -45,7 +44,7 @@ function nombreAutocompletarVenta() {
 function busquedaCodigoApartados(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -136,7 +135,7 @@ function calcularIva(id_Bazar, precio, id_Contrato, id_serie) {
 function apartadoInicial(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -177,7 +176,7 @@ function apartadoInicial(e) {
 function efectivoVenta(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -236,19 +235,19 @@ function guardarApartado() {
      22->Apartado
      */
     id_ClienteGlb = $("#idClienteVenta").val();
-    if (id_ClienteGlb == 0) {
+    if (id_ClienteGlb === 0) {
         alert("Debe seleccionar un cliente para el apartado.");
     } else {
         var vendedor = $("#idVendedor").val();
-        if (vendedor == 0) {
+        if (vendedor === 0) {
             alert("Debe seleccionar un vendedor para el apartado.");
         } else {
             var apartado = $("#idApartadoInicialValue").val();
-            if (apartado == 0) {
+            if (apartado === 0) {
                 alert("Debe calcular el apartado inicial.");
             } else {
                 var efectivo = $("#idEfectivoValue").val();
-                if (efectivo == 0) {
+                if (efectivo === 0) {
                     alert("Debe calcular el cambio del cliente.");
                 } else {
                     var iva = $("#idIvaValue").val();
@@ -325,10 +324,6 @@ function cargarPDFApartado(idBazar) {
     alert("Apartado realizado");
     $("#idFormApartados")[0].reset();
     $("#divTablaMetales").load('tablaMetales.php');
-}
-
-function verPDFApartado(idBazar) {
-    window.open('../PDF/callPdfApartados.php?pdf=1&idBazar=' + idBazar);
 }
 
 function configurarRango() {

@@ -36,7 +36,7 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
         var cierreCaja = <?php echo $idCierreCaja?>;
         document.getElementById('idCierreCaja').innerHTML = cierreCaja;
         $("#idCierreCajaSesion").val(cierreCaja);
-        if(usuariotipo==3){
+        if(usuariotipo===3){
             $("#idUsuarioCaja").prop('disabled', false);
         }
     })

@@ -3,7 +3,6 @@ var errorToken = 0;
 var tokenmovimientoGlo = 0;
 
 function generarFolio() {
-    var respuesta= 0;
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Flujo/generarFolio.php',
@@ -36,11 +35,11 @@ function buscarTotales() {
                     var sucursal = datos[i].sucursal;
                     var sucursalSesion = datos[i].sucursalSesion;
 
-                    if(id_flujoAgente==1){
+                    if(id_flujoAgente===1){
                         saldoCentral = importe;
-                    }else if(id_flujoAgente==2){
+                    }else if(id_flujoAgente===2){
                         saldoBancos = importe;
-                    }else if(id_flujoAgente==3 && sucursal==sucursalSesion){
+                    }else if(id_flujoAgente===3 && sucursal===sucursalSesion){
                         saldoBoveda = importe;
                     }
                 }
@@ -70,7 +69,7 @@ function validaCajaUsuario() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Flujo/validaCaja.php',
         success: function (retorna) {
-            if (retorna == 2) {
+            if (retorna === 2) {
                     alert("El usuario ya ha realizado el cierre de caja.");
                 location.reload();
             } else {
@@ -109,7 +108,7 @@ function saldoCajaUsuario() {
 
 function clickCentral() {
     checkCentral = $('input:radio[name=central]:checked').val();
-    if(checkCentral==5||checkCentral==6){
+    if(checkCentral===5||checkCentral===6){
         $("#idUsuarioCaja").prop('disabled', false);
     }else{
         $("#idUsuarioCaja").prop('disabled', true);
@@ -119,17 +118,17 @@ function clickCentral() {
 }
 
 function aceptarCentral() {
-    if(checkCentral!=0){
+    if(checkCentral!==0){
         var tipoUsuario = $("#idTipoUsuario").val();
         tipoUsuario = Number(tipoUsuario);
-        if(tipoUsuario==4){
+        if(tipoUsuario===4){
             alert("El usuario no tiene privilegios, para realizar las operaciones.")
             location.href='../Empeno/vInicio.php';
         }else{
             var importe = $("#importeMovimientoCentral").val();
             importe = Number(importe);
 
-            if(importe==0){
+            if(importe===0){
                 alert("Por favor, ingresa un importe.");
             }else{
                 var saldoCentral = $("#idSaldoCentralVal").val();
@@ -141,62 +140,61 @@ function aceptarCentral() {
                 saldoBanco = Number(saldoBanco);
                 saldoBoveda = Number(saldoBoveda);
                 idUsuarioCaja = Number(idUsuarioCaja);
-                saldoCaja = Number(saldoCaja);
                 var pideToken = 0;
 
                 var validate = true;
                 var cat_token_movimiento = 0;
-                if(checkCentral==1){
+                if(checkCentral===1){
                     cat_token_movimiento = 3;
                     pideToken =1;
                     if(importe>saldoCentral){
                         alert("El importe no puede ser mayor al Saldo de Central.");
                         validate = false;
                     }
-                }else if(checkCentral==2){
+                }else if(checkCentral===2){
                     cat_token_movimiento = 4;
                     pideToken =1;
                     if(importe>saldoBanco){
                         alert("El importe no puede ser mayor al Saldo de Bancos.");
                         validate = false;
                     }
-                }else if(checkCentral==3){
+                }else if(checkCentral===3){
                     cat_token_movimiento = 5;
                     pideToken =1;
                     if(importe>saldoBanco){
                         alert("El importe no puede ser mayor al Saldo de Bancos.");
                         validate = false;
                     }
-                }else if(checkCentral==4){
+                }else if(checkCentral===4){
                     cat_token_movimiento = 6;
                     pideToken =1;
                     if(importe>saldoBoveda){
                         alert("El importe no puede ser mayor al Saldo de Bóveda.");
                         validate = false;
                     }
-                }else if(checkCentral==5){
+                }else if(checkCentral===5){
                     if(importe>saldoBoveda){
                         alert("El importe no puede ser mayor al Saldo de Bóveda.");
                         validate = false;
                     }
-                    if(idUsuarioCaja==0){
+                    if(idUsuarioCaja===0){
                         alert("Seleccione un vendedor.");
                         validate = false;
                     }
-                }else if(checkCentral==6){
+                }else if(checkCentral===6){
                   /*  if (importe > saldoCaja) {
                         alert("El importe no puede ser mayor al Saldo de la Caja.");
                         validate = false;
                     }*/
-                    if(idUsuarioCaja==0){
+                    if(idUsuarioCaja===0){
                         alert("Seleccione un vendedor.");
                         validate = false;
                     }
                 }
                 if(validate){
 
-                    if(tipoUsuario==3){
-                        if(pideToken ==1){
+                    if(tipoUsuario===3){
+                        if(pideToken ===1){
                             tokenmovimientoGlo = cat_token_movimiento;
                             $("#modalFlujo").modal();
                         }else{
@@ -271,21 +269,21 @@ function guardarFlujoTotales(importe) {
 
 
 
-    if(checkCentral==1){
+    if(checkCentral===1){
         //CENTRAL A BANCOS
         saldoCentralFinal = saldoCentral - importe;
         saldoBancoFinal = saldoBanco + importe;
         saldoCentralFinal = Math.round(saldoCentralFinal * 100) / 100;
         saldoBancoFinal = Math.round(saldoBancoFinal * 100) / 100;
         saldoBovedaFinal = saldoBoveda;
-    }else if(checkCentral==2){
+    }else if(checkCentral===2){
         //BANCOS A CENTRAL
         saldoBancoFinal = saldoBanco - importe;
         saldoCentralFinal = saldoCentral + importe;
         saldoCentralFinal = Math.round(saldoCentralFinal * 100) / 100;
         saldoBancoFinal = Math.round(saldoBancoFinal * 100) / 100;
         saldoBovedaFinal = saldoBoveda;
-    }else if(checkCentral==3){
+    }else if(checkCentral===3){
         //BANCOS A BOVEDA
         saldoCentralFinal = saldoCentral;
         saldoBancoFinal = saldoBanco - importe;
@@ -293,14 +291,14 @@ function guardarFlujoTotales(importe) {
         saldoBancoFinal = Math.round(saldoBancoFinal * 100) / 100;
         saldoBovedaFinal = Math.round(saldoBovedaFinal * 100) / 100;
 
-    }else if(checkCentral==4){
+    }else if(checkCentral===4){
         //BOVEDA A BANCO
         saldoCentralFinal = saldoCentral;
         saldoBancoFinal = saldoBanco + importe;
         saldoBovedaFinal = saldoBoveda - importe;
         saldoBancoFinal = Math.round(saldoBancoFinal * 100) / 100;
         saldoBovedaFinal = Math.round(saldoBovedaFinal * 100) / 100;
-    }else if(checkCentral==5){
+    }else if(checkCentral===5){
         //BOVEDA A CAJA
         saldoCentralFinal = saldoCentral;
         saldoBancoFinal = saldoBanco;
@@ -308,7 +306,7 @@ function guardarFlujoTotales(importe) {
         saldoCajaFinal = saldoCaja + importe;
         saldoBovedaFinal = Math.round(saldoBovedaFinal * 100) / 100;
         saldoCajaFinal = Math.round(saldoCajaFinal * 100) / 100;
-    }else if(checkCentral==6){
+    }else if(checkCentral===6){
         //CAJA A BOVEDA
         saldoCentralFinal = saldoCentral;
         saldoBancoFinal = saldoBanco ;
@@ -365,8 +363,8 @@ function guardarFlujo(importe) {
         success: function (response) {
             if (response > 0) {
                 alert("Movimiento guardado.");
-                var  recargar = setTimeout(function(){  cargarPDFDepositaria(idFolio); }, 2000);
-                var  pdf = setTimeout(function(){ location.reload() }, 3000);
+                setTimeout(function(){  cargarPDFDepositaria(idFolio); }, 2000);
+                setTimeout(function(){ location.reload() }, 3000);
             } else {
                 alertify.error("Error al guardar el movimiento.");
             }
@@ -403,10 +401,5 @@ function buscarFolio() {
             }
         },
     })
-
-}
-
-function recargarPagina() {
-    location.href='vMovimientosCentral.php';
 
 }

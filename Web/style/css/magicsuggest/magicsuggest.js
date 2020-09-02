@@ -605,7 +605,7 @@
                 // first try to see if we have the full objects from our data set
                 var found = false;
                 $.each(_cbData, function(i,item){
-                    if(item[cfg.valueField] == value){
+                    if(item[cfg.valueField] === value){
                         items.push(item);
                         found = true;
                         return false;

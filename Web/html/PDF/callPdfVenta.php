@@ -196,17 +196,17 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label id="idCliente">CLIENTE: '. $NombreCompleto.'</label>
+                        <label >CLIENTE: '. $NombreCompleto.'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label id="idCliente">CONTRATO: '. $id_Contrato.'</label>
+                        <label >CONTRATO: '. $id_Contrato.'</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="left">
-                         <label id="idCliente">CODIGO: '. $id_serie.'</label>
+                         <label >CODIGO: '. $id_serie.'</label>
                     </td>
                 </tr>
                 <tr><td><br></td></tr>

@@ -65,7 +65,7 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                     <tr>
                         <td align="center" colspan="2">
                             <input type="button" class="btn btn-success" value="Empeños"
-                                   style="width: 130px" onclick="cancelarEmpeño()">&nbsp;
+                                   style="width: 130px" onclick="cancelarEmpeno()">&nbsp;
                         </td>
                     </tr>
                     <tr>
@@ -77,7 +77,7 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                     <tr>
                         <td align="center" colspan="2">
                             <input type="button" class="btn btn-success" value="Desempeño"
-                                   style="width: 130px"  onclick="cancelarDesempeño()">&nbsp;
+                                   style="width: 130px"  onclick="cancelarDesempeno()">&nbsp;
                         </td>
                     </tr>
                     <tr>

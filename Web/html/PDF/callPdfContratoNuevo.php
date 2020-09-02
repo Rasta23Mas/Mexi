@@ -709,7 +709,6 @@ PRENDA:' . $detallePiePagina . '
 //exit;
 
 $dompdf = new DOMPDF();
-$dompdf->set_option('defaultFont', 'Times New Roman');
 $dompdf->load_html($contenido,'UTF-8');
 //letter carta, legal oficio
 //Vertical

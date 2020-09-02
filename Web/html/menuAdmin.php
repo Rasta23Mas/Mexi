@@ -23,13 +23,12 @@ $dotaciones = $_SESSION['dotaciones'];
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script type="application/javascript">
         $(document).ready(function () {
-            var dotaciones = <?php echo $dotaciones; ?>;
+            var dotaciones =0;
+            dotaciones = <?php echo $dotaciones; ?>;
 
-            if (dotaciones == 1) {
-
+            if (dotaciones === 1) {
                 $("#menuDotaciones").show();
-
-            } else if (dotaciones == 0) {
+            } else if (dotaciones === 0) {
                 $("#menuDotaciones").hide();
             }
         })

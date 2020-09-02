@@ -37,7 +37,7 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
     <script type="application/javascript">
         $(document).ready(function () {
             var sesionInactiva =<?php echo $sesionInactiva ?>;
-            if(sesionInactiva==0){
+            if(sesionInactiva===0){
                 $("#sesionInactiva").hide();
 
             }else{
@@ -49,12 +49,12 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
             var tipoUsuario = <?php echo $tipoUsuario?>;
             var muestraTR = false;
             tipoUsuario = Number(tipoUsuario);
-            if (tipoUsuario == 1) {
+            if (tipoUsuario === 1) {
                 muestraTR = true;
 
-            } else if (tipoUsuario == 2) {
+            } else if (tipoUsuario === 2) {
                 muestraTR = true;
-            } else if (tipoUsuario == 3) {
+            } else if (tipoUsuario === 3) {
                 muestraTR = false;
             } else {
                 $("#idCentral_BancoCheck").prop('disabled', true);

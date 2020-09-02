@@ -35,7 +35,7 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
             var cierreCaja = <?php echo $idCierreCaja?>;
             document.getElementById('idCierreCaja').innerHTML = cierreCaja;
             $("#idCierreCajaSesion").val(cierreCaja);
-            if(usuariotipo==3){
+            if(usuariotipo===3){
                 $("#idUsuarioCaja").prop('disabled', false);
             }
             $("#guardarCaja").prop('disabled', true);

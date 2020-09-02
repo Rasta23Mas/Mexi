@@ -74,12 +74,12 @@ function Agregar() {
     var tipoInteres = $("#tipoInteresEmpeno").val();
     var vitrina = $("#idVitrina").val();
     var vitrinaE = $("#idVitrinaElectronico").val();
-    if (clienteEmpeno != 0) {
-        if (tipoInteres != 0) {
-            if (vitrina != "" || vitrinaE != "") {
+    if (clienteEmpeno !== 0) {
+        if (tipoInteres !== 0) {
+            if (vitrina !== "" || vitrinaE !== "") {
                 var vitrinaPorc = 0;
                 var validateVitrina = false;
-                if (vitrina != "") {
+                if (vitrina !== "") {
                     var prestamo = $("#idPrestamo").val();
                     prestamo = parseFloat(prestamo)
                     vitrina = parseFloat(vitrina);
@@ -88,7 +88,7 @@ function Agregar() {
                     if (vitrina >= vitrinaPorc) {
                         validateVitrina = true;
                     }
-                } else if (vitrinaE != "") {
+                } else if (vitrinaE !== "") {
                     var prestamoE = $("#idPrestamoElectronico").val();
                     prestamoE = parseFloat(prestamoE)
                     vitrinaE = parseFloat(vitrinaE);
@@ -101,20 +101,21 @@ function Agregar() {
                 if (validateVitrina) {
                     var formElectronico = $("#idTipoElectronico").val();
                     var formMetal = $("#idTipoMetal").val();
-                    if (formMetal != 0 || formElectronico != 0) {
+                    if (formMetal !== 0 || formElectronico !== 0) {
+                        var detalle = "";
+                        var idArticulo = 0;
                         if (formMetal > 0) {
-                            var detalle = $("#idDetallePrenda").val();
-                            if (detalle == "") {
+                             detalle = $("#idDetallePrenda").val();
+                            if (detalle === "") {
                                 alertify.error("Favor de agregar la descripción de la prenda.");
                             } else {
                                 //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
                                 var metalAvaluo = $("#idAvaluo").val();
                                 var metalPrestamo = $("#idPrestamo").val();
                                 var interesMetal = calcularInteresMetal(metalPrestamo);
-                                var idArticulo = 0;
                                 idArticuloGlb++;
-                                var idArticulo = String(idArticuloGlb);
-                                var idArticulo = idArticulo.padStart(2, "0");
+                                idArticulo = String(idArticuloGlb);
+                                idArticulo = idArticulo.padStart(2, "0");
                                 var descTipoMetal = $('select[name="cmbTipoMetal"] option:selected').text();
                                 var descKilataje = $('select[name="cmbKilataje"] option:selected').text();
                                 var descCalidad = $('select[name="cmbCalidad"] option:selected').text();
@@ -148,7 +149,7 @@ function Agregar() {
                                     url: '../../../com.Mexicash/Controlador/Articulos/Articulo.php',
                                     type: 'post',
                                     success: function (response) {
-                                        if (response == 1) {
+                                        if (response === 1) {
                                             cargarTablaMetales();
                                             $("#divTablaMetales").load('tablaMetales.php');
                                             LimpiarSinResetearIdArticulo();
@@ -161,18 +162,17 @@ function Agregar() {
                             }
 
                         } else if (formElectronico > 0) {
-                            var detalle = $("#detallePrendaE").val();
-                            if (detalle == "") {
+                             detalle = $("#detallePrendaE").val();
+                            if (detalle === "") {
                                 alertify.error("Favor de agregar la descripción de la prenda.");
                             } else {
                                 var artiAvaluo = $("#idAvaluoElectronico").val();
                                 var artiPrestamo = $("#idPrestamoElectronico").val();
                                 var interesArti = calcularInteresArticulo(artiPrestamo);
-                                var idArticulo = 0;
                                 idArticuloGlb++;
 
-                                var idArticulo = String(idArticuloGlb);
-                                var idArticulo = idArticulo.padStart(2, "0");
+                                idArticulo = String(idArticuloGlb);
+                                idArticulo = idArticulo.padStart(2, "0");
 
                                 var descTipoElectro = $('select[name="cmbTipoElectronico"] option:selected').text();
                                 var descMarca = $('select[name="marcaSelect"] option:selected').text();
@@ -205,7 +205,7 @@ function Agregar() {
                                     url: '../../../com.Mexicash/Controlador/Articulos/Articulo.php',
                                     type: 'post',
                                     success: function (response) {
-                                        if (response == 1) {
+                                        if (response === 1) {
                                             cargarTablaArticulo();
                                             $("#divTablaArticulos").load('tablaArticulos.php');
                                             LimpiarSinResetearIdArticulo();
@@ -249,7 +249,7 @@ function cargarTablaMetales() {
             alert("Refrescando tabla.");
             var html = '';
             var i = 0;
-            if (datos.length == 0) {
+            if (datos.length === 0) {
                 html += '<tr>' +
                     '<td colspan="7" align="center"> Sin datos a mostrar</td>' +
                     '</tr>';
@@ -321,7 +321,7 @@ function cargarTablaArticulo() {
             alert("Refrescando tabla.");
             var html = '';
             var i = 0;
-            if (datos.length == 0) {
+            if (datos.length === 0) {
                 html += '<tr>' +
                     '<td colspan="7" align="center"> Sin datos a mostrar</td>' +
                     '</tr>';
@@ -448,7 +448,7 @@ function eliminarArticulo($idArticulo) {
         url: '../../../com.Mexicash/Controlador/EliminarArticulo.php',
         type: 'post',
         success: function (response) {
-            if (response == 1) {
+            if (response === 1) {
                 cargarTablaArticulo();
                 $("#divTablaArticulos").load('tablaArticulos.php');
                 alertify.success("Eliminado con éxito.");
@@ -470,7 +470,7 @@ function eliminarMetales($idArticulo) {
         url: '../../../com.Mexicash/Controlador/EliminarArticulo.php',
         type: 'post',
         success: function (response) {
-            if (response == 1) {
+            if (response === 1) {
                 cargarTablaMetales();
                 $("#divTablaMetales").load('tablaMetales.php');
                 alertify.success("Eliminado con éxito.");
@@ -678,7 +678,7 @@ function sumarTotalesArticulo(artiPrestamo, artiAvaluo) {
 
 function calculaAvaluo() {
     var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-    if (tipoInteresEmpeno == 0) {
+    if (tipoInteresEmpeno === 0) {
         alert("Selecciona un tipo de de interes.")
     } else {
         var prestamo = parseFloat($("#idPrestamo").val());
@@ -691,21 +691,21 @@ function calculaAvaluo() {
 
 function calculaAvaluoElec() {
     var tipoInteresEmpeno = $("#tipoInteresEmpeno").val();
-    if (tipoInteresEmpeno == 0) {
+    if (tipoInteresEmpeno === 0) {
         alert("Selecciona un tipo de de interes.")
     } else {
         var prestamoElec = $("#idPrestamoElectronico").val();
-        if (prestamoElec == '' || prestamoElec == null) {
-            if ($("#idTipoElectronico").val() == 0) {
+        if (prestamoElec === '' || prestamoElec == null) {
+            if ($("#idTipoElectronico").val() === 0) {
                 alert("Selecciona un tipo de electronico")
             } else {
-                if ($("#idMarca").val() == 0) {
+                if ($("#idMarca").val() === 0) {
                     alert("Selecciona una marca")
                 } else {
-                    if ($("#idModelo").val() == 0) {
+                    if ($("#idModelo").val() === 0) {
                         alert("Selecciona un modelo")
                     } else {
-                        if ($("#idPrestamoElectronico").val() == 0) {
+                        if ($("#idPrestamoElectronico").val() === 0) {
                             alert("Ingresa la cantidad de prestamo.")
                         } else {
                             var prestamoElec = parseFloat(prestamoElec);
@@ -730,10 +730,10 @@ function calculaAvaluoElec() {
 
 function calculaAvaluoAuto() {
     var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-    if (tipoInteresEmpeno == 0) {
+    if (tipoInteresEmpeno === 0) {
         alert("Selecciona un tipo de de interes.")
     } else {
-        if ($("#idTotalPrestamoAutoMon").val() == 0 || $("#idTotalPrestamoAutoMon").val() == '') {
+        if ($("#idTotalPrestamoAutoMon").val() === 0 || $("#idTotalPrestamoAutoMon").val() === '') {
             alert("Por favor ingrese una cantidad en prestamo.")
         } else {
             var prestamoAuto = parseFloat($("#idTotalPrestamoAutoMon").val());
@@ -792,23 +792,23 @@ function limpiarAuto() {
 
 function calculaPrestamoBtn() {
     var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-    if (tipoInteresEmpeno == 0) {
+    if (tipoInteresEmpeno === 0) {
         alert("Selecciona un tipo de de interes.")
     } else {
         var validate = false;
-        if ($("#idTipoMetal").val() == 0) {
+        if ($("#idTipoMetal").val() === 0) {
             alert("Selecciona un tipo de metal")
-        } else if ($("#idKilataje").val() == 0) {
+        } else if ($("#idKilataje").val() === 0) {
             alert("Selecciona un tipo de kilataje")
-        } else if ($("#idCalidad").val() == 0) {
+        } else if ($("#idCalidad").val() === 0) {
             alert("Selecciona un tipo de calidad")
-        } else if ($("#idCantidad").val() == "" || $("#idCantidad").val() == 0) {
+        } else if ($("#idCantidad").val() === "" || $("#idCantidad").val() === 0) {
             alert("Ingresa el campo de Cantidad")
-        } else if ($("#idPeso").val() == "" || $("#idPeso").val() == 0) {
+        } else if ($("#idPeso").val() === "" || $("#idPeso").val() === 0) {
             alert("Ingresa el campo de Peso")
-        } else if ($("#idPiedras").val() == "") {
+        } else if ($("#idPiedras").val() === "") {
             alert("Ingresa el campo de Piedras")
-        } else if ($("#idPesoPiedra").val() == "") {
+        } else if ($("#idPesoPiedra").val() === "") {
             alert("Ingresa el campo de Peso Piedras")
         } else {
             validate = true;
@@ -840,7 +840,7 @@ function calculaPrestamoBtn() {
 function calculaPrestamoPeso(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -849,26 +849,26 @@ function calculaPrestamoPeso(e) {
     te = String.fromCharCode(tecla);
     if (e.keyCode === 13 && !e.shiftKey) {
         var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-        if (tipoInteresEmpeno == 0) {
+        if (tipoInteresEmpeno === 0) {
             alert("Selecciona un tipo de de interes.")
         } else {
             var validate = false;
 
-            if ($("#idTipoMetal").val() == 0) {
+            if ($("#idTipoMetal").val() === 0) {
                 alert("Selecciona un tipo de metal")
-            } else if ($("#idKilataje").val() == 0) {
+            } else if ($("#idKilataje").val() === 0) {
                 alert("Selecciona un tipo de kilataje")
-            } else if ($("#idCalidad").val() == 0) {
+            } else if ($("#idCalidad").val() === 0) {
                 alert("Selecciona un tipo de calidad")
-            } else if ($("#idCantidad").val() == "" || $("#idCantidad").val() == 0) {
+            } else if ($("#idCantidad").val() === "" || $("#idCantidad").val() === 0) {
                 alert("Ingresa el campo de Cantidad")
-            } else if ($("#idPeso").val() == "" || $("#idPeso").val() == 0) {
+            } else if ($("#idPeso").val() === "" || $("#idPeso").val() === 0) {
                 alert("Ingresa el campo de Peso")
-            } else if ($("#idPiedras").val() == "") {
+            } else if ($("#idPiedras").val() === "") {
                 alert("Ingresa el campo de Piedras")
-            } else if ($("#idPesoPiedra").val() == "") {
+            } else if ($("#idPesoPiedra").val() === "") {
                 alert("Ingresa el campo de Peso Piedras")
-            } else if ($("#idPrestamo").val() == "" || $("#idPrestamo").val() == 0) {
+            } else if ($("#idPrestamo").val() === "" || $("#idPrestamo").val() === 0) {
                 alert("Ingresa el prestamo")
             } else {
                 validate = true;
@@ -888,8 +888,6 @@ function combMarcaVEmpe() {
     $('#idMarca').val(0);
 
     var tipoSelect = $('#idTipoElectronico').val();
-    var marcaSelect = 0;
-    var modeloSelect = 0;
     var dataEnviar = {
         "tipo": 2,
         "tipoCombo": tipoSelect
@@ -918,7 +916,6 @@ function cmbModeloVEmpe() {
     $('#idModelo').val(0);
     var tipoSelect = $('#idTipoElectronico').val();
     var marcaSelect = $('#idMarca').val();
-    var modeloSelect = 0;
     var dataEnviar = {
         "tipo": 3,
         "tipoCombo": tipoSelect,
@@ -958,7 +955,6 @@ function llenarDatosElectronico(tipoSelect, marcaSelect, modeloSelect) {
         success: function (datos) {
             var i = 0;
             for (i; i < datos.length; i++) {
-                var idElectronico = datos[i].idElectronico;
                 var tipo = datos[i].tipoE;
                 var marca = datos[i].marca;
                 var modelo = datos[i].modelo;
@@ -1012,7 +1008,8 @@ function llenarDatosFromModal(idProducto) {
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
-            for (i = 0; i < datos.length; i++) {
+            var i = 0;
+            for (i; i < datos.length; i++) {
                 //var idElectronico = datos[i].idElectronico;
                 var tipoId = datos[i].tipoId;
                 var tipoEditar = datos[i].tipoEditar;
@@ -1071,7 +1068,6 @@ function llenarDatosFromModal(idProducto) {
 
 }
 function combTipoVEmpeFromModal(tipoId,marcaId) {
-    var tipoSelect = tipoId;
     var dataEnviar = {
         "tipo": 1,
         "tipoCombo": 0
@@ -1157,7 +1153,7 @@ function cmbModeloVEmpeFromModal(tipoId, marcaId) {
 
 function calcularPension() {
     var idPensionMon = $("#idPensionMon").val();
-    if (idPensionMon == "") {
+    if (idPensionMon === "") {
         idPensionMon = 0;
     }
     $("#idPension").val(idPensionMon);
@@ -1168,7 +1164,7 @@ function calcularPension() {
 
 function calcularPoliza() {
     var idPolizaMon = $("#idPolizaSeguroMon").val();
-    if (idPolizaMon == "") {
+    if (idPolizaMon === "") {
         idPolizaMon = 0;
     }
     $("#idPolizaSeguro").val(idPolizaMon);
@@ -1179,7 +1175,7 @@ function calcularPoliza() {
 
 function calcularGps() {
     var idGpsMon = $("#idGPSMon").val();
-    if (idGpsMon == "") {
+    if (idGpsMon === "") {
         idGpsMon = 0;
     }
     $("#idGPS").val(idGpsMon);

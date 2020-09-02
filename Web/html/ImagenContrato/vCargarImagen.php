@@ -28,7 +28,7 @@ if ($tipoUsuario == 2) {
         $(document).ready(function () {
             var idContratoFotos = <?php echo $idContrato ?>;
             $("#idContratoFotos").val(idContratoFotos);
-            llenarTablaImagen(idContratoFotos);
+            //llenarTablaImagen(idContratoFotos);
             $("#divContratoFotos").load('tablaImagen.php');
         })
     </script>

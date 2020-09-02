@@ -429,7 +429,6 @@ class sqlVendedorDAO
                         "Detalle" => $row["Detalle"],
                         "DetalleAuto" => $row["DetalleAuto"],
                         "tipoArticulo" => $row["tipoArticulo"],
-                        "tipoArticulo" => $row["tipoArticulo"],
                         "Form" => $row["Form"],
                         "EstDesc" => $row["EstDesc"],
                     ];

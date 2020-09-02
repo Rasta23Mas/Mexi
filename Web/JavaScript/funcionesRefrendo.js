@@ -15,12 +15,8 @@ var IdMovimientoGbl = 0;
 var id_ClientePDF = 0;
 var prestamoPDF = 0;
 var abonoCapitalPDF = 0;
-var interesesPDF = 0;
-var almacenajePDF = 0;
 var seguroPDF = 0;
-var desempeñoExtPDF = 0;
 var moratoriosPDF = 0;
-var otrosCobrosPDF = 0;
 var descuentoAplicadoPDF = 0;
 var descuentoPuntosPDF = 0;
 var ivaPDF = 0;
@@ -51,7 +47,7 @@ var SeguDescGlb = 0;
 function busquedaRefrendo(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -105,7 +101,7 @@ function estatusContrato() {
     $("#idContrato").prop('disabled', true);
     $("#btnBuscar").prop('disabled', true);
 
-    if (contratoGbl != '') {
+    if (contratoGbl !== '') {
         var dataEnviar = {
             "tipe": 1,
             "IdMovimiento": IdMovimientoGbl,
@@ -117,18 +113,19 @@ function estatusContrato() {
             dataType: "json",
             success: function (datos) {
                 if (datos.length > 0) {
-                    for (i = 0; i < datos.length; i++) {
+                    var i = 0;
+                    for (i; i < datos.length; i++) {
                         var Fecha = datos[i].Fecha;
                         var NombreCompleto = datos[i].NombreCompleto;
                         var Movimiento = datos[i].Movimiento;
                         var tipoMovimiento = datos[i].tipoMovimiento;
-                        if (tipoMovimiento == 3 || tipoMovimiento == 4 || tipoMovimiento == 7 || tipoMovimiento == 8) {
+                        if (tipoMovimiento === 3 || tipoMovimiento === 4 || tipoMovimiento === 7 || tipoMovimiento === 8) {
                             tipoMovimientoGbl = tipoMovimiento;
                             buscarCliente();
                             buscarDatosContrato();
-                            if (tipoContrato == 1) {
+                            if (tipoContrato === 1) {
                                 buscarDetalle();
-                            } else if (tipoContrato == 2) {
+                            } else if (tipoContrato === 2) {
                                 buscarDetalleAuto();
                             }
 
@@ -157,7 +154,7 @@ function estatusContrato() {
 
 //Buscar cliente
 function buscarCliente() {
-    if (contratoGbl != '') {
+    if (contratoGbl !== '') {
         var dataEnviar = {
             "tipe": 2,
             "IdMovimiento": IdMovimientoGbl,
@@ -169,7 +166,8 @@ function buscarCliente() {
             dataType: "json",
             success: function (datos) {
                 if (datos.length > 0) {
-                    for (i = 0; i < datos.length; i++) {
+                    var i = 0;
+                    for (i; i < datos.length; i++) {
                         id_ClientePDF = datos[i].Cliente;
                         var NombreCompleto = datos[i].NombreCompleto;
                         var DireccionCompleta = datos[i].DireccionCompleta;
@@ -217,7 +215,7 @@ function buscarCliente() {
 
 //Buscar datos del contrato
 function buscarDatosContrato() {
-    if (contratoGbl != '') {
+    if (contratoGbl !== '') {
         var dataEnviar = {
             "tipe": 3,
             "IdMovimiento": IdMovimientoGbl,
@@ -229,7 +227,8 @@ function buscarDatosContrato() {
             dataType: "json",
 
             success: function (datos) {
-                for (i = 0; i < datos.length; i++) {
+                var i = 0;
+                for (i; i < datos.length; i++) {
                     var FechaEmp = datos[i].FechaEmpMovimiento;
                     var FechaVenConvert = datos[i].FechaVenConvertMovimiento;
                     var FechaEmpConvert = datos[i].FechaEmpConvertMovimiento;
@@ -282,11 +281,11 @@ function buscarDatosContrato() {
                     var diasInteresMor = 0;
                     Abono = Number(Abono);
 
-                    if (FechaEmpConvert == fechaHoyText) {
+                    if (FechaEmpConvert === fechaHoyText) {
                         //Si la fecha es igual el dia de interes generado es 1
                         diasForInteres = 0;
-                        if (DiasContrato != 0) {
-                            if (tipeFormulario == 1 || tipeFormulario == 2) {
+                        if (DiasContrato !== 0) {
+                            if (tipeFormulario === 1 || tipeFormulario === 2) {
                                 refrendoConfirmar();
                             }
                         }
@@ -305,23 +304,23 @@ function buscarDatosContrato() {
                     }
 
                     //Plazo
-                    if (DiasContrato == 30) {
+                    if (DiasContrato === 30) {
                         PlazoDesc = PlazoDesc + " Mensual";
-                    } else if (DiasContrato == 1) {
+                    } else if (DiasContrato === 1) {
                         PlazoDesc = PlazoDesc + " Diario";
-                    }else if (DiasContrato == 14) {
+                    }else if (DiasContrato === 14) {
                         PlazoDesc = PlazoDesc + " Catorcenal";
                     }
 
 
-                    if (Abono == '' || Abono == null) {
+                    if (Abono === '' || Abono == null) {
                         Abono = 0.00;
                     }
-                    if (Descuento == '' || Descuento == null) {
+                    if (Descuento === '' || Descuento == null) {
                         Descuento = 0.00;
                     }
 
-                    if (DiasAlmoneda == 0) {
+                    if (DiasAlmoneda === 0) {
                         DiasAlmoneda = 1;
                     }
                     $("#descuentoAnteriorNuevoNota").val(Descuento);
@@ -379,14 +378,14 @@ function buscarDatosContrato() {
                     var polizaSumarAInteres = 0.00;
                     //Si es auto
 
-                    if (tipeFormulario == 2) {
-                        if (PolizaSeguro == '' || PolizaSeguro == null) {
+                    if (tipeFormulario === 2) {
+                        if (PolizaSeguro === '' || PolizaSeguro == null) {
                             PolizaSeguro = 0.00;
                         }
-                        if (GPS == '' || GPS == null) {
+                        if (GPS === '' || GPS == null) {
                             GPS = 0.00;
                         }
-                        if (Pension == '' || Pension == null) {
+                        if (Pension === '' || Pension == null) {
                             Pension = 0.00;
                         }
                         var gpsDiario = GPS / DiasContrato;
@@ -447,7 +446,7 @@ function buscarDatosContrato() {
                     $("#idTblAlmacenajeDesc").val(totalVencAlm);
                     $("#idTblSeguroDesc").val(totalVencSeg);
                     var TotalFinal = TotalPrestamo + interesGenerado;
-                    totalFinal = TotalFinal;
+                    //totalFinal = TotalFinal;
 
                     //Nuevo
                     interesNuevoNota = interesGenerado;
@@ -466,7 +465,6 @@ function buscarDatosContrato() {
 
 
                     //Valida si esta en almoneda
-                    var FechaAlmFormat = formatStringToDate(FechaAlm);
                     FechaEmp = fechaVista(FechaEmp);
                     FechaVenConvert = fechaVista(FechaVenConvert);
                     FechaAlm = fechaVista(FechaAlm);
@@ -504,7 +502,6 @@ function buscarDatosContrato() {
                     prestamoParaIva = Number(prestamoParaIva);
 
                     var interesParaIva = Math.round(interesParaIva * 100) / 100;
-                    var prestamoParaIva = Math.round(prestamoParaIva * 100) / 100;
                     var totalPagarConIva = interesParaIva;
                     var ivaTotal = Math.round(IvaDesc * totalPagarConIva) / 100;
 
@@ -561,7 +558,7 @@ function buscarDatosContrato() {
 
 //Buscar detalle del contrato
 function buscarDetalle() {
-    if (contratoGbl != '') {
+    if (contratoGbl !== '') {
         var dataEnviar = {
             "tipe": 4,
             "IdMovimiento": IdMovimientoGbl,
@@ -574,7 +571,8 @@ function buscarDetalle() {
             success: function (datos) {
                 var detalleContrato;
                 var detallePiePagina = "";
-                for (i = 0; i < datos.length; i++) {
+                var i = 0;
+                for (i; i < datos.length; i++) {
                     var Detalle = datos[i].Detalle;
                     var Obseracion = datos[i].Obseracion;
 
@@ -596,7 +594,7 @@ function buscarDetalle() {
 
 //Buscar detalle del auto
 function buscarDetalleAuto() {
-    if (contratoGbl != '') {
+    if (contratoGbl !== '') {
         var dataEnviar = {
             "tipe": 5,
             "IdMovimiento": IdMovimientoGbl,
@@ -608,7 +606,8 @@ function buscarDetalleAuto() {
             dataType: "json",
             success: function (datos) {
                 var detalleContrato;
-                for (i = 0; i < datos.length; i++) {
+                var i = 0;
+                for (i; i < datos.length; i++) {
                     var Marca = datos[i].Marca;
                     var Modelo = datos[i].Modelo;
                     var Anio = datos[i].Anio;
@@ -650,7 +649,7 @@ function cancelar() {
 function descuentoNuevo(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -678,7 +677,6 @@ function descuentoNuevo(e) {
 
                 var ivaDesc = $("#idTblIva").val();
                 var totalInteres = $("#interesPagarNuevoNota").val();
-                var ivaValue = $("#idIVAValue").val();
                 ivaDesc = Number(ivaDesc);
                 var ivaPorc = "." + ivaDesc;
                 ivaPorc = Number(ivaPorc);
@@ -691,7 +689,7 @@ function descuentoNuevo(e) {
                 var totalInteresDescuento = totalInteres / ivaDesc;
                 totalInteresDescuento = totalInteresDescuento * 100;
 
-                ivaValue = totalInteresDescuento * ivaPorc;
+                var ivaValue = totalInteresDescuento * ivaPorc;
                 totalInteresDescuento = Math.round(totalInteresDescuento * 100) / 100;
                 ivaValue = Math.round(ivaValue * 100) / 100;
 
@@ -725,11 +723,11 @@ function descuentoTabla() {
     TasaDescGlb = Number(TasaDescGlb);
     AlmacDescGlb = Number(AlmacDescGlb);
     SeguDescGlb = Number(SeguDescGlb);
-    tasaPorcentaje = (TasaDescGlb / tasaTotal) * 100;
-    almPorcentaje = (AlmacDescGlb / tasaTotal) * 100;
-    tasaPorcentaje = Math.round(tasaPorcentaje * 100) / 100;
-    almPorcentaje = Math.round(almPorcentaje * 100) / 100;
-    seguroPorcentaje = 100 - (tasaPorcentaje + almPorcentaje)
+    var tasaPorcentaje = (TasaDescGlb / tasaTotal) * 100;
+    var almPorcentaje = (AlmacDescGlb / tasaTotal) * 100;
+    var tasaPorcentaje = Math.round(tasaPorcentaje * 100) / 100;
+    var almPorcentaje = Math.round(almPorcentaje * 100) / 100;
+    var seguroPorcentaje = 100 - (tasaPorcentaje + almPorcentaje)
     var tasaDescuento = (totalInteres * tasaPorcentaje) / 100
     var almDescuento = (totalInteres * almPorcentaje) / 100
     var segDescuento = (totalInteres * seguroPorcentaje) / 100
@@ -744,7 +742,7 @@ function descuentoTabla() {
 function cambioNuevo(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -829,7 +827,7 @@ function limpiarRefrendo() {
 function validaDescuentoNuevo() {
     var idValidaToken = $("#idValidaToken").val();
     idValidaToken = parseFloat(idValidaToken);
-    if (idValidaToken == 0) {
+    if (idValidaToken === 0) {
         generarNuevo();
     } else {
         $("#modalDescuento").modal();
@@ -892,38 +890,35 @@ function generarNuevo() {
     var descuentoFinal = descuentoAplicado + descuentoAnterior;
     descuentoFinal = Math.round(descuentoFinal * 100) / 100;
     //Abono para guardar en bitacora y movimientos
-    var abonoCapitalNuevoNota = 0;
-    var abonoFinal = 0;
     var gps = null;
     var pension = null;
     var poliza = null;
     var newFechaVencimiento = null;
     var newFechaAlm = null;
-    var idEstatusArt = 2;
 
 
     nombreMensaje = "Refrendo";
-    abonoCapitalNuevoNota = $("#abonoCapitalNuevoNota").val();
+    var abonoCapitalNuevoNota = $("#abonoCapitalNuevoNota").val();
     abonoCapitalPDF = abonoCapitalNuevoNota;
     //Abono para guardar en el contrato
     var abonoAnteriorNuevoNota = $("#abonoAnteriorNuevoNota").val();
     abonoCapitalNuevoNota = parseFloat(abonoCapitalNuevoNota);
     abonoAnteriorNuevoNota = parseFloat(abonoAnteriorNuevoNota);
-    abonoFinal = abonoCapitalNuevoNota + abonoAnteriorNuevoNota;
+    var abonoFinal = abonoCapitalNuevoNota + abonoAnteriorNuevoNota;
     abonoFinal = Math.round(abonoFinal * 100) / 100;
     newFechaVencimiento = $("#fechaVencimientoNuevoNota").val();
     newFechaAlm = $("#fechaAlmNuevoNota").val();
 
 
-    if (efectivoNuevoNota == 0) {
+    if (efectivoNuevoNota === 0) {
         alert("Por favor. Capture el pago en efectivo. ");
         validate = 0;
     }
 
-    if (validate == 1) {
+    if (validate === 1) {
         var idValidaToken = $("#idValidaToken").val();
         idValidaToken = parseFloat(idValidaToken);
-        if (idValidaToken != 0) {
+        if (idValidaToken !== 0) {
             var totalVencInteres = $("#idTblInteresDesc").val();
             var totalVencAlm = $("#idTblAlmacenajeDesc").val();
             var totalVencSeg = $("#idTblSeguroDesc").val();
@@ -985,9 +980,9 @@ function MovimientosRefrendo(descuentoAplicado, descuentoFinal, abonoFinal, newF
     var e_poliza = 0;
     var e_pension = 0;
     var movimiento = 0;
-    if (tipeFormulario == 1) {
+    if (tipeFormulario === 1) {
         movimiento = 4;
-    } else if (tipeFormulario == 2) {
+    } else if (tipeFormulario === 2) {
         movimiento = 8;
         e_gps = $("#gpsNuevoNota").val();
         e_poliza = $("#polizaNuevoNota").val();
@@ -1060,10 +1055,10 @@ function MovimientosRefrendo(descuentoAplicado, descuentoFinal, abonoFinal, newF
 function BitacoraUsuarioRefrendo() {
     //id_Movimiento = 3 cat_movimientos-->Operacion-->Empeño
     var movimiento = 0;
-    if (tipoContrato == 1) {
+    if (tipoContrato === 1) {
         movimiento = 4;
     }
-    if (tipoContrato == 2) {
+    if (tipoContrato === 2) {
         movimiento = 8;
     }
 
@@ -1090,12 +1085,12 @@ function BitacoraUsuarioRefrendo() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                var pdf = setTimeout(function () {
+                setTimeout(function () {
                     verPDFRefrendo(contratoGbl);
-                }, 2000);
-                var recargar = setTimeout(function () {
+                }, 1000);
+                setTimeout(function () {
                     location.reload();
-                }, 3000);
+                }, 2000);
 
             } else {
                 alertify.error("Error en al conectar con el servidor.")
@@ -1114,18 +1109,18 @@ function refrendoConfirmar() {
     alertify.confirm('Atención',
         'El contrato tiene fecha de movimiento del día de hoy, y no es posible refrendar, ¿Desea ir al módulo de desempeño?',
         function () {
-            if (tipoContrato == 1) {
+            if (tipoContrato === 1) {
                 location.href = '../Desempeno/vDesempeno.php?tipoFormGet=3&contrato=' + contratoGbl;
 
-            } else if (tipoContrato == 2) {
+            } else if (tipoContrato === 2) {
                 location.href = '../Desempeno/vDesempeno.php?tipoFormGet=4&contrato=' + contratoGbl;
             }
         },
         function () {
-            if (tipoContrato == 1) {
+            if (tipoContrato === 1) {
                 location.href = 'vRefrendo.php?tipoFormGet=1';
 
-            } else if (tipoContrato == 2) {
+            } else if (tipoContrato === 2) {
                 location.href = '../Desempeno/vDesempeno.php?tipoFormGet=2';
             }
         });
@@ -1134,7 +1129,7 @@ function refrendoConfirmar() {
 function abonoNuevo(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
+    if (tecla === 8) {
         return true;
     }
     var patron;
@@ -1147,9 +1142,7 @@ function abonoNuevo(e) {
         abono = Number(abono);
         prestamoNuevoNota = Number(prestamoNuevoNota);
         if (abono <= prestamoNuevoNota) {
-            var descuento = $("#descuentoNuevoNota").val();
             var interes = $("#interesPagarNuevoNota").val();
-            descuento = Number(descuento);
             interes = Number(interes);
 
             calcularTotalPagarAbono(interes, abono)

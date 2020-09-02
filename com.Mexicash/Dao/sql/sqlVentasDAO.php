@@ -112,9 +112,7 @@ class sqlVentasDAO
                         "apartado" => $row["apartado"],
                         "abono" => $row["abono"],
                         "precio_venta" => $row["precio_venta"],
-                        "precio_Actual" => $row["precio_Actual"],
-                        "apartado" => $row["apartado"],
-                        "tipo_movimiento" => $row["tipo_movimiento"],
+                        "precio_Actual" => $row["precio_Actual"], "tipo_movimiento" => $row["tipo_movimiento"],
                         "id_serie" => $row["id_serie"],
                         "sucursal" => $row["sucursal"],
                     ];

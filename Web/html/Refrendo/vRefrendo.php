@@ -35,7 +35,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             $("#btnGenerar").prop('disabled', true);
             $("#idFormulario").val(form);
 
-            if (form == 1) {
+            if (form === 1) {
                 nameForm = "Refrendo";
                 $("#idGPSTH").hide();
                 $("#idPensionTH").hide();
@@ -52,7 +52,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                 $("#btnGenerar").val(nameForm)
 
 
-            } else if (form == 2) {
+            } else if (form === 2) {
 
                 nameForm = "Refrendo Auto";
                 $("#idGPSTH").show();
