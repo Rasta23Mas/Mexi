@@ -2,6 +2,7 @@ var radioSelect = 0;
 var tipoContratoGlobal = 1;
 
 var ContratoReimprimir = 0;
+
 function contratoBusquedaCon(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
@@ -202,7 +203,7 @@ function cargarTablaContrato(idContratoBusqueda) {
                     '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="cargarTablaDetalleNombre(' + Contrato + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ','+ idMovimiento +','+ Contrato +')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
                     '</td>';
                 if (tipoContratoGlobal == 2) {
                     htmlAuto = '<td align="center"> ' +
@@ -271,68 +272,23 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             '<td>' + Descripcion + '</td>' +
                             '<td>' + Obs + '</td>' +
                             '<td align="center">' +
-                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ','+ Num +')">' +
+                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ',' + Num + ')">' +
                             '</td>' +
                             '</tr>';
                     } else {
                         var serieArticulo = datos[i].id_SerieArticulo;
-                        var TipoElectronico = datos[i].TipoElectronico;
-                        var MarcaElectronico = datos[i].MarcaElectronico;
-                        var ModeloElectronico = datos[i].ModeloElectronico;
-                        var TipoMetal = datos[i].TipoMetal;
-                        var Kilataje = datos[i].Kilataje;
-                        var Calidad = datos[i].Calidad;
-                        var Detalle = datos[i].Detalle;
+                        var DescripcionCorta = datos[i].DescripcionCorta;
+                        var Obs = datos[i].Obs;
+                        html += '<tr align="center">' +
+                            '<td>' + idContratoBusqueda + '</td>' +
+                            '<td>' + serieArticulo + '</td>' +
+                            '<td>' + DescripcionCorta + '</td>' +
+                            '<td>' + Obs + '</td>' +
+                            '<td align="center">' +
+                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ',' + serieArticulo + ')">' +
+                            '</td>' +
+                            '</tr>';
 
-                        Formulario = parseInt(Formulario);
-                        if (TipoElectronico === null) {
-                            TipoElectronico = '';
-                        }
-                        if (MarcaElectronico === null) {
-                            MarcaElectronico = '';
-                        }
-                        if (ModeloElectronico === null) {
-                            ModeloElectronico = '';
-                        }
-                        if (TipoMetal === null) {
-                            TipoMetal = '';
-                        }
-                        if (Kilataje === null) {
-                            Kilataje = '';
-                        }
-                        if (Calidad === null) {
-                            Calidad = '';
-                        }
-                        if (Detalle === null) {
-                            Detalle = '';
-                        }
-                        serieArticulo = parseInt(serieArticulo);
-
-                        if (Formulario == 1) {
-                            var Descripcion = Kilataje + " " + Calidad;
-                            html += '<tr align="center">' +
-                                '<td>' + idContratoBusqueda + '</td>' +
-                                '<td>' + serieArticulo + '</td>' +
-                                '<td>' + TipoMetal + '</td>' +
-                                '<td>' + Descripcion + '</td>' +
-                                '<td>' + Detalle + '</td>' +
-                                '<td align="center">' +
-                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ','+ serieArticulo +')">' +
-                                '</td>' +
-                                '</tr>';
-                        } else if (Formulario == 2) {
-                            var Descripcion = MarcaElectronico + " " + ModeloElectronico;
-                            html += '<tr align="center">' +
-                                '<td>' + idContratoBusqueda + '</td>' +
-                                '<td>' + serieArticulo + '</td>' +
-                                '<td>' + TipoElectronico + '</td>' +
-                                '<td>' + Descripcion + '</td>' +
-                                '<td>' + Detalle + '</td>' +
-                                '<td align="center">' +
-                                '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos"  onclick="verFotosContrato(' + idContratoBusqueda + ','+ serieArticulo +')">' +
-                                '</td>' +
-                                '</tr>';
-                        }
                     }
 
                     Num++;
@@ -408,7 +364,7 @@ function cargarTablaNombre() {
                     '<img src="../../style/Img/seleccionarNor.png"   alt="Seleccionar"  onclick="cargarTablaDetalleNombre(' + Contrato + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ','+idMovimiento+','+ Contrato +')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
                     '</td>';
                 if (tipoContratoGlobal == 2) {
                     htmlAuto = '<td align="center"> ' +
@@ -513,7 +469,7 @@ function cargarTablaFechas() {
                         '<img src="../../style/Img/seleccionarNor.png"  data-dismiss="modal" alt="Seleccionar"  onclick="buscarDatosPorFecha(' + Contrato + ')">' +
                         '</td>' +
                         '<td align="center">' +
-                        '<img src="../../style/Img/impresoraNor.png"  data-dismiss="modal" alt="impromor" onclick="reimprimir(' + MovimientoTipo + ','+idMovimiento+','+ Contrato +')">' +
+                        '<img src="../../style/Img/impresoraNor.png"  data-dismiss="modal" alt="impromor" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
                         '</td>';
                     if (tipoContratoGlobal == 2) {
                         htmlAuto = '<td align="center"> ' +
@@ -590,33 +546,33 @@ function LimpiarConsulta() {
     $("#divDetallesContrato").load('tablaDetalleContrato.php');
 }
 
-function reimprimir(tipoMovimiento,idMovimiento,Contrato) {
+function reimprimir(tipoMovimiento, idMovimiento, Contrato) {
     ContratoReimprimir = Contrato;
     if (tipoMovimiento == 3) {
         //3 = Empeño
-        window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir+'&reimpresion=1');
+        window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir + '&reimpresion=1');
     } else if (tipoMovimiento == 4) {
         //4 = Refrendo
-        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
+        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
     } else if (tipoMovimiento == 5) {
         //5 = Desempeño
-        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
+        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
     } else if (tipoMovimiento == 6) {
         //6 = Vent8a
     } else if (tipoMovimiento == 7) {
         //7 = Empeño Auto
-        window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir+'&reimpresion=1');
+        window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir + '&reimpresion=1');
     } else if (tipoMovimiento == 8) {
         //8 = Refrendo Auto
-        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
+        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
     } else if (tipoMovimiento == 9) {
         //9 = Desempeño Auto
-        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
+        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
     } else if (tipoMovimiento == 10) {
         //10 = Venta Auto
     } else if (tipoMovimiento == 21) {
         //21 = Desempeño sin interes
-        window.open('../PDF/callPdfDesempenoSinInteres.php?contrato=' + ContratoReimprimir+'&ultimoMovimiento=' + idMovimiento+'&reimpresion=1');
+        window.open('../PDF/callPdfDesempenoSinInteres.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
     } else if (tipoMovimiento == 20) {
         //20 = Cancelado
     }
@@ -674,6 +630,6 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
     });
 }
 
-function verFotosContrato(idContrato,SerieArticulo) {
- location.href = '../ImagenContrato/vImagenesContrato.php?idContrato='+idContrato+'&articulo='+SerieArticulo;
+function verFotosContrato(idContrato, SerieArticulo) {
+    location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato + '&articulo=' + SerieArticulo;
 }

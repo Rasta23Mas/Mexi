@@ -183,33 +183,26 @@ class sqlContratoDAO
 
         try {
             $buscar = "SELECT  Con.id_Formulario AS Formulario,Art.id_SerieArticulo,
-                         ET.descripcion AS TipoElectronico, EM.descripcion AS MarcaElectronico,
-                        EMOD.descripcion AS ModeloElectronico,
-                        Art.detalle AS Detalle, TA.descripcion AS TipoMetal, TK.descripcion as Kilataje,
-                        TC.descripcion as Calidad FROM contratos_tbl as Con 
+                        Art.descripcionCorta AS DescripcionCorta,  Art.observaciones AS Obs
+                        FROM contratos_tbl as Con 
                         INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
                         INNER JOIN articulo_tbl as Art on Con.id_Contrato =  Art.id_Contrato
-                        INNER JOIN cat_estado ON Cli.estado = cat_estado.id_Estado
+                        INNER JOIN cat_estado ON Cli.estado = cat_estado.id_Estado--------------Agregar sucursal a tabla de articulos
                         LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
                         LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
                         LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
                         LEFT JOIN cat_tipoarticulo as TA on Art.tipo = TA.id_tipo
                         LEFT JOIN cat_kilataje as TK on Art.kilataje = TK.id_Kilataje
                         LEFT JOIN cat_calidad as TC on Art.calidad = TC.id_calidad
-                        WHERE Con.id_Contrato =" . $idContratoBusqueda . " AND Con.tipoContrato =" . $tipoContratoGlobal;
+                        WHERE Con.id_Contrato =$idContratoBusqueda AND Con.tipoContrato = $tipoContratoGlobal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "Formulario" => $row["Formulario"],
                         "id_SerieArticulo" => $row["id_SerieArticulo"],
-                        "TipoElectronico" => $row["TipoElectronico"],
-                        "MarcaElectronico" => $row["MarcaElectronico"],
-                        "ModeloElectronico" => $row["ModeloElectronico"],
-                        "TipoMetal" => $row["TipoMetal"],
-                        "Kilataje" => $row["Kilataje"],
-                        "Calidad" => $row["Calidad"],
-                        "Detalle" => $row["Detalle"]
+                        "DescripcionCorta" => $row["DescripcionCorta"],
+                        "Obs" => $row["Obs"],
 
                     ];
                     array_push($datos, $data);
