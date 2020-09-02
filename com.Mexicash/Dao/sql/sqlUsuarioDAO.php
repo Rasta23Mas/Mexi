@@ -47,6 +47,10 @@ class sqlUsuarioDAO
                 $_SESSION['cajaInactiva'] = 0;
                 $_SESSION['idCierreSucursal'] = 0;
                 $_SESSION['idCierreCaja'] = 0;
+                $_SESSION['namePC'] =  gethostname();
+                $_SESSION["autentificado"]= "SI";
+                $_SESSION["ultimoAcceso"]= date("Y-n-j H:i:s");
+
             }
 
         } catch (Exception $exc) {
@@ -583,6 +587,7 @@ class sqlUsuarioDAO
             $fechaCreacion = date('Y-m-d H:i:s');
             $usuario = $_SESSION["idUsuario"];
             $sucursal = $_SESSION["sucursal"];
+            $namePC = $_SESSION["namePC"];
             $id_CierreCaja = $_SESSION["idCierreCaja"];
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
             $tipoUsuario = $_SESSION['tipoUsuario'];
@@ -590,10 +595,10 @@ class sqlUsuarioDAO
                 $verdad = 1;
             } else {
                 $insert = "INSERT INTO bit_usuario (usuario, sucursal, bit_cierreCaja, bit_cierreSucursal, id_Movimiento,
-                        id_contrato, id_almoneda, id_cliente, consulta_fechaInicio, consulta_fechaFinal,idArqueo, fecha_Creacion)
+                        id_contrato, id_almoneda, id_cliente, consulta_fechaInicio, consulta_fechaFinal,idArqueo, fecha_Creacion,NombrePC)
                          VALUES 
                          ($usuario, $sucursal, $id_CierreCaja,$id_CierreSucursal, $id_Movimiento, $id_contrato, $id_almoneda,
-                          $id_cliente,'$consulta_fechaInicio', '$consulta_fechaFinal',$idArqueo, '$fechaCreacion');";
+                          $id_cliente,'$consulta_fechaInicio', '$consulta_fechaFinal',$idArqueo, '$fechaCreacion','$namePC');";
                 if ($ps = $this->conexion->prepare($insert)) {
                     if ($ps->execute()) {
                         $verdad = mysqli_stmt_affected_rows($ps);

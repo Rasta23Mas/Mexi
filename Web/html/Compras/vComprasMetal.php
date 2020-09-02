@@ -1,15 +1,7 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-if (!isset($_SESSION["idUsuario"])) {
-    header("Location: ../../../index.php");
-    session_destroy();
-}
-
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+
 include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
 include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
 include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");

@@ -1,15 +1,9 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include_once(HTML_PATH . "Dotacion/modalFlujo.php");
 include_once(HTML_PATH . "Dotacion/modalBusqueda.php");
 
-if (!isset($_SESSION)) {
-    session_start();
-}
-if(!isset($_SESSION["idUsuario"])){
-    header("Location: ../index.php");
-    session_destroy();
-}
 
 $sucursal = $_SESSION['sucursal'];
 $sesionInactiva = $_SESSION['sesionInactiva'];

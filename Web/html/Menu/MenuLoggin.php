@@ -1,7 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(MENU_PATH . "menuPrincipal.php");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +14,6 @@ include_once(MENU_PATH . "menuPrincipal.php");
     <script src="../../librerias/bootstrap/js/bootstrap.js"></script>
     <script src="../../librerias/alertifyjs/alertify.js"></script>
     <script src="../../JavaScript/funcionesLogin.js"></script>
-
     <title>Ingresar</title>
     <style>
         .login-container{

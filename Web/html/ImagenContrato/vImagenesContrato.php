@@ -1,14 +1,7 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-if (!isset($_SESSION["idUsuario"])) {
-    header("Location: ../../../index.php");
-    session_destroy();
-}
-// Archivo de conexion con la base de datos
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+// Archivo de conexion con la base de datos
 include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
 
@@ -44,10 +37,14 @@ if (isset($_GET['delete_id'])) {
 
 }
 
-
-
-include_once(HTML_PATH . "menuGeneral.php");
-?>
+$tipoUsuario = $_SESSION['tipoUsuario'];
+if ($tipoUsuario == 2) {
+    include_once(HTML_PATH . "menuAdmin.php");
+} elseif ($tipoUsuario == 3) {
+    include_once(HTML_PATH . "menuGeneral.php");
+} elseif ($tipoUsuario == 4) {
+    include_once(HTML_PATH . "menuVendedor.php");
+}?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

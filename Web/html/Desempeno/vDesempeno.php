@@ -1,4 +1,6 @@
 <?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 $tipoFormularioGet = 0;
 if (isset($_GET['tipoFormGet'])) {
     $tipoFormularioGet = $_GET['tipoFormGet'];
@@ -7,14 +9,7 @@ $ContratoGet = 0;
 if (isset($_GET['contrato'])) {
     $ContratoGet = $_GET['contrato'];
 }
-if (!isset($_SESSION)) {
-    session_start();
-}
-if (!isset($_SESSION["idUsuario"])) {
-    header("Location: ../index.php");
-    session_destroy();
-}
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+
 $tipoUsuario = $_SESSION['tipoUsuario'];
 
 if($tipoUsuario==2){

@@ -1,15 +1,8 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-if(!isset($_SESSION["idUsuario"])){
-    header("Location: ../../../index.php");
-    session_destroy();
-}
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $idCierreCaja = $_SESSION['idCierreCaja'];
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
 include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");

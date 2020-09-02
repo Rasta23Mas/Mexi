@@ -1,12 +1,6 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-if (!isset($_SESSION["idUsuario"])) {
-    header("Location: ../index.php");
-    session_destroy();
-}
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 $tipoUsuario = $_SESSION['tipoUsuario'];
 if ($tipoUsuario == 2) {
     include_once(HTML_PATH . "menuAdmin.php");

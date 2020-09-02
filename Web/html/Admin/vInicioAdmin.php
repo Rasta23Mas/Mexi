@@ -1,12 +1,7 @@
 <?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
-if (!isset($_SESSION)) {
-    session_start();
-}
-if(!isset($_SESSION["idUsuario"])){
-    header("Location: ../../../index.php");
-    session_destroy();
-}
 $sucursal = $_SESSION["sucursal"];
 $sucName = "Sucursal";
 if($sucursal==1){
@@ -18,9 +13,9 @@ if($sucursal==1){
 $sesionInactiva = $_SESSION['sesionInactiva'];
 $cajaInactiva = $_SESSION['cajaInactiva'];
 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+
 $tipoUsuario = $_SESSION['tipoUsuario'];
-include_once (HTML_PATH."menuGeneral.php");
+include_once (HTML_PATH."menuAdmin.php");
 
 
 ?>

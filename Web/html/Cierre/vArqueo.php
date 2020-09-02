@@ -1,14 +1,8 @@
 <?php
-if(!isset($_SESSION)) {
-    session_start();
-}
-if(!isset($_SESSION["idUsuario"])){
-    header("Location: ../index.php");
-    session_destroy();
-}
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $sucursal = $_SESSION['sucursal'];
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlCierreDAO.php");
 $tipoUsuario = $_SESSION['tipoUsuario'];
 if ($tipoUsuario == 2) {

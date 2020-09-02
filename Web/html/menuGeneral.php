@@ -1,7 +1,6 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 $tipoUsuario = $_SESSION['tipoUsuario'];
 $cajaInactiva = $_SESSION['cajaInactiva'];
 $sesionInactiva = $_SESSION['sesionInactiva'];

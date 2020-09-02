@@ -1,13 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-
-if (!isset($_SESSION)) {
-    session_start();
-}
-if (!isset($_SESSION["idUsuario"])) {
-    header("Location: ../index.php");
-    session_destroy();
-}
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $sucursal = $_SESSION['sucursal'];
 include_once(SQL_PATH . "sqlCierreDAO.php");
