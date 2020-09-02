@@ -82,7 +82,6 @@ $contenido .= '
                             </tr>
                         </thead>
                         <tbody id="idTBodyHistorico"  align="center"> ';
-$db = "";
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 

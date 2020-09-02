@@ -9,9 +9,9 @@ var errorToken = 0;
 function cancelarEmpeno() {
     $("#divCancelados").load('tablaCancelacionEmpeño.php');
     var tipoMovimiento = 0;
-    if (tipoContratoGlobal === 1) {
+    if (tipoContratoGlobal == 1) {
          tipoMovimiento = 3;
-    } else if (tipoContratoGlobal === 2) {
+    } else if (tipoContratoGlobal == 2) {
          tipoMovimiento = 7;
     }
     buscarContratos(tipoMovimiento);
@@ -21,9 +21,9 @@ function cancelarRefrendo() {
     $("#divCancelados").load('tablaCancelacionEmpeño.php');
     var tipoMovimiento = 0;
 
-    if (tipoContratoGlobal === 1) {
+    if (tipoContratoGlobal == 1) {
          tipoMovimiento = 4;
-    } else if (tipoContratoGlobal === 2) {
+    } else if (tipoContratoGlobal == 2) {
          tipoMovimiento = 8;
     }
     buscarContratos(tipoMovimiento);
@@ -33,9 +33,9 @@ function cancelarDesempeno() {
     $("#divCancelados").load('tablaCancelacionEmpeño.php');
     var tipoMovimiento = 0;
 
-    if (tipoContratoGlobal === 1) {
+    if (tipoContratoGlobal == 1) {
          tipoMovimiento = 5;
-    } else if (tipoContratoGlobal === 2) {
+    } else if (tipoContratoGlobal == 2) {
          tipoMovimiento = 9;
     }
     buscarContratos(tipoMovimiento);
@@ -68,9 +68,9 @@ function limpiarCancelado() {
 }
 
 function buscarContratos(tipoMovimiento) {
-    if (tipoContratoGlobal === 2) {
+    if (tipoContratoGlobal == 2) {
         $('#idAutoCheck').prop('checked', true);
-    } else if (tipoContratoGlobal === 1) {
+    } else if (tipoContratoGlobal == 1) {
         $('#idAutoCheck').prop('checked', false);
     }
     var dataEnviar = {
@@ -137,9 +137,9 @@ function buscarContratos(tipoMovimiento) {
     $("#divCancelados").load('tablaCancelacionEmpeño.php');
 }
 function buscarTodosContratos() {
-    if (tipoContratoGlobal === 2) {
+    if (tipoContratoGlobal == 2) {
         $('#idAutoCheck').prop('checked', true);
-    } else if (tipoContratoGlobal === 1) {
+    } else if (tipoContratoGlobal == 1) {
         $('#idAutoCheck').prop('checked', false);
     }
     var dataEnviar = {
@@ -298,7 +298,7 @@ function tokenCancelar() {
 function busquedaContrato() {
     var fechaAlmoneda = '';
     var id_movimiento = '';
-    if(tipoCancelar===3||tipoCancelar===7){
+    if(tipoCancelar==3||tipoCancelar==7){
         cancelacionMovimiento(id_movimiento,fechaAlmoneda);
     }else{
         //CancelaMovimiento y Bit Pagos
@@ -344,8 +344,8 @@ function cancelacionMovimiento(id_movimientoAnterior,fechaAlmoneda) {
         url: '../../../com.Mexicash/Controlador/Cancelar/cancelarMovimiento.php',
         data: dataEnviar,
         success: function (response) {
-            if (response === 1) {
-                if(tipoCancelar===3||tipoCancelar===7){
+            if (response == 1) {
+                if(tipoCancelar==3||tipoCancelar==7){
                     cancelacionContrato();
                 }else{
                     BitacoraUsuarioCancelacion()
@@ -369,7 +369,7 @@ function cancelacionContrato() {
         url: '../../../com.Mexicash/Controlador/Cancelar/cancelarContrato.php',
         data: dataEnviar,
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 BitacoraUsuarioCancelacion()
             }else{
                 alertify.error("Error al cancelar movimiento.")
@@ -450,7 +450,7 @@ function buscarCierreCaja() {
                     efectivo_Caja = formatoMoneda(efectivo_Caja);
                     ajuste = formatoMoneda(ajuste);
 
-                    if(CerradoPorGerente===0){
+                    if(CerradoPorGerente==0){
                         CerradoPorGerente = "NO";
                     }else{
                         CerradoPorGerente = "SI";
@@ -492,7 +492,7 @@ function cierreCancelar(folio_CierreCaja) {
         url: '../../../com.Mexicash/Controlador/Cancelar/busquedaCierre.php',
         data: dataEnviar,
         success: function (actualizado) {
-            if (actualizado===1) {
+            if (actualizado==1) {
                 buscarCierreCaja();
                 alertify.success("Se ha realizado la cancelación del cierre de caja.")
 

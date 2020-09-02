@@ -66,7 +66,6 @@ $contenido .= '
                             </tr>
                         </thead>
                         <tbody id="idTBodyInventario"  align="center"> ';
-$db = "";
 $query = " SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,precio_venta, 
                         ART.detalle as Detalle, CAT.descripcion as CatDesc, ART.id_ContratoMig
                         FROM bazar_articulos as Baz

@@ -15,13 +15,13 @@ function cargarTablaCatMetales(tipoMetal) {
                 var TipoMetal = datos[i].TipoMetal;
                 var DesMetal = datos[i].DesMetal;
                 var precio = datos[i].precio;
-                if (TipoMetal === null) {
+                if (TipoMetal == null) {
                     TipoMetal = '';
                 }
-                if (DesMetal === null) {
+                if (DesMetal == null) {
                     DesMetal = '';
                 }
-                if (precio === null) {
+                if (precio == null) {
                     precio = '0.00';
                 }
                 html += '<tr>' +
@@ -64,7 +64,7 @@ function eliminarMetal($idMetal) {
         url: '../../../com.Mexicash/Controlador/Catalogos/ActualizarMetal.php',
         type: 'post',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 cargarTablaCatMetales($tipoMetal)
                 alertify.success("Eliminado con éxito.");
             } else {
@@ -92,13 +92,13 @@ function modalEditarMetal(idMetal) {
                 var TipoMetal = datos[i].TipoMetal;
                 var DesMetal = datos[i].DesMetal;
                 var precio = datos[i].precio;
-                if (TipoMetal === null) {
+                if (TipoMetal == null) {
                     TipoMetal = '';
                 }
-                if (DesMetal === null) {
+                if (DesMetal == null) {
                     DesMetal = '';
                 }
-                if (precio === null) {
+                if (precio == null) {
                     precio = '0.00';
                 }
                 $("#idKilatajeEditModal").val(id_Kilataje);
@@ -126,7 +126,7 @@ function guardarMetal() {
         url: '../../../com.Mexicash/Controlador/Catalogos/ActualizarMetal.php',
         type: 'post',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 cargarTablaCatMetales(idTipo)
                 alertify.success("Guardado con éxito.");
             } else {
@@ -140,7 +140,7 @@ function guardarMetal() {
 function validarTipoUser() {
     var idUser = $('#idTipoUserCat').val();
 
-    if(idUser===2){
+    if(idUser==2){
         actualizarMetal();
     }else{
 
@@ -161,7 +161,7 @@ function actualizarMetal() {
         url: '../../../com.Mexicash/Controlador/Catalogos/ActualizarMetal.php',
         type: 'post',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 cargarTablaCatMetales($tipoMetal)
                 alertify.success("Guardado con éxito.");
             } else {
@@ -260,7 +260,7 @@ function llenarComboModeloE() {
 }
 
 function validarTipoE(tipoUsuario) {
-    if(tipoUsuario===1||tipoUsuario===2){
+    if(tipoUsuario==1||tipoUsuario==2){
         agregarTipoE();
     }else{
         $("#modalTokenElec").modal();
@@ -269,7 +269,7 @@ function validarTipoE(tipoUsuario) {
 
 function agregarTipoE() {
     var tipoText = $('#idTipoAgregar').val();
-    if (tipoText === '') {
+    if (tipoText == '') {
         alert("Ingrese el tipo.");
     } else {
         var dataEnviar = {
@@ -281,7 +281,7 @@ function agregarTipoE() {
             url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
             type: 'post',
             success: function (response) {
-                if (response === 1) {
+                if (response == 1) {
                     $('#idTipoAgregar').val('');
                     llenarComboTipoE();
                     alertify.success("Se guardo el Tipo correctamente");
@@ -296,11 +296,11 @@ function agregarTipoE() {
 
 function agregarMarcaE() {
     var tipoTextMarca = $('#idTipoModMarca').val();
-    if (tipoTextMarca === 0) {
+    if (tipoTextMarca == 0) {
         alert("Por favor. Seleccione el tipo.")
     } else {
         var marcaText = $('#idMarcaAgregar').val();
-        if (marcaText === '') {
+        if (marcaText == '') {
             alert("Ingrese la marca.");
 
         } else {
@@ -315,7 +315,7 @@ function agregarMarcaE() {
                 url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
                 type: 'post',
                 success: function (response) {
-                    if (response === 1) {
+                    if (response == 1) {
                         $('#idTipoAgregar').val('');
                         llenarComboMarcaE();
                         alertify.success("Se guardo la Marca correctamente");
@@ -331,15 +331,15 @@ function agregarMarcaE() {
 
 function agregarModeloE() {
     var tipoTextMarca = $('#idTipoModModelo').val();
-    if (tipoTextMarca === 0) {
+    if (tipoTextMarca == 0) {
         alert("Por favor. Seleccione el tipo.")
     } else {
         var marcaTipo = $('#idMarcaModModelo').val();
-        if (marcaTipo === '') {
+        if (marcaTipo == '') {
             alert("Por favor. Seleccione la marca.")
         } else {
             var modeloDes = $('#idModeloAgregar').val();
-            if (modeloDes === '') {
+            if (modeloDes == '') {
                 alert("Ingrese el modelo.");
 
             } else {
@@ -355,7 +355,7 @@ function agregarModeloE() {
                     url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
                     type: 'post',
                     success: function (response) {
-                        if (response === 1) {
+                        if (response == 1) {
                             $('#idTipoAgregar').val('');
                             llenarComboModeloE();
                             alertify.success("Se guardo el Modelo correctamente");
@@ -375,13 +375,13 @@ function agregarProducto() {
     var cmbTipo = $('#idTipoModP').val();
     var cmbMarca = $('#idMarcaModP').val();
     var cmbModelo = $('#idModeloModP').val();
-    if (cmbTipo === 0) {
+    if (cmbTipo == 0) {
         alert("Por favor. Seleccione el tipo.");
         validateForm = false;
-    } else if (cmbMarca === 0) {
+    } else if (cmbMarca == 0) {
         alert("Por favor. Seleccione la marca.");
         validateForm = false;
-    } else if (cmbModelo === 0) {
+    } else if (cmbModelo == 0) {
         alert("Por favor. Seleccione el modelo.");
         validateForm = false;
     }
@@ -392,10 +392,10 @@ function agregarProducto() {
         var vitrina = $('#idVitrinaP').val();
         var caracteristicas = $('#idCaracteristicaP').val().trim();
 
-        if (precio === "") {
+        if (precio == "") {
             alert("Por favor. Ingrese el precio.")
             validateForm = false;
-        } else if (vitrina === "") {
+        } else if (vitrina == "") {
             alert("Por favor. Ingrese vitrina.")
             validateForm = false;
         }
@@ -415,7 +415,7 @@ function agregarProducto() {
                 url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
                 type: 'post',
                 success: function (response) {
-                    if (response === 1) {
+                    if (response == 1) {
                         cargarTblProducto(cmbTipo,cmbMarca,cmbModelo)
                         alertify.success("Se guardo el producto correctamente");
 
@@ -480,31 +480,31 @@ function editarProducto($idProducto) {
                 var precio = datos[i].precio;
                 var vitrina = datos[i].vitrina;
                 var caracteristicas = datos[i].caracteristicas;
-                if (tipoId === null) {
+                if (tipoId == null) {
                     tipoId = '';
                 }
-                if (marcaId === null) {
+                if (marcaId == null) {
                     marcaId = '';
                 }
-                if (modeloId === null) {
+                if (modeloId == null) {
                     modeloId = '';
                 }
-                if (tipoEditar === null) {
+                if (tipoEditar == null) {
                     tipoEditar = '';
                 }
-                if (marca === null) {
+                if (marca == null) {
                     marca = '';
                 }
-                if (modelo === null) {
+                if (modelo == null) {
                     modelo = '';
                 }
-                if (precio === null) {
+                if (precio == null) {
                     precio = '';
                 }
-                if (vitrina === null) {
+                if (vitrina == null) {
                     vitrina = '';
                 }
-                if (caracteristicas === null) {
+                if (caracteristicas == null) {
                     caracteristicas = '';
                 }
 
@@ -548,22 +548,22 @@ function cargarTblProducto(tipoSelect, marcaSelect, modeloSelect) {
                 var precio = datos[i].precio;
                 var vitrina = datos[i].vitrina;
                 var caracteristicas = datos[i].caracteristicas;
-                if (tipo === null) {
+                if (tipo == null) {
                     tipo = '';
                 }
-                if (marca === null) {
+                if (marca == null) {
                     marca = '';
                 }
-                if (modelo === null) {
+                if (modelo == null) {
                     modelo = '';
                 }
-                if (precio === null) {
+                if (precio == null) {
                     precio = '';
                 }
-                if (vitrina === null) {
+                if (vitrina == null) {
                     vitrina = '';
                 }
-                if (caracteristicas === null) {
+                if (caracteristicas == null) {
                     caracteristicas = '';
                 }
                 html += '<tr>' +
@@ -608,7 +608,7 @@ function actualizarProducto() {
         url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
         type: 'post',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 cargarTblProducto($idTipoModE,$idMarcaModE,$idModeloModE)
                 alertify.success("Se actualizo el producto correctamente");
 
@@ -648,7 +648,7 @@ function eliminarProductoProd($idProducto) {
         data: dataEnviar,
         dataType: "json",
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 cargarTblProducto($idTipoModE,$idMarcaModE,$idModeloModE)
                 alertify.success("Eliminado con éxito.");
             } else {

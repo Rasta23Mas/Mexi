@@ -28,7 +28,6 @@ if (isset($_GET['folio'])) {
 
 
 }
-$db = "";
 $buscarFlujo = "SELECT Cat.descripcion as Descrip,Flu.importe as Importe,Flu.importeLetra as ImporteLetra,Usu.usuario as User, Flu.usuarioCaja as UserCaja,
                 Flu.concepto as Concepto,fechaCreacion as FechaCreacion
                 FROM flujo_tbl as Flu 

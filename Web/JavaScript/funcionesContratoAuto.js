@@ -4,13 +4,13 @@ function validarMontoAuto() {
     var diasAlmoneda = $("#idDiasAlmoneda").val();
     var validate = true;
 
-    if (clienteEmpeno === '' || clienteEmpeno == null) {
+    if (clienteEmpeno == '' || clienteEmpeno == null) {
         alert("Por Favor. Selecciona un cliente.");
         validate = false;
-    } else if (tipoInteres === 0) {
+    } else if (tipoInteres == 0) {
         alert("Por Favor. Selecciona tipo de interes.");
         validate = false;
-    } else if (diasAlmoneda === '' || diasAlmoneda == null) {
+    } else if (diasAlmoneda == '' || diasAlmoneda == null) {
         alert("Por Favor. Selecciona los días de almoneda.");
         validate = false;
     }
@@ -46,64 +46,64 @@ function validarMontoAuto() {
 function validateFormAuto() {
 
     var validateForm = false;
-    if($("#idTipoVehiculo").val()===0){
+    if($("#idTipoVehiculo").val()==0){
         $("#idTipoVehiculo").focus();
         alertify.error("Por favor, selecciona el tipo de vehiculo.");
-    } else if($("#idMarca").val()===""){
+    } else if($("#idMarca").val()==""){
         $("#idMarca").focus();
         alertify.error("Por favor, ingresa la marca.");
-    }else if($("#idModelo").val()===""){
+    }else if($("#idModelo").val()==""){
         $("#idModelo").focus();
         alertify.error("Por favor, ingresa el modelo.");
-    }else if($("#idAnio").val()===""){
+    }else if($("#idAnio").val()==""){
         $("#idAnio").focus();
         alertify.error("Por favor, ingresa el año.");
-    }else if($("#idColor").val()===0){
+    }else if($("#idColor").val()==0){
         $("#idColor").focus();
         alertify.error("Por favor, selecciona el color.");
-    }else if($("#idPlacas").val()===""){
+    }else if($("#idPlacas").val()==""){
         $("#idPlacas").focus();
         alertify.error("Por favor, ingresa las placas.");
-    }else if($("#idFactura").val()===""){
+    }else if($("#idFactura").val()==""){
         $("#idFactura").focus();
         alertify.error("Por favor, ingresa la factura.");
-    }else if($("#idKms").val()===""){
+    }else if($("#idKms").val()==""){
         $("#idKms").focus();
         alertify.error("Por favor, ingresa el kilometraje.");
-    }else if($("#idAgencia").val()===""){
+    }else if($("#idAgencia").val()==""){
         $("#idAgencia").focus();
         alertify.error("Por favor, ingresa la agencia.");
-    }else if($("#idMotor").val()===""){
+    }else if($("#idMotor").val()==""){
         $("#idMotor").focus();
         alertify.error("Por favor, ingresa el id del motor.");
-    }else if($("#idChasis").val()===""){
+    }else if($("#idChasis").val()==""){
         $("#idChasis").focus();
         alertify.error("Por favor, ingresa el número del chasis.");
-    }else if($("#idVehiculo").val()===""){
+    }else if($("#idVehiculo").val()==""){
         $("#idVehiculo").focus();
         alertify.error("Por favor, ingresa el VIN.");
-    }else if($("#idRepuve").val()===""){
+    }else if($("#idRepuve").val()==""){
         $("#idRepuve").focus();
         alertify.error("Por favor, ingresa el REPUVE.");
-    }else if($("#idGasolina").val()===""){
+    }else if($("#idGasolina").val()==""){
         $("#idGasolina").focus();
         alertify.error("Por favor, ingresa la gasolina.");
-    }else if($("#idTarjeta").val()===""){
+    }else if($("#idTarjeta").val()==""){
         $("#idTarjeta").focus();
         alertify.error("Por favor, ingresa la tarjeta.");
-    }else if($("#idAseguradora").val()===""){
+    }else if($("#idAseguradora").val()==""){
         $("#idAseguradora").focus();
         alertify.error("Por favor, ingresa la aseguradora.");
-    }else if($("#idPoliza").val()===""){
+    }else if($("#idPoliza").val()==""){
         $("#idPoliza").focus();
         alertify.error("Por favor, ingresa la poliza.");
-    }else if($("#idFechaVencAuto").val()===""){
+    }else if($("#idFechaVencAuto").val()==""){
         $("#idFechaVencAuto").focus();
         alertify.error("Por favor, ingresa la fecha de vencimiento.");
-    }else if($("#idTipoPoliza").val()===""){
+    }else if($("#idTipoPoliza").val()==""){
         $("#idTipoPoliza").focus();
         alertify.error("Por favor, ingresa el tipo de poliza.");
-    }else if($("#idObservacionesAuto").val()===""){
+    }else if($("#idObservacionesAuto").val()==""){
         $("#idObservacionesAuto").focus();
         alertify.error("Por favor, ingresa las observaciones.");
     }else{
@@ -284,7 +284,7 @@ function limpiarTabla() {
         url: '../../../com.Mexicash/Controlador/ArticulosObsoletos.php',
         type: 'post',
         success: function (response) {
-            if (response === -1 || response === 0) {
+            if (response == -1 || response == 0) {
                 alertify.error("Error FEErr05");
             } else {
                 alertify.warning("Se limpio tabla por modificar el tipo de articulo.");

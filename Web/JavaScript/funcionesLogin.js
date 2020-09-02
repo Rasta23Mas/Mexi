@@ -1,7 +1,7 @@
-tipoUserGlb = 0;
+var tipoUserGlb = 0;
 
 function enterValidaUser(e) {
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
         validarUser();
     }
 }
@@ -10,11 +10,11 @@ function validarUser() {
     var user = $("#usuario").val();
     var pass = $("#password").val();
     var validate = true;
-    if (user === '' || user == null) {
+    if (user == '' || user == null) {
         alertify.error("Por favor ingrese un usuario.");
         validate = false;
     }
-    if (pass === '' || pass == null) {
+    if (pass == '' || pass == null) {
         alertify.error("Por favor ingrese una contraseña.");
         validate = false;
     }
@@ -30,7 +30,7 @@ function validarUser() {
             success: function (tipoUser) {
                 tipoUserGlb = tipoUser;
                 if (tipoUserGlb > 0) {
-                    if (tipoUserGlb === 1 || tipoUserGlb === 2) {
+                    if (tipoUserGlb == 1 || tipoUserGlb == 2) {
                         $("#modalSucursal").modal();
                     } else {
                         var validateMobile = isMobile();
@@ -59,9 +59,9 @@ function LoginAdministradores(sucursal) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/LogginAdministradores.php',
         success: function (HaySucursales) {
-            if (HaySucursales === 1) {
+            if (HaySucursales == 1) {
                 location.href = '../Empeno/vInicio.php';
-            } else if (HaySucursales === 0) {
+            } else if (HaySucursales == 0) {
                 saldosInformativoAdmin();
             } else {
                 alertify.error("Error en al conectar con el servidor. (ErrFn01)")
@@ -72,7 +72,6 @@ function LoginAdministradores(sucursal) {
 
 function saldosInformativoAdmin() {
 
-    //FLErr09
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
         type: 'post',
@@ -103,7 +102,7 @@ function saldosSucursalAdmin(saldoInicialInfo) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 location.href = '../Empeno/vInicio.php'
             } else {
                 alertify.error("Error en al conectar con el servidor. (ErrFn02)")
@@ -128,13 +127,13 @@ function validarHorario() {
         success: function (response) {
             var horario = Number(response);
             if (horario > 0) {
-                if (tipoUserGlb === 3) {
+                if (tipoUserGlb == 3) {
                     LoginGerente();
                 } else {
                     LoginVendedor();
                 }
             } else {
-                if (tipoUserGlb === 3) {
+                if (tipoUserGlb == 3) {
                     confirmarModificarHorario();
                 } else {
                     alert("El sistema Mexicash se encuentra inhabilitado por horario.");
@@ -161,9 +160,9 @@ function LoginGerente() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/LogginGerente.php',
         success: function (HaySucursales) {
-            if (HaySucursales === 1) {
+            if (HaySucursales == 1) {
                 buscaridCajaGerente();
-            } else if (HaySucursales === 0) {
+            } else if (HaySucursales == 0) {
                 saldosInformativoGerente();
             } else {
                 alertify.error("Error en al conectar con el servidor. (ErrFn03)")
@@ -173,8 +172,6 @@ function LoginGerente() {
 }
 
 function saldosInformativoGerente() {
-
-    //FLErr09
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
         type: 'post',
@@ -205,7 +202,7 @@ function saldosSucursalGerente(saldoInicialInfo) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 buscaridCajaGerente();
             } else {
                 alertify.error("Error en al conectar con el servidor. (ErrFn04)")
@@ -221,7 +218,7 @@ function buscaridCajaGerente() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/LogginGerenteCaja.php',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 BitacoraUsuario();
             } else {
                 alertify.error("Error en al conectar con el servidor.  (ErrFn05)")
@@ -267,27 +264,25 @@ function BitacoraUsuario() {
 }
 
 function LoginVendedor() {
-    //ErrFn03
+    //ErrFn07
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/LogginVendedor.php',
         success: function (HaySucursales) {
-            if (HaySucursales === 1) {
+            if (HaySucursales == 1) {
                 buscaridCajaVendedor();
-            } else if (HaySucursales === 2) {
+            } else if (HaySucursales == 2) {
                 alertify.error('Sistema cerrado por cierre de sucursal.')
-            }  else if (HaySucursales === 0) {
+            }  else if (HaySucursales == 0) {
                 saldosInformativoVendedor();
             } else {
-                alertify.error("Error en al conectar con el servidor. (ErrFn03)")
+                alertify.error("Error en al conectar con el servidor. (ErrFn07)")
             }
         }
     });
 }
 
 function saldosInformativoVendedor() {
-
-    //FLErr09
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
         type: 'post',
@@ -309,7 +304,7 @@ function saldosInformativoVendedor() {
 }
 
 function saldosSucursalVendedor(saldoInicialInfo) {
-    //ErrFn04
+    //ErrFn09
     var dataEnviar = {
         "saldoInicialInfo": saldoInicialInfo,
     };
@@ -318,10 +313,10 @@ function saldosSucursalVendedor(saldoInicialInfo) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 buscaridCajaVendedor();
             } else {
-                alertify.error("Error en al conectar con el servidor. (ErrFn04)")
+                alertify.error("Error en al conectar con el servidor. (ErrFn09)")
             }
         }
     });
@@ -329,17 +324,17 @@ function saldosSucursalVendedor(saldoInicialInfo) {
 
 
 function buscaridCajaVendedor() {
-    //ErrFn05
+    //ErrFn10
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/LogginVendedorCaja.php',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 BitacoraUsuario();
-            } else if (response === 1) {
+            } else if (response == 1) {
                 alertify.error('Sistema cerrado. El usuario ha realizado el cierre de su caja.')
             } else {
-                alertify.error("Error en al conectar con el servidor.  (ErrFn05)")
+                alertify.error("Error en al conectar con el servidor.  (ErrFn10)")
             }
         }
     });
@@ -394,7 +389,7 @@ function HaySucursalesRegistradas() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCajaSucursal.php',
         success: function (HaySucursales) {
-            if (HaySucursales === 0) {
+            if (HaySucursales == 0) {
                 insertaCajaSucursal(1);
             } else {
                 validarSucursalHoyAdmin();
@@ -413,7 +408,7 @@ function insertaCajaSucursal(idCierreSuc) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCajaSucursal.php',
         success: function (response) {
-            if (response === 0) {
+            if (response == 0) {
                 saldosInformativo();
             } else {
                 alertify.error("Error en al conectar con el servidor. (FLErr01)")
@@ -433,15 +428,15 @@ function validarSucursalHoyAdmin() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCajaSucursal.php',
         success: function (response) {
-            if (response === 0) {
+            if (response == 0) {
 
                 insertaCajaSelectMaxSucursal();
-            }else  if (response === 1) {
+            }else  if (response == 1) {
                 buscaridCaja();
-            } else if (response === 2) {
-                if (tipoUserGlb === 1 || tipoUserGlb === 2) {
+            } else if (response == 2) {
+                if (tipoUserGlb == 1 || tipoUserGlb == 2) {
                     confirmarEntrarSucursalInactiva();
-                }else  if (tipoUserGlb === 3) {
+                }else  if (tipoUserGlb == 3) {
                     confirmarCancelarCierre();
                 } else {
                     alert("Se ha realizado el cierre de sucursal.")
@@ -461,7 +456,7 @@ function insertaCajaSelectMaxSucursal() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCajaSucursal.php',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 saldosInformativo();
 
             } else {
@@ -503,34 +498,32 @@ function confirmarEntrarSucursalInactiva() {
 
 
 function buscaridCaja() {
-    //FLErr02
+    //FLErr11
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCaja.php',
         success: function (response) {
             if (response > 0) {
-                if(tipoUserGlb===1||tipoUserGlb ===2){
+                if(tipoUserGlb==1||tipoUserGlb ==2){
                     location.href = '../Empeno/vInicio.php'
                 }else{
                     BitacoraUsuario();
                 }
-            } else if (response === -1) {
+            } else if (response == -1) {
                 //Adminisradores -> 5 Inicia la sesion
-                if(tipoUserGlb===3){
+                if(tipoUserGlb==3){
                     location.href = '../Empeno/vInicio.php'
                 }else{
                     alert("El usuario no tiene acceso, ya que se ha realizado el cierre de caja.")
                 }
             } else {
-                alertify.error("Error en al conectar con el servidor.  (FLErr02)")
+                alertify.error("Error en al conectar con el servidor.  (FLErr11)")
             }
         }
     });
 }
 
 function saldosInformativo() {
-
-    //FLErr09
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
         type: 'post',
@@ -552,7 +545,7 @@ function saldosInformativo() {
 }
 
 function saldosSucursal(saldoInicialInfo) {
-    //FLErr09
+    //FLErr13
     var dataEnviar = {
         "saldoInicialInfo": saldoInicialInfo,
     };
@@ -561,10 +554,10 @@ function saldosSucursal(saldoInicialInfo) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
         success: function (response) {
-            if (response === 1) {
+            if (response == 1) {
                 buscaridCaja()
             } else {
-                alertify.error("Error en al conectar con el servidor. (FLErr091)")
+                alertify.error("Error en al conectar con el servidor. (FLErr13)")
             }
         }
     });

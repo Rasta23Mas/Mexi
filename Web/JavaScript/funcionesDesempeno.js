@@ -46,14 +46,14 @@ var SeguDescGlb = 0;
 function busquedaRefrendo(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
         busquedaMovimiento();
     }
     return patron.test(te);
@@ -117,13 +117,13 @@ function estatusContrato() {
                         var NombreCompleto = datos[i].NombreCompleto;
                         var Movimiento = datos[i].Movimiento;
                         var tipoMovimiento = datos[i].tipoMovimiento;
-                        if (tipoMovimiento === 3 || tipoMovimiento === 4 || tipoMovimiento === 7 || tipoMovimiento === 8) {
+                        if (tipoMovimiento == 3 || tipoMovimiento == 4 || tipoMovimiento == 7 || tipoMovimiento == 8) {
                             tipoMovimientoGbl = tipoMovimiento;
                             buscarCliente();
                             buscarDatosContrato();
-                            if (tipoContrato === 1) {
+                            if (tipoContrato == 1) {
                                 buscarDetalle();
-                            } else if (tipoContrato === 2) {
+                            } else if (tipoContrato == 2) {
                                 buscarDetalleAuto();
                             }
 
@@ -172,19 +172,19 @@ function buscarCliente() {
                         var Cotitular = datos[i].Cotitular;
                         var UsuarioName = datos[i].UsuarioName;
 
-                        if (NombreCompleto === null) {
+                        if (NombreCompleto == null) {
                             NombreCompleto = '';
                         }
-                        if (DireccionCompleta === null) {
+                        if (DireccionCompleta == null) {
                             DireccionCompleta = '';
                         }
-                        if (DireccionCompletaEst === null) {
+                        if (DireccionCompletaEst == null) {
                             DireccionCompletaEst = '';
                         }
-                        if (Cotitular === null) {
+                        if (Cotitular == null) {
                             Cotitular = '';
                         }
-                        if (UsuarioName === null) {
+                        if (UsuarioName == null) {
                             UsuarioName = '';
                         }
 
@@ -277,7 +277,7 @@ function buscarDatosContrato() {
                     var diasInteresMor = 0;
                     Abono = Number(Abono);
 
-                    if (FechaEmpConvert === fechaHoyText) {
+                    if (FechaEmpConvert == fechaHoyText) {
                         //Si la fecha es igual el dia de interes generado es 1
                         diasForInteres = 0;
                         if (DiasContrato !== 0) {
@@ -296,23 +296,23 @@ function buscarDatosContrato() {
                     }
 
                     //Plazo
-                    if (DiasContrato === 30) {
+                    if (DiasContrato == 30) {
                         PlazoDesc = PlazoDesc + " Mensual";
-                    } else if (DiasContrato === 1) {
+                    } else if (DiasContrato == 1) {
                         PlazoDesc = PlazoDesc + " Diario";
-                    } else if (DiasContrato === 14) {
+                    } else if (DiasContrato == 14) {
                         PlazoDesc = PlazoDesc + " Catorcenal";
                     }
 
 
-                    if (Abono === '' || Abono == null) {
+                    if (Abono == '' || Abono == null) {
                         Abono = 0.00;
                     }
-                    if (Descuento === '' || Descuento == null) {
+                    if (Descuento == '' || Descuento == null) {
                         Descuento = 0.00;
                     }
 
-                    if (DiasAlmoneda === 0) {
+                    if (DiasAlmoneda == 0) {
                         DiasAlmoneda = 1;
                     }
                     $("#descuentoAnteriorNuevoNota").val(Descuento);
@@ -380,14 +380,14 @@ function buscarDatosContrato() {
                     var polizaSumarAInteres = 0.00;
                     //Si es auto
 
-                    if (tipeFormulario === 4) {
-                        if (PolizaSeguro === '' || PolizaSeguro == null) {
+                    if (tipeFormulario == 4) {
+                        if (PolizaSeguro == '' || PolizaSeguro == null) {
                             PolizaSeguro = 0.00;
                         }
-                        if (GPS === '' || GPS == null) {
+                        if (GPS == '' || GPS == null) {
                             GPS = 0.00;
                         }
-                        if (Pension === '' || Pension == null) {
+                        if (Pension == '' || Pension == null) {
                             Pension = 0.00;
                         }
                         var gpsDiario = GPS / DiasContrato;
@@ -496,7 +496,7 @@ function buscarDatosContrato() {
                     interesPagarNuevoNota = totalInteresNuevoNota;
                     totalPagarNuevoNota = totalInteresNuevoNota;
                     var saldoPendiente = prestamoNuevoNota;
-                    if (tipeFormulario === 3 || tipeFormulario === 4) {
+                    if (tipeFormulario == 3 || tipeFormulario == 4) {
                         prestamoNuevoNota = Number(prestamoNuevoNota);
                         interesPagarNuevoNota = Number(interesPagarNuevoNota)
                         totalPagarNuevoNota = prestamoNuevoNota + interesPagarNuevoNota;
@@ -582,10 +582,10 @@ function buscarDetalle() {
                     var Detalle = datos[i].Detalle;
                     var Obseracion = datos[i].Obseracion;
 
-                    if (Detalle === null) {
+                    if (Detalle == null) {
                         Detalle = '';
                     }
-                    if (Obseracion === null) {
+                    if (Obseracion == null) {
                         Obseracion = '';
                     }
                     detalleContrato = Detalle + "\n" + " Observaciones:" + Obseracion + "\n";
@@ -620,19 +620,19 @@ function buscarDetalleAuto() {
                     var Obs = datos[i].Obs;
 
 
-                    if (Marca === null) {
+                    if (Marca == null) {
                         Marca = '';
                     }
-                    if (Modelo === null) {
+                    if (Modelo == null) {
                         Modelo = '';
                     }
-                    if (Anio === null) {
+                    if (Anio == null) {
                         Anio = '';
                     }
-                    if (ColorAuto === null) {
+                    if (ColorAuto == null) {
                         ColorAuto = '';
                     }
-                    if (Obs === null) {
+                    if (Obs == null) {
                         Obs = '';
                     }
 
@@ -654,14 +654,14 @@ function cancelar() {
 function descuentoNuevo(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
         var descuento = $("#idDescuentoNotaNuevo").val();
         descuento = Number(descuento);
 
@@ -738,16 +738,16 @@ function descuentoTabla() {
 function cambioNuevo(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
         var totalPagarNuevoNota = 0;
-        if (tipoSinInteres === 0) {
+        if (tipoSinInteres == 0) {
             totalPagarNuevoNota = $("#totalPagarNuevoNota").val();
         } else {
             totalPagarNuevoNota = $("#totalSinInteresValue").val();
@@ -791,7 +791,7 @@ function calcularTotalPagar(descuento, interesTotal, abono) {
 }
 
 function limpiarRefrendo() {
-    if (tipoSinInteres === 0) {
+    if (tipoSinInteres == 0) {
         var totalInteresNuevoNota = $("#totalInteresNuevoNota").val()
         $("#descuentoNuevoNota").val(0);
         $("#interesPagarNuevoNota").val(0);
@@ -823,7 +823,7 @@ function limpiarRefrendo() {
 function validaDescuentoNuevo() {
     var idValidaToken = $("#idValidaToken").val();
     idValidaToken = parseFloat(idValidaToken);
-    if (idValidaToken === 0) {
+    if (idValidaToken == 0) {
         generarNuevo();
     } else {
         $("#modalDescuento").modal();
@@ -899,12 +899,12 @@ function generarNuevo() {
     pension = Math.round(pension * 100) / 100;
 
 
-    if (efectivoNuevoNota === 0) {
+    if (efectivoNuevoNota == 0) {
         alert("Por favor. Capture el pago en efectivo. ");
         validate = 0;
     }
 
-    if (validate === 1) {
+    if (validate == 1) {
         var idValidaToken = $("#idValidaToken").val();
         idValidaToken = parseFloat(idValidaToken);
         if (idValidaToken !== 0) {
@@ -972,9 +972,9 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     var e_pension = 0;
     var movimiento = 0;
     alert(tipeFormulario)
-    if (tipeFormulario === 3) {
+    if (tipeFormulario == 3) {
         movimiento = 5;
-    } else if (tipeFormulario === 4) {
+    } else if (tipeFormulario == 4) {
         movimiento = 9;
         e_gps = $("#gpsNuevoNota").val();
         e_poliza = $("#polizaNuevoNota").val();
@@ -1046,10 +1046,10 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
 function BitacoraUsuarioRefrendo() {
     //id_Movimiento = 3 cat_movimientos-->Operacion-->Empeño
     var movimiento = 0;
-    if (tipoContrato === 1) {
+    if (tipoContrato == 1) {
         movimiento = 5;
     }
-    if (tipoContrato === 2) {
+    if (tipoContrato == 2) {
         movimiento = 9;
     }
 
@@ -1125,7 +1125,7 @@ function MovimientosRefrendoSinInteres() {
     e_moratorios = Math.round(e_moratorios * 100) / 100;
     e_ivaValue = Math.round(e_ivaValue * 100) / 100;
     abonoFinal = Math.round(abonoFinal * 100) / 100;
-   if (tipeFormulario === 4) {
+   if (tipeFormulario == 4) {
         e_gps = $("#gpsNuevoNota").val();
         e_poliza = $("#polizaNuevoNota").val();
         e_pension = $("#pensionNuevoNota").val();
@@ -1225,18 +1225,18 @@ function refrendoConfirmar() {
     alertify.confirm('Atención',
         'El contrato tiene fecha de movimiento del día de hoy, y no es posible refrendar, ¿Desea ir al módulo de desempeño?',
         function () {
-            if (tipoContrato === 1) {
+            if (tipoContrato == 1) {
                 location.href = 'vRefrendo.php?tipoFormGet=3&contrato=' + contratoGbl;
 
-            } else if (tipoContrato === 2) {
+            } else if (tipoContrato == 2) {
                 location.href = 'vRefrendo.php?tipoFormGet=4&contrato=' + contratoGbl;
             }
         },
         function () {
-            if (tipoContrato === 1) {
+            if (tipoContrato == 1) {
                 location.href = 'vRefrendo.php?tipoFormGet=1';
 
-            } else if (tipoContrato === 2) {
+            } else if (tipoContrato == 2) {
                 location.href = 'vRefrendo.php?tipoFormGet=2';
             }
         });

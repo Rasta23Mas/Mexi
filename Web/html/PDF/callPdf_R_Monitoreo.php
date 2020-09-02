@@ -78,7 +78,6 @@ $contenido .= '
                             </tr>
                         </thead>
                         <tbody id="idTBodyMonitoreo"  align="center">';
-$db = "";
 $rptMon = "SELECT Bit.id_BitacoraToken,Bit.id_Contrato,Bit.tipo_formulario as FORMU,Bit.token,Bit.descripcion,
                         Bit.descuento,Bit.interes, Cat.descripcion as Descrip, Usu.usuario,Bit.importe_flujo,
                         Bit.id_flujo,

@@ -44,14 +44,14 @@ function nombreAutocompletarVenta() {
 function busquedaCodigoApartados(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
         busquedaCodigoBazar();
     }
 }
@@ -87,6 +87,7 @@ function busquedaCodigoBazar() {
 
                     html += '<tr>' +
                         '<td>' + id_serie + '</td>' +
+                        '<td>' + id_Contrato + '</td>' +
                         '<td>' + descripcionCorta + '</td>' +
                         '<td>' + empeno + '</td>' +
                         '<td>' + avaluo + '</td>' +
@@ -135,14 +136,14 @@ function calcularIva(id_Bazar, precio, id_Contrato, id_serie) {
 function apartadoInicial(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
 
         var subtotalValue = $("#idTotalValue").val();
         var apartado = $("#idApartadoInicial").val();
@@ -176,14 +177,14 @@ function apartadoInicial(e) {
 function efectivoVenta(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
 
         var apartado = $("#idApartadoInicialValue").val();
         var efectivo = $("#idEfectivo").val();
@@ -235,19 +236,19 @@ function guardarApartado() {
      22->Apartado
      */
     id_ClienteGlb = $("#idClienteVenta").val();
-    if (id_ClienteGlb === 0) {
+    if (id_ClienteGlb == 0) {
         alert("Debe seleccionar un cliente para el apartado.");
     } else {
         var vendedor = $("#idVendedor").val();
-        if (vendedor === 0) {
+        if (vendedor == 0) {
             alert("Debe seleccionar un vendedor para el apartado.");
         } else {
             var apartado = $("#idApartadoInicialValue").val();
-            if (apartado === 0) {
+            if (apartado == 0) {
                 alert("Debe calcular el apartado inicial.");
             } else {
                 var efectivo = $("#idEfectivoValue").val();
-                if (efectivo === 0) {
+                if (efectivo == 0) {
                     alert("Debe calcular el cambio del cliente.");
                 } else {
                     var iva = $("#idIvaValue").val();

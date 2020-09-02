@@ -116,7 +116,7 @@ function busquedaAbonos(id_Contrato,id_Bazar) {
                     sucursalGlb = datos[i].sucursal;
 
 
-                    if (tipo_movimiento === 22 ) {
+                    if (tipo_movimiento == 22 ) {
                         apartadoTotal = apartado;
                         prestamoVenta = datos[i].precio_venta;
 
@@ -128,7 +128,7 @@ function busquedaAbonos(id_Contrato,id_Bazar) {
                             '<td align="right">' + precioTabla + '</td>' +
                             '</tr>';
 
-                    } else if (tipo_movimiento === 23) {
+                    } else if (tipo_movimiento == 23) {
                         abonoTotal += abono;
                         fechaAbono = fecha_Modificacion;
                         tablaAbono++;
@@ -145,7 +145,7 @@ function busquedaAbonos(id_Contrato,id_Bazar) {
 
                 }
 
-                if (tablaAbono === 0) {
+                if (tablaAbono == 0) {
                     html += '<tr>' +
                         '<td colspan="3" align="center"> <label>Sin abonos para mostrar.</label></td>' +
                         '</tr>';
@@ -181,14 +181,14 @@ function busquedaAbonos(id_Contrato,id_Bazar) {
 function nuevoAbono(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
 
         var ultimoSaldo = $("#idUltimoSaldoValue").val();
         var abono = $("#idImporteAbono").val();
@@ -196,7 +196,7 @@ function nuevoAbono(e) {
         ultimoSaldo = Math.floor(ultimoSaldo * 100) / 100;
         abono = Math.floor(abono * 100) / 100;
 
-        if(abono===0||abono===""){
+        if(abono==0||abono==""){
             alertify.warning("Por favor capturar el abono.");
 
         }else{
@@ -219,7 +219,7 @@ function nuevoAbono(e) {
                 $("#idEfectivo").prop('disabled', false);
                 tipo_movimientoGlb = 23;
 
-            } else if(ultimoSaldo === abono){
+            } else if(ultimoSaldo == abono){
                 var nuevoSaldo = 0;
                 nuevoSaldo = Math.floor(nuevoSaldo * 100) / 100;
                 $("#idEfectivo").val("");
@@ -250,14 +250,14 @@ function nuevoAbono(e) {
 function efectivoAbono(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
 
         var abono = $("#idImporteAbonoValue").val();
         var efectivo = $("#idEfectivo").val();
@@ -309,11 +309,11 @@ function guardarAbono() {
      */
 
     var abono = $("#idImporteAbonoValue").val();
-    if (abono === 0) {
+    if (abono == 0) {
         alert("Debe calcular el abono.");
     } else {
         var efectivo = $("#idEfectivoValue").val();
-        if (efectivo === 0) {
+        if (efectivo == 0) {
             alert("Debe calcular el cambio del cliente.");
         } else {
 
@@ -391,9 +391,9 @@ function BitacoraAbonos() {
 
 //Generar PDF
 function verPDFAbono(idBazar) {
-    if(tipo_movimientoGlb===23){
+    if(tipo_movimientoGlb==23){
         window.open('../PDF/callPdfAbono.php?pdf=1&idBazar=' + idBazar);
-    }else if(tipo_movimientoGlb===6){
+    }else if(tipo_movimientoGlb==6){
         window.open('../PDF/callPdfVentaAbono.php?pdf=1&idBazar=' + idBazar);
     }
     alert("Abono realizado");

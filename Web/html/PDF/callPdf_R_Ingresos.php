@@ -75,7 +75,6 @@ $contenido .= '
                             </tr>
                         </thead>
                         <tbody id="idTBodyIngresos"  align="center">';
-$db = "";
 $rptIng = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
                        costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
                        utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 

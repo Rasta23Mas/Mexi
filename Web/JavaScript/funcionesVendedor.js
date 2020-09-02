@@ -14,46 +14,46 @@ function agregarVendedor() {
     var idCalle = $("#idCalle").val();
     var idNumExt = $("#idNumExt").val();
     var validacion = true;
-    if (idNombre === "" || idNombre == null) {
+    if (idNombre == "" || idNombre == null) {
         alert("Por favor ingrese un nombre.");
         validacion = false;
-    } else if (idApPat === "" || idApPat == null) {
+    } else if (idApPat == "" || idApPat == null) {
         alert("Por favor ingrese apellido paterno.");
         validacion = false;
-    } else if (idSexo === 0 || idSexo == null) {
+    } else if (idSexo == 0 || idSexo == null) {
         alert("Por favor seleccione el campo sexo.");
         validacion = false;
-    } else if (idFechaNac === "" || idFechaNac == null) {
+    } else if (idFechaNac == "" || idFechaNac == null) {
         alert("Por favor ingrese fecha de nacimiento.");
         validacion = false;
-    } else if (idCelular === "" || idCelular == null) {
+    } else if (idCelular == "" || idCelular == null) {
         alert("Por favor ingrese numero celular.");
         validacion = false;
-    } else if (idIdentificacion === 0 || idIdentificacion == null) {
+    } else if (idIdentificacion == 0 || idIdentificacion == null) {
         alert("Por favor ingrese tipo de identificacion.");
         validacion = false;
-    } else if (idNumIdentificacion === "" || idNumIdentificacion == null) {
+    } else if (idNumIdentificacion == "" || idNumIdentificacion == null) {
         alert("Por favor ingrese número de identificación.");
         validacion = false;
-    } else if (idEstado === 0 || idEstado == null) {
+    } else if (idEstado == 0 || idEstado == null) {
         alert("Por favor seleccione un estado.");
         validacion = false;
-    } else if (idMunicipio === 0 || idMunicipio == null) {
+    } else if (idMunicipio == 0 || idMunicipio == null) {
         alert("Por favor seleccione un municipio.");
         validacion = false;
-    } else if (idLocalidad === 0 || idLocalidad == null) {
+    } else if (idLocalidad == 0 || idLocalidad == null) {
         alert("Por favor seleccione una Localidad.");
         validacion = false;
-    } else if (idCalle === "" || idCalle == null) {
+    } else if (idCalle == "" || idCalle == null) {
         alert("Por favor ingrese la calle.");
         validacion = false;
-    } else if (idNumExt === "" || idNumExt == null) {
+    } else if (idNumExt == "" || idNumExt == null) {
         alert("Por favor ingrese número exterior.");
         validacion = false;
     }
 
 
-    if (validacion === true) {
+    if (validacion == true) {
         var dataEnviar = {
             "idNombre": idNombre,
             "idApPat": idApPat,
@@ -83,7 +83,7 @@ function agregarVendedor() {
             url: '../../../com.Mexicash/Controlador/Vendedor/RegistroVendedor.php',
             type: 'post',
             success: function (response) {
-                if (response === 1) {
+                if (response == 1) {
                     $("#idFormRegistroVen")[0].reset();
                     $("#modalRegistroVenNuevo").modal('hide');//ocultamos el modal
                     $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
@@ -106,7 +106,7 @@ function buscarVendedorAgregado() {
         url: '../../../com.Mexicash/Controlador/Vendedor/BuscarVendedorAgregado.php',
         dataType: "json",
         success: function (response) {
-            if (response.status === 'ok') {
+            if (response.status == 'ok') {
                 $("#idVendedor").val(response.result.id_Vendedor);
                 $("#idNombresVendedor").val(response.result.NombreCompleto);
                 $("#idCelularVendedor").val(response.result.celular);
@@ -158,10 +158,10 @@ function nombreVenAutocompletar() {
 function modalEditarVendedor(idVendedor) {
     $("#idFormEditar")[0].reset();
     $("#idVendedorEditar").val(idVendedor);
-    if (idVendedor === '' || idVendedor == null) {
+    if (idVendedor == '' || idVendedor == null) {
         alert("Por favor selecciona un vendedor.")
     } else {
-        if ($("#idNombresVendedor").val() === '' || $("#idNombresVendedor").val == null) {
+        if ($("#idNombresVendedor").val() == '' || $("#idNombresVendedor").val == null) {
             alert("Por favor selecciona un vendedor.")
         } else {
             var dataEnviar = {
@@ -198,72 +198,72 @@ function modalEditarVendedor(idVendedor) {
                         var mensaje = datos[i].mensaje;
                         var promocion = datos[i].promocion;
 
-                        if (nombre === null) {
+                        if (nombre == null) {
                             nombre = '';
                         }
-                        if (apellido_Pat === null) {
+                        if (apellido_Pat == null) {
                             apellido_Pat = '';
                         }
-                        if (apellido_Mat === null) {
+                        if (apellido_Mat == null) {
                             apellido_Mat = '';
                         }
-                        if (sexo === null) {
+                        if (sexo == null) {
                             sexo = '';
                         }
-                        if (fecha_Nacimiento === null) {
+                        if (fecha_Nacimiento == null) {
                             fecha_Nacimiento = '';
                         }
-                        if (curp === null) {
+                        if (curp == null) {
                             curp = '';
                         }
-                        if (ocupacion === null) {
+                        if (ocupacion == null) {
                             ocupacion = '';
                         }
-                        if (tipo_Identificacion === null) {
+                        if (tipo_Identificacion == null) {
                             tipo_Identificacion = '';
                         }
-                        if (num_Identificacion === null) {
+                        if (num_Identificacion == null) {
                             num_Identificacion = '';
                         }
-                        if (celular === null) {
+                        if (celular == null) {
                             celular = '';
                         }
-                        if (rfc === null) {
+                        if (rfc == null) {
                             rfc = '';
                         }
-                        if (telefono === null) {
+                        if (telefono == null) {
                             telefono = '';
                         }
-                        if (correo === null) {
+                        if (correo == null) {
                             correo = '';
                         }
-                        if (estado === null) {
+                        if (estado == null) {
                             estado = '';
                         }
 
-                        if (codigo_Postal === null) {
+                        if (codigo_Postal == null) {
                             codigo_Postal = '';
                         }
-                        if (municipio === null) {
+                        if (municipio == null) {
                             municipio = '';
                         }
 
-                        if (localidad === null) {
+                        if (localidad == null) {
                             localidad = '';
                         }
-                        if (calle === null) {
+                        if (calle == null) {
                             calle = '';
                         }
-                        if (num_exterior === null) {
+                        if (num_exterior == null) {
                             num_exterior = '';
                         }
-                        if (num_interior === null) {
+                        if (num_interior == null) {
                             num_interior = '';
                         }
-                        if (mensaje === null) {
+                        if (mensaje == null) {
                             mensaje = '';
                         }
-                        if (promocion === null) {
+                        if (promocion == null) {
                             promocion = '';
                         }
 
@@ -299,7 +299,7 @@ function modalEditarVendedor(idVendedor) {
 //Alerta para confirmar la actualizacion
 function confirmarVendedorActualizacion() {
     var idVendedorEditar = $("#idVendedorEditar").val();
-    if (idVendedorEditar === "" || idVendedorEditar == null) {
+    if (idVendedorEditar == "" || idVendedorEditar == null) {
         alert("Por favor seleccione un usuario en la pantalla anterior.");
         $("#modalEditarVendedorNuevo").modal('hide');//ocultamos el modal
         $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
@@ -335,46 +335,46 @@ function actualizarVendedor() {
     var idCalle = $("#idCalleEdit").val();
     var idNumExt = $("#idNumExtEdit").val();
     var validacion = true;
-    if (idNombre === "" || idNombre == null) {
+    if (idNombre == "" || idNombre == null) {
         alert("Por favor ingrese un nombre.");
         validacion = false;
-    } else if (idApPat === "" || idApPat == null) {
+    } else if (idApPat == "" || idApPat == null) {
         alert("Por favor ingrese apellido paterno.");
         validacion = false;
-    } else if (idSexo === "" || idSexo == null) {
+    } else if (idSexo == "" || idSexo == null) {
         alert("Por favor seleccione el campo sexo.");
         validacion = false;
-    } else if (idFechaNac === "" || idFechaNac == null) {
+    } else if (idFechaNac == "" || idFechaNac == null) {
         alert("Por favor ingrese fecha de nacimiento.");
         validacion = false;
-    } else if (idCelular === "" || idCelular == null) {
+    } else if (idCelular == "" || idCelular == null) {
         alert("Por favor ingrese numero celular.");
         validacion = false;
-    } else if (idIdentificacion === "" || idIdentificacion == null) {
+    } else if (idIdentificacion == "" || idIdentificacion == null) {
         alert("Por favor ingrese tipo de identificacion.");
         validacion = false;
-    } else if (idNumIdentificacion === "" || idNumIdentificacion == null) {
+    } else if (idNumIdentificacion == "" || idNumIdentificacion == null) {
         alert("Por favor ingrese número de identificación.");
         validacion = false;
-    } else if (idEstado === "" || idEstado == null) {
+    } else if (idEstado == "" || idEstado == null) {
         alert("Por favor seleccione un estado.");
         validacion = false;
-    } else if (idMunicipio === "" || idMunicipio == null) {
+    } else if (idMunicipio == "" || idMunicipio == null) {
         alert("Por favor seleccione un municipio.");
         validacion = false;
-    } else if (idLocalidad === "" || idLocalidad == null) {
+    } else if (idLocalidad == "" || idLocalidad == null) {
         alert("Por favor seleccione una Localidad.");
         validacion = false;
-    } else if (idCalle === "" || idCalle == null) {
+    } else if (idCalle == "" || idCalle == null) {
         alert("Por favor ingrese la calle.");
         validacion = false;
-    } else if (idNumExt === "" || idNumExt == null) {
+    } else if (idNumExt == "" || idNumExt == null) {
         alert("Por favor ingrese número exterior.");
         validacion = false;
     }
 
 
-    if (validacion === true) {
+    if (validacion == true) {
         var dataEnviar = {
             "idVendedorEditar": $("#idVendedorEditar").val(),
             "idNombre": idNombre,
@@ -405,7 +405,7 @@ function actualizarVendedor() {
             url: '../../../com.Mexicash/Controlador/Vendedor/ActualizarVendedor.php',
             type: 'post',
             success: function (response) {
-                if (response === 1) {
+                if (response == 1) {
 
                     $("#modalEditarVendedor").modal('hide');//ocultamos el modal
                     $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
@@ -433,7 +433,7 @@ function buscarVendedorEditado(vendedorEditado) {
         url: '../../../com.Mexicash/Controlador/Vendedor/BuscarVendedorEditado.php',
         dataType: "json",
         success: function (response) {
-            if (response.status === 'ok') {
+            if (response.status == 'ok') {
                 $("#idClienteEmpeno").val(vendedorEditado);
                 $("#idNombresVendedor").val(response.result.NombreCompleto);
                 $("#idCelularVendedor").val(response.result.celular);
@@ -448,7 +448,7 @@ function buscarVendedorEditado(vendedorEditado) {
 function mostrarTodos(idNombresVendedor) {
     $('#suggestionsNombreEmpeno').fadeOut(1000);
     var Mostrar = 2;
-    if (idNombresVendedor === '' || idNombresVendedor == null) {
+    if (idNombresVendedor == '' || idNombresVendedor == null) {
         Mostrar = 1;
     }
     var dataEnviar = {
@@ -464,7 +464,7 @@ function mostrarTodos(idNombresVendedor) {
             var html = '';
             var i = 0;
             $("#modalBusquedaVendedor").modal();
-            if (datos.length === 0) {
+            if (datos.length == 0) {
                 $("#idNombresVendedor").val('');
                 $("#idVendedor").val('');
                 $("#idCelularVendedor").val('');
@@ -478,13 +478,13 @@ function mostrarTodos(idNombresVendedor) {
                     var NombreCompleto = datos[i].NombreCompleto;
                     var celular = datos[i].celular;
                     var direccionCompleta = datos[i].direccionCompleta;
-                    if (NombreCompleto === null) {
+                    if (NombreCompleto == null) {
                         NombreCompleto = '';
                     }
-                    if (celular === null) {
+                    if (celular == null) {
                         celular = '';
                     }
-                    if (direccionCompleta === null) {
+                    if (direccionCompleta == null) {
                         direccionCompleta = '';
                     }
 

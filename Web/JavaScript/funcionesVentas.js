@@ -45,14 +45,14 @@ function nombreAutocompletarVenta() {
 function busquedaCodigoMostrador(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
         busquedaCodigoMostradorBoton();
     }
 }
@@ -88,7 +88,7 @@ function busquedaCodigoMostradorBoton() {
                     var avaluo = formatoMoneda(avaluo);
                     var precio_venta = formatoMoneda(precio_venta);
 
-                    if(observaciones===""){
+                    if(observaciones==""){
                         observaciones="1";
                     }
                     tipoTabla = tipo;
@@ -96,6 +96,84 @@ function busquedaCodigoMostradorBoton() {
                     //observaciones = observaciones.toUpperCase();
                     html += '<tr>' +
                         '<td>' + id_serie + '</td>' +
+                        '<td>' + id_Contrato + '</td>' +
+                        '<td>' + descripcionCorta + '</td>' +
+                        '<td>' + empeno + '</td>' +
+                        '<td>' + avaluo + '</td>' +
+                        '<td>' + precio_venta + '</td>' +
+                        '<td>' + observaciones + '</td>' +
+                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
+                        'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
+                        '</tr>';
+
+                }
+
+                $('#idTBodyMetales').html(html);
+
+                $("#btnVenta").prop('disabled', false);
+            } else {
+                alertify.error("No se encontro ningún artiículo en bazar.");
+            }
+        }
+    });
+}
+
+
+function busquedaContratoMostrador(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode == 13 && !e.shiftKey) {
+        busquedaContratoMostradorBoton();
+    }
+}
+
+function busquedaContratoMostradorBoton() {
+    var idContrato = $("#idContratoMostrador").val();
+    var tipoTabla = 0;
+    var dataEnviar = {
+        "idContrato": idContrato,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaContrato.php',
+        type: 'post',
+        dataType: "json",
+        success: function (datos) {
+            if (datos.length > 0) {
+                var html = '';
+                var i = 0;
+                for (i; i < datos.length; i++) {
+                    var id_Contrato = datos[i].id_ContratoBaz;
+                    var id_Bazar = datos[i].id_Bazar;
+                    var id_serie = datos[i].id_serieBaz;
+                    var empeno = datos[i].empeno;
+                    var precio_venta = datos[i].precio_venta;
+                    var descripcionCorta = datos[i].descripcionCorta;
+                    var observaciones = datos[i].observaciones;
+                    var avaluo = datos[i].avaluo;
+                    var tipo = datos[i].tipoArt;
+                    var precioEnviar = precio_venta;
+
+                    var empeno = formatoMoneda(empeno);
+                    var avaluo = formatoMoneda(avaluo);
+                    var precio_venta = formatoMoneda(precio_venta);
+
+                    if(observaciones==""){
+                        observaciones="1";
+                    }
+                    tipoTabla = tipo;
+
+                    //observaciones = observaciones.toUpperCase();
+                    html += '<tr>' +
+                        '<td>' + id_serie + '</td>' +
+                        '<td>' + id_Contrato + '</td>' +
                         '<td>' + descripcionCorta + '</td>' +
                         '<td>' + empeno + '</td>' +
                         '<td>' + avaluo + '</td>' +
@@ -143,14 +221,14 @@ function calcularIva(id_Bazar, precio, id_Contrato, id_serie) {
 function descuentoVenta(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
         var totalPagar = $("#idTotalValue").val();
         var descuento = $("#idDescuento").val();
 
@@ -159,7 +237,7 @@ function descuentoVenta(e) {
 
         if (totalPagar < descuento) {
             alert("El descuento no puede ser mayor que el total a pagar.")
-        } else if (totalPagar === descuento) {
+        } else if (totalPagar == descuento) {
             alert("El descuento no puede ser igual que el total a pagar.")
         } else {
             $("#idEfectivo").val("");
@@ -184,14 +262,14 @@ function descuentoVenta(e) {
 function efectivoVenta(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla === 8) {
+    if (tecla == 8) {
         return true;
     }
     var patron;
     patron = /[0-9.]/
     var te;
     te = String.fromCharCode(tecla);
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode == 13 && !e.shiftKey) {
 
         var totalValue = $("#idTotalValue").val();
         var efectivo = $("#idEfectivo").val();
@@ -227,18 +305,18 @@ function validaVenta() {
     var efectivoValue = $("#idEfectivoValue").val();
     var vendedor = $("#idVendedor").val();
     var cliente = $("#idClienteSeleccion").val();
-    if (cliente === 0) {
+    if (cliente == 0) {
         alertify.warning("Favor de seleccionar el cliente.");
-    } else if (vendedor === 0) {
+    } else if (vendedor == 0) {
         alertify.warning("Favor de seleccionar el vendedor.");
-    } else if (efectivo === "" || idEfectivo == null) {
+    } else if (efectivo == "" || idEfectivo == null) {
         alertify.warning("Favor de llenar el campo de efectivo.");
     } else {
-        if (efectivoValue === 0) {
+        if (efectivoValue == 0) {
             alertify.warning("Favor de calcular el cambio.");
         } else {
             descuento = Math.floor(descuento * 100) / 100;
-            if (descuento === 0) {
+            if (descuento == 0) {
                 guardarVenta();
             } else {
                 $("#modalDescuentoVenta").modal();
@@ -304,15 +382,15 @@ function guardarVenta() {
      22->Apartado
      */
     id_ClienteGlb = $("#idClienteSeleccion").val();
-    if (id_ClienteGlb === 0) {
+    if (id_ClienteGlb == 0) {
         alert("Debe seleccionar un cliente para el apartado.");
     } else {
         var vendedor = $("#idVendedor").val();
-        if (vendedor === 0) {
+        if (vendedor == 0) {
             alert("Debe seleccionar un vendedor para el apartado.");
         } else {
             var efectivo = $("#idEfectivoValue").val();
-            if (efectivo === 0) {
+            if (efectivo == 0) {
                 alert("Debe calcular el cambio del cliente.");
             } else {
 

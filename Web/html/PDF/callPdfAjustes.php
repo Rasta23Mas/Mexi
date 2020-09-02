@@ -23,7 +23,6 @@ $sucRfc = "";
 
 $fecha_Creacion = "";
 
-$db = "";
 if (isset($_GET['tipoAjuste'])) {
     $tipoAjuste = $_GET['tipoAjuste'];
 }

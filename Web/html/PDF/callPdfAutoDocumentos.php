@@ -37,7 +37,6 @@ if (isset($_GET['contrato'])) {
 }
 
 
-$db = "";
 $query = "SELECT CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) AS NombreCompleto, 
 DATE_FORMAT(Con.fecha_Creacion,'%d-%m-%Y') AS Creacion, Aut.chkTarjeta AS Tarjeta, Aut.chkFactura AS Factura, Aut.chkINE AS INE,
 Aut.chkImportacion AS Importacion,Aut.chkTenencias AS Tenencia, Aut.chkPoliza AS Poliza, Aut.chkLicencia AS Licencia 

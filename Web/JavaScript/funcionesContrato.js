@@ -6,19 +6,20 @@ function validarMonto() {
     var clienteEmpeno = $("#idClienteEmpeno").val();
     var tipoInteres = $("#tipoInteresEmpeno").val();
     var validarContratoTemporal = consultarContratos();
+    alert(validarContratoTemporal)
     var diasAlmoneda = $("#idDiasAlmoneda").val();
 
     var validate = true;
-    if (clienteEmpeno === '' || clienteEmpeno == null) {
+    if (clienteEmpeno == '' || clienteEmpeno == null) {
         alert("Por Favor. Selecciona un cliente.");
         validate = false;
-    } else if (tipoInteres === '' || tipoInteres == null) {
+    } else if (tipoInteres == '' || tipoInteres == null) {
         alert("Por Favor. Selecciona tipo de interes.");
         validate = false;
-    } else if (validarContratoTemporal === 0) {
+    } else if (validarContratoTemporal == 0) {
         alert("Por Favor. Ingresa los articulos.");
         validate = false;
-    } else if (diasAlmoneda === 0) {
+    } else if (diasAlmoneda == 0) {
         alert("Por Favor. Selecciona los días de almoneda.");
         validate = false;
     }
@@ -166,13 +167,17 @@ function verPDF(id_ContratoPDF) {
 
 //consultar contratos
 function consultarContratos() {
-    var retorno = 0;
+    var  retorno = 0;
+
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Articulos/tblArticulos.php',
         dataType: "json",
         success: function (datos) {
-            retorno = datos.length;
+            alert(datos.length)
+            if (datos.length > 0) {
+                retorno = 1;
+            }
         }
     });
 
@@ -195,7 +200,7 @@ function actualizarArticulo(ultimoContrato,tipoFormulario,cliente) {
         type: 'post',
 
         success: function (response) {
-            if (response === -1 || response === 0) {
+            if (response == -1 || response == 0) {
                 alertify.error("Error al agregar articulos al contrato. (FEErr03)");
             } else {
                 alertify.success("Articulos agregados al contrato.");
@@ -214,7 +219,7 @@ function articulosObsoletos() {
         url: '../../../com.Mexicash/Controlador/ArticulosObsoletos.php',
         type: 'post',
         success: function (response) {
-            if (response === -1 || response === 0) {
+            if (response == -1 || response == 0) {
                 alertify.error("Error FEErr04.");
             } else {
                 $("#idFormEmpeno")[0].reset();
@@ -231,7 +236,7 @@ function limpiarTabla() {
         url: '../../../com.Mexicash/Controlador/ArticulosObsoletos.php',
         type: 'post',
         success: function (response) {
-            if (response === -1 || response === 0) {
+            if (response == -1 || response == 0) {
                 alertify.error("Error FEErr05");
             } else {
                 alertify.warning("Se limpio tabla por modificar el tipo de articulo.");
@@ -251,9 +256,9 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
     //id_Movimiento = 3 cat_movimientos-->Operacion-->Empeño
     //FEErr07
     var movimiento = 0;
-    if (tipoContrato === 1) {
+    if (tipoContrato == 1) {
         movimiento = 3;
-    } else if (tipoContrato === 2) {
+    } else if (tipoContrato == 2) {
         movimiento = 7;
     }
     var id_Movimiento = movimiento;
@@ -281,7 +286,7 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato) {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                if(tokenBitacora===1){
+                if(tokenBitacora==1){
                     var tipoFormulario = $("#idTipoFormulario").val()
                     BitacoraTokenEmpeno(contrato,tipoFormulario,clienteEmpeno);
                 }else{

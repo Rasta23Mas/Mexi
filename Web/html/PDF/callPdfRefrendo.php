@@ -54,7 +54,6 @@ if (isset($_GET['ultimoMovimiento'])) {
     $ultimoMovimiento = 0;
 }
 
-$db = "";
 $query = "SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
                     Con.prestamo_Informativo,Con.e_abono, 
                     Con.e_interes, Con.e_almacenaje, Con.e_seguro, Con.e_moratorios, Con.s_descuento_aplicado, Con.e_iva, 

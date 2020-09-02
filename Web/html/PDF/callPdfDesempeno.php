@@ -67,7 +67,6 @@ if ($ultimoMovimiento != 0) {
     $query .= " and Con.id_movimiento = $ultimoMovimiento";
 }
 $query .= " ORDER BY id_movimiento DESC LIMIT 1";
-$db = "";
 $resultado = $db->query($query);
 foreach ($resultado as $row) {
 

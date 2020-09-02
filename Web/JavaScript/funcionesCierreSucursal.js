@@ -64,7 +64,7 @@ function validarEsatusSucursal() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if (response.status === 'ok') {
+            if (response.status == 'ok') {
                  folioCierreSucursal = response.result.folio_CierreSucursal;
                 if (folioCierreSucursal > 0) {
                     llenarSaldosSucursal();
@@ -94,7 +94,7 @@ function llenarSaldosSucursal() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if (response.status === 'ok') {
+            if (response.status == 'ok') {
                 saldoInicialGbl = response.result.saldo_Inicial;
                 InfoSaldoInicialGbl = response.result.InfoSaldoInicial;
 
@@ -394,12 +394,12 @@ function llenarGeneral() {
                 importe = Math.round(importe * 100) / 100;
                 id_cat_flujo = Math.round(id_cat_flujo * 100) / 100;
 
-                if (id_cat_flujo === 3) {
+                if (id_cat_flujo == 3) {
                     //Aportaciones a Boveda
                     CantAportacionesBovedaGlb++;
                     aportacionesBovedaGlb += importe;
                 }
-                if (id_cat_flujo === 4) {
+                if (id_cat_flujo == 4) {
                     //Retiros de Boveda
                     CantRetirosBovedaGlb++;
                     retirosBovedaGlb += importe;
@@ -441,10 +441,10 @@ function llenarInformativo() {
 
                 prestamo_EmpenoVenta = Math.round(prestamo_EmpenoVenta * 100) / 100;
 
-                if(tipo_movimiento===22){
+                if(tipo_movimiento==22){
                     apartadosTotal += prestamo_EmpenoVenta;
                 }
-                else if(tipo_movimiento===23){
+                else if(tipo_movimiento==23){
                     abonosTotal += prestamo_EmpenoVenta;
                 }
             }
@@ -487,7 +487,7 @@ function llenarTotalInventario() {
                 var prestamo_Empeno = datos[i].s_prestamo_nuevo;
                 var tipo_movimiento = datos[i].tipo_movimiento;
                 prestamo_Empeno = Math.round(prestamo_Empeno * 100) / 100;
-                if(tipo_movimiento===3){
+                if(tipo_movimiento==3){
                     totalInventario += prestamo_Empeno;
                 }
             }
@@ -669,10 +669,10 @@ function guardarBazar() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if(response===1){
+            if(response==1){
                 alertify.success("Se guardaron en bazar los articulos.")
                 actualizarBazar();
-            }else if(response===0){
+            }else if(response==0){
                 BitacoraUsuarioCierreSucursal();
             }
         },
@@ -723,7 +723,7 @@ function BitacoraUsuarioCierreSucursal() {
             if (response > 0) {
                 cargarPDFCaja()
                 var tipoSesion = $("#idTipoSesion").val();
-                if (tipoSesion === 4) {
+                if (tipoSesion == 4) {
                     cerrarSesion();
                 } else {
                     setTimeout('location.reload();', 700)

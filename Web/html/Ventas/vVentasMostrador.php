@@ -171,6 +171,17 @@ if ($tipoUsuario == 2) {
                             </select>
                         </td>
                     </tr>
+                    <tr >
+                        <td colspan="4">
+                            <input id="idContratoMostrador" name="codigo" type="text" style="width: 130px" value=""
+                                   onkeypress="return busquedaContratoMostrador(event)"/>
+                            &nbsp;&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar Contrato" id="btnBuscarContrato" onclick="busquedaContratoMostradorBoton()">&nbsp;
+                        </td>
+                        <td colspan="8">
+                            &nbsp;
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="12">
                             <br>
@@ -188,15 +199,6 @@ if ($tipoUsuario == 2) {
                     </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="row">
-            <div  class="col col-md-12 " >
-                <br>
-            </div>
-        </div>
-        <div class="row">
-            <div id="divTablaMetales" class="col col-md-12 " >
             </div>
         </div>
         <div class="row">
@@ -272,6 +274,15 @@ if ($tipoUsuario == 2) {
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="row">
+            <div  class="col col-md-12 " >
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div id="divTablaMetales" class="col col-md-12 " >
             </div>
         </div>
         <div class="row">

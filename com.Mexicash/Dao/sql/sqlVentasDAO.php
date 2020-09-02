@@ -166,6 +166,45 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
+    function busquedaContrato($idContrato)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
+                        Baz.precio_venta, ART.descripcionCorta,ART.observaciones, ART.avaluo
+                        FROM bazar_articulos as Baz 
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
+                        WHERE Baz.id_Contrato like '$idContrato%' and sucursal= '$sucursal' and Baz.id_serie not in 
+                        (select id_serie FROM bazar_articulos where tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 || tipo_movimiento = 23 ) 
+                        LIMIT 20";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_ContratoBaz" => $row["id_Contrato"],
+                        "id_Bazar" => $row["id_Bazar"],
+                        "id_serieBaz" => $row["id_serie"],
+                        "id_serieTipo" => $row["id_serieTipo"],
+                        "empeno" => $row["prestamo_Empeno"],
+                        "precio_venta" => $row["precio_venta"],
+                        "descripcionCorta" => $row["descripcionCorta"],
+                        "observaciones" => $row["observaciones"],
+                        "avaluo" => $row["avaluo"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
     function busquedaCodigoSeleccionado($idCodigo)
     {
         $datos = array();

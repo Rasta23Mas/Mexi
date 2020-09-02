@@ -3,8 +3,6 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
 require_once (BASE_PATH . "Conectar.php");
 use Dompdf\Dompdf;
-$db = "";
-
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -44,7 +42,6 @@ if (isset($_GET['idBazar'])) {
 
 
 
-$db = "";
 $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,BAZ.id_Bazar,
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             BAZ.id_Contrato, ART.descripcionCorta,ART.observaciones, Baz.id_serie,baz.precio_venta,

@@ -62,43 +62,43 @@ function arqueo() {
     var idCentavosCant = $("#idCentavosCant").val();
 
 
-    if (idMilCant === "") {
+    if (idMilCant == "") {
         idMilCant = 0;
     }
-    if (idQuinientosCant === "") {
+    if (idQuinientosCant == "") {
         idQuinientosCant = 0;
     }
-    if (idDoscientosCant === "") {
+    if (idDoscientosCant == "") {
         idDoscientosCant = 0;
     }
-    if (idCienCant === "") {
+    if (idCienCant == "") {
         idCienCant = 0;
     }
-    if (idCincuentaCant === "") {
+    if (idCincuentaCant == "") {
         idCincuentaCant = 0;
     }
-    if (idVeinteCant === "") {
+    if (idVeinteCant == "") {
         idVeinteCant = 0;
     }
-    if (idVeinteMonCant === "") {
+    if (idVeinteMonCant == "") {
         idVeinteMonCant = 0;
     }
-    if (idDiezCant === "") {
+    if (idDiezCant == "") {
         idDiezCant = 0;
     }
-    if (idCincoCant === "") {
+    if (idCincoCant == "") {
         idCincoCant = 0;
     }
-    if (idDosCant === "") {
+    if (idDosCant == "") {
         idDosCant = 0;
     }
-    if (idUnoCant === "") {
+    if (idUnoCant == "") {
         idUnoCant = 0;
     }
-    if (idCincuentaCCant === "") {
+    if (idCincuentaCCant == "") {
         idCincuentaCCant = 0;
     }
-    if (idCentavosCant === "") {
+    if (idCentavosCant == "") {
         idCentavosCant = 0;
     }
 
@@ -212,10 +212,10 @@ function confirmarGuardarCaja() {
     diferenciaGbl = totalArqueoGlobal - saldoCajaSistema;
     diferenciaGbl = Math.round(diferenciaGbl * 100) / 100;
     var diferencia = "";
-    if (calculado === 0) {
+    if (calculado == 0) {
         alert("Debe calcular el arqueo.");
     } else {
-        if (usuarioCaja == null || usuarioCaja === "") {
+        if (usuarioCaja == null || usuarioCaja == "") {
             alert("Debe seleccionar el usuario para el arqueo.");
         } else {
             var tipoDiferencia = "";
@@ -486,7 +486,7 @@ function guardarCaja() {
             if (response > 0) {
                 idArqueoGbl = response;
                 alertify.success("Se guardaron correctamente los datos de arqueo.");
-                if(diferenciaGbl===0){
+                if(diferenciaGbl==0){
                     BitacoraUsuarioArqueo();
                 }else{
                     guardarAjustes();
@@ -635,7 +635,7 @@ function cambioDeArqueo() {
             type: 'post',
             dataType: "json",
             success: function (response) {
-                if (response.status === 'ok') {
+                if (response.status == 'ok') {
                     id_cierreCaja = response.result.id_cierreCaja;
                     document.getElementById('idCierreCaja').innerHTML = id_cierreCaja;
                     guardadoPorGerenteGlb = idUserSesion;
@@ -659,18 +659,18 @@ function buscarArqueo() {
     var fechaFinal = fechaSQL($("#idFechaFinal").val());
 
     var validate = 1;
-    if (fechaInicial === "" && fechaFinal === "") {
+    if (fechaInicial == "" && fechaFinal == "") {
         alert("Por favor, ingrese fechas para realizar la busqueda");
         validate = 0;
-    } else if (fechaInicial === "") {
+    } else if (fechaInicial == "") {
         alert("Por favor, ingrese fecha inicial para realizar la busqueda");
         validate = 0;
-    } else if (fechaFinal === "") {
+    } else if (fechaFinal == "") {
         alert("Por favor, ingrese fecha final para realizar la busqueda");
         validate = 0;
     }
 
-    if (validate === 1) {
+    if (validate == 1) {
         var dataEnviar = {
             "tipe": 1,
             "fechaInicial": fechaInicial,
@@ -743,11 +743,11 @@ function saldoCajaUser() {
                     var importe = datos[i].importe;
                     id_cat_flujo = Number(id_cat_flujo);
                     importe = Number(importe);
-                    if(id_cat_flujo===5){
+                    if(id_cat_flujo==5){
                         //Dotacion
                         bitCant_Dotacion_glb++;
                         dotacion += importe;
-                    }else if (id_cat_flujo===6){
+                    }else if (id_cat_flujo==6){
                         //Retiro
                         bitCant_Retiro_glb++;
                         retiro += importe;

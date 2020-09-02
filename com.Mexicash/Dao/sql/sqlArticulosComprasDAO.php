@@ -102,7 +102,7 @@ class sqlArticulosComprasDAO
         echo $verdad;
     }
 
-    public function buscarArticulo()
+    public function buscarArticuloCompras()
     {
         $datos = array();
         try {

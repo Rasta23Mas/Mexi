@@ -73,11 +73,11 @@ function validarEsatusCaja() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if (response.status === 'ok') {
+            if (response.status == 'ok') {
                 var estatus = response.result.estatus;
                 estatus = Number(estatus);
                 folioCierreCaja = response.result.folio_CierreCaja;
-                if (estatus === 2) {
+                if (estatus == 2) {
                     alert("El proceso de Cierre de Caja ya fue realizado.");
                 } else {
                     validarArqueoCierre();
@@ -105,7 +105,7 @@ function validarArqueoCierre() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if (response.status === 'ok') {
+            if (response.status == 'ok') {
                 idMaxArqueoGlb = response.result.idArqueo;
                 if(idMaxArqueoGlb!=null){
                     $("#guardarCaja").prop('disabled', false);
@@ -153,16 +153,16 @@ function movimientosEfectivo() {
                 var id_flujo = datos[i].id_cat_flujo;
                 var importe = datos[i].importe;
                 importe = Number(importe);
-                if (id_flujo === 5) {
+                if (id_flujo == 5) {
                     cantDotacion++;
                     dotacionImporte += importe;
-                } else if (id_flujo === 6) {
+                } else if (id_flujo == 6) {
                     cantRetiro++;
                     retiroImporte += importe;
                 }
             }
 
-            if (validaFlujo === 0) {
+            if (validaFlujo == 0) {
                 alert("El usuario: " + NombreUsuarioGlb + ", no tiene dotaciones a caja.");
                 location.href = '../Dotacion/vMovimientosCentral.php'
             } else {
@@ -260,13 +260,13 @@ function entradasSalidas() {
                 e_pension = Math.round(e_pension * 100) / 100;
 
                 //Empeño y Empeño Auto 3 y 7
-                if (tipo_movimiento === 3 || tipo_movimiento === 7) {
+                if (tipo_movimiento == 3 || tipo_movimiento == 7) {
                     //Empeño y Empeño Auto
                     CantPrestamoNuevo++;
                     prestamoNuevo += s_prestamo_nuevo;
                 }
                 //Refrendo 4
-                if (tipo_movimiento === 4) {
+                if (tipo_movimiento == 4) {
                     CantAbonoCapital++;
                     abonoCapital += e_abono;
                     CantIva++;
@@ -284,7 +284,7 @@ function entradasSalidas() {
                 }
 
                 //DESEMPEÑO 5
-                if (tipo_movimiento === 5) {
+                if (tipo_movimiento == 5) {
                     //DESEMPEÑO
                     CantCapitalRecuperado++;
                     capitalRecuperado += e_pagoDesempeno;
@@ -304,7 +304,7 @@ function entradasSalidas() {
                     }
                 }
                 //Refrendo AUTO 8
-                if (tipo_movimiento === 8) {
+                if (tipo_movimiento == 8) {
                     CantAbonoCapital++;
                     abonoCapital += e_abono;
                     CantIva++;
@@ -332,7 +332,7 @@ function entradasSalidas() {
 
                 }
                 //DESEMPEÑO AUTO 9
-                if (tipo_movimiento === 9) {
+                if (tipo_movimiento == 9) {
                     //DESEMPEÑO AUTO
                     CantCapitalRecuperado++;
                     capitalRecuperado += e_pagoDesempeno;
@@ -360,7 +360,7 @@ function entradasSalidas() {
                     }
                 }
                 //Desempeño sin interes 21
-                if (tipo_movimiento === 21) {
+                if (tipo_movimiento == 21) {
                     //Desempeño sin interes
                     CantCapitalRecuperado++;
                     capitalRecuperado += e_pagoDesempeno;
@@ -505,7 +505,7 @@ function entradasSalidasVentas() {
                 //VENTA
 
                 //Venta y Venta Auto 6 y 10
-                if (tipo_movimiento === 6 || tipo_movimiento === 10) {
+                if (tipo_movimiento == 6 || tipo_movimiento == 10) {
                     e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
                     e_venta_iva = Math.round(e_venta_iva * 100) / 100;
 
@@ -520,14 +520,14 @@ function entradasSalidasVentas() {
                     }
                 }
                 //Venta apartado 22
-                if (tipo_movimiento === 22) {
+                if (tipo_movimiento == 22) {
                     e_venta_apartados = Math.round(e_venta_apartados * 100) / 100;
 
                     CantApartado++;
                     ventaApartado += e_venta_apartados;
                 }
                 //Venta apartado 23
-                if (tipo_movimiento === 23) {
+                if (tipo_movimiento == 23) {
 
                     e_venta_abono = Math.round(e_venta_abono * 100) / 100;
 
@@ -603,7 +603,7 @@ function movimientosCaja() {
                 efectivoSinRetiros += total_Cierre;
 
             }
-            if (validaArqueo === 0) {
+            if (validaArqueo == 0) {
                 alert("El usuario: " + NombreUsuarioGlb + ", no tiene guardado el arqueo a caja.");
                 location.href = '../Cierre/vArqueo.php'
             } else {
@@ -719,18 +719,18 @@ function buscarCierreCaja() {
     var fechaInicial = fechaSQL($("#idFechaInicial").val());
     var fechaFinal = fechaSQL($("#idFechaFinal").val());
     var validate = 1;
-    if (fechaInicial === "" && fechaFinal === "") {
+    if (fechaInicial == "" && fechaFinal == "") {
         alert("Por favor, ingrese fechas para realizar la busqueda");
         validate = 0;
-    } else if (fechaInicial === "") {
+    } else if (fechaInicial == "") {
         alert("Por favor, ingrese fecha inicial para realizar la busqueda");
         validate = 0;
-    } else if (fechaFinal === "") {
+    } else if (fechaFinal == "") {
         alert("Por favor, ingrese fecha final para realizar la busqueda");
         validate = 0;
     }
 
-    if (validate === 1) {
+    if (validate == 1) {
         var dataEnviar = {
             "tipe": 2,
             "fechaInicial": fechaInicial,
@@ -782,8 +782,8 @@ function limpiarCierreCaja() {
 
 function confirmarGuardarCierre() {
     var tipoSesion = $("#idTipoSesion").val();
-    if (tipoSesion === 4) {
-        if (folioCierreCaja === 0) {
+    if (tipoSesion == 4) {
+        if (folioCierreCaja == 0) {
             alert("Debe generar el  cargar la información de la caja.");
         } else {
             alertify.confirm('Cierre de caja',
@@ -938,7 +938,7 @@ function BitacoraUsuarioCierreCaja() {
             if (response > 0) {
                 cargarPDFCaja(folioCierreCaja)
                 var tipoSesion = $("#idTipoSesion").val();
-                if (tipoSesion === 4) {
+                if (tipoSesion == 4) {
                     cerrarSesion();
                 } else {
                     setTimeout('location.reload();', 700)
@@ -981,7 +981,7 @@ function cambioDeCaja() {
             type: 'post',
             dataType: "json",
             success: function (response) {
-                if (response.status === 'ok') {
+                if (response.status == 'ok') {
                     id_cierreCaja = response.result.id_cierreCaja;
                     document.getElementById('idCierreCaja').innerHTML = id_cierreCaja;
                     cerradoPorGerenteGlb = idUserSesion;

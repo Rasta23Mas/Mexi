@@ -108,7 +108,7 @@ function Miles(num) {
     var strMiles = Seccion(num, divisor, "UN MIL", "MIL");
     var strCentenas = Centenas(resto);
 
-    if(strMiles === "")
+    if(strMiles == "")
     return strCentenas;
 
     return strMiles + " " + strCentenas;
@@ -122,7 +122,7 @@ function Millones(num) {
     var strMillones = Seccion(num, divisor, "UN MILLON DE", "MILLONES DE");
     var strMiles = Miles(resto);
 
-    if(strMillones === "")
+    if(strMillones == "")
     return strMiles;
 
     return strMillones + " " + strMiles;
@@ -143,16 +143,16 @@ function NumeroALetras(num) {
 
     if (data.centavos > 0) {
         data.letrasCentavos = "CON " + (function (){
-            if (data.centavos === 1)
+            if (data.centavos == 1)
                 return Millones(data.centavos) + " " + data.letrasMonedaCentavoSingular;
         else
             return Millones(data.centavos) + " " + data.letrasMonedaCentavoPlural;
         })();
     }
 
-    if(data.enteros === 0)
+    if(data.enteros == 0)
         return "CERO " + data.letrasMonedaPlural + " " + data.letrasCentavos;
-    if (data.enteros === 1)
+    if (data.enteros == 1)
         return Millones(data.enteros) + " " + data.letrasMonedaSingular + " " + data.letrasCentavos;
 else
     return Millones(data.enteros) + " " + data.letrasMonedaPlural + " " + data.letrasCentavos;

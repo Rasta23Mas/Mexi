@@ -7,6 +7,7 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
     <thead>
     <tr>
         <th>Código</th>
+        <th>Contrato</th>
         <th>Artículo</th>
         <th>Precio Empeño</th>
         <th>Precio Avaluo</th>
