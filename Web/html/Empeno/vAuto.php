@@ -16,7 +16,15 @@ include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalHistorial.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
-include_once(HTML_PATH . "menuGeneral.php");
+$tipoUsuario = $_SESSION['tipoUsuario'];
+
+if($tipoUsuario==2){
+    include_once (HTML_PATH."menuAdmin.php");
+}elseif ($tipoUsuario==3){
+    include_once (HTML_PATH."menuGeneral.php");
+}elseif ($tipoUsuario==4){
+    include_once (HTML_PATH."menuVendedor.php");
+}
 include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
 
 ?>

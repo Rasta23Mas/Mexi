@@ -1,4 +1,8 @@
 <?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include_once(HTML_PATH . "Dotacion/modalFlujo.php");
+include_once(HTML_PATH . "Dotacion/modalBusqueda.php");
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -8,12 +12,12 @@ if(!isset($_SESSION["idUsuario"])){
 }
 
 $sucursal = $_SESSION['sucursal'];
-$tipoUsuario = $_SESSION['tipoUsuario'];
 $sesionInactiva = $_SESSION['sesionInactiva'];
 
 
 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+
+$tipoUsuario = $_SESSION['tipoUsuario'];
 
 if($tipoUsuario==2){
     include_once (HTML_PATH."menuAdmin.php");
@@ -22,8 +26,6 @@ if($tipoUsuario==2){
 }elseif ($tipoUsuario==4){
     include_once (HTML_PATH."menuVendedor.php");
 }
-include_once(HTML_PATH . "Dotacion/modalFlujo.php");
-include_once(HTML_PATH . "Dotacion/modalBusqueda.php");
 
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
 

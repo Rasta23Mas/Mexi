@@ -7,7 +7,14 @@ if (!isset($_SESSION["idUsuario"])) {
     session_destroy();
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once (HTML_PATH."menuGeneral.php");
+$tipoUsuario = $_SESSION['tipoUsuario'];
+if ($tipoUsuario == 2) {
+    include_once(HTML_PATH . "menuAdmin.php");
+} elseif ($tipoUsuario == 3) {
+    include_once(HTML_PATH . "menuGeneral.php");
+} elseif ($tipoUsuario == 4) {
+    include_once(HTML_PATH . "menuVendedor.php");
+}
 include_once(SQL_PATH . "sqlCierreDAO.php");
 include_once(HTML_PATH . "Cierre/modalBusquedaCaja.php");
 

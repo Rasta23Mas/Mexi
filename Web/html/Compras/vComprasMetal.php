@@ -316,7 +316,7 @@ if ($tipoUsuario == 2) {
                             <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idAforo" name="aforo" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class=""/>
+                                   style="width: 150px; text-align: right" class="invisible"/>
                         </td>
 
                     </tr>

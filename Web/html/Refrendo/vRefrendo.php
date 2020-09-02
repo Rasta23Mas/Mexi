@@ -12,7 +12,15 @@ if (!isset($_SESSION["idUsuario"])) {
     session_destroy();
 }
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include_once (HTML_PATH."menuGeneral.php");
+$tipoUsuario = $_SESSION['tipoUsuario'];
+
+if($tipoUsuario==2){
+    include_once (HTML_PATH."menuAdmin.php");
+}elseif ($tipoUsuario==3){
+    include_once (HTML_PATH."menuGeneral.php");
+}elseif ($tipoUsuario==4){
+    include_once (HTML_PATH."menuVendedor.php");
+}
 include_once (DESC_PATH."modalDescuentoToken.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

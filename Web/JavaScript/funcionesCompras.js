@@ -896,7 +896,6 @@ function llenarAforoCompras(tipoFormulario) {
         success: function (response) {
             if (response.status == 'ok') {
                 var porcentajeAforo = response.result.Porcentaje;
-                alert(porcentajeAforo);
                 $("#idAforo").val(porcentajeAforo);
             }
         },
