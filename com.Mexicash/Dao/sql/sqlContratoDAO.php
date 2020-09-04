@@ -100,7 +100,7 @@ class sqlContratoDAO
 
             $updateArticulo = "UPDATE articulo_tbl SET id_Contrato=$contrato,
                                 id_SerieContrato = '$idSerieContrato' 
-                                WHERE id_Contrato='' and id_cierreCaja=$idCierreCaja";
+                                WHERE id_Contrato=0 and id_cierreCaja=$idCierreCaja";
             if ($ps = $this->conexion->prepare($updateArticulo)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

@@ -179,14 +179,11 @@ function saldosInformativoGerente() {
 
         success: function (datos) {
             var i = 0;
-            var saldoInicialInfo = 0;
+            var PrestamoEmp = 0;
             for (i; i < datos.length; i++) {
-                var prestamo_Informativo = datos[i].prestamo_Informativo;
-
-                prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
-                saldoInicialInfo += prestamo_Informativo;
+                 PrestamoEmp = datos[i].PrestamoEmp;
             }
-            saldoInicialInfo = Math.round(saldoInicialInfo * 100) / 100;
+            var saldoInicialInfo = Math.round(PrestamoEmp * 100) / 100;
             saldosSucursalGerente(saldoInicialInfo)
         }
     })

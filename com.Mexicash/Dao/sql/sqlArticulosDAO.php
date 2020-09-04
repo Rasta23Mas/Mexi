@@ -116,10 +116,10 @@ class sqlArticulosDAO
             $buscar = "SELECT Ar.id_Articulo, ET.descripcion as tipo, EM.descripcion as marca, EMOD.descripcion as modelo, Ar.prestamo,
                         Ar.avaluo, Ar.detalle 
                         FROM articulo_tbl Ar
-                        INNER JOIN cat_electronico_tipo ET on Ar.tipo = ET.id_tipo
-                        INNER JOIN cat_electronico_marca EM on Ar.marca = EM.id_marca
-                        INNER JOIN cat_electronico_modelo EMOD on Ar.modelo = EMOD.id_modelo
-                        WHERE id_Contrato='' and id_cierreCaja=" . $idCierreCaja;
+                        LEFT JOIN cat_electronico_tipo ET on Ar.tipo = ET.id_tipo
+                        LEFT JOIN cat_electronico_marca EM on Ar.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo EMOD on Ar.modelo = EMOD.id_modelo
+                        WHERE id_Contrato=0 and id_cierreCaja=$idCierreCaja";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -144,6 +144,31 @@ class sqlArticulosDAO
         echo json_encode($datos);
         //echo json_encode($datos);
     }
+
+    public function hayArticulos()
+    {
+        try {
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $hayArticulos = 0;
+
+            $buscar = "SELECT Ar.id_Articulo
+                        FROM articulo_tbl Ar
+                        WHERE id_Contrato=0 and id_cierreCaja=$idCierreCaja";
+
+            $statement = $this->conexion->query($buscar);
+
+            if ($statement->num_rows > 0) {
+                $hayArticulos=1;
+            }
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo $hayArticulos;
+    }
     public function buscarMetales()
     {
         $datos = array();
@@ -154,7 +179,7 @@ class sqlArticulosDAO
                         INNER JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
                         INNER JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
                         INNER JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
-                        WHERE id_Contrato='0' and id_cierreCaja=" . $idCierreCaja;
+                        WHERE id_Contrato=0 and id_cierreCaja=" . $idCierreCaja;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

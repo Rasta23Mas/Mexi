@@ -764,7 +764,7 @@ class sqlUsuarioDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT prestamo_Empeno  FROM bazar_articulos
+            $buscar = "SELECT SUM(prestamo_Empeno) as PrestamoEmp FROM bazar_articulos
                         WHERE tipo_movimiento=24 and sucursal = $sucursal and id_Contrato not in 
                         (select id_Contrato FROM bazar_articulos 
                         where tipo_movimiento = 6 || tipo_movimiento = 22 || tipo_movimiento = 23 )";
@@ -772,7 +772,7 @@ class sqlUsuarioDAO
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "prestamo_Empeno" => $row["prestamo_Empeno"],
+                        "PrestamoEmp" => $row["PrestamoEmp"],
                     ];
                     array_push($datos, $data);
                 }
@@ -796,10 +796,11 @@ class sqlUsuarioDAO
             $statement = $this->conexion->query($saldoBoveda);
             $fila = $statement->fetch_object();
             $importeSaldoBoveda = $fila->importe;
-
+            echo $saldoBoveda;
 
             $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda, InfoSaldoInicial=$saldoInicialInfo
                 WHERE id_CierreSucursal=$id_CierreSucursal and estatus=1";
+            echo $updateSaldoInicial;
             if ($ps = $this->conexion->prepare($updateSaldoInicial)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

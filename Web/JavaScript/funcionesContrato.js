@@ -1,23 +1,34 @@
 var errorToken = 0;
 var tokenBitacora = 0;
+
+//consultar contratos
+function hayArticulos() {
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Articulos/hayArticulos.php',
+        success: function (HayArticulos) {
+            if(HayArticulos==1){
+                validarMonto();
+            }else{
+                alert("Por Favor. Ingresa los articulos.");
+            }
+        }
+    });
+}
+
 function validarMonto() {
     var totalPrestamo = $("#idTotalPrestamo").val();
     var montoToken = $("#idMontoToken").val();
     var clienteEmpeno = $("#idClienteEmpeno").val();
     var tipoInteres = $("#tipoInteresEmpeno").val();
-    var validarContratoTemporal = consultarContratos();
-    alert(validarContratoTemporal)
+    //var validarContratoTemporal = hayArticulos();
     var diasAlmoneda = $("#idDiasAlmoneda").val();
-
     var validate = true;
     if (clienteEmpeno == '' || clienteEmpeno == null) {
         alert("Por Favor. Selecciona un cliente.");
         validate = false;
     } else if (tipoInteres == '' || tipoInteres == null) {
         alert("Por Favor. Selecciona tipo de interes.");
-        validate = false;
-    } else if (validarContratoTemporal == 0) {
-        alert("Por Favor. Ingresa los articulos.");
         validate = false;
     } else if (diasAlmoneda == 0) {
         alert("Por Favor. Selecciona los días de almoneda.");
@@ -165,28 +176,12 @@ function verPDF(id_ContratoPDF) {
     window.open('../PDF/callPdfContrato.php?contrato=' + id_ContratoPDF);
 }
 
-//consultar contratos
-function consultarContratos() {
-    var  retorno = 0;
 
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Articulos/tblArticulos.php',
-        dataType: "json",
-        success: function (datos) {
-            alert(datos.length)
-            if (datos.length > 0) {
-                retorno = 1;
-            }
-        }
-    });
-
-    return retorno;
-}
 
 //Agrega articulos a la tabla
 function actualizarArticulo(ultimoContrato,tipoFormulario,cliente) {
     //FEErr03
+
     var serie = ultimoContrato.trim();
     var idSerieContrato = serie.padStart(6, "0");
     var dataEnviar = {
