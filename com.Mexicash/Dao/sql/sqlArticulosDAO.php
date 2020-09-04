@@ -33,8 +33,8 @@ class sqlArticulosDAO
 
             $idVitrina = $articulo->getVitrina();
             $interes = $articulo->getInteres();
-            $sucursal = "0";
-            $sucursal .= $_SESSION["sucursal"];
+            $sucursal = $_SESSION["sucursal"];
+            $sucursalSerie = "0" . $_SESSION["sucursal"];
 
 
 
@@ -59,10 +59,10 @@ class sqlArticulosDAO
 
                 $insert = "INSERT INTO articulo_tbl " .
                     "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, observaciones," .
-                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja,descripcionCorta)  VALUES " .
-                    "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
+                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja,descripcionCorta,sucursal)  VALUES " .
+                    "('$sucursalSerie','$idArticulo',$tipoPost,'" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
                     . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "', '" . $interes . "','" . $idObs . "','"
-                    . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . ",'$descCorto' )";
+                    . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . ",'$descCorto',$sucursal )";
 
             } else if ($tipoPost == "2") {
                 $idTipoE = $articulo->getTipoE();
@@ -82,10 +82,10 @@ class sqlArticulosDAO
 
                 $insert = "INSERT INTO articulo_tbl " .
                     "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  observaciones," .
-                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja,descripcionCorta)  VALUES " .
+                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja,descripcionCorta,sucursal)  VALUES " .
                     "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
                     . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $interes . "','" . $idObsE . "','"
-                    . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . ",'$descCortoElectro')";
+                    . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . ",'$descCortoElectro',$sucursal)";
             }
             if ($ps = $this->conexion->prepare($insert)) {
                 if ($ps->execute()) {
