@@ -148,6 +148,9 @@ if ($tipoUsuario == 2) {
                             <br>
                         </td>
                     </tr>
+                    <tr>
+                        
+                    </tr>
 
                     <tr >
                         <td colspan="4">
@@ -157,18 +160,7 @@ if ($tipoUsuario == 2) {
                             <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo" onclick="busquedaCodigoMostradorBoton()">&nbsp;
                         </td>
                         <td colspan="8">
-                            <label for="direccion">Vendedor:</label>
-                            <select id="idVendedor" name="cmbVendedor" class="selectpicker" style="width: 200px">
-                                <option value="0">Seleccione:</option>
-                                <?php
-                                $data = array();
-                                $sqlUsu = new sqlUsuarioDAO();
-                                $data = $sqlUsu->vendedores();
-                                for ($i = 0; $i < count($data); $i++) {
-                                    echo "<option value=" . $data[$i]['id_User'] . ">" . $data[$i]['NombreUser'] . "</option>";
-                                }
-                                ?>
-                            </select>
+
                         </td>
                     </tr>
                     <tr >
@@ -176,7 +168,7 @@ if ($tipoUsuario == 2) {
                             <input id="idContratoMostrador" name="codigo" type="text" style="width: 130px" value=""
                                    onkeypress="return busquedaContratoMostrador(event)"/>
                             &nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary" value="Buscar Contrato" id="btnBuscarContrato" onclick="busquedaContratoMostradorBoton()">&nbsp;
+                            <input type="button" class="btn btn-success" value="Buscar Contrato" id="btnBuscarContrato" onclick="busquedaContratoMostradorBoton()">&nbsp;
                         </td>
                         <td colspan="8">
                             &nbsp;

@@ -69,6 +69,7 @@ function busquedaCodigoMostradorBoton() {
         type: 'post',
         dataType: "json",
         success: function (datos) {
+
             if (datos.length > 0) {
                 var html = '';
                 var i = 0;
@@ -199,7 +200,7 @@ function calcularIva(id_Bazar, precio, id_Contrato, id_serie) {
     $("#idDescuento").prop('disabled', false);
     var precioFinal = Math.floor(precio * 100) / 100;
     var calculaIva = Math.floor(precioFinal * 16) / 100;
-    var totalPagar = precioFinal + calculaIva;
+    var totalPagar = precioFinal;
     totalPagar = Math.floor(totalPagar * 100) / 100;
     var precioFinalFormat = formatoMoneda(precioFinal);
     var calculaIvaFormat = formatoMoneda(calculaIva);

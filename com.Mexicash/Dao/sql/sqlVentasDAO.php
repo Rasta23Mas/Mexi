@@ -137,7 +137,7 @@ class sqlVentasDAO
                         Baz.precio_venta, ART.descripcionCorta,ART.observaciones, ART.avaluo
                         FROM bazar_articulos as Baz 
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        WHERE Baz.id_serie like '%$idCodigo%' and sucursal= '$sucursal' and Baz.id_serie not in 
+                        WHERE Baz.id_serie like '%$idCodigo%' and Baz.sucursal= '$sucursal' and Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos where tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 || tipo_movimiento = 23 ) 
                         LIMIT 20";
             $rs = $this->conexion->query($buscar);
