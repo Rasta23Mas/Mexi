@@ -796,11 +796,9 @@ class sqlUsuarioDAO
             $statement = $this->conexion->query($saldoBoveda);
             $fila = $statement->fetch_object();
             $importeSaldoBoveda = $fila->importe;
-            echo $saldoBoveda;
 
             $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda, InfoSaldoInicial=$saldoInicialInfo
                 WHERE id_CierreSucursal=$id_CierreSucursal and estatus=1";
-            echo $updateSaldoInicial;
             if ($ps = $this->conexion->prepare($updateSaldoInicial)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
