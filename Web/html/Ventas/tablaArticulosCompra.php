@@ -4,21 +4,18 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
 ?>
 
 <table class="table table-hover table-condensed table-bordered" width="80%">
-    <thead style="background: dodgerblue; color:white;">
+    <thead style="background: green; color:white;">
     <tr align="center">
-        <th colspan="8">Consulta de Artículos</th>
+        <th colspan="7">Agregados al Carrito</th>
     </tr>
     <tr>
         <th>Código</th>
         <th>Contrato</th>
         <th>Artículo</th>
-        <th>Precio Empeño</th>
-        <th>Precio Avaluo</th>
         <th>Precio Vitrina</th>
-        <th>Observaciones</th>
-        <th>Agregar</th>
+        <th>Eliminar</th>
     </tr>
     </thead>
-    <tbody id="idTBodyMetales">
+    <tbody id="idTBodyArticulosCarrito">
     </tbody>
 </table>

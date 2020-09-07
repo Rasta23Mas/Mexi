@@ -36,9 +36,11 @@ if ($tipoUsuario == 2) {
             $("#btnVenta").prop('disabled', true);
             document.getElementById('idFechaHoy').innerHTML =fechaActual();
             $("#divTablaMetales").load('tablaMetales.php');
+            $("#divTblArticulosCompra").load('tablaArticulosCompra.php');
             $("#idNombreVenta").blur(function () {
                 $('#suggestionsNombreVenta').fadeOut(500);
             });
+            limpiarCarrito();
         })
     </script>
     <style type="text/css">
@@ -89,13 +91,9 @@ if ($tipoUsuario == 2) {
         </div>
         <div class="row">
             <div class="col col-md-12 border border-primary"  >
-                <table border="0" width="90%" >
+                <table border="0" width="100%" >
                     <tbody>
                     <tr class="headt">
-                        <td colspan="4">
-                            <label>Fecha:</label>
-                            <label id="idFechaHoy"></label>
-                        </td>
                         <td colspan="6">
                             <input type="button" class="btn btn-success "
                                    data-toggle="modal" data-target="#modalRegistroNuevo"
@@ -112,6 +110,10 @@ if ($tipoUsuario == 2) {
                         <td colspan="2">
                             <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="20"  class="invisible"/>
                         </td>
+                        <td colspan="4">
+                            <label>Fecha:</label>
+                            <label id="idFechaHoy"></label>
+                        </td>
                     </tr>
                     <tr >
                         <td colspan="2">
@@ -120,8 +122,11 @@ if ($tipoUsuario == 2) {
                         <td colspan="2">
                             <label for="celular">Celular:</label>
                         </td>
-                        <td colspan="8">
+                        <td colspan="6">
                             <label for="direccion">Dirección:</label>
+                        </td>
+                        <td colspan="2">
+                            <label for="celular">Vendedor:</label>
                         </td>
                     </tr>
                     <tr>
@@ -138,50 +143,34 @@ if ($tipoUsuario == 2) {
                                    style="width: 120px "
                                    required disabled/>
                         </td>
-                        <td colspan="8" name="direccionEmpeno">
-                                    <textarea  cols="70" id="idDireccionVenta" class="textArea" disabled>
+                        <td colspan="6" name="direccionEmpeno">
+                                    <textarea  cols="50" id="idDireccionVenta" class="textArea" disabled>
                                     </textarea>
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">
-                            <br>
+                        <td colspan="2" style="vertical-align:top;" align="center">
+                            <select id="idVendedor" name="cmbVendedor" class="selectpicker" style="width: 200px">
+                                <option value="0">Seleccione:</option>
+                                <?php
+                                $data = array();
+                                $sqlUsu = new sqlUsuarioDAO();
+                                $data = $sqlUsu->vendedores();
+                                for ($i = 0; $i < count($data); $i++) {
+                                    echo "<option value=" . $data[$i]['id_User'] . ">" . $data[$i]['NombreUser'] . "</option>";
+                                }
+                                ?>
+                            </select>
                         </td>
                     </tr>
-                    <tr>
-                        
-                    </tr>
-
                     <tr >
                         <td colspan="4">
                             <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value=""
                                    onkeypress="return busquedaCodigoMostrador(event)"/>
                             &nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo" onclick="busquedaCodigoMostradorBoton()">&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo" onclick="busquedaCodigoMostradorBoton(1)">&nbsp;
+                            <input type="button" class="btn btn-success" value="Buscar Contrato" id="btnBuscarContrato" onclick="busquedaCodigoMostradorBoton(2)">&nbsp;
                         </td>
                         <td colspan="8">
 
-                        </td>
-                    </tr>
-                    <tr >
-                        <td colspan="4">
-                            <input id="idContratoMostrador" name="codigo" type="text" style="width: 130px" value=""
-                                   onkeypress="return busquedaContratoMostrador(event)"/>
-                            &nbsp;&nbsp;
-                            <input type="button" class="btn btn-success" value="Buscar Contrato" id="btnBuscarContrato" onclick="busquedaContratoMostradorBoton()">&nbsp;
-                        </td>
-                        <td colspan="8">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">
-                            <br>
                         </td>
                     </tr>
                     <tr>
@@ -194,17 +183,23 @@ if ($tipoUsuario == 2) {
             </div>
         </div>
         <div class="row">
-            <div class="col col-md-9">
+            <div class="col col-md-12">
                 <br>
             </div>
-            <div class="col col-lg-3" >
-                <table border="0" width="90%" >
+        </div>
+        <div class="row">
+            <div class="col col-md-9">
+                <div id="divTblArticulosCompra" >
+                </div>
+            </div>
+            <div class="col col-md-3" >
+                <table border="0" width="100%" >
                     <tbody>
                     <tr >
                         <td >
                             <label for="subtotal">SubTotal:</label>
                         </td>
-                        <td >
+                        <td align="right">
                             <input type="text" name="subtotal"  id="idSubTotal"
                                    style="width: 120px; text-align: right "disabled/>
                         </td>
@@ -213,7 +208,7 @@ if ($tipoUsuario == 2) {
                         <td >
                             <label for="subtotal">IVA:</label>
                         </td>
-                        <td style="vertical-align:top;">
+                        <td style="vertical-align:top;" align="right">
                             <input type="text" name="iva"  id="idIva"
                                    style="width: 120px; text-align: right "disabled/>
                         </td>
@@ -222,7 +217,7 @@ if ($tipoUsuario == 2) {
                         <td >
                             <label for="subtotal">Descuento:</label>
                         </td>
-                        <td style="vertical-align:top;">
+                        <td style="vertical-align:top;" align="right">
                             <input type="text" name="descuento"  id="idDescuento"
                                    style="width: 120px; text-align: right "
                                    placeholder="$0.00"
@@ -234,7 +229,7 @@ if ($tipoUsuario == 2) {
                         <td >
                             <label for="subtotal">Total a Pagar:</label>
                         </td>
-                        <td  style="vertical-align:top;">
+                        <td  style="vertical-align:top;" align="right">
                             <input type="text" name="totalPagar"  id="idTotalPagar"
                                    style="width: 120px;text-align: right "disabled/>
                         </td>
@@ -243,7 +238,7 @@ if ($tipoUsuario == 2) {
                         <td >
                             <label for="subtotal">Efectivo:</label>
                         </td>
-                        <td style="vertical-align:top;">
+                        <td style="vertical-align:top;" align="right">
                             <input type="text" name="efectivo"  id="idEfectivo"
                                    style="width: 120px; text-align: right "
                                    placeholder="$0.00"
@@ -254,7 +249,7 @@ if ($tipoUsuario == 2) {
                         <td >
                             <label for="subtotal">Cambio:</label>
                         </td>
-                        <td style="vertical-align:top;">
+                        <td style="vertical-align:top;" align="right">
                             <input type="text" name="cambio"  id="idCambio" placeholder="$0.00"
                                    style="width: 120px; text-align: right "  disabled/>
                         </td>
@@ -269,23 +264,23 @@ if ($tipoUsuario == 2) {
             </div>
         </div>
         <div class="row">
+            <div class="col col-md-8">
+                <br>
+            </div>
+            <div class="col col-md-4" >
+                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
+                <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
+                <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
+                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
+            </div>
+        </div>
+        <div class="row">
             <div  class="col col-md-12 " >
                 <br>
             </div>
         </div>
         <div class="row">
             <div id="divTablaMetales" class="col col-md-12 " >
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-lg-8">
-                <br>
-            </div>
-            <div class="col col-lg-4 lef" >
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
-                <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
-                <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
             </div>
         </div>
         <div class="row propInvisible">

@@ -176,7 +176,7 @@ class sqlVentasDAO
                         Baz.precio_venta, ART.descripcionCorta,ART.observaciones, ART.avaluo
                         FROM bazar_articulos as Baz 
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        WHERE Baz.id_Contrato like '$idContrato%' and sucursal= '$sucursal' and Baz.id_serie not in 
+                        WHERE Baz.id_Contrato like '$idContrato%' and Baz.sucursal= '$sucursal' and Baz.id_serie not in 
                         (select id_serie FROM bazar_articulos where tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 || tipo_movimiento = 23 ) 
                         LIMIT 20";
             $rs = $this->conexion->query($buscar);
@@ -284,8 +284,9 @@ class sqlVentasDAO
     }
 
     //Generar Venta
-    public function guardarApartado($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb, $precio_ActualGlb, $apartadoGlb,$fechaVencimiento,
-                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb,$efectivo,$cambio,$precioVenta){
+    public function guardarApartado($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb, $precio_ActualGlb, $apartadoGlb, $fechaVencimiento,
+                                    $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $efectivo, $cambio, $precioVenta)
+    {
         // TODO: Implement guardaCiente() method.
         try {
             $fechaModificacion = date('Y-m-d H:i:s');
@@ -299,7 +300,7 @@ class sqlVentasDAO
                         '$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
             if ($ps = $this->conexion->prepare($insertaApartado)) {
                 if ($ps->execute()) {
-                    $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
                     $statement = $this->conexion->query($buscarBazar);
                     $encontro = $statement->num_rows;
                     if ($encontro > 0) {
@@ -323,7 +324,7 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function guardarAbono($id_Cliente,$id_Contrato,$id_serie,$tipo_movimiento,$idPrestamo,$precio_Actual,$iva,$apartado,$abono,$abono_Total,$efectivo,$cambio,$sucursal)
+    public function guardarAbono($id_Cliente, $id_Contrato, $id_serie, $tipo_movimiento, $idPrestamo, $precio_Actual, $iva, $apartado, $abono, $abono_Total, $efectivo, $cambio, $sucursal)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -336,7 +337,7 @@ class sqlVentasDAO
                         VALUES ($id_Cliente,$id_Contrato, '$id_serie',$tipo_movimiento,$idPrestamo,$precio_Actual,$iva,$apartado,$abono,$abono_Total,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
-                    $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
                     $statement = $this->conexion->query($buscarBazar);
                     $encontro = $statement->num_rows;
                     if ($encontro > 0) {
@@ -360,9 +361,9 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function guardarVenta($id_ContratoGlb,$id_serieGlb,$id_ClienteGlb,
-                                 $ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio,$precioVenta,
-                                 $descuento,$idToken,$tokenDesc)
+    public function guardarVenta($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb,
+                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $efectivo, $cambio, $precioVenta,
+                                 $descuento, $idToken, $tokenDesc)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -378,7 +379,7 @@ class sqlVentasDAO
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
                     if (empty($idToken)) {
-                        $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                        $buscarBazar = "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
                         $statement = $this->conexion->query($buscarBazar);
                         $encontro = $statement->num_rows;
                         if ($encontro > 0) {
@@ -397,7 +398,7 @@ class sqlVentasDAO
                                         WHERE id_token =$idToken";
                                 if ($ps = $this->conexion->prepare($updateToken)) {
                                     if ($ps->execute()) {
-                                        $buscarBazar= "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                                        $buscarBazar = "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
                                         $statement = $this->conexion->query($buscarBazar);
                                         $encontro = $statement->num_rows;
                                         if ($encontro > 0) {
@@ -433,5 +434,121 @@ class sqlVentasDAO
         //return $verdad;
         echo $respuesta;
     }
+
+
+    public function sqlAgregarCarrito($id_Bazar, $idCliente, $idVendedor)
+    {
+        // TODO: Implement guardaCiente() method.
+        $datos = array();
+        try {
+            $fechaCreacion = date('Y-m-d H:i:s');
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
+
+            $insertaCarrito= "INSERT INTO  bit_ventas
+                       (id_bazar, id_cliente,id_vendedor,sucursal,id_cierreCaja,guardar,fecha_creacion)
+                        VALUES ($id_Bazar,$idCliente, $idVendedor,$sucursal,$idCierreCaja,0,'$fechaCreacion')";
+            if ($ps = $this->conexion->prepare($insertaCarrito)) {
+                if ($ps->execute()) {
+                    $respuesta = 1;
+                } else {
+                    $respuesta = 0;
+                }
+            }
+        } catch
+        (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo $respuesta;
+    }
+
+    public function sqlEliminarCarrito($id_Ventas)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+            $deleteCarrito= "DELETE FROM bit_ventas WHERE id_ventas = $id_Ventas";
+            if ($ps = $this->conexion->prepare($deleteCarrito)) {
+                if ($ps->execute()) {
+                    $respuesta = 1;
+                } else {
+                    $respuesta = 0;
+                }
+            }
+        } catch
+        (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo $respuesta;
+    }
+
+    public function sqlRefrescarCarrito()
+    {
+        // TODO: Implement guardaCiente() method.
+        $datos = array();
+        try {
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT Ven.id_ventas as id_ventas,Baz.id_serie as Codigo,Baz.id_Contrato,
+                                Art.descripcionCorta, Baz.precio_Actual
+                                FROM bit_ventas as Ven
+                                LEFT JOIN bazar_articulos as Baz on Ven.id_bazar = Baz.id_Bazar
+                                LEFT JOIN articulo_tbl as Art on Baz.id_Articulo = Art.id_Articulo
+                                WHERE Ven.sucursal=$sucursal AND Ven.guardar = 0 AND Ven.id_cierreCaja=$idCierreCaja";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_ventas" => $row["id_ventas"],
+                        "Codigo" => $row["Codigo"],
+                        "id_ContratoVentas" => $row["id_Contrato"],
+                        "descripcionCorta" => $row["descripcionCorta"],
+                        "precio_Actual" => $row["precio_Actual"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch
+        (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    public function sqlLimpiarCarrito()
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+
+            $limpiarCarrito= "DELETE FROM bit_ventas WHERE sucursal=$sucursal AND guardar = 0 AND id_cierreCaja=$idCierreCaja";
+            if ($ps = $this->conexion->prepare($limpiarCarrito)) {
+                if ($ps->execute()) {
+                    $respuesta = mysqli_stmt_affected_rows($ps);
+                } else {
+                    $respuesta = -1;
+                }
+            } else {
+                $respuesta = -1;
+            }
+        } catch
+        (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo $respuesta;
+    }
+
 
 }
