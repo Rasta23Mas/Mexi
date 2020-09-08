@@ -5,14 +5,8 @@ include_once(SQL_PATH . "sqlVentasDAO.php");
 
 $idCodigo = $_POST['idCodigo'];
 $tipoBusqueda = $_POST['tipoBusqueda'];
+$id_ArticuloBazar = $_POST['id_ArticuloBazar'];
 $sqlVenta = new sqlVentasDAO();
-if($tipoBusqueda==1){
-    $sqlVenta->busquedaCodigo($idCodigo);
-}else if ($tipoBusqueda==2){
-    $sqlVenta->busquedaContrato($idCodigo);
-}else if ($tipoBusqueda==3){
-    $id_bazar = $_POST['id_bazar'];
-    $sqlVenta->sqlBusquedaSinCodigo($idCodigo,$id_bazar);
-}
+$sqlVenta->sqlBusquedaCodigo($idCodigo,$tipoBusqueda,$id_ArticuloBazar);
 
 

@@ -166,8 +166,8 @@ if ($tipoUsuario == 2) {
                             <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value=""
                                    onkeypress="return busquedaCodigoMostrador(event)"/>
                             &nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo" onclick="busquedaCodigoMostradorBoton(1)">&nbsp;
-                            <input type="button" class="btn btn-success" value="Buscar Contrato" id="btnBuscarContrato" onclick="busquedaCodigoMostradorBoton(2)">&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo" onclick="busquedaCodigoMostradorBoton(0,1))">&nbsp;
+                            <input type="button" class="btn btn-success" value="Buscar Contrato" id="btnBuscarContrato" onclick="busquedaCodigoMostradorBoton(0,2)">&nbsp;
                         </td>
                         <td colspan="8">
 

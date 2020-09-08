@@ -55,15 +55,16 @@ function busquedaCodigoMostrador(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
-        busquedaCodigoMostradorBoton(1);
+        busquedaCodigoMostradorBoton(0,1);
     }
 }
 
-function busquedaCodigoMostradorBoton(tipoBusqueda) {
+function busquedaCodigoMostradorBoton(id_ABazar,tipoBusqueda) {
     var idCodigo = $("#idCodigoMostrador").val();
     var dataEnviar = {
         "idCodigo": idCodigo,
         "tipoBusqueda": tipoBusqueda,
+        "id_ArticuloBazar": id_ABazar,
     };
     $.ajax({
         data: dataEnviar,
@@ -76,21 +77,20 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
                 var i = 0;
                 for (i; i < datos.length; i++) {
                     var id_Contrato = datos[i].id_ContratoBaz;
-                    var id_Bazar = datos[i].id_Bazar;
+                    var id_ArticuloBazar = datos[i].id_ArtBazar;
                     var id_serie = datos[i].id_serieBaz;
+                    var Adquisicion = datos[i].Adquisicion;
                     var empeno = datos[i].empeno;
+                    var avaluo = datos[i].avaluo;
                     var precio_Actual = datos[i].precio_Actual;
                     var descripcionCorta = datos[i].descripcionCorta;
                     var observaciones = datos[i].observaciones;
-                    var avaluo = datos[i].avaluo;
 
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
                     var precio_ActualFormat = formatoMoneda(precio_Actual);
 
-                    if (observaciones == "") {
-                        observaciones = " ";
-                    }
+                   
 
 
                     //observaciones = observaciones.toUpperCase();
@@ -98,13 +98,14 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
                         '<td>' + id_serie + '</td>' +
                         '<td>' + id_Contrato + '</td>' +
                         '<td>' + descripcionCorta + '</td>' +
+                        '<td>' + Adquisicion + '</td>' +
                         '<td>' + empeno + '</td>' +
                         '<td>' + avaluo + '</td>' +
                         '<td>' + precio_ActualFormat + '</td>' +
                         '<td>' + observaciones + '</td>' +
                         '<td align="center">' +
                         '<img src="../../style/Img/carritoNor.png"  data-dismiss="modal" alt="Agregar"' +
-                        'onclick="validarCarrito(' + id_Bazar + ',' + precio_Actual + ')"> ' +
+                        'onclick="validarCarrito(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
                         '</td></tr>';
 
                 }
@@ -113,71 +114,6 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
 
                 $("#btnVenta").prop('disabled', false);
             } else {
-                alertify.error("No se encontro ningún artiículo en bazar.");
-            }
-        }
-    });
-}
-
-function busquedaSinCodigo(id_bazar,tipoBusqueda) {
-    var idCodigo = $("#idCodigoMostrador").val();
-    var dataEnviar = {
-        "idCodigo": idCodigo,
-        "tipoBusqueda": tipoBusqueda,
-        "id_bazar": id_bazar,
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigo.php',
-        type: 'post',
-        dataType: "json",
-        success: function (datos) {
-            if (datos.length > 0) {
-                var html = '';
-                var i = 0;
-                for (i; i < datos.length; i++) {
-                    var id_Contrato = datos[i].id_ContratoBaz;
-                    var id_Bazar = datos[i].id_Bazar;
-                    var id_serie = datos[i].id_serieBaz;
-                    var empeno = datos[i].empeno;
-                    var precio_Actual = datos[i].precio_Actual;
-                    var descripcionCorta = datos[i].descripcionCorta;
-                    var observaciones = datos[i].observaciones;
-                    var avaluo = datos[i].avaluo;
-
-                    var empeno = formatoMoneda(empeno);
-                    var avaluo = formatoMoneda(avaluo);
-                    var precio_ActualFormat = formatoMoneda(precio_Actual);
-
-                    if (observaciones == "") {
-                        observaciones = " ";
-                    }
-
-
-                    //observaciones = observaciones.toUpperCase();
-                    html += '<tr>' +
-                        '<td>' + id_serie + '</td>' +
-                        '<td>' + id_Contrato + '</td>' +
-                        '<td>' + descripcionCorta + '</td>' +
-                        '<td>' + empeno + '</td>' +
-                        '<td>' + avaluo + '</td>' +
-                        '<td>' + precio_ActualFormat + '</td>' +
-                        '<td>' + observaciones + '</td>' +
-                        '<td align="center">' +
-                        '<img src="../../style/Img/carritoNor.png"  data-dismiss="modal" alt="Agregar"' +
-                        'onclick="validarCarrito(' + id_Bazar + ',' + precio_Actual + ')"> ' +
-                        '</td></tr>';
-
-                }
-
-                $('#idTBodyMetales').html(html);
-
-                $("#btnVenta").prop('disabled', false);
-            } else {
-                var html = '';
-                html = '<tr><td colspan="8" align="center">Sin resultados.</td></tr>';
-                $('#idTBodyMetales').html(html);
-                $("#btnVenta").prop('disabled', false);
                 alertify.error("No se encontro ningún artiículo en bazar.");
             }
         }
@@ -185,7 +121,7 @@ function busquedaSinCodigo(id_bazar,tipoBusqueda) {
 }
 
 //Carrito
-function validarCarrito(id_Bazar, precio_Enviado) {
+function validarCarrito(id_ArticuloBazar, precio_Enviado) {
     var vendedor = $("#idVendedor").val();
     var cliente = $("#idClienteSeleccion").val();
 
@@ -196,7 +132,7 @@ function validarCarrito(id_Bazar, precio_Enviado) {
     } else {
         $("#idNombreVenta").prop('disabled', true);
         var dataEnviar = {
-            "id_Bazar": id_Bazar,
+            "id_ArticuloBazar": id_ArticuloBazar,
         };
         $.ajax({
             data: dataEnviar,
@@ -204,7 +140,7 @@ function validarCarrito(id_Bazar, precio_Enviado) {
             type: 'post',
             success: function (respuesta) {
                 if (respuesta == 0) {
-                    agregarCarrito(id_Bazar, precio_Enviado,cliente,vendedor)
+                    agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor)
                 } else {
                     alertify.error("El artículo ya esta en el carrito de compras.");
                 }
@@ -213,10 +149,10 @@ function validarCarrito(id_Bazar, precio_Enviado) {
     }
 }
 
-function agregarCarrito(id_Bazar, precio_Enviado,cliente,vendedor) {
+function agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor) {
         var tipoCarrito = 1;
         var dataEnviar = {
-            "id_Bazar": id_Bazar,
+            "id_ArticuloBazar": id_ArticuloBazar,
             "idCliente": cliente,
             "idVendedor": vendedor,
         };
@@ -226,7 +162,7 @@ function agregarCarrito(id_Bazar, precio_Enviado,cliente,vendedor) {
             type: 'post',
             success: function (respuesta) {
                 if (respuesta == 1) {
-                    busquedaSinCodigo(id_Bazar,3);
+                    busquedaCodigoMostradorBoton(id_ArticuloBazar,3);
                     refrescarCarrito(precio_Enviado, tipoCarrito);
                 } else {
                     alertify.error("Error al agregar el artículo.");

@@ -127,108 +127,39 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    function busquedaCodigo($idCodigo)
+    function sqlBusquedaCodigo($idCodigo,$tipoBusqueda,$id_bazar)
     {
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
-                        Baz.precio_Actual, ART.descripcionCorta,ART.observaciones, ART.avaluo
-                        FROM articulo_bazar_tbl as Baz 
-                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        WHERE Baz.id_serie like '%$idCodigo%' AND Baz.sucursal= '$sucursal' AND Baz.Fisico=1
+            $buscar = "SELECT  id_Contrato,id_ArticuloBazar,id_serie ,ADQ.descripcion AS Adquisicion, prestamo, 
+                        avaluo,vitrinaVenta, descripcionCorta,observaciones
+                        FROM articulo_bazar_tbl as ART
+                        LEFT JOIN cat_adquisicion as ADQ on ART.id_serieTipo = ADQ.id_Adquisicion ";
+            if($tipoBusqueda==1){
+                $buscar.= " WHERE id_serie like '%$idCodigo%' AND sucursal=$sucursal  AND HayMovimiento = 0
                         LIMIT 20";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "id_ContratoBaz" => $row["id_Contrato"],
-                        "id_Bazar" => $row["id_Bazar"],
-                        "id_serieBaz" => $row["id_serie"],
-                        "id_serieTipo" => $row["id_serieTipo"],
-                        "empeno" => $row["prestamo_Empeno"],
-                        "precio_Actual" => $row["precio_Actual"],
-                        "descripcionCorta" => $row["descripcionCorta"],
-                        "observaciones" => $row["observaciones"],
-                        "avaluo" => $row["avaluo"],
-                    ];
-                    array_push($datos, $data);
-                }
+            }else if($tipoBusqueda==2){
+                $buscar.= " WHERE id_Contrato like '$idCodigo%' AND sucursal= $sucursal  AND HayMovimiento = 0
+                        LIMIT 20";
+            }else if($tipoBusqueda==3){
+                $buscar.= " WHERE id_serie like '%$idCodigo%' AND sucursal= $sucursal  AND HayMovimiento = 0
+                        AND id_ArticuloBazar!=$id_bazar LIMIT 20";
             }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($datos);
-    }
-
-    function busquedaContrato($idContrato)
-    {
-        $datos = array();
-        try {
-            $sucursal = $_SESSION["sucursal"];
-
-            $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
-                        Baz.precio_venta, ART.descripcionCorta,ART.observaciones, ART.avaluo
-                        FROM articulo_bazar_tbl as Baz 
-                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        WHERE Baz.id_Contrato like '$idContrato%' AND Baz.sucursal= '$sucursal' AND Baz.Fisico=1
-                        LIMIT 20";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "id_ContratoBaz" => $row["id_Contrato"],
-                        "id_Bazar" => $row["id_Bazar"],
+                        "id_ArtBazar" => $row["id_ArticuloBazar"],
                         "id_serieBaz" => $row["id_serie"],
-                        "id_serieTipo" => $row["id_serieTipo"],
-                        "empeno" => $row["prestamo_Empeno"],
-                        "precio_venta" => $row["precio_venta"],
+                        "Adquisicion" => $row["Adquisicion"],
+                        "empeno" => $row["prestamo"],
+                        "avaluo" => $row["avaluo"],
+                        "precio_Actual" => $row["vitrinaVenta"],
                         "descripcionCorta" => $row["descripcionCorta"],
                         "observaciones" => $row["observaciones"],
-                        "avaluo" => $row["avaluo"],
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($datos);
-    }
-
-    function sqlBusquedaSinCodigo($idCodigo,$id_bazar)
-    {
-        $datos = array();
-        try {
-            $sucursal = $_SESSION["sucursal"];
-
-            $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
-                        Baz.precio_Actual, ART.descripcionCorta,ART.observaciones, ART.avaluo
-                        FROM articulo_bazar_tbl as Baz 
-                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        WHERE Baz.id_serie like '%$idCodigo%' AND Baz.sucursal= '$sucursal' AND Baz.Fisico=1
-                        AND Baz.id_Bazar!=$id_bazar
-                        LIMIT 20";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "id_ContratoBaz" => $row["id_Contrato"],
-                        "id_Bazar" => $row["id_Bazar"],
-                        "id_serieBaz" => $row["id_serie"],
-                        "id_serieTipo" => $row["id_serieTipo"],
-                        "empeno" => $row["prestamo_Empeno"],
-                        "precio_Actual" => $row["precio_Actual"],
-                        "descripcionCorta" => $row["descripcionCorta"],
-                        "observaciones" => $row["observaciones"],
-                        "avaluo" => $row["avaluo"],
                     ];
                     array_push($datos, $data);
                 }
