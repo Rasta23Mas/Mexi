@@ -55,16 +55,15 @@ function busquedaCodigoMostrador(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
-        busquedaCodigoMostradorBoton(0,1);
+        busquedaCodigoMostradorBoton(1);
     }
 }
 
-function busquedaCodigoMostradorBoton(id_ABazar,tipoBusqueda) {
+function busquedaCodigoMostradorBoton(tipoBusqueda) {
     var idCodigo = $("#idCodigoMostrador").val();
     var dataEnviar = {
         "idCodigo": idCodigo,
         "tipoBusqueda": tipoBusqueda,
-        "id_ArticuloBazar": id_ABazar,
     };
     $.ajax({
         data: dataEnviar,
@@ -90,10 +89,6 @@ function busquedaCodigoMostradorBoton(id_ABazar,tipoBusqueda) {
                     var avaluo = formatoMoneda(avaluo);
                     var precio_ActualFormat = formatoMoneda(precio_Actual);
 
-                   
-
-
-                    //observaciones = observaciones.toUpperCase();
                     html += '<tr>' +
                         '<td>' + id_serie + '</td>' +
                         '<td>' + id_Contrato + '</td>' +
@@ -131,6 +126,7 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado) {
         alertify.warning("Favor de seleccionar el vendedor.");
     } else {
         $("#idNombreVenta").prop('disabled', true);
+        $("#idClienteSeleccion").prop('disabled', true);
         var dataEnviar = {
             "id_ArticuloBazar": id_ArticuloBazar,
         };
@@ -162,7 +158,7 @@ function agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor) {
             type: 'post',
             success: function (respuesta) {
                 if (respuesta == 1) {
-                    busquedaCodigoMostradorBoton(id_ArticuloBazar,3);
+                    busquedaCodigoMostradorBoton(3);
                     refrescarCarrito(precio_Enviado, tipoCarrito);
                 } else {
                     alertify.error("Error al agregar el artículo.");
@@ -281,21 +277,7 @@ function calcularIva(precio_Enviado, tipoCarrito) {
 }
 
 function cancelarVenta() {
-    $("#idFormVentas")[0].reset();
-    limpiarCarrito();
-    /* var totalBase = $("#idTotalBase").val();
-     $("#idDescuento").val("");
-     $("#idTotalPagar").val(totalBase);
-     $("#idEfectivo").val("");
-     $("#idCambio").val("");
-     $("#idTotalValue").val(totalBase);
-     $("#idDescuentoValue").val(0);
-     $("#idEfectivoValue").val("");
-     $("#idCambioValue").val("");
-     $("#idDescuento").prop('disabled', false);
-     $("#idEfectivo").prop('disabled', false);
-     alertify.success("Se limpiaron descuento y pago.");
-     */
+    location.reload()
 }
 
 function descuentoVenta(e) {

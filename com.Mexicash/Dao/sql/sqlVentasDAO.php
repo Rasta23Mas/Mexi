@@ -127,7 +127,7 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    function sqlBusquedaCodigo($idCodigo,$tipoBusqueda,$id_bazar)
+    function sqlBusquedaCodigo($idCodigo,$tipoBusqueda)
     {
         $datos = array();
         try {
@@ -145,7 +145,7 @@ class sqlVentasDAO
                         LIMIT 20";
             }else if($tipoBusqueda==3){
                 $buscar.= " WHERE id_serie like '%$idCodigo%' AND sucursal= $sucursal  AND HayMovimiento = 0
-                        AND id_ArticuloBazar!=$id_bazar LIMIT 20";
+                         AND id_ArticuloBazar NOT IN (SELECT id_ArticuloBazar FROM bit_ventas) LIMIT 20";
             }
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -404,7 +404,7 @@ class sqlVentasDAO
     }
 
 
-    public function sqlAgregarCarrito($id_Bazar, $idCliente, $idVendedor)
+    public function sqlAgregarCarrito($id_ArticuloBazar, $idCliente, $idVendedor)
     {
         // TODO: Implement guardaCiente() method.
         $datos = array();
@@ -414,8 +414,8 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
 
             $insertaCarrito= "INSERT INTO  bit_ventas
-                       (id_bazar, id_cliente,id_vendedor,sucursal,id_cierreCaja,guardar,fecha_creacion)
-                        VALUES ($id_Bazar,$idCliente, $idVendedor,$sucursal,$idCierreCaja,0,'$fechaCreacion')";
+                       (id_ArticuloBazar, id_cliente,id_vendedor,sucursal,id_cierreCaja,guardar,fecha_creacion)
+                        VALUES ($id_ArticuloBazar,$idCliente, $idVendedor,$sucursal,$idCierreCaja,0,'$fechaCreacion')";
             if ($ps = $this->conexion->prepare($insertaCarrito)) {
                 if ($ps->execute()) {
                     $respuesta = 1;
@@ -463,11 +463,10 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Ven.id_ventas as id_ventas,Baz.id_serie as Codigo,Baz.id_Contrato,
-                                Art.descripcionCorta, Baz.precio_Actual
-                                FROM bit_ventas as Ven
-                                LEFT JOIN articulo_bazar_tbl as Baz on Ven.id_bazar = Baz.id_Bazar
-                                LEFT JOIN articulo_tbl as Art on Baz.id_Articulo = Art.id_Articulo
-                                WHERE Ven.sucursal=$sucursal AND Ven.guardar = 0 AND Ven.id_cierreCaja=$idCierreCaja";
+                            Baz.descripcionCorta, Baz.vitrinaVenta
+                            FROM bit_ventas as Ven
+                            LEFT JOIN articulo_bazar_tbl as Baz on Ven.id_ArticuloBazar = Baz.id_ArticuloBazar
+                            WHERE Ven.sucursal=$sucursal AND Ven.guardar = 0 AND Ven.id_cierreCaja=$idCierreCaja";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -476,7 +475,7 @@ class sqlVentasDAO
                         "Codigo" => $row["Codigo"],
                         "id_ContratoVentas" => $row["id_Contrato"],
                         "descripcionCorta" => $row["descripcionCorta"],
-                        "precio_Actual" => $row["precio_Actual"],
+                        "precio_Actual" => $row["vitrinaVenta"],
                     ];
                     array_push($datos, $data);
                 }
@@ -518,14 +517,14 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function sqlValidarCarrito($id_Bazar)
+    public function sqlValidarCarrito($id_ArticuloBazar)
     {
         // TODO: Implement guardaCiente() method.
         $cantidad = 0;
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar= "SELECT  COUNT(id_bazar) as CountBazar FROM bit_ventas where sucursal =$sucursal AND id_bazar= $id_Bazar";
+            $buscar= "SELECT  COUNT(id_ArticuloBazar) as CountBazar FROM bit_ventas where sucursal =$sucursal AND id_ArticuloBazar= $id_ArticuloBazar";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
