@@ -259,19 +259,15 @@ if ($tipoUsuario == 2) {
                             <br>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="2" align="right">
+                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
+                            <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
+                            <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-md-8">
-                <br>
-            </div>
-            <div class="col col-md-4" >
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;
-                <input type="button" class="btn btn-success" value="Venta" id="btnVenta" onclick="validaVenta()">&nbsp;
-                <input type="button" class="btn btn-primary" value="Reimprimir" onclick="reimprimir()">&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
             </div>
         </div>
         <div class="row">

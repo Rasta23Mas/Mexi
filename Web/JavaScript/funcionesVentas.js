@@ -138,7 +138,7 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado) {
         alertify.warning("Favor de seleccionar el vendedor.");
     } else {
         $("#idNombreVenta").prop('disabled', true);
-        $("#idClienteSeleccion").prop('disabled', true);
+        $("#idVendedor").prop('disabled', true);
         var dataEnviar = {
             "id_ArticuloBazar": id_ArticuloBazar,
         };
@@ -435,48 +435,69 @@ function guardarVenta() {
     if (efectivo == 0) {
         alert("Debe calcular el cambio del cliente.");
     } else {
-
+        var subtotal = $("#idSubTotalValue").val();
         var iva = $("#idIvaValue").val();
-        var cambio = $("#idCambioValue").val();
-        var precioVenta = $("#idSubTotalValue").val();
         var descuento = $("#idDescuentoValue").val();
+        var total = $("#idTotalValue").val();
+        var cambio = $("#idCambioValue").val();
+        var cliente = $("#idClienteSeleccion").val();
+        var vendedor = $("#idVendedor").val();
         var idToken = $("#idToken").val();
         var tokenDesc = "";
-
         if (idToken !== 0) {
             tokenDesc = $("#tokenDescripcion").val();
         }
+        var idBazar = $("#idBazar").val();
 
         var dataEnviar = {
-            "id_ContratoGlb": id_ContratoGlb,
-            "id_serieGlb": id_serieGlb,
-            "id_ClienteGlb": id_ClienteGlb,
-            "ivaGlb": iva,
-            "tipo_movimientoGlb": tipo_movimientoGlb,
-            "vendedorGlb": vendedor,
+            "tipo_movimiento": tipo_movimientoGlb,
+            "subTotal": subtotal,
+            "iva": iva,
+            "descuento": descuento,
+            "total": total,
             "efectivo": efectivo,
             "cambio": cambio,
-            "precioVenta": precioVenta,
-            "descuento": descuento,
+            "cliente": cliente,
+            "vendedor": vendedor,
             "idToken": idToken,
             "tokenDesc": tokenDesc,
+            "idBazar": idBazar,
         };
 
         $.ajax({
             data: dataEnviar,
-            url: '../../../com.Mexicash/Controlador/Ventas/guardarVenta.php',
+            url: '../../../com.Mexicash/Controlador/Ventas/GuardarVenta.php',
             type: 'post',
             success: function (response) {
-                if (response > 0) {
-                    idBazarGlb = response;
-                    alertify.success("El artículo se ha apartado correctamente.")
-                    BitacoraVenta()
+                if (response == 1) {
+                    idBazarGlb = idBazar;
+                    ArticulosUpdateVenta()
                 } else {
                     alertify.error("Error al guardar el apartado");
                 }
             },
         })
     }
+}
+function ArticulosUpdateVenta() {
+    var dataEnviar = {
+        "idBazar": idBazarGlb,
+        "tipo_movimiento": tipo_movimientoGlb,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Ventas/UpdateArticulos.php',
+        data: dataEnviar,
+        success: function (response) {
+            alert(response)
+            if (response > 0) {
+                alertify.success("Artículos actualizados correctamente.")
+                BitacoraVenta();
+            } else {
+                alertify.error("Error en al conectar con el servidor.")
+            }
+        }
+    });
 }
 
 function BitacoraVenta() {

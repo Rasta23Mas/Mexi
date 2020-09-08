@@ -367,69 +367,37 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function guardarVenta($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb,
-                                 $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $efectivo, $cambio, $precioVenta,
-                                 $descuento, $idToken, $tokenDesc)
+    public function sqlGuardarVenta($tipo_movimiento, $subTotal, $iva, $descuento, $total, $efectivo, $cambio, $cliente, $vendedor, $idToken, $tokenDesc, $idBazar)
     {
         // TODO: Implement guardaCiente() method.
         try {
             $fechaModificacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $idCierreSuc = $_SESSION["idCierreSucursal"];
             $sucursal = $_SESSION["sucursal"];
-            $usuario = $_SESSION["idUsuario"];
+            $Fisico = 0;
 
-            $insertaAbono = "INSERT INTO contrato_baz_mov_tbl 
-                       (id_Contrato, id_serie,tipo_movimiento,id_Cliente,precio_venta,precio_Actual,descuento_Venta,abono,iva,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja,id_CierreSucursal)
-                        VALUES ($id_ContratoGlb,'$id_serieGlb', $tipo_movimientoGlb,$id_ClienteGlb,$precioVenta,0,$descuento,0,$ivaGlb,$vendedorGlb,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
-            if ($ps = $this->conexion->prepare($insertaAbono)) {
+            $updateContratoBaz = "UPDATE contrato_baz_mov_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
+                                iva=$iva,descuento_Venta=$descuento,total=$total,efectivo=$efectivo,cambio=$cambio,
+                                cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
+                                sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico";
+            if ($ps = $this->conexion->prepare($updateContratoBaz)) {
                 if ($ps->execute()) {
-                    if (empty($idToken)) {
-                        $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
-                        $statement = $this->conexion->query($buscarBazar);
-                        $encontro = $statement->num_rows;
-                        if ($encontro > 0) {
-                            $fila = $statement->fetch_object();
-                            $UltimoBazarID = $fila->UltimoBazarID;
-                            $respuesta = $UltimoBazarID;
+                    $updateBitVentas = "UPDATE bit_ventas SET guardar = 1
+                            WHERE sucursal=$sucursal AND guardar = 0 AND id_cierreCaja=$idCierreCaja";
+                    if ($ps = $this->conexion->prepare($updateBitVentas)) {
+                        if ($ps->execute()) {
+                            $respuesta = 1;
+                        } else {
+                            $respuesta = -1;
                         }
                     } else {
-                        $token_decripcion = mb_strtoupper($tokenDesc, 'UTF-8');
-                        $insertaBitacora = "INSERT INTO bit_token ( id_Contrato, token, descripcion, descuento, id_tokenMovimiento, estatus, usuario, sucursal, fecha_Creacion)
-                                        VALUES ($id_ContratoGlb,$idToken,'$token_decripcion', $descuento, 7, 1, $usuario, $sucursal,'$fechaModificacion')";
-                        if ($ps = $this->conexion->prepare($insertaBitacora)) {
-                            if ($ps->execute()) {
-                                $updateToken = "UPDATE cat_token SET
-                                         estatus = 2
-                                        WHERE id_token =$idToken";
-                                if ($ps = $this->conexion->prepare($updateToken)) {
-                                    if ($ps->execute()) {
-                                        $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
-                                        $statement = $this->conexion->query($buscarBazar);
-                                        $encontro = $statement->num_rows;
-                                        if ($encontro > 0) {
-                                            $fila = $statement->fetch_object();
-                                            $UltimoBazarID = $fila->UltimoBazarID;
-                                            $respuesta = $UltimoBazarID;
-                                        }
-                                    } else {
-                                        $respuesta = -11;
-                                    }
-                                } else {
-                                    $respuesta = -12;
-                                }
-                            } else {
-                                $respuesta = -13;
-                            }
-                        } else {
-                            $respuesta = -155;
-                        }
+                        $respuesta = 1;
                     }
                 } else {
                     $respuesta = -1;
                 }
             } else {
-                $respuesta = 3;
+                $respuesta = -1;
             }
         } catch (Exception $exc) {
             $respuesta = -20;
@@ -437,12 +405,45 @@ class sqlVentasDAO
         } finally {
             $this->db->closeDB();
         }
-        //return $verdad;
         echo $respuesta;
     }
 
+    public function sqlArticulosUpdate($idBazar,$tipo_movimiento)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+            $Fisico = 0;
+            $HayMovimiento= 1;
+            $buscar = "SELECT id_ArticuloBazar as Articulo FROM bit_ventas WHERE id_Bazar=$idBazar";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $articulo = $row['Articulo'];
+                    $updateArtBaz = "UPDATE articulo_bazar_tbl SET tipo_movimiento = $tipo_movimiento,
+                                            Fisico=$Fisico, HayMovimiento=$HayMovimiento
+                                            WHERE id_ArticuloBazar=$articulo";
+                    if ($ps = $this->conexion->prepare($updateArtBaz)) {
+                        if ($ps->execute()) {
+                            $respuesta = 1;
+                        } else {
+                            $respuesta = -1;
+                        }
+                    } else {
+                        $respuesta = 1;
+                    }
+                }
+            }
+        } catch
+        (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
 
-    public function sqlAgregarCarrito($id_ArticuloBazar, $idCliente, $idVendedor,$idBazar)
+        echo $respuesta;
+    }
+
+    public function sqlAgregarCarrito($id_ArticuloBazar, $idCliente, $idVendedor, $idBazar)
     {
         // TODO: Implement guardaCiente() method.
         $datos = array();
