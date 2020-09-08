@@ -20,7 +20,45 @@ class sqlVentasDAO
     }
 
     //Busqueda de Contrato
-    public function busquedaApartados($codigo)
+    function sqlBuscarIdBazar()
+    {
+        $idBazar = 0;
+        //Modifique los estatus de usuario
+        try {
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $buscar = "SELECT id_Bazar FROM contrato_baz_mov_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+            $statement = $this->conexion->query($buscar);
+            if ($statement->num_rows > 0) {
+                $fila = $statement->fetch_object();
+                $idBazar = $fila->id_Bazar;
+            } else {
+                $fechaCreacion = date('Y-m-d H:i:s');
+                $sucursal = $_SESSION["sucursal"];
+                $insertaCarrito = "INSERT INTO  contrato_baz_mov_tbl
+                       (tipo_movimiento, id_CierreCaja,sucursal,fecha_creacion)
+                        VALUES (0,$idCierreCaja,$sucursal,'$fechaCreacion')";
+                if ($ps = $this->conexion->prepare($insertaCarrito)) {
+                    if ($ps->execute()) {
+                        $buscar = "SELECT id_Bazar FROM contrato_baz_mov_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+                        $statement = $this->conexion->query($buscar);
+                        if ($statement->num_rows > 0) {
+                            $fila = $statement->fetch_object();
+                            $idBazar = $fila->id_Bazar;
+                        }
+                    } else {
+                        $idBazar = 0;
+                    }
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $idBazar;
+    }
+
+    function busquedaApartados($codigo)
     {
         //Modifique los estatus de usuario
         $datos = array();
@@ -59,7 +97,7 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    public function busquedaApartadosCliente($id_ClienteGlb)
+    function busquedaApartadosCliente($id_ClienteGlb)
     {
         //Modifique los estatus de usuario
         $sucursal = $_SESSION["sucursal"];
@@ -93,7 +131,7 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    public function busquedaAbonos($id_Contrato)
+    function busquedaAbonos($id_Contrato)
     {
         //Modifique los estatus de usuario
         $sucursal = $_SESSION["sucursal"];
@@ -127,7 +165,7 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    function sqlBusquedaCodigo($idCodigo,$tipoBusqueda)
+    function sqlBusquedaCodigo($idCodigo, $tipoBusqueda)
     {
         $datos = array();
         try {
@@ -137,14 +175,14 @@ class sqlVentasDAO
                         avaluo,vitrinaVenta, descripcionCorta,observaciones
                         FROM articulo_bazar_tbl as ART
                         LEFT JOIN cat_adquisicion as ADQ on ART.id_serieTipo = ADQ.id_Adquisicion ";
-            if($tipoBusqueda==1){
-                $buscar.= " WHERE id_serie like '%$idCodigo%' AND sucursal=$sucursal  AND HayMovimiento = 0
+            if ($tipoBusqueda == 1) {
+                $buscar .= " WHERE id_serie like '%$idCodigo%' AND sucursal=$sucursal  AND HayMovimiento = 0
                         LIMIT 20";
-            }else if($tipoBusqueda==2){
-                $buscar.= " WHERE id_Contrato like '$idCodigo%' AND sucursal= $sucursal  AND HayMovimiento = 0
+            } else if ($tipoBusqueda == 2) {
+                $buscar .= " WHERE id_Contrato like '$idCodigo%' AND sucursal= $sucursal  AND HayMovimiento = 0
                         LIMIT 20";
-            }else if($tipoBusqueda==3){
-                $buscar.= " WHERE id_serie like '%$idCodigo%' AND sucursal= $sucursal  AND HayMovimiento = 0
+            } else if ($tipoBusqueda == 3) {
+                $buscar .= " WHERE id_serie like '%$idCodigo%' AND sucursal= $sucursal  AND HayMovimiento = 0
                          AND id_ArticuloBazar NOT IN (SELECT id_ArticuloBazar FROM bit_ventas) LIMIT 20";
             }
             $rs = $this->conexion->query($buscar);
@@ -404,7 +442,7 @@ class sqlVentasDAO
     }
 
 
-    public function sqlAgregarCarrito($id_ArticuloBazar, $idCliente, $idVendedor)
+    public function sqlAgregarCarrito($id_ArticuloBazar, $idCliente, $idVendedor,$idBazar)
     {
         // TODO: Implement guardaCiente() method.
         $datos = array();
@@ -413,9 +451,9 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
 
-            $insertaCarrito= "INSERT INTO  bit_ventas
-                       (id_ArticuloBazar, id_cliente,id_vendedor,sucursal,id_cierreCaja,guardar,fecha_creacion)
-                        VALUES ($id_ArticuloBazar,$idCliente, $idVendedor,$sucursal,$idCierreCaja,0,'$fechaCreacion')";
+            $insertaCarrito = "INSERT INTO  bit_ventas
+                       (id_Bazar,id_ArticuloBazar, id_cliente,id_vendedor,sucursal,id_cierreCaja,guardar,fecha_creacion)
+                        VALUES ($idBazar,$id_ArticuloBazar,$idCliente, $idVendedor,$sucursal,$idCierreCaja,0,'$fechaCreacion')";
             if ($ps = $this->conexion->prepare($insertaCarrito)) {
                 if ($ps->execute()) {
                     $respuesta = 1;
@@ -437,7 +475,7 @@ class sqlVentasDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
-            $deleteCarrito= "DELETE FROM bit_ventas WHERE id_ventas = $id_Ventas";
+            $deleteCarrito = "DELETE FROM bit_ventas WHERE id_ventas = $id_Ventas";
             if ($ps = $this->conexion->prepare($deleteCarrito)) {
                 if ($ps->execute()) {
                     $respuesta = 1;
@@ -497,7 +535,7 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
             $idCierreCaja = $_SESSION['idCierreCaja'];
 
-            $limpiarCarrito= "DELETE FROM bit_ventas WHERE sucursal=$sucursal AND guardar = 0 AND id_cierreCaja=$idCierreCaja";
+            $limpiarCarrito = "DELETE FROM bit_ventas WHERE sucursal=$sucursal AND guardar = 0 AND id_cierreCaja=$idCierreCaja";
             if ($ps = $this->conexion->prepare($limpiarCarrito)) {
                 if ($ps->execute()) {
                     $respuesta = mysqli_stmt_affected_rows($ps);
@@ -524,7 +562,7 @@ class sqlVentasDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar= "SELECT  COUNT(id_ArticuloBazar) as CountBazar FROM bit_ventas where sucursal =$sucursal AND id_ArticuloBazar= $id_ArticuloBazar";
+            $buscar = "SELECT  COUNT(id_ArticuloBazar) as CountBazar FROM bit_ventas where sucursal =$sucursal AND id_ArticuloBazar= $id_ArticuloBazar";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();

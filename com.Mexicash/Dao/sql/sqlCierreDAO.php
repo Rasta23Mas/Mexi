@@ -233,7 +233,7 @@ class sqlCierreDAO
 
             $buscar = "SELECT Baz.tipo_movimiento, Baz.descuento_Venta,Baz.precio_venta,Baz.iva,Baz.apartado,Baz.abono 
                        FROM contrato_baz_mov_tbl Baz 
-                       WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20";
+                       WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20 Validar cambios ";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -553,7 +553,7 @@ class sqlCierreDAO
 
             $buscar = "SELECT Baz.tipo_movimiento, Baz.descuento_Venta,Baz.precio_venta,Baz.iva,Baz.apartado,Baz.abono 
                        FROM contrato_baz_mov_tbl Baz 
-                       WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20";
+                       WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20 Validar cambios ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

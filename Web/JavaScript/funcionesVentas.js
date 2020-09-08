@@ -8,6 +8,20 @@ var idBazarGlb = 0;
 var idSubtotalGlb = 0;
 var idIvaGlb = 0;
 
+function buscaridBazar() {
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Ventas/BuscarIdBazar.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta == 0) {
+                location.reload()
+            }else{
+                $("#idBazar").val(respuesta);
+            }
+        },
+    })
+}
+
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
         var key = $('#idNombreVenta').val();
@@ -106,7 +120,6 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
                 }
 
                 $('#idTBodyMetales').html(html);
-                $("#btnVenta").prop('disabled', false);
             } else {
                 alertify.error("No se encontro ningún artiículo en bazar.");
             }
@@ -146,10 +159,12 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado) {
 
 function agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor) {
         var tipoCarrito = 1;
+        var idBazar = $("#idBazar").val();
         var dataEnviar = {
             "id_ArticuloBazar": id_ArticuloBazar,
             "idCliente": cliente,
             "idVendedor": vendedor,
+            "idBazar": idBazar,
         };
         $.ajax({
             data: dataEnviar,
@@ -195,7 +210,6 @@ function limpiarCarrito() {
             }
         },
     })
-
 }
 
 function refrescarCarrito(precio_Enviado, tipoCarrito) {
@@ -227,15 +241,13 @@ function refrescarCarrito(precio_Enviado, tipoCarrito) {
                         '</td></tr>';
                 }
                 $('#idTBodyArticulosCarrito').html(html);
-                $("#btnVenta").prop('disabled', false);
+
 
             } else {
                 var html = '';
                 html += '<tr>' +
                     '<td colspan="5" align="center">Sin artículos en el carrito.</td></tr>';
                 $('#idTBodyArticulosCarrito').html(html);
-                $("#btnVenta").prop('disabled', true);
-
             }
         },
     })
@@ -356,6 +368,7 @@ function efectivoVenta(e) {
             $("#idCambio").val(cambio);
             $("#idEfectivo").val(efectivo);
             $("#idEfectivo").prop('disabled', true);
+            $("#btnVenta").prop('disabled', false);
         }
     }
     return patron.test(te);
@@ -383,7 +396,7 @@ function validaVenta() {
 }
 
 function tokenVenta() {
-    var tokenDes = $("#idCodigoVenta").val();
+    var tokenDes = 0;
     var dataEnviar = {
         "token": tokenDes
     };

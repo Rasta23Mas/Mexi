@@ -52,7 +52,7 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             LEFT JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente 
             LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
             LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
-            WHERE id_Bazar=$idBazar";
+            WHERE id_Bazar=$idBazar ";
 $resultado = $db->query($query);
 
 

@@ -28,7 +28,6 @@ if ($tipoUsuario == 2) {
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesVentas.js"></script>
 
-    <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
             $("#idFormEmpeno").trigger("reset");
@@ -41,6 +40,7 @@ if ($tipoUsuario == 2) {
                 $('#suggestionsNombreVenta').fadeOut(500);
             });
             limpiarCarrito();
+            buscaridBazar();
         })
     </script>
     <style type="text/css">
@@ -287,24 +287,26 @@ if ($tipoUsuario == 2) {
             <div class="col col-lg-12" >
                 <br>
                 <input type="text" name="subtotal"  id="idSubTotalValue"
-                       style="width: 120px "disabled/>
+                       style="width: 120px " disabled/>
                 <input type="text" name="iva"  id="idIvaValue"
-                       style="width: 120px "disabled/>
+                       style="width: 120px " disabled/>
                 <input type="text" name="total"  id="idTotalBase"
-                       style="width: 120px "disabled/>
+                       style="width: 120px " disabled/>
                 <input type="text" name="total"  id="idTotalValue"
-                       style="width: 120px "disabled/>
+                       style="width: 120px " disabled/>
                 <input type="text" name="descuento"  id="idDescuentoValue"  value="0"
-                       style="width: 120px "disabled/>
+                       style="width: 120px " disabled/>
                 <input type="text" name="efectivo"  id="idEfectivoValue"
-                       style="width: 120px "disabled/>
+                       style="width: 120px " disabled/>
                 <input type="text" name="cambio"  id="idCambioValue"
-                       style="width: 120px "disabled/>
+                       style="width: 120px " disabled/>
                 <input type="text" name="tokenDesc"  id="tokenDescripcion"
-                       style="width: 120px "disabled/>
+                       style="width: 120px " disabled/>
                 <input type="text" name="idtoken"  id="idToken"  value="0"
                        style="width: 120px "disabled/>
                 <input type="text" name="cliente"  id="idClienteSeleccion" value="0"
+                       style="width: 120px "disabled/>
+                <input type="text" name="bazar"  id="idBazar" value="0"
                        style="width: 120px "disabled/>
             </div>
         </div>
