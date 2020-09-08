@@ -764,9 +764,9 @@ class sqlUsuarioDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT SUM(prestamo_Empeno) as PrestamoEmp FROM bazar_articulos
+            $buscar = "SELECT SUM(prestamo_Empeno) as PrestamoEmp FROM articulo_bazar_tbl
                         WHERE tipo_movimiento=24 and sucursal = $sucursal and id_Contrato not in 
-                        (select id_Contrato FROM bazar_articulos 
+                        (select id_Contrato FROM contrato_baz_mov_tbl 
                         where tipo_movimiento = 6 || tipo_movimiento = 22 || tipo_movimiento = 23 )";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {

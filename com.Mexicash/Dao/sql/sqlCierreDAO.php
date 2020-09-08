@@ -232,7 +232,7 @@ class sqlCierreDAO
         try {
 
             $buscar = "SELECT Baz.tipo_movimiento, Baz.descuento_Venta,Baz.precio_venta,Baz.iva,Baz.apartado,Baz.abono 
-                       FROM bazar_articulos Baz 
+                       FROM contrato_baz_mov_tbl Baz 
                        WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20";
 
             $rs = $this->conexion->query($buscar);
@@ -552,7 +552,7 @@ class sqlCierreDAO
         try {
 
             $buscar = "SELECT Baz.tipo_movimiento, Baz.descuento_Venta,Baz.precio_venta,Baz.iva,Baz.apartado,Baz.abono 
-                       FROM bazar_articulos Baz 
+                       FROM contrato_baz_mov_tbl Baz 
                        WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -782,7 +782,7 @@ class sqlCierreDAO
         try {
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
 
-            $buscar = "SELECT prestamo_Empeno,tipo_movimiento  FROM bazar_articulos
+            $buscar = "SELECT prestamo_Empeno,tipo_movimiento  FROM contrato_baz_mov_tbl
                         WHERE id_CierreSucursal= $id_CierreSucursal and tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -837,7 +837,7 @@ class sqlCierreDAO
             $fechaCreacion = date('Y-m-d');
             $buscar = "SELECT prestamo_Informativo
                         FROM contrato_mov_tbl
-                        WHERE  fecha_Bazar='$fechaCreacion'";
+                        WHERE  fechaAlmoneda='$fechaCreacion'";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -1010,14 +1010,18 @@ class sqlCierreDAO
     {
         try {
             $fechaCreacion = date('Y-m-d');
-            $insertaBazar = "INSERT INTO bazar_articulos 
-                       (id_Contrato, id_serie, id_Articulo,fecha_Bazar,precio_venta,tipo_movimiento,prestamo_Empeno,precio_Actual,sucursal)
-                        SELECT Art.id_Contrato, CONCAT (Art.id_SerieSucursal, Art.Adquisiciones_Tipo,
-                        Art.id_SerieContrato,Art.id_SerieArticulo) as idSerie, Art.id_Articulo,
-                        Con.fecha_Bazar,Art.vitrina,24,Art.prestamo,Art.vitrina,Art.id_SerieSucursal
-                        FROM articulo_tbl as Art
-                        INNER JOIN contrato_mov_tbl as Con on Art.id_Contrato = Con.id_contrato
-                        WHERE  Con.fecha_Bazar='$fechaCreacion'";
+            $insertaBazar = "INSERT INTO articulo_bazar_tbl(id_Contrato, id_serie, id_Articulo, tipo_movimiento,
+                                fecha_Bazar, tipoArticulo, tipo, kilataje, calidad, cantidad, peso, peso_Piedra,
+                                piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,precioCat,
+                                observaciones, detalle, fecha_creacion,descripcionCorta,sucursal)
+                            SELECT Art.id_Contrato, CONCAT (id_SerieSucursal, Adquisiciones_Tipo, id_SerieContrato,id_SerieArticulo) as idSerie,
+                                id_Articulo,24,fecha_almoneda, tipoArticulo, tipo, kilataje, calidad, cantidad,
+                                peso, peso_Piedra, piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,
+                                precioCat, observaciones, detalle, Art.fecha_creacion,Art.descripcionCorta,
+                                Art.sucursal
+                            FROM articulo_tbl as Art
+                            INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato
+                        WHERE  Con.fecha_almoneda='$fechaCreacion'";
             if ($ps = $this->conexion->prepare($insertaBazar)) {
                 if ($ps->execute()) {
                     $respuesta = 1;
@@ -1042,8 +1046,8 @@ class sqlCierreDAO
         try {
             $fechaCreacion = date('Y-m-d');
             $updateBazar = "UPDATE contrato_mov_tbl 
-                                SET fecha_Bazar='',tipo_movimiento=24
-                                WHERE  fecha_Bazar='$fechaCreacion'";
+                                SET fechaAlmoneda='',tipo_movimiento=24
+                                WHERE  fechaAlmoneda='$fechaCreacion'";
             if ($ps = $this->conexion->prepare($updateBazar)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

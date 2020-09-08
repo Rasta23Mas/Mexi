@@ -28,10 +28,10 @@ class sqlVentasDAO
             $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,ART.descripcionCorta,
                         ART.observaciones, Baz.prestamo_Empeno,ART.avaluo,
                         Baz.precio_venta
-                        FROM bazar_articulos as Baz
+                        FROM contrato_baz_mov_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie like '$codigo%'  and Baz.id_serie not in 
-                        (select id_serie FROM bazar_articulos 
+                        (select id_serie FROM contrato_baz_mov_tbl 
                         where  tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 
                         || tipo_movimiento = 23)";
             $rs = $this->conexion->query($buscar);
@@ -67,10 +67,10 @@ class sqlVentasDAO
         try {
             $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,
                          ART.descripcionCorta,ART.observaciones
-                        FROM bazar_articulos as Baz
+                        FROM contrato_baz_mov_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_Cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
-                        (select id_serie FROM bazar_articulos 
+                        (select id_serie FROM contrato_baz_mov_tbl 
                         where  Baz.sucursal= $sucursal  AND tipo_movimiento = 6 || tipo_movimiento = 20 )";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -100,7 +100,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT id_Bazar,fecha_Modificacion,iva,apartado,abono,precio_venta,precio_Actual,apartado,tipo_movimiento,id_serie, sucursal
-                        FROM bazar_articulos WHERE id_Contrato = $id_Contrato AND tipo_movimiento=22 || tipo_movimiento=23";
+                        FROM contrato_baz_mov_tbl WHERE id_Contrato = $id_Contrato AND tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
@@ -135,7 +135,7 @@ class sqlVentasDAO
 
             $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
                         Baz.precio_Actual, ART.descripcionCorta,ART.observaciones, ART.avaluo
-                        FROM bazar_articulos as Baz 
+                        FROM articulo_bazar_tbl as Baz 
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie like '%$idCodigo%' AND Baz.sucursal= '$sucursal' AND Baz.Fisico=1
                         LIMIT 20";
@@ -173,7 +173,7 @@ class sqlVentasDAO
 
             $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
                         Baz.precio_venta, ART.descripcionCorta,ART.observaciones, ART.avaluo
-                        FROM bazar_articulos as Baz 
+                        FROM articulo_bazar_tbl as Baz 
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_Contrato like '$idContrato%' AND Baz.sucursal= '$sucursal' AND Baz.Fisico=1
                         LIMIT 20";
@@ -211,7 +211,7 @@ class sqlVentasDAO
 
             $buscar = "SELECT  Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,Baz.id_serieTipo, Baz.prestamo_Empeno, 
                         Baz.precio_Actual, ART.descripcionCorta,ART.observaciones, ART.avaluo
-                        FROM bazar_articulos as Baz 
+                        FROM articulo_bazar_tbl as Baz 
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie like '%$idCodigo%' AND Baz.sucursal= '$sucursal' AND Baz.Fisico=1
                         AND Baz.id_Bazar!=$id_bazar
@@ -250,7 +250,7 @@ class sqlVentasDAO
                         Baz.tipo_movimiento,ART.tipo,ART.kilataje,ART.calidad,
                         ART.cantidad,ART.peso,ART.peso_Piedra,ART.piedras,ART.marca,ART.modelo,
                         ART.num_Serie,ART.avaluo,ART.vitrina,ART.precioCat,ART.observaciones,ART.detalle,
-                        ART.fecha_creacion,Baz.fecha_Modificacion FROM bazar_articulos as Baz
+                        ART.fecha_creacion,Baz.fecha_Modificacion FROM contrato_baz_mov_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie= '$idCodigo'";
             $rs = $this->conexion->query($buscar);
@@ -331,13 +331,13 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
             $idCierreSuc = $_SESSION["idCierreSucursal"];
 
-            $insertaApartado = "INSERT INTO bazar_articulos 
+            $insertaApartado = "INSERT INTO contrato_baz_mov_tbl 
                        (id_Contrato, id_serie,id_Cliente,precio_venta,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja,id_CierreSucursal)
                         VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precioVenta,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio,
                         '$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
             if ($ps = $this->conexion->prepare($insertaApartado)) {
                 if ($ps->execute()) {
-                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
                     $statement = $this->conexion->query($buscarBazar);
                     $encontro = $statement->num_rows;
                     if ($encontro > 0) {
@@ -369,12 +369,12 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $idCierreSuc = $_SESSION["idCierreSucursal"];
 
-            $insertaAbono = "INSERT INTO bazar_articulos 
+            $insertaAbono = "INSERT INTO contrato_baz_mov_tbl 
                        (id_Cliente,id_Contrato, id_serie,tipo_movimiento,precio_venta,precio_Actual,iva,apartado,abono,abono_Total,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja,id_CierreSucursal)
                         VALUES ($id_Cliente,$id_Contrato, '$id_serie',$tipo_movimiento,$idPrestamo,$precio_Actual,$iva,$apartado,$abono,$abono_Total,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
-                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
                     $statement = $this->conexion->query($buscarBazar);
                     $encontro = $statement->num_rows;
                     if ($encontro > 0) {
@@ -410,13 +410,13 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
             $usuario = $_SESSION["idUsuario"];
 
-            $insertaAbono = "INSERT INTO bazar_articulos 
+            $insertaAbono = "INSERT INTO contrato_baz_mov_tbl 
                        (id_Contrato, id_serie,tipo_movimiento,id_Cliente,precio_venta,precio_Actual,descuento_Venta,abono,iva,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja,id_CierreSucursal)
                         VALUES ($id_ContratoGlb,'$id_serieGlb', $tipo_movimientoGlb,$id_ClienteGlb,$precioVenta,0,$descuento,0,$ivaGlb,$vendedorGlb,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
                     if (empty($idToken)) {
-                        $buscarBazar = "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                        $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
                         $statement = $this->conexion->query($buscarBazar);
                         $encontro = $statement->num_rows;
                         if ($encontro > 0) {
@@ -435,7 +435,7 @@ class sqlVentasDAO
                                         WHERE id_token =$idToken";
                                 if ($ps = $this->conexion->prepare($updateToken)) {
                                     if ($ps->execute()) {
-                                        $buscarBazar = "select max(id_Bazar) as UltimoBazarID from bazar_articulos where id_CierreCaja = $idCierreCaja";
+                                        $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
                                         $statement = $this->conexion->query($buscarBazar);
                                         $encontro = $statement->num_rows;
                                         if ($encontro > 0) {
@@ -534,7 +534,7 @@ class sqlVentasDAO
             $buscar = "SELECT Ven.id_ventas as id_ventas,Baz.id_serie as Codigo,Baz.id_Contrato,
                                 Art.descripcionCorta, Baz.precio_Actual
                                 FROM bit_ventas as Ven
-                                LEFT JOIN bazar_articulos as Baz on Ven.id_bazar = Baz.id_Bazar
+                                LEFT JOIN articulo_bazar_tbl as Baz on Ven.id_bazar = Baz.id_Bazar
                                 LEFT JOIN articulo_tbl as Art on Baz.id_Articulo = Art.id_Articulo
                                 WHERE Ven.sucursal=$sucursal AND Ven.guardar = 0 AND Ven.id_cierreCaja=$idCierreCaja";
             $rs = $this->conexion->query($buscar);

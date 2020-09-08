@@ -46,7 +46,7 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             BAZ.id_Contrato, ART.descripcionCorta,ART.observaciones, Baz.id_serie,baz.precio_venta,
             BAZ.precio_Actual,BAZ.apartado,BAZ.iva,BAZ.efectivo,BAZ.cambio,USU.usuario
-            FROM bazar_articulos as Baz 
+            FROM contrato_baz_mov_tbl as Baz 
             LEFT JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
             LEFT JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
             LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 

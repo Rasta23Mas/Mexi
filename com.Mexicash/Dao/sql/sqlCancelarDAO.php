@@ -202,7 +202,7 @@ class sqlCancelarDAO
     {
         try {
             $updateMovimiento = "UPDATE contrato_mov_tbl SET
-            tipo_movimiento = $movimientoCancelado,fecha_Bazar=''
+            tipo_movimiento = $movimientoCancelado,fechaAlmoneda=''
             WHERE id_movimiento = $IdMovimiento";
             if ($ps = $this->conexion->prepare($updateMovimiento)) {
                 if ($ps->execute()) {
@@ -210,7 +210,7 @@ class sqlCancelarDAO
                         $verdad = mysqli_stmt_affected_rows($ps);
                     } else {
                         $updateFechaBazar = "UPDATE contrato_mov_tbl SET
-                                            fecha_Bazar = '$fechaAlmoneda'
+                                            fechaAlmoneda = '$fechaAlmoneda'
                                             WHERE id_movimiento = $id_movimientoAnterior";
                         if ($ps = $this->conexion->prepare($updateFechaBazar)) {
                             if ($ps->execute()) {
