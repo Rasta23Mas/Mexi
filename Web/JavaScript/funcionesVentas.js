@@ -106,7 +106,6 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
                 }
 
                 $('#idTBodyMetales').html(html);
-
                 $("#btnVenta").prop('disabled', false);
             } else {
                 alertify.error("No se encontro ningún artiículo en bazar.");
