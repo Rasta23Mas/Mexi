@@ -107,7 +107,7 @@ class sqlVentasDAO
                          ART.descripcionCorta,ART.observaciones
                         FROM contrato_baz_mov_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        WHERE Baz.id_Cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
+                        WHERE Baz.cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
                         (select id_serie FROM contrato_baz_mov_tbl 
                         where  Baz.sucursal= $sucursal  AND tipo_movimiento = 6 || tipo_movimiento = 20 )";
             $rs = $this->conexion->query($buscar);
@@ -219,7 +219,7 @@ class sqlVentasDAO
                         Baz.tipo_movimiento,ART.tipo,ART.kilataje,ART.calidad,
                         ART.cantidad,ART.peso,ART.peso_Piedra,ART.piedras,ART.marca,ART.modelo,
                         ART.num_Serie,ART.avaluo,ART.vitrina,ART.precioCat,ART.observaciones,ART.detalle,
-                        ART.fecha_creacion,Baz.fecha_Modificacion FROM contrato_baz_mov_tbl as Baz
+                        ART.fecha_creacion,Baz.fecha_Creacion FROM contrato_baz_mov_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie= '$idCodigo'";
             $rs = $this->conexion->query($buscar);
@@ -246,7 +246,7 @@ class sqlVentasDAO
                         "observaciones" => $row["observaciones"],
                         "detalle" => $row["detalle"],
                         "fecha_creacion" => $row["fecha_creacion"],
-                        "fecha_Modificacion" => $row["fecha_Modificacion"],
+                        "fecha_Modificacion" => $row["fecha_Creacion"],
 
 
                     ];
