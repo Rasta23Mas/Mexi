@@ -46,12 +46,11 @@ if (isset($_GET['idBazar'])) {
 $descuento_Venta = 0;
 $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,BAZ.id_Bazar,
             BAZ.fecha_Modificacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
-            BAZ.id_Contrato, ART.descripcionCorta,ART.observaciones,Baz.id_serie,baz.precio_venta,
+            BAZ.id_Contrato,Baz.id_serie,baz.precio_venta,
             BAZ.precio_Actual,BAZ.iva,BAZ.efectivo,BAZ.cambio,USU.usuario, BAZ.descuento_Venta
             FROM contrato_baz_mov_tbl as Baz 
             LEFT JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
             LEFT JOIN cliente_tbl AS Cli on Baz.id_Cliente = Cli.id_Cliente
-            LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
             LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
             WHERE id_Bazar=$idBazar ";
 $resultado = $db->query($query);

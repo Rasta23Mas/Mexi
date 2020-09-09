@@ -1,12 +1,12 @@
 var errorToken = 0;
 //VENTA 6
 var tipo_movimientoGlb = 6;
-var id_ClienteGlb = 0;
-var id_ContratoGlb = 0;
-var id_serieGlb = 0;
 var idBazarGlb = 0;
+var id_ClienteGlb = 0;
+var id_VendedorGlb = 0;
 var idSubtotalGlb = 0;
 var idIvaGlb = 0;
+var idTokenGLb = 0;
 
 function buscaridBazar() {
     $.ajax({
@@ -158,6 +158,8 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado) {
 }
 
 function agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor) {
+    id_ClienteGlb = cliente;
+    id_VendedorGlb = vendedor;
         var tipoCarrito = 1;
         var idBazar = $("#idBazar").val();
         var dataEnviar = {
@@ -442,9 +444,9 @@ function guardarVenta() {
         var cambio = $("#idCambioValue").val();
         var cliente = $("#idClienteSeleccion").val();
         var vendedor = $("#idVendedor").val();
-        var idToken = $("#idToken").val();
+        idTokenGLb = $("#idToken").val();
         var tokenDesc = "";
-        if (idToken !== 0) {
+        if (idTokenGLb != 0) {
             tokenDesc = $("#tokenDescripcion").val();
         }
         var idBazar = $("#idBazar").val();
@@ -459,7 +461,7 @@ function guardarVenta() {
             "cambio": cambio,
             "cliente": cliente,
             "vendedor": vendedor,
-            "idToken": idToken,
+            "idToken": idTokenGLb,
             "tokenDesc": tokenDesc,
             "idBazar": idBazar,
         };
@@ -473,7 +475,7 @@ function guardarVenta() {
                     idBazarGlb = idBazar;
                     ArticulosUpdateVenta()
                 } else {
-                    alertify.error("Error al guardar el apartado");
+                    alertify.error("Error en al conectar con el servidor.");
                 }
             },
         })
@@ -492,7 +494,7 @@ function ArticulosUpdateVenta() {
             alert(response)
             if (response > 0) {
                 alertify.success("Artículos actualizados correctamente.")
-                BitacoraVenta();
+                fnBitacoraVenta();
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
@@ -500,22 +502,18 @@ function ArticulosUpdateVenta() {
     });
 }
 
-function BitacoraVenta() {
-    //id_Movimiento = 22 -> Apartado
-
+function fnBitacoraVenta() {
     var dataEnviar = {
         "id_Movimiento": tipo_movimientoGlb,
-        "id_contrato": id_ContratoGlb,
-        "id_almoneda": 0,
+        "id_bazar": idBazarGlb,
         "id_cliente": id_ClienteGlb,
-        "consulta_fechaInicio": null,
-        "consulta_fechaFinal": null,
-        "idArqueo": 0,
+        "id_vendedor": id_VendedorGlb,
+        "idToken": idTokenGLb,
     };
 
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
+        url: '../../../com.Mexicash/Controlador/Bitacora/ConBitacoraVentas.php',
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
@@ -532,7 +530,6 @@ function verPDFVenta(idBazar) {
     window.open('../PDF/callPdfVenta.php?pdf=1&idBazar=' + idBazar);
     alert("Venta realizada.");
     $("#idFormVentas")[0].reset();
-    $("#divTablaMetales").load('tablaMetales.php');
 }
 
 function configurarRango() {
