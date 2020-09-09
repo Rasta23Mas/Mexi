@@ -6,8 +6,9 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
 <table class="table table-hover table-condensed table-bordered" width="100%">
     <thead>
     <tr>
-        <th>Contrato</th>
-        <th>Articulo</th>
+        <th>Folio</th>
+        <th>Serie</th>
+        <th>Artículo</th>
         <th>Seleccionar</th>
     </tr>
     </thead>

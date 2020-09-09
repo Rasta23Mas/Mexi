@@ -99,24 +99,21 @@ class sqlVentasDAO
 
     function busquedaApartadosCliente($id_ClienteGlb)
     {
-        //Modifique los estatus de usuario
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT Baz.id_Bazar,Baz.id_Contrato,
-                         ART.descripcionCorta,ART.observaciones
-                        FROM contrato_baz_mov_tbl as Baz
-                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        WHERE Baz.cliente = '$id_ClienteGlb'  and Baz.tipo_movimiento = '22' and Baz.sucursal= $sucursal and  Baz.id_serie not in 
-                        (select id_serie FROM contrato_baz_mov_tbl 
-                        where  Baz.sucursal= $sucursal  AND tipo_movimiento = 6 || tipo_movimiento = 20 )";
+            $buscar = "SELECT CON.id_Bazar,CON.apartado, ART.descripcionCorta, ART.observaciones
+                        FROM contrato_baz_mov_tbl AS CON
+                        LEFT JOIN bit_ventas AS BIT ON CON.id_Bazar = BIT.id_Bazar
+                        LEFT JOIN articulo_bazar_tbl AS ART ON BIT.id_ArticuloBazar = ART.id_ArticuloBazar
+                        WHERE CON.cliente = $id_ClienteGlb  and ART.tipo_movimiento = 22 and CON.sucursal= $sucursal and  ART.Fisico=1";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "id_Bazar" => $row["id_Bazar"],
-                        "id_ContratoVentas" => $row["id_Contrato"],
+                        "apartado" => $row["apartado"],
                         "descripcionCorta" => $row["descripcionCorta"],
                         "observaciones" => $row["observaciones"],
                     ];

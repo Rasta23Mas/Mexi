@@ -2,7 +2,6 @@ var errorToken = 0;
 
 var id_ClienteGlb = 0;
 //ABONO 23
-var id_ContratoGlb = 0;
 var id_serieGlb = 0;
 var tipo_movimientoGlb = 0;
 var sucursalGlb = 0;
@@ -56,18 +55,19 @@ function busquedaClienteBazar() {
                 var i = 0;
                 for (i; i < datos.length; i++) {
                     var id_Bazar = datos[i].id_Bazar;
-                    var id_Contrato = datos[i].id_ContratoVentas;
+                    var SerieApartado = datos[i].SerieApartado;
                     var descripcionCorta = datos[i].descripcionCorta;
                     var observaciones = datos[i].observaciones;
                     var articulo = descripcionCorta + " " + observaciones;
 
                     html += '<tr>' +
-                        '<td>' + id_Contrato + '</td>' +
+                        '<td>' + id_Bazar + '</td>' +
+                        '<td>' + SerieApartado + '</td>' +
                         '<td>' + articulo + '</td>' +
                         '<td align="center">' +
                         '<img src="../../style/Img/seleccionarNor.png"  ' +
                         'alt="Seleccionar"  ' +
-                        'onclick="busquedaAbonos(' + id_Contrato + ',' + id_Bazar +')">' +
+                        'onclick="busquedaAbonos(' + id_Bazar +','+apartado+')">' +
                         '</td>' +
                         '</tr>';
                 }
@@ -80,10 +80,9 @@ function busquedaClienteBazar() {
     });
 }
 
-function busquedaAbonos(id_Contrato,id_Bazar) {
-    id_ContratoGlb = id_Contrato;
+function busquedaAbonos(id_Bazar) {
     var dataEnviar = {
-        "id_Contrato": id_Contrato,
+        "id_Bazar": id_Bazar,
     };
     $.ajax({
         type: "POST",
@@ -329,7 +328,6 @@ function guardarAbono() {
             abonoTotal = Math.floor(abonoTotal * 100) / 100;
             var dataEnviar = {
                 "id_Cliente": id_ClienteGlb,
-                "id_Contrato": id_ContratoGlb,
                 "id_serie": id_serieGlb,
                 "tipo_movimiento": tipo_movimientoGlb,
                 "precio_Actual": nuevoSaldo,
@@ -367,7 +365,6 @@ function BitacoraAbonos() {
 
     var dataEnviar = {
         "id_Movimiento": tipo_movimientoGlb,
-        "id_contrato": id_ContratoGlb,
         "id_almoneda": 0,
         "id_cliente": id_ClienteGlb,
         "consulta_fechaInicio": null,
