@@ -390,7 +390,8 @@ function validaVenta() {
             if (descuento == 0) {
                 guardarVenta();
             } else {
-                $("#modalDescuentoVenta").modal();
+                guardarVenta();
+                //$("#modalDescuentoVenta").modal();
             }
         }
     }
