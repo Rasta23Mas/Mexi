@@ -106,7 +106,7 @@ class sqlVentasDAO
                         FROM contrato_baz_mov_tbl AS CON
                         LEFT JOIN bit_ventas AS BIT ON CON.id_Bazar = BIT.id_Bazar
                         LEFT JOIN articulo_bazar_tbl AS ART ON BIT.id_ArticuloBazar = ART.id_ArticuloBazar
-                        WHERE CON.cliente = $id_ClienteGlb  and ART.tipo_movimiento = 22 and CON.sucursal= $sucursal and  ART.Fisico=1";
+                        WHERE CON.cliente = $id_ClienteGlb  and CON.tipo_movimiento = 22 and CON.sucursal= $sucursal and  ART.Fisico=1";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
@@ -128,28 +128,27 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    function busquedaAbonos($id_Contrato)
+    function busquedaAbonos($id_Bazar)
     {
         //Modifique los estatus de usuario
         $sucursal = $_SESSION["sucursal"];
         $datos = array();
         try {
-            $buscar = "SELECT id_Bazar,fecha_Modificacion,iva,apartado,abono,precio_venta,precio_Actual,apartado,tipo_movimiento,id_serie, sucursal
-                        FROM contrato_baz_mov_tbl WHERE id_Contrato = $id_Contrato AND tipo_movimiento=22 || tipo_movimiento=23";
+            $buscar = "SELECT fecha_Creacion,subTotal,iva,total,apartado,abono,tipo_movimiento,faltaPagar
+                        FROM contrato_baz_mov_tbl WHERE id_Apartado = $id_Bazar AND tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "id_Bazar" => $row["id_Bazar"],
-                        "fecha_Modificacion" => $row["fecha_Modificacion"],
-                        "iva" => $row["iva"],
-                        "apartado" => $row["apartado"],
-                        "abono" => $row["abono"],
-                        "precio_venta" => $row["precio_venta"],
-                        "precio_Actual" => $row["precio_Actual"], "tipo_movimiento" => $row["tipo_movimiento"],
-                        "id_serie" => $row["id_serie"],
-                        "sucursal" => $row["sucursal"],
+                        "fecha_Creacion" => $row["fecha_Creacion"],
+                        "subTotal" => $row["subTotal"],
+                        "ivaAbono" => $row["iva"],
+                        "total" => $row["total"],
+                        "apartadoAbono" => $row["apartado"],
+                        "abonoAbono" => $row["abono"],
+                        "tipo_movimientoAbono" => $row["tipo_movimiento"],
+                        "faltaPagar" => $row["faltaPagar"],
                     ];
                     array_push($datos, $data);
                 }
@@ -287,7 +286,7 @@ class sqlVentasDAO
     }
 
     //Generar Venta
-    public function sqlGuardarApartado($tipo_movimiento,$subTotal,$iva,$apartado,$total,$efectivo,$cambio,$cliente,$vendedor,$idBazar,$vencimiento)
+    public function sqlGuardarApartado($tipo_movimiento,$subTotal,$iva,$apartado,$faltaPagar,$total,$efectivo,$cambio,$cliente,$vendedor,$idBazar,$vencimiento)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -297,9 +296,10 @@ class sqlVentasDAO
             $Fisico = 1;
 
             $updateContratoBaz = "UPDATE contrato_baz_mov_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
-                                iva=$iva,apartado=$apartado,total=$total,efectivo=$efectivo,cambio=$cambio,
+                                iva=$iva,apartado=$apartado,id_Apartado=$idBazar,faltaPagar=$faltaPagar, total=$total,efectivo=$efectivo,cambio=$cambio,
                                 cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
-                                sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico, fechaVencimiento='$vencimiento'";
+                                sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico, fechaVencimiento='$vencimiento'
+                                WHERE id_Bazar=$idBazar";
             if ($ps = $this->conexion->prepare($updateContratoBaz)) {
                 if ($ps->execute()) {
                     $updateBitVentas = "UPDATE bit_ventas SET guardar = 1
@@ -328,17 +328,17 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function guardarAbono($id_Cliente, $id_Contrato, $id_serie, $tipo_movimiento, $idPrestamo, $precio_Actual, $iva, $apartado, $abono, $abono_Total, $efectivo, $cambio, $sucursal)
+    public function sqlGuardarAbono($tipo_movimiento,$efectivo,$cambio,$id_Cliente,$idBazar,$faltaPagar,$abono,$abono_Total)
     {
         // TODO: Implement guardaCiente() method.
         try {
-            $fechaModificacion = date('Y-m-d H:i:s');
+            $fechaCreacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $idCierreSuc = $_SESSION["idCierreSucursal"];
+            $sucursal = $_SESSION["sucursal"];
 
             $insertaAbono = "INSERT INTO contrato_baz_mov_tbl 
-                       (id_Cliente,id_Contrato, id_serie,tipo_movimiento,precio_venta,precio_Actual,iva,apartado,abono,abono_Total,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja,id_CierreSucursal)
-                        VALUES ($id_Cliente,$id_Contrato, '$id_serie',$tipo_movimiento,$idPrestamo,$precio_Actual,$iva,$apartado,$abono,$abono_Total,'$efectivo',$cambio,'$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
+                       (cliente,tipo_movimiento,efectivo,cambio,abono,abono_Total,faltaPagar,id_Apartado,fecha_Creacion,sucursal,id_CierreCaja)
+                        VALUES ($id_Cliente,$tipo_movimiento, $efectivo,$cambio,$abono,$abono_Total,$faltaPagar,$idBazar,'$fechaCreacion',$sucursal,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
                     $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
@@ -377,7 +377,8 @@ class sqlVentasDAO
             $updateContratoBaz = "UPDATE contrato_baz_mov_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
                                 iva=$iva,descuento_Venta=$descuento,total=$total,efectivo=$efectivo,cambio=$cambio,
                                 cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
-                                sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico";
+                                sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico
+                                WHERE id_Bazar=$idBazar";
             if ($ps = $this->conexion->prepare($updateContratoBaz)) {
                 if ($ps->execute()) {
                     $updateBitVentas = "UPDATE bit_ventas SET guardar = 1

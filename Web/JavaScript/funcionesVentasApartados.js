@@ -404,6 +404,7 @@ function guardarApartado() {
     var subtotal = $("#idSubTotalValue").val();
     var iva = $("#idIvaValue").val();
     var apartado = $("#idApartadoInicialValue").val();
+    var faltaPagar = $("#faltaPagarValue").val();
     var total = $("#idTotalValue").val();
     var cambio = $("#idCambioValue").val();
     var cliente = $("#idClienteSeleccion").val();
@@ -422,6 +423,7 @@ function guardarApartado() {
         "vendedor": vendedor,
         "idBazar": idBazar,
         "vencimiento": vencimiento,
+        "faltaPagar": faltaPagar,
     };
 
     $.ajax({

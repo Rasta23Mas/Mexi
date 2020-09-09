@@ -2,7 +2,6 @@ var errorToken = 0;
 
 var id_ClienteGlb = 0;
 //ABONO 23
-var id_serieGlb = 0;
 var tipo_movimientoGlb = 0;
 var sucursalGlb = 0;
 var idBazarGlb = 0;
@@ -55,19 +54,18 @@ function busquedaClienteBazar() {
                 var i = 0;
                 for (i; i < datos.length; i++) {
                     var id_Bazar = datos[i].id_Bazar;
-                    var SerieApartado = datos[i].SerieApartado;
+                    var apartado = datos[i].apartado;
                     var descripcionCorta = datos[i].descripcionCorta;
                     var observaciones = datos[i].observaciones;
                     var articulo = descripcionCorta + " " + observaciones;
 
                     html += '<tr>' +
                         '<td>' + id_Bazar + '</td>' +
-                        '<td>' + SerieApartado + '</td>' +
                         '<td>' + articulo + '</td>' +
                         '<td align="center">' +
                         '<img src="../../style/Img/seleccionarNor.png"  ' +
                         'alt="Seleccionar"  ' +
-                        'onclick="busquedaAbonos(' + id_Bazar +','+apartado+')">' +
+                        'onclick="busquedaAbonos(' + id_Bazar +')">' +
                         '</td>' +
                         '</tr>';
                 }
@@ -90,9 +88,7 @@ function busquedaAbonos(id_Bazar) {
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
-            var apartadoTotal = 0;
             var abonoTotal = 0;
-            var ultimoSaldo = 0;
             var tablaAbono = 0;
             var fechaAbono = "";
             var prestamoVenta = "";
@@ -101,46 +97,42 @@ function busquedaAbonos(id_Bazar) {
                 var i = 0;
                 for (i; i < datos.length; i++) {
 
-                    var fecha_Modificacion = datos[i].fecha_Modificacion;
-                     ivaGlb = datos[i].iva;
-                    apartadoGlb = datos[i].apartado;
-                    var abono = datos[i].abono;
-                    var precio_Actual = datos[i].precio_Actual;
-                    var apartado = datos[i].apartado;
-                    var tipo_movimiento = datos[i].tipo_movimiento;
-                    abono = Math.floor(abono * 100) / 100;
+                    var fecha_Creacion = datos[i].fecha_Creacion;
+                    var subTotal = datos[i].subTotal;
+                    ivaGlb = datos[i].ivaAbono;
+                    var total = datos[i].total;
 
-
-                    id_serieGlb = datos[i].id_serie;
-                    sucursalGlb = datos[i].sucursal;
-
+                    var tipo_movimiento = datos[i].tipo_movimientoAbono;
+                    var faltaPagar = datos[i].faltaPagar;
+                    apartadoGlb = Math.floor(apartadoGlb * 100) / 100;
+                    subTotal = Math.floor(subTotal * 100) / 100;
+                    faltaPagar = Math.floor(faltaPagar * 100) / 100;
 
                     if (tipo_movimiento == 22 ) {
-                        apartadoTotal = apartado;
-                        prestamoVenta = datos[i].precio_venta;
-
-                        var abonoTabla = formatoMoneda(apartado);
-                        var precioTabla = formatoMoneda(precio_Actual);
+                        apartadoGlb = datos[i].apartadoAbono;
+                        var apartadoTabla = formatoMoneda(apartadoGlb);
+                        var saldoTabla = formatoMoneda(faltaPagar);
                         html += '<tr>' +
-                            '<td>' + fecha_Modificacion + '</td>' +
-                            '<td align="right">' + abonoTabla + '</td>' +
-                            '<td align="right">' + precioTabla + '</td>' +
+                            '<td>' + fecha_Creacion + '</td>' +
+                            '<td align="right">' + apartadoTabla + '</td>' +
+                            '<td align="right">' + saldoTabla + '</td>' +
                             '</tr>';
 
                     } else if (tipo_movimiento == 23) {
-                        abonoTotal += abono;
-                        fechaAbono = fecha_Modificacion;
-                        tablaAbono++;
+                        var abono = datos[i].abonoAbono;
+                        abono = Math.floor(abono * 100) / 100;
 
+                        abonoTotal += abono;
+                        fechaAbono = fecha_Creacion;
+                        tablaAbono++;
                         var abonoTabla = formatoMoneda(abono);
-                        var precioTabla = formatoMoneda(precio_Actual);
+                        var saldoTabla = formatoMoneda(faltaPagar);
                         html += '<tr>' +
-                            '<td>' + fecha_Modificacion + '</td>' +
+                            '<td>' + fecha_Creacion + '</td>' +
                             '<td align="right">' + abonoTabla + '</td>' +
-                            '<td align="right">' + precioTabla + '</td>' +
+                            '<td align="right">' + saldoTabla + '</td>' +
                             '</tr>';
                     }
-                    ultimoSaldo = precio_Actual;
 
                 }
 
@@ -150,17 +142,16 @@ function busquedaAbonos(id_Bazar) {
                         '</tr>';
                 }
 
-                apartadoTotal = Math.floor(apartadoTotal * 100) / 100;
                 abonoTotal = Math.floor(abonoTotal * 100) / 100;
 
                 $("#idFolioBazar").val(id_Bazar);
-                $("#idTotalApartadoValue").val(apartadoTotal);
+                $("#idTotalApartadoValue").val(apartadoGlb);
                 $("#idTotalAbonadoValue").val(abonoTotal);
-                $("#idUltimoSaldoValue").val(ultimoSaldo);
+                $("#idUltimoSaldoValue").val(faltaPagar);
                 $("#idPrestamoVenta").val(prestamoVenta);
-                var apartadoFormat = formatoMoneda(apartadoTotal);
+                var apartadoFormat = formatoMoneda(apartadoGlb);
                 var abonoFormat = formatoMoneda(abonoTotal);
-                var ultimoSaldoFormat = formatoMoneda(ultimoSaldo);
+                var ultimoSaldoFormat = formatoMoneda(faltaPagar);
                 $("#idTotalApartado").val(apartadoFormat);
                 $("#idTotalAbonado").val(abonoFormat);
                 $("#idUltimoSaldo").val(ultimoSaldoFormat);
@@ -287,26 +278,10 @@ function efectivoAbono(e) {
 }
 
 function cancelarVentaAbono() {
-    $("#idNuevoSaldoValue").val("");
-    $("#idImporteAbonoValue").val("");
-    $("#idEfectivoValue").val("");
-    $("#idCambioValue").val("");
-    $("#idImporteAbono").val("");
-    $("#idNuevoSaldo").val("");
-    $("#idTotalPagar").val("");
-    $("#idEfectivo").val("");
-    $("#idCambio").val("");
-    $("#idNombreVenta").val("");
-    $("#idNombreVenta").prop('disabled', false);
-    $("#idImporteAbono").prop('disabled', false);
-    alertify.success("Se ha limpiado el abono y pago de efectivo.");
+    location.reload();
 }
 
 function guardarAbono() {
-    /*
-     23->Apartado
-     */
-
     var abono = $("#idImporteAbonoValue").val();
     if (abono == 0) {
         alert("Debe calcular el abono.");
@@ -315,43 +290,37 @@ function guardarAbono() {
         if (efectivo == 0) {
             alert("Debe calcular el cambio del cliente.");
         } else {
-
             var nuevoSaldo = $("#idNuevoSaldoValue").val();
             var abonoAnterior = $("#idTotalAbonadoValue").val();
             var efectivo = $("#idEfectivoValue").val();
             var cambio = $("#idCambioValue").val();
-            var prestamo = $("#idPrestamoVenta").val();
-
+            var id_Bazar = $("#idFolioBazar").val();
             abonoAnterior = Math.floor(abonoAnterior * 100) / 100;
             abono = Math.floor(abono * 100) / 100;
             var abonoTotal = abonoAnterior + abono;
             abonoTotal = Math.floor(abonoTotal * 100) / 100;
             var dataEnviar = {
-                "id_Cliente": id_ClienteGlb,
-                "id_serie": id_serieGlb,
                 "tipo_movimiento": tipo_movimientoGlb,
-                "precio_Actual": nuevoSaldo,
-                "idPrestamo": prestamo,
-                "apartado": apartadoGlb,
-                "iva": ivaGlb,
-                "abono": abono,
-                "abono_Total": abonoTotal,
                 "efectivo": efectivo,
                 "cambio": cambio,
-                "sucursal": sucursalGlb,
+                "id_Cliente": id_ClienteGlb,
+                "idBazar": id_Bazar,
+                "faltaPagar": nuevoSaldo,
+                "abono": abono,
+                "abono_Total": abonoTotal,
             };
 
             $.ajax({
                 data: dataEnviar,
-                url: '../../../com.Mexicash/Controlador/Ventas/guardarAbono.php',
+                url: '../../../com.Mexicash/Controlador/Ventas/GuardarAbono.php',
                 type: 'post',
                 success: function (response) {
+                    alert(response)
                     if (response > 0) {
                         idBazarGlb = response;
-                        alertify.success("El artículo se ha abonado correctamente.")
-                        BitacoraAbonos();
+                        ArticulosUpdateVenta(id_Bazar);
                     } else {
-                        alertify.error("Error al guardar el apartado");
+                        alertify.error("Error al guardar el abono");
                     }
                 },
             })
@@ -360,21 +329,40 @@ function guardarAbono() {
 
 }
 
-function BitacoraAbonos() {
-    //id_Movimiento = 22 -> Apartado
 
+function ArticulosUpdateVenta(id_Bazar) {
+    var dataEnviar = {
+        "idBazar": id_Bazar,
+        "tipo_movimiento": tipo_movimientoGlb,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Ventas/UpdateArticulos.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                alertify.success("Artículos actualizados correctamente.")
+                fnBitacoraAbonos();
+            } else {
+                alertify.error("Error en al conectar con el servidor.")
+            }
+        }
+    });
+}
+
+function fnBitacoraAbonos() {
+    alert("llega")
     var dataEnviar = {
         "id_Movimiento": tipo_movimientoGlb,
-        "id_almoneda": 0,
+        "id_bazar": idBazarGlb,
         "id_cliente": id_ClienteGlb,
-        "consulta_fechaInicio": null,
-        "consulta_fechaFinal": null,
-        "idArqueo": 0,
+        "id_vendedor": 0,
+        "idToken": 0,
     };
 
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
+        url: '../../../com.Mexicash/Controlador/Bitacora/ConBitacoraVentas.php',
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {

@@ -7,7 +7,6 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
     <thead>
     <tr>
         <th>Folio</th>
-        <th>Serie</th>
         <th>Artículo</th>
         <th>Seleccionar</th>
     </tr>
