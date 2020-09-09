@@ -1,8 +1,11 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-require_once (BASE_PATH . "Conectar.php");
+require_once(BASE_PATH . "Conectar.php");
+
 use Dompdf\Dompdf;
+
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -10,50 +13,22 @@ $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
 
 
-$NombreCompleto = "";
-$prestamo = "";
-$abonoCapital = "";
-$intereses = "";
-$almacenaje = "";
-$seguro = "";
-$desempeñoExt = "";
-$moratorios = "";
-$otrosCobros = "";
-$descuentoAplicado = "";
-$descuentoPuntos = "";
-$iva = "";
-$efectivo = "";
-$cambio = "";
-$mutuo = "";
-$refrendo = "";
-$Fecha_Almoneda = "";
-$Fecha_Vencimiento = "";
-$Fecha_Creacion = "";
-$NombreUsuario = "";
-$sucursal = "";
-
-$subTotal = 0;
-$Total = 0;
-
 if (isset($_GET['idBazar'])) {
-    $idBazar = $_GET['idBazar'];
+    $id_Bazar = $_GET['idBazar'];
 }
 
 
-
-
-$query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,BAZ.id_Bazar,
-            BAZ.fecha_Creacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
-            BAZ.id_Contrato, ART.descripcionCorta,ART.observaciones, Baz.id_serie,baz.precio_venta,
-            BAZ.precio_Actual,BAZ.iva,BAZ.apartado,BAZ.abono,BAZ.abono_Total,BAZ.efectivo,BAZ.cambio,USU.usuario
+$query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,Baz.id_Bazar,
+            Baz.fecha_Creacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
+           Baz.faltaPagar,USU.usuario
             FROM contrato_baz_mov_tbl as Baz 
             LEFT JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
             LEFT JOIN cliente_tbl AS Cli on Baz.cliente = Cli.id_Cliente
-            LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
             LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
-            WHERE id_Bazar=$idBazar ";
+            WHERE id_Bazar=$id_Bazar ";
 $resultado = $db->query($query);
-
+$descripcionCorta = "";
+$observaciones = "";
 
 foreach ($resultado as $row) {
     $NombreCasa = $row["NombreCasa"];
@@ -61,39 +36,36 @@ foreach ($resultado as $row) {
     $direccion = $row["direccion"];
     $telefono = $row["telefono"];
     $rfc = $row["rfc"];
-    $id_Bazar = $row["id_Bazar"];
     $fecha_Modificacion = $row["fecha_Creacion"];
     $NombreCompleto = $row["NombreCompleto"];
-    $id_Contrato = $row["id_Contrato"];
-    $descripcionCorta = $row["descripcionCorta"];
-    $observaciones = $row["observaciones"];
-    $id_serie = $row["id_serie"];
-    $precio_venta = $row["precio_venta"];
-    $precio_Actual = $row["precio_Actual"];
-    $iva = $row["iva"];
-    $apartado = $row["apartado"];
-    $efectivo = $row["efectivo"];
-    $cambio = $row["cambio"];
+    $faltaPagar = $row["faltaPagar"];
     $usuario = $row["usuario"];
-    $abono_Total = $row["abono_Total"];
-    $abono = $row["abono"];
-
 }
 
-$precio_venta = number_format($precio_venta, 2,'.',',');
-$iva = number_format($iva, 2,'.',',');
-$apartado = number_format($apartado, 2,'.',',');
+$faltaPagar = number_format($faltaPagar, 2, '.', ',');
 
-$abono = number_format($abono, 2,'.',',');
-$abono_Total = number_format($abono_Total, 2,'.',',');
-$efectivo = number_format($efectivo, 2,'.',',');
-$cambio = number_format($cambio, 2,'.',',');
-$precio_Actual = number_format($precio_Actual, 2,'.',',');
+$Fecha_Creacion = date("d-m-Y", strtotime($fecha_Modificacion));
 
-$Fecha_Creacion = date("d-m-Y", strtotime($Fecha_Creacion));
+$tablaArticulos = '';
 
-$descripcionCorta = strtoupper($descripcionCorta);
-$observaciones = strtoupper($observaciones);
+$query = "SELECT Art.id_serie, Art.descripcionCorta,Art.vitrinaVenta FROM articulo_bazar_tbl AS Art
+                INNER JOIN  bit_ventas AS Ven ON Art.id_ArticuloBazar =  Ven.id_ArticuloBazar
+                WHERE id_Bazar = $id_Bazar";
+$tablaArt = $db->query($query);
+
+foreach ($tablaArt as $row) {
+    $id_serie = $row["id_serie"];
+    $descripcionCorta = $row["descripcionCorta"];
+    $vitrinaVenta = $row["vitrinaVenta"];
+    $vitrinaVenta = number_format($vitrinaVenta, 2, '.', ',');
+
+    $tablaArticulos .= '<tr>
+                            <td><label class="letraNormal">' . $id_serie . '</label></td>
+                            <td><label class="letraNormal">' . $descripcionCorta . '</label></td>
+                            <td align="right"><label>$ ' . $vitrinaVenta . '</label></td>
+                        </tr>';
+
+}
 
 
 $contenido = '<html>
@@ -136,27 +108,27 @@ $contenido .= '<table width="30%" border="1">
          <table width="100%" border="0" class="letraNormalNegrita">
                 <tr>
                     <td colspan="3" align="center">
-                        <label>'. $NombreCasa .'</label>
+                        <label>' . $NombreCasa . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursal">SUCURSAL: '. $Nombre .'</label>
+                        <label ID="sucursal">SUCURSAL: ' . $Nombre . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalDir">'. $direccion .'</label>
+                        <label ID="sucursalDir">' . $direccion . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalTel">Tel: '. $telefono .'</label>
+                        <label ID="sucursalTel">Tel: ' . $telefono . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalRfc">RFC: '. $rfc .'</label>
+                        <label ID="sucursalRfc">RFC: ' . $rfc . '</label>
                     </td>
                 </tr>
                 <tr>
@@ -186,63 +158,31 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label id="id_Recibo">FOLIO NO: '. $id_Bazar.'</label>
+                        <label id="id_Recibo">FOLIO NO: ' . $id_Bazar . '</label>
                     </td>
                 </tr>
-                <tr><td><br></td></tr>
+                <tr><td colspan="3"><br></td></tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label id="idFechaHoy">FECHA: '. $fecha_Modificacion.'</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                        <label >CLIENTE: '. $NombreCompleto.'</label>
+                        <label id="idFechaHoy">FECHA: ' . $fecha_Modificacion . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label>CONTRATO: '. $id_Contrato.'</label>
+                        <label >CLIENTE: ' . $NombreCompleto . '</label>
                     </td>
                 </tr>
+                <tr><td colspan="3"><br></td></tr>
                 <tr>
-                    <td colspan="3" align="left">
-                         <label>CODIGO: '. $id_serie.'</label>
-                    </td>
-                </tr>
-                <tr><td><br></td></tr>
-                <tr>
-                    <td  align="CENTER"><label>DESCRIPCION</label></td>
-                        <td  align="CENTER"><label>OBSERVACIONES</label></td>
-                      <td  align="CENTER"><label>PRECIO</label></td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                      <label>_______________________________________</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td  align="CENTER"><label>'.$descripcionCorta.'</label></td>
-                    <td  align="CENTER"><label>'.$observaciones.'</label></td>
-                    <td  align="right"><label>$ '.$precio_venta.'</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>IVA:</label></td>
-                    <td  align="right"><label>$ '.$iva.'</label></td>
-                </tr>
-                
-                <tr>
-                    <td colspan="2"><label></label></td>
-                    <td align="right"><label>-------------</label></td>
-                </tr>
-                <tr>
+                    <td  align="CENTER"><label>CÓDIGO</label></td>
+                    <td  align="CENTER"><label>DESCRIPCIÓN</label></td>
+                    <td  align="CENTER"><label>PRECIO</label></td>
+                </tr>';
+$contenido .= $tablaArticulos;
+$contenido .= ' 
+                 <tr>
                    <td colspan="2" align="right"><label>FALTA POR PAGAR:</label></td>
-                    <td  align="right"><label>$ '.$precio_Actual.'</label></td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                      <label>_______________________________________</label>
-                    </td>
+                    <td  align="right"><label>$ ' . $faltaPagar . '</label></td>
                 </tr>
                 <tr>
                     <td colspan="3" align="left">
@@ -260,7 +200,7 @@ $contenido .= '<table width="30%" border="1">
                       <label>No se aceptan devoluciones.</label>
                     </td>
                 </tr>
-                <tr><td><br></td></tr>
+                <tr><td colspan="3"><br></td></tr>
                 <tr>
                     <td colspan="3" align="left">
                       <label><b>MERCANCÍA SIN GARANTÍA.<b></label>
@@ -276,11 +216,11 @@ $contenido .= '<table width="30%" border="1">
                       <label><b>DEVOLUCIONES DE MERCANCÍA.<b></label>
                     </td>
                 </tr>
-                <tr><td><br></td></tr>
+                 <tr><td colspan="3"><br></td></tr>
                 <tr>
-                    <td colspan="3"><label id="idUsuario">Usuario: '.$usuario.'</label></td>
+                    <td colspan="3"><label id="idUsuario">Usuario: ' . $usuario . '</label></td>
                 </tr>
-                <tr><td><br></td></tr>
+                 <tr><td colspan="3"><br></td></tr>
                 <tr>
                     <td colspan="3">
                        &nbsp;
@@ -325,7 +265,8 @@ $contenido .= '<table width="30%" border="1">
         </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
-
+/*echo $contenido;
+exit();*/
 $nombreContrato = 'Venta_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
