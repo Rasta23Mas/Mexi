@@ -22,7 +22,7 @@ if($tipoUsuario==2){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Consulta</title>
     <!--Funciones-->
-    <script src="../../JavaScript/funcionesConsulta.js"></script>
+    <script src="../../JavaScript/funcionesConsultaVenta.js"></script>
     <script src="../../JavaScript/funcionesContrato.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
@@ -30,18 +30,15 @@ if($tipoUsuario==2){
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
 
-
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#divDetallesContrato").load('tablaDetalleContrato.php');
-            $("#divContrato").load('tablaContrato.php');
+            $("#divDetallesVenta").load('tblDetalleVenta.php');
+            $("#divVenta").load('tblVenta.php');
             $("#idNombreConsulta").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
-
-
-        })
+      })
     </script>
     <style type="text/css">
         #suggestionsNombreEmpeno {
@@ -91,7 +88,7 @@ if($tipoUsuario==2){
                 </tr>
                 <tr>
                     <td align="center" colspan="6" style=" color:darkblue; ">
-                        <h3>Consulta</h3>
+                        <h3>Consulta Ventas</h3>
                     </td>
                 </tr>
                 <tr>
@@ -102,8 +99,8 @@ if($tipoUsuario==2){
                 <tr style="background: dodgerblue; color:white; ">
                     <td style="border-style: solid; border-color: #80dfff;">
                         <label class="form-check-label">&nbsp;
-                            <input type="radio" name="consultaPor" id="idContratoRadio" onclick="radioContrato()">
-                            Por Contrato</label>
+                            <input type="radio" name="consultaPor" id="idVentaRadio" onclick="radioContrato()">
+                            Por Número Venta</label>
                     </td>
                     <td style="border-style: solid; border-color: #80dfff;" colspan="2">&nbsp;
                         <label class="form-check-label">
@@ -118,9 +115,9 @@ if($tipoUsuario==2){
                 </tr>
                 <tr>
                     <td align="center" style="width: 180px" class="border-primary border">
-                        <label>Contrato:</label>
-                        <input type="text" name="idContratoName" id="idContratoConsulta" style="width: 70px"
-                               onkeypress="return contratoBusquedaCon(event)" disabled/>
+                        <label>Num. Venta:</label>
+                        <input type="text" name="idVentaName" id="idVentaConsulta" style="width: 70px"
+                               onkeypress="return ventaBusquedaCon(event)" disabled/>
                     </td>
                     <td align="center" style="width: 120px" class="border-primary border border-right-0">
                         <label>Nombre:</label>
@@ -162,15 +159,12 @@ if($tipoUsuario==2){
                     </textarea>
                     </td>
                     <td colspan="4"   class="border-primary border-right">
-                        <div id="divDetallesContrato" class="col col-lg-12">
+                        <div id="divDetallesVenta" class="col col-lg-12">
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6" class="border-primary border border-top-0 border-bottom-0">
-                        <label class="form-check-label">&nbsp;
-                            <input type="radio" name="auto" id="idAutoCheck" onclick="checkAuto()">
-                            Auto</label>&nbsp;
+                    <td colspan="6" class="border-primary border border-top-0 border-bottom-0">&nbsp;
                         <input type="button" class="btn btn-primary" id="btnBuscarConsulta" value="Buscar"
                                onclick="BusquedaConsulta()" disabled>&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="button" class="btn btn-warning" id="btnLimpiarConsulta" value="Limpiar"
@@ -190,7 +184,7 @@ if($tipoUsuario==2){
                 <tr class="border-primary border">
                     <td colspan="6">
                         <br>
-                        <div id="divContrato" class="col col-lg-12">
+                        <div id="divVenta" class="col col-lg-12">
                         </div>
                     </td>
                 </tr>
@@ -200,7 +194,7 @@ if($tipoUsuario==2){
                         <input type="text" name="idCliente" id="idClienteConsulta" style="width: 70px"
                                disabled/>
                         contrato
-                        <input type="text" name="idCliente" id="idContratoBusqueda" style="width: 70px"
+                        <input type="text" name="idCliente" id="idVentaBusqueda" style="width: 70px"
                                disabled/>
                     </td>
                 </tr>
