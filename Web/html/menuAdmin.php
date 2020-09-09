@@ -50,6 +50,7 @@ $dotaciones = $_SESSION['dotaciones'];
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaVentas.php">Consulta Ventas</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCompras">

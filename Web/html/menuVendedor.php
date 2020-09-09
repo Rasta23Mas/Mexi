@@ -39,7 +39,6 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     <li><a class="dropdown-item" href="Empeno/vEmpeno.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="Refrendo/vRefrendo.php?tipoFormGet=1">Refrendo</a></li>
                     <li><a class="dropdown-item" href="Desempeno/vDesempeno.php?tipoFormGet=3">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="Consultas/vConsultaContrato.php">Consulta</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuEmpenoAuto">
@@ -51,7 +50,16 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     <li><a class="dropdown-item" href="Empeno/vAuto.php">Empeños</a></li>
                     <li><a class="dropdown-item" href="Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
                     <li><a class="dropdown-item" href="Desempeno/vDesempeno.php?tipoFormGet=4">Desempeños</a></li>
-                    <li><a class="dropdown-item" href="Consultas/vConsultaContrato.php">Consulta</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown" id="menuConsultas">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    Consultas
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaContrato.php">Consulta</a></li>
+                    <li><a class="dropdown-item" href="../Consultas/vConsultaVentas.php">Consulta Ventas</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCierre">
