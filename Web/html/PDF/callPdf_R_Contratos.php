@@ -172,7 +172,7 @@ $contenido .='
                         </table>';
 $contenido .= '</form></body></html>';
 
-$nombreContrato = 'Reporte Vencidos.pdf';
+$nombreContrato = 'Reporte_Vencidos.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');

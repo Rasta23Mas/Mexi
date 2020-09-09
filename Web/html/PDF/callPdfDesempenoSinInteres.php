@@ -396,7 +396,7 @@ $contenido .= '<table width="30%" border="1">
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Desempeno Num ' . $id_Recibo . ".pdf";
+$nombreContrato = 'Desempeno_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');

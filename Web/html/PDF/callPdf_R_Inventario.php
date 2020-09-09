@@ -176,7 +176,7 @@ $contenido .='
                         </table>';
 $contenido .= '</form></body></html>';
 
-$nombreContrato = 'Reporte Inventario.pdf';
+$nombreContrato = 'Reporte_Inventario.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');

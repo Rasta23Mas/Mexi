@@ -108,7 +108,7 @@ $contenido .='
 $contenido .= '</form></body></html>';
 //echo $contenido;
 //exit();
-$nombreContrato = 'Reporte Bazar.pdf';
+$nombreContrato = 'Reporte_Bazar.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');

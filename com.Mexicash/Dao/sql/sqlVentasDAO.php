@@ -290,35 +290,37 @@ class sqlVentasDAO
     }
 
     //Generar Venta
-    public function guardarApartado($id_ContratoGlb, $id_serieGlb, $id_ClienteGlb, $precio_ActualGlb, $apartadoGlb, $fechaVencimiento,
-                                    $ivaGlb, $tipo_movimientoGlb, $vendedorGlb, $efectivo, $cambio, $precioVenta)
+    public function sqlGuardarApartado($tipo_movimiento,$subTotal,$iva,$apartado,$total,$efectivo,$cambio,$cliente,$vendedor,$idBazar,$vencimiento)
     {
         // TODO: Implement guardaCiente() method.
         try {
             $fechaModificacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
-            $idCierreSuc = $_SESSION["idCierreSucursal"];
+            $Fisico = 1;
 
-            $insertaApartado = "INSERT INTO contrato_baz_mov_tbl 
-                       (id_Contrato, id_serie,id_Cliente,precio_venta,precio_Actual,apartado,fechaVencimiento,iva,tipo_movimiento,vendedor,efectivo,cambio,fecha_Modificacion,sucursal,id_CierreCaja,id_CierreSucursal)
-                        VALUES ($id_ContratoGlb, '$id_serieGlb',$id_ClienteGlb,$precioVenta,$precio_ActualGlb,$apartadoGlb,'$fechaVencimiento',$ivaGlb,$tipo_movimientoGlb,$vendedorGlb,$efectivo,$cambio,
-                        '$fechaModificacion',$sucursal,$idCierreCaja,$idCierreSuc)";
-            if ($ps = $this->conexion->prepare($insertaApartado)) {
+            $updateContratoBaz = "UPDATE contrato_baz_mov_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
+                                iva=$iva,apartado=$apartado,total=$total,efectivo=$efectivo,cambio=$cambio,
+                                cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
+                                sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico, fechaVencimiento='$vencimiento'";
+            if ($ps = $this->conexion->prepare($updateContratoBaz)) {
                 if ($ps->execute()) {
-                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
-                    $statement = $this->conexion->query($buscarBazar);
-                    $encontro = $statement->num_rows;
-                    if ($encontro > 0) {
-                        $fila = $statement->fetch_object();
-                        $UltimoBazarID = $fila->UltimoBazarID;
-                        $respuesta = $UltimoBazarID;
+                    $updateBitVentas = "UPDATE bit_ventas SET guardar = 1
+                            WHERE sucursal=$sucursal AND guardar = 0 AND id_cierreCaja=$idCierreCaja";
+                    if ($ps = $this->conexion->prepare($updateBitVentas)) {
+                        if ($ps->execute()) {
+                            $respuesta = 1;
+                        } else {
+                            $respuesta = -1;
+                        }
+                    } else {
+                        $respuesta = 1;
                     }
                 } else {
                     $respuesta = -1;
                 }
             } else {
-                $respuesta = 3;
+                $respuesta = -1;
             }
         } catch (Exception $exc) {
             $respuesta = -20;
@@ -326,7 +328,6 @@ class sqlVentasDAO
         } finally {
             $this->db->closeDB();
         }
-        //return $verdad;
         echo $respuesta;
     }
 
@@ -412,7 +413,12 @@ class sqlVentasDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
-            $Fisico = 0;
+            if($tipo_movimiento==6){
+                $Fisico = 0;
+            }else{
+                $Fisico = 1;
+            }
+
             $HayMovimiento= 1;
             $buscar = "SELECT id_ArticuloBazar as Articulo FROM bit_ventas WHERE id_Bazar=$idBazar";
             $rs = $this->conexion->query($buscar);

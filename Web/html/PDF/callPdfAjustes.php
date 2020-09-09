@@ -158,7 +158,7 @@ $contenido .= '  <div class="container-fluid">
 
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Arqueo Caja ' . $idArqueo . ".pdf";
+$nombreContrato = 'Arqueo_Caja_' . $idArqueo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 //Horizontal

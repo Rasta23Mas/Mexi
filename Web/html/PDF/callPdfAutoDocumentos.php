@@ -322,7 +322,7 @@ $contenido .= '<table width="30%" border="1">
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Documentos_Contrato Num ' . $idContrato . ".pdf";
+$nombreContrato = 'Documentos_Contrato_Num_' . $idContrato . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');

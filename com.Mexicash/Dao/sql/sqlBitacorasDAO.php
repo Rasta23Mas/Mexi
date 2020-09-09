@@ -29,7 +29,7 @@ class sqlBitacorasDAO
             $namePC = $_SESSION["namePC"];
             $id_CierreCaja = $_SESSION["idCierreCaja"];
             $insert = "INSERT INTO bit_user_ventas(id_Bazar, tipo_movimiento, cliente, vendedor, id_token,sucursal, id_CierreCaja, Usuario,namePC) 
-                                VALUES ($id_bazar,$id_Movimiento,$id_cliente,$id_vendedor,$idToken,$sucursal,$id_CierreCaja,$usuario,$namePC)";
+                                VALUES ($id_bazar,$id_Movimiento,$id_cliente,$id_vendedor,$idToken,$sucursal,$id_CierreCaja,$usuario,'$namePC')";
             if ($ps = $this->conexion->prepare($insert)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

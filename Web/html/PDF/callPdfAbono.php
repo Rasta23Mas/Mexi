@@ -331,7 +331,7 @@ $contenido .= '<table width="30%" border="1">
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Abono Num ' . $id_Bazar . ".pdf";
+$nombreContrato = 'Abono_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $customPaper = array(0,0,226.772,425.197);

@@ -296,7 +296,7 @@ $contenido .= '
 $contenido .= '</tbody></table></form></body></html>';
 /*echo $contenido;
 exit();*/
-$nombreContrato = 'Venta Num ' . $id_Bazar . ".pdf";
+$nombreContrato = 'Venta_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'portrait');

@@ -30,7 +30,7 @@ if ($tipoUsuario == 2) {
 
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#idFormEmpeno").trigger("reset");
+            $("#idFormVentas").trigger("reset");
             $("#btnEditar").prop('disabled', true);
             $("#btnVenta").prop('disabled', true);
             document.getElementById('idFechaHoy').innerHTML =fechaActual();

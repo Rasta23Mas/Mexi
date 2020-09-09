@@ -1,9 +1,28 @@
 var errorToken = 0;
-var id_ContratoGlb = 0;
-var id_serieGlb = "";
-var id_ClienteGlb = 0;
+//APARTADO 22
 var tipo_movimientoGlb = 22;
+var idBazarGlb = 0;
+var id_ClienteGlb = 0;
+var id_VendedorGlb = 0;
+var idSubtotalGlb = 0;
+var idApartadoGlb = 0;
+var idFaltaPagarGlb = 0;
+var idIvaGlb = 0;
+var idTokenGLb = 0;
 
+function buscaridBazarApartado() {
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Ventas/BuscarIdBazar.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta == 0) {
+                location.reload();
+            } else {
+                $("#idBazar").val(respuesta);
+            }
+        },
+    })
+}
 
 function nombreAutocompletarVenta() {
     $('#idNombreVenta').on('keyup', function () {
@@ -26,7 +45,7 @@ function nombreAutocompletarVenta() {
                     var direccionComp = $('#' + id).attr('direccionCompleta');
                     //var estado = $('#' + id).attr('estadoDesc');
                     //Editamos el valor del input con data de la sugerencia pulsada
-                    $('#idClienteVenta').val(id);
+                    $('#idClienteSeleccion').val(id);
                     $('#idNombreVenta').val($('#' + id).attr('data'));
                     $("#idCelularVenta").val(celular);
                     $("#idDireccionVenta").val(direccionComp);
@@ -41,7 +60,7 @@ function nombreAutocompletarVenta() {
     });
 }
 
-function busquedaCodigoApartados(e) {
+function busquedaCodigoApartado(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 8) {
@@ -52,85 +71,228 @@ function busquedaCodigoApartados(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
-        busquedaCodigoBazar();
+        busquedaCodigoApartadoBoton(1);
     }
 }
 
-function busquedaCodigoBazar() {
-    var codigo = $("#idCodigoApartado").val();
+function busquedaCodigoApartadoBoton(tipoBusqueda) {
+    var idCodigo = $("#idCodigoApartado").val();
     var dataEnviar = {
-        "codigo": codigo,
+        "idCodigo": idCodigo,
+        "tipoBusqueda": tipoBusqueda,
     };
     $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigoApartados.php',
         data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigo.php',
+        type: 'post',
         dataType: "json",
         success: function (datos) {
             if (datos.length > 0) {
                 var html = '';
                 var i = 0;
                 for (i; i < datos.length; i++) {
-                    var id_Bazar = datos[i].id_Bazar;
-                    var id_Contrato = datos[i].id_ContratoApartado;
-                    var id_serie = datos[i].id_serieApartado;
-                    var descripcionCorta = datos[i].descripcionCorta;
-                    var observaciones = datos[i].observaciones;
+                    var id_Contrato = datos[i].id_ContratoBaz;
+                    var id_ArticuloBazar = datos[i].id_ArtBazar;
+                    var id_serie = datos[i].id_serieBaz;
+                    var Adquisicion = datos[i].Adquisicion;
                     var empeno = datos[i].empeno;
                     var avaluo = datos[i].avaluo;
-                    var precio_venta = datos[i].precio_venta;
+                    var precio_Actual = datos[i].precio_Actual;
+                    var descripcionCorta = datos[i].descripcionCorta;
+                    var observaciones = datos[i].observaciones;
 
-                    var precioEnviar = precio_venta;
                     var empeno = formatoMoneda(empeno);
                     var avaluo = formatoMoneda(avaluo);
-                    var precio_venta = formatoMoneda(precio_venta);
+                    var precio_ActualFormat = formatoMoneda(precio_Actual);
 
                     html += '<tr>' +
                         '<td>' + id_serie + '</td>' +
                         '<td>' + id_Contrato + '</td>' +
                         '<td>' + descripcionCorta + '</td>' +
+                        '<td>' + Adquisicion + '</td>' +
                         '<td>' + empeno + '</td>' +
                         '<td>' + avaluo + '</td>' +
-                        '<td>' + precio_venta + '</td>' +
+                        '<td>' + precio_ActualFormat + '</td>' +
                         '<td>' + observaciones + '</td>' +
-                        '<td><input type="button" class="btn btn-info" data-dismiss="modal" value="Seleccionar" ' +
-                        'onclick="calcularIva(' + id_Bazar + ',' + precioEnviar + ',' + id_Contrato + ',\'' + id_serie + '\')"></td>' +
-                        '</tr>';
+                        '<td align="center">' +
+                        '<img src="../../style/Img/carritoNor.png"  data-dismiss="modal" alt="Agregar"' +
+                        'onclick="validarCarrito(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
+                        '</td></tr>';
 
                 }
-                    $('#idTBodyMetales').html(html);
 
-                $("#btnVenta").prop('disabled', false);
+                $('#idTBodyMetales').html(html);
             } else {
                 alertify.error("No se encontro ningún artiículo en bazar.");
             }
         }
     });
-
 }
 
-function calcularIva(id_Bazar, precio, id_Contrato, id_serie) {
+//Carrito
+function validarCarrito(id_ArticuloBazar, precio_Enviado) {
+    var vendedor = $("#idVendedor").val();
+    var cliente = $("#idClienteSeleccion").val();
 
-    var precioFinal = Math.floor(precio * 100) / 100;
+    if (cliente == 0) {
+        alertify.warning("Favor de seleccionar el cliente.");
+    } else if (vendedor == 0) {
+        alertify.warning("Favor de seleccionar el vendedor.");
+    } else {
+        $("#idNombreVenta").prop('disabled', true);
+        $("#idVendedor").prop('disabled', true);
+        var dataEnviar = {
+            "id_ArticuloBazar": id_ArticuloBazar,
+        };
+        $.ajax({
+            data: dataEnviar,
+            url: '../../../com.Mexicash/Controlador/Ventas/CarritoValidar.php',
+            type: 'post',
+            success: function (respuesta) {
+                if (respuesta == 0) {
+                    agregarCarrito(id_ArticuloBazar, precio_Enviado, cliente, vendedor)
+                } else {
+                    alertify.error("El artículo ya esta en el carrito de compras.");
+                }
+            },
+        })
+    }
+}
+
+function agregarCarrito(id_ArticuloBazar, precio_Enviado, cliente, vendedor) {
+    id_ClienteGlb = cliente;
+    id_VendedorGlb = vendedor;
+    var tipoCarrito = 1;
+    var idBazar = $("#idBazar").val();
+    var dataEnviar = {
+        "id_ArticuloBazar": id_ArticuloBazar,
+        "idCliente": cliente,
+        "idVendedor": vendedor,
+        "idBazar": idBazar,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/CarritoAgregar.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta == 1) {
+                busquedaCodigoApartadoBoton(3);
+                refrescarCarrito(precio_Enviado, tipoCarrito);
+            } else {
+                alertify.error("Error al agregar el artículo.");
+            }
+        },
+    })
+}
+
+function eliminarDelCarrito(id_Ventas, precio_Enviado) {
+    var tipoCarrito = 2;
+    var dataEnviar = {
+        "id_Ventas": id_Ventas,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/CarritoEliminar.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta == 1) {
+                refrescarCarrito(precio_Enviado, tipoCarrito);
+            } else {
+                alertify.error("Error al eliminar el artículo.");
+            }
+        },
+    })
+}
+
+function limpiarCarritoApartado() {
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Ventas/CarritoLimpiar.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta == 1) {
+                refrescarCarrito(0, 3);
+            }
+        },
+    })
+}
+
+function refrescarCarrito(precio_Enviado, tipoCarrito) {
+    calcularIva(precio_Enviado, tipoCarrito);
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Ventas/CarritoRefrescar.php',
+        type: 'post',
+        dataType: "json",
+        success: function (datos) {
+            if (datos.length > 0) {
+                var html = '';
+                var i = 0;
+                for (i; i < datos.length; i++) {
+                    var id_ventas = datos[i].id_ventas;
+                    var Codigo = datos[i].Codigo;
+                    var id_Contrato = datos[i].id_ContratoVentas;
+                    var descripcionCorta = datos[i].descripcionCorta;
+                    var precio_Actual = datos[i].precio_Actual;
+                    var precio_ActualFormat = formatoMoneda(precio_Actual);
+
+                    html += '<tr>' +
+                        '<td>' + Codigo + '</td>' +
+                        '<td>' + id_Contrato + '</td>' +
+                        '<td>' + descripcionCorta + '</td>' +
+                        '<td>' + precio_ActualFormat + '</td>' +
+                        '<td align="center">' +
+                        '<img src="../../style/Img/eliminarNor.jpg"  data-dismiss="modal" alt="Eliminar"' +
+                        'onclick="eliminarDelCarrito(' + id_ventas + ',' + precio_Actual + ')"> ' +
+                        '</td></tr>';
+                }
+                $('#idTBodyArticulosCarrito').html(html);
+
+
+            } else {
+                var html = '';
+                html += '<tr>' +
+                    '<td colspan="5" align="center">Sin artículos en el carrito.</td></tr>';
+                $('#idTBodyArticulosCarrito').html(html);
+            }
+        },
+    })
+}
+
+function calcularIva(precio_Enviado, tipoCarrito) {
+    $("#idApartadoInicial").prop('disabled', false);
+    if (tipoCarrito == 1) {
+        idSubtotalGlb += precio_Enviado;
+    } else if (tipoCarrito == 2) {
+        idSubtotalGlb -= precio_Enviado;
+    } else if (tipoCarrito == 3) {
+        idSubtotalGlb = 0;
+    }
+    var precioFinal = Math.floor(idSubtotalGlb * 100) / 100;
     var calculaIva = Math.floor(precioFinal * 16) / 100;
-    var totalPagar = precioFinal + calculaIva;
-    totalPagar = Math.floor(totalPagar * 100) / 100;
-    var precioFinalFormat = formatoMoneda(precioFinal);
-    var calculaIvaFormat = formatoMoneda(calculaIva);
-    var totalPagarFormat = formatoMoneda(totalPagar);
-
-    id_ContratoGlb = id_Contrato;
-    id_serieGlb = id_serie;
-    idBazarGlb = id_Bazar;
-
+    idIvaGlb = calculaIva;
+    var precioFinalFormat = formatoMoneda(idSubtotalGlb);
+    var calculaIvaFormat = formatoMoneda(idIvaGlb);
+    var totalPagarFormat = formatoMoneda(idSubtotalGlb);
     $("#idSubTotal").val(precioFinalFormat);
     $("#idIva").val(calculaIvaFormat);
     $("#idTotalPagar").val(totalPagarFormat);
-    $("#idSubTotalValue").val(precioFinal);
-    $("#idIvaValue").val(calculaIva);
-    $("#idTotalValue").val(totalPagar);
-    $("#idTotalBase").val(totalPagar);
+    $("#idSubTotalValue").val(idSubtotalGlb);
+    $("#idIvaValue").val(idIvaGlb);
+    $("#idTotalValue").val(idSubtotalGlb);
+    $("#idTotalBase").val(idSubtotalGlb);
+    $("#idApartadoInicial").val("");
+    $("#idfaltaPagar").val("");
+    $("#idEfectivo").val("");
+    $("#idCambio").val("");
+    $("#idApartadoInicialValue").val(0);
+    $("#faltaPagarValue").val(0);
+    $("#idEfectivoValue").val(0);
+    $("#idCambioValue").val(0);
 
+
+}
+
+function cancelarApartado() {
+    location.reload();
 }
 
 function apartadoInicial(e) {
@@ -145,26 +307,27 @@ function apartadoInicial(e) {
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
 
-        var subtotalValue = $("#idTotalValue").val();
+        var total = $("#idTotalValue").val();
         var apartado = $("#idApartadoInicial").val();
-        var totalPagar = 0;
-        subtotalValue = Math.floor(subtotalValue * 100) / 100;
+        total = Math.floor(total * 100) / 100;
         apartado = Math.floor(apartado * 100) / 100;
 
-        if (subtotalValue > apartado) {
-            totalPagar = subtotalValue - apartado;
-            totalPagar = Math.floor(totalPagar * 100) / 100;
+        if (total > apartado) {
+            var faltaPagar = total - apartado;
+            faltaPagar = Math.floor(faltaPagar * 100) / 100;
             $("#idEfectivo").val("");
             $("#idCambio").val("");
 
             $("#idApartadoInicialValue").val(apartado);
-            $("#idTotalValue").val(totalPagar);
+            $("#faltaPagarValue").val(faltaPagar);
 
             var apartadoFormat = formatoMoneda(apartado);
-            var totalPagarFormat = formatoMoneda(totalPagar);
+            var faltaPagarFormat = formatoMoneda(faltaPagar);
 
             $("#idApartadoInicial").val(apartadoFormat);
-            $("#idTotalPagar").val(totalPagarFormat);
+            $("#idfaltaPagar").val(faltaPagarFormat);
+            $("#idApartadoInicial").prop('disabled', true);
+            $("#idEfectivo").prop('disabled', false);
 
         } else {
             alert("El apartado tiene que ser menor al total.")
@@ -186,20 +349,20 @@ function efectivoVenta(e) {
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
 
-        var apartado = $("#idApartadoInicialValue").val();
+        var totalValue = $("#idApartadoInicialValue").val();
         var efectivo = $("#idEfectivo").val();
 
-        apartado = Math.floor(apartado * 100) / 100;
+        totalValue = Math.floor(totalValue * 100) / 100;
         efectivo = Math.floor(efectivo * 100) / 100;
 
-        if (efectivo < apartado) {
-            alert("El efectivo no puede ser menor que el apartado a pagar.")
+        if (efectivo < totalValue) {
+            alert("El efectivo no puede ser menor que el apartado inicial.")
         } else {
             $("#idEfectivo").val("");
             $("#idCambio").val("");
             $("#idEfectivoValue").val("");
             $("#idCambioValue").val("");
-            var cambio = efectivo - apartado;
+            var cambio = efectivo - totalValue;
             cambio = Math.floor(cambio * 100) / 100;
 
             $("#idEfectivoValue").val(efectivo);
@@ -209,109 +372,110 @@ function efectivoVenta(e) {
             $("#idCambio").val(cambio);
             $("#idEfectivo").val(efectivo);
             $("#idEfectivo").prop('disabled', true);
+            $("#btnVenta").prop('disabled', false);
         }
     }
     return patron.test(te);
 }
 
-function cancelarVenta() {
-    //$("#idFormVentas")[0].reset();
-    $("#idSubTotalValue").val("");
-    $("#idIvaValue").val("");
-    $("#idTotalBase").val("");
-    $("#idApartadoInicialValue").val("");
-    $("#idTotalValue").val("");
-    $("#idEfectivoValue").val("");
-    $("#idCambioValue").val("");
-    busquedaCodigoBazar();
-    $("#idApartadoInicial").val("");
-    $("#idEfectivo").val("");
-    $("#idCambio").val("");
-    $("#idEfectivo").prop('disabled', false);
-    alertify.success("Se limpiaron descuento y pago.");
-}
-
-function guardarApartado() {
-    /*
-     22->Apartado
-     */
-    id_ClienteGlb = $("#idClienteVenta").val();
-    if (id_ClienteGlb == 0) {
-        alert("Debe seleccionar un cliente para el apartado.");
+function validaApartado() {
+    var faltaPagar = $("#faltaPagarValue").val();
+    var efectivo = $("#idEfectivo").val();
+    var efectivoValue = $("#idEfectivoValue").val();
+    if (efectivo == "" || idEfectivo == null) {
+        alertify.warning("Favor de llenar el campo de efectivo.");
     } else {
-        var vendedor = $("#idVendedor").val();
-        if (vendedor == 0) {
-            alert("Debe seleccionar un vendedor para el apartado.");
+        if (efectivoValue == 0) {
+            alertify.warning("Favor de calcular el cambio.");
         } else {
-            var apartado = $("#idApartadoInicialValue").val();
-            if (apartado == 0) {
-                alert("Debe calcular el apartado inicial.");
+            faltaPagar = Math.floor(faltaPagar * 100) / 100;
+            if (faltaPagar == 0) {
+                alertify.warning("Favor de calcular el apartado.");
             } else {
-                var efectivo = $("#idEfectivoValue").val();
-                if (efectivo == 0) {
-                    alert("Debe calcular el cambio del cliente.");
-                } else {
-                    var iva = $("#idIvaValue").val();
-                    var totalValue = $("#idTotalValue").val();
-                    var fechaVencimiento = $("#idFechaVencimiento").val();
-                    var cambio = $("#idCambioValue").val();
-                    var precioVenta = $("#idSubTotalValue").val();
-
-                    var dataEnviar = {
-                        "id_ContratoGlb": id_ContratoGlb,
-                        "id_serieGlb": id_serieGlb,
-                        "id_ClienteGlb": id_ClienteGlb,
-                        "precio_ActualGlb": totalValue,
-                        "apartadoGlb": apartado,
-                        "fechaVencimiento": fechaVencimiento,
-                        "ivaGlb": iva,
-                        "tipo_movimientoGlb": tipo_movimientoGlb,
-                        "vendedorGlb": vendedor,
-                        "efectivo": efectivo,
-                        "cambio": cambio,
-                        "precioVenta": precioVenta,
-                    };
-
-                    $.ajax({
-                        data: dataEnviar,
-                        url: '../../../com.Mexicash/Controlador/Ventas/guardarApartado.php',
-                        type: 'post',
-                        success: function (response) {
-                            if (response > 0) {
-                                idBazarGlb = response;
-                                alertify.success("El artículo se ha apartado correctamente.")
-                                BitacoraApartado()
-                            } else {
-                                alertify.error("Error al guardar el apartado");
-                            }
-                        },
-                    })
-                }
+                guardarApartado();
             }
         }
     }
+
 }
 
-function BitacoraApartado() {
-    //id_Movimiento = 22 -> Apartado
+function guardarApartado() {
+    var efectivo = $("#idEfectivoValue").val();
+    var subtotal = $("#idSubTotalValue").val();
+    var iva = $("#idIvaValue").val();
+    var apartado = $("#idApartadoInicialValue").val();
+    var total = $("#idTotalValue").val();
+    var cambio = $("#idCambioValue").val();
+    var cliente = $("#idClienteSeleccion").val();
+    var vendedor = $("#idVendedor").val();
+    var idBazar = $("#idBazar").val();
+    var vencimiento = $("#idFechaVen").text();
+    var dataEnviar = {
+        "tipo_movimiento": tipo_movimientoGlb,
+        "subTotal": subtotal,
+        "iva": iva,
+        "apartado": apartado,
+        "total": total,
+        "efectivo": efectivo,
+        "cambio": cambio,
+        "cliente": cliente,
+        "vendedor": vendedor,
+        "idBazar": idBazar,
+        "vencimiento": vencimiento,
+    };
 
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/GuardarApartado.php',
+        type: 'post',
+        success: function (response) {
+            if (response == 1) {
+                idBazarGlb = idBazar;
+                ArticulosUpdateVenta()
+            } else {
+                alertify.error("Error en al conectar con el servidor.");
+            }
+        },
+    })
+
+}
+
+function ArticulosUpdateVenta() {
+    var dataEnviar = {
+        "idBazar": idBazarGlb,
+        "tipo_movimiento": tipo_movimientoGlb,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Ventas/UpdateArticulos.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                alertify.success("Artículos actualizados correctamente.")
+                fnBitacoraVenta();
+            } else {
+                alertify.error("Error en al conectar con el servidor.")
+            }
+        }
+    });
+}
+
+function fnBitacoraVenta() {
     var dataEnviar = {
         "id_Movimiento": tipo_movimientoGlb,
-        "id_contrato": id_ContratoGlb,
-        "id_almoneda": 0,
+        "id_bazar": idBazarGlb,
         "id_cliente": id_ClienteGlb,
-        "consulta_fechaInicio": null,
-        "consulta_fechaFinal": null,
-        "idArqueo": 0,
+        "id_vendedor": id_VendedorGlb,
+        "idToken": idTokenGLb,
     };
 
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
+        url: '../../../com.Mexicash/Controlador/Bitacora/ConBitacoraVentas.php',
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                cargarPDFApartado(idBazarGlb);
+                verPDFApartado(idBazarGlb);
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
@@ -320,18 +484,14 @@ function BitacoraApartado() {
 }
 
 //Generar PDF
-function cargarPDFApartado(idBazar) {
-    window.open('../PDF/callPdfApartados.php?idBazar=' + idBazar);
-    alert("Apartado realizado");
-    $("#idFormApartados")[0].reset();
-    $("#divTablaMetales").load('tablaMetales.php');
+function verPDFApartado(idBazar) {
+    window.open('../PDF/callPdfApartados.php?pdf=1&idBazar=' + idBazar);
+    alert("Apartado realizado.");
+   fnRecargarApartado();
 }
-
+function fnRecargarApartado() {
+    location.reload();
+}
 function configurarRango() {
     alert("configuración")
-}
-
-function test() {
-    var fechaVencimiento = $("#idFechaVencimiento").text();
-    alert(fechaVencimiento)
 }

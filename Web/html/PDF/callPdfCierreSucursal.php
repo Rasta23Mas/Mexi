@@ -653,7 +653,7 @@ $contenido .= '
         </tr>  ';
 $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Cierre Sucursal Num ' . $folioCierreSucursal . ".pdf";
+$nombreContrato = 'Cierre_Sucursal_Num ' . $folioCierreSucursal . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'portrait');

@@ -1,6 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 $idCierreCaja = $_SESSION['idCierreCaja'];
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
 include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
@@ -30,16 +30,19 @@ if ($tipoUsuario == 2) {
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#idFormEmpeno").trigger("reset");
+            $("#idFormApartados").trigger("reset");
             $("#btnEditar").prop('disabled', true);
             $("#btnVenta").prop('disabled', true);
-            $("#idFechaHoy").val(fechaActual());
+            document.getElementById('idFechaHoy').innerHTML = fechaActual();
             var sumarMes = sumarDias(30);
-            $("#idFechaVencimiento").val(sumarMes);
+            document.getElementById('idFechaVen').innerHTML = sumarMes;
             $("#divTablaMetales").load('tablaMetales.php');
+            $("#divTblArticulosCompra").load('tablaArticulosCompra.php');
             $("#idNombreVenta").blur(function () {
                 $('#suggestionsNombreVenta').fadeOut(500);
             });
+            limpiarCarritoApartado();
+            buscaridBazarApartado();
         })
     </script>
     <style type="text/css">
@@ -74,9 +77,9 @@ if ($tipoUsuario == 2) {
         }
 
 
-         .propInvisible {
-             visibility: hidden;
-         }
+        .propInvisible {
+            visibility: hidden;
+        }
 
 
     </style>
@@ -89,12 +92,11 @@ if ($tipoUsuario == 2) {
             <br>
         </div>
         <div class="row">
-            <div class="col col-lg-11 border border-primary"  >
-                <table border="0" width="100%" >
+            <div class="col col-md-12 border border-primary">
+                <table border="0" width="100%">
                     <tbody>
                     <tr class="headt">
-                        <td colspan="4"> <br></td>
-                        <td colspan="8" align="right">
+                        <td colspan="5" align="left">
                             <input type="button" class="btn btn-success "
                                    data-toggle="modal" data-target="#modalRegistroNuevo"
                                    value="Agregar">
@@ -105,7 +107,13 @@ if ($tipoUsuario == 2) {
                                    data-toggle="modal" data-target="#modalBusquedaCliente"
                                    onclick="mostrarTodos($('#idNombres').val())"
                                    value="Ver todos">
-                            <input type="button" class="btn btn-warning" value="Configurarar Rangos" onclick="configurarRango()">&nbsp;
+                            <!--                            <input type="button" class="btn btn-warning" value="Configurarar Rangos" onclick="configurarRango()">&nbsp;
+                            -->                        </td>
+                        <td align="right" colspan="3">
+                            <label>Fecha:</label>
+                            <label id="idFechaHoy"></label>&nbsp;
+                            <label> Vencimiento:</label>
+                            <label id="idFechaVen"></label>
                         </td>
                     </tr>
                     <tr>
@@ -115,17 +123,11 @@ if ($tipoUsuario == 2) {
                         <td>
                             <label>Celular:</label>
                         </td>
-                        <td >
-                            <label>Fecha:</label>
-                        </td>
-                        <td >
-                            <label> Vencimiento:</label>
+                        <td colspan="3">
+                            <label>Dirección:</label>
                         </td>
                         <td>
-                            <label>Folio:</label>
-                        </td>
-                        <td colspan="5">
-                            <br>
+                            <label>Vendedor:</label>
                         </td>
                     </tr>
                     <tr>
@@ -137,63 +139,16 @@ if ($tipoUsuario == 2) {
                             </div>
                             <div id="suggestionsNombreVenta"></div>
                         </td>
-                        <td  align="left">
+                        <td align="center" style="vertical-align:top;">
                             <input type="text" name="celularEmpeno" placeholder="" id="idCelularVenta"
                                    style="width: 100px;text-align: right "
                                    disabled/>
                         </td>
-                        <td align="left">
-                            <input type="text" name="fechaH" id="idFechaHoy"
-                                   style="width: 100px;text-align: right "disabled/>
-                        </td>
-                        <td align="left">
-                            <input type="text" name="fechaV" id="idFechaVencimiento"
-                                   style="width: 100px;text-align: right "disabled/>
-                        </td>
-                        <td align="left">
-                            <input type="text" name="folio" id="idFolio"
-                                   style="width: 100px;text-align: right "disabled/>
-                        </td>
-                        <td colspan="5">
-                            <br>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <label for="nombreCliente">Dirección:</label>
-                        </td>
-                        <td colspan="8">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" name="direccionEmpeno">
-                                    <textarea  cols="60" id="idDireccionVenta" class="textArea" disabled>
+                        <td colspan="3" name="direccionEmpeno">
+                                    <textarea cols="30" id="idDireccionVenta" class="textArea" disabled>
                                     </textarea>
                         </td>
-                        <td colspan="8">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <label>Codigo:</label>
-                        </td>
-                        <td>
-                            <label>Vendedor:</label>
-                        </td>
-                        <td colspan="8">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td colspan="3">
-                            <input id="idCodigoApartado" name="codigo" type="text" style="width: 130px" value=""  onkeypress="return busquedaCodigoApartados(event)"/>
-                            &nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="busquedaCodigoBazar()">&nbsp;
-                        </td>
-                        <td >
+                        <td style="vertical-align:top;">
                             <select id="idVendedor" name="cmbVendedor" class="selectpicker" style="width: 200px">
                                 <option value="0">Seleccione:</option>
                                 <?php
@@ -206,7 +161,18 @@ if ($tipoUsuario == 2) {
                                 ?>
                             </select>
                         </td>
-                        <td colspan="8">
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input id="idCodigoApartado" name="codigo" type="text" style="width: 130px" value=""
+                                   onkeypress="return busquedaCodigoApartado(event)"/>
+                            &nbsp;&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo"
+                                   onclick="busquedaCodigoApartadoBoton(1))">&nbsp;
+                            <input type="button" class="btn btn-success" value="Buscar Contrato" id="btnBuscarContrato"
+                                   onclick="busquedaCodigoApartadoBoton(2)">&nbsp;
+                        </td>
+                        <td colspan="4">
                             <br>
                         </td>
                     </tr>
@@ -220,143 +186,137 @@ if ($tipoUsuario == 2) {
             </div>
         </div>
         <div class="row">
-            <div  class="col col-lg-12 " >
+            <div class="col col-md-12 ">
                 <br>
             </div>
         </div>
         <div class="row">
-            <div id="divTablaMetales" class="col col-lg-11 " >
+            <div class="col col-md-9">
+                <div id="divTblArticulosCompra">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-1 ">
-                <br>
-            </div>
-            <div class="col col-lg-4" >
-                <table border="0" width="90%" >
+            <div class="col col-md-3">
+                <table border="0" width="100%">
                     <tbody>
-                    <tr >
-                        <td >
-                            <label for="subtotal">SubTotal:</label>
+                    <tr>
+                        <td>
+                            <label>SubTotal:</label>
                         </td>
-                        <td >
-                            <input type="text" name="subtotal"  id="idSubTotal"
-                                   style="width: 120px; text-align: right "disabled/>
+                        <td align="right">
+                            <input type="text" name="subtotal" id="idSubTotal"
+                                   style="width: 120px; text-align: right " disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>IVA:</label>
+                        </td>
+                        <td align="right">
+                            <input type="text" name="iva" id="idIva"
+                                   style="width: 120px; text-align: right " disabled/>
                         </td>
                     </tr>
                     <tr >
                         <td >
-                            <label for="subtotal">IVA:</label>
+                            <label >Total a Pagar:</label>
                         </td>
-                        <td style="vertical-align:top;">
-                            <input type="text" name="iva"  id="idIva"
-                                   style="width: 120px; text-align: right "disabled/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Apartado inicial:</label>
-                        </td>
-                        <td style="vertical-align:top;">
-                            <input type="text" name="abono"  id="idApartadoInicial"
-                                   style="width: 120px; text-align: right "
-                                   placeholder="$0.00" onkeypress="return apartadoInicial(event)"/>
-                        </td>
-                    </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Falta por Pagar:</label>
-                        </td>
-                        <td  style="vertical-align:top;">
+                        <td  style="vertical-align:top;" align="right">
                             <input type="text" name="totalPagar"  id="idTotalPagar"
                                    style="width: 120px;text-align: right "disabled/>
                         </td>
                     </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Efectivo:</label>
+                    <tr>
+                        <td>
+                            <label>Apartado inicial:</label>
                         </td>
-                        <td style="vertical-align:top;">
-                            <input type="text" name="efectivo"  id="idEfectivo"
+                        <td align="right">
+                            <input type="text" name="abono" id="idApartadoInicial"
+                                   style="width: 120px; text-align: right "
+                                   placeholder="$0.00" onkeypress="return apartadoInicial(event)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Falta por Pagar:</label>
+                        </td>
+                        <td align="right">
+                            <input type="text" name="faltaPagarName" id="idfaltaPagar"
+                                   style="width: 120px;text-align: right " disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Efectivo:</label>
+                        </td>
+                        <td align="right">
+                            <input type="text" name="efectivo" id="idEfectivo"
                                    style="width: 120px; text-align: right "
                                    placeholder="$0.00"
                                    onkeypress="return efectivoVenta(event)"/>
                         </td>
                     </tr>
-                    <tr >
-                        <td >
-                            <label for="subtotal">Cambio:</label>
+                    <tr>
+                        <td>
+                            <label>Cambio:</label>
                         </td>
-                        <td style="vertical-align:top;">
-                            <input type="text" name="cambio"  id="idCambio" placeholder="$0.00"
-                                   style="width: 120px; text-align: right "  disabled/>
+                        <td align="right">
+                            <input type="text" name="cambio" id="idCambio" placeholder="$0.00"
+                                   style="width: 120px; text-align: right " disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="right">
+                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarApartado()">&nbsp;&nbsp;
+                            <input type="button" class="btn btn-success" value="Apartado" id="btnVenta"
+                                   onclick="validaApartado()">&nbsp;&nbsp;
+                            <input type="button" class="btn btn-danger" value="Salir"
+                                   onclick="location.href='vInicio.php'">
+
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="row "  >
-            <div class="col col-lg-12"  >
+        <div class="row">
+            <div class="col col-md-12 ">
                 <br>
-                <input type="text" name="subtotal"  id="idSubTotalValue"
-                       style="width: 120px "disabled/>
-                <input type="text" name="iva"  id="idIvaValue"
-                       style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalBase"
-                       style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idApartadoInicialValue" value="0"
-                       style="width: 120px "disabled/>
-                <input type="text" name="total"  id="idTotalValue"
-                       style="width: 120px "disabled/>
-                <input type="text" name="efectivo"  id="idEfectivoValue"
-                       style="width: 120px "disabled/>
-                <input type="text" name="cambio"  id="idCambioValue"
-                       style="width: 120px "disabled/>
-                <input type="text" name="cliente"  id="idClienteVenta"  value="0"
-                       style="width: 120px "disabled/>
             </div>
         </div>
         <div class="row">
-
-            <div class="col col-lg-8">
-                <br>
-            </div>
-            <div class="col col-lg-3 ">
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="cancelarVenta()">&nbsp;&nbsp;
-                <input type="button" class="btn btn-success" value="Apartado" id="btnVenta" onclick="guardarApartado()">&nbsp;&nbsp;
-                <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
+            <div id="divTablaMetales" class="col col-md-12 ">
             </div>
         </div>
         <div class="row">
-
-            <div class="col col-lg-11">
+            <div class="col col-md-12">
                 <br>
+                <input type="text" name="subtotal" id="idSubTotalValue"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="iva" id="idIvaValue"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="total" id="idTotalBase"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="total" id="idApartadoInicialValue" value="0"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="total" id="idTotalValue"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="total" id="faltaPagarValue" value="0"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="efectivo" id="idEfectivoValue"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="cambio" id="idCambioValue"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="cliente" id="idClienteSeleccion" value="0"
+                       style="width: 120px " class="propInvisible" disabled/>
+                <input type="text" name="bazar" id="idBazar" value="0"
+                       style="width: 120px " class="propInvisible" disabled/>
             </div>
         </div>
-    </div>
-    </div>
     </div>
 </form>
 

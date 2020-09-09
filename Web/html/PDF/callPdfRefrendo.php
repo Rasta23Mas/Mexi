@@ -411,7 +411,7 @@ $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
         </tr>';
     $contenido .= '</tbody></table></form></body></html>';
 
-$nombreContrato = 'Refrendo Num ' . $id_Recibo . ".pdf";
+$nombreContrato = 'Refrendo_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $customPaper = array(0,0,226.772,625.197);
