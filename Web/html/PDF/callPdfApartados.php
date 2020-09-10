@@ -22,9 +22,9 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             Baz.fecha_Creacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             Baz.subTotal,Baz.iva,Baz.apartado,Baz.total,Baz.efectivo,Baz.cambio,USU.usuario
             FROM contrato_baz_mov_tbl as Baz 
-            LEFT JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
+            LEFT JOIN cat_sucursal CSUC ON Baz.sucursal=CSUC.id_Sucursal
             LEFT JOIN cliente_tbl AS Cli on Baz.cliente = Cli.id_Cliente
-            LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
+            LEFT JOIN usuarios_tbl as USU on Baz.vendedor = USU.id_User
             WHERE id_Bazar=$id_Bazar ";
 $resultado = $db->query($query);
 $descripcionCorta = "";
@@ -71,8 +71,8 @@ foreach ($tablaArt as $row) {
     $vitrinaVenta = number_format($vitrinaVenta, 2, '.', ',');
 
     $tablaArticulos .= '<tr>
-                            <td><label class="letraNormal">' . $id_serie . '</label></td>
-                            <td><label class="letraNormal">' . $descripcionCorta . '</label></td>
+                            <td><label class="letraGrande">' . $id_serie . '</label></td>
+                            <td><label class="letraGrande">' . $descripcionCorta . '</label></td>
                             <td align="right"><label>$ ' . $vitrinaVenta . '</label></td>
                         </tr>';
 
@@ -84,26 +84,26 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .letraNormalNegrita{
-          font-size: .5em;
+         .letraNormalNegrita{
+          font-size: .8em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
-          font-size: .9em;
+          font-size: 1.2em;
           font-weight: bold;
          }
           .letraChicaNegrita{
-          font-size: .3em;
+          font-size: .6em;
           font-weight: bold;
          }
           .letraNormal{
-          font-size: .5em;
+          font-size: .8em;
          }
           .letraGrande{
-          font-size: .9em;
+          font-size: 1.2em;
          }
           .letraChica{
-          font-size: .3em;
+          font-size: .6em;
          }
         .tituloCelda{
           background-color: #ebebe0
@@ -112,11 +112,11 @@ $contenido = '<html>
 </head>
 <body>
 <form>';
-$contenido .= '<table width="30%" border="1">
+$contenido .= '<table width="100%" border="0">
         <tbody>
         <tr>
         <td>
-         <table width="100%" border="0" class="letraNormalNegrita">
+         <table width="100%" border="0" class="letraGrandeNegrita">
                 <tr>
                     <td colspan="3" align="center">
                         <label>' . $NombreCasa . '</label>

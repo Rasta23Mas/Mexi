@@ -382,12 +382,11 @@ function verPDFAbono(idBazar) {
         window.open('../PDF/callPdfVentaAbono.php?pdf=1&idBazar=' + idBazar);
     }
     alert("Abono realizado");
-    $("#idFormAbonos")[0].reset();
-    $("#divTablaAbono").load('tablaAbono.php');
-    $("#divTablaApartado").load('tablaApartados.php');
-    $("#idNombreVenta").prop('disabled', false);
+    fnRecargarAbono();
 }
-
+function fnRecargarAbono() {
+    location.reload();
+}
 function configurarRango() {
     alert("configuración")
 }

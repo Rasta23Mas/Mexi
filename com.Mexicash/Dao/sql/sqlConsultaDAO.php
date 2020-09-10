@@ -154,7 +154,7 @@ class sqlConsultaDAO
             $buscar = "SELECT  Cli.id_Cliente AS Cliente, CONCAT (Cli.apellido_Pat, '/',Cli.apellido_Mat,'/', Cli.nombre) as NombreCompleto,
                         CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS direccionCompleta
                         FROM contrato_baz_mov_tbl as Con 
-                        INNER JOIN on Con.id_Cliente = Cli.id_Cliente
+                        INNER JOIN cliente_tbl AS Cli on Con.cliente = Cli.id_Cliente
                          INNER JOIN cat_estado as CatEst on Cli.estado = CatEst.id_Estado
                         WHERE Con.id_Bazar =$idVentaBusqueda AND Con.sucursal= $sucursal";
             $rs = $this->conexion->query($buscar);
@@ -178,7 +178,7 @@ class sqlConsultaDAO
         //echo json_encode($datos);
     }
 
-    public function buscarDetalleContArticulo($idContratoBusqueda, $tipoContratoGlobal)
+    public function sqlVentaArticulos($idContratoBusqueda, $tipoContratoGlobal)
     {
         $datos = array();
         $sucursal = $_SESSION["sucursal"];
@@ -220,9 +220,9 @@ class sqlConsultaDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_Bazar, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
-                        subTotal,iva,descuento_Venta,total
+                        subTotal,iva,descuento_Venta,total,tipo_movimiento
                         FROM contrato_baz_mov_tbl 
-                        WHERE id_Bazar= $idVentaBusqueda AND sucursal= $sucursal ORDER BY Contrato";
+                        WHERE id_Bazar= $idVentaBusqueda AND sucursal= $sucursal ORDER BY id_Bazar";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -233,6 +233,8 @@ class sqlConsultaDAO
                         "ivaVenta" => $row["iva"],
                         "descuento_Venta" => $row["descuento_Venta"],
                         "totalVenta" => $row["total"],
+                        "tipo_movimientoVenta" => $row["tipo_movimiento"],
+
                     ];
                     array_push($datos, $data);
                 }

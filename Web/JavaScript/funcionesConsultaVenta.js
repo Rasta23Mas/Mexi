@@ -139,15 +139,12 @@ function fnCargarTblVenta(idVentaBusqueda) {
     };
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Consulta/tblVenta.php',
+        url: '../../../com.Mexicash/Controlador/Consulta/ConTblVenta.php',
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
             var html = '';
-            var htmlAuto = '';
-            var htmlfinal = '';
             var i = 0;
-            var Num = 1;
             alert("Refrescando tabla.");
             for (i; i < datos.length; i++) {
                 var id_Bazar = datos[i].id_Bazar;
@@ -156,7 +153,8 @@ function fnCargarTblVenta(idVentaBusqueda) {
                 var iva = datos[i].ivaVenta;
                 var descuento_Venta = datos[i].descuento_Venta;
                 var total = datos[i].totalVenta;
-
+                var tipo_movimiento = datos[i].tipo_movimientoVenta;
+                
                 subTotal = formatoMoneda(subTotal);
                 iva = formatoMoneda(iva);
                 descuento_Venta = formatoMoneda(descuento_Venta);
@@ -164,7 +162,7 @@ function fnCargarTblVenta(idVentaBusqueda) {
             
                 VentaReimprimirGlb = id_Bazar;
 
-                html = '<tr>' +
+                html += '<tr>' +
                     '<td >' + id_Bazar + '</td>' +
                     '<td>' + FechaCreacion + '</td>' +
                     '<td>' + subTotal + '</td>' +
@@ -175,26 +173,21 @@ function fnCargarTblVenta(idVentaBusqueda) {
                     '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="cargarTablaDetalleNombre(' + id_Bazar + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
-                    '</td>';
-
-
-                htmlfinal += html + htmlAuto + '</tr>';
-                Num++;
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimirVentas(' + id_Bazar + ',' + tipo_movimiento + ')">' +
+                    '</td></tr>';
             }
+                $('#idTBodyVenta').html(html);
 
-                $('#idTBodyContrato').html(htmlfinal);
-
-            var contrato = idVentaBusqueda;
+           /* var contrato = idVentaBusqueda;
             var clienteEmpeno = 0;
             var BitfechaIni = null;
             var BitfechaFin = null;
-            BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitfechaIni, BitfechaFin);
-            cargarTablaDetalleNombre(contrato)
+           // BitacoraUsuarioConsulta(id_Bazar, clienteEmpeno, BitfechaIni, BitfechaFin);*/
+            cargarTablaDetalleNombre(id_Bazar)
         }
     });
 
-        $("#divVenta").load('tablaContrato.php');
+        $("#divVenta").load('tblVenta.php');
 
 }
 
@@ -204,7 +197,7 @@ function cargarTablaDetalleNombre(idVentaBusqueda) {
     };
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Consulta/tblDetalleContrato.php',
+        url: '../../../com.Mexicash/Controlador/Consulta/ConDetalleVenta.php',
         data: dataEnviar,
         dataType: "json",
 
@@ -218,27 +211,6 @@ function cargarTablaDetalleNombre(idVentaBusqueda) {
                 for (i; i < datos.length; i++) {
                     llenatabla++
 
-                    var Formulario = datos[i].Formulario;
-                    var Obs = "";
-                    if (Formulario == 3) {
-                        var Marca = datos[i].Marca;
-                        var Modelo = datos[i].Modelo;
-                        var Vehiculo = datos[i].Vehiculo;
-                        var Anio = datos[i].Anio;
-                        var ColorAuto = datos[i].ColorAuto;
-                         Obs = datos[i].Obs;
-                        var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto;
-                        html += '<tr align="center">' +
-                            '<td>' + idVentaBusqueda + '</td>' +
-                            '<td>' + Num + '</td>' +
-                            '<td>' + Vehiculo + '</td>' +
-                            '<td>' + Descripcion + '</td>' +
-                            '<td>' + Obs + '</td>' +
-                            '<td align="center">' +
-                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idVentaBusqueda + ',' + Num + ')">' +
-                            '</td>' +
-                            '</tr>';
-                    } else {
                         var serieArticulo = datos[i].id_SerieArticulo;
                         var DescripcionCorta = datos[i].DescripcionCorta;
                          Obs = datos[i].Obs;
@@ -252,17 +224,17 @@ function cargarTablaDetalleNombre(idVentaBusqueda) {
                             '</td>' +
                             '</tr>';
 
-                    }
+
 
                     Num++;
                 }
-                $('#idTBodyContratoDetalle').html(html);
+                $('#idTBodyVentaDetalle').html(html);
             } else {
                 alertify.error("El contrato no existe.");
             }
         }
     });
-    $("#divDetallesVenta").load('tablaDetalleContrato.php');
+    $("#divDetallesVenta").load('idTBodyVentaDetalle.php');
 }
 
 function cargarTablaNombre() {
@@ -325,14 +297,14 @@ function cargarTablaNombre() {
                     '<img src="../../style/Img/seleccionarNor.png"   alt="Seleccionar"  onclick="cargarTablaDetalleNombre(' + Contrato + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimirVentas(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
                     '</td>';
 
                 htmlfinal += html + htmlAuto + '</tr>';
                 Num++;
             }
 
-                $('#idTBodyContrato').html(htmlfinal);
+                $('#idTBodyVenta').html(htmlfinal);
 
             var contrato = 0;
             var clienteEmpeno = idClienteConsulta;
@@ -342,7 +314,7 @@ function cargarTablaNombre() {
         }
     });
 
-        $("#divVenta").load('tablaContrato.php');
+        $("#divVenta").load('tblVenta.php');
 
 }
 
@@ -420,7 +392,7 @@ function cargarTablaFechas() {
                         '<img src="../../style/Img/seleccionarNor.png"  data-dismiss="modal" alt="Seleccionar"  onclick="buscarDatosPorFecha(' + Contrato + ')">' +
                         '</td>' +
                         '<td align="center">' +
-                        '<img src="../../style/Img/impresoraNor.png"  data-dismiss="modal" alt="impromor" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
+                        '<img src="../../style/Img/impresoraNor.png"  data-dismiss="modal" alt="impromor" onclick="reimprimirVentas(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
                         '</td>';
 
 
@@ -429,7 +401,7 @@ function cargarTablaFechas() {
                 }
 
 
-                    $('#idTBodyContratoAuto').html(htmlfinal);
+                    $('#idTBodyVentaAuto').html(htmlfinal);
                 var contrato = 0;
                 var clienteEmpeno = 0;
                 var BitfechaIni = nuevaFechaInicio;
@@ -437,7 +409,7 @@ function cargarTablaFechas() {
                 BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitfechaIni, BitfechaFin);
             }
         });
-            $("#divVenta").load('tablaContrato.php');
+            $("#divVenta").load('tblVenta.php');
 
     }
 }
@@ -464,7 +436,6 @@ function buscarDatosPorFecha(idVentaBusqueda) {
                     $("#idDireccionConsulta").val(direccionCompleta);
                     $("#idVentaBusqueda").val(idVentaBusqueda);
                 }
-                // cargarTablaDetalleContrato(idVentaBusqueda);
                 cargarTablaDetalleNombre(idVentaBusqueda);
             } else {
                 alertify.error("El contrato no existe.");
@@ -481,11 +452,11 @@ function LimpiarConsulta() {
     $("#idFechaInicial").prop('disabled', true);
     $("#idFechaFinal").prop('disabled', true);
     $('#idAutoCheck').prop('checked', false);
-    $("#divVenta").load('tablaContrato.php');
-    $("#divDetallesVenta").load('tablaDetalleContrato.php');
+    $("#divVenta").load('tblVenta.php');
+    $("#divDetallesVenta").load('tblDetalleVenta.php');
 }
 
-function reimprimir(tipoMovimiento, idMovimiento, Contrato) {
+function reimprimirVentas(tipoMovimiento, idMovimiento, Contrato) {
     VentaReimprimirGlb = Contrato;
     if (tipoMovimiento == 3) {
         //3 = Empeño

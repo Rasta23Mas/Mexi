@@ -211,44 +211,6 @@ class sqlContratoDAO
         //echo json_encode($datos);
     }
 
-    public function buscarDetalleContAuto($idContratoBusqueda, $tipoContratoGlobal)
-    {
-        $datos = array();
-        $sucursal = $_SESSION["sucursal"];
-
-        try {
-            $buscar = "SELECT  Con.id_Formulario AS Formulario,Auto.marca as Marca,Auto.modelo as Modelo,Auto.anio as Anio, Art.descripcion as Vehiculo,
-                        Auto.observaciones as Obs, Auto.color as ColorAuto  
-                        FROM auto_tbl as Auto 
-                        INNER JOIN contratos_tbl AS Con on Auto.id_Contrato = Con.id_Contrato 
-                        LEFT JOIN cat_articulos as Art on Auto.tipo_Vehiculo = Art.id_Cat_Articulo
-                        WHERE Auto.id_Contrato = '$idContratoBusqueda' AND Con.tipoContrato =" . $tipoContratoGlobal ;
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "Formulario" => $row["Formulario"],
-                        "Marca" => $row["Marca"],
-                        "Modelo" => $row["Modelo"],
-                        "Vehiculo" => $row["Vehiculo"],
-                        "Anio" => $row["Anio"],
-                        "ColorAuto" => $row["ColorAuto"],
-                        "Obs" => $row["Obs"]
-
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($datos);
-        //echo json_encode($datos);
-    }
-
     public function buscarContratoDetalle($idContratoBusqueda, $tipoContratoGlobal)
     {
         $datos = array();

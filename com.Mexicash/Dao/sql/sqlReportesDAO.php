@@ -1,305 +1,438 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-require_once(WEB_PATH . "dompdf/autoload.inc.php");
-require_once(BASE_PATH . "Conectar.php");
-
-use Dompdf\Dompdf;
-
-
 if (!isset($_SESSION)) {
     session_start();
 }
-$usuario = $_SESSION["idUsuario"];
-$sucursal = $_SESSION["sucursal"];
+
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
+include_once(MODELO_PATH . "Usuario.php");
+include_once(BASE_PATH . "Conexion.php");
+include_once(SERVICIOS_PATH . "Errores.php");
+include_once(DAO_PATH . "UsuarioDAO.php");
+date_default_timezone_set('America/Mexico_City');
 
 
-if (isset($_GET['idBazar'])) {
-    $id_Bazar = $_GET['idBazar'];
-}
+class sqlReportesDAO
+{
 
+    protected $error;
+    protected $conexion;
+    protected $db;
 
-$query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,Baz.id_Bazar,
-            Baz.fecha_Creacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
-            Baz.subTotal,Baz.iva,Baz.descuento_Venta,Baz.total,Baz.efectivo,Baz.cambio,USU.usuario
-            FROM contrato_baz_mov_tbl as Baz 
-            LEFT JOIN cat_sucursal CSuc ON Baz.sucursal=CSUC.id_Sucursal
-            LEFT JOIN cliente_tbl AS Cli on Baz.cliente = Cli.id_Cliente
-            LEFT JOIN usuarios_tbl as USU on BAZ.vendedor = USU.id_User
-            WHERE id_Bazar=$id_Bazar ";
-$resultado = $db->query($query);
-$descripcionCorta = "";
-$observaciones = "";
-
-foreach ($resultado as $row) {
-    $NombreCasa = $row["NombreCasa"];
-    $Nombre = $row["Nombre"];
-    $direccion = $row["direccion"];
-    $telefono = $row["telefono"];
-    $rfc = $row["rfc"];
-    $fecha_Modificacion = $row["fecha_Creacion"];
-    $NombreCompleto = $row["NombreCompleto"];
-    $subTotal = $row["subTotal"];
-    $total = $row["total"];
-    $iva = $row["iva"];
-    $efectivo = $row["efectivo"];
-    $cambio = $row["cambio"];
-    $usuario = $row["usuario"];
-    $descuento_Venta = $row["descuento_Venta"];
-}
-$subTotal = number_format($subTotal, 2, '.', ',');
-$iva = number_format($iva, 2, '.', ',');
-$efectivo = number_format($efectivo, 2, '.', ',');
-$cambio = number_format($cambio, 2, '.', ',');
-$descuento_Venta = number_format($descuento_Venta, 2, '.', ',');
-$total = number_format($total, 2, '.', ',');
-
-$Fecha_Creacion = date("d-m-Y", strtotime($fecha_Modificacion));
-
-$tablaArticulos = '';
-
-$query = "SELECT Art.id_serie, Art.descripcionCorta,Art.vitrinaVenta FROM articulo_bazar_tbl AS Art
-                INNER JOIN  bit_ventas AS Ven ON Art.id_ArticuloBazar =  Ven.id_ArticuloBazar
-                WHERE id_Bazar = $id_Bazar";
-$tablaArt = $db->query($query);
-
-foreach ($tablaArt as $row) {
-    $id_serie = $row["id_serie"];
-    $descripcionCorta = $row["descripcionCorta"];
-    $vitrinaVenta = $row["vitrinaVenta"];
-    $vitrinaVenta = number_format($vitrinaVenta, 2, '.', ',');
-
-    $tablaArticulos .= '<tr>
-                            <td><label class="letraNormal">' . $id_serie . '</label></td>
-                            <td><label class="letraNormal">' . $descripcionCorta . '</label></td>
-                            <td align="right"><label>$ ' . $vitrinaVenta . '</label></td>
-                        </tr>';
-
-}
-
-
-$contenido = '<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        .letraNormalNegrita{
-          font-size: .5em;
-          font-weight: bold;
-         }
-          .letraGrandeNegrita{
-          font-size: .9em;
-          font-weight: bold;
-         }
-          .letraChicaNegrita{
-          font-size: .3em;
-          font-weight: bold;
-         }
-          .letraNormal{
-          font-size: .5em;
-         }
-          .letraGrande{
-          font-size: .9em;
-         }
-          .letraChica{
-          font-size: .3em;
-         }
-        .tituloCelda{
-          background-color: #ebebe0
+    function __construct()
+    {
+        $this->db = new Conexion();
+        $this->conexion = $this->db->connectDB();
+    }
+    public function reporteHistorico($fechaIni,$fechaFin)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
+                        Con.id_contrato AS CONTRATO,
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
+                          Art.descripcionCorta AS DescripcionCorta,  Art.observaciones AS Obs,
+                        Aut.observaciones as ObserAuto,
+                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
+                        Art.tipoArticulo, Con.id_Formulario as Form
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
+                        AND '$fechaFin'  <= Con.fecha_fisico_fin
+                        AND Bit.sucursal = $sucursal 
+                        ORDER BY Form";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "FECHAVEN" => $row["FECHAVEN"],
+                        "FECHAALM" => $row["FECHAALM"],
+                        "CONTRATO" => $row["CONTRATO"],
+                        "NombreCompleto" => $row["NombreCompleto"],
+                        "PRESTAMO" => $row["PRESTAMO"],
+                        "Plazo" => $row["Plazo"],
+                        "Periodo" => $row["Periodo"],
+                        "TipoInteres" => $row["TipoInteres"],
+                        "DescripcionCorta" => $row["DescripcionCorta"],
+                        "Obs" => $row["Obs"],
+                        "ObserAuto" => $row["ObserAuto"],
+                        "DetalleAuto" => $row["DetalleAuto"],
+                        "Form" => $row["Form"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
         }
-    </style>
-</head>
-<body>
-<form>';
-$contenido .= '<table width="70%" border="0">
-        <tbody>
-        <tr>
-        <td>
-         <table width="100%" border="1" class="letraNormalNegrita">
-                <tr>
-                    <td colspan="3" align="center">
-                        <label>' . $NombreCasa . '</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label ID="sucursal">SUCURSAL: ' . $Nombre . '</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label ID="sucursalDir">' . $direccion . '</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label ID="sucursalTel">Tel: ' . $telefono . '</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label ID="sucursalRfc">RFC: ' . $rfc . '</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label> ****************** </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label>COMPROBANTE DE </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label>VENTA</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label> ****************** </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label id="id_Recibo">FOLIO NO: ' . $id_Bazar . '</label>
-                    </td>
-                </tr>
-                <tr><td colspan="3"><br></td></tr>
-                <tr>
-                    <td colspan="3" align="left">
-                        <label id="idFechaHoy">FECHA: ' . $fecha_Modificacion . '</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                        <label >CLIENTE: ' . $NombreCompleto . '</label>
-                    </td>
-                </tr>
-                <tr><td colspan="3"><br></td></tr>
-                <tr>
-                    <td  align="CENTER"><label>CÓDIGO</label></td>
-                    <td  align="CENTER"><label>DESCRIPCIÓN</label></td>
-                    <td  align="CENTER"><label>PRECIO</label></td>
-                </tr>';
-$contenido .= $tablaArticulos;
-$contenido .= ' 
-                <tr>
-                   <td colspan="2" align="right"><label>SUBTOTAL:</label></td>
-                    <td  align="right"><label>$ ' . $subTotal . '</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>IVA:</label></td>
-                    <td  align="right"><label>$ ' . $iva . '</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>DESCUENTOS:</label></td>
-                    <td  align="right"><label>$ ' . $descuento_Venta . '</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>TOTAL:</label></td>
-                    <td  align="right"><label>$ ' . $total . '</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>EFECTIVO:</label></td>
-                    <td  align="right"><label>$ ' . $efectivo . '</label></td>
-                </tr>
-                <tr>
-                   <td colspan="2" align="right"><label>CAMBIO:</label></td>
-                    <td  align="right"><label>$ ' . $cambio . '</label></td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>Venta de piezas de segunda mano.</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>Las piezas se venden en el estado en
-                             que se encuentran.</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label>No se aceptan devoluciones.</label>
-                    </td>
-                </tr>
-                <tr><td colspan="3"><br></td></tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label><b>MERCANCÍA SIN GARANTÍA.<b></label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label><b>NO SE ACEPTAN CAMBIOS O<b></label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="left">
-                      <label><b>DEVOLUCIONES DE MERCANCÍA.<b></label>
-                    </td>
-                </tr>
-                 <tr><td colspan="3"><br></td></tr>
-                <tr>
-                    <td colspan="3"><label id="idUsuario">Usuario: ' . $usuario . '</label></td>
-                </tr>
-                 <tr><td colspan="3"><br></td></tr>
-                <tr>
-                    <td colspan="3">
-                       &nbsp;
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                      <label>___________________________</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label>Cliente</label>
-                    </td>
-                </tr>
-                 <tr>
-                    <td colspan="3">
-                        &nbsp;
-                    </td>
-                </tr>
-                 <tr>
-                    <td colspan="3">
-                        &nbsp;
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label>___________________________</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="center">
-                        <label>Usuario</label>
-                    </td>
-                </tr>
-            </table>
-        </td>
-        </tr>';
-$contenido .= '</tbody></table></form></body></html>';
-/*echo $contenido;
-exit();*/
-$nombreContrato = 'Venta_Num_' . $id_Bazar . ".pdf";
-$dompdf = new DOMPDF();
-$dompdf->load_html($contenido);
-$dompdf->setPaper('letter', 'portrait');
-$dompdf->render();
-$pdf = $dompdf->output();
-$dompdf->stream($nombreContrato);
+
+        echo json_encode($datos);
+    }
+    public function reporteInve()
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
+                        Con.id_contrato AS CONTRATO,
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
+                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
+                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
+                        Aut.observaciones as ObserAuto,
+                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
+                        CONCAT(Art.detalle) as Detalle,
+                        Art.tipoArticulo, Con.id_Formulario as Form
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
+                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
+                        LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
+                        LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
+                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
+                        WHERE Con.fisico = 1
+                        AND Bit.sucursal = $sucursal 
+                        ORDER BY Form";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "FECHAVEN" => $row["FECHAVEN"],
+                        "FECHAALM" => $row["FECHAALM"],
+                        "CONTRATO" => $row["CONTRATO"],
+                        "NombreCompleto" => $row["NombreCompleto"],
+                        "PRESTAMO" => $row["PRESTAMO"],
+                        "Plazo" => $row["Plazo"],
+                        "Periodo" => $row["Periodo"],
+                        "TipoInteres" => $row["TipoInteres"],
+                        "ObserElec" => $row["ObserElec"],
+                        "ObserMetal" => $row["ObserMetal"],
+                        "ObserAuto" => $row["ObserAuto"],
+                        "DetalleAuto" => $row["DetalleAuto"],
+                        "Detalle" => $row["Detalle"],
+                        "Form" => $row["Form"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    public function reporteContratos()
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
+                        Con.id_contrato AS CONTRATO,
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
+                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
+                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
+                        Aut.observaciones as ObserAuto,
+                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
+                        CONCAT(Art.detalle) as Detalle,
+                        Art.tipoArticulo, Con.id_Formulario as Form
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
+                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
+                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
+                        LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
+                        LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
+                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
+                        WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
+                        AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
+                        AND Bit.sucursal = $sucursal 
+                        ORDER BY Form";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "FECHAVEN" => $row["FECHAVEN"],
+                        "FECHAALM" => $row["FECHAALM"],
+                        "CONTRATO" => $row["CONTRATO"],
+                        "NombreCompleto" => $row["NombreCompleto"],
+                        "PRESTAMO" => $row["PRESTAMO"],
+                        "Plazo" => $row["Plazo"],
+                        "Periodo" => $row["Periodo"],
+                        "TipoInteres" => $row["TipoInteres"],
+                        "ObserElec" => $row["ObserElec"],
+                        "ObserMetal" => $row["ObserMetal"],
+                        "ObserAuto" => $row["ObserAuto"],
+                        "DetalleAuto" => $row["DetalleAuto"],
+                        "Detalle" => $row["Detalle"],
+                        "Form" => $row["Form"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    public function reporteDesempe($fechaIni,$fechaFin)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
+                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        ConM.id_contrato AS CONTRATO,
+                        Con.total_Prestamo AS PRESTAMO, 
+                        ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
+                        ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
+                        ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
+                        Con.id_Formulario as FORMU, ConM.pag_subtotal, 
+                        ConM.pag_total
+                        FROM contrato_mov_tbl AS ConM
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
+                        AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 )  
+                        ORDER BY CONTRATO";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "FECHAMOV" => $row["FECHAMOV"],
+                        "FECHAVEN" => $row["FECHAVEN"],
+                        "CONTRATO" => $row["CONTRATO"],
+                        "PRESTAMO" => $row["PRESTAMO"],
+                        "INTERESES" => $row["INTERESES"],
+                        "ALMACENAJE" => $row["ALMACENAJE"],
+                        "SEGURO" => $row["SEGURO"],
+                        "ABONO" => $row["ABONO"],
+                        "DESCU" => $row["DESCU"],
+                        "IVA" => $row["IVA"],
+                        "COSTO" => $row["COSTO"],
+                        "FORMU" => $row["FORMU"],
+                        "pag_subtotal" => $row["pag_subtotal"],
+                        "pag_total" => $row["pag_total"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    public function reporteRefrendo($fechaIni,$fechaFin)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
+                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        ConM.id_contrato AS CONTRATO,
+                        Con.total_Prestamo AS PRESTAMO, 
+                        ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
+                        ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
+                        ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
+                        ConM.pag_subtotal, 
+                        ConM.pag_total
+                        FROM contrato_mov_tbl AS ConM
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
+                        AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  
+                        ORDER BY FORMU";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "FECHAMOV" => $row["FECHAMOV"],
+                        "FECHAVEN" => $row["FECHAVEN"],
+                        "CONTRATO" => $row["CONTRATO"],
+                        "PRESTAMO" => $row["PRESTAMO"],
+                        "INTERESES" => $row["INTERESES"],
+                        "ALMACENAJE" => $row["ALMACENAJE"],
+                        "SEGURO" => $row["SEGURO"],
+                        "ABONO" => $row["ABONO"],
+                        "DESCU" => $row["DESCU"],
+                        "IVA" => $row["IVA"],
+                        "COSTO" => $row["COSTO"],
+                        "FORMU" => $row["FORMU"],
+                        "pag_subtotal" => $row["pag_subtotal"],
+                        "pag_total" => $row["pag_total"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    public function reporteBazar()
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,vitrinaVenta AS precio_venta, 
+                        ART.descripcionCorta as Detalle,
+                        CAT.descripcion as CatDesc, ART.id_ContratoMig
+                        FROM articulo_bazar_tbl as Baz
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
+                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
+                        LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
+                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal LIMIT 25";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_ContratoRepBaz" => $row["id_Contrato"],
+                        "id_serieRepBaz" => $row["id_serie"],
+                        "Movimiento" => $row["Movimiento"],
+                        "fecha_Bazar" => $row["fecha_Bazar"],
+                        "precio_venta" => $row["precio_venta"],
+                        "Detalle" => $row["Detalle"],
+                        "CatDesc" => $row["CatDesc"],
+                        "id_ContratoMig" => $row["id_ContratoMig"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    public function reporteMon($tipo,$fechaIni,$fechaFin)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT Bit.id_BitacoraToken,Bit.id_Contrato,Bit.tipo_formulario,Bit.token,Bit.descripcion,
+                        Bit.descuento,Bit.interes, Cat.descripcion as Descripcion, Usu.usuario,Bit.importe_flujo,Bit.id_flujo,
+                        DATE_FORMAT(Bit.fecha_Creacion,'%Y-%m-%d') as Fecha FROM bit_token as Bit
+                        INNER JOIN cat_token_movimiento as Cat on Bit.id_tokenMovimiento = Cat.id_tokenMovimiento
+                        LEFT JOIN usuarios_tbl as Usu on Bit.usuario = Usu.id_User  ";
+            if($tipo==0){
+                $buscar .= " WHERE Bit.fecha_Creacion BETWEEN '$fechaIni' 
+                            AND '$fechaFin' AND Bit.sucursal = $sucursal  ORDER BY Bit.id_BitacoraToken";
+            }else{
+                $buscar .= "WHERE Bit.id_tokenMovimiento=$tipo AND  Bit.fecha_Creacion BETWEEN '$fechaIni' 
+                            AND '$fechaFin' AND Bit.sucursal = $sucursal  ORDER BY Bit.id_BitacoraToken";
+            }
+            // echo $buscar;
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_BitacoraToken" => $row["id_BitacoraToken"],
+                        "id_Contrato" => $row["id_Contrato"],
+                        "tipo_formulario" => $row["tipo_formulario"],
+                        "token" => $row["token"],
+                        "descripcion" => $row["descripcion"],
+                        "descuento" => $row["descuento"],
+                        "interes" => $row["interes"],
+                        "Descripcion" => $row["Descripcion"],
+                        "usuario" => $row["usuario"],
+                        "importe_flujo" => $row["importe_flujo"],
+                        "id_flujo" => $row["id_flujo"],
+                        "Fecha" => $row["Fecha"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    public function reporteIngresos($fechaIni,$fechaFin)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
+                       costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
+                       utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
+                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
+                       FROM bit_cierresucursal
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
+
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_CierreSucursal" => $row["id_CierreSucursal"],
+                        "Desem" => $row["Desem"],
+                        "AbonoRef" => $row["AbonoRef"],
+                        "Inte" => $row["Inte"],
+                        "costoContratoFin" => $row["costoContrato"],
+                        "Iva" => $row["Iva"],
+                        "Ventas" => $row["Ventas"],
+                        "IvaVenta" => $row["IvaVenta"],
+                        "Utilidad" => $row["Utilidad"],
+                        "Apartados" => $row["Apartados"],
+                        "AbonoVen" => $row["AbonoVen"],
+                        "Fecha" => $row["Fecha"],
+
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+}

@@ -530,9 +530,11 @@ function fnBitacoraVenta() {
 function verPDFVenta(idBazar) {
     window.open('../PDF/callPdfVenta.php?pdf=1&idBazar=' + idBazar);
     alert("Venta realizada.");
-    $("#idFormVentas")[0].reset();
+    fnRecargarMostrador();
 }
-
+function fnRecargarMostrador() {
+    location.reload();
+}
 function configurarRango() {
     alert("configuración")
 }
