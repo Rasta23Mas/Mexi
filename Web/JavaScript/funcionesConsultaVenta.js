@@ -75,7 +75,7 @@ function fnClienteAutoCompleteVen() {
                     $("#idDireccionConsulta").val(direccionComp);
                     //Hacemos desaparecer el resto de sugerencias
                     $('#suggestionsNombreEmpeno').fadeOut(1000);
-                    BusquedaConsulta();
+                    fnBusquedaVenta();
                     return false;
 
                 });
@@ -83,7 +83,6 @@ function fnClienteAutoCompleteVen() {
         });
     });
 }
-
 
 function fnBusquedaVenta() {
     if (radioSelectGlb == 1) {
@@ -184,51 +183,14 @@ function fnCargarTblVenta(idVentaBusqueda) {
              var BitfechaIni = null;
              var BitfechaFin = null;
             fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin);
-            fnCargarTblDetalleVenta(id_Bazar)
+            fnCargarTblDetalleVenta(id_Bazar);
         }
     });
 
 
 }
 
-function fnCargarTblDetalleVenta(idVentaBusqueda) {
-    fnBusquedaDatosCliente(idVentaBusqueda);
-    var dataEnviar = {
-        "idVentaBusqueda": idVentaBusqueda,
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Consulta/ConDetalleVenta.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            alert("Refrescando tabla detalle de contrato.");
-            var html = '';
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_serie = datos[i].id_serie;
-                var descripcionCorta = datos[i].descripcionCorta;
-                var vitrina = datos[i].vitrina;
-                var vitrinaVenta = datos[i].vitrinaVenta;
-                vitrina = formatoMoneda(vitrina);
-                vitrinaVenta = formatoMoneda(vitrinaVenta);
 
-                html += '<tr align="center">' +
-                    '<td>' + id_serie + '</td>' +
-                    '<td>' + descripcionCorta + '</td>' +
-                    '<td>' + vitrina + '</td>' +
-                    '<td>' + vitrinaVenta + '</td>' +
-                    '<td align="center">' +
-                    '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + id_serie + ')">' +
-                    '</td>' +
-                    '</tr>';
-
-            }
-            $('#idTBodyVentaDet').html(html);
-        }
-    });
-
-}
 
 function fnCargarTblNombre() {
     var idClienteConsulta = $("#idClienteConsulta").val();
@@ -352,6 +314,47 @@ function fnCargarTblFechas() {
     }
 }
 
+function fnCargarTblDetalleVenta(idVentaBusqueda) {
+    if(radioSelectGlb==3){
+        fnBusquedaDatosCliente(idVentaBusqueda);
+    }
+    var dataEnviar = {
+        "idVentaBusqueda": idVentaBusqueda,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Consulta/ConDetalleVenta.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            alert("Refrescando tabla detalle de contrato.");
+            var html = '';
+            var i = 0;
+            for (i; i < datos.length; i++) {
+                var id_serie = datos[i].id_serie;
+                var descripcionCorta = datos[i].descripcionCorta;
+                var vitrina = datos[i].vitrina;
+                var vitrinaVenta = datos[i].vitrinaVenta;
+                vitrina = formatoMoneda(vitrina);
+                vitrinaVenta = formatoMoneda(vitrinaVenta);
+
+                html += '<tr align="center">' +
+                    '<td>' + id_serie + '</td>' +
+                    '<td>' + descripcionCorta + '</td>' +
+                    '<td>' + vitrina + '</td>' +
+                    '<td>' + vitrinaVenta + '</td>' +
+                    '<td align="center">' +
+                    '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + id_serie + ')">' +
+                    '</td>' +
+                    '</tr>';
+
+            }
+            $('#idTBodyVentaDet').html(html);
+        }
+    });
+
+}
+
 function fnLimpiarConsultaV() {
     $("#idFormConsulta")[0].reset();
     $("#idVentaConsulta").prop('disabled', true);
@@ -402,7 +405,6 @@ function fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin) 
         url: '../../../com.Mexicash/Controlador/Bitacora/ConBitacoraConsulta.php',
         data: dataEnviar,
         success: function (response) {
-            alert(response)
             if (response > 0) {
                 alertify.success("Consulta generada.");
             } else {

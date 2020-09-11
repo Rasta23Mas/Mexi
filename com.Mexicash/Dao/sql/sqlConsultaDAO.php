@@ -175,7 +175,6 @@ class sqlConsultaDAO
         }
 
         echo json_encode($datos);
-        //echo json_encode($datos);
     }
 
     public function sqlVentaArticulos($idVentaBusqueda)
@@ -188,6 +187,7 @@ class sqlConsultaDAO
                         FROM articulo_bazar_tbl ART
                         INNER JOIN bit_ventas as VEN ON ART.id_ArticuloBazar = VEN.id_ArticuloBazar
                         WHERE VEN.id_Bazar = $idVentaBusqueda AND VEN.sucursal = $sucursal";
+            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -287,7 +287,7 @@ class sqlConsultaDAO
             $buscar = "SELECT id_Bazar, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
                         subTotal,iva,descuento_Venta,total,tipo_movimiento
                         FROM contrato_baz_mov_tbl 
-                        WHERE fecha_Creacion BETWEEN '$fechaInicio' AND '$fechaFinal' AND tipo_movimiento=0 AND sucursal= $sucursal ORDER BY id_Bazar";
+                        WHERE tipo_movimiento!=0 AND sucursal= $sucursal AND (fecha_Creacion >= '$fechaInicio' OR fecha_Creacion <='$fechaFinal') ORDER BY id_Bazar";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

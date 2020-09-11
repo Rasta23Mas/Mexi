@@ -6,7 +6,6 @@ if (!isset($_SESSION)) {
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(MODELO_PATH . "Usuario.php");
 include_once(BASE_PATH . "Conexion.php");
-include_once(SERVICIOS_PATH . "Errores.php");
 include_once(DAO_PATH . "UsuarioDAO.php");
 date_default_timezone_set('America/Mexico_City');
 
