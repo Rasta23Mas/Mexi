@@ -28,8 +28,36 @@ class sqlBitacorasDAO
             $sucursal = $_SESSION["sucursal"];
             $namePC = $_SESSION["namePC"];
             $id_CierreCaja = $_SESSION["idCierreCaja"];
-            $insert = "INSERT INTO bit_user_ventas(id_Bazar, tipo_movimiento, cliente, vendedor, id_token,sucursal, id_CierreCaja, Usuario,namePC) 
-                                VALUES ($id_bazar,$id_Movimiento,$id_cliente,$id_vendedor,$idToken,$sucursal,$id_CierreCaja,$usuario,'$namePC')";
+            $insert = "INSERT INTO bit_user_ventas(id_Bazar, tipo_movimiento, cliente, vendedor, id_token,sucursal, id_CierreCaja, Usuario) 
+                                VALUES ($id_bazar,$id_Movimiento,$id_cliente,$id_vendedor,$idToken,$sucursal,$id_CierreCaja,$usuario)";
+            if ($ps = $this->conexion->prepare($insert)) {
+                if ($ps->execute()) {
+                    $verdad = mysqli_stmt_affected_rows($ps);
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
+
+    function sqlBitacoraConsultas($id_Movimiento,$idContrato,$venta,$cliente,$consulta_fechaInicio,$consulta_fechaFinal)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+
+            $usuario = $_SESSION["idUsuario"];
+            $sucursal = $_SESSION["sucursal"];
+            $id_CierreCaja = $_SESSION["idCierreCaja"];
+            $insert = "INSERT INTO bit_user_consultas(tipo_movimiento,id_Contrato,id_Bazar, cliente, fecha_Inicial, fecha_Final,sucursal, id_CierreCaja, Usuario) 
+                                VALUES ($id_Movimiento,$idContrato,$venta,$cliente,'$consulta_fechaInicio','$consulta_fechaFinal',$sucursal,$id_CierreCaja,$usuario)";
             if ($ps = $this->conexion->prepare($insert)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

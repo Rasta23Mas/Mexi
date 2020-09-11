@@ -12,7 +12,7 @@ function fnEnterBusquedaVenta(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
-        BusquedaConsulta();
+        fnBusquedaVenta();
     }
     return patron.test(te);
 }
@@ -88,22 +88,25 @@ function fnClienteAutoCompleteVen() {
 function fnBusquedaVenta() {
     if (radioSelectGlb == 1) {
         //Por contrato
-        fnBusquedaDatosCliente();
+        fnBusquedaDatosCliente(0);
     } else if (radioSelectGlb == 2) {
         //Por Nombre
         fnCargarTblNombre();
     } else if (radioSelectGlb == 3) {
         //Por fechas
-
         fnCargarTblFechas();
     }
 }
 
-function fnBusquedaDatosCliente() {
-    var idVentaBusqueda = $("#idVentaConsulta").val();
+function fnBusquedaDatosCliente(idVenta) {
+    var idVentaBusqueda = "";
+    if(idVenta==0){
+        idVentaBusqueda = $("#idVentaConsulta").val();
+    }else{
+        idVentaBusqueda = idVenta;
+    }
     var dataEnviar = {
         "idVentaBusqueda": idVentaBusqueda,
-
     };
     $.ajax({
         type: "POST",
@@ -125,9 +128,8 @@ function fnBusquedaDatosCliente() {
                 fnCargarTblVenta(idVentaBusqueda);
 
             } else {
-                alertify.error("El contrato no existe.");
+                alertify.error("La venta no existe.");
             }
-
         }
     });
 }
@@ -177,11 +179,11 @@ function fnCargarTblVenta(idVentaBusqueda) {
             }
             $('#idTBodyVenta').html(html);
 
-            /* var contrato = idVentaBusqueda;
-             var clienteEmpeno = 0;
+             var venta = idVentaBusqueda;
+             var clienteVenta = 0;
              var BitfechaIni = null;
              var BitfechaFin = null;
-            // BitacoraUsuarioConsulta(id_Bazar, clienteEmpeno, BitfechaIni, BitfechaFin);*/
+            fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin);
             fnCargarTblDetalleVenta(id_Bazar)
         }
     });
@@ -190,6 +192,7 @@ function fnCargarTblVenta(idVentaBusqueda) {
 }
 
 function fnCargarTblDetalleVenta(idVentaBusqueda) {
+    fnBusquedaDatosCliente(idVentaBusqueda);
     var dataEnviar = {
         "idVentaBusqueda": idVentaBusqueda,
     };
@@ -273,11 +276,11 @@ function fnCargarTblNombre() {
             }
             $('#idTBodyVenta').html(html);
 
-            /* var contrato = idVentaBusqueda;
-             var clienteEmpeno = 0;
-             var BitfechaIni = null;
-             var BitfechaFin = null;
-            // BitacoraUsuarioConsulta(id_Bazar, clienteEmpeno, BitfechaIni, BitfechaFin);*/
+            var venta = 0;
+            var clienteVenta = idClienteConsulta;
+            var BitfechaIni = null;
+            var BitfechaFin = null;
+            fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin);
         }
     });
 
@@ -339,45 +342,14 @@ function fnCargarTblFechas() {
                 }
                 $('#idTBodyVenta').html(html);
 
-                /* var contrato = idVentaBusqueda;
-                 var clienteEmpeno = 0;
-                 var BitfechaIni = null;
-                 var BitfechaFin = null;
-                // BitacoraUsuarioConsulta(id_Bazar, clienteEmpeno, BitfechaIni, BitfechaFin);*/
+                var venta = 0;
+                var clienteVenta = 0;
+                var BitfechaIni = nuevaFechaInicio;
+                var BitfechaFin = nuevaFechaFinal;
+                fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin);
             }
         });
     }
-}
-
-function buscarDatosPorFecha(idVentaBusqueda) {
-    var dataEnviar = {
-        "idVentaBusqueda": idVentaBusqueda,
-
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Consulta/busquedaDatos.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            if (datos.length > 0) {
-                var i = 0;
-                for (i; i < datos.length; i++) {
-                    var Cliente = datos[i].Cliente;
-                    var NombreCompleto = datos[i].NombreCompleto;
-                    var direccionCompleta = datos[i].direccionCompleta;
-                    $('#idClienteConsulta').val(Cliente);
-                    $('#idNombreConsulta').val(NombreCompleto);
-                    $("#idDireccionConsulta").val(direccionCompleta);
-                    $("#idVentaBusqueda").val(idVentaBusqueda);
-                }
-                fnCargarTblDetalleVenta(idVentaBusqueda);
-            } else {
-                alertify.error("El contrato no existe.");
-            }
-
-        }
-    });
 }
 
 function fnLimpiarConsultaV() {
@@ -389,6 +361,7 @@ function fnLimpiarConsultaV() {
     $('#idAutoCheck').prop('checked', false);
     LimpiarTablas();
 }
+
 function LimpiarTablas() {
     var htmlVenta = '<tr>' +
         '<td colspan="8"></td></tr>';
@@ -396,6 +369,47 @@ function LimpiarTablas() {
     var htmlVentaDetalle = '<tr>' +
         '<td colspan="5"></td></tr>';
     $('#idTBodyVentaDet').html(htmlVentaDetalle);
+}
+
+function fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin) {
+    var movimiento = 0;
+    var venta = venta;
+    var cliente = clienteVenta;
+    var consulta_fechaInicio = BitfechaIni;
+    var consulta_fechaFinal = BitfechaFin;
+
+    if (radioSelectGlb == 1) {
+        movimiento = 25;
+    } else if (radioSelectGlb == 2) {
+        movimiento = 26;
+    } else if (radioSelectGlb == 3) {
+        movimiento = 27;
+    }
+
+    var id_Movimiento = movimiento;
+
+    var dataEnviar = {
+        "id_Movimiento": id_Movimiento,
+        "idContrato": 0,
+        "venta": venta,
+        "cliente": cliente,
+        "consulta_fechaInicio": consulta_fechaInicio,
+        "consulta_fechaFinal": consulta_fechaFinal,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/ConBitacoraConsulta.php',
+        data: dataEnviar,
+        success: function (response) {
+            alert(response)
+            if (response > 0) {
+                alertify.success("Consulta generada.");
+            } else {
+                alertify.error("Error en al conectar con el servidors.")
+            }
+        }
+    });
 }
 
 function fnReimprimirVentas(idBazar, idMovimiento) {
@@ -428,50 +442,6 @@ function fnReimprimirVentas(idBazar, idMovimiento) {
     } else if (tipoMovimiento == 20) {
         //20 = Cancelado
     }
-}
-
-function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaFin) {
-    var movimiento = 0;
-    var id_contrato = contrato;
-    var id_almoneda = 0;
-    var id_cliente = clienteEmpeno;
-    var consulta_fechaInicio = BitFechaIni;
-    var consulta_fechaFinal = BitFechaFin;
-
-    if (radioSelectGlb == 1) {
-        movimiento = 11;
-    } else if (radioSelectGlb == 2) {
-        movimiento = 12;
-    } else if (radioSelectGlb == 3) {
-        movimiento = 13;
-    }
-
-    var id_Movimiento = movimiento;
-    var idArqueo = 0;
-
-    var dataEnviar = {
-        "id_Movimiento": id_Movimiento,
-        "id_contrato": id_contrato,
-        "id_almoneda": id_almoneda,
-        "id_cliente": id_cliente,
-        "consulta_fechaInicio": consulta_fechaInicio,
-        "consulta_fechaFinal": consulta_fechaFinal,
-        "idArqueo": idArqueo,
-
-    };
-
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
-        data: dataEnviar,
-        success: function (response) {
-            if (response > 0) {
-                alertify.success("Consulta generada.");
-            } else {
-                alertify.error("Error en al conectar con el servidor.")
-            }
-        }
-    });
 }
 
 function verFotosContrato(id_serie) {
