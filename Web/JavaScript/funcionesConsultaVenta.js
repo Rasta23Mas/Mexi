@@ -1,7 +1,7 @@
 var radioSelectGlb = 0;
 var VentaReimprimirGlb = 0;
 
-function ventaBusquedaCon(e) {
+function fnEnterBusquedaVenta(e) {
     var tecla;
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 8) {
@@ -17,8 +17,8 @@ function ventaBusquedaCon(e) {
     return patron.test(te);
 }
 
-function radioContrato() {
-    LimpiarConsulta();
+function fnRadioVenta() {
+    fnLimpiarConsultaV();
     $('#idVentaRadio').prop('checked', true);
     $("#idVentaConsulta").prop('disabled', false);
     $("#btnBuscarConsulta").prop('disabled', false);
@@ -28,8 +28,8 @@ function radioContrato() {
     radioSelectGlb = 1;
 }
 
-function radioNombre() {
-    LimpiarConsulta();
+function fnRadioNombre() {
+    fnLimpiarConsultaV();
     $('#idNombreRadio').prop('checked', true);
     $("#idNombreConsulta").prop('disabled', false);
     $("#btnBuscarConsulta").prop('disabled', false);
@@ -39,8 +39,8 @@ function radioNombre() {
     radioSelectGlb = 2;
 }
 
-function radioFecha() {
-    LimpiarConsulta();
+function fnRadioFecha() {
+    fnLimpiarConsultaV();
     $('#idFechaRadio').prop('checked', true);
     $("#idNombreConsulta").prop('disabled', true);
     $("#btnBuscarConsulta").prop('disabled', false);
@@ -48,8 +48,7 @@ function radioFecha() {
     radioSelectGlb = 3;
 }
 
-//Funcion autocompletar nombre de cliente
-function nombreAutocompletarConsulta() {
+function fnClienteAutoCompleteVen() {
     $('#idNombreConsulta').on('keyup', function () {
         var key = $('#idNombreConsulta').val();
         var dataEnviar = {
@@ -86,21 +85,21 @@ function nombreAutocompletarConsulta() {
 }
 
 
-function BusquedaConsulta() {
+function fnBusquedaVenta() {
     if (radioSelectGlb == 1) {
         //Por contrato
-        buscarDatosPorVenta();
+        fnBusquedaDatosCliente();
     } else if (radioSelectGlb == 2) {
         //Por Nombre
-        cargarTablaNombre();
+        fnCargarTblNombre();
     } else if (radioSelectGlb == 3) {
         //Por fechas
 
-        cargarTablaFechas();
+        fnCargarTblFechas();
     }
 }
 
-function buscarDatosPorVenta() {
+function fnBusquedaDatosCliente() {
     var idVentaBusqueda = $("#idVentaConsulta").val();
     var dataEnviar = {
         "idVentaBusqueda": idVentaBusqueda,
@@ -154,12 +153,12 @@ function fnCargarTblVenta(idVentaBusqueda) {
                 var descuento_Venta = datos[i].descuento_Venta;
                 var total = datos[i].totalVenta;
                 var tipo_movimiento = datos[i].tipo_movimientoVenta;
-                
+
                 subTotal = formatoMoneda(subTotal);
                 iva = formatoMoneda(iva);
                 descuento_Venta = formatoMoneda(descuento_Venta);
                 total = formatoMoneda(total);
-            
+
                 VentaReimprimirGlb = id_Bazar;
 
                 html += '<tr>' +
@@ -170,28 +169,27 @@ function fnCargarTblVenta(idVentaBusqueda) {
                     '<td>' + descuento_Venta + '</td>' +
                     '<td>' + total + '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="cargarTablaDetalleNombre(' + id_Bazar + ')">' +
+                    '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="fnCargarTblDetalleVenta(' + id_Bazar + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimirVentas(' + id_Bazar + ',' + tipo_movimiento + ')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Bazar + ',' + tipo_movimiento + ')">' +
                     '</td></tr>';
             }
-                $('#idTBodyVenta').html(html);
+            $('#idTBodyVenta').html(html);
 
-           /* var contrato = idVentaBusqueda;
-            var clienteEmpeno = 0;
-            var BitfechaIni = null;
-            var BitfechaFin = null;
-           // BitacoraUsuarioConsulta(id_Bazar, clienteEmpeno, BitfechaIni, BitfechaFin);*/
-            cargarTablaDetalleNombre(id_Bazar)
+            /* var contrato = idVentaBusqueda;
+             var clienteEmpeno = 0;
+             var BitfechaIni = null;
+             var BitfechaFin = null;
+            // BitacoraUsuarioConsulta(id_Bazar, clienteEmpeno, BitfechaIni, BitfechaFin);*/
+            fnCargarTblDetalleVenta(id_Bazar)
         }
     });
 
-        $("#divVenta").load('tblVenta.php');
 
 }
 
-function cargarTablaDetalleNombre(idVentaBusqueda) {
+function fnCargarTblDetalleVenta(idVentaBusqueda) {
     var dataEnviar = {
         "idVentaBusqueda": idVentaBusqueda,
     };
@@ -200,125 +198,92 @@ function cargarTablaDetalleNombre(idVentaBusqueda) {
         url: '../../../com.Mexicash/Controlador/Consulta/ConDetalleVenta.php',
         data: dataEnviar,
         dataType: "json",
-
         success: function (datos) {
             alert("Refrescando tabla detalle de contrato.");
             var html = '';
             var i = 0;
-            var Num = 1;
-            var llenatabla = 0;
-            if (datos.length > 0) {
-                for (i; i < datos.length; i++) {
-                    llenatabla++
+            for (i; i < datos.length; i++) {
+                var id_serie = datos[i].id_serie;
+                var descripcionCorta = datos[i].descripcionCorta;
+                var vitrina = datos[i].vitrina;
+                var vitrinaVenta = datos[i].vitrinaVenta;
+                vitrina = formatoMoneda(vitrina);
+                vitrinaVenta = formatoMoneda(vitrinaVenta);
 
-                        var serieArticulo = datos[i].id_SerieArticulo;
-                        var DescripcionCorta = datos[i].DescripcionCorta;
-                         Obs = datos[i].Obs;
-                        html += '<tr align="center">' +
-                            '<td>' + idVentaBusqueda + '</td>' +
-                            '<td>' + serieArticulo + '</td>' +
-                            '<td>' + DescripcionCorta + '</td>' +
-                            '<td>' + Obs + '</td>' +
-                            '<td align="center">' +
-                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idVentaBusqueda + ',' + serieArticulo + ')">' +
-                            '</td>' +
-                            '</tr>';
+                html += '<tr align="center">' +
+                    '<td>' + id_serie + '</td>' +
+                    '<td>' + descripcionCorta + '</td>' +
+                    '<td>' + vitrina + '</td>' +
+                    '<td>' + vitrinaVenta + '</td>' +
+                    '<td align="center">' +
+                    '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + id_serie + ')">' +
+                    '</td>' +
+                    '</tr>';
 
-
-
-                    Num++;
-                }
-                $('#idTBodyVentaDetalle').html(html);
-            } else {
-                alertify.error("El contrato no existe.");
             }
+            $('#idTBodyVentaDet').html(html);
         }
     });
-    $("#divDetallesVenta").load('idTBodyVentaDetalle.php');
+
 }
 
-function cargarTablaNombre() {
+function fnCargarTblNombre() {
     var idClienteConsulta = $("#idClienteConsulta").val();
     var dataEnviar = {
         "idClienteConsulta": idClienteConsulta,
     };
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Consulta/tblDetalleNombre.php',
+        url: '../../../com.Mexicash/Controlador/Consulta/ConTblNombres.php',
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
-            alert("Refrescando tabla.");
             var html = '';
-            var htmlAuto = '';
-            var htmlfinal = '';
             var i = 0;
-            var Num = 1;
+            alert("Refrescando tabla.");
             for (i; i < datos.length; i++) {
-                var Contrato = datos[i].Contrato;
+                var id_Bazar = datos[i].id_Bazar;
                 var FechaCreacion = datos[i].FechaCreacion;
-                var Movimiento = datos[i].Movimiento;
-                var idMovimiento = datos[i].idMovimiento;
-                var Prestamo = datos[i].Prestamo;
-                var Abono = datos[i].Abono;
-                var Interes = datos[i].Interes;
-                var Moratorios = datos[i].Moratorios;
-                var Descuento = datos[i].Descuento;
-                var Pago = datos[i].Pago;
-                var Plazo = datos[i].Plazo;
-                var CostoContrato = datos[i].CostoContrato;
-                var MovimientoTipo = datos[i].MovimientoTipo;
-                var VentaReimprimirGlb = Contrato;
-                var MovimientoReimprimir = idMovimiento;
+                var subTotal = datos[i].subTotal;
+                var iva = datos[i].ivaVenta;
+                var descuento_Venta = datos[i].descuento_Venta;
+                var total = datos[i].totalVenta;
+                var tipo_movimiento = datos[i].tipo_movimientoVenta;
 
-                Prestamo = formatoMoneda(Prestamo);
-                Abono = formatoMoneda(Abono);
-                Interes = formatoMoneda(Interes);
-                Moratorios = formatoMoneda(Moratorios);
-                Descuento = formatoMoneda(Descuento);
-                Pago = formatoMoneda(Pago);
-                CostoContrato = formatoMoneda(CostoContrato);
+                subTotal = formatoMoneda(subTotal);
+                iva = formatoMoneda(iva);
+                descuento_Venta = formatoMoneda(descuento_Venta);
+                total = formatoMoneda(total);
 
+                VentaReimprimirGlb = id_Bazar;
 
-                html = '<tr>' +
-                    '<td >' + Contrato + '</td>' +
+                html += '<tr>' +
+                    '<td >' + id_Bazar + '</td>' +
                     '<td>' + FechaCreacion + '</td>' +
-                    '<td>' + Movimiento + '</td>' +
-                    '<td>' + idMovimiento + '</td>' +
-                    '<td>' + Prestamo + '</td>' +
-                    '<td>' + Abono + '</td>' +
-                    '<td>' + Pago + '</td>' +
-                    '<td>' + Interes + '</td>' +
-                    '<td>' + Moratorios + '</td>' +
-                    '<td>' + CostoContrato + '</td>' +
-                    '<td>' + Descuento + '</td>' +
-                    '<td>' + Plazo + '</td>' +
+                    '<td>' + subTotal + '</td>' +
+                    '<td>' + iva + '</td>' +
+                    '<td>' + descuento_Venta + '</td>' +
+                    '<td>' + total + '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/seleccionarNor.png"   alt="Seleccionar"  onclick="cargarTablaDetalleNombre(' + Contrato + ')">' +
+                    '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="fnCargarTblDetalleVenta(' + id_Bazar + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimirVentas(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
-                    '</td>';
-
-                htmlfinal += html + htmlAuto + '</tr>';
-                Num++;
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Bazar + ',' + tipo_movimiento + ')">' +
+                    '</td></tr>';
             }
+            $('#idTBodyVenta').html(html);
 
-                $('#idTBodyVenta').html(htmlfinal);
-
-            var contrato = 0;
-            var clienteEmpeno = idClienteConsulta;
-            var BitfechaIni = null;
-            var BitfechaFin = null;
-            BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitfechaIni, BitfechaFin);
+            /* var contrato = idVentaBusqueda;
+             var clienteEmpeno = 0;
+             var BitfechaIni = null;
+             var BitfechaFin = null;
+            // BitacoraUsuarioConsulta(id_Bazar, clienteEmpeno, BitfechaIni, BitfechaFin);*/
         }
     });
 
-        $("#divVenta").load('tblVenta.php');
-
 }
 
-function cargarTablaFechas() {
+function fnCargarTblFechas() {
     var fechaInicio = $("#idFechaInicial").val();
     var fechaFinal = $("#idFechaFinal").val();
     if (fechaInicio == "") {
@@ -329,88 +294,58 @@ function cargarTablaFechas() {
     } else {
         var nuevaFechaInicio = fechaSQL(fechaInicio);
         var nuevaFechaFinal = fechaSQL(fechaFinal);
-        //nuevaFechaInicio = formatStringToDate(nuevaFechaInicio);
-        //nuevaFechaFinal = formatStringToDate(nuevaFechaFinal);
         var dataEnviar = {
             "fechaInicio": nuevaFechaInicio,
             "fechaFinal": nuevaFechaFinal,
         };
         $.ajax({
             type: "POST",
-            url: '../../../com.Mexicash/Controlador/Consulta/tblDetalleFechas.php',
+            url: '../../../com.Mexicash/Controlador/Consulta/ConTblFechas.php',
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
                 var html = '';
-                var htmlAuto = '';
-                var htmlfinal = '';
                 var i = 0;
-                var Num = 1;
                 alert("Refrescando tabla.");
                 for (i; i < datos.length; i++) {
-                    var Contrato = datos[i].Contrato;
+                    var id_Bazar = datos[i].id_Bazar;
                     var FechaCreacion = datos[i].FechaCreacion;
-                    var Movimiento = datos[i].Movimiento;
-                    var idMovimiento = datos[i].idMovimiento;
-                    var Prestamo = datos[i].Prestamo;
-                    var PrestamoActual = datos[i].PrestamoActual;
-                    var Abono = datos[i].Abono;
-                    var Interes = datos[i].Interes;
-                    var Moratorios = datos[i].Moratorios;
-                    var Descuento = datos[i].Descuento;
-                    var Pago = datos[i].Pago;
-                    var Plazo = datos[i].Plazo;
-                    var CostoContrato = datos[i].CostoContrato;
-                    var MovimientoTipo = datos[i].MovimientoTipo;
+                    var subTotal = datos[i].subTotal;
+                    var iva = datos[i].ivaVenta;
+                    var descuento_Venta = datos[i].descuento_Venta;
+                    var total = datos[i].totalVenta;
+                    var tipo_movimiento = datos[i].tipo_movimientoVenta;
 
-                    var VentaReimprimirGlb = Contrato;
-                    var MovimientoReimprimir = idMovimiento;
+                    subTotal = formatoMoneda(subTotal);
+                    iva = formatoMoneda(iva);
+                    descuento_Venta = formatoMoneda(descuento_Venta);
+                    total = formatoMoneda(total);
 
-                    Prestamo = formatoMoneda(Prestamo);
-                    Abono = formatoMoneda(Abono);
-                    Interes = formatoMoneda(Interes);
-                    Moratorios = formatoMoneda(Moratorios);
-                    Descuento = formatoMoneda(Descuento);
-                    Pago = formatoMoneda(Pago);
-                    CostoContrato = formatoMoneda(CostoContrato);
+                    VentaReimprimirGlb = id_Bazar;
 
-
-                    html = '<tr>' +
-                        '<td >' + Contrato + '</td>' +
+                    html += '<tr>' +
+                        '<td >' + id_Bazar + '</td>' +
                         '<td>' + FechaCreacion + '</td>' +
-                        '<td>' + Movimiento + '</td>' +
-                        '<td>' + idMovimiento + '</td>' +
-                        '<td>' + PrestamoActual + '</td>' +
-                        '<td>' + Abono + '</td>' +
-                        '<td>' + Pago + '</td>' +
-                        '<td>' + Interes + '</td>' +
-                        '<td>' + Moratorios + '</td>' +
-                        '<td>' + CostoContrato + '</td>' +
-                        '<td>' + Descuento + '</td>' +
-                        '<td>' + Plazo + '</td>' +
+                        '<td>' + subTotal + '</td>' +
+                        '<td>' + iva + '</td>' +
+                        '<td>' + descuento_Venta + '</td>' +
+                        '<td>' + total + '</td>' +
                         '<td align="center">' +
-                        '<img src="../../style/Img/seleccionarNor.png"  data-dismiss="modal" alt="Seleccionar"  onclick="buscarDatosPorFecha(' + Contrato + ')">' +
+                        '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="fnCargarTblDetalleVenta(' + id_Bazar + ')">' +
                         '</td>' +
                         '<td align="center">' +
-                        '<img src="../../style/Img/impresoraNor.png"  data-dismiss="modal" alt="impromor" onclick="reimprimirVentas(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
-                        '</td>';
-
-
-                    htmlfinal += html + htmlAuto + '</tr>';
-                    Num++;
+                        '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Bazar + ',' + tipo_movimiento + ')">' +
+                        '</td></tr>';
                 }
+                $('#idTBodyVenta').html(html);
 
-
-                    $('#idTBodyVentaAuto').html(htmlfinal);
-                var contrato = 0;
-                var clienteEmpeno = 0;
-                var BitfechaIni = nuevaFechaInicio;
-                var BitfechaFin = nuevaFechaFinal;
-                BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitfechaIni, BitfechaFin);
+                /* var contrato = idVentaBusqueda;
+                 var clienteEmpeno = 0;
+                 var BitfechaIni = null;
+                 var BitfechaFin = null;
+                // BitacoraUsuarioConsulta(id_Bazar, clienteEmpeno, BitfechaIni, BitfechaFin);*/
             }
         });
-            $("#divVenta").load('tblVenta.php');
-
     }
 }
 
@@ -436,7 +371,7 @@ function buscarDatosPorFecha(idVentaBusqueda) {
                     $("#idDireccionConsulta").val(direccionCompleta);
                     $("#idVentaBusqueda").val(idVentaBusqueda);
                 }
-                cargarTablaDetalleNombre(idVentaBusqueda);
+                fnCargarTblDetalleVenta(idVentaBusqueda);
             } else {
                 alertify.error("El contrato no existe.");
             }
@@ -445,18 +380,25 @@ function buscarDatosPorFecha(idVentaBusqueda) {
     });
 }
 
-function LimpiarConsulta() {
+function fnLimpiarConsultaV() {
     $("#idFormConsulta")[0].reset();
     $("#idVentaConsulta").prop('disabled', true);
     $("#idNombreConsulta").prop('disabled', true);
     $("#idFechaInicial").prop('disabled', true);
     $("#idFechaFinal").prop('disabled', true);
     $('#idAutoCheck').prop('checked', false);
-    $("#divVenta").load('tblVenta.php');
-    $("#divDetallesVenta").load('tblDetalleVenta.php');
+    LimpiarTablas();
+}
+function LimpiarTablas() {
+    var htmlVenta = '<tr>' +
+        '<td colspan="8"></td></tr>';
+    $('#idTBodyVenta').html(htmlVenta);
+    var htmlVentaDetalle = '<tr>' +
+        '<td colspan="5"></td></tr>';
+    $('#idTBodyVentaDet').html(htmlVentaDetalle);
 }
 
-function reimprimirVentas(tipoMovimiento, idMovimiento, Contrato) {
+function fnReimprimirVentas(idBazar, idMovimiento) {
     VentaReimprimirGlb = Contrato;
     if (tipoMovimiento == 3) {
         //3 = Empeño
@@ -496,13 +438,13 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
     var consulta_fechaInicio = BitFechaIni;
     var consulta_fechaFinal = BitFechaFin;
 
-        if (radioSelectGlb == 1) {
-            movimiento = 11;
-        } else if (radioSelectGlb == 2) {
-            movimiento = 12;
-        } else if (radioSelectGlb == 3) {
-            movimiento = 13;
-        }
+    if (radioSelectGlb == 1) {
+        movimiento = 11;
+    } else if (radioSelectGlb == 2) {
+        movimiento = 12;
+    } else if (radioSelectGlb == 3) {
+        movimiento = 13;
+    }
 
     var id_Movimiento = movimiento;
     var idArqueo = 0;
@@ -532,6 +474,6 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
     });
 }
 
-function verFotosContrato(idContrato, SerieArticulo) {
-    location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato + '&articulo=' + SerieArticulo;
+function verFotosContrato(id_serie) {
+    location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato + '&articulo=' + id_serie;
 }

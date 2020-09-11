@@ -178,26 +178,24 @@ class sqlConsultaDAO
         //echo json_encode($datos);
     }
 
-    public function sqlVentaArticulos($idContratoBusqueda, $tipoContratoGlobal)
+    public function sqlVentaArticulos($idVentaBusqueda)
     {
         $datos = array();
         $sucursal = $_SESSION["sucursal"];
 
         try {
-            $buscar = "SELECT  Con.id_Formulario AS Formulario,Art.id_SerieArticulo,
-                        Art.descripcionCorta AS DescripcionCorta,  Art.observaciones AS Obs
-                        FROM contratos_tbl as Con 
-                        INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
-                        INNER JOIN articulo_tbl as Art on Con.id_Contrato =  Art.id_Contrato
-                        WHERE Con.id_Contrato =$idContratoBusqueda AND Con.tipoContrato = $tipoContratoGlobal AND Art.sucursal= $sucursal";
+            $buscar = "SELECT ART.id_serie, ART.descripcionCorta,ART.vitrina, ART.vitrinaVenta  
+                        FROM articulo_bazar_tbl ART
+                        INNER JOIN bit_ventas as VEN ON ART.id_ArticuloBazar = VEN.id_ArticuloBazar
+                        WHERE VEN.id_Bazar = $idVentaBusqueda AND VEN.sucursal = $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "Formulario" => $row["Formulario"],
-                        "id_SerieArticulo" => $row["id_SerieArticulo"],
-                        "DescripcionCorta" => $row["DescripcionCorta"],
-                        "Obs" => $row["Obs"],
+                        "id_serie" => $row["id_serie"],
+                        "descripcionCorta" => $row["descripcionCorta"],
+                        "vitrina" => $row["vitrina"],
+                        "vitrinaVenta" => $row["vitrinaVenta"],
 
                     ];
                     array_push($datos, $data);
@@ -248,42 +246,26 @@ class sqlConsultaDAO
         echo json_encode($datos);
     }
 
-    public function buscarContratoDetalleNombre($idClienteConsulta, $tipoContratoGlobal)
+    public function sqlBuscarVentaNombre($idClienteConsulta)
     {
         $datos = array();
-        $sucursal = $_SESSION["sucursal"];
-
         try {
-            $buscar = "SELECT Mov.id_Contrato AS Contrato,DATE_FORMAT(Mov.fecha_Movimiento,'%d-%m-%Y') AS FechaCreacion,
-                       CMov.descripcion as Movimiento, Mov.id_movimiento AS idMovimiento, s_prestamo_nuevo AS Prestamo,
-                       prestamo_actual  AS PrestamoActual,
-                       e_abono AS Abono, e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, 
-                       s_descuento_aplicado AS DescuentoMov, e_pagoDesempeno AS PagoMov,
-                       CONCAT(Con.tipoInteres, ' ' ,Con.periodo ,' ' ,Con.plazo) AS PlazoMov, e_costoContrato AS CostoContrato,
-                       tipo_movimiento AS MovimientoTipo  
-                       FROM contrato_mov_tbl Mov 
-                       INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                       INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato 
-                       WHERE Con.id_Cliente= $idClienteConsulta AND tipo_Contrato =$tipoContratoGlobal AND Mov.sucursal=$sucursal ORDER BY Mov.id_Contrato";
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT id_Bazar, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
+                        subTotal,iva,descuento_Venta,total,tipo_movimiento
+                        FROM contrato_baz_mov_tbl 
+                        WHERE cliente= $idClienteConsulta AND sucursal= $sucursal ORDER BY id_Bazar";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "Contrato" => $row["Contrato"],
+                        "id_Bazar" => $row["id_Bazar"],
                         "FechaCreacion" => $row["FechaCreacion"],
-                        "Movimiento" => $row["Movimiento"],
-                        "idMovimiento" => $row["idMovimiento"],
-                        "Prestamo" => $row["Prestamo"],
-                        "PrestamoActual" => $row["PrestamoActual"],
-                        "Abono" => $row["Abono"],
-                        "Interes" => $row["InteresMovimiento"],
-                        "Moratorios" => $row["MoratoriosMov"],
-                        "Descuento" => $row["DescuentoMov"],
-                        "Pago" => $row["PagoMov"],
-                        "Plazo" => $row["PlazoMov"],
-                        "CostoContrato" => $row["CostoContrato"],
-                        "MovimientoTipo" => $row["MovimientoTipo"],
-
+                        "subTotal" => $row["subTotal"],
+                        "ivaVenta" => $row["iva"],
+                        "descuento_Venta" => $row["descuento_Venta"],
+                        "totalVenta" => $row["total"],
+                        "tipo_movimientoVenta" => $row["tipo_movimiento"],
 
                     ];
                     array_push($datos, $data);
@@ -294,45 +276,29 @@ class sqlConsultaDAO
         } finally {
             $this->db->closeDB();
         }
-
         echo json_encode($datos);
-        //echo json_encode($datos);
     }
 
-    public function buscarContratoFechas($fechaInicio, $fechaFinal, $tipoContratoGlobal)
+    public function sqlBuscarVentaFechas($fechaInicio, $fechaFinal)
     {
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT Mov.id_contrato AS Contrato,DATE_FORMAT(fecha_Movimiento,'%d-%m-%Y') AS FechaCreacion,CMov.descripcion as Movimiento,
-                        Mov.id_movimiento AS idMovimiento, s_prestamo_nuevo AS Prestamo,
-                        prestamo_actual  AS PrestamoActual,e_abono AS Abono,
-                        e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, s_descuento_aplicado AS DescuentoMov,
-                        e_pagoDesempeno AS PagoMov, CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
-                        FROM contrato_mov_tbl as Mov
-                        INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato 
-                        INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  fecha_Movimiento BETWEEN '$fechaInicio' AND '$fechaFinal' 
-                        ORDER BY Mov.id_Contrato";
+            $buscar = "SELECT id_Bazar, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
+                        subTotal,iva,descuento_Venta,total,tipo_movimiento
+                        FROM contrato_baz_mov_tbl 
+                        WHERE fecha_Creacion BETWEEN '$fechaInicio' AND '$fechaFinal' AND tipo_movimiento=0 AND sucursal= $sucursal ORDER BY id_Bazar";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "Contrato" => $row["Contrato"],
+                        "id_Bazar" => $row["id_Bazar"],
                         "FechaCreacion" => $row["FechaCreacion"],
-                        "Movimiento" => $row["Movimiento"],
-                        "idMovimiento" => $row["idMovimiento"],
-                        "Prestamo" => $row["Prestamo"],
-                        "PrestamoActual" => $row["PrestamoActual"],
-                        "Abono" => $row["Abono"],
-                        "Interes" => $row["InteresMovimiento"],
-                        "Moratorios" => $row["MoratoriosMov"],
-                        "Descuento" => $row["DescuentoMov"],
-                        "Pago" => $row["PagoMov"],
-                        "Plazo" => $row["PlazoMov"],
-                        "CostoContrato" => $row["CostoContrato"],
-                        "MovimientoTipo" => $row["MovimientoTipo"],
-
+                        "subTotal" => $row["subTotal"],
+                        "ivaVenta" => $row["iva"],
+                        "descuento_Venta" => $row["descuento_Venta"],
+                        "totalVenta" => $row["total"],
+                        "tipo_movimientoVenta" => $row["tipo_movimiento"],
 
                     ];
                     array_push($datos, $data);

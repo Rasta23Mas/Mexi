@@ -33,8 +33,6 @@ if($tipoUsuario==2){
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#divDetallesVenta").load('tblDetalleVenta.php');
-            $("#divVenta").load('tblVenta.php');
             $("#idNombreConsulta").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
@@ -72,7 +70,9 @@ if($tipoUsuario==2){
         .inputCliente {
             text-transform: uppercase;
         }
-
+        .letraExtraChica {
+            font-size: .8em;
+        }
 
     </style>
 </head>
@@ -99,17 +99,17 @@ if($tipoUsuario==2){
                 <tr style="background: dodgerblue; color:white; ">
                     <td style="border-style: solid; border-color: #80dfff;">
                         <label class="form-check-label">&nbsp;
-                            <input type="radio" name="consultaPor" id="idVentaRadio" onclick="radioContrato()">
+                            <input type="radio" name="consultaPor" id="idVentaRadio" onclick="fnRadioVenta()">
                             Por Número Venta</label>
                     </td>
                     <td style="border-style: solid; border-color: #80dfff;" colspan="2">&nbsp;
                         <label class="form-check-label">
-                            <input type="radio" name="consultaPor" id="idNombreRadio" onclick="radioNombre()">
+                            <input type="radio" name="consultaPor" id="idNombreRadio" onclick="fnRadioNombre()">
                             Por Nombre&nbsp;</label>
                     </td>
                     <td style="border-style: solid; border-color: #80dfff;" colspan="3">&nbsp;
                         <label class="form-check-label">
-                            <input type="radio" name="consultaPor" id="idFechaRadio" onclick="radioFecha()">
+                            <input type="radio" name="consultaPor" id="idFechaRadio" onclick="fnRadioFecha()">
                             Por Fecha&nbsp;</label>
                     </td>
                 </tr>
@@ -117,14 +117,14 @@ if($tipoUsuario==2){
                     <td align="center" style="width: 180px" class="border-primary border">
                         <label>Num. Venta:</label>
                         <input type="text" name="idVentaName" id="idVentaConsulta" style="width: 70px"
-                               onkeypress="return ventaBusquedaCon(event)" disabled/>
+                               onkeypress="return fnEnterBusquedaVenta(event)" disabled/>
                     </td>
                     <td align="center" style="width: 120px" class="border-primary border border-right-0">
                         <label>Nombre:</label>
                     </td>
                     <td class="border-primary border border-left-0" style="width: 350px">
                         <input id="idNombreConsulta" name="Nombres" type="text" style="width: 300px"
-                               class="inputCliente" onkeypress="nombreAutocompletarConsulta()"
+                               class="inputCliente" onkeypress="fnClienteAutoCompleteVen()"
                                placeholder="Buscar Cliente..." disabled/>
                         <div align="left" id="suggestionsNombreEmpeno"></div>
                     </td>
@@ -160,15 +160,28 @@ if($tipoUsuario==2){
                     </td>
                     <td colspan="4"   class="border-primary border-right">
                         <div id="divDetallesVenta" class="col col-lg-12">
+                            <table class="table table-hover table-condensed table-bordered" width="100%">
+                                <thead  style="background: dodgerblue; color:white;">
+                                <tr align="center">
+                                    <th>Código</th>
+                                    <th>Articulo</th>
+                                    <th>Vitrina</th>
+                                    <th>Vitrina Final</th>
+                                    <th>Fotos</th>
+                                </tr>
+                                </thead>
+                                <tbody id="idTBodyVentaDet">
+                                </tbody>
+                            </table>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="6" class="border-primary border border-top-0 border-bottom-0">&nbsp;
                         <input type="button" class="btn btn-primary" id="btnBuscarConsulta" value="Buscar"
-                               onclick="BusquedaConsulta()" disabled>&nbsp;&nbsp;&nbsp;&nbsp;
+                               onclick="fnBusquedaVenta()" disabled>&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="button" class="btn btn-warning" id="btnLimpiarConsulta" value="Limpiar"
-                               onclick="LimpiarConsulta()">&nbsp;
+                               onclick="fnLimpiarConsultaV()">&nbsp;
                     </td>
                 </tr>
                 <tr>
@@ -185,15 +198,29 @@ if($tipoUsuario==2){
                     <td colspan="6">
                         <br>
                         <div id="divVenta" class="col col-lg-12">
+                            <table class="table table-hover table-condensed table-bordered" width="100%">
+                                <thead style="background: dodgerblue; color:white;">
+                                <tr align="center">
+                                    <th>Num Venta</th>
+                                    <th>Creación</th>
+                                    <th>Subtotal</th>
+                                    <th>IVA</th>
+                                    <th>Descuento</th>
+                                    <th>Total</th>
+                                    <th>Ver</th>
+                                    <th>Imprimir</th>
+                                </tr>
+                                </thead>
+                                <tbody id="idTBodyVenta" class="letraExtraChica" align="center">
+                                </tbody>
+                            </table>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="6" style="visibility: hidden">
-                        cliente
                         <input type="text" name="idCliente" id="idClienteConsulta" style="width: 70px"
                                disabled/>
-                        contrato
                         <input type="text" name="idCliente" id="idVentaBusqueda" style="width: 70px"
                                disabled/>
                     </td>

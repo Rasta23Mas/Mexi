@@ -256,6 +256,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
 
                     var Formulario = datos[i].Formulario;
                     var Obs = "";
+                    var Serie = "";
                     if (Formulario == 3) {
                         var Marca = datos[i].Marca;
                         var Modelo = datos[i].Modelo;
@@ -263,6 +264,8 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                         var Anio = datos[i].Anio;
                         var ColorAuto = datos[i].ColorAuto;
                          Obs = datos[i].Obs;
+                        Serie = datos[i].Serie;
+
                         var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto;
                         html += '<tr align="center">' +
                             '<td>' + idContratoBusqueda + '</td>' +
@@ -271,11 +274,12 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             '<td>' + Descripcion + '</td>' +
                             '<td>' + Obs + '</td>' +
                             '<td align="center">' +
-                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ',' + Num + ')">' +
+                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + Serie + ')">' +
                             '</td>' +
                             '</tr>';
                     } else {
                         var serieArticulo = datos[i].id_SerieArticulo;
+                         Serie = datos[i].Serie;
                         var DescripcionCorta = datos[i].DescripcionCorta;
                          Obs = datos[i].Obs;
                         html += '<tr align="center">' +
@@ -284,7 +288,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             '<td>' + DescripcionCorta + '</td>' +
                             '<td>' + Obs + '</td>' +
                             '<td align="center">' +
-                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + idContratoBusqueda + ',' + serieArticulo + ')">' +
+                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + Serie + ')">' +
                             '</td>' +
                             '</tr>';
 
@@ -628,6 +632,6 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
     });
 }
 
-function verFotosContrato(idContrato, SerieArticulo) {
-    location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato + '&articulo=' + SerieArticulo;
+function verFotosContrato(Serie) {
+    location.href = '../ImagenContrato/vImagenesContrato.php?Serie=' + Serie ;
 }
