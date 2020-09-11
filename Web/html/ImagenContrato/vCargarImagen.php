@@ -1,10 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
-$idContrato = 0;
-if (isset($_GET['idContrato'])) {
-    $idContrato = $_GET['idContrato'];
-}
+
 $tipoUsuario = $_SESSION['tipoUsuario'];
 if ($tipoUsuario == 2) {
     include_once(HTML_PATH . "menuAdmin.php");
@@ -26,8 +23,6 @@ if ($tipoUsuario == 2) {
 
     <script type="application/javascript">
         $(document).ready(function () {
-            var idContratoFotos = <?php echo $idContrato ?>;
-            $("#idContratoFotos").val(idContratoFotos);
             //llenarTablaImagen(idContratoFotos);
             $("#divContratoFotos").load('tablaImagen.php');
         })

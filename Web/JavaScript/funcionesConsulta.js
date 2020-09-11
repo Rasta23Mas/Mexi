@@ -633,5 +633,5 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
 }
 
 function verFotosContrato(Serie) {
-    location.href = '../ImagenContrato/vImagenesContrato.php?Serie=' + Serie ;
+    location.href = '../ImagenContrato/vImagenesContrato.php?tipo=1&Serie=' + Serie ;
 }

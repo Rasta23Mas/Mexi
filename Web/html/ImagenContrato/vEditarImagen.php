@@ -5,11 +5,7 @@ error_reporting( ~E_NOTICE );
 include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
 
-$idContrato = 3;
-$articulo = 3;
-if (isset($_GET['idContrato'])) {
-    $idContrato = $_GET['idContrato'];
-}
+
 if (isset($_GET['articulo'])) {
     $articulo = $_GET['articulo'];
 }
@@ -95,7 +91,7 @@ if(isset($_POST['btn_save_updates']))
 
         if($stmt->execute()){
             $successMSG = "Registro editado correctamente ...";
-            header("refresh:1;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
+            header("refresh:1;vImagenesContrato.php?articulo=".$articulo); // redirects image view page after 5 seconds.
         }
         else{
             $errMSG = "Los datos no fueron actualizados !";
@@ -168,12 +164,6 @@ if ($tipoUsuario == 2) {
         }
         ?>
         <table class="table table-bordered table-responsive">
-            <tr>
-                <td><label class="control-label">Contrato</label></td>
-                <td><input class="form-control" type="text" name="contrato_name" id="idContratoFotos"
-                           value="<?php echo $idContrato; ?>"
-                           style="width: 80px" disabled/></td>
-            </tr>
             <tr>
                 <td><label class="control-label">Articulo</label></td>
                 <td><input class="form-control" type="text" name="art_name" id="idArticuloFotos"

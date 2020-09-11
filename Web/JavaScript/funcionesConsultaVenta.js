@@ -124,8 +124,9 @@ function fnBusquedaDatosCliente(idVenta) {
                     $("#idDireccionConsulta").val(direccionCompleta);
                     $("#idVentaBusqueda").val(idVentaBusqueda);
                 }
-                fnCargarTblVenta(idVentaBusqueda);
-
+                if(radioSelectGlb!=3) {
+                    fnCargarTblVenta(idVentaBusqueda);
+                }
             } else {
                 alertify.error("La venta no existe.");
             }
@@ -183,14 +184,12 @@ function fnCargarTblVenta(idVentaBusqueda) {
              var BitfechaIni = null;
              var BitfechaFin = null;
             fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin);
-            fnCargarTblDetalleVenta(id_Bazar);
+            fnCargarTblDetalleVenta(idVentaBusqueda);
         }
     });
 
 
 }
-
-
 
 function fnCargarTblNombre() {
     var idClienteConsulta = $("#idClienteConsulta").val();
@@ -415,37 +414,18 @@ function fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin) 
 }
 
 function fnReimprimirVentas(idBazar, idMovimiento) {
-    VentaReimprimirGlb = Contrato;
-    if (tipoMovimiento == 3) {
-        //3 = Empeño
-        window.open('../PDF/callPdfContrato.php?contrato=' + VentaReimprimirGlb + '&reimpresion=1');
-    } else if (tipoMovimiento == 4) {
-        //4 = Refrendo
-        window.open('../PDF/callPdfRefrendo.php?contrato=' + VentaReimprimirGlb + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
-    } else if (tipoMovimiento == 5) {
-        //5 = Desempeño
-        window.open('../PDF/callPdfDesempeno.php?contrato=' + VentaReimprimirGlb + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
-    } else if (tipoMovimiento == 6) {
-        //6 = Vent8a
-    } else if (tipoMovimiento == 7) {
-        //7 = Empeño Auto
-        window.open('../PDF/callPdfContrato.php?contrato=' + VentaReimprimirGlb + '&reimpresion=1');
-    } else if (tipoMovimiento == 8) {
-        //8 = Refrendo Auto
-        window.open('../PDF/callPdfRefrendo.php?contrato=' + VentaReimprimirGlb + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
-    } else if (tipoMovimiento == 9) {
-        //9 = Desempeño Auto
-        window.open('../PDF/callPdfDesempeno.php?contrato=' + VentaReimprimirGlb + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
-    } else if (tipoMovimiento == 10) {
-        //10 = Venta Auto
-    } else if (tipoMovimiento == 21) {
-        //21 = Desempeño sin interes
-        window.open('../PDF/callPdfDesempenoSinInteres.php?contrato=' + VentaReimprimirGlb + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
-    } else if (tipoMovimiento == 20) {
-        //20 = Cancelado
+    if (idMovimiento == 6) {
+        //6 = Venta
+        window.open('../PDF/callPdfVenta.php?reimpresion=1&idBazar=' + idBazar);
+    } else if (idMovimiento == 22) {
+        //4 = Abono
+        window.open('../PDF/callPdfAbono.php?reimpresion=1&idBazar=' + idBazar);
+    } else if (idMovimiento == 23) {
+        //6 = Apartado
+        window.open('../PDF/callPdfApartados.php?reimpresion=1&idBazar=' + idBazar);
     }
 }
 
 function verFotosContrato(id_serie) {
-    location.href = '../ImagenContrato/vImagenesContrato.php?idContrato=' + idContrato + '&articulo=' + id_serie;
+    location.href = '../ImagenContrato/vImagenesContrato.php?tipo=2&Serie=' + id_serie;
 }

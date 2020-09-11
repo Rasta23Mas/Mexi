@@ -187,7 +187,6 @@ class sqlConsultaDAO
                         FROM articulo_bazar_tbl ART
                         INNER JOIN bit_ventas as VEN ON ART.id_ArticuloBazar = VEN.id_ArticuloBazar
                         WHERE VEN.id_Bazar = $idVentaBusqueda AND VEN.sucursal = $sucursal";
-            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

@@ -6,11 +6,8 @@ error_reporting(~E_NOTICE); // avoid notice
 include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
 
-$idContrato = 0;
 $articulo = 0;
-if (isset($_GET['idContrato'])) {
-    $idContrato = $_GET['idContrato'];
-}
+
 if (isset($_GET['articulo'])) {
     $articulo = $_GET['articulo'];
 }
@@ -59,9 +56,8 @@ if (isset($_POST['btnsave'])) {
         $idCierreCaja = $_SESSION['idCierreCaja'];
         $desc = mb_strtoupper($desc, 'UTF-8');
 
-        $stmt = $DB_con->prepare('INSERT INTO cat_imagenes(id_contrato,articulo,descripcion,id_cierreCaja,fechaCreacion,Imagen_Img) 
+        $stmt = $DB_con->prepare('INSERT INTO cat_imagenes(articulo,descripcion,id_cierreCaja,fechaCreacion,Imagen_Img) 
 VALUES(:contrato,:art,:des,:cierre,:fecha,:upic)');
-        $stmt->bindParam(':contrato', $idContrato);
         $stmt->bindParam(':art', $articulo);
         $stmt->bindParam(':des', $desc);
         $stmt->bindParam(':cierre', $idCierreCaja);
@@ -70,7 +66,7 @@ VALUES(:contrato,:art,:des,:cierre,:fecha,:upic)');
 
         if ($stmt->execute()) {
             $successMSG = "Nuevo registro insertado correctamente ...";
-            header("refresh:1;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
+            header("refresh:1;vImagenesContrato.php?articulo=".$articulo); // redirects image view page after 5 seconds.
         } else {
             $errMSG = "Error al insertar ...";
         }
@@ -144,12 +140,6 @@ if ($tipoUsuario == 2) {
         <div class="col-md-5">
             <form method="post" enctype="multipart/form-data" class="form-horizontal">
                 <table class="table table-bordered ">
-                    <tr>
-                        <td><label class="control-label">Contrato</label></td>
-                        <td><input class="form-control" type="text" name="contrato_name" id="idContratoFotos"
-                                   value="<?php echo $idContrato; ?>"
-                                   style="width: 80px" disabled/></td>
-                    </tr>
                     <tr>
                         <td><label class="control-label">Articulo</label></td>
                         <td><input class="form-control" type="text" name="art_name" id="idArticuloFotos"

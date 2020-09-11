@@ -6,13 +6,13 @@ include_once(BASE_PATH . "ConexionImg.php");
 date_default_timezone_set('America/Mexico_City');
 
 // Condicional para validar el borrado de la imagen
-$idContrato = 0;
+
 $articulo = 0;
-if (isset($_GET['idContrato'])) {
-    $idContrato = $_GET['idContrato'];
+if (isset($_GET['tipo'])) {
+    $tipo = $_GET['tipo'];
 }
-if (isset($_GET['articulo'])) {
-    $articulo = $_GET['articulo'];
+if (isset($_GET['Serie'])) {
+    $articulo = $_GET['Serie'];
 }
 
 if (isset($_GET['delete_id'])) {
@@ -33,7 +33,7 @@ if (isset($_GET['delete_id'])) {
     // Redireccioa al inicio
     // header("Location: vImagenesContrato.php");
     $successMSG = "Registro eliminado exitosamente ...";
-    header("refresh:1;vImagenesContrato.php?idContrato=".$idContrato ."&articulo=".$articulo); // redirects image view page after 5 seconds.
+    header("refresh:1;vImagenesContrato.php?articulo=".$articulo); // redirects image view page after 5 seconds.
 
 }
 
@@ -54,9 +54,6 @@ if ($tipoUsuario == 2) {
     <script src="../../JavaScript/funcionesImagen.js"></script>
     <script type="application/javascript">
         $(document).ready(function () {
-            var idContrato = <?php echo $idContrato ?>;
-            $("#idContratoFotos").val(idContrato);
-
             var articulo = <?php echo $articulo ?>;
             $("#idArticuloFotos").val(articulo);
         })
@@ -112,14 +109,9 @@ if ($tipoUsuario == 2) {
         <div class="col-xs-4">
             <table class="table table-bordered ">
                 <tr>
-                    <td><label class="control-label">Contrato</label></td>
-                    <td><input class="form-control" type="text" name="user_name" id="idContratoFotos"
-                               style="width: 80px" disabled/></td>
-                </tr>
-                <tr>
                     <td><label class="control-label">Articulo</label></td>
                     <td><input class="form-control" type="text" name="user_name" id="idArticuloFotos"
-                               style="width: 80px" disabled/></td>
+                               style="width: 200px" disabled/></td>
                 </tr>
             </table>
         </div>
@@ -127,7 +119,7 @@ if ($tipoUsuario == 2) {
     <div class="row">
         <?php
        // $stmt = $DB_con->prepare('SELECT Imagen_ID, Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes ORDER BY Imagen_ID DESC');
-        $stmt = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE id_contrato =  '. $idContrato .' AND articulo = '. $articulo .' AND Eliminado = 0  ORDER BY Imagen_ID DESC');
+        $stmt = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE articulo = '. $articulo .' AND Eliminado = 0  ORDER BY Imagen_ID DESC');
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {

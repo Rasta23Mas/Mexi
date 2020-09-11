@@ -12,7 +12,10 @@ if (!isset($_SESSION)) {
 $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
 
-
+$reimpresion = '';
+if (isset($_GET['reimpresion'])) {
+    $reimpresion = "REIMPRESIÓN";
+}
 if (isset($_GET['idBazar'])) {
     $id_Bazar = $_GET['idBazar'];
 }
@@ -159,7 +162,7 @@ $contenido .= '<table width="100%" border="0">
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label>APARTADO</label>
+                        <label>' . $reimpresion . ' APARTADO</label>
                     </td>
                 </tr>
                 <tr>
