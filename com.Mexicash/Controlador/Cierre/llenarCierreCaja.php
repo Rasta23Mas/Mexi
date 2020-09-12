@@ -26,7 +26,7 @@ if($tipo==1){
 }else if($tipo==8){
     $sqlTblCierre->validaCierreCajaArqueo($idCierreCaja);
 }else if($tipo==9){
-    $sqlTblCierre->llenarEntradasySalidasVentas($idCierreCaja);
+    $sqlTblCierre->sqlLlenarEntradasySalidasVentas($idCierreCaja);
 }
 
 

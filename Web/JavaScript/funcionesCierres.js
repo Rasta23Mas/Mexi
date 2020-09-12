@@ -494,18 +494,17 @@ function entradasSalidasVentas() {
 
             for (i; i < datos.length; i++) {
                 var tipo_movimiento = datos[i].tipo_movimiento;
-                tipo_movimiento = Number(tipo_movimiento);
                 //VENTA
-                var s_descuento_venta = datos[i].s_descuento_venta;
-                var e_venta_mostrador = datos[i].e_venta_mostrador;
-                var e_venta_iva = datos[i].e_venta_iva;
-                var e_venta_apartados = datos[i].e_venta_apartados;
-                var e_venta_abono = datos[i].e_venta_abono;
+                var s_descuento_venta = datos[i].descuento_Venta;
+                var e_venta_mostrador = datos[i].subTotal;
+                var e_venta_iva = datos[i].iva;
+                var e_venta_apartados = datos[i].apartado;
+                var e_venta_abono = datos[i].abono;
 
                 //VENTA
 
                 //Venta y Venta Auto 6 y 10
-                if (tipo_movimiento == 6 || tipo_movimiento == 10) {
+                if (tipo_movimiento == 6) {
                     e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
                     e_venta_iva = Math.round(e_venta_iva * 100) / 100;
 
@@ -513,7 +512,7 @@ function entradasSalidasVentas() {
                     venta += e_venta_mostrador;
                     CantVentaIVA++;
                     ventaIVA = e_venta_iva;
-                    if (s_descuento_venta !== 0) {
+                    if (s_descuento_venta != 0) {
                         s_descuento_venta = Math.round(s_descuento_venta * 100) / 100;
                         CantDescuentoVenta++;
                         ventaDescuento += s_descuento_venta;
@@ -522,15 +521,12 @@ function entradasSalidasVentas() {
                 //Venta apartado 22
                 if (tipo_movimiento == 22) {
                     e_venta_apartados = Math.round(e_venta_apartados * 100) / 100;
-
                     CantApartado++;
                     ventaApartado += e_venta_apartados;
                 }
                 //Venta apartado 23
                 if (tipo_movimiento == 23) {
-
                     e_venta_abono = Math.round(e_venta_abono * 100) / 100;
-
                     CantAbono++;
                     ventaAbono += e_venta_abono;
                 }

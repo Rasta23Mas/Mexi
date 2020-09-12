@@ -226,27 +226,24 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function llenarEntradasySalidasVentas($idCierreCaja)
+    function sqlLlenarEntradasySalidasVentas($idCierreCaja)
     {
         $datos = array();
         try {
 
-            $buscar = "SELECT Baz.tipo_movimiento, Baz.descuento_Venta,Baz.precio_venta,Baz.iva,Baz.apartado,Baz.abono 
-                       FROM contrato_baz_mov_tbl Baz 
-                       WHERE Baz.id_CierreCaja=$idCierreCaja AND Baz.tipo_movimiento !=20 ";
-
+            $buscar = "SELECT tipo_movimiento,subTotal,abono,apartado,descuento_Venta,iva
+                       FROM contrato_baz_mov_tbl  
+                       WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "tipo_movimiento" => $row["tipo_movimiento"],
-                        "s_descuento_venta" => $row["descuento_Venta"],
-                        "e_venta_mostrador" => $row["precio_venta"],
-                        "e_venta_iva" => $row["iva"],
-                        "e_venta_apartados" => $row["apartado"],
-                        "e_venta_abono" => $row["abono"],
-
-
+                        "subTotal" => $row["subTotal"],
+                        "abono" => $row["abono"],
+                        "apartado" => $row["apartado"],
+                        "descuento_Venta" => $row["descuento_Venta"],
+                        "iva" => $row["iva"],
                     ];
                     array_push($datos, $data);
                 }

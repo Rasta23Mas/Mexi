@@ -278,7 +278,7 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                     </tr>
 
                     <tr>
-                        <td colspan="2" class="">
+                        <td colspan="2" class="invisible">
                             <input type="text" name="userSesion" id="idUserSesion" style="width: 100px"
                                    disabled/>
                             <input type="text" name="cierreCaja" id="idCierreCajaSesion" style="width: 100px"
