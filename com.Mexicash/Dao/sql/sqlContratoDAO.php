@@ -183,7 +183,8 @@ class sqlContratoDAO
 
         try {
             $buscar = "SELECT  Con.id_Formulario AS Formulario,Art.id_SerieArticulo,
-                        Art.descripcionCorta AS DescripcionCorta,  Art.observaciones AS Obs
+                        Art.descripcionCorta AS DescripcionCorta,  Art.observaciones AS Obs,
+                        CONCAT(id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) AS Serie
                         FROM contratos_tbl as Con 
                         INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
                         INNER JOIN articulo_tbl as Art on Con.id_Contrato =  Art.id_Contrato
@@ -196,6 +197,7 @@ class sqlContratoDAO
                         "id_SerieArticulo" => $row["id_SerieArticulo"],
                         "DescripcionCorta" => $row["DescripcionCorta"],
                         "Obs" => $row["Obs"],
+                        "Serie" => $row["Serie"],
 
                     ];
                     array_push($datos, $data);

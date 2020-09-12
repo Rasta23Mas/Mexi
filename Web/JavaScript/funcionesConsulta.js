@@ -273,7 +273,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             '<td>' + Descripcion + '</td>' +
                             '<td>' + Obs + '</td>' +
                             '<td align="center">' +
-                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + Serie + ')">' +
+                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(\'' + Serie + '\')">' +
                             '</td>' +
                             '</tr>';
                     } else {
@@ -287,7 +287,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             '<td>' + DescripcionCorta + '</td>' +
                             '<td>' + Obs + '</td>' +
                             '<td align="center">' +
-                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + Serie + ')">' +
+                            '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(\'' + Serie + '\')">' +
                             '</td>' +
                             '</tr>';
 
