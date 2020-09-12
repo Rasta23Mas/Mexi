@@ -201,3 +201,5 @@ function DosDecimales(monto) {
 //document.getElementById("myCheck").checked = false;
 //reload
 //var  recargar = setTimeout(function(){ location.reload() }, 3000);
+//onclick String
+//onclick="verFotosContrato(\'' + id_serie + '\')

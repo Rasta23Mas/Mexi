@@ -265,7 +265,6 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                         var ColorAuto = datos[i].ColorAuto;
                          Obs = datos[i].Obs;
                         Serie = datos[i].Serie;
-
                         var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto;
                         html += '<tr align="center">' +
                             '<td>' + idContratoBusqueda + '</td>' +
@@ -633,5 +632,5 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
 }
 
 function verFotosContrato(Serie) {
-    location.href = '../ImagenContrato/vImagenesContrato.php?tipo=1&Serie=' + Serie ;
+    location.href = '../ImagenContrato/vImagenesContrato.php?tipo=1&articulo=' + Serie ;
 }

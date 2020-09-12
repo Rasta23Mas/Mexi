@@ -336,14 +336,13 @@ function fnCargarTblDetalleVenta(idVentaBusqueda) {
                 var vitrinaVenta = datos[i].vitrinaVenta;
                 vitrina = formatoMoneda(vitrina);
                 vitrinaVenta = formatoMoneda(vitrinaVenta);
-
                 html += '<tr align="center">' +
                     '<td>' + id_serie + '</td>' +
                     '<td>' + descripcionCorta + '</td>' +
                     '<td>' + vitrina + '</td>' +
                     '<td>' + vitrinaVenta + '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(' + id_serie + ')">' +
+                    '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(\'' + id_serie + '\')">' +
                     '</td>' +
                     '</tr>';
 
@@ -427,5 +426,5 @@ function fnReimprimirVentas(idBazar, idMovimiento) {
 }
 
 function verFotosContrato(id_serie) {
-    location.href = '../ImagenContrato/vImagenesContrato.php?tipo=2&Serie=' + id_serie;
+    location.href = '../ImagenContrato/vImagenesContrato.php?tipo=2&articulo=' + id_serie;
 }

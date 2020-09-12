@@ -168,7 +168,7 @@ if ($tipoUsuario == 2) {
                 <td><label class="control-label">Articulo</label></td>
                 <td><input class="form-control" type="text" name="art_name" id="idArticuloFotos"
                            value="<?php echo $articulo; ?>"
-                           style="width: 80px" disabled/></td>
+                           style="width: 140px; text-align: center" disabled/></td>
             </tr>
             <tr>
                 <td><label class="control-label">Descripción.</label></td>

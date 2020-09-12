@@ -11,8 +11,8 @@ $articulo = 0;
 if (isset($_GET['tipo'])) {
     $tipo = $_GET['tipo'];
 }
-if (isset($_GET['Serie'])) {
-    $articulo = $_GET['Serie'];
+if (isset($_GET['articulo'])) {
+    $articulo = $_GET['articulo'];
 }
 
 if (isset($_GET['delete_id'])) {
@@ -44,7 +44,8 @@ if ($tipoUsuario == 2) {
     include_once(HTML_PATH . "menuGeneral.php");
 } elseif ($tipoUsuario == 4) {
     include_once(HTML_PATH . "menuVendedor.php");
-}?>
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -52,12 +53,7 @@ if ($tipoUsuario == 2) {
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes"/>
     <title>Subir imagen.</title>
     <script src="../../JavaScript/funcionesImagen.js"></script>
-    <script type="application/javascript">
-        $(document).ready(function () {
-            var articulo = <?php echo $articulo ?>;
-            $("#idArticuloFotos").val(articulo);
-        })
-    </script>
+
 </head>
 
 <body>
@@ -109,9 +105,9 @@ if ($tipoUsuario == 2) {
         <div class="col-xs-4">
             <table class="table table-bordered ">
                 <tr>
-                    <td><label class="control-label">Articulo</label></td>
-                    <td><input class="form-control" type="text" name="user_name" id="idArticuloFotos"
-                               style="width: 200px" disabled/></td>
+                    <td><label class="control-label">Articulos</label></td>
+                    <td><input class="form-control" type="text" name="user_name" id="idArticuloFotos" value="<?php echo $articulo ?>"
+                               style="width: 140px; text-align: center" disabled/></td>
                 </tr>
             </table>
         </div>

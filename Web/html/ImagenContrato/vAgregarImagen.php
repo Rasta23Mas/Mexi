@@ -57,7 +57,7 @@ if (isset($_POST['btnsave'])) {
         $desc = mb_strtoupper($desc, 'UTF-8');
 
         $stmt = $DB_con->prepare('INSERT INTO cat_imagenes(articulo,descripcion,id_cierreCaja,fechaCreacion,Imagen_Img) 
-VALUES(:contrato,:art,:des,:cierre,:fecha,:upic)');
+VALUES(:art,:des,:cierre,:fecha,:upic)');
         $stmt->bindParam(':art', $articulo);
         $stmt->bindParam(':des', $desc);
         $stmt->bindParam(':cierre', $idCierreCaja);
@@ -144,7 +144,7 @@ if ($tipoUsuario == 2) {
                         <td><label class="control-label">Articulo</label></td>
                         <td><input class="form-control" type="text" name="art_name" id="idArticuloFotos"
                                    value="<?php echo $articulo; ?>"
-                                   style="width: 80px" disabled/></td>
+                                   style="width: 140px; text-align: center" disabled/></td>
                     </tr>
 
                     <tr>
