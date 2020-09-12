@@ -5,5 +5,5 @@ include_once(SQL_PATH . "sqlCierreDAO.php");
 $idCierreCaja = $_POST['idCierreCaja'];
 
 $sqlCierre = new sqlCierreDAO();
-$sqlCierre->ArqueoEntradasySalidasVentas($idCierreCaja);
+$sqlCierre->sqlArqueoEntradasySalidasVentas($idCierreCaja);
 

@@ -278,7 +278,7 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                     </tr>
 
                     <tr>
-                        <td colspan="2" class="invisible">
+                        <td colspan="2" class="">
                             <input type="text" name="userSesion" id="idUserSesion" style="width: 100px"
                                    disabled/>
                             <input type="text" name="cierreCaja" id="idCierreCajaSesion" style="width: 100px"
@@ -301,7 +301,7 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                             <label>interes auto</label>
                             <input type="text" name="saldoCajaAuto" id="idSaldoCajaAuto" style="width: 100px"
                                    disabled/>
-                            <label>vanta</label>
+                            <label>venta</label>
                             <input type="text" name="saldoVenta" id="idSaldoVenta" style="width: 100px"
                                    disabled/>
                             <label>saldo caja</label>
