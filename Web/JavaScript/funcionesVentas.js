@@ -6,6 +6,10 @@ var id_ClienteGlb = 0;
 var id_VendedorGlb = 0;
 var idSubtotalGlb = 0;
 var idIvaGlb = 0;
+var idTokenSubtotalGlb = 0;
+var idTokenIvaGlb = 0;
+var idTokenTotalGlb = 0;
+var idTokenDescuentoGlb = 0;
 var idTokenGLb = 0;
 
 function buscaridBazar() {
@@ -390,7 +394,6 @@ function validaVenta() {
             if (descuento == 0) {
                 guardarVenta();
             } else {
-                guardarVenta();
                 //$("#modalDescuentoVenta").modal();
             }
         }
@@ -451,6 +454,10 @@ function guardarVenta() {
             tokenDesc = $("#tokenDescripcion").val();
         }
         var idBazar = $("#idBazar").val();
+        idTokenSubtotalGlb =subtotal;
+        idTokenIvaGlb =iva;
+        idTokenDescuentoGlb =descuento;
+        idTokenTotalGlb =total;
 
         var dataEnviar = {
             "tipo_movimiento": tipo_movimientoGlb,
@@ -492,9 +499,32 @@ function ArticulosUpdateVenta() {
         url: '../../../com.Mexicash/Controlador/Ventas/UpdateArticulos.php',
         data: dataEnviar,
         success: function (response) {
-            alert(response)
             if (response > 0) {
                 alertify.success("Artículos actualizados correctamente.")
+                fnUpdateToken();
+            } else {
+                alertify.error("Error en al conectar con el servidor.")
+            }
+        }
+    });
+}
+function fnUpdateToken() {
+    var dataEnviar = {
+        "idTokenSubtotalGlb": idTokenSubtotalGlb,
+        "idTokenIvaGlb": idTokenIvaGlb,
+        "idTokenTotalGlb": idTokenTotalGlb,
+        "idTokenDescuentoGlb": idTokenDescuentoGlb,
+        "idToken": $("#idToken").val(),
+        "tokenDesc": $("#tokenDescripcion").val(),
+        "idTokenMov": 7,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Token/TokenVentas.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
                 fnBitacoraVenta();
             } else {
                 alertify.error("Error en al conectar con el servidor.")

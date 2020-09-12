@@ -166,4 +166,43 @@ class sqlTokenDAO
         }
         echo $verdad;
     }
+
+    public function sqlTokenVentas($idTokenSubtotalGlb, $idTokenIvaGlb, $idTokenTotalGlb, $idTokenDescuentoGlb, $idToken, $tokenDesc, $idTokenMov)
+    {
+        $token = mb_strtoupper($tokenDesc, 'UTF-8');
+        $fechaCreacion = date('Y-m-d H:i:s');
+        $usuario = $_SESSION["idUsuario"];
+        $sucursal = $_SESSION["sucursal"];
+        try {
+            $insertaBitacora = "INSERT INTO bit_token_ventas ( id_tokenMovimiento, token,
+                                                descripcion, subtotal,iva, descuento, total,usuario, sucursal, fecha_Creacion)
+                                        VALUES ($idTokenMov,$idToken, '$token',$idTokenSubtotalGlb,$idTokenIvaGlb,$idTokenDescuentoGlb,$idTokenTotalGlb, $usuario, $sucursal,'$fechaCreacion')";
+            if ($ps = $this->conexion->prepare($insertaBitacora)) {
+                if ($ps->execute()) {
+                    $updateToken = "UPDATE cat_token SET
+                                         estatus = 2
+                                        WHERE id_token =$idTokenMov";
+                    if ($ps = $this->conexion->prepare($updateToken)) {
+                        if ($ps->execute()) {
+                            $verdad = mysqli_stmt_affected_rows($ps);
+                        } else {
+                            $verdad = -1;
+                        }
+                    } else {
+                        $verdad = -1;
+                    }
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
 }
