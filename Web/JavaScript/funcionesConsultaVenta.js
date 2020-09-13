@@ -155,6 +155,7 @@ function fnCargarTblVenta(idVentaBusqueda) {
                 var descuento_Venta = datos[i].descuento_Venta;
                 var total = datos[i].totalVenta;
                 var tipo_movimiento = datos[i].tipo_movimientoVenta;
+                var Movimiento = datos[i].Movimiento;
 
                 subTotal = formatoMoneda(subTotal);
                 iva = formatoMoneda(iva);
@@ -165,6 +166,7 @@ function fnCargarTblVenta(idVentaBusqueda) {
 
                 html += '<tr>' +
                     '<td >' + id_Bazar + '</td>' +
+                    '<td >' + Movimiento + '</td>' +
                     '<td>' + FechaCreacion + '</td>' +
                     '<td>' + subTotal + '</td>' +
                     '<td>' + iva + '</td>' +
@@ -213,6 +215,7 @@ function fnCargarTblNombre() {
                 var descuento_Venta = datos[i].descuento_Venta;
                 var total = datos[i].totalVenta;
                 var tipo_movimiento = datos[i].tipo_movimientoVenta;
+                var Movimiento = datos[i].Movimiento;
 
                 subTotal = formatoMoneda(subTotal);
                 iva = formatoMoneda(iva);
@@ -223,6 +226,7 @@ function fnCargarTblNombre() {
 
                 html += '<tr>' +
                     '<td >' + id_Bazar + '</td>' +
+                    '<td >' + Movimiento + '</td>' +
                     '<td>' + FechaCreacion + '</td>' +
                     '<td>' + subTotal + '</td>' +
                     '<td>' + iva + '</td>' +
@@ -279,6 +283,7 @@ function fnCargarTblFechas() {
                     var descuento_Venta = datos[i].descuento_Venta;
                     var total = datos[i].totalVenta;
                     var tipo_movimiento = datos[i].tipo_movimientoVenta;
+                    var Movimiento = datos[i].Movimiento;
 
                     subTotal = formatoMoneda(subTotal);
                     iva = formatoMoneda(iva);
@@ -289,6 +294,7 @@ function fnCargarTblFechas() {
 
                     html += '<tr>' +
                         '<td >' + id_Bazar + '</td>' +
+                        '<td >' + Movimiento + '</td>' +
                         '<td>' + FechaCreacion + '</td>' +
                         '<td>' + subTotal + '</td>' +
                         '<td>' + iva + '</td>' +
@@ -418,10 +424,10 @@ function fnReimprimirVentas(idBazar, idMovimiento) {
         window.open('../PDF/callPdfVenta.php?reimpresion=1&idBazar=' + idBazar);
     } else if (idMovimiento == 22) {
         //4 = Abono
-        window.open('../PDF/callPdfAbono.php?reimpresion=1&idBazar=' + idBazar);
+        window.open('../PDF/callPdfApartados.php?reimpresion=1&idBazar=' + idBazar);
     } else if (idMovimiento == 23) {
         //6 = Apartado
-        window.open('../PDF/callPdfApartados.php?reimpresion=1&idBazar=' + idBazar);
+        window.open('../PDF/callPdfAbono.php?reimpresion=1&idBazar=' + idBazar);
     }
 }
 

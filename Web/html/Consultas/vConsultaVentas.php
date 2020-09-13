@@ -202,6 +202,7 @@ if($tipoUsuario==2){
                                 <thead style="background: dodgerblue; color:white;">
                                 <tr align="center">
                                     <th>Num Venta</th>
+                                    <th>Movimiento</th>
                                     <th>Creación</th>
                                     <th>Subtotal</th>
                                     <th>IVA</th>

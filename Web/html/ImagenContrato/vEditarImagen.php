@@ -14,7 +14,6 @@ if(isset($_GET['edit_id']) && !empty($_GET['edit_id']))
 {
     $id = $_GET['edit_id'];
 
-    //$stmt_edit = $DB_con->prepare('SELECT Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes WHERE Imagen_ID =:uid');
     $stmt_edit = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE Imagen_ID =:uid');
     $stmt_edit->execute(array(':uid'=>$id));
     $edit_row = $stmt_edit->fetch(PDO::FETCH_ASSOC);
@@ -67,11 +66,6 @@ if(isset($_POST['btn_save_updates']))
     // if no error occured, continue ....
     if(!isset($errMSG))
     {
-        /*$stmt = $DB_con->prepare('UPDATE tbl_imagenes
-									 SET Imagen_Marca=:uname, 
-										 Imagen_Tipo=:ujob, 
-										 Imagen_Img=:upic 
-								   WHERE Imagen_ID=:uid');*/
         $fechaMod = date('Y-m-d H:i:s');
         $idCierreCaja = $_SESSION['idCierreCaja'];
         $desc = mb_strtoupper($desc, 'UTF-8');

@@ -217,8 +217,9 @@ class sqlConsultaDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_Bazar, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
-                        subTotal,iva,descuento_Venta,total,tipo_movimiento
-                        FROM contrato_baz_mov_tbl 
+                        subTotal,iva,descuento_Venta,total,tipo_movimiento,CAT.descripcion
+                        FROM contrato_baz_mov_tbl AS BAZ
+                        INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
                         WHERE id_Bazar= $idVentaBusqueda AND sucursal= $sucursal ORDER BY id_Bazar";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -231,6 +232,7 @@ class sqlConsultaDAO
                         "descuento_Venta" => $row["descuento_Venta"],
                         "totalVenta" => $row["total"],
                         "tipo_movimientoVenta" => $row["tipo_movimiento"],
+                        "Movimiento" => $row["descripcion"],
 
                     ];
                     array_push($datos, $data);
@@ -251,8 +253,9 @@ class sqlConsultaDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_Bazar, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
-                        subTotal,iva,descuento_Venta,total,tipo_movimiento
-                        FROM contrato_baz_mov_tbl 
+                        subTotal,iva,descuento_Venta,total,tipo_movimiento,CAT.descripcion
+                        FROM contrato_baz_mov_tbl AS BAZ
+                        INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
                         WHERE cliente= $idClienteConsulta AND sucursal= $sucursal ORDER BY id_Bazar";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -265,6 +268,7 @@ class sqlConsultaDAO
                         "descuento_Venta" => $row["descuento_Venta"],
                         "totalVenta" => $row["total"],
                         "tipo_movimientoVenta" => $row["tipo_movimiento"],
+                        "Movimiento" => $row["descripcion"],
 
                     ];
                     array_push($datos, $data);
@@ -284,8 +288,9 @@ class sqlConsultaDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_Bazar, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
-                        subTotal,iva,descuento_Venta,total,tipo_movimiento
-                        FROM contrato_baz_mov_tbl 
+                        subTotal,iva,descuento_Venta,total,tipo_movimiento,CAT.descripcion
+                        FROM contrato_baz_mov_tbl AS BAZ
+                        INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
                         WHERE tipo_movimiento!=0 AND sucursal= $sucursal AND (fecha_Creacion >= '$fechaInicio' OR fecha_Creacion <='$fechaFinal') ORDER BY id_Bazar";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -298,6 +303,8 @@ class sqlConsultaDAO
                         "descuento_Venta" => $row["descuento_Venta"],
                         "totalVenta" => $row["total"],
                         "tipo_movimientoVenta" => $row["tipo_movimiento"],
+                        "Movimiento" => $row["descripcion"],
+
 
                     ];
                     array_push($datos, $data);

@@ -49,13 +49,13 @@ foreach ($resultado as $row) {
     $usuario = $row["usuario"];
     $apartado = $row["apartado"];
 }
+$faltaPagar = $total - $apartado;
 $subTotal = number_format($subTotal, 2, '.', ',');
 $iva = number_format($iva, 2, '.', ',');
 $efectivo = number_format($efectivo, 2, '.', ',');
 $cambio = number_format($cambio, 2, '.', ',');
 $apartado = number_format($apartado, 2, '.', ',');
 $total = number_format($total, 2, '.', ',');
-$faltaPagar = $total - $apartado;
 $faltaPagar = number_format($faltaPagar, 2, '.', ',');
 
 $Fecha_Creacion = date("d-m-Y", strtotime($fecha_Modificacion));
@@ -303,8 +303,8 @@ $contenido .= '
         </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
-/*echo $contenido;
-exit();*/
+echo $contenido;
+exit();
 $nombreContrato = 'Apartado_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

@@ -114,7 +114,6 @@ if ($tipoUsuario == 2) {
     </div>
     <div class="row">
         <?php
-       // $stmt = $DB_con->prepare('SELECT Imagen_ID, Imagen_Marca, Imagen_Tipo, Imagen_Img FROM tbl_imagenes ORDER BY Imagen_ID DESC');
         $stmt = $DB_con->prepare('SELECT Imagen_ID, descripcion, Imagen_Img FROM cat_imagenes WHERE articulo = '. $articulo .' AND Eliminado = 0  ORDER BY Imagen_ID DESC');
         $stmt->execute();
 
