@@ -232,7 +232,7 @@ class sqlCierreDAO
         try {
 
             $buscar = "SELECT tipo_movimiento,subTotal,abono,apartado,descuento_Venta,iva
-                       FROM contrato_baz_mov_tbl  
+                       FROM contrato_mov_baz_tbl  
                        WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -549,7 +549,7 @@ class sqlCierreDAO
         try {
 
             $buscar = "SELECT tipo_movimiento,subTotal,abono,apartado
-                       FROM contrato_baz_mov_tbl  
+                       FROM contrato_mov_baz_tbl  
                        WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -777,7 +777,7 @@ class sqlCierreDAO
         try {
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
 
-            $buscar = "SELECT prestamo_Empeno,tipo_movimiento  FROM contrato_baz_mov_tbl
+            $buscar = "SELECT prestamo_Empeno,tipo_movimiento  FROM contrato_mov_baz_tbl
                         WHERE id_CierreSucursal= $id_CierreSucursal and tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {

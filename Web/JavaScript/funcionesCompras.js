@@ -2,6 +2,19 @@
 var Interes = 0.00;
 var idArticuloGlb = 0;
 
+function buscaridBazarCompras() {
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Compras/BuscarIdBazarCompras.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta == 0) {
+                location.reload()
+            }else{
+                $("#idBazarCompra").val(respuesta);
+            }
+        },
+    })
+}
 
 //Limpia la tabla de Articulos
 function Limpiar() {

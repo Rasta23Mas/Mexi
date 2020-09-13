@@ -26,7 +26,7 @@ class sqlVentasDAO
         //Modifique los estatus de usuario
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $buscar = "SELECT id_Bazar FROM contrato_baz_mov_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+            $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
@@ -34,12 +34,12 @@ class sqlVentasDAO
             } else {
                 $fechaCreacion = date('Y-m-d H:i:s');
                 $sucursal = $_SESSION["sucursal"];
-                $insertaCarrito = "INSERT INTO  contrato_baz_mov_tbl
+                $insertaCarrito = "INSERT INTO  contrato_mov_baz_tbl
                        (tipo_movimiento, id_CierreCaja,sucursal,fecha_creacion)
                         VALUES (0,$idCierreCaja,$sucursal,'$fechaCreacion')";
                 if ($ps = $this->conexion->prepare($insertaCarrito)) {
                     if ($ps->execute()) {
-                        $buscar = "SELECT id_Bazar FROM contrato_baz_mov_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+                        $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
                         $statement = $this->conexion->query($buscar);
                         if ($statement->num_rows > 0) {
                             $fila = $statement->fetch_object();
@@ -66,10 +66,10 @@ class sqlVentasDAO
             $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,ART.descripcionCorta,
                         ART.observaciones, Baz.prestamo_Empeno,ART.avaluo,
                         Baz.precio_venta
-                        FROM contrato_baz_mov_tbl as Baz
+                        FROM contrato_mov_baz_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie like '$codigo%'  and Baz.id_serie not in 
-                        (select id_serie FROM contrato_baz_mov_tbl 
+                        (select id_serie FROM contrato_mov_baz_tbl 
                         where  tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 
                         || tipo_movimiento = 23)";
             $rs = $this->conexion->query($buscar);
@@ -103,7 +103,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT CON.id_Bazar,CON.apartado, ART.descripcionCorta, ART.observaciones
-                        FROM contrato_baz_mov_tbl AS CON
+                        FROM contrato_mov_baz_tbl AS CON
                         LEFT JOIN bit_ventas AS BIT ON CON.id_Bazar = BIT.id_Bazar
                         LEFT JOIN articulo_bazar_tbl AS ART ON BIT.id_ArticuloBazar = ART.id_ArticuloBazar
                         WHERE CON.cliente = $id_ClienteGlb  and CON.tipo_movimiento = 22 and CON.sucursal= $sucursal and  ART.Fisico=1";
@@ -135,7 +135,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT fecha_Creacion,subTotal,iva,total,apartado,abono,tipo_movimiento,faltaPagar
-                        FROM contrato_baz_mov_tbl WHERE id_Apartado = $id_Bazar AND tipo_movimiento=22 || tipo_movimiento=23";
+                        FROM contrato_mov_baz_tbl WHERE id_Apartado = $id_Bazar AND tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
@@ -215,7 +215,7 @@ class sqlVentasDAO
                         Baz.tipo_movimiento,ART.tipo,ART.kilataje,ART.calidad,
                         ART.cantidad,ART.peso,ART.peso_Piedra,ART.piedras,ART.marca,ART.modelo,
                         ART.num_Serie,ART.avaluo,ART.vitrina,ART.precioCat,ART.observaciones,ART.detalle,
-                        ART.fecha_creacion,Baz.fecha_Creacion FROM contrato_baz_mov_tbl as Baz
+                        ART.fecha_creacion,Baz.fecha_Creacion FROM contrato_mov_baz_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         WHERE Baz.id_serie= '$idCodigo'";
             $rs = $this->conexion->query($buscar);
@@ -295,7 +295,7 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
             $Fisico = 1;
 
-            $updateContratoBaz = "UPDATE contrato_baz_mov_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
+            $updateContratoBaz = "UPDATE contrato_mov_baz_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
                                 iva=$iva,apartado=$apartado,id_Apartado=$idBazar,faltaPagar=$faltaPagar, total=$total,efectivo=$efectivo,cambio=$cambio,
                                 cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
                                 sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico, fechaVencimiento='$vencimiento'
@@ -336,12 +336,12 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
 
-            $insertaAbono = "INSERT INTO contrato_baz_mov_tbl 
+            $insertaAbono = "INSERT INTO contrato_mov_baz_tbl 
                        (cliente,tipo_movimiento,efectivo,cambio,abono,abono_Total,faltaPagar,id_Apartado,fecha_Creacion,sucursal,id_CierreCaja)
                         VALUES ($id_Cliente,$tipo_movimiento, $efectivo,$cambio,$abono,$abono_Total,$faltaPagar,$idBazar,'$fechaCreacion',$sucursal,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
-                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_baz_mov_tbl where id_CierreCaja = $idCierreCaja";
+                    $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_mov_baz_tbl where id_CierreCaja = $idCierreCaja";
                     $statement = $this->conexion->query($buscarBazar);
                     $encontro = $statement->num_rows;
                     if ($encontro > 0) {
@@ -374,7 +374,7 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
             $Fisico = 0;
 
-            $updateContratoBaz = "UPDATE contrato_baz_mov_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
+            $updateContratoBaz = "UPDATE contrato_mov_baz_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
                                 iva=$iva,descuento_Venta=$descuento,total=$total,efectivo=$efectivo,cambio=$cambio,
                                 cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
                                 sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico

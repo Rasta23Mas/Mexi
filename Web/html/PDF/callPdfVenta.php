@@ -24,7 +24,7 @@ if (isset($_GET['idBazar'])) {
 $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,Baz.id_Bazar,
             Baz.fecha_Creacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
             Baz.subTotal,Baz.iva,Baz.descuento_Venta,Baz.total,Baz.efectivo,Baz.cambio,USU.usuario
-            FROM contrato_baz_mov_tbl as Baz 
+            FROM contrato_mov_baz_tbl as Baz 
             LEFT JOIN cat_sucursal CSUC ON Baz.sucursal=CSUC.id_Sucursal
             LEFT JOIN cliente_tbl AS Cli on Baz.cliente = Cli.id_Cliente
             LEFT JOIN usuarios_tbl as USU on Baz.vendedor = USU.id_User
