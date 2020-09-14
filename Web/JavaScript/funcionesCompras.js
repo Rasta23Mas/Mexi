@@ -12,6 +12,7 @@ var idContratoCompraGlb = 0;
 var idTokenGlb = 0;
 var idTokenDescGlb = 0;
 var tipoMovimientoGlb = 0;
+var errorToken = 0;
 
 
 function fnBuscaridBazarCompras(sucursal) {
@@ -357,7 +358,7 @@ function fnAgregarArtCompra() {
                             "idEstado": $("#idEstado").val(),
                             "idModelo": $("#idModelo").val(),
                             "idSerie": $("#idSerie").val(),
-                            "idVitrina": $("#idVitrina").val(),
+                            "idVitrina": $("#idVitrinaElectronico").val(),
                             "idPrecioCat": $("#idPrecioCat").val(),
                             "idObsElectronico": $("#idObsElectronico").val(),
                             "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
@@ -378,7 +379,7 @@ function fnAgregarArtCompra() {
                                     fnLimpiarSinResetearIdArticulo();
                                     alertify.success("Articulo agregado exitosamente.");
                                 } else {
-                                    alertify.error("Error al agregar articulo.4");
+                                    alertify.error("Error al agregar articulo.");
                                 }
                             },
                         })
@@ -524,7 +525,31 @@ function fnCalcularTotales(subtotal) {
 
 }
 
-function combMarcaVEmpe() {
+function fnLlenarComboTipoElec() {
+    var dataEnviar = {
+        "tipo": 1,
+        "tipoCombo": 0
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            var html = "";
+            html += " <option value=0>Seleccione:</option>"
+            var i = 0;
+            for (i; i < datos.length; i++) {
+                var id_tipo = datos[i].id_tipo;
+                var descripcion = datos[i].descripcion;
+                html += '<option value=' + id_tipo + '>' + descripcion + '</option>';
+            }
+            $('#idTipoElectronico').html(html);
+        }
+    });
+}
+
+function fnCombMarcaVEmpe() {
     $('#idMarca').prop('disabled', false);
     $('#idMarca').val(0);
 
@@ -552,7 +577,7 @@ function combMarcaVEmpe() {
     });
 }
 
-function cmbModeloVEmpe() {
+function fnCmbModeloVEmpe() {
     $('#idModelo').prop('disabled', false);
     $('#idModelo').val(0);
     var tipoSelect = $('#idTipoElectronico').val();
@@ -581,7 +606,7 @@ function cmbModeloVEmpe() {
     });
 }
 
-function llenarDatosElectronico(tipoSelect, marcaSelect, modeloSelect) {
+function fnLlenarDatosElectronico(tipoSelect, marcaSelect, modeloSelect) {
     var dataEnviar = {
         "tipoCombo": tipoSelect,
         "marcaCombo": marcaSelect,
@@ -797,6 +822,7 @@ function fnTokenCompras() {
         url: '../../../com.Mexicash/Controlador/Token/ConTokenValidar.php',
         type: 'post',
         success: function (response) {
+            alert(response)
             if (response > 0) {
                 idTokenGlb = response;
                 idTokenDescGlb = tokenDes;
@@ -805,7 +831,7 @@ function fnTokenCompras() {
                     alert("Los Token se estan terminando, favor de avisar al administrador");
                 }
                 alertify.success("Código correcto.");
-                generarCompra();
+                fnGenerarCompra();
 
             } else {
                 if (errorToken < 3) {
@@ -821,7 +847,7 @@ function fnTokenCompras() {
 }
 
 //Genera contrato
-function generarCompra() {
+function fnGenerarCompra() {
     //FEErr01
     var dataEnviar = {
         "tipoMovimiento": tipoMovimientoGlb,

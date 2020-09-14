@@ -161,7 +161,7 @@ if ($tipoUsuario == 2) {
                 </table>
             </div>
             <div class="col col-md-8">
-                <table width="100%" class="border-primary border">
+                <table width="100%"   class="border-primary border">
                     <tr style="background: dodgerblue; color:white;">
                         <td colspan="4" align="center">Compra Metales</td>
                     </tr>

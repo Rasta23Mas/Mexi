@@ -74,7 +74,7 @@ class sqlArticulosComprasDAO
                     " marca, modelo, num_Serie,vitrina,vitrinaVenta, precioCat,   observaciones," .
                     " detalle, descripcionCorta, sucursal,id_cierreCaja)  VALUES " .
                     "('$SerieBazar',$idSerieTipo,$tipoMovimiento,$tipoPost,$idTipoE,$idMarca,$idModelo,
-                       $idSerie,$idVitrina,$idVitrina,$precioCat,,' $idObsE',' $idDetallePrendaE ',' $descCorta ',$sucursal,$idCierreCaja)";
+                       $idSerie,$idVitrina,$idVitrina,$precioCat,' $idObsE',' $idDetallePrendaE ',' $descCorta ',$sucursal,$idCierreCaja)";
 
             }
             if ($ps = $this->conexion->prepare($insert)) {

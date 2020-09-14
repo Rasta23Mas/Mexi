@@ -1,10 +1,11 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+
 include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
 include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
 include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
-include_once(DESC_PATH . "modalDescuentoToken.php");
+include_once(HTML_PATH . "Compras/modalCompras.php");
 
 $sucursal = $_SESSION['sucursal'];
 $tipoUsuario = $_SESSION['tipoUsuario'];
@@ -35,15 +36,21 @@ if ($tipoUsuario == 2) {
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#idFormEmpeno").trigger("reset");
+            $("#idFormCompras").trigger("reset");
             $("#btnEditar").prop('disabled', true);
-            fnLlenarCmbInteres(1);
+            $("#btnCompra").prop('disabled', true);
+            var sucursal =<?php echo $sucursal ?>;
+            fnBuscaridBazarCompras(sucursal);
             $("#idNombres").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
-            fnSelectPrenda();
-            fnLlenarAforoCompras(1);
+            fnLlenarCmbInteres(2);
+            fnLlenarComboTipoElec();
+            fnBuscarIVACatalogo();
             fnArticulosObsoletosCom();
+
+
+            //alert(sucursal)
         })
     </script>
     <style type="text/css">
@@ -84,13 +91,13 @@ if ($tipoUsuario == 2) {
     </style>
 </head>
 <body>
-<form id="idFormEmpeno" name="formEmpeno">
+<form id="idFormCompras" name="formEmpeno">
     <div id="contenedor" class="container">
         <div>
             <br>
         </div>
         <div class="row">
-            <div class="col col-lg-4">
+            <div class="col col-md-4">
                 <table border="0" width="100%" class="tableInteres">
                     <tbody>
                     <tr class="headt">
@@ -113,34 +120,34 @@ if ($tipoUsuario == 2) {
                         </td>
                     </tr>
                     <tr>
-                        <td >
+                        <td>
                             <div>
                                 <input id="idNombresVendedor" name="Nombres" type="text" style="width: 300px"
                                        class="inputCliente" onkeypress="fnNombreVenAutocompletar()"
-                                       placeholder="Buscar Cliente..."/>
+                                       placeholder="Buscar Vendedor..."/>
                             </div>
                             <div id="suggestionsNombreEmpeno"></div>
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td >
+                        <td>
                             <label for="celular">Celular:</label>
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td >
+                        <td>
                             <input type="text" name="celularVendedor" placeholder="" id="idCelularVendedor"
                                    style="width: 120px"
                                    required disabled/>
                         </td>
                     </tr>
                     <tr>
-                        <td >
+                        <td>
                             <label for="direccion">Dirección:</label>
                         </td>
                     </tr>
                     <tr class="headt">
-                        <td  rowspan="2" name="direccionEmpeno">
+                        <td rowspan="2" name="direccionEmpeno">
                                     <textarea rows="2" cols="40" id="idDireccionVendedor" class="textArea" disabled>
                                     </textarea>
                         </td>
@@ -153,167 +160,179 @@ if ($tipoUsuario == 2) {
                     </tbody>
                 </table>
             </div>
-            <div class="col col-lg-8 ">
-                <table width="90%" class="border-primary border">
+            <div class="col col-md-8">
+                <table width="100%" class="border-primary border">
                     <tr style="background: dodgerblue; color:white;">
-                        <td colspan="4" align="center">Compra Metales</td>
-                    </tr>
-                    <tr class="headt">
-                        <td >Tipo:</td>
-                        <td >
-                            <select id="idTipoMetal" name="cmbTipoMetal" class="selectpicker"
-                                    onchange="fnSelectMetalCmb($('#idTipoMetal').val())"
-                                    style="width: 150px">
-                            </select>
-                        </td>
-                        <td>Kilataje:</td>
-                        <td >
-                            <select id="idKilataje" name="cmbKilataje" class="selectpicker"
-                                    style="width: 150px" onchange="llenaPrecioKilataje()">
-                            </select>
-                        </td>
-                    </tr>
-                    <tr class="headt">
-                        <td >Calidad:</td>
-                        <td >
-                            <select id="idCalidad" name="cmbCalidad" class="selectpicker"
-                                    style="width: 150px">
-                            </select>
-                        </td>
-                        <td colspan="2">
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <tr class="headt">
-                        <td >Cantidad:</td>
-                        <td >
-                            <input type="text" id="idCantidad" name="cantidad" size="5"
-                                   onkeypress="return soloNumeros(event)" placeholder="0"
-                                   style="text-align:center"/>
-                        </td>
-                        <td>Peso:</td>
-                        <td>
-                            <input type="text" id="idPeso" name="peso" size="4"
-                                   onkeypress="return isNumberDecimal(event)" placeholder="0"
-                                   style="text-align:center"/>
-                            <label>grs</label></td>
+                        <td colspan="4" align="center">Compra Electrónicos</td>
                     </tr>
                     <tr>
-                        <td >Piedras:</td>
-                        <td >
-                            <input type="text" id="idPiedras" name="piedras" size="5"
-                                   onkeypress="return soloNumeros(event)" value="0"
-                                   style="text-align:center"/>
-                            <label>pza</label>
-                        </td>
-                        <td >Peso:</td>
-                        <td >
-                            <input type="text" id="idPesoPiedra" name="pesoPiedra" size="4" value="0"
-                                   onkeypress="return isNumberDecimal(event)"
-                                   style="text-align:center"/>
-                            <label>grs</label></td>
-                    </tr>
-                    <tr class="headt">
-                        <td>Préstamo:</td>
+                        <td>Tipo:</td>
                         <td>
-                            <input type="text" id="idPrestamo" name="prestamo" size="8"
-                                   onkeypress="return calculaPrestamoPeso(event)" ;
-                                   style="text-align:center"/>
+                            <select id="idTipoElectronico" name="cmbTipoElectronico"
+                                    class="selectpicker"
+                                    onchange="fnCombMarcaVEmpe($('#idTipoElectronico').val())"
+                                    style="width: 150px">
+                            </select>
+                            <img src="../../style/Img/lupa.png" data-toggle="modal"
+                                 data-target="#modalArticulos" alt="Buscar"
+                                 onclick="llenarComboTipoE();">
                         </td>
-                        <td>Avalúo:</td>
+                        <td>Marca:</td>
                         <td>
-                            <input type="text" id="idAvaluo" name="avaluo" size="8"
-                                   disabled
-                                   style="text-align:center"/>
+                            <select id="idMarca" name="marcaSelect" class="selectpicker"
+                                    style="width:150px" disabled
+                                    onchange="fnCmbModeloVEmpe($('#idMarca').val());">
+                            </select>
                         </td>
                     </tr>
-                    <tr class="headt">
+                    <tr>
+                        <td>Modelo:</td>
+                        <td>
+                            <select id="idModelo" name="modeloSelect" class="selectpicker"
+                                    style="width:150px" disabled
+                                    onchange="fnLlenarDatosElectronico($('#idTipoElectronico').val(),$('#idMarca').val(),$('#idModelo').val())">
+                            </select>
+                        </td>
+                        <td>No.Serie:</td>
+                        <td>
+                            <input type="text" id="idSerie" name="serie" size="18"
+                                   style="text-align:left" value=""/>
+                        </td>
+                    <tr>
                         <td>Vitrina:</td>
                         <td>
-                            <input type="text" id="idVitrina" name="vitrina" size="8"
+                            <input type="text" id="idVitrinaElectronico" name="vitrinaE" size="5"
                                    onkeypress="return soloNumeros(event)"
                                    style="text-align:center"/>
                         </td>
+                        <td>Catalogo:</td>
                         <td>
-                            <input type="button" class="btn btn-info" value="Calcular" onclick="calculaPrestamoBtn()">
+                            <input type="text" id="idPrecioCat" disabled name="vitrinaE" size="5"
+                                   onkeypress="return soloNumeros(event)"
+                                   style="text-align:center"/>
                         </td>
-                        <td>&nbsp;</td>
                     </tr>
-                    <tr class="headt">
-                        <td colspan="2" align="left">Descripción de la prenda:
-                        </td>
-                        <td colspan="2">Observaciones de la tienda:
-                            <input type="text" id="idKilatajePrecio" name="kilatajePrecio" size="6"
-                                   value="0"
-                                   class="invisible" disabled/></td>
+                    <tr>
+                        <td colspan="2" align="left">Descripción de la prenda:</td>
+                        <td colspan="2">Observaciones de la tienda:</td>
                     </tr>
-                    <tr class="headt">
-                        <td colspan="2" name="detallePrenda">
+                    <tr>
+                        <td colspan="2" name="detallePrendaE">
                             <p>
-                                              <textarea name="detalle" id="idDetallePrenda"
-                                                        class="textArea" rows="1" cols="40"></textarea></p>
+                            <textarea name="detalle" id="idDetallePrendaElectronico"
+                                      class="textArea" rows="1" cols="40"></textarea></p>
                         </td>
                         <td colspan="2">
-                            <p><textarea name="mensaje" id="idObs"
-                                         class="textArea" rows="1" cols="40"></textarea></p>
+                            <p>
+                            <textarea name="detalle" id="idObsElectronico"
+                                      class="textArea" rows="1" cols="40"></textarea></p>
                         </td>
                     </tr>
-                    <tr >
-                        <td align="right" colspan="4">
-                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="Limpiar()">
-                            <input type="button" class="btn btn-success" value="Agregar a la lista" onclick="AgregarArtCompra()">
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-lg-12">
-                <br>
-            </div>
-        </div>
-        <div class="row">
-            <div id="divTablaMetales" class="col col-lg-12 border border-primary">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-lg-12">
-                <br>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-lg-12">
-                <table border="0" width="100%">
                     <tr>
-                        <td align="right">
-                            <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMonto()">&nbsp;
+                        <td colspan="4" align="right">
+                            <input type="button" class="btn btn-success" value="Agregar" onclick="fnAgregarArtCompra()">&nbsp;
+                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="fnLimpiarCompra()">&nbsp;
+                            <input type="button" id="btnCompra" class="btn btn-primary" value="Comprar"
+                                   onclick="fnValidaciones()">&nbsp;
                             <input type="button" class="btn btn-danger" value="Salir"
-                                   onclick="location.href='vInicio.php'">&nbsp;
+                                   onclick="location.href='vInicio.php'">
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
         <div class="row">
-            <div class="col col-lg-12">
+            <div class="col col-md-12">
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-4">
+                <table border="0" width="100%">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label for="subtotal">SubTotal:</label>
+                        </td>
+                        <td align="right">
+                            <input type="text" name="subtotal" id="idSubTotalCompra"
+                                   style="width: 120px; text-align: right " disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="subtotal">IVA:</label>
+                        </td>
+                        <td style="vertical-align:top;" align="right">
+                            <input type="text" name="iva" id="idIvaCompra"
+                                   style="width: 120px; text-align: right " disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="subtotal">Total a Pagar:</label>
+                        </td>
+                        <td style="vertical-align:top;" align="right">
+                            <input type="text" name="totalPagar" id="idTotalPagarCompra"
+                                   style="width: 120px;text-align: right " disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="subtotal">Efectivo:</label>
+                        </td>
+                        <td style="vertical-align:top;" align="right">
+                            <input type="text" name="efectivo" id="idEfectivoCompra"
+                                   style="width: 120px; text-align: right "
+                                   placeholder="$0.00"
+                                   onkeypress="return fnEfectivoCompra(event)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="subtotal">Cambio:</label>
+                        </td>
+                        <td style="vertical-align:top;" align="right">
+                            <input type="text" name="cambio" id="idCambioCompra" placeholder="$0.00"
+                                   style="width: 120px; text-align: right " disabled/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <br>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="divTablaArticulos" class="col col-md-8">
+                <table class="table table-hover table-condensed table-bordered" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Serie</th>
+                        <th>Descripción</th>
+                        <th>Observaciones</th>
+                        <th>Vitrina</th>
+                        <th>Eliminar</th>
+                    </tr>
+                    </thead>
+                    <tbody id="idTBodyArticulos">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-12">
                 <table>
                     <tr>
                         <td colspan="12">
-                            <input type="text" id="idVendedor" name="clienteEmpeno" size="5"
+                            <input type="text" id="idVendedor" name="clienteEmpeno" size="5" value="0"
                                    style="text-align:center" class="invisible"/>
-                            <input id="idToken" name="token" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idAforo" name="aforo" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
                         </td>
-
                     </tr>
                 </table>
             </div>
         </div>
-    </div>
     </div>
 </form>
 
