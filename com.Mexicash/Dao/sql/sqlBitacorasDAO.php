@@ -76,4 +76,32 @@ class sqlBitacorasDAO
         echo $verdad;
     }
 
+    function sqlBitacoraCompras($id_Movimiento,$idContratoCompra,$id_vendedor,$idToken)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+
+            $usuario = $_SESSION["idUsuario"];
+            $sucursal = $_SESSION["sucursal"];
+            $id_CierreCaja = $_SESSION["idCierreCaja"];
+            $insert = "INSERT INTO bit_user_compras (id_ContratoCompra, tipo_movimiento, vendedor, id_token,sucursal, id_CierreCaja, Usuario) 
+                                VALUES ($idContratoCompra,$id_Movimiento,$id_vendedor,$idToken,$sucursal,$id_CierreCaja,$usuario)";
+            if ($ps = $this->conexion->prepare($insert)) {
+                if ($ps->execute()) {
+                    $verdad = mysqli_stmt_affected_rows($ps);
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
+
 }

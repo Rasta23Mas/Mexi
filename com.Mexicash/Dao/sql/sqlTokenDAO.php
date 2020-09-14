@@ -21,6 +21,32 @@ class sqlTokenDAO
         $this->conexion = $this->db->connectDB();
     }
 
+    //Validacion de token
+    public function sqlValidarToken($token)
+    {
+        $token = mb_strtoupper($token, 'UTF-8');
+
+        try {
+            $id = -1;
+            $buscar = "SELECT id_token,descripcion FROM cat_token 
+                        WHERE descripcion = '$token' and estatus= 1";
+            $statement = $this->conexion->query($buscar);
+            if ($statement->num_rows > 0) {
+                $fila = $statement->fetch_object();
+                $id = $fila->id_token;
+            } else {
+                $id = -1;
+            }
+
+        } catch (Exception $exc) {
+            $id = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $id;
+    }
+
     //Validacion de token Cancelados
     public function tokenCancelaciones($token, $Contrato, $tipoContrato)
     {
@@ -181,7 +207,7 @@ class sqlTokenDAO
                 if ($ps->execute()) {
                     $updateToken = "UPDATE cat_token SET
                                          estatus = 2
-                                        WHERE id_token =$idTokenMov";
+                                        WHERE id_token =$idToken";
                     if ($ps = $this->conexion->prepare($updateToken)) {
                         if ($ps->execute()) {
                             $verdad = mysqli_stmt_affected_rows($ps);
@@ -205,4 +231,44 @@ class sqlTokenDAO
         }
         echo $verdad;
     }
+
+    public function sqlTokenCompras($idTokenSubtotalGlb,$idTokenIvaGlb,$idTokenTotalGlb,$idToken,$tokenDesc,$idTokenMov,$idContratoCompra)
+    {
+        $token = mb_strtoupper($tokenDesc, 'UTF-8');
+        $fechaCreacion = date('Y-m-d H:i:s');
+        $usuario = $_SESSION["idUsuario"];
+        $sucursal = $_SESSION["sucursal"];
+        try {
+            $insertaBitacora = "INSERT INTO bit_token_compras ( id_tokenMovimiento,id_ContratoCompra, token,
+                                                descripcion, subtotal,iva, total,usuario, sucursal, fecha_Creacion)
+                                        VALUES ($idTokenMov,$idContratoCompra,$idToken, '$token',$idTokenSubtotalGlb,$idTokenIvaGlb,$idTokenTotalGlb, $usuario, $sucursal,'$fechaCreacion')";
+            if ($ps = $this->conexion->prepare($insertaBitacora)) {
+                if ($ps->execute()) {
+                    $updateToken = "UPDATE cat_token SET
+                                         estatus = 2
+                                        WHERE id_token =$idToken";
+                    if ($ps = $this->conexion->prepare($updateToken)) {
+                        if ($ps->execute()) {
+                            $verdad = mysqli_stmt_affected_rows($ps);
+                        } else {
+                            $verdad = -1;
+                        }
+                    } else {
+                        $verdad = -1;
+                    }
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
+
 }

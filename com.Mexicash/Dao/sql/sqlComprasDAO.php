@@ -58,4 +58,44 @@ class sqlComprasDAO
         echo $idCompra;
     }
 
+    function sqlGuardarCompra($tipoMovimiento,$idVendedor,$subTotal,$iva,$total,$efectivo,$cambio,$idContratoCompra)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
+
+            $updateContratoBaz = "UPDATE contrato_mov_com_tbl SET tipo_movimiento = $tipoMovimiento,idVendedorArt=$idVendedor, subTotal=$subTotal,
+                                iva=$iva,total=$total,efectivo=$efectivo,cambio=$cambio
+                                WHERE id_Compra=$idContratoCompra";
+            if ($ps = $this->conexion->prepare($updateContratoBaz)) {
+                if ($ps->execute()) {
+                    $updateBitVentas = "UPDATE articulo_bazar_tbl SET id_Contrato = $idContratoCompra
+                            WHERE sucursal=$sucursal AND id_Compra = $idContratoCompra AND id_cierreCaja=$idCierreCaja";
+                    if ($ps = $this->conexion->prepare($updateBitVentas)) {
+                        if ($ps->execute()) {
+                            $respuesta = 1;
+                        } else {
+                            $respuesta = -1;
+                        }
+                    } else {
+                        $respuesta = 1;
+                    }
+                } else {
+                    $respuesta = -1;
+                }
+            } else {
+                $respuesta = -1;
+            }
+        } catch (Exception $exc) {
+            $respuesta = -20;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $respuesta;
+    }
+
+
 }

@@ -5,7 +5,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
 include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
 include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
-include_once(DESC_PATH . "modalDescuentoToken.php");
+include_once(HTML_PATH . "Compras/modalCompras.php");
 
 $sucursal = $_SESSION['sucursal'];
 $tipoUsuario = $_SESSION['tipoUsuario'];
@@ -253,7 +253,7 @@ if ($tipoUsuario == 2) {
                         <td colspan="4" align="right">
                             <input type="button" class="btn btn-success" value="Agregar" onclick="fnAgregarArtCompra()">&nbsp;
                             <input type="button" class="btn btn-warning" value="Limpiar" onclick="fnLimpiarCompra()">&nbsp;
-                            <input type="button" id="btnCompra" class="btn btn-primary" value="Comprar" onclick="validarMonto()">&nbsp;
+                            <input type="button" id="btnCompra" class="btn btn-primary" value="Comprar" onclick="fnValidaciones()">&nbsp;
                             <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
                         </td>
                     </tr>
@@ -345,12 +345,8 @@ if ($tipoUsuario == 2) {
                 <table>
                     <tr>
                         <td colspan="12">
-                            <input type="text" id="idVendedor" name="clienteEmpeno" size="5"
+                            <input type="text" id="idVendedor" name="clienteEmpeno" size="5" value="0"
                                    style="text-align:center" class="invisible"/>
-                            <input id="idToken" name="token" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
                         </td>
                     </tr>
                 </table>

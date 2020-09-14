@@ -408,7 +408,7 @@ function tokenVenta() {
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Token/TokenValidar.php',
+        url: '../../../com.Mexicash/Controlador/Token/ConTokenValidar.php',
         type: 'post',
         success: function (response) {
             if (response > 0) {
