@@ -151,7 +151,6 @@ class sqlArticulosComprasDAO
         // TODO: Implement guardaCiente() method.
         try {
             $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE id_ArticuloBazar=$id_ArticuloBazar";
-
             if ($ps = $this->conexion->prepare($eliminarArticulo)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

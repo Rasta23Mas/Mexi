@@ -514,7 +514,7 @@ function fnConfirmarEliminarArticulo(idArticuloBazar) {
 function fnEliminarArticulo(idArticuloBazar) {
     idArticuloGlb--;
     var dataEnviar = {
-        "idArticulo": idArticuloBazar
+        "idArticuloBazar": idArticuloBazar
     };
     $.ajax({
         data: dataEnviar,
@@ -522,7 +522,7 @@ function fnEliminarArticulo(idArticuloBazar) {
         type: 'post',
         success: function (response) {
             if (response == 1) {
-                fnCargarTablaMetales();
+                fnCargarArticulos();
                 alertify.success("Eliminado con éxito.");
             } else {
                 alertify.error("Error al eliminar articulo.");
