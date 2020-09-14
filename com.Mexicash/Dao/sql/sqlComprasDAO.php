@@ -34,9 +34,11 @@ class sqlComprasDAO
             } else {
                 $fechaCreacion = date('Y-m-d H:i:s');
                 $sucursal = $_SESSION["sucursal"];
+                $usuario = $_SESSION["idUsuario"];
+
                 $insertaCarrito = "INSERT INTO  contrato_mov_com_tbl
-                       (tipo_movimiento, id_CierreCaja,sucursal,fecha_creacion)
-                        VALUES (0,$idCierreCaja,$sucursal,'$fechaCreacion')";
+                       (tipo_movimiento, id_CierreCaja,sucursal,fecha_creacion,usuario)
+                        VALUES (0,$idCierreCaja,$sucursal,'$fechaCreacion',$usuario)";
                 if ($ps = $this->conexion->prepare($insertaCarrito)) {
                     if ($ps->execute()) {
                         $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";

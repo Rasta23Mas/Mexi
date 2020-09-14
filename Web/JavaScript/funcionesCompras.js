@@ -896,7 +896,7 @@ function fnBitacoraCompra(token) {
 
 //Generar PDF
 function verPDFCompra() {
-    window.open('../PDF/callPdfVenta.php?pdf=1&idBazar=' + idBazar);
+    window.open('../PDF/callPdfCompra.php?idContratoCompra=' + idContratoCompraGlb);
     alert("Compra realizada.");
     fnRecargarCompras();
 }
