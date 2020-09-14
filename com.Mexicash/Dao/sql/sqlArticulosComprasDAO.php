@@ -22,7 +22,7 @@ class sqlArticulosComprasDAO
         $this->conexion = $this->db->connectDB();
     }
 
-    public function guardarArticuloCompras($tipoPost,$idArticulo, ArticuloCompras $articulo)
+    public function sqlGuardarArticuloCompras($tipoPost, ArticuloCompras $articulo)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -30,12 +30,14 @@ class sqlArticulosComprasDAO
             $fechaCreacion = date('Y-m-d H:i:s');
             $fechaModificacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
-
             $idVitrina = $articulo->getVitrina();
-            $sucursal = "0";
-            $sucursal .= $_SESSION["sucursal"];
-
-
+            $sucursal = $_SESSION["sucursal"];
+            $idContrato = $articulo->getIdContrato();
+            $SerieBazar = $articulo->getSerieBazar();
+            $idSerieTipo = $articulo->getIdSerieTipo();
+            $tipoMovimiento = $articulo->getTipoMovimiento();
+            $descCorta = $articulo->getDescripcionCorta();
+            $descCorta = strtoupper($descCorta);
 
             if ($tipoPost == "1") {
                 $idTipoM = $articulo->getTipoM();
@@ -50,16 +52,17 @@ class sqlArticulosComprasDAO
 
                 $idObs = $articulo->getObs();
                 $idDetallePrenda = $articulo->getDetallePrenda();
+
                 $idObs = mb_strtoupper($idObs, 'UTF-8');
                 $idDetallePrenda = mb_strtoupper($idDetallePrenda, 'UTF-8');
                 $idObs = strtoupper($idObs);
                 $idDetallePrenda = strtoupper($idDetallePrenda);
-                $insert = "INSERT INTO articulocompras_tbl " .
-                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina,observaciones," .
-                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
-                    "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
-                    . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "','" . $idObs . "','"
-                    . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . " )";
+                $insert = "INSERT INTO articulo_bazar_tbl " .
+                    "(id_serie,id_serieTipo,tipo_movimiento,tipoArticulo,tipo, " .
+                    " kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, " .
+                    " vitrinaVenta,observaciones, detalle,descripcionCorta,sucursal)  VALUES " .
+                    " ('$SerieBazar',$idSerieTipo,$tipoMovimiento,$tipoPost,$idTipoM,$idKilataje,$idCalidad,$idCantidad,$idPeso,
+                      $idPesoPiedra, $idPiedras, $idPrestamo, $idAvaluo ,$idVitrina ,' $idObs',' $idDetallePrenda ',' $descCorta ',$sucursal)";
             } else if ($tipoPost == "2") {
                 $idTipoE = $articulo->getTipoE();
                 $idMarca = $articulo->getMarca();
@@ -74,12 +77,12 @@ class sqlArticulosComprasDAO
                 $idDetallePrendaE = mb_strtoupper($idDetallePrendaE, 'UTF-8');
 
 
-                $insert = "INSERT INTO articulocompras_tbl " .
-                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat,   observaciones," .
-                    " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja)  VALUES " .
-                    "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
-                    . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $idObsE . "','"
-                    . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . "  )";
+                $insert = "INSERT INTO articulo_bazar_tbl " .
+                    "(id_serie,id_serieTipo,tipo_movimiento,tipoArticulo,tipo, " .
+                    " marca, modelo, num_Serie, prestamo, avaluo,vitrina,vitrinaVenta, precioCat,   observaciones," .
+                    " detalle, descripcionCorta, sucursal)  VALUES " .
+                    "('$SerieBazar',$idSerieTipo,$tipoMovimiento,$tipoPost,$idTipoE,$idMarca,$idModelo,
+                       $idSerie,$idPrestamoE,$idAvaluoE,$idVitrina,$precioCat,,' $idObsE',' $idDetallePrendaE ',' $descCorta ',$sucursal)";
 
             }
             if ($ps = $this->conexion->prepare($insert)) {
@@ -98,7 +101,26 @@ class sqlArticulosComprasDAO
         } finally {
             $this->db->closeDB();
         }
-        //return $verdad;
+        echo $verdad;
+    }
+    public function sqlArticulosComObsoletos(){
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        $idCierreCaja = $_SESSION['idCierreCaja'];
+
+        try {
+            $eliminarArticulo = "DELETE FROM articulocompras_tbl WHERE id_Contrato = 0 and id_cierreCaja=$idCierreCaja ";
+            if ($this->conexion->query($eliminarArticulo) === TRUE) {
+                $verdad = 1;
+            } else {
+                $verdad = 2;
+            }
+        } catch (Exception $exc) {
+            $verdad = 4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
         echo $verdad;
     }
 
@@ -411,27 +433,6 @@ class sqlArticulosComprasDAO
         return $datos;
     }
 
-    public function articulosComObsoletos()
-    {
-        //Funcion Verificada
-        // TODO: Implement guardaCiente() method.
-        $idCierreCaja = $_SESSION['idCierreCaja'];
 
-        try {
-            $eliminarArticulo = "DELETE FROM articulocompras_tbl WHERE id_Contrato = 0 and id_cierreCaja=$idCierreCaja ";
-            if ($this->conexion->query($eliminarArticulo) === TRUE) {
-                $verdad = 1;
-            } else {
-                $verdad = 2;
-            }
-        } catch (Exception $exc) {
-            $verdad = 4;
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-        //return $verdad;
-        echo $verdad;
-    }
 
 }

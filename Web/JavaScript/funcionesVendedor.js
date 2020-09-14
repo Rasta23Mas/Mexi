@@ -118,7 +118,7 @@ function buscarVendedorAgregado() {
 }
 
 //Funcion autocompletar nombre de cliente
-function nombreVenAutocompletar() {
+function fnNombreVenAutocompletar() {
     $('#idNombresVendedor').on('keyup', function () {
         var key = $('#idNombresVendedor').val();
         var dataEnviar = {

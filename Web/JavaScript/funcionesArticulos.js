@@ -388,7 +388,7 @@ function Metales() {
     $("#idTipoFormulario").val(1);
     Limpiar();
     LimpiarInteres();
-    llenarComboInteres(1);
+    fnLlenarCmbInteres(1);
     limpiarTabla();
     $("#idCantidad").val("");
     $("#idPeso").val("");
@@ -408,7 +408,7 @@ function Electronicos() {
     $("#idTipoFormulario").val(2);
     Limpiar();
     LimpiarInteres();
-    llenarComboInteres(2);
+    fnLlenarCmbInteres(2);
     limpiarTabla();
     llenarComboTipoElec();
 
@@ -487,7 +487,7 @@ function selectMetalCmb($tipoMetal) {
     selectCalidad($tipoMetal);
 }
 
-function selectPrenda() {
+function fnSelectPrenda() {
     var dataEnviar = {
         "clase": 5,
         "idTipoMetal": 0

@@ -6,7 +6,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(BASE_PATH . "Conexion.php");
 date_default_timezone_set('America/Mexico_City');
 
-class sqlVentasDAO
+class sqlComprasDAO
 {
 
     protected $conexion;
@@ -26,27 +26,27 @@ class sqlVentasDAO
         //Modifique los estatus de usuario
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+            $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
-                $idBazar = $fila->id_Bazar;
+                $idCompra = $fila->id_Compra;
             } else {
                 $fechaCreacion = date('Y-m-d H:i:s');
                 $sucursal = $_SESSION["sucursal"];
-                $insertaCarrito = "INSERT INTO  contrato_mov_baz_tbl
+                $insertaCarrito = "INSERT INTO  contrato_mov_com_tbl
                        (tipo_movimiento, id_CierreCaja,sucursal,fecha_creacion)
                         VALUES (0,$idCierreCaja,$sucursal,'$fechaCreacion')";
                 if ($ps = $this->conexion->prepare($insertaCarrito)) {
                     if ($ps->execute()) {
-                        $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+                        $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
                         $statement = $this->conexion->query($buscar);
                         if ($statement->num_rows > 0) {
                             $fila = $statement->fetch_object();
-                            $idBazar = $fila->id_Bazar;
+                            $idCompra = $fila->id_Compra;
                         }
                     } else {
-                        $idBazar = 0;
+                        $idCompra = 0;
                     }
                 }
             }
@@ -55,7 +55,7 @@ class sqlVentasDAO
         } finally {
             $this->db->closeDB();
         }
-        echo $idBazar;
+        echo $idCompra;
     }
 
 }

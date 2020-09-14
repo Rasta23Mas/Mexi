@@ -84,7 +84,7 @@ function limpiarTablaInteres() {
     })
 }
 
-function llenarComboInteres(tipoCombo) {
+function fnLlenarCmbInteres(tipoCombo) {
     var dataEnviar = {
         "idTipoCombo": tipoCombo
     };

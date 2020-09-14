@@ -36,15 +36,14 @@ if ($tipoUsuario == 2) {
     <script type="application/javascript">
         $(document).ready(function () {
             $("#idFormEmpeno").trigger("reset");
-            $("#divTablaMetales").load('tablaMetalesCompras.php');
             $("#btnEditar").prop('disabled', true);
-            llenarComboInteres(1);
+            fnLlenarCmbInteres(1);
             $("#idNombres").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
-            selectPrenda();
-            llenarAforoCompras(1);
-            articulosObsoletosCom();
+            fnSelectPrenda();
+            fnLlenarAforoCompras(1);
+            fnArticulosObsoletosCom();
         })
     </script>
     <style type="text/css">
@@ -117,7 +116,7 @@ if ($tipoUsuario == 2) {
                         <td >
                             <div>
                                 <input id="idNombresVendedor" name="Nombres" type="text" style="width: 300px"
-                                       class="inputCliente" onkeypress="nombreVenAutocompletar()"
+                                       class="inputCliente" onkeypress="fnNombreVenAutocompletar()"
                                        placeholder="Buscar Cliente..."/>
                             </div>
                             <div id="suggestionsNombreEmpeno"></div>
@@ -163,7 +162,7 @@ if ($tipoUsuario == 2) {
                         <td >Tipo:</td>
                         <td >
                             <select id="idTipoMetal" name="cmbTipoMetal" class="selectpicker"
-                                    onchange="selectMetalCmb($('#idTipoMetal').val())"
+                                    onchange="fnSelectMetalCmb($('#idTipoMetal').val())"
                                     style="width: 150px">
                             </select>
                         </td>

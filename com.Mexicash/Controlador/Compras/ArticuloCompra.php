@@ -4,8 +4,11 @@ include_once(MODELO_PATH . "ArticuloCompras.php");
 include_once(SQL_PATH . "sqlArticulosComprasDAO.php");
 
 $idTipoEnviar = $_POST['idTipoEnviar'];
-$idArticulo = $_POST['idArticulo'];
-
+$idContrato = $_POST['idContrato'];
+$SerieBazar = $_POST['SerieBazar'];
+$id_serieTipo = $_POST['id_serieTipo'];
+$tipo_movimiento = $_POST['tipo_movimiento'];
+$descripcionCorta = $_POST['descripcionCorta'];
 
 if ($idTipoEnviar == 1) {
 
@@ -83,11 +86,17 @@ $articulo = new ArticuloCompras(
     $idPrestamoE,
     $idAvaluoE,
     $idObsE,
-    $idDetallePrendaE
+    $idDetallePrendaE,
+    $idContrato,
+    $SerieBazar,
+    $id_serieTipo,
+    $tipo_movimiento,
+    $descripcionCorta
 );
 
+
 $sqlArticuloCompras = new sqlArticulosComprasDAO();
-$sqlArticuloCompras->guardarArticuloCompras($idTipoEnviar,$idArticulo, $articulo);
+$sqlArticuloCompras->sqlGuardarArticuloCompras($idTipoEnviar, $articulo);
 
 ?>
 

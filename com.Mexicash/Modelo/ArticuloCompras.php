@@ -27,6 +27,12 @@ class ArticuloCompras
     private $idAvaluoE;
     private $idObsE;
     private $idDetallePrendaE;
+    private $idContrato;
+    private $SerieBazar;
+    private $id_serieTipo;
+    private $tipo_movimiento;
+    private $descripcionCorta;
+
 
 
     /**
@@ -55,7 +61,13 @@ class ArticuloCompras
      * @param $idAvaluoE
      * @param $idObsE
      * @param $idDetallePrendaE
+     * @param $idContrato
+     * @param $SerieBazar
+     * @param $id_serieTipo
+     * @param $tipo_movimiento
+     * @param $descripcionCorta
      */
+
     public function __construct(
         $idTipoM,
         $idKilataje,
@@ -78,7 +90,13 @@ class ArticuloCompras
         $idPrestamoE,
         $idAvaluoE,
         $idObsE,
-        $idDetallePrendaE)
+        $idDetallePrendaE,
+        $idContrato,
+        $SerieBazar,
+        $id_serieTipo,
+        $tipo_movimiento,
+        $descripcionCorta
+)
     {
         //Metales
         $this->tipoM = $idTipoM;
@@ -106,6 +124,92 @@ class ArticuloCompras
         $this->observacionesE = $idObsE;
         $this->detallePrendaE = $idDetallePrendaE;
 
+        $this->idContrato = $idContrato;
+        $this->SerieBazar = $SerieBazar;
+        $this->id_serieTipo = $id_serieTipo;
+        $this->tipo_movimiento = $tipo_movimiento;
+        $this->descripcionCorta = $descripcionCorta;
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdContrato()
+    {
+        return $this->idContrato;
+    }
+
+    /**
+     * @param mixed $idContrato
+     */
+    public function setIdContrato($idContrato): void
+    {
+        $this->idContrato = $idContrato;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSerieBazar()
+    {
+        return $this->SerieBazar;
+    }
+
+    /**
+     * @param mixed $SerieBazar
+     */
+    public function setSerieBazar($SerieBazar): void
+    {
+        $this->SerieBazar = $SerieBazar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdSerieTipo()
+    {
+        return $this->id_serieTipo;
+    }
+
+    /**
+     * @param mixed $id_serieTipo
+     */
+    public function setIdSerieTipo($id_serieTipo): void
+    {
+        $this->id_serieTipo = $id_serieTipo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipoMovimiento()
+    {
+        return $this->tipo_movimiento;
+    }
+
+    /**
+     * @param mixed $tipo_movimiento
+     */
+    public function setTipoMovimiento($tipo_movimiento): void
+    {
+        $this->tipo_movimiento = $tipo_movimiento;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescripcionCorta()
+    {
+        return $this->descripcionCorta;
+    }
+
+    /**
+     * @param mixed $descripcionCorta
+     */
+    public function setDescripcionCorta($descripcionCorta): void
+    {
+        $this->descripcionCorta = $descripcionCorta;
     }
 
     /**

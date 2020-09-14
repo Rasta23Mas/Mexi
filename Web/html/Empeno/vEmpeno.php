@@ -51,11 +51,11 @@ include_once (DESC_PATH."modalDescuentoToken.php");
             $("#divTablaArticulos").load('tablaArticulos.php');
             $("#divTablaArticulos").hide();
             $("#btnEditar").prop('disabled', true);
-            llenarComboInteres(1);
+            fnLlenarCmbInteres(1);
             $("#idNombres").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
-            selectPrenda();
+            fnSelectPrenda();
         })
     </script>
     <style type="text/css">
