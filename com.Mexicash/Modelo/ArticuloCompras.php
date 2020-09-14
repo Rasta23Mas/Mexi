@@ -11,8 +11,6 @@ class ArticuloCompras
     private $idPeso;
     private $idPesoPiedra;
     private $idPiedras;
-    private $idPrestamo;
-    private $idAvaluo;
     private $idObs;
     private $idDetallePrenda;
     private $idVitrina;
@@ -23,8 +21,6 @@ class ArticuloCompras
     private $idEstado;
     private $idModelo;
     private $idSerie;
-    private $idPrestamoE;
-    private $idAvaluoE;
     private $idObsE;
     private $idDetallePrendaE;
     private $idContrato;
@@ -45,8 +41,6 @@ class ArticuloCompras
      * @param $idPeso
      * @param $idPesoPiedra
      * @param $idPiedras
-     * @param $idPrestamo
-     * @param $idAvaluo
      * @param $idObs
      * @param $idDetallePrenda
      * @param $idVitrina
@@ -57,8 +51,6 @@ class ArticuloCompras
      * @param $idEstado
      * @param $idModelo
      * @param $idSerie
-     * @param $idPrestamoE
-     * @param $idAvaluoE
      * @param $idObsE
      * @param $idDetallePrendaE
      * @param $idContrato
@@ -76,8 +68,6 @@ class ArticuloCompras
         $idPeso,
         $idPesoPiedra,
         $idPiedras,
-        $idPrestamo,
-        $idAvaluo,
         $idVitrina,
         $idPrecioCat,
         $idObs,
@@ -87,8 +77,6 @@ class ArticuloCompras
         $idEstado,
         $idModelo,
         $idSerie,
-        $idPrestamoE,
-        $idAvaluoE,
         $idObsE,
         $idDetallePrendaE,
         $idContrato,
@@ -106,8 +94,6 @@ class ArticuloCompras
         $this->peso = $idPeso;
         $this->pesoPiedra = $idPesoPiedra;
         $this->piedras = $idPiedras;
-        $this->prestamo = $idPrestamo;
-        $this->avaluo = $idAvaluo;
         $this->vitrina = $idVitrina;
         $this->precioCat = $idPrecioCat;
         $this->observaciones = $idObs;
@@ -118,12 +104,8 @@ class ArticuloCompras
         $this->estado = $idEstado;
         $this->modelo = $idModelo;
         $this->serie = $idSerie;
-        $this->prestamoE = $idPrestamoE;
-        $this->avaluoE = $idAvaluoE;
-
         $this->observacionesE = $idObsE;
         $this->detallePrendaE = $idDetallePrendaE;
-
         $this->idContrato = $idContrato;
         $this->SerieBazar = $SerieBazar;
         $this->id_serieTipo = $id_serieTipo;
@@ -261,37 +243,6 @@ class ArticuloCompras
         $this->piedras = $piedras;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAvaluo()
-    {
-        return $this->avaluo;
-    }
-
-    /**
-     * @param mixed $avaluo
-     */
-    public function setAvaluo($avaluo): void
-    {
-        $this->avaluo = $avaluo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAvaluoE()
-    {
-        return $this->avaluoE;
-    }
-
-    /**
-     * @param mixed $avaluoE
-     */
-    public function setAvaluoE($avaluoE): void
-    {
-        $this->avaluoE = $avaluoE;
-    }
 
     /**
      * @return mixed
@@ -455,40 +406,6 @@ class ArticuloCompras
     {
         $this->pesoPiedra = $pesoPiedra;
     }
-
-
-    /**
-     * @return mixed
-     */
-    public function getPrestamo()
-    {
-        return $this->prestamo;
-    }
-
-    /**
-     * @param mixed $prestamo
-     */
-    public function setPrestamo($prestamo): void
-    {
-        $this->prestamo = $prestamo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPrestamoE()
-    {
-        return $this->prestamoE;
-    }
-
-    /**
-     * @param mixed $prestamoE
-     */
-    public function setPrestamoE($prestamoE): void
-    {
-        $this->prestamoE = $prestamoE;
-    }
-
 
 
     /**

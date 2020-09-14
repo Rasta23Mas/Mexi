@@ -26,13 +26,10 @@ class sqlArticulosComprasDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
-            $status = 1;
-            $fechaCreacion = date('Y-m-d H:i:s');
-            $fechaModificacion = date('Y-m-d H:i:s');
+
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $idVitrina = $articulo->getVitrina();
             $sucursal = $_SESSION["sucursal"];
-            $idContrato = $articulo->getIdContrato();
             $SerieBazar = $articulo->getSerieBazar();
             $idSerieTipo = $articulo->getIdSerieTipo();
             $tipoMovimiento = $articulo->getTipoMovimiento();
@@ -47,9 +44,6 @@ class sqlArticulosComprasDAO
                 $idPeso = $articulo->getPeso();
                 $idPesoPiedra = $articulo->getPesoPiedra();
                 $idPiedras = $articulo->getPiedras();
-                $idPrestamo = $articulo->getPrestamo();
-                $idAvaluo = $articulo->getAvaluo();
-
                 $idObs = $articulo->getObs();
                 $idDetallePrenda = $articulo->getDetallePrenda();
 
@@ -59,17 +53,15 @@ class sqlArticulosComprasDAO
                 $idDetallePrenda = strtoupper($idDetallePrenda);
                 $insert = "INSERT INTO articulo_bazar_tbl " .
                     "(id_serie,id_serieTipo,tipo_movimiento,tipoArticulo,tipo, " .
-                    " kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, " .
-                    " vitrinaVenta,observaciones, detalle,descripcionCorta,sucursal)  VALUES " .
+                    " kilataje, calidad, cantidad, peso, peso_Piedra, piedras,vitrina, " .
+                    " vitrinaVenta,observaciones, detalle,descripcionCorta,sucursal,id_cierreCaja)  VALUES " .
                     " ('$SerieBazar',$idSerieTipo,$tipoMovimiento,$tipoPost,$idTipoM,$idKilataje,$idCalidad,$idCantidad,$idPeso,
-                      $idPesoPiedra, $idPiedras, $idPrestamo, $idAvaluo ,$idVitrina ,' $idObs',' $idDetallePrenda ',' $descCorta ',$sucursal)";
+                      $idPesoPiedra, $idPiedras, $idVitrina,$idVitrina ,' $idObs',' $idDetallePrenda ',' $descCorta ',$sucursal,$idCierreCaja)";
             } else if ($tipoPost == "2") {
                 $idTipoE = $articulo->getTipoE();
                 $idMarca = $articulo->getMarca();
                 $idModelo = $articulo->getModelo();
                 $idSerie = $articulo->getSerie();
-                $idPrestamoE = $articulo->getPrestamoE();
-                $idAvaluoE = $articulo->getAvaluoE();
                 $idObsE = $articulo->getObsE();
                 $precioCat = $articulo->getPrecioCat();
                 $idDetallePrendaE = $articulo->getDetallePrendaE();
@@ -79,10 +71,10 @@ class sqlArticulosComprasDAO
 
                 $insert = "INSERT INTO articulo_bazar_tbl " .
                     "(id_serie,id_serieTipo,tipo_movimiento,tipoArticulo,tipo, " .
-                    " marca, modelo, num_Serie, prestamo, avaluo,vitrina,vitrinaVenta, precioCat,   observaciones," .
-                    " detalle, descripcionCorta, sucursal)  VALUES " .
+                    " marca, modelo, num_Serie,vitrina,vitrinaVenta, precioCat,   observaciones," .
+                    " detalle, descripcionCorta, sucursal,id_cierreCaja)  VALUES " .
                     "('$SerieBazar',$idSerieTipo,$tipoMovimiento,$tipoPost,$idTipoE,$idMarca,$idModelo,
-                       $idSerie,$idPrestamoE,$idAvaluoE,$idVitrina,$precioCat,,' $idObsE',' $idDetallePrendaE ',' $descCorta ',$sucursal)";
+                       $idSerie,$idVitrina,$idVitrina,$precioCat,,' $idObsE',' $idDetallePrendaE ',' $descCorta ',$sucursal,$idCierreCaja)";
 
             }
             if ($ps = $this->conexion->prepare($insert)) {
@@ -109,7 +101,7 @@ class sqlArticulosComprasDAO
         $idCierreCaja = $_SESSION['idCierreCaja'];
 
         try {
-            $eliminarArticulo = "DELETE FROM articulocompras_tbl WHERE id_Contrato = 0 and id_cierreCaja=$idCierreCaja ";
+            $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE id_Contrato = 0 and id_cierreCaja=$idCierreCaja ";
             if ($this->conexion->query($eliminarArticulo) === TRUE) {
                 $verdad = 1;
             } else {
@@ -123,7 +115,61 @@ class sqlArticulosComprasDAO
         }
         echo $verdad;
     }
+    public function sqlBuscarArticulosCompras()
 
+    {
+        $datos = array();
+        try {
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $buscar = "SELECT id_ArticuloBazar,id_serie, descripcionCorta,observaciones,vitrina
+                        FROM articulo_bazar_tbl 
+                        WHERE id_Contrato=0  and id_cierreCaja=" . $idCierreCaja;
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_ArticuloBazar" => $row["id_ArticuloBazar"],
+                        "id_serie" => $row["id_serie"],
+                        "descripcionCorta" => $row["descripcionCorta"],
+                        "observaciones" => $row["observaciones"],
+                        "vitrina" => $row["vitrina"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+        //echo json_encode($datos);
+    }
+    public function sqlEliminarArticulo($id_ArticuloBazar)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+            $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE id_ArticuloBazar=$id_ArticuloBazar";
+
+            if ($ps = $this->conexion->prepare($eliminarArticulo)) {
+                if ($ps->execute()) {
+                    $verdad = mysqli_stmt_affected_rows($ps);
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $verdad;
+    }
     public function buscarArticuloCompras()
     {
         $datos = array();
@@ -161,41 +207,7 @@ class sqlArticulosComprasDAO
         echo json_encode($datos);
         //echo json_encode($datos);
     }
-    public function buscarMetalesCompras()
-    {
-        $datos = array();
-        try {
-            $idCierreCaja = $_SESSION['idCierreCaja'];
-            $buscar = "SELECT id_Articulo, TA.descripcion as tipoMetal, TK.descripcion as kilataje,TC.descripcion as calidad, 
-                        prestamo,avaluo, detalle FROM articulocompras_tbl AR
-                        INNER JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
-                        INNER JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
-                        INNER JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
-                        WHERE id_Contrato=0FD and id_cierreCaja=" . $idCierreCaja;
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "id_Articulo" => $row["id_Articulo"],
-                        "tipoMetal" => $row["tipoMetal"],
-                        "kilataje" => $row["kilataje"],
-                        "calidad" => $row["calidad"],
-                        "prestamo" => $row["prestamo"],
-                        "avaluo" => $row["avaluo"],
-                        "detalle" => $row["detalle"]
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
 
-        echo json_encode($datos);
-        //echo json_encode($datos);
-    }
 
     public function buscarAforo($idTipoFormulario)
     {
@@ -232,30 +244,7 @@ class sqlArticulosComprasDAO
         }
         echo json_encode($data);
     }
-    public function eliminarArticulo($idArticulo)
-    {
-        // TODO: Implement guardaCiente() method.
-        try {
-            $eliminarArticulo = "DELETE FROM articulo_tbl WHERE id_Articulo='$idArticulo'";
 
-            if ($ps = $this->conexion->prepare($eliminarArticulo)) {
-                if ($ps->execute()) {
-                    $verdad = mysqli_stmt_affected_rows($ps);
-                } else {
-                    $verdad = -1;
-                }
-            } else {
-                $verdad = -1;
-            }
-        } catch (Exception $exc) {
-            $verdad = -1;
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-        //return $verdad;
-        echo $verdad;
-    }
 
 
     function llenarCmbTipoPrenda(){

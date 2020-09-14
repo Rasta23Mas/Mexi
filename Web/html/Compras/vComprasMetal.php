@@ -45,7 +45,6 @@ if ($tipoUsuario == 2) {
             });
             fnLlenarCmbInteres(1);
             fnSelectPrendaCompras();
-            fnLlenarAforoCompras(1);
             fnArticulosObsoletosCom();
             fnBuscaridBazarCompras();
             var sucursal =<?php echo $sucursal ?>;
@@ -123,7 +122,7 @@ if ($tipoUsuario == 2) {
                             <div>
                                 <input id="idNombresVendedor" name="Nombres" type="text" style="width: 300px"
                                        class="inputCliente" onkeypress="fnNombreVenAutocompletar()"
-                                       placeholder="Buscar Cliente..."/>
+                                       placeholder="Buscar Vendedor..."/>
                             </div>
                             <div id="suggestionsNombreEmpeno"></div>
                         </td>
@@ -216,20 +215,6 @@ if ($tipoUsuario == 2) {
                                    onkeypress="return isNumberDecimal(event)"
                                    style="text-align:center"/>
                             <label>grs</label></td>
-                    </tr>
-                    <tr class="headt">
-                        <td>Préstamo:</td>
-                        <td>
-                            <input type="text" id="idPrestamo" name="prestamo" size="8"
-                                   onkeypress="return fnCalculaPrestamoPeso(event)" ;
-                                   style="text-align:center"/>
-                        </td>
-                        <td>Avalúo:</td>
-                        <td>
-                            <input type="text" id="idAvaluo" name="avaluo" size="8"
-                                   disabled
-                                   style="text-align:center"/>
-                        </td>
                     </tr>
                     <tr class="headt">
                         <td>Vitrina:</td>
@@ -337,20 +322,18 @@ if ($tipoUsuario == 2) {
                     </tbody>
                 </table>
             </div>
-            <div id="divTablaMetales" class="col col-md-8">
+            <div id="divTablaArticulos" class="col col-md-8">
                 <table class="table table-hover table-condensed table-bordered" width="100%">
                     <thead>
                     <tr>
-                        <th>Tipo</th>
-                        <th>Kilataje</th>
-                        <th>Calidad</th>
-                        <th>Préstamo</th>
-                        <th>Avalúo</th>
+                        <th>Serie</th>
+                        <th>Descripción</th>
                         <th>Observaciones</th>
+                        <th>Vitrina</th>
                         <th>Eliminar</th>
                     </tr>
                     </thead>
-                    <tbody id="idTBodyMetales">
+                    <tbody id="idTBodyArticulos">
                     </tbody>
                 </table>
             </div>
@@ -366,11 +349,15 @@ if ($tipoUsuario == 2) {
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idAforo" name="aforo" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" />
                             <input id="idCompra" name="Compra" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="idSuc" name="Sucursal" disabled type="text"
+                                   style="width: 150px; text-align: right"/>
+                            <input id="idSubtotalValue" name="subtotal" disabled type="number"
+                                   style="width: 150px; text-align: right"/>
+                            <input id="idIvaValue" name="iva" disabled type="number"
+                                   style="width: 150px; text-align: right"/>
+                            <input id="idTotalValue" name="total" disabled type="number"
                                    style="width: 150px; text-align: right"/>
                         </td>
                     </tr>

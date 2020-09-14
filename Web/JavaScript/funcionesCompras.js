@@ -41,25 +41,6 @@ function fnSelectPrendaCompras() {
     });
 }
 
-function fnLlenarAforoCompras(tipoFormulario) {
-    var dataEnviar = {
-        "idTipoFormulario": tipoFormulario
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Articulos/Aforo.php',
-        type: 'post',
-        dataType: "json",
-        success: function (response) {
-            if (response.status == 'ok') {
-                var porcentajeAforo = response.result.Porcentaje;
-                $("#idAforo").val(porcentajeAforo);
-            }
-        },
-    })
-
-
-}
 //Agrega articulos obsololetos
 function fnArticulosObsoletosCom() {
     //FEErr04
@@ -223,20 +204,14 @@ function fnCalculaPrestamoBtn() {
         var pesoPiedra = parseFloat($("#idPesoPiedra").val());
         var piedras = parseInt($("#idPiedras").val());
         var kilPrecio = parseInt($("#idKilatajePrecio").val());
-
+        alert(kilPrecio)
         var pesoTotalMetal = cantidad * peso;
         var pesoTotalPiedra = piedras * pesoPiedra;
         var pesoTotal = pesoTotalMetal - pesoTotalPiedra;
-        var prestamo = pesoTotal * kilPrecio;
-
-        var aforo = $("#idAforo").val();
-        aforo = parseInt(aforo);
-        var avaluoImporte = Math.floor(prestamo * 100) / aforo;
-        $("#idPrestamo").val(prestamo);
-        avaluoImporte = Math.round(avaluoImporte * 100) / 100;
-        $("#idAvaluo").val(avaluoImporte);
+        var vitrina = pesoTotal * kilPrecio;
+        $("#idVitrina").val(vitrina);
     } else {
-        $("#idPrestamo").val('');
+        $("#idVitrina").val(0);
     }
 }
 
@@ -280,141 +255,6 @@ function fnEfectivoCompra(e) {
     }
     return patron.test(te);
 }
-//Agrega articulos a la tabla
-function fnAgregarArtCompra() {
-    var idVendedor = $("#idVendedor").val();
-    var vitrina = $("#idVitrina").val();
-    var tipoMovimiento = 0;
-    if (idVendedor !== 0) {
-        if (vitrina !== "") {
-            var formElectronico = $("#idTipoElectronico").val();
-            var formMetal = $("#idTipoMetal").val();
-            if (formMetal !== 0 || formElectronico !== 0) {
-                if (formMetal > 0) {
-                    var detalle = $("#idDetallePrenda").val();
-                    tipoMovimiento = 28;
-                    if (detalle == "") {
-                        alertify.error("Favor de agregar la descripción de la prenda.");
-                    } else {
-                        //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
-                        var metalAvaluo = $("#idAvaluo").val();
-                        var metalPrestamo = $("#idPrestamo").val();
-                        var idSucursalSerie = $("#idSuc").val();
-                        idArticuloGlb++;
-                        var idArticulo = String(idArticuloGlb);
-                        idArticulo = idArticulo.padStart(2, "0");
-                        var idContrato = String($("#idCompra").val());
-                        var idContratoSerie = idContrato.padStart(6, "0");
-                        var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + " " + descDetalle;
-                        var id_serieTipo = 2;
-                        var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
-
-                        var dataEnviar = {
-                            "idTipoEnviar": 1,
-                            "idTipoMetal": formMetal,
-                            "idKilataje": $("#idKilataje").val(),
-                            "idCalidad": $("#idCalidad").val(),
-                            "idCantidad": $("#idCantidad").val(),
-                            "idPeso": $("#idPeso").val(),
-                            "idPesoPiedra": $("#idPesoPiedra").val(),
-                            "idPiedras": $("#idPiedras").val(),
-                            "idPrestamo": metalPrestamo,
-                            "idAvaluo": metalAvaluo,
-                            "idVitrina": $("#idVitrina").val(),
-                            "idObs": $("#idObs").val(),
-                            "idDetallePrenda": $("#idDetallePrenda").val(),
-                            "idContrato": 0,
-                            "SerieBazar": SerieBazar,
-                            "id_serieTipo": id_serieTipo,
-                            "tipo_movimiento": tipoMovimiento,
-                            "descripcionCorta": descripcionCorta,
-                        };
-                        $.ajax({
-                            data: dataEnviar,
-                            url: '../../../com.Mexicash/Controlador/Compras/ArticuloCompra.php',
-                            type: 'post',
-                            success: function (response) {
-                                if (response == 1) {
-                                    // cargarTablaMetales();
-                                    //LimpiarSinResetearIdArticulo();
-                                    alertify.success("Articulo agregado exitosamente.");
-                                } else {
-                                    alertify.error("Error al agregar articulo3.");
-                                }
-                            },
-                        })
-                    }
-
-                } else if (formElectronico > 0) {
-                    var detalle = $("#detallePrendaE").val();
-                    tipoMovimiento = 29;
-                    if (detalle == "") {
-                        alertify.error("Favor de agregar la descripción de la prenda.");
-                    } else {
-                        var artiAvaluo = $("#idAvaluoElectronico").val();
-                        var artiPrestamo = $("#idPrestamoElectronico").val();
-
-                        idArticuloGlb++;
-
-                        var idArticulo = String(idArticuloGlb);
-                        idArticulo = idArticulo.padStart(2, "0");
-                        var idContrato = String($("#idCompra").val());
-                        var idContratoSerie = idContrato.padStart(6, "0");
-                        var descripcionCorta = descTipoElectro + " " + descMarca + " " + descModelo + " " + descDetalle;
-                        var id_serieTipo = 2;
-                        var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
-
-                        //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
-                        var dataEnviar = {
-                            "idTipoEnviar": 2,
-                            "idTipoElectronico": formElectronico,
-                            "idMarca": $("#idMarca").val(),
-                            "idEstado": $("#idEstado").val(),
-                            "idModelo": $("#idModelo").val(),
-                            "idSerie": $("#idSerie").val(),
-                            "idPrestamoElectronico": artiPrestamo,
-                            "idAvaluoElectronico": artiAvaluo,
-                            "idVitrina": $("#idVitrina").val(),
-                            "idPrecioCat": $("#idPrecioCat").val(),
-                            "idObsElectronico": $("#idObsElectronico").val(),
-                            "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
-                            "idContrato": 0,
-                            "SerieBazar": SerieBazar,
-                            "id_serieTipo": id_serieTipo,
-                            "tipo_movimiento": tipoMovimiento,
-                            "descripcionCorta": descripcionCorta,
-
-                        };
-                        $.ajax({
-                            data: dataEnviar,
-                            url: '../../../com.Mexicash/Controlador/Compras/ArticuloCompra.php',
-                            type: 'post',
-                            success: function (response) {
-                                if (response == 1) {
-                                    cargarTablaArticulo();
-                                    $("#divTablaArticulos").load('tablaArticulos.php');
-                                    LimpiarSinResetearIdArticulo();
-                                    alertify.success("Articulo agregado exitosamente.");
-                                } else {
-                                    alertify.error("Error al agregar articulo.4");
-                                }
-                            },
-                        })
-                    }
-                } else {
-                    alertify.error("Por Favor. Selecciona un tipo de articulo.");
-                }
-
-            }
-        } else {
-            alertify.error("Por Favor. Ingresa precio vitrina.");
-        }
-    } else {
-        alertify.error("Por Favor. Selecciona un vendedor.");
-    }
-
-}
-
 //Limpia la tabla de Articulos
 function fnLimpiarCompra() {
     <!--   Limpiar Metales-->
@@ -447,8 +287,141 @@ function fnLimpiarCompra() {
     $("#idPesoPiedra").val(0);
     idArticuloGlb = 0;
 }
+//Agrega articulos a la tabla
+function fnAgregarArtCompra() {
+    var idVendedor = $("#idVendedor").val();
+    var vitrina = $("#idVitrina").val();
+    var tipoMovimiento = 0;
+    if (idVendedor !== 0) {
+        if (vitrina !== "") {
+            var formElectronico = $("#idTipoElectronico").val();
+            var formMetal = $("#idTipoMetal").val();
+            if (formMetal !== 0 || formElectronico !== 0) {
+                if (formMetal > 0) {
+                    var detalle = $("#idDetallePrenda").val();
+                    tipoMovimiento = 28;
+                    if (detalle == "") {
+                        alertify.error("Favor de agregar la descripción de la prenda.");
+                    } else {
+                        //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
+                        var idSucursalSerie = $("#idSuc").val();
+                        idArticuloGlb++;
+                        var idArticulo = String(idArticuloGlb);
+                        idArticulo = idArticulo.padStart(2, "0");
+                        var idContrato = String($("#idCompra").val());
+                        var idContratoSerie = idContrato.padStart(6, "0");
+                        var descTipoMetal = $('select[name="cmbTipoMetal"] option:selected').text();
+                        var descKilataje = $('select[name="cmbKilataje"] option:selected').text();
+                        var descCalidad = $('select[name="cmbCalidad"] option:selected').text();
+                        var descDetalle = $("#idDetallePrenda").val();
+                        var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + " " + descDetalle;
+                        var id_serieTipo = 2;
+                        var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
 
-function LimpiarSinResetearIdArticulo() {
+                        var dataEnviar = {
+                            "idTipoEnviar": 1,
+                            "idTipoMetal": formMetal,
+                            "idKilataje": $("#idKilataje").val(),
+                            "idCalidad": $("#idCalidad").val(),
+                            "idCantidad": $("#idCantidad").val(),
+                            "idPeso": $("#idPeso").val(),
+                            "idPesoPiedra": $("#idPesoPiedra").val(),
+                            "idPiedras": $("#idPiedras").val(),
+                            "idVitrina": $("#idVitrina").val(),
+                            "idObs": $("#idObs").val(),
+                            "idDetallePrenda": $("#idDetallePrenda").val(),
+                            "idContrato": 0,
+                            "SerieBazar": SerieBazar,
+                            "id_serieTipo": id_serieTipo,
+                            "tipo_movimiento": tipoMovimiento,
+                            "descripcionCorta": descripcionCorta,
+                        };
+                        $.ajax({
+                            data: dataEnviar,
+                            url: '../../../com.Mexicash/Controlador/Compras/ConArticuloCompra.php',
+                            type: 'post',
+                            success: function (response) {
+                                if (response == 1) {
+                                    fnCargarArticulos();
+                                    fnLimpiarSinResetearIdArticulo();
+                                    alertify.success("Articulo agregado exitosamente.");
+                                } else {
+                                    alertify.error("Error al agregar articulo.");
+                                }
+                            },
+                        })
+                    }
+
+                } else if (formElectronico > 0) {
+                    var detalle = $("#detallePrendaE").val();
+                    tipoMovimiento = 29;
+                    if (detalle == "") {
+                        alertify.error("Favor de agregar la descripción de la prenda.");
+                    } else {
+                        idArticuloGlb++;
+
+                        var idArticulo = String(idArticuloGlb);
+                        idArticulo = idArticulo.padStart(2, "0");
+                        var idContrato = String($("#idCompra").val());
+                        var idContratoSerie = idContrato.padStart(6, "0");
+                        var descTipoElectro = $('select[name="cmbTipoElectronico"] option:selected').text();
+                        var descMarca = $('select[name="marcaSelect"] option:selected').text();
+                        var descModelo = $('select[name="modeloSelect"] option:selected').text();
+                        var descDetalle = $("#idDetallePrendaElectronico").val();
+                        var descripcionCorta = descTipoElectro + " " + descMarca + " " + descModelo + " " + descDetalle;
+                        var id_serieTipo = 2;
+                        var idSucursalSerie = $("#idSuc").val();
+                        var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
+
+                        //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
+                        var dataEnviar = {
+                            "idTipoEnviar": 2,
+                            "idTipoElectronico": formElectronico,
+                            "idMarca": $("#idMarca").val(),
+                            "idEstado": $("#idEstado").val(),
+                            "idModelo": $("#idModelo").val(),
+                            "idSerie": $("#idSerie").val(),
+                            "idVitrina": $("#idVitrina").val(),
+                            "idPrecioCat": $("#idPrecioCat").val(),
+                            "idObsElectronico": $("#idObsElectronico").val(),
+                            "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
+                            "idContrato": 0,
+                            "SerieBazar": SerieBazar,
+                            "id_serieTipo": id_serieTipo,
+                            "tipo_movimiento": tipoMovimiento,
+                            "descripcionCorta": descripcionCorta,
+
+                        };
+                        $.ajax({
+                            data: dataEnviar,
+                            url: '../../../com.Mexicash/Controlador/Compras/ConArticuloCompra.php',
+                            type: 'post',
+                            success: function (response) {
+                                if (response == 1) {
+                                    fnCargarArticulos();
+                                    fnLimpiarSinResetearIdArticulo();
+                                    alertify.success("Articulo agregado exitosamente.");
+                                } else {
+                                    alertify.error("Error al agregar articulo.4");
+                                }
+                            },
+                        })
+                    }
+                } else {
+                    alertify.error("Por Favor. Selecciona un tipo de articulo.");
+                }
+
+            }
+        } else {
+            alertify.error("Por Favor. Ingresa precio vitrina.");
+        }
+    } else {
+        alertify.error("Por Favor. Selecciona un vendedor.");
+    }
+
+}
+
+function fnLimpiarSinResetearIdArticulo() {
     <!--   Limpiar Metales-->
     $("#idTipoMetal").val(0);
     $("#idKilataje").val(0);
@@ -479,16 +452,12 @@ function LimpiarSinResetearIdArticulo() {
     $("#idPesoPiedra").val(0);
 }
 
-
-
-
 //Cargar tabla Articulos
-function cargarTablaMetales() {
-    var metalPrestamo = 0;
-    var metalAvaluo = 0;
+function fnCargarArticulos() {
+    var subTotal = 0;
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Vendedor/tblMetalesCompras.php',
+        url: '../../../com.Mexicash/Controlador/Vendedor/ConTblArticulosCompras.php',
         dataType: "json",
         success: function (datos) {
             alert("Refrescando tabla.");
@@ -501,164 +470,59 @@ function cargarTablaMetales() {
             } else {
                 for (i; i < datos.length; i++) {
 
-                    var tipoMetal = datos[i].tipoMetal;
-                    var kilataje = datos[i].kilataje;
-                    var calidad = datos[i].calidad;
-                    var prestamo = datos[i].prestamo;
-                    var avaluo = datos[i].avaluo;
+                    var id_ArticuloBazar = datos[i].id_ArticuloBazar;
+                    var id_serie = datos[i].id_serie;
+                    var descripcionCorta = datos[i].descripcionCorta;
+                    var observaciones = datos[i].observaciones;
+                    var vitrina = datos[i].vitrina;
 
-                    var detalle = datos[i].detalle;
+                    vitrina = parseFloat(vitrina);
+                    subTotal +=vitrina;
+                    vitrina = formatoMoneda(vitrina);
 
-                    prestamo = parseFloat(prestamo);
-                    avaluo = parseFloat(avaluo);
-                    metalPrestamo += prestamo;
-                    metalAvaluo += avaluo;
-                    prestamo = formatoMoneda(prestamo);
-                    avaluo = formatoMoneda(avaluo);
-                    if (tipoMetal == null) {
-                        tipoMetal = '';
-                    }
-                    if (kilataje == null) {
-                        kilataje = '';
-                    }
-                    if (calidad == null) {
-                        calidad = '';
-                    }
-                    if (prestamo == null) {
-                        prestamo = '';
-                    }
-                    if (avaluo == null) {
-                        avaluo = '';
-                    }
-                    if (detalle == null) {
-                        detalle = '';
-                    }
                     html += '<tr>' +
-                        '<td>' + tipoMetal + '</td>' +
-                        '<td>' + kilataje + '</td>' +
-                        '<td>' + calidad + '</td>' +
-                        '<td>' + prestamo + '</td>' +
-                        '<td>' + avaluo + '</td>' +
-                        '<td>' + detalle + '</td>' +
+                        '<td>' + id_serie + '</td>' +
+                        '<td>' + descripcionCorta + '</td>' +
+                        '<td>' + observaciones + '</td>' +
+                        '<td>' + vitrina + '</td>' +
                         '<td><input type="button" class="btn btn-danger" value="Eliminar" ' +
-                        'onclick="confirmarEliminarMetales(' + datos[i].id_Articulo + ')"></td>' +
+                        'onclick="fnConfirmarEliminarArticulo(' + id_ArticuloBazar + ')"></td>' +
                         '</tr>';
                 }
 
             }
-            sumarTotalesMetal(metalPrestamo, metalAvaluo);
-            $('#idTBodyMetales').html(html);
-        }
-    });
-
-
-}
-
-function cargarTablaArticulo() {
-    var artiPrestamo = 0;
-    var artiAvaluo = 0;
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Articulos/tblArticulos.php',
-        dataType: "json",
-        success: function (datos) {
-            alert("Refrescando tabla.");
-            var html = '';
-            var i = 0;
-            if (datos.length == 0) {
-                html += '<tr>' +
-                    '<td colspan="7" align="center"> Sin datos a mostrar</td>' +
-                    '</tr>';
-            } else {
-                for (i; i < datos.length; i++) {
-                    var tipo = datos[i].tipo;
-                    var marca = datos[i].marca;
-                    var modelo = datos[i].modelo;
-                    var prestamo = datos[i].prestamo;
-                    var avaluo = datos[i].avaluo;
-                    var detalle = datos[i].detalle;
-
-                    prestamo = parseFloat(prestamo);
-                    avaluo = parseFloat(avaluo);
-                    artiPrestamo += prestamo;
-                    artiAvaluo += avaluo;
-                    prestamo = formatoMoneda(prestamo);
-                    avaluo = formatoMoneda(avaluo);
-
-                    if (marca == null) {
-                        marca = '';
-                    }
-                    if (modelo == null) {
-                        modelo = '';
-                    }
-                    if (prestamo == null) {
-                        prestamo = '';
-                    }
-                    if (avaluo == null) {
-                        avaluo = '';
-                    }
-                    if (detalle == null) {
-                        detalle = '';
-                    }
-                    html += '<tr>' +
-                        '<td>' + tipo + '</td>' +
-                        '<td>' + marca + '</td>' +
-                        '<td>' + modelo + '</td>' +
-                        '<td>' + prestamo + '</td>' +
-                        '<td>' + avaluo + '</td>' +
-                        '<td>' + detalle + '</td>' +
-                        '<td><input type="button" class="btn btn-danger" value="Eliminar" ' +
-                        'onclick="confirmarEliminar(' + datos[i].id_Articulo + ')"></td>' +
-                        '</tr>';
-                }
-            }
-
-            sumarTotalesArticulo(artiPrestamo, artiAvaluo);
-
+            fnCalcularTotales(subTotal);
             $('#idTBodyArticulos').html(html);
         }
     });
-    $("#divTablaArticulos").load('tablaArticulos.php');
+
 
 }
 
-//Alerta para confirmar la Eliminacion
-function confirmarEliminar(idArticulo) {
+function fnConfirmarEliminarArticulo(idArticuloBazar) {
     alertify.confirm('Eliminar',
         'Confirme eliminacion de articulo seleccionado.',
         function () {
-            eliminarArticulo(idArticulo)
+            fnEliminarArticulo(idArticuloBazar)
         },
         function () {
             alertify.error('Cancelado')
         });
 }
 
-function confirmarEliminarMetales(idArticulo) {
-    alertify.confirm('Eliminar',
-        'Confirme eliminacion de articulo seleccionado.',
-        function () {
-            eliminarMetales(idArticulo)
-        },
-        function () {
-            alertify.error('Cancelado')
-        });
-}
 
-//Elimina articulos
-function eliminarArticulo(idArticulo) {
+function fnEliminarArticulo(idArticuloBazar) {
     idArticuloGlb--;
     var dataEnviar = {
-        "$idArticulo": idArticulo
+        "idArticulo": idArticuloBazar
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Vendedor/EliminarArticuloCompras.php',
+        url: '../../../com.Mexicash/Controlador/Vendedor/ConEliminarArticuloCompras.php',
         type: 'post',
         success: function (response) {
             if (response == 1) {
-                cargarTablaArticulo();
-                $("#divTablaArticulos").load('tablaArticulos.php');
+                fnCargarTablaMetales();
                 alertify.success("Eliminado con éxito.");
             } else {
                 alertify.error("Error al eliminar articulo.");
@@ -668,26 +532,32 @@ function eliminarArticulo(idArticulo) {
 
 }
 
-function eliminarMetales(idArticulo) {
-    idArticuloGlb--;
-    var dataEnviar = {
-        "idArticulo": idArticulo
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Vendedor/EliminarArticuloCompras.php',
-        type: 'post',
-        success: function (response) {
-            if (response == 1) {
-                cargarTablaMetales();
-                alertify.success("Eliminado con éxito.");
-            } else {
-                alertify.error("Error al eliminar articulo.");
-            }
-        },
-    })
+function fnCalcularTotales(subTotal) {
+    var subtotalValue = $("#idSubtotalValue").val();
+    var ivaValue = $("#iIvaValue").val();
+    var totalValue = $("#idTotalValue").val();
+
+    subtotalValue += subTotal;
+    $("#idSubtotalValue").val(subtotalValue);
+    subtotalValue = formatoMoneda(subtotalValue)
+    $("#idSubtotal").val(subtotalValue);
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

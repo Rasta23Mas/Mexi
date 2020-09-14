@@ -126,7 +126,7 @@ function fnNombreVenAutocompletar() {
         };
         $.ajax({
             type: "POST",
-            url: '../../../com.Mexicash/Controlador/Vendedor/AutocompleteVendedor.php',
+            url: '../../../com.Mexicash/Controlador/Vendedor/ConAutocompleteVendedor.php',
             data: dataEnviar,
             success: function (data) {
                 //Escribimos las sugerencias que nos manda la consulta
