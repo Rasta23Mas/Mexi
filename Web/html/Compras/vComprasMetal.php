@@ -8,7 +8,6 @@ include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
 include_once(DESC_PATH . "modalDescuentoToken.php");
 
 $sucursal = $_SESSION['sucursal'];
-
 $tipoUsuario = $_SESSION['tipoUsuario'];
 if ($tipoUsuario == 2) {
     include_once(HTML_PATH . "menuAdmin.php");
@@ -37,18 +36,21 @@ if ($tipoUsuario == 2) {
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#idFormEmpeno").trigger("reset");
+            $("#idFormCompras").trigger("reset");
             $("#btnEditar").prop('disabled', true);
-
+            $("#btnCompra").prop('disabled', true);
+            var sucursal =<?php echo $sucursal ?>;
+            fnBuscaridBazarCompras(sucursal);
             $("#idNombres").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
             fnLlenarCmbInteres(1);
+            fnBuscarIVACatalogo();
             fnSelectPrendaCompras();
             fnArticulosObsoletosCom();
-            fnBuscaridBazarCompras();
-            var sucursal =<?php echo $sucursal ?>;
-            $("#idSuc").val(sucursal);
+
+
+            //alert(sucursal)
         })
     </script>
     <style type="text/css">
@@ -89,7 +91,7 @@ if ($tipoUsuario == 2) {
     </style>
 </head>
 <body>
-<form id="idFormEmpeno" name="formEmpeno">
+<form id="idFormCompras" name="formEmpeno">
     <div id="contenedor" class="container">
         <div>
             <br>
@@ -159,7 +161,7 @@ if ($tipoUsuario == 2) {
                 </table>
             </div>
             <div class="col col-md-8">
-                <table width="90%" class="border-primary border">
+                <table width="100%" class="border-primary border">
                     <tr style="background: dodgerblue; color:white;">
                         <td colspan="4" align="center">Compra Metales</td>
                     </tr>
@@ -247,6 +249,14 @@ if ($tipoUsuario == 2) {
                                class="textArea" rows="1" cols="40"></textarea></p>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="4" align="right">
+                            <input type="button" class="btn btn-success" value="Agregar" onclick="fnAgregarArtCompra()">&nbsp;
+                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="fnLimpiarCompra()">&nbsp;
+                            <input type="button" id="btnCompra" class="btn btn-primary" value="Comprar" onclick="validarMonto()">&nbsp;
+                            <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -264,7 +274,7 @@ if ($tipoUsuario == 2) {
                             <label for="subtotal">SubTotal:</label>
                         </td>
                         <td align="right">
-                            <input type="text" name="subtotal"  id="idSubTotal"
+                            <input type="text" name="subtotal"  id="idSubTotalCompra"
                                    style="width: 120px; text-align: right "disabled/>
                         </td>
                     </tr>
@@ -273,7 +283,7 @@ if ($tipoUsuario == 2) {
                             <label for="subtotal">IVA:</label>
                         </td>
                         <td style="vertical-align:top;" align="right">
-                            <input type="text" name="iva"  id="idIva"
+                            <input type="text" name="iva"  id="idIvaCompra"
                                    style="width: 120px; text-align: right "disabled/>
                         </td>
                     </tr>
@@ -282,7 +292,7 @@ if ($tipoUsuario == 2) {
                             <label for="subtotal">Total a Pagar:</label>
                         </td>
                         <td  style="vertical-align:top;" align="right">
-                            <input type="text" name="totalPagar"  id="idTotalPagar"
+                            <input type="text" name="totalPagar"  id="idTotalPagarCompra"
                                    style="width: 120px;text-align: right "disabled/>
                         </td>
                     </tr>
@@ -291,7 +301,7 @@ if ($tipoUsuario == 2) {
                             <label for="subtotal">Efectivo:</label>
                         </td>
                         <td style="vertical-align:top;" align="right">
-                            <input type="text" name="efectivo"  id="idEfectivo"
+                            <input type="text" name="efectivo"  id="idEfectivoCompra"
                                    style="width: 120px; text-align: right "
                                    placeholder="$0.00"
                                    onkeypress="return fnEfectivoCompra(event)"/>
@@ -302,21 +312,13 @@ if ($tipoUsuario == 2) {
                             <label for="subtotal">Cambio:</label>
                         </td>
                         <td style="vertical-align:top;" align="right">
-                            <input type="text" name="cambio"  id="idCambio" placeholder="$0.00"
+                            <input type="text" name="cambio"  id="idCambioCompra" placeholder="$0.00"
                                    style="width: 120px; text-align: right "  disabled/>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="right">
-                            <input type="button" class="btn btn-success" value="Agregar" onclick="fnAgregarArtCompra()">&nbsp;
-                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="fnLimpiarCompra()">&nbsp;
-                            <input type="button" class="btn btn-primary" value="Comprar" onclick="validarMonto()">&nbsp;
-                            <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">
                         </td>
                     </tr>
                     </tbody>
@@ -349,16 +351,6 @@ if ($tipoUsuario == 2) {
                                    style="width: 150px; text-align: right" class="invisible"/>
                             <input id="tokenDescripcion" name="tokenDescripcion" disabled type="text" value="0"
                                    style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idCompra" name="Compra" disabled type="text" value="0"
-                                   style="width: 150px; text-align: right" class="invisible"/>
-                            <input id="idSuc" name="Sucursal" disabled type="text"
-                                   style="width: 150px; text-align: right"/>
-                            <input id="idSubtotalValue" name="subtotal" disabled type="number"
-                                   style="width: 150px; text-align: right"/>
-                            <input id="idIvaValue" name="iva" disabled type="number"
-                                   style="width: 150px; text-align: right"/>
-                            <input id="idTotalValue" name="total" disabled type="number"
-                                   style="width: 150px; text-align: right"/>
                         </td>
                     </tr>
                 </table>

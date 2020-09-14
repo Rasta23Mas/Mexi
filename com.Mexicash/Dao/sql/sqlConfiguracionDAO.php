@@ -121,4 +121,27 @@ class sqlConfiguracionDAO
         echo $verdad;
     }
 
+    function sqlLlenarIvaCat()
+    {
+        $datos = array();
+        $sucursal = $_SESSION["sucursal"];
+        $idCantidad = 0;
+        try {
+            $buscar = "SELECT cantidad FROM cat_iva WHERE sucursal = $sucursal AND estatus=1";
+            $statement = $this->conexion->query($buscar);
+            if ($statement->num_rows > 0) {
+                $fila = $statement->fetch_object();
+                $idCantidad = $fila->cantidad;
+            }else{
+                $idCantidad = 0;
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo $idCantidad;
+    }
+
 }

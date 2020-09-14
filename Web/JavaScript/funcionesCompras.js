@@ -1,8 +1,17 @@
 //Variables Globales
 var Interes = 0.00;
 var idArticuloGlb = 0;
+var subTotalGlb = 0;
+var ivaGlb = 0;
+var totalGlb = 0;
+var IvaCatalogoGlb = 0;
+var sucursalGlb = 0;
+var efectivoGlb = 0;
+var cambioGlb = 0;
+var idContratoCompraGlb = 0;
 
-function fnBuscaridBazarCompras() {
+function fnBuscaridBazarCompras(sucursal) {
+    sucursalGlb = sucursal;
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Compras/ConBuscarIdCompras.php',
         type: 'post',
@@ -10,7 +19,21 @@ function fnBuscaridBazarCompras() {
             if (respuesta == 0) {
                 location.reload()
             }else{
-                $("#idCompra").val(respuesta);
+                idContratoCompra = respuesta;
+            }
+        },
+    })
+}
+
+function fnBuscarIVACatalogo() {
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Configuracion/ConIvaCatalogo.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta == 0) {
+                location.reload()
+            }else{
+                IvaCatalogoGlb = respuesta
             }
         },
     })
@@ -51,7 +74,7 @@ function fnArticulosObsoletosCom() {
             if (response == -1 || response == 0) {
                 alertify.error("Error FEErr04.");
             } else {
-                $("#idFormEmpeno")[0].reset();
+                $("#idFormCompras")[0].reset();
                 alertify.success("Bienvenidos");
             }
         },
@@ -133,52 +156,6 @@ function fnLlenaPrecioKilataje() {
     });
 }
 
-function fnCalculaPrestamoPeso(e) {
-    var tecla;
-    tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 8) {
-        return true;
-    }
-    var patron;
-    patron = /[0-9.]/
-    var te;
-    te = String.fromCharCode(tecla);
-    if (e.keyCode == 13 && !e.shiftKey) {
-        var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-        if (tipoInteresEmpeno == 0) {
-            alert("Selecciona un tipo de de interes.")
-        } else {
-            var validate = false;
-
-            if ($("#idTipoMetal").val() == 0) {
-                alert("Selecciona un tipo de metal")
-            } else if ($("#idKilataje").val() == 0) {
-                alert("Selecciona un tipo de kilataje")
-            } else if ($("#idCalidad").val() == 0) {
-                alert("Selecciona un tipo de calidad")
-            } else if ($("#idCantidad").val() == "" || $("#idCantidad").val() == 0) {
-                alert("Ingresa el campo de Cantidad")
-            } else if ($("#idPeso").val() == "" || $("#idPeso").val() == 0) {
-                alert("Ingresa el campo de Peso")
-            } else if ($("#idPiedras").val() == "") {
-                alert("Ingresa el campo de Piedras")
-            } else if ($("#idPesoPiedra").val() == "") {
-                alert("Ingresa el campo de Peso Piedras")
-            } else if ($("#idPrestamo").val() == "" || $("#idPrestamo").val() == 0) {
-                alert("Ingresa el prestamo")
-            } else {
-                validate = true;
-            }
-            if (validate) {
-                calculaAvaluo();
-            }
-        }
-    } else {
-        return patron.test(te);
-    }
-
-}
-
 function fnCalculaPrestamoBtn() {
     var validate = false;
     if ($("#idTipoMetal").val() == 0) {
@@ -204,7 +181,6 @@ function fnCalculaPrestamoBtn() {
         var pesoPiedra = parseFloat($("#idPesoPiedra").val());
         var piedras = parseInt($("#idPiedras").val());
         var kilPrecio = parseInt($("#idKilatajePrecio").val());
-        alert(kilPrecio)
         var pesoTotalMetal = cantidad * peso;
         var pesoTotalPiedra = piedras * pesoPiedra;
         var pesoTotal = pesoTotalMetal - pesoTotalPiedra;
@@ -227,30 +203,28 @@ function fnEfectivoCompra(e) {
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
 
-        var totalValue = $("#idTotalValue").val();
-        var efectivo = $("#idEfectivo").val();
+        var efectivo = $("#idEfectivoCompra").val();
 
-        totalValue = Math.floor(totalValue * 100) / 100;
+        alert(totalGlb);
+        alert(efectivo)
         efectivo = Math.floor(efectivo * 100) / 100;
 
-        if (efectivo < totalValue) {
+        if (efectivo < totalGlb) {
             alert("El efectivo no puede ser menor que el total a pagar.")
         } else {
-            $("#idEfectivo").val("");
-            $("#idCambio").val("");
-            $("#idEfectivoValue").val("");
-            $("#idCambioValue").val("");
-            var cambio = efectivo - totalValue;
-            cambio = Math.floor(cambio * 100) / 100;
+            $("#idEfectivoCompra").val("");
+            $("#idCambioCompra").val("");
 
-            $("#idEfectivoValue").val(efectivo);
-            $("#idCambioValue").val(cambio);
-            cambio = formatoMoneda(cambio);
-            efectivo = formatoMoneda(efectivo);
-            $("#idCambio").val(cambio);
-            $("#idEfectivo").val(efectivo);
-            $("#idEfectivo").prop('disabled', true);
-            $("#btnVenta").prop('disabled', false);
+            cambioGlb = efectivo - totalGlb;
+            cambioGlb = Math.floor(cambioGlb * 100) / 100;
+
+            efectivoGlb = efectivo;
+            var cambioFormat = formatoMoneda(cambioGlb);
+            efectivo = formatoMoneda(efectivoGlb);
+            $("#idCambioCompra").val(cambioFormat);
+            $("#idEfectivoCompra").val(efectivo);
+            $("#idEfectivoCompra").prop('disabled', true);
+            $("#btnCompra").prop('disabled', false);
         }
     }
     return patron.test(te);
@@ -297,6 +271,7 @@ function fnAgregarArtCompra() {
             var formElectronico = $("#idTipoElectronico").val();
             var formMetal = $("#idTipoMetal").val();
             if (formMetal !== 0 || formElectronico !== 0) {
+                var idSucursalSerie = "0"+ sucursalGlb;
                 if (formMetal > 0) {
                     var detalle = $("#idDetallePrenda").val();
                     tipoMovimiento = 28;
@@ -304,11 +279,11 @@ function fnAgregarArtCompra() {
                         alertify.error("Favor de agregar la descripción de la prenda.");
                     } else {
                         //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
-                        var idSucursalSerie = $("#idSuc").val();
+
                         idArticuloGlb++;
                         var idArticulo = String(idArticuloGlb);
                         idArticulo = idArticulo.padStart(2, "0");
-                        var idContrato = String($("#idCompra").val());
+                        var idContrato = String(idContratoCompraGlb);
                         var idContratoSerie = idContrato.padStart(6, "0");
                         var descTipoMetal = $('select[name="cmbTipoMetal"] option:selected').text();
                         var descKilataje = $('select[name="cmbKilataje"] option:selected').text();
@@ -362,7 +337,7 @@ function fnAgregarArtCompra() {
 
                         var idArticulo = String(idArticuloGlb);
                         idArticulo = idArticulo.padStart(2, "0");
-                        var idContrato = String($("#idCompra").val());
+                        var idContrato = String(idContratoCompraGlb);
                         var idContratoSerie = idContrato.padStart(6, "0");
                         var descTipoElectro = $('select[name="cmbTipoElectronico"] option:selected').text();
                         var descMarca = $('select[name="marcaSelect"] option:selected').text();
@@ -370,7 +345,7 @@ function fnAgregarArtCompra() {
                         var descDetalle = $("#idDetallePrendaElectronico").val();
                         var descripcionCorta = descTipoElectro + " " + descMarca + " " + descModelo + " " + descDetalle;
                         var id_serieTipo = 2;
-                        var idSucursalSerie = $("#idSuc").val();
+
                         var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
 
                         //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
@@ -533,89 +508,25 @@ function fnEliminarArticulo(idArticuloBazar) {
 }
 
 function fnCalcularTotales(subTotal) {
-    var subtotalValue = $("#idSubtotalValue").val();
-    var ivaValue = $("#iIvaValue").val();
-    var totalValue = $("#idTotalValue").val();
 
-    subtotalValue += subTotal;
-    $("#idSubtotalValue").val(subtotalValue);
-    subtotalValue = formatoMoneda(subtotalValue)
-    $("#idSubtotal").val(subtotalValue);
+    var subTotal = parseFloat(subTotal);
+    subTotalGlb += subTotal;
+
+    subTotalGlb = Math.round(subTotalGlb * 100) / 100;
+    ivaGlb = Math.floor(subTotalGlb * IvaCatalogoGlb) / 100;
+    totalGlb = subTotalGlb
+
+    var subtotalFormat = formatoMoneda(subTotalGlb);
+    var ivaValueFormat = formatoMoneda(ivaGlb);
+    var totalValueFormat = formatoMoneda(totalGlb);
+    $("#idSubTotalCompra").val(subtotalFormat);
+    $("#idIvaCompra").val(ivaValueFormat);
+    $("#idTotalPagarCompra").val(totalValueFormat);
 
 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function calculaAvaluo() {
-    var tipoInteresEmpeno = parseFloat($("#tipoInteresEmpeno").val());
-    if (tipoInteresEmpeno == 0) {
-        alert("Selecciona un tipo de de interes.")
-    } else {
-        var prestamo = parseFloat($("#idPrestamo").val());
-        var avaluoImporte = Math.floor(prestamo * 100) / 90;
-        avaluoImporte = Math.round(avaluoImporte * 100) / 100;
-
-        $("#idAvaluo").val(avaluoImporte);
-    }
-}
-
-function calculaAvaluoElec() {
-    var tipoInteresEmpeno = $("#tipoInteresEmpeno").val();
-    if (tipoInteresEmpeno == 0) {
-        alert("Selecciona un tipo de de interes.")
-    } else {
-        var prestamoElec = $("#idPrestamoElectronico").val();
-        if (prestamoElec == '' || prestamoElec == null) {
-            if ($("#idTipoElectronico").val() == 0) {
-                alert("Selecciona un tipo de electronico")
-            } else {
-                if ($("#idMarca").val() == 0) {
-                    alert("Selecciona una marca")
-                } else {
-                    if ($("#idModelo").val() == 0) {
-                        alert("Selecciona un modelo")
-                    } else {
-                        if ($("#idPrestamoElectronico").val() == 0) {
-                            alert("Ingresa la cantidad de prestamo.")
-                        } else {
-                            var prestamoElec = parseFloat(prestamoElec);
-                            var aforo = $("#idAforo").val();
-                            aforo = parseInt(aforo);
-                            var avaluoImporteElectronico = Math.floor(prestamoElec * 100) / aforo;
-                            avaluoImporteElectronico = Math.round(avaluoImporteElectronico * 100) / 100;
-                            $("#idAvaluoElectronico").val(avaluoImporteElectronico);
-                        }
-                    }
-                }
-            }
-        } else {
-            var aforo = $("#idAforo").val();
-            aforo = parseInt(aforo);
-            var avaluoImporteElectronico = Math.floor(prestamoElec * 100) / aforo;
-            avaluoImporteElectronico = Math.round(avaluoImporteElectronico * 100) / 100;
-            $("#idAvaluoElectronico").val(avaluoImporteElectronico);
-        }
-    }
-}
 
 
 
