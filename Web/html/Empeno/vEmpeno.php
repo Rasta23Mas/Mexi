@@ -12,15 +12,7 @@ include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
 include_once(HTML_PATH . "Empeno/modalArticulos.php");
 include_once(HTML_PATH . "Empeno/modalAgregarArticulos.php");
-$tipoUsuario = $_SESSION['tipoUsuario'];
-
-if($tipoUsuario==2){
-    include_once (HTML_PATH."menuAdmin.php");
-}elseif ($tipoUsuario==3){
-    include_once (HTML_PATH."menuGeneral.php");
-}elseif ($tipoUsuario==4){
-    include_once (HTML_PATH."menuVendedor.php");
-}
+include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 include_once (DESC_PATH."modalDescuentoToken.php");
 
 ?>

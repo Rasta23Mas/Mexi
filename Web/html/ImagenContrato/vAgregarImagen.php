@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 error_reporting(~E_NOTICE); // avoid notice
 
 include_once(BASE_PATH . "ConexionImg.php");
@@ -72,14 +73,7 @@ VALUES(:art,:des,:cierre,:fecha,:upic)');
         }
     }
 }
-$tipoUsuario = $_SESSION['tipoUsuario'];
-if ($tipoUsuario == 2) {
-    include_once(HTML_PATH . "menuAdmin.php");
-} elseif ($tipoUsuario == 3) {
-    include_once(HTML_PATH . "menuGeneral.php");
-} elseif ($tipoUsuario == 4) {
-    include_once(HTML_PATH . "menuVendedor.php");
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

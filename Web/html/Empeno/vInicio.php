@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
-
+include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 $sucursal = $_SESSION["sucursal"];
 $sucName = "Sucursal";
 if($sucursal==1){
@@ -15,15 +15,6 @@ $cajaInactiva = $_SESSION['cajaInactiva'];
 
 
 
-$tipoUsuario = $_SESSION['tipoUsuario'];
-
-if($tipoUsuario==2){
-    include_once (HTML_PATH."menuAdmin.php");
-}elseif ($tipoUsuario==3){
-    include_once (HTML_PATH."menuGeneral.php");
-}elseif ($tipoUsuario==4){
-    include_once (HTML_PATH."menuVendedor.php");
-}
 $dotaciones = $_SESSION['dotaciones'];
 
 ?>

@@ -1,21 +1,13 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
-
+include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 $tipoFormularioGet = 0;
 if (isset($_GET['tipoFormGet'])) {
     $tipoFormularioGet = $_GET['tipoFormGet'];
 }
 
-$tipoUsuario = $_SESSION['tipoUsuario'];
 
-if($tipoUsuario==2){
-    include_once (HTML_PATH."menuAdmin.php");
-}elseif ($tipoUsuario==3){
-    include_once (HTML_PATH."menuGeneral.php");
-}elseif ($tipoUsuario==4){
-    include_once (HTML_PATH."menuVendedor.php");
-}
 include_once (DESC_PATH."modalDescuentoToken.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

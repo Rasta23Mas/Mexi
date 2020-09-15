@@ -1,17 +1,10 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
-
+include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 $sucursal = $_SESSION['sucursal'];
 include_once(SQL_PATH . "sqlCierreDAO.php");
-$tipoUsuario = $_SESSION['tipoUsuario'];
-if ($tipoUsuario == 2) {
-    include_once(HTML_PATH . "menuAdmin.php");
-} elseif ($tipoUsuario == 3) {
-    include_once(HTML_PATH . "menuGeneral.php");
-} elseif ($tipoUsuario == 4) {
-    include_once(HTML_PATH . "menuVendedor.php");
-}
+
 $tipoUsuario = $_SESSION['tipoUsuario'];
 $idUserSesion = $_SESSION["idUsuario"];
 $idCierreCaja =  $_SESSION["idCierreCaja"];

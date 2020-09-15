@@ -1,10 +1,11 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 include_once(SQL_PATH . "sqlClienteDAO.php");//ok
 include_once(SQL_PATH . "sqlArticulosDAO.php");
 include_once(SQL_PATH . "sqlContratoDAO.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -14,7 +15,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Consulta</title>
     <!--Funciones-->
-    <script src="../../JavaScript/funcionesConsulta.js"></script>
+    <script src="../../JavaScript/funcionesConsultaVenta.js"></script>
     <script src="../../JavaScript/funcionesContrato.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
@@ -22,18 +23,13 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
 
-
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#divDetallesContrato").load('tablaDetalleContrato.php');
-            $("#divContrato").load('tablaContrato.php');
             $("#idNombreConsulta").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
-
-
-        })
+      })
     </script>
     <style type="text/css">
         #suggestionsNombreEmpeno {
@@ -67,7 +63,9 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
         .inputCliente {
             text-transform: uppercase;
         }
-
+        .letraExtraChica {
+            font-size: .8em;
+        }
 
     </style>
 </head>
@@ -83,7 +81,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                 </tr>
                 <tr>
                     <td align="center" colspan="6" style=" color:darkblue; ">
-                        <h3>Consulta</h3>
+                        <h3>Consulta Ventas</h3>
                     </td>
                 </tr>
                 <tr>
@@ -94,32 +92,32 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                 <tr style="background: dodgerblue; color:white; ">
                     <td style="border-style: solid; border-color: #80dfff;">
                         <label class="form-check-label">&nbsp;
-                            <input type="radio" name="consultaPor" id="idContratoRadio" onclick="radioContrato()">
-                            Por Contrato</label>
+                            <input type="radio" name="consultaPor" id="idVentaRadio" onclick="fnRadioVenta()">
+                            Por Número Venta</label>
                     </td>
                     <td style="border-style: solid; border-color: #80dfff;" colspan="2">&nbsp;
                         <label class="form-check-label">
-                            <input type="radio" name="consultaPor" id="idNombreRadio" onclick="radioNombre()">
+                            <input type="radio" name="consultaPor" id="idNombreRadio" onclick="fnRadioNombre()">
                             Por Nombre&nbsp;</label>
                     </td>
                     <td style="border-style: solid; border-color: #80dfff;" colspan="3">&nbsp;
                         <label class="form-check-label">
-                            <input type="radio" name="consultaPor" id="idFechaRadio" onclick="radioFecha()">
+                            <input type="radio" name="consultaPor" id="idFechaRadio" onclick="fnRadioFecha()">
                             Por Fecha&nbsp;</label>
                     </td>
                 </tr>
                 <tr>
                     <td align="center" style="width: 180px" class="border-primary border">
-                        <label>Contrato:</label>
-                        <input type="text" name="idContratoName" id="idContratoConsulta" style="width: 70px"
-                               onkeypress="return contratoBusquedaCon(event)" disabled/>
+                        <label>Num. Venta:</label>
+                        <input type="text" name="idVentaName" id="idVentaConsulta" style="width: 70px"
+                               onkeypress="return fnEnterBusquedaVenta(event)" disabled/>
                     </td>
                     <td align="center" style="width: 120px" class="border-primary border border-right-0">
                         <label>Nombre:</label>
                     </td>
                     <td class="border-primary border border-left-0" style="width: 350px">
                         <input id="idNombreConsulta" name="Nombres" type="text" style="width: 300px"
-                               class="inputCliente" onkeypress="nombreAutocompletarConsulta()"
+                               class="inputCliente" onkeypress="fnClienteAutoCompleteVen()"
                                placeholder="Buscar Cliente..." disabled/>
                         <div align="left" id="suggestionsNombreEmpeno"></div>
                     </td>
@@ -154,19 +152,29 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                     </textarea>
                     </td>
                     <td colspan="4"   class="border-primary border-right">
-                        <div id="divDetallesContrato" class="col col-lg-12">
+                        <div id="divDetallesVenta" class="col col-lg-12">
+                            <table class="table table-hover table-condensed table-bordered" width="100%">
+                                <thead  style="background: dodgerblue; color:white;">
+                                <tr align="center">
+                                    <th>Código</th>
+                                    <th>Articulo</th>
+                                    <th>Vitrina</th>
+                                    <th>Vitrina Final</th>
+                                    <th>Fotos</th>
+                                </tr>
+                                </thead>
+                                <tbody id="idTBodyVentaDet">
+                                </tbody>
+                            </table>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6" class="border-primary border border-top-0 border-bottom-0">
-                        <label class="form-check-label">&nbsp;
-                            <input type="radio" name="auto" id="idAutoCheck" onclick="checkAuto()">
-                            Auto</label>&nbsp;
+                    <td colspan="6" class="border-primary border border-top-0 border-bottom-0">&nbsp;
                         <input type="button" class="btn btn-primary" id="btnBuscarConsulta" value="Buscar"
-                               onclick="BusquedaConsulta()" disabled>&nbsp;&nbsp;&nbsp;&nbsp;
+                               onclick="fnBusquedaVenta()" disabled>&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="button" class="btn btn-warning" id="btnLimpiarConsulta" value="Limpiar"
-                               onclick="LimpiarConsulta()">&nbsp;
+                               onclick="fnLimpiarConsultaV()">&nbsp;
                     </td>
                 </tr>
                 <tr>
@@ -182,17 +190,32 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                 <tr class="border-primary border">
                     <td colspan="6">
                         <br>
-                        <div id="divContrato" class="col col-lg-12">
+                        <div id="divVenta" class="col col-lg-12">
+                            <table class="table table-hover table-condensed table-bordered" width="100%">
+                                <thead style="background: dodgerblue; color:white;">
+                                <tr align="center">
+                                    <th>Num Venta</th>
+                                    <th>Movimiento</th>
+                                    <th>Creación</th>
+                                    <th>Subtotal</th>
+                                    <th>IVA</th>
+                                    <th>Descuento</th>
+                                    <th>Total</th>
+                                    <th>Ver</th>
+                                    <th>Imprimir</th>
+                                </tr>
+                                </thead>
+                                <tbody id="idTBodyVenta" class="letraExtraChica" align="center">
+                                </tbody>
+                            </table>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="6" style="visibility: hidden">
-                        cliente
                         <input type="text" name="idCliente" id="idClienteConsulta" style="width: 70px"
                                disabled/>
-                        contrato
-                        <input type="text" name="idCliente" id="idContratoBusqueda" style="width: 70px"
+                        <input type="text" name="idCliente" id="idVentaBusqueda" style="width: 70px"
                                disabled/>
                     </td>
                 </tr>
