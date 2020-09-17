@@ -74,7 +74,7 @@ class sqlComprasDAO
             if ($ps = $this->conexion->prepare($updateContratoBaz)) {
                 if ($ps->execute()) {
                     $updateBitVentas = "UPDATE articulo_bazar_tbl SET id_Contrato = $idContratoCompra
-                            WHERE sucursal=$sucursal AND id_Compra = $idContratoCompra AND id_cierreCaja=$idCierreCaja";
+                            WHERE sucursal=$sucursal AND id_Contrato =0 AND id_cierreCaja=$idCierreCaja";
                     if ($ps = $this->conexion->prepare($updateBitVentas)) {
                         if ($ps->execute()) {
                             $respuesta = 1;

@@ -141,7 +141,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                         <label>&nbsp;&nbsp;Datos del cliente:</label>
                     </td>
                     <td colspan="4" style="border-style: solid; border-color: #80dfff;">
-                        <label>&nbsp;&nbsp;Detalle del contrato:</label>
+                        <label>&nbsp;&nbsp;Detalle de la venta:</label>
                     </td>
                 </tr>
                 <tr>

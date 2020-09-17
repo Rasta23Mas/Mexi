@@ -3,8 +3,6 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 include_once(SQL_PATH . "sqlClienteDAO.php");//ok
-include_once(SQL_PATH . "sqlArticulosDAO.php");
-include_once(SQL_PATH . "sqlContratoDAO.php");
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -15,10 +13,10 @@ include_once(SQL_PATH . "sqlContratoDAO.php");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Consulta</title>
     <!--Funciones-->
-    <script src="../../JavaScript/funcionesConsultaVenta.js"></script>
-    <script src="../../JavaScript/funcionesContrato.js"></script>
+    <script src="../../JavaScript/funcionesConsultaCompras.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
+    <script src="../../JavaScript/funcionesVendedor.js"></script>
     <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
@@ -26,7 +24,7 @@ include_once(SQL_PATH . "sqlContratoDAO.php");
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#idNombreConsulta").blur(function () {
+            $("#idNombres").blur(function () {
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
       })
@@ -81,7 +79,7 @@ include_once(SQL_PATH . "sqlContratoDAO.php");
                 </tr>
                 <tr>
                     <td align="center" colspan="6" style=" color:darkblue; ">
-                        <h3>Consulta Ventas</h3>
+                        <h3>Consulta Compras</h3>
                     </td>
                 </tr>
                 <tr>
@@ -93,7 +91,7 @@ include_once(SQL_PATH . "sqlContratoDAO.php");
                     <td style="border-style: solid; border-color: #80dfff;">
                         <label class="form-check-label">&nbsp;
                             <input type="radio" name="consultaPor" id="idVentaRadio" onclick="fnRadioVenta()">
-                            Por Número Venta</label>
+                            Por Compra</label>
                     </td>
                     <td style="border-style: solid; border-color: #80dfff;" colspan="2">&nbsp;
                         <label class="form-check-label">
@@ -108,18 +106,20 @@ include_once(SQL_PATH . "sqlContratoDAO.php");
                 </tr>
                 <tr>
                     <td align="center" style="width: 180px" class="border-primary border">
-                        <label>Num. Venta:</label>
+                        <label>Num. Compra:</label>
                         <input type="text" name="idVentaName" id="idVentaConsulta" style="width: 70px"
-                               onkeypress="return fnEnterBusquedaVenta(event)" disabled/>
+                               onkeypress="return fnEnterBusquedaCompra(event)" disabled/>
                     </td>
                     <td align="center" style="width: 120px" class="border-primary border border-right-0">
                         <label>Nombre:</label>
                     </td>
-                    <td class="border-primary border border-left-0" style="width: 350px">
-                        <input id="idNombreConsulta" name="Nombres" type="text" style="width: 300px"
-                               class="inputCliente" onkeypress="fnClienteAutoCompleteVen()"
-                               placeholder="Buscar Cliente..." disabled/>
-                        <div align="left" id="suggestionsNombreEmpeno"></div>
+                    <td >
+                        <div>
+                            <input id="idNombresVendedor" name="Nombres" type="text" style="width: 300px"
+                                   class="inputCliente" onkeypress="fnClienteAutoCompleteVen()"
+                                   placeholder="Buscar Vendedor..."/>
+                        </div>
+                        <div id="suggestionsNombreEmpeno"></div>
                     </td>
                     <td align="left" class="border-primary border" colspan="3">&nbsp;&nbsp;
                         <label>Rango de fechas:</label>
@@ -139,10 +139,10 @@ include_once(SQL_PATH . "sqlContratoDAO.php");
                 </tr>
                 <tr style="background: dodgerblue; color:white; ">
                     <td colspan="2" style="border-style: solid; border-color: #80dfff;">
-                        <label>&nbsp;&nbsp;Datos del cliente:</label>
+                        <label>&nbsp;&nbsp;Datos del vendedor:</label>
                     </td>
                     <td colspan="4" style="border-style: solid; border-color: #80dfff;">
-                        <label>&nbsp;&nbsp;Detalle del contrato:</label>
+                        <label>&nbsp;&nbsp;Detalle de la compra:</label>
                     </td>
                 </tr>
                 <tr>
@@ -199,7 +199,6 @@ include_once(SQL_PATH . "sqlContratoDAO.php");
                                     <th>Creación</th>
                                     <th>Subtotal</th>
                                     <th>IVA</th>
-                                    <th>Descuento</th>
                                     <th>Total</th>
                                     <th>Ver</th>
                                     <th>Imprimir</th>

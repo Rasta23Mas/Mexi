@@ -394,7 +394,7 @@ function validaVenta() {
             if (descuento == 0) {
                 guardarVenta();
             } else {
-                //$("#modalDescuentoVenta").modal();
+                $("#modalDescuentoVenta").modal();
             }
         }
     }

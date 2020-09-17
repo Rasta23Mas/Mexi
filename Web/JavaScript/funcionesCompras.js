@@ -822,7 +822,6 @@ function fnTokenCompras() {
         url: '../../../com.Mexicash/Controlador/Token/ConTokenValidar.php',
         type: 'post',
         success: function (response) {
-            alert(response)
             if (response > 0) {
                 idTokenGlb = response;
                 idTokenDescGlb = tokenDes;
@@ -864,6 +863,7 @@ function fnGenerarCompra() {
         url: '../../../com.Mexicash/Controlador/Compras/ConGuardarCompra.php',
         type: 'post',
         success: function (contrato) {
+            alert(contrato)
             if (contrato > 0) {
                 fnUpdateToken();
             } else {

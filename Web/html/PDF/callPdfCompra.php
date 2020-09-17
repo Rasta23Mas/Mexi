@@ -28,7 +28,6 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
              LEFT JOIN cat_vendedores AS Ven on COM.idVendedorArt = Ven.id_Vendedor 
              LEFT JOIN usuarios_tbl as USU on COM.usuario = USU.id_User 
             WHERE id_Compra=$idContratoCompra ";
-echo $query;
 $resultado = $db->query($query);
 $descripcionCorta = "";
 $observaciones = "";
@@ -291,7 +290,8 @@ $contenido .= '
         </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
-
+//echo $contenido;
+//exit();
 $nombreContrato = 'Compra_Num_' . $idContratoCompra . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

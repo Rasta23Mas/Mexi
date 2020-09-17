@@ -319,4 +319,102 @@ class sqlConsultaDAO
         echo json_encode($datos);
     }
 
+    public function sqlBuscarDetalleCompra($idVentaBusqueda)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT  Cat.id_Vendedor AS Vendedor, CONCAT (Cat.apellido_Pat, '/',Cat.apellido_Mat,'/', Cat.nombre) as NombreCompleto,
+                        CONCAT(Cat.calle, ', ',Cat.num_interior,', ', Cat.num_exterior, ', ',Cat.localidad, ', ', Cat.municipio, ', ', CatEst.descripcion ) AS direccionCompleta
+                        FROM contrato_mov_com_tbl as Con 
+                        INNER JOIN cat_vendedores AS Cat on Con.idVendedorArt = Cat.id_Vendedor
+                         INNER JOIN cat_estado as CatEst on Cat.estado = CatEst.id_Estado
+                        WHERE Con.id_Compra =$idVentaBusqueda AND Con.sucursal= $sucursal";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "Vendedor" => $row["Vendedor"],
+                        "NombreCompleto" => $row["NombreCompleto"],
+                        "direccionCompleta" => $row["direccionCompleta"]
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    public function sqlBuscarCompraDetalle($idVentaBusqueda)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT id_Compra, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
+                        subTotal,iva,total,tipo_movimiento,CAT.descripcion
+                        FROM contrato_mov_com_tbl AS BAZ
+                        INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
+                        WHERE id_Compra= $idVentaBusqueda AND sucursal= $sucursal ORDER BY id_Compra";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_Compra" => $row["id_Compra"],
+                        "FechaCreacion" => $row["FechaCreacion"],
+                        "subTotal" => $row["subTotal"],
+                        "ivaVenta" => $row["iva"],
+                        "totalVenta" => $row["total"],
+                        "tipo_movimientoVenta" => $row["tipo_movimiento"],
+                        "Movimiento" => $row["descripcion"],
+
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    public function sqlCompraArticulos($idVentaBusqueda)
+    {
+        $datos = array();
+        $sucursal = $_SESSION["sucursal"];
+
+        try {
+            $buscar = "SELECT ART.id_serie, ART.descripcionCorta,ART.vitrina, ART.vitrinaVenta  
+                        FROM articulo_bazar_tbl ART
+                        INNER JOIN contrato_mov_com_tbl as VEN ON ART.id_Contrato = VEN.id_Compra
+                        WHERE VEN.id_Compra = $idVentaBusqueda AND VEN.sucursal = $sucursal";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_serie" => $row["id_serie"],
+                        "descripcionCorta" => $row["descripcionCorta"],
+                        "vitrina" => $row["vitrina"],
+                        "vitrinaVenta" => $row["vitrinaVenta"],
+
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+        //echo json_encode($datos);
+    }
+
 }
