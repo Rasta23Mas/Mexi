@@ -356,7 +356,7 @@ class sqlConsultaDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_Compra, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
-                        subTotal,iva,total,tipo_movimiento,CAT.descripcion
+                        subTotal,iva,total,CAT.descripcion
                         FROM contrato_mov_com_tbl AS BAZ
                         INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
                         WHERE id_Compra= $idVentaBusqueda AND sucursal= $sucursal ORDER BY id_Compra";
@@ -369,7 +369,6 @@ class sqlConsultaDAO
                         "subTotal" => $row["subTotal"],
                         "ivaVenta" => $row["iva"],
                         "totalVenta" => $row["total"],
-                        "tipo_movimientoVenta" => $row["tipo_movimiento"],
                         "Movimiento" => $row["descripcion"],
 
                     ];
@@ -422,7 +421,7 @@ class sqlConsultaDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_Compra, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
-                        subTotal,iva,total,tipo_movimiento,CAT.descripcion
+                        subTotal,iva,total,CAT.descripcion
                         FROM contrato_mov_com_tbl AS BAZ
                         INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
                         WHERE idVendedorArt= $idClienteConsulta AND sucursal= $sucursal ORDER BY id_Compra";
@@ -435,7 +434,6 @@ class sqlConsultaDAO
                         "subTotal" => $row["subTotal"],
                         "ivaVenta" => $row["iva"],
                         "totalVenta" => $row["total"],
-                        "tipo_movimientoVenta" => $row["tipo_movimiento"],
                         "Movimiento" => $row["descripcion"],
 
                     ];
@@ -449,5 +447,38 @@ class sqlConsultaDAO
         }
         echo json_encode($datos);
     }
+    public function sqlBuscarCompraFechas($fechaInicio, $fechaFinal)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT id_Compra, DATE_FORMAT(fecha_Creacion,'%d-%m-%Y') AS FechaCreacion,
+                        subTotal,iva,total,CAT.descripcion
+                        FROM contrato_mov_com_tbl AS BAZ
+                        INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
+                        WHERE tipo_movimiento!=0 AND sucursal= $sucursal AND (fecha_Creacion >= '$fechaInicio' OR fecha_Creacion <='$fechaFinal') ORDER BY id_Compra";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_Compra" => $row["id_Compra"],
+                        "FechaCreacion" => $row["FechaCreacion"],
+                        "subTotal" => $row["subTotal"],
+                        "ivaVenta" => $row["iva"],
+                        "totalVenta" => $row["total"],
+                        "Movimiento" => $row["descripcion"],
 
+
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
 }

@@ -153,7 +153,6 @@ function fnCargarTblVenta(idVentaBusqueda) {
                 var subTotal = datos[i].subTotal;
                 var iva = datos[i].ivaVenta;
                 var total = datos[i].totalVenta;
-                var tipo_movimiento = datos[i].tipo_movimientoVenta;
                 var Movimiento = datos[i].Movimiento;
 
                 subTotal = formatoMoneda(subTotal);
@@ -173,7 +172,7 @@ function fnCargarTblVenta(idVentaBusqueda) {
                     '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="fnCargarTblDetalleVenta(' + id_Compra + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Compra + ',' + tipo_movimiento + ')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Compra + ')">' +
                     '</td></tr>';
             }
             $('#idTBodyVenta').html(html);
@@ -211,7 +210,6 @@ function fnCargarTblNombre() {
                 var subTotal = datos[i].subTotal;
                 var iva = datos[i].ivaVenta;
                 var total = datos[i].totalVenta;
-                var tipo_movimiento = datos[i].tipo_movimientoVenta;
                 var Movimiento = datos[i].Movimiento;
 
                 subTotal = formatoMoneda(subTotal);
@@ -231,7 +229,7 @@ function fnCargarTblNombre() {
                     '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="fnCargarTblDetalleVenta(' + id_Compra + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Compra + ',' + tipo_movimiento + ')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Compra + ')">' +
                     '</td></tr>';
             }
             $('#idTBodyVenta').html(html);
@@ -263,7 +261,7 @@ function fnCargarTblFechas() {
         };
         $.ajax({
             type: "POST",
-            url: '../../../com.Mexicash/Controlador/Consulta/ConTblFechas.php',
+            url: '../../../com.Mexicash/Controlador/Consulta/ConTblFechasCompras.php',
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
@@ -276,7 +274,6 @@ function fnCargarTblFechas() {
                     var subTotal = datos[i].subTotal;
                     var iva = datos[i].ivaVenta;
                     var total = datos[i].totalVenta;
-                    var tipo_movimiento = datos[i].tipo_movimientoVenta;
                     var Movimiento = datos[i].Movimiento;
 
                     subTotal = formatoMoneda(subTotal);
@@ -296,7 +293,7 @@ function fnCargarTblFechas() {
                         '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="fnCargarTblDetalleVenta(' + id_Compra + ')">' +
                         '</td>' +
                         '<td align="center">' +
-                        '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Compra + ',' + tipo_movimiento + ')">' +
+                        '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Compra + ')">' +
                         '</td></tr>';
                 }
                 $('#idTBodyVenta').html(html);
@@ -378,11 +375,11 @@ function fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin) 
     var consulta_fechaFinal = BitfechaFin;
 
     if (radioSelectGlb == 1) {
-        movimiento = 25;
+        movimiento = 30;
     } else if (radioSelectGlb == 2) {
-        movimiento = 26;
+        movimiento = 31;
     } else if (radioSelectGlb == 3) {
-        movimiento = 27;
+        movimiento = 32;
     }
 
     var id_Movimiento = movimiento;
@@ -410,17 +407,9 @@ function fnBitacoraConsultaVenta(venta, clienteVenta, BitfechaIni, BitfechaFin) 
     });
 }
 
-function fnReimprimirVentas(idBazar, idMovimiento) {
-    if (idMovimiento == 6) {
-        //6 = Venta
-        window.open('../PDF/callPdfVenta.php?reimpresion=1&idBazar=' + idBazar);
-    } else if (idMovimiento == 22) {
-        //4 = Abono
-        window.open('../PDF/callPdfApartados.php?reimpresion=1&idBazar=' + idBazar);
-    } else if (idMovimiento == 23) {
-        //6 = Apartado
-        window.open('../PDF/callPdfAbono.php?reimpresion=1&idBazar=' + idBazar);
-    }
+function fnReimprimirVentas(id_Compra) {
+        window.open('../PDF/callPdfCompra.php?reimpresion=1&idContratoCompra=' + id_Compra);
+
 }
 
 function verFotosContrato(id_serie) {
