@@ -49,8 +49,8 @@ function fnRadioFecha() {
 }
 
 function fnClienteAutoCompleteVen() {
-    $('#idNombresVendedor').on('keyup', function () {
-        var key = $('#idNombresVendedor').val();
+    $('#idNombreConsulta').on('keyup', function () {
+        var key = $('#idNombreConsulta').val();
         var dataEnviar = {
             "idNombres": key
         };
@@ -69,7 +69,7 @@ function fnClienteAutoCompleteVen() {
                     //var estado = $('#' + id).attr('estadoDesc');
                     //Editamos el valor del input con data de la sugerencia pulsada
                     $('#idClienteConsulta').val(id);
-                    $('#idNombresVendedor').val($('#' + id).attr('data'));
+                    $('#idNombreConsulta').val($('#' + id).attr('data'));
                     $("#idDireccionConsulta").val(direccionComp);
                     $("#btnEditar").prop('disabled', false);
                     fnBusquedaVenta();
@@ -119,10 +119,10 @@ function fnBusquedaDatosCliente(idVenta) {
                     var NombreCompleto = datos[i].NombreCompleto;
                     var direccionCompleta = datos[i].direccionCompleta;
                     $('#idClienteConsulta').val(Vendedor);
-                    $('#idNombresVendedor').val(NombreCompleto);
+                    $('#idNombreConsulta').val(NombreCompleto);
                     $("#idDireccionConsulta").val(direccionCompleta);
                     $("#idVentaBusqueda").val(idVentaBusqueda);
-                    $("#idNombresVendedor").prop('disabled', true);
+                    $("#idNombreConsulta").prop('disabled', true);
                 }
                 if(radioSelectGlb!=3) {
                     fnCargarTblVenta(idVentaBusqueda);
@@ -192,12 +192,13 @@ function fnCargarTblVenta(idVentaBusqueda) {
 
 function fnCargarTblNombre() {
     var idClienteConsulta = $("#idClienteConsulta").val();
+
     var dataEnviar = {
         "idClienteConsulta": idClienteConsulta,
     };
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Consulta/ConTblNombres.php',
+        url: '../../../com.Mexicash/Controlador/Consulta/ConTblNombresCompras.php',
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
@@ -205,35 +206,32 @@ function fnCargarTblNombre() {
             var i = 0;
             alert("Refrescando tabla.");
             for (i; i < datos.length; i++) {
-                var id_Bazar = datos[i].id_Bazar;
+                var id_Compra = datos[i].id_Compra;
                 var FechaCreacion = datos[i].FechaCreacion;
                 var subTotal = datos[i].subTotal;
                 var iva = datos[i].ivaVenta;
-                var descuento_Venta = datos[i].descuento_Venta;
                 var total = datos[i].totalVenta;
                 var tipo_movimiento = datos[i].tipo_movimientoVenta;
                 var Movimiento = datos[i].Movimiento;
 
                 subTotal = formatoMoneda(subTotal);
                 iva = formatoMoneda(iva);
-                descuento_Venta = formatoMoneda(descuento_Venta);
                 total = formatoMoneda(total);
 
-                VentaReimprimirGlb = id_Bazar;
+                VentaReimprimirGlb = id_Compra;
 
                 html += '<tr>' +
-                    '<td >' + id_Bazar + '</td>' +
+                    '<td >' + id_Compra + '</td>' +
                     '<td >' + Movimiento + '</td>' +
                     '<td>' + FechaCreacion + '</td>' +
                     '<td>' + subTotal + '</td>' +
                     '<td>' + iva + '</td>' +
-                    '<td>' + descuento_Venta + '</td>' +
                     '<td>' + total + '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="fnCargarTblDetalleVenta(' + id_Bazar + ')">' +
+                    '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="fnCargarTblDetalleVenta(' + id_Compra + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Bazar + ',' + tipo_movimiento + ')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="fnReimprimirVentas(' + id_Compra + ',' + tipo_movimiento + ')">' +
                     '</td></tr>';
             }
             $('#idTBodyVenta').html(html);

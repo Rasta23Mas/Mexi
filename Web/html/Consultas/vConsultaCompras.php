@@ -115,9 +115,9 @@ include_once(SQL_PATH . "sqlClienteDAO.php");//ok
                     </td>
                     <td >
                         <div>
-                            <input id="idNombresVendedor" name="Nombres" type="text" style="width: 300px"
+                            <input id="idNombreConsulta" name="Nombres" type="text" style="width: 300px"
                                    class="inputCliente" onkeypress="fnClienteAutoCompleteVen()"
-                                   placeholder="Buscar Vendedor..."/>
+                                   placeholder="Buscar Vendedor..." disabled/>
                         </div>
                         <div id="suggestionsNombreEmpeno"></div>
                     </td>
