@@ -145,7 +145,6 @@ class sqlUsuarioDAO
             $buscar = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=1 AND sucursal=$sucursal";
             $statement = $this->conexion->query($buscar);
             $encontro = $statement->num_rows;
-
             if ($encontro > 0) {
                 $fila = $statement->fetch_object();
                 $idCierreSucursal = $fila->id_CierreSucursal;
@@ -154,7 +153,6 @@ class sqlUsuarioDAO
             } else {
                 $fechaHoy = date('Y-m-d');
                 $buscarHoy = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=0 AND sucursal=$sucursal AND DATE(fecha_Creacion)='$fechaHoy'";
-
                 $statement = $this->conexion->query($buscarHoy);
                 $encontro = $statement->num_rows;
                 if ($encontro > 0) {
@@ -763,7 +761,7 @@ class sqlUsuarioDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT SUM(prestamo_Empeno) as PrestamoEmp FROM articulo_bazar_tbl
+            $buscar = "SELECT SUM(prestamo) as PrestamoEmp FROM articulo_bazar_tbl
                         WHERE tipo_movimiento=24 and sucursal = $sucursal and id_Contrato not in 
                         (select id_Contrato FROM contrato_mov_baz_tbl 
                         where tipo_movimiento = 6 || tipo_movimiento = 22 || tipo_movimiento = 23 )";

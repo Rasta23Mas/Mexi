@@ -143,6 +143,7 @@ $_SESSION['dotaciones'] = 0;
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php">Empeños</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesBazar.php">Bazar</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesFinancieros.php">Financieros</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Monitoreo</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesCierres.php">Cierres</a></li>

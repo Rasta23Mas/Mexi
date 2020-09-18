@@ -667,6 +667,7 @@ function cargarRptBazar() {
                 var i = 0;
                 alert("Refrescando tabla.");
                 for (i; i < datos.length; i++) {
+                    var TotalFilas = datos[i].TotalFilas;
                     var id_Contrato = datos[i].id_ContratoRepBaz;
                     var id_serie = datos[i].id_serieRepBaz;
                     var Movimiento = datos[i].Movimiento;

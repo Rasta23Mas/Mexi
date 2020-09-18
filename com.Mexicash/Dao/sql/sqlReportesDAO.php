@@ -307,7 +307,7 @@ class sqlReportesDAO
         echo json_encode($datos);
     }
 
-    public function reporteBazar()
+    public function reporteCountBazar()
     {
         $datos = array();
         try {
@@ -324,6 +324,54 @@ class sqlReportesDAO
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
+                        "id_ContratoRepBaz" => $row["id_Contrato"],
+                        "id_serieRepBaz" => $row["id_serie"],
+                        "Movimiento" => $row["Movimiento"],
+                        "fecha_Bazar" => $row["fecha_Bazar"],
+                        "precio_venta" => $row["precio_venta"],
+                        "Detalle" => $row["Detalle"],
+                        "CatDesc" => $row["CatDesc"],
+                        "id_ContratoMig" => $row["id_ContratoMig"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+    public function reporteBazar()
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+
+            $CountFilas = "SELECT COUNT(*) as TotalFilas 
+                        FROM articulo_bazar_tbl as Baz
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
+                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
+                        LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
+                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
+            $row = $result->fetch_assoc();
+            $num_total_rows = $row['TotalFilas'];
+
+            $buscar = "SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,vitrinaVenta AS precio_venta, 
+                        ART.descripcionCorta as Detalle,
+                        CAT.descripcion as CatDesc, ART.id_ContratoMig
+                        FROM articulo_bazar_tbl as Baz
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
+                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
+                        LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
+                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "TotalFilas" => $num_total_rows,
                         "id_ContratoRepBaz" => $row["id_Contrato"],
                         "id_serieRepBaz" => $row["id_serie"],
                         "Movimiento" => $row["Movimiento"],
