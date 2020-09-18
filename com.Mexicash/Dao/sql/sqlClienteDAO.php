@@ -162,13 +162,7 @@ class sqlClienteDAO
 
         try {
             $buscar = "SELECT
-    nombre,
-    apellido_Pat,
-    apellido_Mat,
-    sexo,
-    fecha_Nacimiento,
-    curp,
-    ocupacion,
+    nombre,apellido_Pat, apellido_Mat, sexo,fecha_Nacimiento,curp,ocupacion,
     tipo_Identificacion,
     num_Identificacion,
     celular,

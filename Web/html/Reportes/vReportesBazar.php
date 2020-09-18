@@ -2,9 +2,23 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
+require_once(BASE_PATH . "Conectar.php");
 include_once(SQL_PATH . "sqlCatalogoDAO.php");
 
 $sucursal = $_SESSION["sucursal"];
+$CountFilas = "SELECT COUNT(*) as TotalFilas 
+                        FROM articulo_bazar_tbl as Baz
+                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
+                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
+                        LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
+                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
+$query = $db->query($CountFilas);
+if($query->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $num_total_rows = $row['TotalFilas'];
+}
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,7 +50,7 @@ $sucursal = $_SESSION["sucursal"];
         </tr>
         <tr>
             <td align="center" colspan="6" style=" color:darkblue; ">
-                <h3><label id="NombreReporte">Reportes</label></h3>
+                <h3><label>Reportes Bazar</label></h3>
             </td>
         </tr>
         <tr>
