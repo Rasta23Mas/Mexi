@@ -640,14 +640,17 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
     }
 
 
-    function llenarCmbReportes($tipo)
+
+
+    function sqlLlenarCmbReportes($tipo)
     {
+
         $datos = array();
 
         try {
             $buscar = "SELECT id_cat_rpt, descripcion FROM cat_reportes where id_tipo=$tipo";
-            $rs = $this->conexion->query($buscar);
 
+            $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
@@ -663,7 +666,7 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
             $this->db->closeDB();
         }
 
-        return $datos;
+        echo json_encode($datos);
     }
 
     function llenarCmbMonitoreoTipo()

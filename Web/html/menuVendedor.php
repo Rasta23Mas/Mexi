@@ -36,9 +36,9 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     Empeño
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="Empeno/vEmpeno.php">Empeños</a></li>
-                    <li><a class="dropdown-item" href="Refrendo/vRefrendo.php?tipoFormGet=1">Refrendo</a></li>
-                    <li><a class="dropdown-item" href="Desempeno/vDesempeno.php?tipoFormGet=3">Desempeños</a></li>
+                    <li><a class="dropdown-item" href="../Empeno/vEmpeno.php">Empeños</a></li>
+                    <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=1">Refrendo</a></li>
+                    <li><a class="dropdown-item" href="../Desempeno/vDesempeno.php?tipoFormGet=3">Desempeños</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuEmpenoAuto">
@@ -47,9 +47,9 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     Auto
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="Empeno/vAuto.php">Empeños</a></li>
-                    <li><a class="dropdown-item" href="Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
-                    <li><a class="dropdown-item" href="Desempeno/vDesempeno.php?tipoFormGet=4">Desempeños</a></li>
+                    <li><a class="dropdown-item" href="../Empeno/vAuto.php">Empeños</a></li>
+                    <li><a class="dropdown-item" href="../Refrendo/vRefrendo.php?tipoFormGet=2">Refrendo</a></li>
+                    <li><a class="dropdown-item" href="../Desempeno/vDesempeno.php?tipoFormGet=4">Desempeños</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuConsultas">
@@ -80,9 +80,9 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     Ventas
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="Ventas/vVentasMostrador.php">Mostrador</a></li>
-                    <li><a class="dropdown-item" href="Ventas/vVentasAbonos.php">Abono</a></li>
-                    <li><a class="dropdown-item" href="Ventas/vVentasApartados.php">Apartados</a></li>
+                    <li><a class="dropdown-item" href="../Ventas/vVentasMostrador.php">Mostrador</a></li>
+                    <li><a class="dropdown-item" href="../Ventas/vVentasAbonos.php">Abono</a></li>
+                    <li><a class="dropdown-item" href="../Ventas/vVentasApartados.php">Apartados</a></li>
                 </ul>
             </li>
 
@@ -92,11 +92,11 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     Reportes
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="Reportes/vReportesEmpenos.php">Empeños</a></li>
-                    <li><a class="dropdown-item" href="../Reportes/vReportesBazar.php">Bazar</a></li>
-                    <li><a class="dropdown-item" href="Reportes/vReportesFinancieros.php">Financieros</a></li>
-                    <li><a class="dropdown-item" href="Reportes/vReportesMonitoreo.php">Monitoreo</a></li>
-                    <li><a class="dropdown-item" href="Reportes/vReportesCierres.php">Cierres</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php">Empeños</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesInventarios.php">Inventarios</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesFinancieros.php">Financieros</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Monitoreo</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportesCierres.php">Cierres</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">

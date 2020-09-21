@@ -2,23 +2,8 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
-require_once(BASE_PATH . "Conectar.php");
-include_once(SQL_PATH . "sqlCatalogoDAO.php");
 
 $sucursal = $_SESSION["sucursal"];
-$CountFilas = "SELECT COUNT(*) as TotalFilas 
-                        FROM articulo_bazar_tbl as Baz
-                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
-                        LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
-                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
-$query = $db->query($CountFilas);
-if($query->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $num_total_rows = $row['TotalFilas'];
-}
-
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -30,9 +15,16 @@ if($query->num_rows > 0) {
     <script src="../../JavaScript/funcionesReportes.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
+<!--    <script src="../../JavaScript/funcionesPaginator.js"></script>
+-->    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
+    <title>Reportes</title>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            fnBuscaReportes(2);
+        })
+    </script>
     <style type="text/css">
         .titleTable {
             background: dodgerblue;
@@ -50,7 +42,7 @@ if($query->num_rows > 0) {
         </tr>
         <tr>
             <td align="center" colspan="6" style=" color:darkblue; ">
-                <h3><label>Reportes Bazar</label></h3>
+                <h3><label id="NombreReporte">Reportes</label></h3>
             </td>
         </tr>
         <tr>
@@ -81,17 +73,8 @@ if($query->num_rows > 0) {
         </tr>
         <tr align="center">
             <td align="center">
-                <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker"
-                        onchange="selectReporte()">
-                    <option value="0">Seleccione:</option>
-                    <?php
-                    $data = array();
-                    $sql = new sqlCatalogoDAO();
-                    $data = $sql->llenarCmbReportes(1);
-                    for ($i = 0; $i < count($data); $i++) {
-                        echo "<option value=" . $data[$i]['id_cat_rpt'] . ">" . $data[$i]['descripcion'] . "</option>";
-                    }
-                    ?>
+                <select id="idTipoReporte" name="cmbReportes" class="selectpicker"
+                        onchange="fnSelectReporte()">
                 </select>
             </td>
             <td align="center">
@@ -111,7 +94,7 @@ if($query->num_rows > 0) {
             </td>
             <td align="center">
                 <input type="button" class="btn btn-success w-75"
-                       onclick="llenarReporte()"
+                       onclick="cargarRptBazar()"
                        value="Buscar"/>
             </td>
 

@@ -1,81 +1,56 @@
-function fnBuscaReportes(tipo) {
-    var dataEnviar = {
-        "tipoReporte": tipo
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Reportes/ConCmbReportesInv.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_cat_rpt = datos[i].id_cat_rpt;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_cat_rpt + '>' + descripcion + '</option>';
-            }
-            $('#idTipoReporte').html(html);
-        }
-    });
-}
 
-function fnSelectReporte() {
+
+
+function selectReporte() {
     var reporte = $('#idTipoReporte').val();
-    var nameForm = "Reporte ";
-    var fechas = true;
-    var fechasDis = true;
     $("#idFechaInicial").val('');
     $("#idFechaFinal").val('');
     if (reporte == 1) {
-        nameForm += "Histórico"
+        nameForm = "Histórico"
         document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = false;
-        fechasDis = true;
+        $("#idFechaInicial").datepicker('option', 'disabled', false);
+         $("#idFechaInicial").prop('disabled',true);
+        //$("#divReporte").load('rptEmpHistorico.php');
     } else if (reporte == 2) {
-        nameForm += "Contratos Vencidos"
+        nameForm = "Inventarios"
         document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = true;
+        $("#idFechaInicial").datepicker('disable');
+        // $("#divReporte").load('rptEmpInventario.php');
     } else if (reporte == 3) {
-        nameForm += "Desempeños"
+        nameForm = "Contratos Vencidos"
         document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = false;
-        fechasDis = true;
-    } else if (reporte == 4) {
-        nameForm += "Refrendo"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = false;
-        fechasDis = true;
-    } else if (reporte == 5) {
-        nameForm += "Bazar"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = true;
-    } else if (reporte == 6) {
-        nameForm += "Compra"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = false;
-        fechasDis = true;
-    } else if (reporte == 7) {
-        nameForm += "Inventarios"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = true;
-    } else if (reporte == 8) {
-        nameForm += "Transferencia"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = false;
-        fechasDis = true;
-    } else if (reporte == 9) {
-        nameForm = "Venta"
-        document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = false;
-        fechasDis = true;
-    }
+        $("#idFechaInicial").datepicker('option', 'disabled', false);
+        $("#idFechaFinal").datepicker('option', 'disabled', false);
+        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").prop('disabled',true);
 
-    $("#idFechaInicial").datepicker('option', 'disabled', fechas);
-    $("#idFechaFinal").datepicker('option', 'disabled', fechas);
-    $("#idFechaInicial").prop('disabled',fechasDis);
-    $("#idFechaFinal").prop('disabled',fechasDis);
+        //$("#divReporte").load('rptEmpContratos.php');
+    } else if (reporte == 4) {
+        nameForm = "Desempeños"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        $("#idFechaInicial").datepicker('option', 'disabled', false);
+        $("#idFechaFinal").datepicker('option', 'disabled', false);
+        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").prop('disabled',true);
+
+        //$("#divReporte").load('rptEmpDesempeno.php');
+    } else if (reporte == 5) {
+        nameForm = "Refrendo"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        $("#idFechaInicial").datepicker('option', 'disabled', false);
+        $("#idFechaFinal").datepicker('option', 'disabled', false);
+        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").prop('disabled',true);
+
+    }else if (reporte == 6) {
+        nameForm = "Bazar"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        $("#idFechaInicial").datepicker('disable');
+        $("#idFechaFinal").datepicker('disable');
+        $("#idFechaInicial").prop('disabled',true);
+        $("#idFechaFinal").prop('disabled',true);
+
+    }
 }
 
 function llenarReporte() {
@@ -84,29 +59,22 @@ function llenarReporte() {
     var tipoReporte = $('#idTipoReporte').val();
 
     if (tipoReporte == 2) {
-        cargarRptVenci()
-    } else if (tipoReporte == 5) {
-        cargarRptBazar()
-    } else if (tipoReporte == 7) {
         cargarRptInv()
-    }  else {
+    } else if (tipoReporte == 3) {
+        cargarRptVenci()
+    } else if (tipoReporte == 6) {
+        cargarRptBazar()
+    }else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
             if (tipoReporte == 1) {
                 cargarRptHisto(fechaIni, fechaFin)
-            } else if (tipoReporte == 3) {
-                cargarRptDesempe(fechaIni, fechaFin)
             } else if (tipoReporte == 4) {
+                cargarRptDesempe(fechaIni, fechaFin)
+            } else if (tipoReporte == 5) {
                 cargarRptRefrendo(fechaIni, fechaFin);
-            }else if (tipoReporte == 6) {
-                //Compras
-            }else if (tipoReporte == 8) {
-                //transferencias
-            }else if (tipoReporte == 9) {
-                //Ventas
             }
-
         } else {
             alertify.error("Seleccione fecha de inicio y fecha final.");
         }
@@ -128,7 +96,7 @@ function exportarExcel() {
     } else if (tipoReporte == 6) {
         window.open('../Excel/rpt_Exc_Bazar.php?sucursal=' + sucursal);
 
-    } else {
+    }else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
@@ -159,7 +127,7 @@ function exportarPDF() {
     } else if (tipoReporte == 6) {
         window.open('../PDF/callPdf_R_Bazar.php');
 
-    } else {
+    }else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
@@ -708,7 +676,7 @@ function cargarRptBazar() {
                     var Movimiento = datos[i].Movimiento;
                     var fecha_Bazar = datos[i].fecha_Bazar;
                     var precio_venta = datos[i].precio_venta;
-                    var Detalle = datos[i].Detalle;
+                    var Detalle =  datos[i].Detalle;
                     var CatDesc = datos[i].CatDesc;
                     var id_ContratoMig = datos[i].id_ContratoMig;
 
@@ -737,7 +705,7 @@ function cargarRptBazar() {
 function selectReporteMon() {
     var nombre = $('select[name="nombreReporte"] option:selected').text();
     var titulo = "Autorizaciones : " + nombre;
-    document.getElementById('NombreReporte').innerHTML = titulo;
+   document.getElementById('NombreReporte').innerHTML = titulo;
 }
 
 function llenarReporteMonitoreo() {
@@ -752,7 +720,6 @@ function llenarReporteMonitoreo() {
         alertify.error("Seleccione fecha de inicio y fecha final.");
     }
 }
-
 //Reporte MONITOREO
 function cargarRptMon(fechaIni, fechaFin) {
     var tipoReporte = $('#idTipoReporteMon').val();
@@ -767,7 +734,7 @@ function cargarRptMon(fechaIni, fechaFin) {
             data: dataEnviar,
             dataType: "json",
             success: function (datos) {
-                // alert(datos)
+               // alert(datos)
                 var html = '';
                 var i = 0;
                 alert("Refrescando tabla.");
@@ -786,29 +753,29 @@ function cargarRptMon(fechaIni, fechaFin) {
                     var Fecha = datos[i].Fecha;
                     var tipoContrato = "";
 
-                    if (tipo_formulario == 1) {
+                    if(tipo_formulario==1){
                         tipoContrato = "METALES";
-                    } else if (tipo_formulario == 2) {
+                    }else if(tipo_formulario==2){
                         tipoContrato = "ELECTRÓNICOS";
-                    } else if (tipo_formulario == 3) {
+                    }else if(tipo_formulario==3){
                         tipoContrato = "AUTO";
                     }
 
 
-                    if (tipo_formulario == null) {
-                        tipo_formulario = "";
+                    if(tipo_formulario==null){
+                        tipo_formulario="";
                     }
-                    if (descuento == null) {
-                        descuento = "";
+                    if(descuento==null){
+                        descuento="";
                     }
-                    if (interes == null) {
-                        interes = "";
+                    if(interes==null){
+                        interes="";
                     }
-                    if (importe_flujo == null) {
-                        importe_flujo = "";
+                    if(importe_flujo==null){
+                        importe_flujo="";
                     }
-                    if (id_flujo == null) {
-                        id_flujo = "";
+                    if(id_flujo==null){
+                        id_flujo="";
                     }
 
                     html += '<tr>' +
@@ -843,10 +810,10 @@ function exportarMonitoreo(tipoExportar) {
     if (fechaFin !== "" && fechaIni !== "") {
         fechaIni = fechaSQL(fechaIni);
         fechaFin = fechaSQL(fechaFin);
-        if (tipoExportar == 1) {
-            window.open('../Excel/rpt_Exc_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&tipo=' + tipo + '&nombre=' + nombre);
-        } else if (tipoExportar == 2) {
-            window.open('../PDF/callPdf_R_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&tipo=' + tipo + '&nombre=' + nombre);
+        if(tipoExportar==1){
+            window.open('../Excel/rpt_Exc_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipo + '&nombre=' + nombre);
+        }else if(tipoExportar==2){
+            window.open('../PDF/callPdf_R_Monitoreo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&tipo=' + tipo + '&nombre=' + nombre);
         }
 
     } else {
@@ -870,18 +837,17 @@ function llenarReporteFinanciero() {
     if (fechaFin !== "" && fechaIni !== "") {
         fechaIni = fechaSQL(fechaIni);
         fechaFin = fechaSQL(fechaFin);
-        if (tipoReporte == 1) {
-            cargarRptFinIng(fechaIni, fechaFin, tipoReporte)
-        } else if (tipoReporte == 2) {
-            cargarRptFinIng(fechaIni, fechaFin, tipoReporte)
+        if(tipoReporte==1){
+            cargarRptFinIng(fechaIni, fechaFin,tipoReporte)
+        }else if(tipoReporte==2){
+            cargarRptFinIng(fechaIni, fechaFin,tipoReporte)
         }
     } else {
         alertify.error("Seleccione fecha de inicio y fecha final.");
     }
 }
-
 //Reporte MONITOREO
-function cargarRptFinIng(fechaIni, fechaFin, tipoReporte) {
+function cargarRptFinIng(fechaIni, fechaFin,tipoReporte) {
 
     var dataEnviar = {
         "tipoReporte": tipoReporte,
@@ -911,36 +877,16 @@ function cargarRptFinIng(fechaIni, fechaFin, tipoReporte) {
                     var AbonoVen = datos[i].AbonoVen;
                     var Fecha = datos[i].Fecha;
 
-                    if (Desem == null) {
-                        Desem = 0;
-                    }
-                    if (AbonoRef == null) {
-                        AbonoRef = 0;
-                    }
-                    if (Inte == null) {
-                        Inte = 0;
-                    }
-                    if (costoContrato == null) {
-                        costoContrato = 0;
-                    }
-                    if (Iva == null) {
-                        Iva = 0;
-                    }
-                    if (Ventas == null) {
-                        Ventas = 0;
-                    }
-                    if (IvaVenta == null) {
-                        IvaVenta = 0;
-                    }
-                    if (Utilidad == null) {
-                        Utilidad = 0;
-                    }
-                    if (Apartados == null) {
-                        Apartados = 0;
-                    }
-                    if (AbonoVen == null) {
-                        AbonoVen = 0;
-                    }
+                    if(Desem==null){Desem=0;}
+                    if(AbonoRef==null){ AbonoRef=0;}
+                    if(Inte==null){Inte=0;}
+                    if(costoContrato==null){costoContrato=0;}
+                    if(Iva==null){ Iva=0;}
+                    if(Ventas==null){ Ventas=0;}
+                    if(IvaVenta==null){ IvaVenta=0;}
+                    if(Utilidad==null){ Utilidad=0;}
+                    if(Apartados==null){ Apartados=0;}
+                    if(AbonoVen==null){ AbonoVen=0;}
                     Desem = formatoMoneda(Desem);
                     AbonoRef = formatoMoneda(AbonoRef);
                     Inte = formatoMoneda(Inte);
@@ -973,7 +919,6 @@ function cargarRptFinIng(fechaIni, fechaFin, tipoReporte) {
     );
     $("#divRptFinancieros").load('rptFinancierosIng.php');
 }
-
 function exportarFinanciero(tipoExportar) {
     //tipoExportar = 1 Excel //2 PDF
     var fechaIni = $("#idFechaInicial").val();
@@ -984,17 +929,17 @@ function exportarFinanciero(tipoExportar) {
     if (fechaFin !== "" && fechaIni !== "") {
         fechaIni = fechaSQL(fechaIni);
         fechaFin = fechaSQL(fechaFin);
-        if (tipoExportar == 1) {
-            if (tipo == 1) {
-                window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
-            } else if (tipo == 2) {
-                window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
+        if(tipoExportar==1){
+            if(tipo==1){
+                window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&nombre=' + nombre);
+            }else if(tipo==2){
+                window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&nombre=' + nombre);
             }
-        } else if (tipoExportar == 2) {
-            if (tipo == 1) {
-                window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
-            } else if (tipo == 2) {
-                window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
+        }else if(tipoExportar==2){
+            if(tipo==1){
+                window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&nombre=' + nombre);
+            }else if(tipo==2){
+                window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal+'&nombre=' + nombre);
             }
         }
 

@@ -19,3 +19,4 @@
     <tbody id="idTBodyBazar" class="letraChica" align="center">
     </tbody>
 </table>
+

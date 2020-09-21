@@ -19,6 +19,11 @@ $sucursal = $_SESSION["sucursal"];
     <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            fnBuscaReportes(1);
+        })
+    </script>
     <style type="text/css">
         .titleTable {
             background: dodgerblue;
@@ -69,15 +74,6 @@ $sucursal = $_SESSION["sucursal"];
             <td align="center">
                 <select id="idTipoReporte" name="cmbVehiculo" class="selectpicker"
                         onchange="selectReporte()">
-                    <option value="0">Seleccione:</option>
-                    <?php
-                    $data = array();
-                    $sql = new sqlCatalogoDAO();
-                    $data = $sql->llenarCmbReportes(1);
-                    for ($i = 0; $i < count($data); $i++) {
-                        echo "<option value=" . $data[$i]['id_cat_rpt'] . ">" . $data[$i]['descripcion'] . "</option>";
-                    }
-                    ?>
                 </select>
             </td>
             <td align="center">
