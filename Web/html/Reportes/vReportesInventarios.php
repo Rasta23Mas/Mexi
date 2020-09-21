@@ -15,9 +15,6 @@ $sucursal = $_SESSION["sucursal"];
     <script src="../../JavaScript/funcionesReportes.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
-<!--    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>-->
     <link href="bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="jquery/jquery-1.11.3.js"></script>
     <script src="bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
@@ -41,6 +38,11 @@ $sucursal = $_SESSION["sucursal"];
 </div>
 <div class="row" align="center">
     <table width="60%" class="border border-primary" align="center">
+        <tr align="center">
+            <td class="titleTable" colspan="6">
+                <h4><label id="NombreReporte">Reportes</label></h4>
+            </td>
+        </tr>
         <tr align="center">
             <td class="titleTable">
                 <label>Reporte</label>
@@ -84,33 +86,18 @@ $sucursal = $_SESSION["sucursal"];
                        onclick="fnLlenarReporte()"
                        value="Buscar"/>
             </td>
-
         </tr>
     </table>
 </div>
-<div class="panel panel-primary">
-    <div class="panel-heading text-center">
-        <h3><label id="NombreReporte">Reportes</label></h3>
-    </div>
-    <div class="panel-body">
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr align="center">
-                <th>Fecha Bazar</th>
-                <th>Contrato</th>
-                <th>Serie</th>
-                <th>Precio Venta</th>
-                <th>Detalle</th>
-                <th>Tipo Adquisición</th>
-            </tr>
-            </thead>
-            <tbody id="idTBodyBazar">
-            </tbody>
-        </table>
+<div>
+<br>
+</div>
+<div >
+        <div id="divRpt" class="col col-lg-12">
+        </div>
         <div class="col-md-12 text-center">
             <ul class="pagination" id="paginador"></ul>
         </div>
-    </div>
 </div>
 
 </body>

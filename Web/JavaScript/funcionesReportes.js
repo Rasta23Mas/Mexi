@@ -1126,12 +1126,14 @@ function fnCargaPagina(pagina){
         $("#idTBodyBazar").html("");
 
         $.each(lista, function(ind, elem){
+            var venta = elem.precio_venta;
+            venta = formatoMoneda(venta)
             $("<tr>"+
                 "<td>"+elem.FECHA+"</td>"+
                 "<td>"+elem.id_Contrato+"</td>"+
                 "<td>"+elem.id_serie+"</td>"+
-                "<td>"+elem.precio_venta+"</td>"+
-                "<td>"+elem.Detalle+"</td>"+
+                "<td align='left'>"+elem.Detalle+"</td>"+
+                "<td align='right'>"+venta+"</td>"+
                 "<td>"+elem.CatDesc+"</td>"+
                 "</tr>").appendTo($("#idTBodyBazar"));
         });
