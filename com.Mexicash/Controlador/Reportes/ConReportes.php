@@ -23,8 +23,7 @@ if ($tipoReporte == 1) {
 }else if ($tipoReporte == 5) {
     $sqlReportesDAO->sqlReporteBazar($busqueda,$limit,$offset);
 }else if ($tipoReporte == 6) {
-    //Compra
-    $sqlReportesDAO->reporteBazar($fechaIni,$fechaFin,$busqueda);
+    $sqlReportesDAO->sqlReporteCompras($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if ($tipoReporte == 7) {
     $sqlReportesDAO->reporteInve($busqueda);
 }else if ($tipoReporte == 8) {

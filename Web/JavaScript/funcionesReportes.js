@@ -55,10 +55,12 @@ function fnSelectReporte() {
     } else if (reporte == 5) {
         nameForm += "Bazar"
         document.getElementById('NombreReporte').innerHTML = nameForm;
+        $("#divRpt").load('rptEmpBazar.php');
         fechas = true;
     } else if (reporte == 6) {
         nameForm += "Compra"
         document.getElementById('NombreReporte').innerHTML = nameForm;
+        $("#divRpt").load('rptEmpCompras.php');
         fechas = false;
         fechasDis = true;
     } else if (reporte == 7) {
@@ -93,7 +95,6 @@ function fnLlenarReporte() {
         cargarRptVenci()
     } else if (tipoReporte == 5) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
-        $("#divRpt").load('rptEmpBazar.php');
     } else if (tipoReporte == 7) {
         cargarRptInv()
     } else {
@@ -107,7 +108,7 @@ function fnLlenarReporte() {
             } else if (tipoReporte == 4) {
                 cargarRptRefrendo(fechaIni, fechaFin);
             } else if (tipoReporte == 6) {
-                //Compras
+                fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
             } else if (tipoReporte == 8) {
                 //transferencias
             } else if (tipoReporte == 9) {
@@ -708,7 +709,11 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
         dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
             var total = data.totalCount;
-            fnCreaPaginador(total);
+            if(total==0){
+                alert("Sin resultados en la busqueda.")
+            }else{
+                fnCreaPaginador(total);
+            }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
 
@@ -1106,6 +1111,8 @@ function fnCargaPagina(pagina){
     var desde = pagina * itemsPorPaginaGlb;
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
+    fechaIni = fechaSQL(fechaIni);
+    fechaFin = fechaSQL(fechaFin);
     var tipoReporte = $('#idTipoReporte').val();
     var busqueda = 2;
     var dataEnviar = {
@@ -1123,20 +1130,12 @@ function fnCargaPagina(pagina){
         dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
         var lista = data.lista;
-        $("#idTBodyBazar").html("");
+        if(tipoReporte==5){
+            fnTBodyBazar(lista);
+        }else if (tipoReporte==6){
+            fnTBodyCompra(lista);
+        }
 
-        $.each(lista, function(ind, elem){
-            var venta = elem.precio_venta;
-            venta = formatoMoneda(venta)
-            $("<tr>"+
-                "<td>"+elem.FECHA+"</td>"+
-                "<td>"+elem.id_Contrato+"</td>"+
-                "<td>"+elem.id_serie+"</td>"+
-                "<td align='left'>"+elem.Detalle+"</td>"+
-                "<td align='right'>"+venta+"</td>"+
-                "<td>"+elem.CatDesc+"</td>"+
-                "</tr>").appendTo($("#idTBodyBazar"));
-        });
 
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
@@ -1186,4 +1185,36 @@ function fnCargaPagina(pagina){
 
 }
 
+function fnTBodyBazar(lista){
+    $("#idTBodyBazar").html("");
 
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        venta = formatoMoneda(venta)
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td>"+elem.CatDesc+"</td>"+
+            "</tr>").appendTo($("#idTBodyBazar"));
+    });
+}
+
+function fnTBodyCompra(lista){
+    $("#idTBodyCompras").html("");
+
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        venta = formatoMoneda(venta)
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td>"+elem.CatDesc+"</td>"+
+            "</tr>").appendTo($("#idTBodyCompras"));
+    });
+}

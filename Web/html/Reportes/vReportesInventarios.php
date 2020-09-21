@@ -18,6 +18,9 @@ $sucursal = $_SESSION["sucursal"];
     <link href="bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="jquery/jquery-1.11.3.js"></script>
     <script src="bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
 
     <title>Reportes</title>
     <script type="application/javascript">
@@ -95,9 +98,7 @@ $sucursal = $_SESSION["sucursal"];
 <div >
         <div id="divRpt" class="col col-lg-12">
         </div>
-        <div class="col-md-12 text-center">
-            <ul class="pagination" id="paginador"></ul>
-        </div>
+
 </div>
 
 </body>

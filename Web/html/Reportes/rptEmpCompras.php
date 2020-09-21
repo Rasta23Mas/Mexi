@@ -14,10 +14,9 @@
         <th>Tipo Adquisición</th>
     </tr>
     </thead>
-    <tbody id="idTBodyBazar" class="letraChica" align="center">
+    <tbody id="idTBodyCompras" class="letraChica" align="center">
     </tbody>
 </table>
 <div class="col-md-12 text-center">
     <ul class="pagination" id="paginador"></ul>
 </div>
-
