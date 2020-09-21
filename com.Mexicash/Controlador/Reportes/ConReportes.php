@@ -30,8 +30,7 @@ if ($tipoReporte == 1) {
     //Transferencia
     $sqlReportesDAO->reporteBazar($fechaIni,$fechaFin,$busqueda);
 }else if ($tipoReporte == 9) {
-    //Venta
-    $sqlReportesDAO->reporteBazar($fechaIni,$fechaFin,$busqueda);
+    $sqlReportesDAO->sqlReporteVentas($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }
 
 ?>

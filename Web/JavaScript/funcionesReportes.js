@@ -81,6 +81,7 @@ function fnSelectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
+        $("#divRpt").load('rptEmpVentas.php');
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
@@ -109,12 +110,10 @@ function fnLlenarReporte() {
                 cargarRptDesempe(fechaIni, fechaFin)
             } else if (tipoReporte == 4) {
                 cargarRptRefrendo(fechaIni, fechaFin);
-            } else if (tipoReporte == 6) {
+            } else if (tipoReporte == 6||tipoReporte == 9) {
                 fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
             } else if (tipoReporte == 8) {
                 //transferencias
-            } else if (tipoReporte == 9) {
-                //Ventas
             }
 
         } else {

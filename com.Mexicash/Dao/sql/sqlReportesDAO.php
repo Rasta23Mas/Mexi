@@ -158,6 +158,52 @@ class sqlReportesDAO
 
         echo json_encode($jsondata);
     }
+    public function sqlReporteVentas($busqueda,$fechaIni,$fechaFin,$limit,$offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if($busqueda==1){
+                $count = "SELECT COUNT(id_Bazar) as  totalCount 
+                        FROM bit_ventas as Con
+                        WHERE fecha_Creacion  >=  '$fechaIni'
+                        AND fecha_Creacion  <=  '$fechaFin' 
+                        AND sucursal=$sucursal";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado ->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            }else{
+                $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
+                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        FROM bit_ventas as Bit
+                        LEFT JOIN articulo_bazar_tbl AS ART on id_serieTipo = CAT.id_Adquisicion
+                        LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
+                        WHERE fecha_Creacion  >=  '$fechaIni'
+                        AND fecha_Creacion  <=  '$fechaFin' 
+                        AND sucursal=$sucursal LIMIT ".$this->conexion->real_escape_string($limit)." 
+                    OFFSET ".$this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while($fila = $resultado ->fetch_assoc())
+                {
+                    $jsondataperson = array();
+                    $jsondataperson["FECHA"] = $fila["FECHA"];
+                    $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
+                    $jsondataperson["id_serie"] = $fila["id_serie"];
+                    $jsondataperson["precio_venta"] = $fila["precio_venta"];
+                    $jsondataperson["Detalle"] = $fila["Detalle"];
+                    $jsondataperson["CatDesc"] = $fila["CatDesc"];
+                    $jsondataList[]=$jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
 
     public function reporteHistorico($fechaIni,$fechaFin)
     {
