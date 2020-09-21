@@ -1,3 +1,8 @@
+var paginadorGlb;
+var totalPaginasGlb;
+var itemsPorPaginaGlb = 20;
+var numerosPorPaginaGlb = 4;
+
 function fnBuscaReportes(tipo) {
     var dataEnviar = {
         "tipoReporte": tipo
@@ -74,22 +79,24 @@ function fnSelectReporte() {
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
     $("#idFechaFinal").datepicker('option', 'disabled', fechas);
-    $("#idFechaInicial").prop('disabled',fechasDis);
-    $("#idFechaFinal").prop('disabled',fechasDis);
+    $("#idFechaInicial").prop('disabled', fechasDis);
+    $("#idFechaFinal").prop('disabled', fechasDis);
 }
 
-function llenarReporte() {
+function fnLlenarReporte() {
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
 
+    var busqueda = 1;
     if (tipoReporte == 2) {
         cargarRptVenci()
     } else if (tipoReporte == 5) {
-        cargarRptBazar()
+        fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
+        $("#divRpt").load('rptEmpBazar.php');
     } else if (tipoReporte == 7) {
         cargarRptInv()
-    }  else {
+    } else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
@@ -99,11 +106,11 @@ function llenarReporte() {
                 cargarRptDesempe(fechaIni, fechaFin)
             } else if (tipoReporte == 4) {
                 cargarRptRefrendo(fechaIni, fechaFin);
-            }else if (tipoReporte == 6) {
+            } else if (tipoReporte == 6) {
                 //Compras
-            }else if (tipoReporte == 8) {
+            } else if (tipoReporte == 8) {
                 //transferencias
-            }else if (tipoReporte == 9) {
+            } else if (tipoReporte == 9) {
                 //Ventas
             }
 
@@ -684,8 +691,32 @@ function cargarRptRefrendo(fechaIni, fechaFin) {
     $("#divRpt").load('rptEmpRefrendo.php');
 }
 
-//Reporte Contrato Venc
-function cargarRptBazar() {
+//Reporte Bazar
+function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
+    var dataEnviar = {
+        "tipoReporte": tipoReporte,
+        "fechaIni": fechaIni,
+        "fechaFin": fechaFin,
+        "busqueda": busqueda,
+        "limit": 0,
+        "offset": 0,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Reportes/ConReportes.php',
+        data: dataEnviar,
+        dataType: "json"
+    }).done(function (data, textStatus, jqXHR) {
+            var total = data.totalCount;
+            fnCreaPaginador(total);
+    }).fail(function (jqXHR, textStatus, textError) {
+        alert("Error al realizar la peticion cuantos".textError);
+
+    });
+}
+
+
+function cargarRptBazar1() {
     var tipoReporte = $('#idTipoReporte').val();
     var dataEnviar = {
         "tipoReporte": tipoReporte,
@@ -1003,3 +1034,154 @@ function exportarFinanciero(tipoExportar) {
     }
 
 }
+
+function fnCreaPaginador(totalItems) {
+    paginadorGlb = $(".pagination");
+    totalPaginasGlb = Math.ceil(totalItems/itemsPorPaginaGlb);
+
+    $('<li><a href="#" class="first_link"><</a></li>').appendTo(paginadorGlb);
+    $('<li><a href="#" class="prev_link">«</a></li>').appendTo(paginadorGlb);
+
+    var pag = 0;
+    while(totalPaginasGlb > pag)
+    {
+        $('<li><a href="#" class="page_link">'+(pag+1)+'</a></li>').appendTo(paginadorGlb);
+        pag++;
+    }
+
+    if(numerosPorPaginaGlb > 1)
+    {
+        $(".page_link").hide();
+        $(".page_link").slice(0,numerosPorPaginaGlb).show();
+    }
+
+    $('<li><a href="#" class="next_link">»</a></li>').appendTo(paginadorGlb);
+    $('<li><a href="#" class="last_link">></a></li>').appendTo(paginadorGlb);
+
+    paginadorGlb.find(".page_link:first").addClass("active");
+    paginadorGlb.find(".page_link:first").parents("li").addClass("active");
+
+    paginadorGlb.find(".prev_link").hide();
+
+    paginadorGlb.find("li .page_link").click(function()
+    {
+        var irpagina =$(this).html().valueOf()-1;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .first_link").click(function()
+    {
+        var irpagina =0;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .prev_link").click(function()
+    {
+        var irpagina =parseInt(paginadorGlb.data("pag")) -1;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .next_link").click(function()
+    {
+        var irpagina =parseInt(paginadorGlb.data("pag")) +1;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .last_link").click(function()
+    {
+        var irpagina =totalPaginasGlb -1;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    fnCargaPagina(0);
+
+}
+
+function fnCargaPagina(pagina){
+    var desde = pagina * itemsPorPaginaGlb;
+    var fechaIni = $("#idFechaInicial").val();
+    var fechaFin = $("#idFechaFinal").val();
+    var tipoReporte = $('#idTipoReporte').val();
+    var busqueda = 2;
+    var dataEnviar = {
+        "tipoReporte": tipoReporte,
+        "fechaIni": fechaIni,
+        "fechaFin": fechaFin,
+        "busqueda": busqueda,
+        "limit": itemsPorPaginaGlb,
+        "offset": desde,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Reportes/ConReportes.php',
+        data: dataEnviar,
+        dataType: "json"
+    }).done(function (data, textStatus, jqXHR) {
+        var lista = data.lista;
+        $("#idTBodyBazar").html("");
+
+        $.each(lista, function(ind, elem){
+            $("<tr>"+
+                "<td>"+elem.FECHA+"</td>"+
+                "<td>"+elem.id_Contrato+"</td>"+
+                "<td>"+elem.id_serie+"</td>"+
+                "<td>"+elem.precio_venta+"</td>"+
+                "<td>"+elem.Detalle+"</td>"+
+                "<td>"+elem.CatDesc+"</td>"+
+                "</tr>").appendTo($("#idTBodyBazar"));
+        });
+
+    }).fail(function (jqXHR, textStatus, textError) {
+        alert("Error al realizar la peticion cuantos".textError);
+
+    });
+
+    if(pagina >= 1)
+    {
+        paginadorGlb.find(".prev_link").show();
+
+    }
+    else
+    {
+        paginadorGlb.find(".prev_link").hide();
+    }
+
+
+    if(pagina <(totalPaginasGlb- numerosPorPaginaGlb))
+    {
+        paginadorGlb.find(".next_link").show();
+    }else
+    {
+        paginadorGlb.find(".next_link").hide();
+    }
+
+    paginadorGlb.data("pag",pagina);
+
+    if(numerosPorPaginaGlb>1)
+    {
+        $(".page_link").hide();
+        if(pagina < (totalPaginasGlb- numerosPorPaginaGlb))
+        {
+            $(".page_link").slice(pagina,numerosPorPaginaGlb + pagina).show();
+        }
+        else{
+            if(totalPaginasGlb > numerosPorPaginaGlb)
+                $(".page_link").slice(totalPaginasGlb- numerosPorPaginaGlb).show();
+            else
+                $(".page_link").slice(0).show();
+
+        }
+    }
+
+    paginadorGlb.children().removeClass("active");
+    paginadorGlb.children().eq(pagina+2).addClass("active");
+
+
+}
+
+

@@ -15,10 +15,13 @@ $sucursal = $_SESSION["sucursal"];
     <script src="../../JavaScript/funcionesReportes.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
-<!--    <script src="../../JavaScript/funcionesPaginator.js"></script>
--->    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
+<!--    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
+    <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>-->
+    <link href="bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="jquery/jquery-1.11.3.js"></script>
+    <script src="bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+
     <title>Reportes</title>
     <script type="application/javascript">
         $(document).ready(function () {
@@ -34,23 +37,7 @@ $sucursal = $_SESSION["sucursal"];
 </head>
 <body>
 <div class="row" align="center">
-    <table width="100%" border="0">
-        <tr>
-            <td colspan="6">
-                &nbsp;
-            </td>
-        </tr>
-        <tr>
-            <td align="center" colspan="6" style=" color:darkblue; ">
-                <h3><label id="NombreReporte">Reportes</label></h3>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="6">
-                &nbsp;
-            </td>
-        </tr>
-    </table>
+    <input type="text" name="sucursa" id="idSucursal" value="<?php echo $sucursal ?>" style="visibility: hidden"/>
 </div>
 <div class="row" align="center">
     <table width="60%" class="border border-primary" align="center">
@@ -94,22 +81,37 @@ $sucursal = $_SESSION["sucursal"];
             </td>
             <td align="center">
                 <input type="button" class="btn btn-success w-75"
-                       onclick="cargarRptBazar()"
+                       onclick="fnLlenarReporte()"
                        value="Buscar"/>
             </td>
 
         </tr>
     </table>
 </div>
-<div class="row" align="center">
-    <br>&nbsp;
-</div>
-<div class="row" align="center">
-    <div id="divRpt" class="col col-lg-12">
+<div class="panel panel-primary">
+    <div class="panel-heading text-center">
+        <h3><label id="NombreReporte">Reportes</label></h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr align="center">
+                <th>Fecha Bazar</th>
+                <th>Contrato</th>
+                <th>Serie</th>
+                <th>Precio Venta</th>
+                <th>Detalle</th>
+                <th>Tipo Adquisición</th>
+            </tr>
+            </thead>
+            <tbody id="idTBodyBazar">
+            </tbody>
+        </table>
+        <div class="col-md-12 text-center">
+            <ul class="pagination" id="paginador"></ul>
+        </div>
     </div>
 </div>
-<div class="row" align="center">
-    <input type="text" name="sucursa" id="idSucursal" value="<?php echo $sucursal ?>" style="visibility: hidden"/>
-</div>
+
 </body>
 </html>

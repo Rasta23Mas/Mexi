@@ -1,6 +1,6 @@
 <style>
     .letraChica {
-        font-size: .8em;
+        font-size: .7em;
     }
 </style>
 <table class="table table-hover table-condensed table-bordered letraChica" width="100%">
@@ -9,11 +9,9 @@
         <th>Fecha Bazar</th>
         <th>Contrato</th>
         <th>Serie</th>
-        <th>Movimiento</th>
-        <th>Detalle</th>
         <th>Precio Venta</th>
+        <th>Detalle</th>
         <th>Tipo Adquisición</th>
-        <th>Contrato Migración</th>
     </tr>
     </thead>
     <tbody id="idTBodyBazar" class="letraChica" align="center">
