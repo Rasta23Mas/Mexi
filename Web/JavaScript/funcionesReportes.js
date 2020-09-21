@@ -67,11 +67,15 @@ function fnSelectReporte() {
         nameForm += "Inventarios"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = true;
+        $("#divRpt").load('rptEmpInventario.php');
+
     } else if (reporte == 8) {
         nameForm += "Transferencia"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
+        fnRecargarReportes();
+
     } else if (reporte == 9) {
         nameForm = "Venta"
         document.getElementById('NombreReporte').innerHTML = nameForm;
@@ -93,10 +97,8 @@ function fnLlenarReporte() {
     var busqueda = 1;
     if (tipoReporte == 2) {
         cargarRptVenci()
-    } else if (tipoReporte == 5) {
+    } else if (tipoReporte == 5||tipoReporte == 7) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
-    } else if (tipoReporte == 7) {
-        cargarRptInv()
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
@@ -709,9 +711,11 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
         dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
             var total = data.totalCount;
+            //alert(total);
             if(total==0){
                 alert("Sin resultados en la busqueda.")
             }else{
+                alert("paso total")
                 fnCreaPaginador(total);
             }
     }).fail(function (jqXHR, textStatus, textError) {
@@ -1129,11 +1133,14 @@ function fnCargaPagina(pagina){
         data: dataEnviar,
         dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
+        //alert(data)
         var lista = data.lista;
         if(tipoReporte==5){
             fnTBodyBazar(lista);
         }else if (tipoReporte==6){
             fnTBodyCompra(lista);
+        }else if (tipoReporte==7){
+            fnTBodyInventario(lista);
         }
 
 
@@ -1217,4 +1224,26 @@ function fnTBodyCompra(lista){
             "<td>"+elem.CatDesc+"</td>"+
             "</tr>").appendTo($("#idTBodyCompras"));
     });
+}
+
+function fnTBodyInventario(lista){
+    $("#idTBodyInventario").html("");
+
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        venta = formatoMoneda(venta)
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td>"+elem.CatDesc+"</td>"+
+            "</tr>").appendTo($("#idTBodyInventario"));
+    });
+}
+
+ function fnRecargarReportes() {
+    alert("Reporte en construcción");
+    location.reload();
 }

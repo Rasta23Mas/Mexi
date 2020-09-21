@@ -25,7 +25,7 @@ if ($tipoReporte == 1) {
 }else if ($tipoReporte == 6) {
     $sqlReportesDAO->sqlReporteCompras($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if ($tipoReporte == 7) {
-    $sqlReportesDAO->reporteInve($busqueda);
+    $sqlReportesDAO->sqlReporteInventarios($busqueda,$limit,$offset);
 }else if ($tipoReporte == 8) {
     //Transferencia
     $sqlReportesDAO->reporteBazar($fechaIni,$fechaFin,$busqueda);

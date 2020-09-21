@@ -111,6 +111,53 @@ class sqlReportesDAO
 
         echo json_encode($jsondata);
     }
+    public function sqlReporteInventarios($busqueda,$limit,$offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if($busqueda==1){
+                $count = "SELECT COUNT(id_Articulo) as  totalCount 
+                            FROM articulo_tbl AS ART 
+                            LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato
+                            LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
+                            WHERE Con.fisico = 1
+                            AND sucursal = $sucursal";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado ->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            }else{
+                $BusquedaQuery = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_Contrato,
+                        CONCAT (id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) as id_serie,
+                        vitrina AS precio_venta, 
+                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        FROM articulo_tbl AS ART 
+                        LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato
+                        LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
+                        WHERE Con.fisico = 1 AND sucursal = $sucursal LIMIT ".$this->conexion->real_escape_string($limit)." 
+                    OFFSET ".$this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while($fila = $resultado ->fetch_assoc())
+                {
+                    $jsondataperson = array();
+                    $jsondataperson["FECHA"] = $fila["FECHA"];
+                    $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
+                    $jsondataperson["id_serie"] = $fila["id_serie"];
+                    $jsondataperson["precio_venta"] = $fila["precio_venta"];
+                    $jsondataperson["Detalle"] = $fila["Detalle"];
+                    $jsondataperson["CatDesc"] = $fila["CatDesc"];
+                    $jsondataList[]=$jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
 
     public function reporteHistorico($fechaIni,$fechaFin)
     {
