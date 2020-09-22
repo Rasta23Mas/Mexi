@@ -34,23 +34,26 @@ function fnSelectReporte() {
     $("#idFechaInicial").val('');
     $("#idFechaFinal").val('');
     if (reporte == 1) {
-        nameForm += "Histórico"
+        nameForm += "Histórico";
         document.getElementById('NombreReporte').innerHTML = nameForm;
         $("#divRpt").load('rptEmpHistorico.php');
         fechas = false;
         fechasDis = true;
     } else if (reporte == 2) {
-        nameForm += "Contratos Vencidos"
+        nameForm += "Contratos Vencidos";
+        $("#divRpt").load('rptEmpContratos.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = true;
     } else if (reporte == 3) {
-        nameForm += "Desempeños"
+        nameForm += "Desempeños";
+        $("#divRpt").load('rptEmpDesempeno.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
     } else if (reporte == 4) {
-        nameForm += "Refrendo"
+        nameForm += "Refrendo";
         document.getElementById('NombreReporte').innerHTML = nameForm;
+        $("#divRpt").load('rptEmpRefrendo.php');
         fechas = false;
         fechasDis = true;
     } else if (reporte == 5) {
@@ -97,24 +100,13 @@ function fnLlenarReporte() {
     var tipoReporte = $('#idTipoReporte').val();
 
     var busqueda = 1;
-    if (tipoReporte == 2) {
-        cargarRptVenci()
-    } else if (tipoReporte == 5||tipoReporte == 7) {
+    if (tipoReporte == 2||tipoReporte == 5||tipoReporte == 7) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
-            if (tipoReporte == 3) {
-                cargarRptDesempe(fechaIni, fechaFin)
-            } else if (tipoReporte == 4) {
-                cargarRptRefrendo(fechaIni, fechaFin);
-            } else if (tipoReporte == 1||tipoReporte == 6||tipoReporte == 9) {
-                fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
-            } else if (tipoReporte == 8) {
-                //transferencias
-            }
-
+            fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
         } else {
             alertify.error("Seleccione fecha de inicio y fecha final.");
         }
@@ -185,514 +177,7 @@ function exportarPDF() {
     }
 }
 
-//Reporte HISTORICO
-function cargarRptHisto(fechaIni, fechaFin) {
-    var tipoReporte = $('#idTipoReporte').val();
-    var tipoMetal = 0;
-    var tipoElectro = 0;
-    var tipoAuto = 0;
-    var dataEnviar = {
-        "tipoReporte": tipoReporte,
-        "fechaIni": fechaIni,
-        "fechaFin": fechaFin,
-    };
-    $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                var html = '';
-                var i = 0;
-                alert("Refrescando tabla.");
-                for (i; i < datos.length; i++) {
-                    var FECHA = datos[i].FECHA;
-                    var FECHAVEN = datos[i].FECHAVEN;
-                    var FECHAALM = datos[i].FECHAALM;
-                    var CONTRATO = datos[i].CONTRATO;
-                    var NombreCompleto = datos[i].NombreCompleto;
-                    var PRESTAMO = datos[i].PRESTAMO;
-                    var Plazo = datos[i].Plazo;
-                    var Periodo = datos[i].Periodo;
-                    var TipoInteres = datos[i].TipoInteres;
-                    var DescripcionCorta = datos[i].DescripcionCorta;
-                    var Obs = datos[i].Obs;
-                    var ObserAuto = datos[i].ObserAuto;
-                    var DetalleAuto = datos[i].DetalleAuto;
-                    var FORMU = datos[i].Form;
-                    var Observaciones = "";
-                    var Detalle = "";
-
-                    FORMU = Number(FORMU)
-                    PRESTAMO = Number(PRESTAMO);
-                    PRESTAMO = formatoMoneda(PRESTAMO);
-
-                    if (FORMU == 1) {
-                        tipoMetal++;
-                        Observaciones = DescripcionCorta;
-                        Detalle = Obs;
-                    } else if (FORMU == 2) {
-                        tipoMetal = 0;
-                        tipoElectro++;
-                        Observaciones = DescripcionCorta;
-                        Detalle = Obs;
-                    } else if (FORMU == 3) {
-                        tipoMetal = 0;
-                        tipoElectro = 0;
-                        tipoAuto++;
-                        Observaciones = ObserAuto;
-                        Detalle = DetalleAuto;
-                    }
-
-                    if (tipoMetal == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> METAL </td>' +
-                            '</tr>';
-                    } else if (tipoElectro == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> ELECTRÓNICOS </td>' +
-                            '</tr>';
-                    } else if (tipoAuto == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> AUTO </td>' +
-                            '</tr>';
-                    }
-
-                    html += '<tr>' +
-                        '<td >' + FECHA + '</td>' +
-                        '<td>' + FECHAVEN + '</td>' +
-                        '<td>' + FECHAALM + '</td>' +
-                        '<td>' + CONTRATO + '</td>' +
-                        '<td>' + NombreCompleto + '</td>' +
-                        '<td>' + PRESTAMO + '</td>' +
-                        '<td>' + Plazo + '</td>' +
-                        '<td>' + Periodo + '</td>' +
-                        '<td>' + TipoInteres + '</td>' +
-                        '<td>' + Observaciones + '</td>' +
-                        '<td>' + Detalle + '</td>' +
-                        '</tr>';
-                }
-                $('#idTBodyHistorico').html(html);
-            }
-        }
-    );
-    $("#divRpt").load('rptEmpHistorico.php');
-}
-
-//Reporte INVENTARIO
-function cargarRptInv() {
-    var tipoReporte = $('#idTipoReporte').val();
-    var tipoMetal = 0;
-    var tipoElectro = 0;
-    var tipoAuto = 0;
-    var dataEnviar = {
-        "tipoReporte": tipoReporte,
-        "fechaIni": '',
-        "fechaFin": '',
-    };
-    $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                var html = '';
-                var i = 0;
-                alert("Refrescando tabla.");
-                for (i; i < datos.length; i++) {
-                    var FECHA = datos[i].FECHA;
-                    var FECHAVEN = datos[i].FECHAVEN;
-                    var FECHAALM = datos[i].FECHAALM;
-                    var CONTRATO = datos[i].CONTRATO;
-                    var NombreCompleto = datos[i].NombreCompleto;
-                    var PRESTAMO = datos[i].PRESTAMO;
-                    var Plazo = datos[i].Plazo;
-                    var Periodo = datos[i].Periodo;
-                    var TipoInteres = datos[i].TipoInteres;
-                    var ObserElec = datos[i].ObserElec;
-                    var ObserMetal = datos[i].ObserMetal;
-                    var ObserAuto = datos[i].ObserAuto;
-                    var DetalleAuto = datos[i].DetalleAuto;
-                    var DetalleArt = datos[i].Detalle;
-                    var FORMU = datos[i].Form;
-                    var Observaciones = "";
-                    var Detalle = "";
-
-                    FORMU = Number(FORMU)
-                    PRESTAMO = Number(PRESTAMO);
-                    PRESTAMO = formatoMoneda(PRESTAMO);
-
-                    if (FORMU == 1) {
-                        tipoMetal++;
-                        Observaciones = ObserMetal;
-                        Detalle = DetalleArt;
-                    } else if (FORMU == 2) {
-                        tipoMetal = 0;
-                        tipoElectro++;
-                        Observaciones = ObserElec;
-                        Detalle = DetalleArt;
-                    } else if (FORMU == 3) {
-                        tipoMetal = 0;
-                        tipoElectro = 0;
-                        tipoAuto++;
-                        Observaciones = ObserAuto;
-                        Detalle = DetalleAuto;
-                    }
-
-                    if (tipoMetal == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> METAL </td>' +
-                            '</tr>';
-                    } else if (tipoElectro == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> ELECTRÓNICOS </td>' +
-                            '</tr>';
-                    } else if (tipoAuto == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> AUTO </td>' +
-                            '</tr>';
-                    }
-
-                    html += '<tr>' +
-                        '<td >' + FECHA + '</td>' +
-                        '<td>' + FECHAVEN + '</td>' +
-                        '<td>' + FECHAALM + '</td>' +
-                        '<td>' + CONTRATO + '</td>' +
-                        '<td>' + NombreCompleto + '</td>' +
-                        '<td>' + PRESTAMO + '</td>' +
-                        '<td>' + Plazo + '</td>' +
-                        '<td>' + Periodo + '</td>' +
-                        '<td>' + TipoInteres + '</td>' +
-                        '<td>' + Observaciones + '</td>' +
-                        '<td>' + Detalle + '</td>' +
-                        '</tr>';
-                }
-                $('#idTBodyInventario').html(html);
-            }
-        }
-    );
-    $("#divRpt").load('rptEmpInventario.php');
-}
-
-//Reporte Contrato Venc
-function cargarRptVenci() {
-    var tipoReporte = $('#idTipoReporte').val();
-    var tipoMetal = 0;
-    var tipoElectro = 0;
-    var tipoAuto = 0;
-    var dataEnviar = {
-        "tipoReporte": tipoReporte,
-        "fechaIni": '',
-        "fechaFin": '',
-    };
-    $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                var html = '';
-                var i = 0;
-                alert("Refrescando tabla.");
-                for (i; i < datos.length; i++) {
-                    var FECHA = datos[i].FECHA;
-                    var FECHAVEN = datos[i].FECHAVEN;
-                    var FECHAALM = datos[i].FECHAALM;
-                    var CONTRATO = datos[i].CONTRATO;
-                    var NombreCompleto = datos[i].NombreCompleto;
-                    var PRESTAMO = datos[i].PRESTAMO;
-                    var Plazo = datos[i].Plazo;
-                    var Periodo = datos[i].Periodo;
-                    var TipoInteres = datos[i].TipoInteres;
-                    var ObserElec = datos[i].ObserElec;
-                    var ObserMetal = datos[i].ObserMetal;
-                    var ObserAuto = datos[i].ObserAuto;
-                    var DetalleAuto = datos[i].DetalleAuto;
-                    var DetalleArt = datos[i].Detalle;
-                    var FORMU = datos[i].Form;
-                    var Observaciones = "";
-                    var Detalle = "";
-
-                    FORMU = Number(FORMU)
-                    PRESTAMO = Number(PRESTAMO);
-                    PRESTAMO = formatoMoneda(PRESTAMO);
-
-                    if (FORMU == 1) {
-                        tipoMetal++;
-                        Observaciones = ObserMetal;
-                        Detalle = DetalleArt;
-                    } else if (FORMU == 2) {
-                        tipoMetal = 0;
-                        tipoElectro++;
-                        Observaciones = ObserElec;
-                        Detalle = DetalleArt;
-                    } else if (FORMU == 3) {
-                        tipoMetal = 0;
-                        tipoElectro = 0;
-                        tipoAuto++;
-                        Observaciones = ObserAuto;
-                        Detalle = DetalleAuto;
-                    }
-
-                    if (tipoMetal == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> METAL </td>' +
-                            '</tr>';
-                    } else if (tipoElectro == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> ELECTRÓNICOS </td>' +
-                            '</tr>';
-                    } else if (tipoAuto == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> AUTO </td>' +
-                            '</tr>';
-                    }
-
-                    html += '<tr>' +
-                        '<td >' + FECHA + '</td>' +
-                        '<td>' + FECHAVEN + '</td>' +
-                        '<td>' + FECHAALM + '</td>' +
-                        '<td>' + CONTRATO + '</td>' +
-                        '<td>' + NombreCompleto + '</td>' +
-                        '<td>' + PRESTAMO + '</td>' +
-                        '<td>' + Plazo + '</td>' +
-                        '<td>' + Periodo + '</td>' +
-                        '<td>' + TipoInteres + '</td>' +
-                        '<td>' + Observaciones + '</td>' +
-                        '<td>' + Detalle + '</td>' +
-                        '</tr>';
-                }
-
-                $('#idTBodyContrato').html(html);
-            }
-        }
-    );
-    $("#divRpt").load('rptEmpContratos.php');
-}
-
-//Reporte Desempeño
-function cargarRptDesempe(fechaIni, fechaFin) {
-    var tipoReporte = $('#idTipoReporte').val();
-    var tipoMetal = 0;
-    var tipoElectro = 0;
-    var tipoAuto = 0;
-    var dataEnviar = {
-        "tipoReporte": tipoReporte,
-        "fechaIni": fechaIni,
-        "fechaFin": fechaFin,
-    };
-    $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                var html = '';
-                var i = 0;
-                alert("Refrescando tabla.");
-                for (i; i < datos.length; i++) {
-                    var FECHA = datos[i].FECHA;
-                    var FECHAMOV = datos[i].FECHAMOV;
-                    var FECHAVEN = datos[i].FECHAVEN;
-                    var CONTRATO = datos[i].CONTRATO;
-                    var PRESTAMO = datos[i].PRESTAMO;
-                    var INTERESES = datos[i].INTERESES;
-                    var ALMACENAJE = datos[i].ALMACENAJE;
-                    var SEGURO = datos[i].SEGURO;
-                    var ABONO = datos[i].ABONO;
-                    var DESCU = datos[i].DESCU;
-                    var IVA = datos[i].IVA;
-                    var COSTO = datos[i].COSTO;
-                    var FORMU = datos[i].FORMU;
-                    var SubTotal = datos[i].pag_subtotal;
-                    var Total = datos[i].pag_total;
-                    FORMU = Number(FORMU)
-                    PRESTAMO = Number(PRESTAMO);
-                    INTERESES = Number(INTERESES);
-                    ALMACENAJE = Number(ALMACENAJE);
-                    SEGURO = Number(SEGURO);
-                    ABONO = Number(ABONO);
-                    COSTO = Number(COSTO);
-                    DESCU = Number(DESCU);
-                    IVA = Number(IVA);
-                    PRESTAMO = formatoMoneda(PRESTAMO);
-                    INTERESES = formatoMoneda(INTERESES);
-                    ALMACENAJE = formatoMoneda(ALMACENAJE);
-                    SEGURO = formatoMoneda(SEGURO);
-                    ABONO = formatoMoneda(ABONO);
-                    DESCU = formatoMoneda(DESCU);
-                    IVA = formatoMoneda(IVA);
-                    COSTO = formatoMoneda(COSTO);
-                    SubTotal = formatoMoneda(SubTotal);
-                    Total = formatoMoneda(Total);
-                    if (FORMU == 1) {
-                        tipoMetal++;
-                    } else if (FORMU == 2) {
-                        tipoMetal = 0;
-                        tipoElectro++;
-                    } else if (FORMU == 3) {
-                        tipoMetal = 0;
-                        tipoElectro = 0;
-                        tipoAuto++;
-                    }
-
-                    if (tipoMetal == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Metal </td>' +
-                            '</tr>';
-                    } else if (tipoElectro == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Electrónicos </td>' +
-                            '</tr>';
-                    } else if (tipoAuto == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Auto </td>' +
-                            '</tr>';
-                    }
-
-                    html += '<tr>' +
-                        '<td >' + FECHA + '</td>' +
-                        '<td>' + FECHAMOV + '</td>' +
-                        '<td>' + FECHAVEN + '</td>' +
-                        '<td>' + CONTRATO + '</td>' +
-                        '<td>' + PRESTAMO + '</td>' +
-                        '<td>' + INTERESES + '</td>' +
-                        '<td>' + ALMACENAJE + '</td>' +
-                        '<td>' + SEGURO + '</td>' +
-                        '<td>' + ABONO + '</td>' +
-                        '<td>' + DESCU + '</td>' +
-                        '<td>' + COSTO + '</td>' +
-                        '<td>' + SubTotal + '</td>' +
-                        '<td>' + IVA + '</td>' +
-                        '<td>' + Total + '</td>' +
-                        '</tr>';
-                }
-                $('#idTBodyDesempeno').html(html);
-            }
-        }
-    );
-    $("#divRpt").load('rptEmpDesempeno.php');
-}
-
-//Reporte Refrendo
-function cargarRptRefrendo(fechaIni, fechaFin) {
-    var tipoReporte = $('#idTipoReporte').val();
-    var tipoMetal = 0;
-    var tipoElectro = 0;
-    var tipoAuto = 0;
-    var dataEnviar = {
-        "tipoReporte": tipoReporte,
-        "fechaIni": fechaIni,
-        "fechaFin": fechaFin,
-    };
-    $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                var html = '';
-                var i = 0;
-                alert("Refrescando tabla.");
-                for (i; i < datos.length; i++) {
-                    var FECHA = datos[i].FECHA;
-                    var FECHAMOV = datos[i].FECHAMOV;
-                    var FECHAVEN = datos[i].FECHAVEN;
-                    var CONTRATO = datos[i].CONTRATO;
-                    var PRESTAMO = datos[i].PRESTAMO;
-                    var INTERESES = datos[i].INTERESES;
-                    var ALMACENAJE = datos[i].ALMACENAJE;
-                    var SEGURO = datos[i].SEGURO;
-                    var ABONO = datos[i].ABONO;
-                    var DESCU = datos[i].DESCU;
-                    var IVA = datos[i].IVA;
-                    var COSTO = datos[i].COSTO;
-                    var FORMU = datos[i].FORMU;
-                    var SubTotal = datos[i].pag_subtotal;
-                    var Total = datos[i].pag_total;
-                    FORMU = Number(FORMU)
-                    INTERESES = Number(INTERESES);
-                    ALMACENAJE = Number(ALMACENAJE);
-                    SEGURO = Number(SEGURO);
-                    ABONO = Number(ABONO);
-                    COSTO = Number(COSTO);
-                    DESCU = Number(DESCU);
-                    IVA = Number(IVA);
-                    PRESTAMO = formatoMoneda(PRESTAMO);
-                    INTERESES = formatoMoneda(INTERESES);
-                    ALMACENAJE = formatoMoneda(ALMACENAJE);
-                    SEGURO = formatoMoneda(SEGURO);
-                    ABONO = formatoMoneda(ABONO);
-                    DESCU = formatoMoneda(DESCU);
-                    IVA = formatoMoneda(IVA);
-                    COSTO = formatoMoneda(COSTO);
-                    SubTotal = formatoMoneda(SubTotal);
-                    Total = formatoMoneda(Total);
-                    if (FORMU == 1) {
-                        tipoMetal++;
-                    } else if (FORMU == 2) {
-                        tipoMetal = 0;
-                        tipoElectro++;
-                    } else if (FORMU == 3) {
-                        tipoMetal = 0;
-                        tipoElectro = 0;
-                        tipoAuto++;
-                    }
-
-                    if (tipoMetal == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Metal </td>' +
-                            '</tr>';
-                    } else if (tipoElectro == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Electrónicos </td>' +
-                            '</tr>';
-                    } else if (tipoAuto == 1) {
-                        html +=
-                            '<tr>' +
-                            '<td colspan="14" style="background: dodgerblue; color:white;"> Auto </td>' +
-                            '</tr>';
-                    }
-
-                    html += '<tr>' +
-                        '<td >' + FECHA + '</td>' +
-                        '<td>' + FECHAMOV + '</td>' +
-                        '<td>' + FECHAVEN + '</td>' +
-                        '<td>' + CONTRATO + '</td>' +
-                        '<td>' + PRESTAMO + '</td>' +
-                        '<td>' + INTERESES + '</td>' +
-                        '<td>' + ALMACENAJE + '</td>' +
-                        '<td>' + SEGURO + '</td>' +
-                        '<td>' + ABONO + '</td>' +
-                        '<td>' + DESCU + '</td>' +
-                        '<td>' + COSTO + '</td>' +
-                        '<td>' + SubTotal + '</td>' +
-                        '<td>' + IVA + '</td>' +
-                        '<td>' + Total + '</td>' +
-                        '</tr>';
-                }
-                $('#idTBodyRefrendo').html(html);
-            }
-        }
-    );
-    $("#divRpt").load('rptEmpRefrendo.php');
-}
-
-//Reporte Bazar
+//LLenar Reportes
 function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
     var dataEnviar = {
         "tipoReporte": tipoReporte,
@@ -719,56 +204,325 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
 
     });
 }
+//PAginador
+function fnCreaPaginador(totalItems) {
+    paginadorGlb = $(".pagination");
+    totalPaginasGlb = Math.ceil(totalItems/itemsPorPaginaGlb);
 
+    $('<li><a href="#" class="first_link"><</a></li>').appendTo(paginadorGlb);
+    $('<li><a href="#" class="prev_link">«</a></li>').appendTo(paginadorGlb);
 
-function cargarRptBazar1() {
+    var pag = 0;
+    while(totalPaginasGlb > pag)
+    {
+        $('<li><a href="#" class="page_link">'+(pag+1)+'</a></li>').appendTo(paginadorGlb);
+        pag++;
+    }
+
+    if(numerosPorPaginaGlb > 1)
+    {
+        $(".page_link").hide();
+        $(".page_link").slice(0,numerosPorPaginaGlb).show();
+    }
+
+    $('<li><a href="#" class="next_link">»</a></li>').appendTo(paginadorGlb);
+    $('<li><a href="#" class="last_link">></a></li>').appendTo(paginadorGlb);
+
+    paginadorGlb.find(".page_link:first").addClass("active");
+    paginadorGlb.find(".page_link:first").parents("li").addClass("active");
+
+    paginadorGlb.find(".prev_link").hide();
+
+    paginadorGlb.find("li .page_link").click(function()
+    {
+        var irpagina =$(this).html().valueOf()-1;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .first_link").click(function()
+    {
+        var irpagina =0;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .prev_link").click(function()
+    {
+        var irpagina =parseInt(paginadorGlb.data("pag")) -1;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .next_link").click(function()
+    {
+        var irpagina =parseInt(paginadorGlb.data("pag")) +1;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .last_link").click(function()
+    {
+        var irpagina =totalPaginasGlb -1;
+        fnCargaPagina(irpagina);
+        return false;
+    });
+
+    fnCargaPagina(0);
+
+}
+function fnCargaPagina(pagina){
+    var desde = pagina * itemsPorPaginaGlb;
+    var fechaIni = $("#idFechaInicial").val();
+    var fechaFin = $("#idFechaFinal").val();
+    fechaIni = fechaSQL(fechaIni);
+    fechaFin = fechaSQL(fechaFin);
     var tipoReporte = $('#idTipoReporte').val();
+    var busqueda = 2;
     var dataEnviar = {
         "tipoReporte": tipoReporte,
-        "fechaIni": '',
-        "fechaFin": '',
+        "fechaIni": fechaIni,
+        "fechaFin": fechaFin,
+        "busqueda": busqueda,
+        "limit": itemsPorPaginaGlb,
+        "offset": desde,
     };
     $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Reportes/tblReportes.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                var html = '';
-                var i = 0;
-                alert("Refrescando tabla.");
-                for (i; i < datos.length; i++) {
-                    var TotalFilas = datos[i].TotalFilas;
-                    var id_Contrato = datos[i].id_ContratoRepBaz;
-                    var id_serie = datos[i].id_serieRepBaz;
-                    var Movimiento = datos[i].Movimiento;
-                    var fecha_Bazar = datos[i].fecha_Bazar;
-                    var precio_venta = datos[i].precio_venta;
-                    var Detalle = datos[i].Detalle;
-                    var CatDesc = datos[i].CatDesc;
-                    var id_ContratoMig = datos[i].id_ContratoMig;
-
-                    precio_venta = formatoMoneda(precio_venta);
-
-                    html += '<tr>' +
-                        '<td >' + fecha_Bazar + '</td>' +
-                        '<td>' + id_Contrato + '</td>' +
-                        '<td>' + id_serie + '</td>' +
-                        '<td>' + Movimiento + '</td>' +
-                        '<td>' + Detalle + '</td>' +
-                        '<td>' + precio_venta + '</td>' +
-                        '<td>' + CatDesc + '</td>' +
-                        '<td>' + id_ContratoMig + '</td>' +
-                        '</tr>';
-                }
-
-                $('#idTBodyBazar').html(html);
-            }
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Reportes/ConReportes.php',
+        data: dataEnviar,
+        dataType: "json"
+    }).done(function (data, textStatus, jqXHR) {
+        var lista = data.lista;
+        if(tipoReporte==1){
+            fnTBodyHistorico(lista);
+        }else if(tipoReporte==2){
+            fnTBodyContratos(lista);
+        }else if(tipoReporte==3){
+            fnTBodyDesempeno(lista);
+        }else if(tipoReporte==4){
+            fnTBodyRefrendo(lista);
+        }else if(tipoReporte==5){
+            fnTBodyBazar(lista);
+        }else if (tipoReporte==6){
+            fnTBodyCompra(lista);
+        }else if (tipoReporte==7){
+            fnTBodyInventario(lista);
+        }else if (tipoReporte==8){
+            //fnTBodyInventario(lista);
+        }else if (tipoReporte==9){
+            fnTBodyVentas(lista);
         }
-    );
-    $("#divRpt").load('rptEmpBazar.php');
-}
+    }).fail(function (jqXHR, textStatus, textError) {
+        alert("Error al realizar la peticion cuantos".textError);
 
+    });
+
+    if(pagina >= 1)
+    {
+        paginadorGlb.find(".prev_link").show();
+
+    }
+    else
+    {
+        paginadorGlb.find(".prev_link").hide();
+    }
+
+
+    if(pagina <(totalPaginasGlb- numerosPorPaginaGlb))
+    {
+        paginadorGlb.find(".next_link").show();
+    }else
+    {
+        paginadorGlb.find(".next_link").hide();
+    }
+
+    paginadorGlb.data("pag",pagina);
+
+    if(numerosPorPaginaGlb>1)
+    {
+        $(".page_link").hide();
+        if(pagina < (totalPaginasGlb- numerosPorPaginaGlb))
+        {
+            $(".page_link").slice(pagina,numerosPorPaginaGlb + pagina).show();
+        }
+        else{
+            if(totalPaginasGlb > numerosPorPaginaGlb)
+                $(".page_link").slice(totalPaginasGlb- numerosPorPaginaGlb).show();
+            else
+                $(".page_link").slice(0).show();
+
+        }
+    }
+
+    paginadorGlb.children().removeClass("active");
+    paginadorGlb.children().eq(pagina+2).addClass("active");
+
+
+}
+function fnTBodyHistorico(lista){
+    $("#idTBodyHistorico").html("");
+    $.each(lista, function(ind, elem){
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var formulario = elem.Form;
+        var obs = "";
+        if(formulario==1){
+            obs  = elem.ObserArt;
+        }else{
+            obs  = elem.ObserAuto;
+        }
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.FECHAVEN+"</td>"+
+            "<td>"+elem.FECHAALM+"</td>"+
+            "<td>"+elem.NombreCompleto+"</td>"+
+            "<td>"+elem.CONTRATO+"</td>"+
+            "<td align='right'>"+prestamoCon+"</td>"+
+            "<td>"+elem.DESCRIPCION+"</td>"+
+            "<td>"+obs+"</td>"+
+            "</tr>").appendTo($("#idTBodyHistorico"));
+    });
+}
+function fnTBodyContratos(lista){
+    $("#idTBodyContrato").html("");
+    $.each(lista, function(ind, elem){
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var formulario = elem.Form;
+        var obs = "";
+        if(formulario==1){
+            obs  = elem.ObserArt;
+        }else{
+            obs  = elem.ObserAuto;
+        }
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.FECHAVEN+"</td>"+
+            "<td>"+elem.FECHAALM+"</td>"+
+            "<td>"+elem.NombreCompleto+"</td>"+
+            "<td>"+elem.CONTRATO+"</td>"+
+            "<td align='right'>"+prestamoCon+"</td>"+
+            "<td>"+elem.DESCRIPCION+"</td>"+
+            "<td>"+obs+"</td>"+
+            "</tr>").appendTo($("#idTBodyContrato"));
+    });
+}
+function fnTBodyDesempeno(lista){
+    $("#idTBodyDesempeno").html("");
+    $.each(lista, function(ind, elem){
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var formulario = elem.Form;
+        var obs = "";
+        if(formulario==1){
+            obs  = elem.ObserArt;
+        }else{
+            obs  = elem.ObserAuto;
+        }
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.FECHAVEN+"</td>"+
+            "<td>"+elem.FECHAALM+"</td>"+
+            "<td>"+elem.NombreCompleto+"</td>"+
+            "<td>"+elem.CONTRATO+"</td>"+
+            "<td align='right'>"+prestamoCon+"</td>"+
+            "<td>"+elem.DESCRIPCION+"</td>"+
+            "<td>"+obs+"</td>"+
+            "</tr>").appendTo($("#idTBodyDesempeno"));
+    });
+}
+function fnTBodyRefrendo(lista){
+    $("#idTBodyRefrendo").html("");
+    $.each(lista, function(ind, elem){
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var formulario = elem.Form;
+        var obs = "";
+        if(formulario==1){
+            obs  = elem.ObserArt;
+        }else{
+            obs  = elem.ObserAuto;
+        }
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.FECHAVEN+"</td>"+
+            "<td>"+elem.FECHAALM+"</td>"+
+            "<td>"+elem.NombreCompleto+"</td>"+
+            "<td>"+elem.CONTRATO+"</td>"+
+            "<td align='right'>"+prestamoCon+"</td>"+
+            "<td>"+elem.DESCRIPCION+"</td>"+
+            "<td>"+obs+"</td>"+
+            "</tr>").appendTo($("#idTBodyRefrendo"));
+    });
+}
+function fnTBodyBazar(lista){
+    $("#idTBodyBazar").html("");
+
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        venta = formatoMoneda(venta)
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td>"+elem.CatDesc+"</td>"+
+            "</tr>").appendTo($("#idTBodyBazar"));
+    });
+}
+function fnTBodyCompra(lista){
+    $("#idTBodyCompras").html("");
+
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        venta = formatoMoneda(venta)
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td>"+elem.CatDesc+"</td>"+
+            "</tr>").appendTo($("#idTBodyCompras"));
+    });
+}
+function fnTBodyInventario(lista){
+    $("#idTBodyInventario").html("");
+
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        venta = formatoMoneda(venta)
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td>"+elem.CatDesc+"</td>"+
+            "</tr>").appendTo($("#idTBodyInventario"));
+    });
+}
+function fnTBodyVentas(lista){
+    $("#idTBodyVentas").html("");
+
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        var descuento = elem.descuento_Venta;
+        venta = formatoMoneda(venta);
+        descuento = formatoMoneda(descuento);
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td align='right'>"+descuento+"</td>"+
+            "<td>"+elem.CatDesc+"</td>"+
+            "</tr>").appendTo($("#idTBodyVentas"));
+    });
+}
 // MONITOREO
 function selectReporteMon() {
     var nombre = $('select[name="nombreReporte"] option:selected').text();
@@ -1040,253 +794,7 @@ function exportarFinanciero(tipoExportar) {
 
 }
 
-function fnCreaPaginador(totalItems) {
-    paginadorGlb = $(".pagination");
-    totalPaginasGlb = Math.ceil(totalItems/itemsPorPaginaGlb);
 
-    $('<li><a href="#" class="first_link"><</a></li>').appendTo(paginadorGlb);
-    $('<li><a href="#" class="prev_link">«</a></li>').appendTo(paginadorGlb);
-
-    var pag = 0;
-    while(totalPaginasGlb > pag)
-    {
-        $('<li><a href="#" class="page_link">'+(pag+1)+'</a></li>').appendTo(paginadorGlb);
-        pag++;
-    }
-
-    if(numerosPorPaginaGlb > 1)
-    {
-        $(".page_link").hide();
-        $(".page_link").slice(0,numerosPorPaginaGlb).show();
-    }
-
-    $('<li><a href="#" class="next_link">»</a></li>').appendTo(paginadorGlb);
-    $('<li><a href="#" class="last_link">></a></li>').appendTo(paginadorGlb);
-
-    paginadorGlb.find(".page_link:first").addClass("active");
-    paginadorGlb.find(".page_link:first").parents("li").addClass("active");
-
-    paginadorGlb.find(".prev_link").hide();
-
-    paginadorGlb.find("li .page_link").click(function()
-    {
-        var irpagina =$(this).html().valueOf()-1;
-        fnCargaPagina(irpagina);
-        return false;
-    });
-
-    paginadorGlb.find("li .first_link").click(function()
-    {
-        var irpagina =0;
-        fnCargaPagina(irpagina);
-        return false;
-    });
-
-    paginadorGlb.find("li .prev_link").click(function()
-    {
-        var irpagina =parseInt(paginadorGlb.data("pag")) -1;
-        fnCargaPagina(irpagina);
-        return false;
-    });
-
-    paginadorGlb.find("li .next_link").click(function()
-    {
-        var irpagina =parseInt(paginadorGlb.data("pag")) +1;
-        fnCargaPagina(irpagina);
-        return false;
-    });
-
-    paginadorGlb.find("li .last_link").click(function()
-    {
-        var irpagina =totalPaginasGlb -1;
-        fnCargaPagina(irpagina);
-        return false;
-    });
-
-    fnCargaPagina(0);
-
-}
-
-function fnCargaPagina(pagina){
-    var desde = pagina * itemsPorPaginaGlb;
-    var fechaIni = $("#idFechaInicial").val();
-    var fechaFin = $("#idFechaFinal").val();
-    fechaIni = fechaSQL(fechaIni);
-    fechaFin = fechaSQL(fechaFin);
-    var tipoReporte = $('#idTipoReporte').val();
-    var busqueda = 2;
-    var dataEnviar = {
-        "tipoReporte": tipoReporte,
-        "fechaIni": fechaIni,
-        "fechaFin": fechaFin,
-        "busqueda": busqueda,
-        "limit": itemsPorPaginaGlb,
-        "offset": desde,
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Reportes/ConReportes.php',
-        data: dataEnviar,
-       dataType: "json"
-    }).done(function (data, textStatus, jqXHR) {
-        var lista = data.lista;
-        if(tipoReporte==1){
-            fnTBodyHistorico(lista);
-        }if(tipoReporte==5){
-            fnTBodyBazar(lista);
-        }else if (tipoReporte==6){
-            fnTBodyCompra(lista);
-        }else if (tipoReporte==7){
-            fnTBodyInventario(lista);
-        }else if (tipoReporte==8){
-            //fnTBodyInventario(lista);
-        }else if (tipoReporte==9){
-            fnTBodyInventario(lista);
-        }
-
-
-    }).fail(function (jqXHR, textStatus, textError) {
-        alert("Error al realizar la peticion cuantos".textError);
-
-    });
-
-    if(pagina >= 1)
-    {
-        paginadorGlb.find(".prev_link").show();
-
-    }
-    else
-    {
-        paginadorGlb.find(".prev_link").hide();
-    }
-
-
-    if(pagina <(totalPaginasGlb- numerosPorPaginaGlb))
-    {
-        paginadorGlb.find(".next_link").show();
-    }else
-    {
-        paginadorGlb.find(".next_link").hide();
-    }
-
-    paginadorGlb.data("pag",pagina);
-
-    if(numerosPorPaginaGlb>1)
-    {
-        $(".page_link").hide();
-        if(pagina < (totalPaginasGlb- numerosPorPaginaGlb))
-        {
-            $(".page_link").slice(pagina,numerosPorPaginaGlb + pagina).show();
-        }
-        else{
-            if(totalPaginasGlb > numerosPorPaginaGlb)
-                $(".page_link").slice(totalPaginasGlb- numerosPorPaginaGlb).show();
-            else
-                $(".page_link").slice(0).show();
-
-        }
-    }
-
-    paginadorGlb.children().removeClass("active");
-    paginadorGlb.children().eq(pagina+2).addClass("active");
-
-
-}
-function fnTBodyHistorico(lista){
-    $("#idTBodyHistorico").html("");
-    $.each(lista, function(ind, elem){
-        var prestamoCon = elem.PRESTAMO;
-        prestamoCon = formatoMoneda(prestamoCon);
-        var formulario = elem.Form;
-        var obs = "";
-        if(formulario==1){
-            obs  = elem.ObserArt;
-        }else{
-            obs  = elem.ObserAuto;
-        }
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.FECHAVEN+"</td>"+
-            "<td>"+elem.FECHAALM+"</td>"+
-            "<td>"+elem.NombreCompleto+"</td>"+
-            "<td>"+elem.CONTRATO+"</td>"+
-            "<td align='right'>"+prestamoCon+"</td>"+
-            "<td>"+elem.DESCRIPCION+"</td>"+
-            "<td>"+obs+"</td>"+
-            "</tr>").appendTo($("#idTBodyHistorico"));
-    });
-}
-
-function fnTBodyBazar(lista){
-    $("#idTBodyBazar").html("");
-
-    $.each(lista, function(ind, elem){
-        var venta = elem.precio_venta;
-        venta = formatoMoneda(venta)
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td>"+elem.CatDesc+"</td>"+
-            "</tr>").appendTo($("#idTBodyBazar"));
-    });
-}
-
-function fnTBodyCompra(lista){
-    $("#idTBodyCompras").html("");
-
-    $.each(lista, function(ind, elem){
-        var venta = elem.precio_venta;
-        venta = formatoMoneda(venta)
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td>"+elem.CatDesc+"</td>"+
-            "</tr>").appendTo($("#idTBodyCompras"));
-    });
-}
-
-function fnTBodyInventario(lista){
-    $("#idTBodyInventario").html("");
-
-    $.each(lista, function(ind, elem){
-        var venta = elem.precio_venta;
-        venta = formatoMoneda(venta)
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td>"+elem.CatDesc+"</td>"+
-            "</tr>").appendTo($("#idTBodyInventario"));
-    });
-}
-
-function fnTBodyInventario(lista){
-    $("#idTBodyVentas").html("");
-
-    $.each(lista, function(ind, elem){
-        var venta = elem.precio_venta;
-        var descuento = elem.descuento_Venta;
-        venta = formatoMoneda(venta);
-        descuento = formatoMoneda(descuento);
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td align='right'>"+descuento+"</td>"+
-            "<td>"+elem.CatDesc+"</td>"+
-            "</tr>").appendTo($("#idTBodyVentas"));
-    });
-}
 
  function fnRecargarReportes() {
     alert("Reporte en construcción");

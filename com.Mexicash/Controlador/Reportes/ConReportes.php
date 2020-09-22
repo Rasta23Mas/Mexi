@@ -15,11 +15,11 @@ $sqlReportesDAO = new sqlReportesDAO();
 if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteHistorico($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if ($tipoReporte == 2) {
-    $sqlReportesDAO->reporteContratos($busqueda);
+    $sqlReportesDAO->sqlReporteContratos($busqueda,$limit,$offset);
 }else if ($tipoReporte == 3) {
-    $sqlReportesDAO->reporteDesempe($fechaIni,$fechaFin,$busqueda);
+    $sqlReportesDAO->sqlReporteDesempeno($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if ($tipoReporte == 4) {
-    $sqlReportesDAO->reporteRefrendo($fechaIni,$fechaFin,$busqueda);
+    $sqlReportesDAO->sqlReporteRefrendo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if ($tipoReporte == 5) {
     $sqlReportesDAO->sqlReporteBazar($busqueda,$limit,$offset);
 }else if ($tipoReporte == 6) {
@@ -28,7 +28,6 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteInventarios($busqueda,$limit,$offset);
 }else if ($tipoReporte == 8) {
     //Transferencia
-
 }else if ($tipoReporte == 9) {
     $sqlReportesDAO->sqlReporteVentas($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }

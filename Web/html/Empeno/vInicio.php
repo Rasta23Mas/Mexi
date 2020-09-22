@@ -188,7 +188,14 @@ $dotaciones = $_SESSION['dotaciones'];
                     <tr>
                         <td align="center" width="50%">
                             <br>
-                            <input type="button" class="btn btn-info w-100" value="Empeños" onclick="location.href='../Reportes/vReportesEmpenos.php'">
+                            <input type="button" class="btn btn-info w-100" value="Empeños" onclick="location.href='../Reportes/vReportes.php?tipoReporte=1'">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" width="50%">
+                            <br>
+                            <input type="button" class="btn btn-info w-100" value="Inventarios" onclick="location.href='../Reportes/vReportes.php?tipoReporte=2'">
                             <br>
                         </td>
                     </tr>
