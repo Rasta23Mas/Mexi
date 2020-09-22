@@ -12,11 +12,13 @@ var idTokenTotalGlb = 0;
 var idTokenDescuentoGlb = 0;
 var idTokenGLb = 0;
 
-function buscaridBazar() {
+function buscaridBazarVentas() {
+    alert("hey")
     $.ajax({
-        url: '../../../com.Mexicash/Controlador/Ventas/BuscarIdBazar.php',
+        url: '../../../com.Mexicash/Controlador/Ventas/ConBuscarIdBazar.php',
         type: 'post',
         success: function (respuesta) {
+            alert(respuesta)
             if (respuesta == 0) {
                 location.reload()
             }else{

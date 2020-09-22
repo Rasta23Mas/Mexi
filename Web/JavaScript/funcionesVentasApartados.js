@@ -12,7 +12,7 @@ var idTokenGLb = 0;
 
 function buscaridBazarApartado() {
     $.ajax({
-        url: '../../../com.Mexicash/Controlador/Ventas/BuscarIdBazar.php',
+        url: '../../../com.Mexicash/Controlador/Ventas/ConBuscarIdBazar.php',
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 0) {

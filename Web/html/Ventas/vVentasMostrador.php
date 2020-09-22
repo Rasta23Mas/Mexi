@@ -33,7 +33,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                 $('#suggestionsNombreVenta').fadeOut(500);
             });
             limpiarCarrito();
-            buscaridBazar();
+            buscaridBazarVentas();
         })
     </script>
     <style type="text/css">
