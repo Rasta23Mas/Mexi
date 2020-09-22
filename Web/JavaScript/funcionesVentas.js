@@ -13,14 +13,12 @@ var idTokenDescuentoGlb = 0;
 var idTokenGLb = 0;
 
 function buscaridBazarVentas() {
-    alert("hey")
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Ventas/ConBuscarIdBazar.php',
         type: 'post',
         success: function (respuesta) {
-            alert(respuesta)
             if (respuesta == 0) {
-                location.reload()
+                location.reload();
             }else{
                 $("#idBazar").val(respuesta);
             }
@@ -485,7 +483,7 @@ function guardarVenta() {
                     idBazarGlb = idBazar;
                     ArticulosUpdateVenta()
                 } else {
-                    alertify.error("Error en al conectar con el servidor.");
+                    alertify.error("Error en al conectar con el servidor.FnError01");
                 }
             },
         })
@@ -502,10 +500,14 @@ function ArticulosUpdateVenta() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                alertify.success("Artículos actualizados correctamente.")
-                fnUpdateToken();
+                alertify.success("Artículos actualizados correctamente.");
+                if (idTokenGLb != 0) {
+                    fnUpdateToken();
+                }else{
+                    fnBitacoraVenta();
+                }
             } else {
-                alertify.error("Error en al conectar con el servidor.")
+                alertify.error("Error en al conectar con el servidor.FnError02")
             }
         }
     });
@@ -529,7 +531,7 @@ function fnUpdateToken() {
             if (response > 0) {
                 fnBitacoraVenta();
             } else {
-                alertify.error("Error en al conectar con el servidor.")
+                alertify.error("Error en al conectar con el servidor.FnError03")
             }
         }
     });
@@ -552,7 +554,7 @@ function fnBitacoraVenta() {
             if (response > 0) {
                 verPDFVenta(idBazarGlb);
             } else {
-                alertify.error("Error en al conectar con el servidor.")
+                alertify.error("Error en al conectar con el servidor.FnError04")
             }
         }
     });
