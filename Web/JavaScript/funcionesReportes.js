@@ -96,6 +96,18 @@ function fnSelectReporte() {
         fechasDis = true;
         $("#divRpt").load('rptFinancierosIng.php');
         fnRecargarReportes();
+    }else if (reporte == 23) {
+        nameForm = "Cierre Caja"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptCieCaja.php');
+    }else if (reporte == 24) {
+        nameForm = "Cierre Sucursal"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptCieSucursal.php');
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
@@ -242,7 +254,6 @@ function fnCargaPagina(pagina){
         data: dataEnviar,
         dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
-        alert(tipoReporte);
         var lista = data.lista;
         if(tipoReporte==1){
             fnTBodyHistorico(lista);
@@ -267,6 +278,10 @@ function fnCargaPagina(pagina){
             fnTBodyIngresos(lista);
         }else if (tipoReporte==11){
             //Corportativo
+        }else if (tipoReporte==23){
+            fnTBodyCaja(lista);
+        }else if (tipoReporte==24){
+            fnTBodySucursal(lista);
         }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
@@ -517,6 +532,99 @@ function fnTBodyIngresos(lista){
             "<td align='right'>"+utilidad+"</td>"+
             "<td>"+elem.Fecha+"</td>"+
             "</tr>").appendTo($("#idTBodyIngresos"));
+    });
+}
+function fnTBodyCaja(lista){
+    $("#idTBodyCaja").html("");
+
+    $.each(lista, function(ind, elem){
+        var dotacion = elem.dotacionesA_Caja;
+        var capitalRecuperado = elem.capitalRecuperado;
+        var abonoCapital = elem.abonoCapital;
+        var intereses = elem.intereses;
+        var iva = elem.iva;
+        var mostrador = elem.mostrador;
+        var ivaVen= elem.iva_venta;
+        var apartadoVen = elem.apartadosVentas;
+        var abonoVen = elem.abonoVentas;
+        var retiro = elem.retirosCaja;
+        var prestamo = elem.prestamosNuevos;
+        var costo = elem.costoContrato;
+
+        dotacion = formatoMoneda(dotacion);
+        capitalRecuperado = formatoMoneda(capitalRecuperado);
+        abonoCapital = formatoMoneda(abonoCapital);
+        intereses = formatoMoneda(intereses);
+        iva = formatoMoneda(iva);
+        mostrador = formatoMoneda(mostrador);
+        ivaVen = formatoMoneda(ivaVen);
+        apartadoVen = formatoMoneda(apartadoVen);
+        abonoVen = formatoMoneda(abonoVen);
+        retiro = formatoMoneda(retiro);
+        prestamo = formatoMoneda(prestamo);
+        costo = formatoMoneda(costo);
+        $("<tr>"+
+            "<td>"+elem.id_CierreCaja+"</td>"+
+            "<td>"+elem.id_CierreSucursal+"</td>"+
+            "<td align='right'>"+dotacion+"</td>"+
+            "<td align='right'>"+capitalRecuperado+"</td>"+
+            "<td align='right'>"+abonoCapital+"</td>"+
+            "<td align='right'>"+intereses+"</td>"+
+            "<td align='right'>"+iva+"</td>"+
+            "<td align='right'>"+mostrador+"</td>"+
+            "<td align='right'>"+ivaVen+"</td>"+
+            "<td align='right'>"+apartadoVen+"</td>"+
+            "<td align='right'>"+abonoVen+"</td>"+
+            "<td align='right'>"+retiro+"</td>"+
+            "<td align='right'>"+prestamo+"</td>"+
+            "<td align='right'>"+costo+"</td>"+
+            "</tr>").appendTo($("#idTBodyCaja"));
+    });
+}
+function fnTBodySucursal(lista){
+    $("#idTBodySucursal").html("");
+
+    $.each(lista, function(ind, elem){
+        var dotacion = elem.dotacionesA_Caja;
+        var capitalRecuperado = elem.capitalRecuperado;
+        var abonoCapital = elem.abonoCapital;
+        var intereses = elem.intereses;
+        var iva = elem.iva;
+        var mostrador = elem.mostrador;
+        var ivaVen= elem.iva_venta;
+        var apartados = elem.apartados;
+        var abonoVen = elem.abonoVentas;
+        var retiro = elem.retirosCaja;
+        var prestamo = elem.prestamosNuevos;
+        var costo = elem.costoContrato;
+
+        dotacion = formatoMoneda(dotacion);
+        capitalRecuperado = formatoMoneda(capitalRecuperado);
+        abonoCapital = formatoMoneda(abonoCapital);
+        intereses = formatoMoneda(intereses);
+        iva = formatoMoneda(iva);
+        mostrador = formatoMoneda(mostrador);
+        ivaVen = formatoMoneda(ivaVen);
+        apartados = formatoMoneda(apartados);
+        abonoVen = formatoMoneda(abonoVen);
+        retiro = formatoMoneda(retiro);
+        prestamo = formatoMoneda(prestamo);
+        costo = formatoMoneda(costo);
+        $("<tr>"+
+            "<td>"+elem.id_CierreSucursal+"</td>"+
+            "<td align='right'>"+dotacion+"</td>"+
+            "<td align='right'>"+capitalRecuperado+"</td>"+
+            "<td align='right'>"+abonoCapital+"</td>"+
+            "<td align='right'>"+intereses+"</td>"+
+            "<td align='right'>"+iva+"</td>"+
+            "<td align='right'>"+mostrador+"</td>"+
+            "<td align='right'>"+ivaVen+"</td>"+
+            "<td align='right'>"+apartados+"</td>"+
+            "<td align='right'>"+abonoVen+"</td>"+
+            "<td align='right'>"+retiro+"</td>"+
+            "<td align='right'>"+prestamo+"</td>"+
+            "<td align='right'>"+costo+"</td>"+
+            "</tr>").appendTo($("#idTBodySucursal"));
     });
 }
 

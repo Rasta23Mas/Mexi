@@ -510,6 +510,108 @@ class sqlReportesDAO
 
         echo json_encode($jsondata);
     }
+    public function sqlReporteCierreCaja($busqueda,$fechaIni,$fechaFin,$limit,$offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if($busqueda==1){
+                $count = "SELECT COUNT(id_CierreCaja) as  totalCount 
+                       FROM bit_cierrecaja
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY id_CierreCaja";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado ->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            }else{
+                $BusquedaQuery = "SELECT id_CierreCaja,id_CierreSucursal,dotacionesA_Caja,capitalRecuperado,abonoCapital,intereses,
+                        iva,mostrador,iva_venta,apartadosVentas,abonoVentas,retirosCaja,prestamosNuevos,costoContrato
+                       FROM bit_cierrecaja
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY id_CierreCaja 
+                       LIMIT ".$this->conexion->real_escape_string($limit)." 
+                      OFFSET ".$this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while($fila = $resultado ->fetch_assoc())
+                {
+                    $jsondataperson = array();
+                    $jsondataperson["id_CierreCaja"] = $fila["id_CierreCaja"];
+                    $jsondataperson["id_CierreSucursal"] = $fila["id_CierreSucursal"];
+                    $jsondataperson["dotacionesA_Caja"] = $fila["dotacionesA_Caja"];
+                    $jsondataperson["capitalRecuperado"] = $fila["capitalRecuperado"];
+                    $jsondataperson["abonoCapital"] = $fila["abonoCapital"];
+                    $jsondataperson["intereses"] = $fila["intereses"];
+                    $jsondataperson["iva"] = $fila["iva"];
+                    $jsondataperson["mostrador"] = $fila["mostrador"];
+                    $jsondataperson["iva_venta"] = $fila["iva_venta"];
+                    $jsondataperson["apartadosVentas"] = $fila["apartadosVentas"];
+                    $jsondataperson["abonoVentas"] = $fila["abonoVentas"];
+                    $jsondataperson["retirosCaja"] = $fila["retirosCaja"];
+                    $jsondataperson["prestamosNuevos"] = $fila["prestamosNuevos"];
+                    $jsondataperson["costoContrato"] = $fila["costoContrato"];
+                    $jsondataList[]=$jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
+    public function sqlReporteCierreSucursal($busqueda,$fechaIni,$fechaFin,$limit,$offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if($busqueda==1){
+                $count = "SELECT COUNT(id_CierreSucursal) as  totalCount 
+                       FROM bit_cierresucursal
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado ->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            }else{
+                $BusquedaQuery = "SELECT id_CierreSucursal,dotacionesA_Caja,capitalRecuperado,abonoCapital,intereses,
+                        iva,mostrador,iva_venta,apartados,abonoVentas,retirosCaja,prestamosNuevos,costoContrato
+                       FROM bit_cierresucursal
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal 
+                       LIMIT ".$this->conexion->real_escape_string($limit)." 
+                      OFFSET ".$this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while($fila = $resultado ->fetch_assoc())
+                {
+                    $jsondataperson = array();
+                    $jsondataperson["id_CierreSucursal"] = $fila["id_CierreSucursal"];
+                    $jsondataperson["dotacionesA_Caja"] = $fila["dotacionesA_Caja"];
+                    $jsondataperson["capitalRecuperado"] = $fila["capitalRecuperado"];
+                    $jsondataperson["abonoCapital"] = $fila["abonoCapital"];
+                    $jsondataperson["intereses"] = $fila["intereses"];
+                    $jsondataperson["iva"] = $fila["iva"];
+                    $jsondataperson["mostrador"] = $fila["mostrador"];
+                    $jsondataperson["iva_venta"] = $fila["iva_venta"];
+                    $jsondataperson["apartados"] = $fila["apartados"];
+                    $jsondataperson["abonoVentas"] = $fila["abonoVentas"];
+                    $jsondataperson["retirosCaja"] = $fila["retirosCaja"];
+                    $jsondataperson["prestamosNuevos"] = $fila["prestamosNuevos"];
+                    $jsondataperson["costoContrato"] = $fila["costoContrato"];
+
+                    $jsondataList[]=$jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
 
     public function reporteMon($tipo,$fechaIni,$fechaFin)
     {

@@ -34,6 +34,10 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteIngresos($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if($tipoReporte==11) {
 //Corporativo
+}else if($tipoReporte==23) {
+    $sqlReportesDAO->sqlReporteCierreCaja($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+}else if($tipoReporte==24) {
+    $sqlReportesDAO->sqlReporteCierreSucursal($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }
 
     ?>

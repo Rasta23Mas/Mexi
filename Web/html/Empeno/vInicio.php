@@ -9,13 +9,9 @@ if($sucursal==1){
 }elseif ($sucursal==2){
     $sucName= "Jamaica";
 }
-
-$sesionInactiva = $_SESSION['sesionInactiva'];
-$cajaInactiva = $_SESSION['cajaInactiva'];
+$tipoUsuario = $_SESSION['tipoUsuario'];
 
 
-
-$dotaciones = $_SESSION['dotaciones'];
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -25,38 +21,17 @@ $dotaciones = $_SESSION['dotaciones'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="application/javascript">
         $(document).ready(function () {
-            var sesionInactiva =<?php echo $sesionInactiva ?>;
-            var cajaInactiva =<?php echo $cajaInactiva ?>;
-            var tipoUsuario =<?php echo $tipoUsuario ?>;
-            if(sesionInactiva===0){
-                $("#sesionInactiva").hide();
-            }else{
-                $("#sesionInactiva").show();
-            }
-            if(cajaInactiva===0){
-                $("#cajaInactiva").hide();
-            }else{
-                $("#cajaInactiva").show();
-            }
-
-            if(tipoUsuario===2){
-                $("#OpSesion").hide();
-                $("#menuGerente").hide();
-                $("#menuAdmin").show();
-            }else{
-                $("#OpSesion").show();
-                $("#menuGerente").show();
-                $("#menuAdmin").hide();
-            }
-
-            var dotaciones = <?php echo $dotaciones; ?>;
-
-            if (dotaciones === 1) {
-                $("#MenRapDotacion").show();
-
-            } else if (dotaciones === 0) {
-                $("#MenRapDotacion").hide();
-            }
+            var menu = <?php echo $tipoUsuario?>;
+        if (menu==2){
+            $("#menuGerente").hide();
+            $("#menuAdmin").show();
+        }else if (menu==3){
+            $("#menuGerente").show();
+            $("#menuAdmin").hide();
+        }else{
+            $("#menuGerente").hide();
+            $("#menuAdmin").hide();
+        }
         })
     </script>
 </head>
@@ -66,9 +41,9 @@ $dotaciones = $_SESSION['dotaciones'];
         <div>
             <br>
             <h2 align="center">Menú acceso rápido</h2>
-            <h2 align="center" id="sesionInactiva" style="color:#FF0000";>¡IMPORTANTE. NO PODRA HACER OPERACIONES DE DOTACIÓN!</h2>
+            <!--<h2 align="center" id="sesionInactiva" style="color:#FF0000";>¡IMPORTANTE. NO PODRA HACER OPERACIONES DE DOTACIÓN!</h2>
             <h2 align="center" id="cajaInactiva" style="color:#FF0000";>¡IMPORTANTE. NO PODRA HACER OPERACIONES, EL CIERRE DE CAJA YA FUE REALIZADO!</h2>
-            <br>
+            <br>-->
             <h4 align="center">Bienvenido: <?php echo $_SESSION["usuario"]; ?></h4>
             <br>
             <h5 align="left">Sucursal: <?php echo $sucName; ?></h5>
@@ -202,14 +177,7 @@ $dotaciones = $_SESSION['dotaciones'];
                     <tr>
                         <td align="center">
                             <br>
-                            <input type="button" class="btn btn-info  w-100" value="Financieros" onclick="location.href='../Reportes/vReportesFinancieros.php'">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center">
-                            <br>
-                            <input type="button" class="btn btn-info  w-100" value="Monitoreo" onclick="location.href='../Reportes/vReportesMonitoreo.php'">
+                            <input type="button" class="btn btn-info  w-100" value="Financieros" onclick="location.href='../Reportes/vReportes.php?tipoReporte=3'">
                             <br>
                         </td>
                     </tr>

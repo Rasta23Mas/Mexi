@@ -73,8 +73,8 @@ $dotaciones = $_SESSION['dotaciones'];
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=1">Empeños</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=2">Inventarios</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=3">Financieros</a></li>
-                    <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Monitoreo</a></li>
-                    <li><a class="dropdown-item" href="../Reportes/vReportesCierres.php">Cierres</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=4">Monitoreo</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=5">Cierres</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCatalogos">
