@@ -714,7 +714,6 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
             if(total==0){
                 alert("Sin resultados en la busqueda.")
             }else{
-                alert("paso total")
                 fnCreaPaginador(total);
             }
     }).fail(function (jqXHR, textStatus, textError) {
@@ -1140,6 +1139,10 @@ function fnCargaPagina(pagina){
             fnTBodyCompra(lista);
         }else if (tipoReporte==7){
             fnTBodyInventario(lista);
+        }else if (tipoReporte==8){
+            //fnTBodyInventario(lista);
+        }else if (tipoReporte==9){
+            fnTBodyInventario(lista);
         }
 
 
@@ -1239,6 +1242,26 @@ function fnTBodyInventario(lista){
             "<td align='right'>"+venta+"</td>"+
             "<td>"+elem.CatDesc+"</td>"+
             "</tr>").appendTo($("#idTBodyInventario"));
+    });
+}
+
+function fnTBodyInventario(lista){
+    $("#idTBodyVentas").html("");
+
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        var descuento = elem.descuento_Venta;
+        venta = formatoMoneda(venta);
+        descuento = formatoMoneda(descuento);
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td align='right'>"+descuento+"</td>"+
+            "<td>"+elem.CatDesc+"</td>"+
+            "</tr>").appendTo($("#idTBodyVentas"));
     });
 }
 

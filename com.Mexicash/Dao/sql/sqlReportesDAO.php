@@ -164,7 +164,7 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if($busqueda==1){
-                $count = "SELECT COUNT(id_Bazar) as  totalCount 
+                $count = "SELECT COUNT(id_ventas) as  totalCount 
                         FROM bit_ventas as Con
                         WHERE fecha_Creacion  >=  '$fechaIni'
                         AND fecha_Creacion  <=  '$fechaFin' 
@@ -173,15 +173,16 @@ class sqlReportesDAO
                 $fila = $resultado ->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
             }else{
-                $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
-                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
-                        FROM bit_ventas as Bit
-                        LEFT JOIN articulo_bazar_tbl AS ART on id_serieTipo = CAT.id_Adquisicion
+                $BusquedaQuery = "SELECT DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
+                        descripcionCorta as Detalle,descuento_Venta,CAT.descripcion as CatDesc
+                        FROM bit_ventas as Ven
+                        LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
+                        LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar
                         LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
-                        WHERE fecha_Creacion  >=  '$fechaIni'
-                        AND fecha_Creacion  <=  '$fechaFin' 
-                        AND sucursal=$sucursal LIMIT ".$this->conexion->real_escape_string($limit)." 
-                    OFFSET ".$this->conexion->real_escape_string($offset);
+                        WHERE Ven.fecha_Creacion  >=  '$fechaIni'
+                        AND Ven.fecha_Creacion  <=  '$fechaFin' 
+                        AND Ven.sucursal=$sucursal LIMIT ".$this->conexion->real_escape_string($limit)." 
+                      OFFSET ".$this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while($fila = $resultado ->fetch_assoc())
                 {
@@ -191,6 +192,7 @@ class sqlReportesDAO
                     $jsondataperson["id_serie"] = $fila["id_serie"];
                     $jsondataperson["precio_venta"] = $fila["precio_venta"];
                     $jsondataperson["Detalle"] = $fila["Detalle"];
+                    $jsondataperson["descuento_Venta"] = $fila["descuento_Venta"];
                     $jsondataperson["CatDesc"] = $fila["CatDesc"];
                     $jsondataList[]=$jsondataperson;
                 }

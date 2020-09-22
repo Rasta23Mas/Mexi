@@ -15,7 +15,7 @@
         <th>Tipo Adquisición</th>
     </tr>
     </thead>
-    <tbody id="idTBodyCompras" class="letraChica" align="center">
+    <tbody id="idTBodyVentas" class="letraChica" align="center">
     </tbody>
 </table>
 <div class="col-md-12 text-center">
