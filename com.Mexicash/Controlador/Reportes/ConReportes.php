@@ -13,7 +13,7 @@ $offset = $_POST['offset'];
 $sqlReportesDAO = new sqlReportesDAO();
 
 if ($tipoReporte == 1) {
-    $sqlReportesDAO->reporteHistorico($fechaIni,$fechaFin,$busqueda);
+    $sqlReportesDAO->sqlReporteHistorico($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if ($tipoReporte == 2) {
     $sqlReportesDAO->reporteContratos($busqueda);
 }else if ($tipoReporte == 3) {
@@ -28,7 +28,7 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteInventarios($busqueda,$limit,$offset);
 }else if ($tipoReporte == 8) {
     //Transferencia
-    $sqlReportesDAO->reporteBazar($fechaIni,$fechaFin,$busqueda);
+
 }else if ($tipoReporte == 9) {
     $sqlReportesDAO->sqlReporteVentas($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }

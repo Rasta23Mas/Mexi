@@ -9,12 +9,9 @@
         <th>Fecha</th>
         <th>Vencimiento</th>
         <th>Almoneda</th>
-        <th>Contrato</th>
         <th>Cliente</th>
+        <th>Contrato</th>
         <th>Préstamo</th>
-        <th>Plazo</th>
-        <th>Periodo</th>
-        <th>Tipo Interés</th>
         <th>Detalle</th>
         <th>Observaciones</th>
     </tr>

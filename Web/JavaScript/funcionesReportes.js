@@ -36,6 +36,7 @@ function fnSelectReporte() {
     if (reporte == 1) {
         nameForm += "Histórico"
         document.getElementById('NombreReporte').innerHTML = nameForm;
+        $("#divRpt").load('rptEmpHistorico.php');
         fechas = false;
         fechasDis = true;
     } else if (reporte == 2) {
@@ -104,13 +105,11 @@ function fnLlenarReporte() {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
-            if (tipoReporte == 1) {
-                cargarRptHisto(fechaIni, fechaFin)
-            } else if (tipoReporte == 3) {
+            if (tipoReporte == 3) {
                 cargarRptDesempe(fechaIni, fechaFin)
             } else if (tipoReporte == 4) {
                 cargarRptRefrendo(fechaIni, fechaFin);
-            } else if (tipoReporte == 6||tipoReporte == 9) {
+            } else if (tipoReporte == 1||tipoReporte == 6||tipoReporte == 9) {
                 fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
             } else if (tipoReporte == 8) {
                 //transferencias
@@ -710,7 +709,6 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
         dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
             var total = data.totalCount;
-            //alert(total);
             if(total==0){
                 alert("Sin resultados en la busqueda.")
             }else{
@@ -1129,11 +1127,12 @@ function fnCargaPagina(pagina){
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Reportes/ConReportes.php',
         data: dataEnviar,
-        dataType: "json"
+       dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
-        //alert(data)
         var lista = data.lista;
-        if(tipoReporte==5){
+        if(tipoReporte==1){
+            fnTBodyHistorico(lista);
+        }if(tipoReporte==5){
             fnTBodyBazar(lista);
         }else if (tipoReporte==6){
             fnTBodyCompra(lista);
@@ -1192,6 +1191,30 @@ function fnCargaPagina(pagina){
     paginadorGlb.children().eq(pagina+2).addClass("active");
 
 
+}
+function fnTBodyHistorico(lista){
+    $("#idTBodyHistorico").html("");
+    $.each(lista, function(ind, elem){
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var formulario = elem.Form;
+        var obs = "";
+        if(formulario==1){
+            obs  = elem.ObserArt;
+        }else{
+            obs  = elem.ObserAuto;
+        }
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.FECHAVEN+"</td>"+
+            "<td>"+elem.FECHAALM+"</td>"+
+            "<td>"+elem.NombreCompleto+"</td>"+
+            "<td>"+elem.CONTRATO+"</td>"+
+            "<td align='right'>"+prestamoCon+"</td>"+
+            "<td>"+elem.DESCRIPCION+"</td>"+
+            "<td>"+obs+"</td>"+
+            "</tr>").appendTo($("#idTBodyHistorico"));
+    });
 }
 
 function fnTBodyBazar(lista){

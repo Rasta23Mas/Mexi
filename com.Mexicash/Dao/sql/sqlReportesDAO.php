@@ -206,6 +206,70 @@ class sqlReportesDAO
 
         echo json_encode($jsondata);
     }
+    public function sqlReporteHistorico($busqueda,$fechaIni,$fechaFin,$limit,$offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if($busqueda==1){
+                $count = "SELECT COUNT(Con.id_Contrato) as  totalCount 
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
+                        AND '$fechaFin'  <= Con.fecha_fisico_fin
+                        AND Art.sucursal = $sucursal ";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado ->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            }else{
+                $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.id_contrato AS CONTRATO,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Art.descripcionCorta AS DESCRIPCION,
+                        Art.observaciones as ObserArt,
+                        Aut.observaciones as ObserAuto,
+                        Con.id_Formulario as Form
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
+                        AND '$fechaFin'  <= Con.fecha_fisico_fin
+                        AND Art.sucursal = $sucursal 
+                        ORDER BY Con.id_contrato
+                        LIMIT ".$this->conexion->real_escape_string($limit)." 
+                    OFFSET ".$this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while($fila = $resultado ->fetch_assoc())
+                {
+                    $jsondataperson = array();
+                    $jsondataperson["FECHA"] = $fila["FECHA"];
+                    $jsondataperson["FECHAVEN"] = $fila["FECHAVEN"];
+                    $jsondataperson["FECHAALM"] = $fila["FECHAALM"];
+                    $jsondataperson["NombreCompleto"] = $fila["NombreCompleto"];
+                    $jsondataperson["CONTRATO"] = $fila["CONTRATO"];
+                    $jsondataperson["PRESTAMO"] = $fila["PRESTAMO"];
+                    $jsondataperson["DESCRIPCION"] = $fila["DESCRIPCION"];
+                    $jsondataperson["ObserArt"] = $fila["ObserArt"];
+                    $jsondataperson["ObserAuto"] = $fila["ObserAuto"];
+                    $jsondataperson["Form"] = $fila["Form"];
+                    $jsondataList[]=$jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
 
     public function reporteHistorico($fechaIni,$fechaFin)
     {
@@ -214,24 +278,22 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
-                        Con.id_contrato AS CONTRATO,
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO,
-                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
-                          Art.descripcionCorta AS DescripcionCorta,  Art.observaciones AS Obs,
+                        Art.descripcionCorta AS DESCRIPCION,
+                        Art.observaciones as ObserArt,
                         Aut.observaciones as ObserAuto,
-                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
-                        Art.tipoArticulo, Con.id_Formulario as Form
+                        Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
                         WHERE '$fechaIni' >= Con.fecha_fisico_ini
                         AND '$fechaFin'  <= Con.fecha_fisico_fin
-                        AND Bit.sucursal = $sucursal 
-                        ORDER BY Form";
+                        AND Art.sucursal = $sucursal 
+                        ORDER BY Con.id_contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -239,79 +301,12 @@ class sqlReportesDAO
                         "FECHA" => $row["FECHA"],
                         "FECHAVEN" => $row["FECHAVEN"],
                         "FECHAALM" => $row["FECHAALM"],
-                        "CONTRATO" => $row["CONTRATO"],
                         "NombreCompleto" => $row["NombreCompleto"],
-                        "PRESTAMO" => $row["PRESTAMO"],
-                        "Plazo" => $row["Plazo"],
-                        "Periodo" => $row["Periodo"],
-                        "TipoInteres" => $row["TipoInteres"],
-                        "DescripcionCorta" => $row["DescripcionCorta"],
-                        "Obs" => $row["Obs"],
-                        "ObserAuto" => $row["ObserAuto"],
-                        "DetalleAuto" => $row["DetalleAuto"],
-                        "Form" => $row["Form"],
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($datos);
-    }
-    public function reporteInve()
-    {
-        $datos = array();
-        try {
-            $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
-                        Con.id_contrato AS CONTRATO,
-                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
-                        Con.total_Prestamo AS PRESTAMO,
-                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
-                        CONCAT(EM.descripcion,' ', ET.descripcion, ' ',EMOD.descripcion) as ObserElec, 
-                        CONCAT(Tipo.descripcion, ' ',Kil.descripcion,' ', Cal.descripcion) as ObserMetal,
-                        Aut.observaciones as ObserAuto,
-                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
-                        CONCAT(Art.detalle) as Detalle,
-                        Art.tipoArticulo, Con.id_Formulario as Form
-                        FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
-                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
-                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
-                        LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
-                        LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
-                        LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
-                        WHERE Con.fisico = 1
-                        AND Bit.sucursal = $sucursal 
-                        ORDER BY Form";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "FECHA" => $row["FECHA"],
-                        "FECHAVEN" => $row["FECHAVEN"],
-                        "FECHAALM" => $row["FECHAALM"],
                         "CONTRATO" => $row["CONTRATO"],
-                        "NombreCompleto" => $row["NombreCompleto"],
                         "PRESTAMO" => $row["PRESTAMO"],
-                        "Plazo" => $row["Plazo"],
-                        "Periodo" => $row["Periodo"],
-                        "TipoInteres" => $row["TipoInteres"],
-                        "ObserElec" => $row["ObserElec"],
-                        "ObserMetal" => $row["ObserMetal"],
+                        "DESCRIPCION" => $row["DESCRIPCION"],
+                        "ObserArt" => $row["ObserArt"],
                         "ObserAuto" => $row["ObserAuto"],
-                        "DetalleAuto" => $row["DetalleAuto"],
-                        "Detalle" => $row["Detalle"],
                         "Form" => $row["Form"],
                     ];
                     array_push($datos, $data);
