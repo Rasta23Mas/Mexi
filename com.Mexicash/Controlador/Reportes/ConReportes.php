@@ -30,6 +30,10 @@ if ($tipoReporte == 1) {
     //Transferencia
 }else if ($tipoReporte == 9) {
     $sqlReportesDAO->sqlReporteVentas($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+}else if($tipoReporte==10) {
+    $sqlReportesDAO->sqlReporteIngresos($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+}else if($tipoReporte==11) {
+//Corporativo
 }
 
-?>
+    ?>

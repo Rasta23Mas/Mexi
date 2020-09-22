@@ -458,53 +458,49 @@ class sqlReportesDAO
 
         echo json_encode($jsondata);
     }
-
-
-    public function reporteContratos()
+    public function sqlReporteIngresos($busqueda,$fechaIni,$fechaFin,$limit,$offset)
     {
-        $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
-                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
-                        Con.id_contrato AS CONTRATO,
-                        Con.total_Prestamo AS PRESTAMO,
-                        Art.descripcionCorta AS DESCRIPCION,
-                        Art.observaciones as ObserArt,
-                        Aut.observaciones as ObserAuto,
-                        Con.id_Formulario as Form
-                        FROM contratos_tbl AS Con 
-                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
-                        AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
-                        AND Bit.sucursal = $sucursal 
-                        ORDER BY Con.id_contrato";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "FECHA" => $row["FECHA"],
-                        "FECHAVEN" => $row["FECHAVEN"],
-                        "FECHAALM" => $row["FECHAALM"],
-                        "CONTRATO" => $row["CONTRATO"],
-                        "NombreCompleto" => $row["NombreCompleto"],
-                        "PRESTAMO" => $row["PRESTAMO"],
-                        "Plazo" => $row["Plazo"],
-                        "Periodo" => $row["Periodo"],
-                        "TipoInteres" => $row["TipoInteres"],
-                        "ObserElec" => $row["ObserElec"],
-                        "ObserMetal" => $row["ObserMetal"],
-                        "ObserAuto" => $row["ObserAuto"],
-                        "DetalleAuto" => $row["DetalleAuto"],
-                        "Detalle" => $row["Detalle"],
-                        "Form" => $row["Form"],
-                    ];
-                    array_push($datos, $data);
+            $jsondata = array();
+            if($busqueda==1){
+                $count = "SELECT COUNT(id_CierreSucursal) as  totalCount 
+                       FROM bit_cierresucursal
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado ->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            }else{
+                $BusquedaQuery = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
+                       costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
+                       utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
+                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
+                       FROM bit_cierresucursal
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal 
+                       LIMIT ".$this->conexion->real_escape_string($limit)." 
+                      OFFSET ".$this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while($fila = $resultado ->fetch_assoc())
+                {
+                    $jsondataperson = array();
+                    $jsondataperson["id_CierreSucursal"] = $fila["id_CierreSucursal"];
+                    $jsondataperson["Desem"] = $fila["Desem"];
+                    $jsondataperson["costoContrato"] = $fila["costoContrato"];
+                    $jsondataperson["AbonoRef"] = $fila["AbonoRef"];
+                    $jsondataperson["Inte"] = $fila["Inte"];
+                    $jsondataperson["Iva"] = $fila["Iva"];
+                    $jsondataperson["Ventas"] = $fila["Ventas"];
+                    $jsondataperson["IvaVenta"] = $fila["IvaVenta"];
+                    $jsondataperson["Apartados"] = $fila["Apartados"];
+                    $jsondataperson["AbonoVen"] = $fila["AbonoVen"];
+                    $jsondataperson["Utilidad"] = $fila["Utilidad"];
+                    $jsondataperson["Fecha"] = $fila["Fecha"];
+
+                    $jsondataList[]=$jsondataperson;
                 }
+                $jsondata["lista"] = array_values($jsondataList);
             }
         } catch (Exception $exc) {
             echo $exc->getMessage();
@@ -512,149 +508,8 @@ class sqlReportesDAO
             $this->db->closeDB();
         }
 
-        echo json_encode($datos);
+        echo json_encode($jsondata);
     }
-    public function reporteDesempe($fechaIni,$fechaFin)
-    {
-        $datos = array();
-        try {
-            $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
-                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        ConM.id_contrato AS CONTRATO,
-                        Con.total_Prestamo AS PRESTAMO, 
-                        ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
-                        ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
-                        ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
-                        Con.id_Formulario as FORMU, ConM.pag_subtotal, 
-                        ConM.pag_total
-                        FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
-                        WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
-                        AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 )  
-                        ORDER BY CONTRATO";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "FECHA" => $row["FECHA"],
-                        "FECHAMOV" => $row["FECHAMOV"],
-                        "FECHAVEN" => $row["FECHAVEN"],
-                        "CONTRATO" => $row["CONTRATO"],
-                        "PRESTAMO" => $row["PRESTAMO"],
-                        "INTERESES" => $row["INTERESES"],
-                        "ALMACENAJE" => $row["ALMACENAJE"],
-                        "SEGURO" => $row["SEGURO"],
-                        "ABONO" => $row["ABONO"],
-                        "DESCU" => $row["DESCU"],
-                        "IVA" => $row["IVA"],
-                        "COSTO" => $row["COSTO"],
-                        "FORMU" => $row["FORMU"],
-                        "pag_subtotal" => $row["pag_subtotal"],
-                        "pag_total" => $row["pag_total"],
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($datos);
-    }
-    public function reporteRefrendo($fechaIni,$fechaFin)
-    {
-        $datos = array();
-        try {
-            $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
-                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        ConM.id_contrato AS CONTRATO,
-                        Con.total_Prestamo AS PRESTAMO, 
-                        ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
-                        ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
-                        ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
-                        ConM.pag_subtotal, 
-                        ConM.pag_total
-                        FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
-                        WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
-                        AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  
-                        ORDER BY FORMU";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "FECHA" => $row["FECHA"],
-                        "FECHAMOV" => $row["FECHAMOV"],
-                        "FECHAVEN" => $row["FECHAVEN"],
-                        "CONTRATO" => $row["CONTRATO"],
-                        "PRESTAMO" => $row["PRESTAMO"],
-                        "INTERESES" => $row["INTERESES"],
-                        "ALMACENAJE" => $row["ALMACENAJE"],
-                        "SEGURO" => $row["SEGURO"],
-                        "ABONO" => $row["ABONO"],
-                        "DESCU" => $row["DESCU"],
-                        "IVA" => $row["IVA"],
-                        "COSTO" => $row["COSTO"],
-                        "FORMU" => $row["FORMU"],
-                        "pag_subtotal" => $row["pag_subtotal"],
-                        "pag_total" => $row["pag_total"],
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($datos);
-    }
-
-    public function reporteCountBazar()
-    {
-        $datos = array();
-        try {
-            $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,vitrinaVenta AS precio_venta, 
-                        ART.descripcionCorta as Detalle,
-                        CAT.descripcion as CatDesc, ART.id_ContratoMig
-                        FROM articulo_bazar_tbl as Baz
-                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
-                        LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
-                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal LIMIT 25";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "id_ContratoRepBaz" => $row["id_Contrato"],
-                        "id_serieRepBaz" => $row["id_serie"],
-                        "Movimiento" => $row["Movimiento"],
-                        "fecha_Bazar" => $row["fecha_Bazar"],
-                        "precio_venta" => $row["precio_venta"],
-                        "Detalle" => $row["Detalle"],
-                        "CatDesc" => $row["CatDesc"],
-                        "id_ContratoMig" => $row["id_ContratoMig"],
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($datos);
-    }
-
 
     public function reporteMon($tipo,$fechaIni,$fechaFin)
     {
@@ -702,47 +557,6 @@ class sqlReportesDAO
 
         echo json_encode($datos);
     }
-    public function reporteIngresos($fechaIni,$fechaFin)
-    {
-        $datos = array();
-        try {
-            $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
-                       costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
-                       utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
-                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
-                       FROM bit_cierresucursal
-                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
 
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "id_CierreSucursal" => $row["id_CierreSucursal"],
-                        "Desem" => $row["Desem"],
-                        "AbonoRef" => $row["AbonoRef"],
-                        "Inte" => $row["Inte"],
-                        "costoContratoFin" => $row["costoContrato"],
-                        "Iva" => $row["Iva"],
-                        "Ventas" => $row["Ventas"],
-                        "IvaVenta" => $row["IvaVenta"],
-                        "Utilidad" => $row["Utilidad"],
-                        "Apartados" => $row["Apartados"],
-                        "AbonoVen" => $row["AbonoVen"],
-                        "Fecha" => $row["Fecha"],
-
-                    ];
-                    array_push($datos, $data);
-                }
-            }
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($datos);
-    }
 
 }
