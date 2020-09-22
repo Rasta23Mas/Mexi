@@ -92,8 +92,8 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     Reportes
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Reportes/vReportesEmpenos.php">Empeños</a></li>
-                    <li><a class="dropdown-item" href="../Reportes/vReportesInventarios.php">Inventarios</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=1">Empeños</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=2">Inventarios</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesFinancieros.php">Financieros</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesMonitoreo.php">Monitoreo</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportesCierres.php">Cierres</a></li>

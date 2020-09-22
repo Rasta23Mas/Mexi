@@ -2,7 +2,10 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
-
+$tipoReporte = 0;
+if (isset($_GET['tipoReporte'])) {
+    $tipoReporte = $_GET['tipoReporte'];
+}
 $sucursal = $_SESSION["sucursal"];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -25,7 +28,7 @@ $sucursal = $_SESSION["sucursal"];
     <title>Reportes</title>
     <script type="application/javascript">
         $(document).ready(function () {
-            fnBuscaReportes(2);
+            fnBuscaReportes(<?php echo $tipoReporte ?>);
         })
     </script>
     <style type="text/css">
