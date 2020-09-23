@@ -152,14 +152,14 @@ $FechaAlmoneda = date("d-m-Y", strtotime($FechaAlmoneda));
 $FechaVenc = date("d-m-Y", strtotime($FechaVenc));
 
 
-
+$porRefrendo = $calculaALm + $calculaInteres + $calculaIva;
+$porDesempeño = $MontoPrestamo +$porRefrendo;
 $calculaALm = number_format($calculaALm, 2, '.', ',');
 $calculaInteres = number_format($calculaInteres, 2, '.', ',');
 $calculaIva = number_format($calculaIva, 2, '.', ',');
 $Intereses = number_format($Intereses, 2, '.', ',');
-$porRefrendo = $calculaALm + $calculaInteres + $calculaIva;
 $porRefrendo = number_format($porRefrendo, 2, '.', ',');
-$porDesempeño = $MontoPrestamo +$porRefrendo;
+
 $porDesempeño = number_format($porDesempeño, 2, '.', ',');
 $MontoPrestamo = number_format($MontoPrestamo, 2, '.', ',');
 $MontoTotal = number_format($MontoTotal, 2, '.', ',');
@@ -175,7 +175,7 @@ $query = "SELECT Ar.descripcionCorta,
     CONCAT ( Aut.marca,' ', Aut.modelo, ' ',Aut.anio ,' ', Aut.color, ' ' , Aut.placas, ' ',Aut.factura, ' ',Aut.num_motor) as detalleAuto, Aut.observaciones AS ObsAuto, 
     Ar.prestamo as PrestamoArt, Ar.avaluo as AvaluoArt
 FROM contratos_tbl as Con 
-INNER JOIN articulo_tbl as Ar on Con.id_Contrato = Ar.id_Contrato 
+LEFT JOIN articulo_tbl as Ar on Con.id_Contrato = Ar.id_Contrato 
 LEFT JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato 
             WHERE Con.id_Contrato =$idContrato ";
 $tablaArt = $db->query($query);
@@ -203,11 +203,11 @@ foreach ($tablaArt as $row) {
     $detalleDescripcion = $detalle . " " . $Obs;
     $tablaArticulos .= '
                                 <tr>
-                                    <td class="tableFormat " colspan="2"><label  class="letraNormal">' . $tipoDescripcion . '</label></td>
+                                    <td class="tableFormat " colspan="2" align="center"><label  class="letraNormal">' . $tipoDescripcion . '</label></td>
                                     <td class="tableFormat"  colspan="5"><label  class="letraNormal">' . $detalleDescripcion . '</label></td>
-                                    <td class="tableFormat" colspan="2"><label  class="letraNormal">$ ' . $avaluoArt . '</label></td>
-                                    <td class="tableFormat" colspan="2"><label  class="letraNormal">$ ' . $prestamoArt . '</label></td>
-                                    <td class="tableFormat" ><label  class="letraNormal">' . $Aforo . ' %</label></td>
+                                    <td class="tableFormat" colspan="2" align="center"><label  class="letraNormal">$ ' . $avaluoArt . '</label></td>
+                                    <td class="tableFormat" colspan="2" align="center"><label  class="letraNormal">$ ' . $prestamoArt . '</label></td>
+                                    <td class="tableFormat" align="center"><label  class="letraNormal">' . $Aforo . ' %</label></td>
                                 </tr>';
 
     if($i==1){
@@ -290,8 +290,8 @@ $contenido = '<html>
             <td colspan="4" align="center"><label class="letraNormalNegrita"> Montos y cláusulas </label></td>
         </tr>
         <tr>
-            <td colspan="2">
-                <label class="letraNormal">
+            <td colspan="2" align="center">
+                <label class="letraNormal" >
                     Para fines<br>
                     informativos<br>
                     y de comparación<br>
@@ -299,19 +299,19 @@ $contenido = '<html>
                     FIJO SIN IVA
                 </label>
             </td>
-            <td colspan="2">
+            <td colspan="2" align="center">
                 <label class="letraNormal">
                     <u>36.00 % </u><br>
                     TASA FIJA
                 </label>
             </td>
-            <td colspan="2">
+            <td colspan="2" align="center">
                 <label class="letraNormal">
                     <u>$ ' . $MontoPrestamo . '</u><br>
                     Moneda Nacional </label>
                 </label>
             </td>
-            <td colspan="2"><label class="letraNormal">
+            <td colspan="2" align="center"><label class="letraNormal">
                 $ ' . $porDesempeño . '</u><br>
                 Estimado al plazo máximo de desempeño<br>
                 o refrendo.</label>

@@ -78,7 +78,7 @@ function fnSelectReporte() {
         fechasDis = true;
         fnRecargarReportes();
     } else if (reporte == 9) {
-        nameForm = "Venta"
+        nameForm += "Venta"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
@@ -90,24 +90,38 @@ function fnSelectReporte() {
         fechasDis = true;
         $("#divRpt").load('rptFinancierosIng.php');
     }else if (reporte == 11) {
-        nameForm = "Corporativo"
+        nameForm += "Corporativo"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinancierosIng.php');
         fnRecargarReportes();
     }else if (reporte == 23) {
-        nameForm = "Cierre Caja"
+        nameForm += "Cierre Caja"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptCieCaja.php');
     }else if (reporte == 24) {
-        nameForm = "Cierre Sucursal"
+        nameForm += "Cierre Sucursal"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptCieSucursal.php');
+    }else if (reporte == 25) {
+        nameForm += "Cierre Caja por día"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptCieCaja.php');
+        fnRecargarReportes();
+    }else if (reporte == 26) {
+        nameForm += "Cierre Sucursal por día"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptCieSucursal.php');
+        fnRecargarReportes();
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
