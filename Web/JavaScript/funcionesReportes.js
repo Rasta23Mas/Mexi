@@ -88,13 +88,13 @@ function fnSelectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinancierosIng.php');
+        $("#divRpt").load('rptFinIngresos.php');
     }else if (reporte == 11) {
         nameForm += "Corporativo"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinancierosIng.php');
+        $("#divRpt").load('rptFinIngresos.php');
         fnRecargarReportes();
     }else if (reporte == 23) {
         nameForm += "Cierre Caja"
@@ -942,7 +942,7 @@ function cargarRptFinIng(fechaIni, fechaFin, tipoReporte) {
             }
         }
     );
-    $("#divRptFinancieros").load('rptFinancierosIng.php');
+    $("#divRptFinancieros").load('rptFinIngresos.php');
 }
 
 function exportarFinanciero(tipoExportar) {
