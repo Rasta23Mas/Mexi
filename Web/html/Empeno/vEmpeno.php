@@ -48,6 +48,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                 $('#suggestionsNombreEmpeno').fadeOut(500);
             });
             fnSelectPrenda();
+            $("#trIMEI").hide();
         })
     </script>
     <style type="text/css">
@@ -489,6 +490,13 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                         <td colspan="3">No.Serie:</td>
                                         <td colspan="9">
                                             <input type="text" id="idSerie" name="serie" size="18"
+                                                   style="text-align:left" value=""/>
+                                        </td>
+                                    </tr>
+                                    <tr id="trIMEI">
+                                        <td colspan="3">IMEI:</td>
+                                        <td colspan="9">
+                                            <input type="text" id="idIMEI" name="imei" size="18"
                                                    style="text-align:left" value=""/>
                                         </td>
                                     </tr>
