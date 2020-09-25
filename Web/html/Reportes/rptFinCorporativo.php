@@ -20,7 +20,7 @@
         <th>FECHA</th>
     </tr>
     </thead>
-    <tbody id="idTBodyIngresos" class="letraChica" align="center">
+    <tbody id="idTBodyCorporativo" class="letraChica" align="center">
     </tbody>
 </table>
 

@@ -2,7 +2,7 @@ var paginadorGlb;
 var totalPaginasGlb;
 var itemsPorPaginaGlb = 20;
 var numerosPorPaginaGlb = 4;
-
+var mesesConsultaGlb = 0;
 function fnBuscaReportes(tipo) {
     var dataEnviar = {
         "tipoReporte": tipo
@@ -30,8 +30,8 @@ function fnSelectReporte() {
     var nameForm = "Reporte ";
     var fechas = true;
     var fechasDis = true;
-    $("#idFechaInicial").val('');
-    $("#idFechaFinal").val('');
+    $("#idFechaInicial").val('01-01-2020');
+    $("#idFechaFinal").val('30-09-2020');
     if (reporte == 1) {
         nameForm += "Histórico";
         document.getElementById('NombreReporte').innerHTML = nameForm;
@@ -94,8 +94,7 @@ function fnSelectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinIngresos.php');
-        fnRecargarReportes();
+        $("#divRpt").load('rptFinCorporativo.php');
     }else if (reporte == 23) {
         nameForm += "Cierre Caja"
         document.getElementById('NombreReporte').innerHTML = nameForm;
@@ -129,7 +128,6 @@ function fnSelectReporte() {
     $("#idFechaInicial").prop('disabled', fechasDis);
     $("#idFechaFinal").prop('disabled', fechasDis);
 }
-
 function fnLlenarReporte() {
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
@@ -142,17 +140,45 @@ function fnLlenarReporte() {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
-            fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
+            if(tipoReporte==11){
+                fnLlenaReportCorporativo(busqueda, tipoReporte, fechaIni, fechaFin);
+            }else{
+                fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
+            }
         } else {
             alertify.error("Seleccione fecha de inicio y fecha final.");
         }
     }
 
 }
-
-
-
 //LLenar Reportes
+function fnLlenaReportCorporativo(busqueda, tipoReporte, fechaIni, fechaFin) {
+    var dataEnviar = {
+        "tipoReporte": 0,
+        "fechaIni": fechaIni,
+        "fechaFin": fechaFin,
+        "busqueda": busqueda,
+        "limit": 0,
+        "offset": 0,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Reportes/ConReportes.php',
+        data: dataEnviar,
+        dataType: "json"
+    }).done(function (data, textStatus, jqXHR) {
+        var total = data.totalMeses;
+        if(total==0){
+            alert("Sin resultados en la busqueda.")
+        }else{
+            mesesConsultaGlb = total;
+            fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
+        }
+    }).fail(function (jqXHR, textStatus, textError) {
+        alert("Error al realizar la peticion cuantos".textError);
+
+    });
+}
 function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
     var dataEnviar = {
         "tipoReporte": tipoReporte,
@@ -291,7 +317,7 @@ function fnCargaPagina(pagina){
         }else if (tipoReporte==10){
             fnTBodyIngresos(lista);
         }else if (tipoReporte==11){
-            //Corportativo
+            fnTBodyCorporativo(lista);
         }else if (tipoReporte==23){
             fnTBodyCaja(lista);
         }else if (tipoReporte==24){
@@ -546,6 +572,47 @@ function fnTBodyIngresos(lista){
             "<td align='right'>"+utilidad+"</td>"+
             "<td>"+elem.Fecha+"</td>"+
             "</tr>").appendTo($("#idTBodyIngresos"));
+    });
+}
+function fnTBodyCorporativo(lista){
+    $("#idTBodyCorporativo").html("");
+
+    $.each(lista, function(ind, elem){
+        var desempeno = elem.Desem;
+        var costo = elem.costoContrato;
+        var abono = elem.AbonoRef;
+        var interes = elem.Inte;
+        var iva = elem.Iva;
+        var ventas = elem.Ventas;
+        var ivaVenta = elem.IvaVenta;
+        var apartado = elem.Apartados;
+        var abonoVenta = elem.AbonoVen;
+        var utilidad = elem.Utilidad;
+        desempeno = formatoMoneda(desempeno);
+        costo = formatoMoneda(costo);
+        abono = formatoMoneda(abono);
+        interes = formatoMoneda(interes);
+        iva = formatoMoneda(iva);
+        ventas = formatoMoneda(ventas);
+        ivaVenta = formatoMoneda(ivaVenta);
+        apartado = formatoMoneda(apartado);
+        abonoVenta = formatoMoneda(abonoVenta);
+        utilidad = formatoMoneda(utilidad);
+
+        $("<tr>"+
+            "<td>"+elem.id_CierreSucursal+"</td>"+
+            "<td align='right'>"+desempeno+"</td>"+
+            "<td align='right'>"+costo+"</td>"+
+            "<td align='right'>"+abono+"</td>"+
+            "<td align='right'>"+interes+"</td>"+
+            "<td align='right'>"+iva+"</td>"+
+            "<td align='right'>"+ventas+"</td>"+
+            "<td align='right'>"+ivaVenta+"</td>"+
+            "<td align='right'>"+apartado+"</td>"+
+            "<td align='right'>"+abonoVenta+"</td>"+
+            "<td align='right'>"+utilidad+"</td>"+
+            "<td>"+elem.Fecha+"</td>"+
+            "</tr>").appendTo($("#idTBodyCorporativo"));
     });
 }
 function fnTBodyCaja(lista){
