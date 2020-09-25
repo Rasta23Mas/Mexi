@@ -5,7 +5,7 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
 
 $idTipoEnviar = $_POST['$idTipoEnviar'];
 $idArticulo = $_POST['idArticulo'];
-
+$imei = $_POST['IMEI'];
 
 if ($idTipoEnviar == 1) {
 
@@ -67,6 +67,7 @@ if ($idTipoEnviar == 1) {
     $idObsE = $_POST['idObsElectronico'];
     $idDetallePrendaE = $_POST['idDetallePrendaElectronico'];
     $descCortoElectro = $_POST['descCortoElectro'];
+
 }
 
 $articulo = new Articulo(
@@ -98,7 +99,7 @@ $articulo = new Articulo(
 );
 
 $sqlArticulo = new sqlArticulosDAO();
-$sqlArticulo->guardarArticulo($idTipoEnviar,$idArticulo, $articulo);
+$sqlArticulo->guardarArticulo($idTipoEnviar,$idArticulo,$imei, $articulo);
 
 ?>
 

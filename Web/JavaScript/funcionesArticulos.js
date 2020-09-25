@@ -77,20 +77,14 @@ function Agregar() {
     var tipoSelect = $('#idTipoElectronico').val();
     var validaImei = 0;
     var imei = 0;
-    alert("aqui vienex0");
-    alert(tipoSelect)
     if (tipoSelect == 1 || tipoSelect == 2) {
-        alert("aqui viene");
         imei = $('#idIMEI').val();
-        alert(imei);
-        alert("HOLA")
         if (imei == "") {
             alert("Favor de capturar el IMEI");
         } else {
             validaImei = 1;
         }
     } else {
-        alert("aqui se va");
         validaImei = 1;
     }
     if (clienteEmpeno !== 0) {
@@ -161,6 +155,7 @@ function Agregar() {
                                         "interes": interesMetal,
                                         "idArticulo": idArticulo,
                                         "descCorto": descripcionCorta,
+                                        "IMEI": imei,
 
 
                                     };
@@ -219,12 +214,14 @@ function Agregar() {
                                         "interes": interesArti,
                                         "idArticulo": idArticulo,
                                         "descCortoElectro": descripcionCorta,
+                                        "IMEI": imei,
                                     };
                                     $.ajax({
                                         data: dataEnviar,
                                         url: '../../../com.Mexicash/Controlador/Articulos/Articulo.php',
                                         type: 'post',
                                         success: function (response) {
+                                            alert(response)
                                             if (response == 1) {
                                                 cargarTablaArticulo();
                                                 $("#divTablaArticulos").load('tablaArticulos.php');
