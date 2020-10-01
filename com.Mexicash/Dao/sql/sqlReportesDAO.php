@@ -511,27 +511,6 @@ class sqlReportesDAO
         echo json_encode($jsondata);
     }
 
-    public function sqlReporteCorporativoMes($fechaIni, $fechaFin)
-    {
-        try {
-            $sucursal = $_SESSION["sucursal"];
-            $jsondata = array();
-            $count = "SELECT COUNT(distinct MONTH(fecha_Creacion))  as  totalMeses 
-                       FROM bit_cierresucursal
-                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
-            $resultado = $this->conexion->query($count);
-            $fila = $resultado->fetch_assoc();
-            $jsondata['totalMeses'] = $fila['totalMeses'];
-
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-
-        echo json_encode($jsondata);
-    }
 
     public function sqlReporteCorporativo($busqueda, $fechaIni, $fechaFin, $limit, $offset)
     {
@@ -557,21 +536,63 @@ class sqlReportesDAO
                        LIMIT " . $this->conexion->real_escape_string($limit) . " 
                       OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
+                $mesLista = 0;
                 while ($fila = $resultado->fetch_assoc()) {
                     $jsondataperson = array();
-                    $jsondataperson["id_CierreSucursal"] = $fila["id_CierreSucursal"];
-                    $jsondataperson["Desem"] = $fila["Desem"];
-                    $jsondataperson["costoContrato"] = $fila["costoContrato"];
-                    $jsondataperson["AbonoRef"] = $fila["AbonoRef"];
-                    $jsondataperson["Inte"] = $fila["Inte"];
-                    $jsondataperson["Iva"] = $fila["Iva"];
-                    $jsondataperson["Ventas"] = $fila["Ventas"];
-                    $jsondataperson["IvaVenta"] = $fila["IvaVenta"];
-                    $jsondataperson["Apartados"] = $fila["Apartados"];
-                    $jsondataperson["AbonoVen"] = $fila["AbonoVen"];
-                    $jsondataperson["Utilidad"] = $fila["Utilidad"];
-                    $jsondataperson["Fecha"] = $fila["Fecha"];
-                    $jsondataperson["Mes"] = $fila["Mes"];
+                    if($mesLista==0){
+                        $jsondataperson["id_CierreSucursal"] = $fila["id_CierreSucursal"];
+                        $jsondataperson["Desem"] = $fila["Desem"];
+                        $jsondataperson["costoContrato"] = $fila["costoContrato"];
+                        $jsondataperson["AbonoRef"] = $fila["AbonoRef"];
+                        $jsondataperson["Inte"] = $fila["Inte"];
+                        $jsondataperson["Iva"] = $fila["Iva"];
+                        $jsondataperson["Ventas"] = $fila["Ventas"];
+                        $jsondataperson["IvaVenta"] = $fila["IvaVenta"];
+                        $jsondataperson["Apartados"] = $fila["Apartados"];
+                        $jsondataperson["AbonoVen"] = $fila["AbonoVen"];
+                        $jsondataperson["Utilidad"] = $fila["Utilidad"];
+                        $jsondataperson["Fecha"] = $fila["Fecha"];
+                        $jsondataperson["Mes"] = $fila["Mes"];
+                        $jsondataperson["Imprime"] = 0;
+
+                        $mesLista =  $fila["Mes"];
+
+                    }else{
+                        if($mesLista==$fila["Mes"]){
+                            $jsondataperson["id_CierreSucursal"] = $fila["id_CierreSucursal"];
+                            $jsondataperson["Desem"] = $fila["Desem"];
+                            $jsondataperson["costoContrato"] = $fila["costoContrato"];
+                            $jsondataperson["AbonoRef"] = $fila["AbonoRef"];
+                            $jsondataperson["Inte"] = $fila["Inte"];
+                            $jsondataperson["Iva"] = $fila["Iva"];
+                            $jsondataperson["Ventas"] = $fila["Ventas"];
+                            $jsondataperson["IvaVenta"] = $fila["IvaVenta"];
+                            $jsondataperson["Apartados"] = $fila["Apartados"];
+                            $jsondataperson["AbonoVen"] = $fila["AbonoVen"];
+                            $jsondataperson["Utilidad"] = $fila["Utilidad"];
+                            $jsondataperson["Fecha"] = $fila["Fecha"];
+                            $jsondataperson["Mes"] = $fila["Mes"];
+                            $jsondataperson["Imprime"] = 0;
+                            $mesLista =  $fila["Mes"];
+                        }else{
+                            $jsondataperson["id_CierreSucursal"] = $fila["id_CierreSucursal"];
+                            $jsondataperson["Desem"] = $fila["Desem"];
+                            $jsondataperson["costoContrato"] = $fila["costoContrato"];
+                            $jsondataperson["AbonoRef"] = $fila["AbonoRef"];
+                            $jsondataperson["Inte"] = $fila["Inte"];
+                            $jsondataperson["Iva"] = $fila["Iva"];
+                            $jsondataperson["Ventas"] = $fila["Ventas"];
+                            $jsondataperson["IvaVenta"] = $fila["IvaVenta"];
+                            $jsondataperson["Apartados"] = $fila["Apartados"];
+                            $jsondataperson["AbonoVen"] = $fila["AbonoVen"];
+                            $jsondataperson["Utilidad"] = $fila["Utilidad"];
+                            $jsondataperson["Fecha"] = $fila["Fecha"];
+                            $jsondataperson["Mes"] = $fila["Mes"];
+                            $jsondataperson["Imprime"] = 1;
+                            $mesLista =  $fila["Mes"];
+                        }
+                    }
+
 
                     $jsondataList[] = $jsondataperson;
                 }

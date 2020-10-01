@@ -11,9 +11,7 @@ $limit = $_POST['limit'];
 $offset = $_POST['offset'];
 
 $sqlReportesDAO = new sqlReportesDAO();
-if ($tipoReporte == 0) {
-    $sqlReportesDAO->sqlReporteCorporativoMes($busqueda,$fechaIni,$fechaFin,$limit,$offset);
-}else if ($tipoReporte == 1) {
+if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteHistorico($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if ($tipoReporte == 2) {
     $sqlReportesDAO->sqlReporteContratos($busqueda,$limit,$offset);
@@ -34,7 +32,6 @@ if ($tipoReporte == 0) {
 }else if($tipoReporte==10) {
     $sqlReportesDAO->sqlReporteIngresos($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if($tipoReporte==11) {
-//Corporativo
     $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if($tipoReporte==23) {
     $sqlReportesDAO->sqlReporteCierreCaja($busqueda,$fechaIni,$fechaFin,$limit,$offset);

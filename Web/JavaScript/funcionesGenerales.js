@@ -187,6 +187,37 @@ function DosDecimales(monto) {
     return monto;
 
 }
+
+function fnMesNombre(mes) {
+   var nombreDelMes= "";
+    if(mes==1){
+       nombreDelMes = "Enero";
+   }else if(mes==2){
+        nombreDelMes = "Febrero";
+    }else if(mes==3){
+        nombreDelMes = "Marzo";
+   }else if(mes==4){
+        nombreDelMes = "Abril";
+    }else if(mes==5){
+        nombreDelMes = "Mayo";
+   }else if(mes==6){
+        nombreDelMes = "Junio";
+   }else if(mes==7){
+        nombreDelMes = "Julio";
+   }else if(mes==8){
+        nombreDelMes = "Agosto";
+   }else if(mes==9){
+        nombreDelMes = "Septiembre";
+   }else if(mes==10){
+        nombreDelMes = "Octubre";
+   }else if(mes==11){
+        nombreDelMes = "Noviembre";
+    }else if(mes==12){
+        nombreDelMes = "Diciembre";
+    }
+   return nombreDelMes;
+
+}
 //Saber el tipo de dato
 //alert(typeof (totalVencInteres))
 //Obtener el valor texto de un select

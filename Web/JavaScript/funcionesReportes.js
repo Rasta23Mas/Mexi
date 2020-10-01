@@ -2,7 +2,6 @@ var paginadorGlb;
 var totalPaginasGlb;
 var itemsPorPaginaGlb = 20;
 var numerosPorPaginaGlb = 4;
-var mesesConsultaGlb = 0;
 function fnBuscaReportes(tipo) {
     var dataEnviar = {
         "tipoReporte": tipo
@@ -30,8 +29,6 @@ function fnSelectReporte() {
     var nameForm = "Reporte ";
     var fechas = true;
     var fechasDis = true;
-    $("#idFechaInicial").val('01-01-2020');
-    $("#idFechaFinal").val('30-09-2020');
     if (reporte == 1) {
         nameForm += "Histórico";
         document.getElementById('NombreReporte').innerHTML = nameForm;
@@ -140,11 +137,8 @@ function fnLlenarReporte() {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
-            if(tipoReporte==11){
-                fnLlenaReportCorporativo(busqueda, tipoReporte, fechaIni, fechaFin);
-            }else{
-                fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
-            }
+            fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
+
         } else {
             alertify.error("Seleccione fecha de inicio y fecha final.");
         }
@@ -152,33 +146,6 @@ function fnLlenarReporte() {
 
 }
 //LLenar Reportes
-function fnLlenaReportCorporativo(busqueda, tipoReporte, fechaIni, fechaFin) {
-    var dataEnviar = {
-        "tipoReporte": 0,
-        "fechaIni": fechaIni,
-        "fechaFin": fechaFin,
-        "busqueda": busqueda,
-        "limit": 0,
-        "offset": 0,
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Reportes/ConReportes.php',
-        data: dataEnviar,
-        dataType: "json"
-    }).done(function (data, textStatus, jqXHR) {
-        var total = data.totalMeses;
-        if(total==0){
-            alert("Sin resultados en la busqueda.")
-        }else{
-            mesesConsultaGlb = total;
-            fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
-        }
-    }).fail(function (jqXHR, textStatus, textError) {
-        alert("Error al realizar la peticion cuantos".textError);
-
-    });
-}
 function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
     var dataEnviar = {
         "tipoReporte": tipoReporte,
@@ -576,8 +543,61 @@ function fnTBodyIngresos(lista){
 }
 function fnTBodyCorporativo(lista){
     $("#idTBodyCorporativo").html("");
-
+    var desempenoMes = 0;
+    var costoMes = 0;
+    var abonoMes = 0;
+    var interesMes = 0;
+    var ivaMes = 0;
+    var ventasMes = 0;
+    var ivaVentaMes = 0;
+    var apartadoMes = 0;
+    var abonoVentaMes = 0;
+    var utilidadMes = 0;
+    var finLista =0;
+    var MesNombre = "";
     $.each(lista, function(ind, elem){
+        finLista = lista.length -1 ;
+
+        var Imprime = elem.Imprime;
+
+        if(Imprime==1){
+            var Tdesempeno = formatoMoneda(desempenoMes);
+            var Tcosto = formatoMoneda(costoMes);
+            var Tabono = formatoMoneda(abonoMes);
+            var Tinteres = formatoMoneda(interesMes);
+            var Tiva = formatoMoneda(ivaMes);
+            var Tventas = formatoMoneda(ventasMes);
+            var TivaVenta = formatoMoneda(ivaVentaMes);
+            var Tapartado = formatoMoneda(apartadoMes);
+            var TabonoVenta = formatoMoneda(abonoVentaMes);
+            var Tutilidad = formatoMoneda(utilidadMes);
+            desempenoMes = 0;
+            costoMes = 0;
+            abonoMes = 0;
+            interesMes = 0;
+            ivaMes = 0;
+            ventasMes = 0;
+            ivaVentaMes = 0;
+            apartadoMes = 0;
+            abonoVentaMes = 0;
+            utilidadMes = 0;
+
+            $("<tr style='background: dodgerblue; color:white; '>"+
+                "<td></td>"+
+                "<td>"+Tdesempeno+"</td>"+
+                "<td align='right'>"+Tcosto+"</td>"+
+                "<td align='right'>"+Tabono+"</td>"+
+                "<td align='right'>"+Tinteres+"</td>"+
+                "<td align='right'>"+Tiva+"</td>"+
+                "<td align='right'>"+Tventas+"</td>"+
+                "<td align='right'>"+TivaVenta+"</td>"+
+                "<td align='right'>"+Tapartado+"</td>"+
+                "<td align='right'>"+TabonoVenta+"</td>"+
+                "<td align='right'>"+Tutilidad+"</td>"+
+                "<td>"+MesNombre+"</td>"+
+                "</tr>").appendTo($("#idTBodyCorporativo"));
+            MesNombre = "";
+        }
         var desempeno = elem.Desem;
         var costo = elem.costoContrato;
         var abono = elem.AbonoRef;
@@ -588,6 +608,30 @@ function fnTBodyCorporativo(lista){
         var apartado = elem.Apartados;
         var abonoVenta = elem.AbonoVen;
         var utilidad = elem.Utilidad;
+        var Mes = elem.Mes;
+        MesNombre = fnMesNombre(Mes);
+        desempeno = parseFloat(desempeno);
+        costo = parseFloat(costo);
+        abono = parseFloat(abono);
+        interes = parseFloat(interes);
+        iva = parseFloat(iva);
+        ventas = parseFloat(ventas);
+        ivaVenta = parseFloat(ivaVenta);
+        apartado = parseFloat(apartado);
+        abonoVenta = parseFloat(abonoVenta);
+        utilidad = parseFloat(utilidad);
+
+        desempenoMes += desempeno;
+        costoMes += costo;
+        abonoMes += abono;
+        interesMes += interes;
+        ivaMes += iva;
+        ventasMes += ventas;
+        ivaVentaMes += ivaVenta;
+        apartadoMes += apartado;
+        abonoVentaMes += abonoVenta;
+        utilidadMes += utilidad;
+
         desempeno = formatoMoneda(desempeno);
         costo = formatoMoneda(costo);
         abono = formatoMoneda(abono);
@@ -598,7 +642,6 @@ function fnTBodyCorporativo(lista){
         apartado = formatoMoneda(apartado);
         abonoVenta = formatoMoneda(abonoVenta);
         utilidad = formatoMoneda(utilidad);
-
         $("<tr>"+
             "<td>"+elem.id_CierreSucursal+"</td>"+
             "<td align='right'>"+desempeno+"</td>"+
@@ -613,6 +656,45 @@ function fnTBodyCorporativo(lista){
             "<td align='right'>"+utilidad+"</td>"+
             "<td>"+elem.Fecha+"</td>"+
             "</tr>").appendTo($("#idTBodyCorporativo"));
+
+        if(finLista==ind){
+            var Tdesempeno = formatoMoneda(desempenoMes);
+            var Tcosto = formatoMoneda(costoMes);
+            var Tabono = formatoMoneda(abonoMes);
+            var Tinteres = formatoMoneda(interesMes);
+            var Tiva = formatoMoneda(ivaMes);
+            var Tventas = formatoMoneda(ventasMes);
+            var TivaVenta = formatoMoneda(ivaVentaMes);
+            var Tapartado = formatoMoneda(apartadoMes);
+            var TabonoVenta = formatoMoneda(abonoVentaMes);
+            var Tutilidad = formatoMoneda(utilidadMes);
+            desempenoMes = 0;
+            costoMes = 0;
+            abonoMes = 0;
+            interesMes = 0;
+            ivaMes = 0;
+            ventasMes = 0;
+            ivaVentaMes = 0;
+            apartadoMes = 0;
+            abonoVentaMes = 0;
+            utilidadMes = 0;
+            var Mes = elem.Mes;
+            $("<tr style='background: dodgerblue; color:white; '>"+
+                "<td></td>"+
+                "<td>"+Tdesempeno+"</td>"+
+                "<td align='right'>"+Tcosto+"</td>"+
+                "<td align='right'>"+Tabono+"</td>"+
+                "<td align='right'>"+Tinteres+"</td>"+
+                "<td align='right'>"+Tiva+"</td>"+
+                "<td align='right'>"+Tventas+"</td>"+
+                "<td align='right'>"+TivaVenta+"</td>"+
+                "<td align='right'>"+Tapartado+"</td>"+
+                "<td align='right'>"+TabonoVenta+"</td>"+
+                "<td align='right'>"+Tutilidad+"</td>"+
+                "<td>"+MesNombre+"</td>"+
+                "</tr>").appendTo($("#idTBodyCorporativo"));
+        }
+
     });
 }
 function fnTBodyCaja(lista){

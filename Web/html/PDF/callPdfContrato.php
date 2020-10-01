@@ -185,14 +185,14 @@ foreach ($tablaArt as $row) {
         $tipoDescripcion = 'METALES';
         $detalle = $row["descripcionCorta"];
         $Obs = $row["ObsArt"];
-        $avaluoArt = $row["PrestamoArt"];
-        $prestamoArt = $row["AvaluoArt"];
+        $avaluoArt = $row["AvaluoArt"];
+        $prestamoArt = $row["PrestamoArt"];
     }elseif ($TipFormulario == "2") {
         $tipoDescripcion = 'ELECTRÓNICOS';
         $detalle = $row["descripcionCorta"];
         $Obs = $row["ObsArt"];
-        $avaluoArt = $row["PrestamoArt"];
-        $prestamoArt = $row["AvaluoArt"];
+        $avaluoArt = $row["AvaluoArt"];
+        $prestamoArt = $row["PrestamoArt"];
     }elseif ($TipFormulario == "3") {
         $tipoDescripcion = 'AUTO';
         $detalle = $row["detalleAuto"];
