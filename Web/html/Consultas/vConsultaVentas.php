@@ -89,17 +89,17 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                     </td>
                 </tr>
                 <tr style="background: dodgerblue; color:white; ">
-                    <td style="border-style: solid; border-color: #80dfff;">
+                    <td style="border-style: solid; border-color: #1e90ff;">
                         <label class="form-check-label">&nbsp;
                             <input type="radio" name="consultaPor" id="idVentaRadio" onclick="fnRadioVenta()">
                             Por Número Venta</label>
                     </td>
-                    <td style="border-style: solid; border-color: #80dfff;" colspan="2">&nbsp;
+                    <td style="border-style: solid; border-color: #1e90ff;" colspan="2">&nbsp;
                         <label class="form-check-label">
                             <input type="radio" name="consultaPor" id="idNombreRadio" onclick="fnRadioNombre()">
                             Por Nombre&nbsp;</label>
                     </td>
-                    <td style="border-style: solid; border-color: #80dfff;" colspan="3">&nbsp;
+                    <td style="border-style: solid; border-color: #1e90ff;" colspan="3">&nbsp;
                         <label class="form-check-label">
                             <input type="radio" name="consultaPor" id="idFechaRadio" onclick="fnRadioFecha()">
                             Por Fecha&nbsp;</label>
@@ -137,10 +137,10 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                     </td>
                 </tr>
                 <tr style="background: dodgerblue; color:white; ">
-                    <td colspan="2" style="border-style: solid; border-color: #80dfff;">
+                    <td colspan="2" style="border-style: solid; border-color: #1e90ff;">
                         <label>&nbsp;&nbsp;Datos del cliente:</label>
                     </td>
-                    <td colspan="4" style="border-style: solid; border-color: #80dfff;">
+                    <td colspan="4" style="border-style: solid; border-color: #1e90ff;">
                         <label>&nbsp;&nbsp;Detalle de la venta:</label>
                     </td>
                 </tr>
