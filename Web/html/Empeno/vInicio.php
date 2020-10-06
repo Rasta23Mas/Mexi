@@ -34,7 +34,7 @@ if($sucursal==1){
             <div class="col col-md-11">
               <table  class="border-primary border" width="90%">
                   <tr  style="background: dodgerblue; color:white;">
-                      <td colspan="6" align="center" ><label><h3>Menú acceso rápido</h3></label></td>
+                      <td colspan="5" align="center" ><label><h3>Menú acceso rápido</h3></label></td>
                   </tr>
                   <tr style="color:dodgerblue; border-bottom: 1px solid #1e90ff; " >
 <!--                      style="border-style: solid; border-color: #1e90ff;"
@@ -43,11 +43,10 @@ if($sucursal==1){
                       <td colspan="1" align="center" ><label><h4>Auto</h4></label></td>
                       <td colspan="1" align="center" ><label><h4>Consulta</h4></label></td>
                       <td colspan="1" align="center" ><label><h4>Cierre</h4></label></td>
-                      <td colspan="1" align="center" ><label><h4>Dotaciones</h4></label></td>
 
                   </tr>
                   <tr>
-                      <td colspan="6" align="center"><br></td>
+                      <td colspan="5" align="center"><br></td>
                   </tr>
                   <tr>
                       <td colspan="1" align="left"><label>&nbsp;Bienvenido: <?php echo $_SESSION["usuario"]; ?></label></td>
@@ -55,11 +54,11 @@ if($sucursal==1){
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary w-50" value="Auto" onclick="location.href='vAuto.php'"></td>
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Consulta" onclick="location.href='../Consultas/vConsultaContrato.php'"></td>
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Arqueo" onclick="location.href='../Cierre/vArqueo.php'"></td>
-                      <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Movimientos" onclick="location.href='../Cierre/vMovimientosCentral.php'"></td>
+
                   </tr>
                   <tr>
                       <td colspan="1"align="left"><label>&nbsp;Operación Sucursal: <?php echo $_SESSION["idCierreSucursal"]; ?></label></td>
-                      <td colspan="5">
+                      <td colspan="4">
                           <br>
                       </td>
                   </tr>
@@ -69,11 +68,10 @@ if($sucursal==1){
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Refrendo" onclick="location.href='../Refrendo/vRefrendo.php?tipoFormGet=2'"></td>
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Compras" onclick="location.href='../Consultas/vConsultaCompras.php'"></td>
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Caja" onclick="location.href='../Cierre/vCaja.php'"></td>
-                      <td colspan="1" align="center" ></td>
                   </tr>
                   <tr>
                       <td colspan="1" align="left"><label>&nbsp;Operación Sesión: <?php echo $_SESSION["idCierreCaja"]; ?></label></td>
-                      <td colspan="5">
+                      <td colspan="4">
                           <br>
                       </td>
                   </tr>
@@ -83,10 +81,9 @@ if($sucursal==1){
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Desempeño" onclick="location.href='../Desempeno/vDesempeno.php?tipoFormGet=4'"></td>
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Ventas" onclick="location.href='../Consultas/vConsultaVentas.php'"></td>
                       <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Sucursal" onclick="location.href='../Cierre/vCierre.php'"></td>
-                      <td colspan="1" align="center" ></td>
                   </tr>
                   <tr>
-                      <td colspan="6" align="center"><br></td>
+                      <td colspan="5" align="center"><br></td>
 
                   </tr>
               </table>

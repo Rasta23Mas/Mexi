@@ -84,13 +84,15 @@ include_once (DESC_PATH."modalDescuentoToken.php");
         .inputCliente {
             text-transform: uppercase;
         }
-
+        .letraExtraChica {
+            font-size: .9em;
+        }
 
     </style>
 </head>
 <body>
 <form id="idFormEmpeno" name="formEmpeno">
-    <div id="contenedor" class="container">
+    <div id="contenedor" class="container letraExtraChica">
         <div>
             <br>
         </div>
@@ -100,7 +102,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     <tbody>
                     <tr class="headt">
                         <td colspan="3">
-                            <input type="button" class="btn btn-success "
+                            <input type="button" class="btn btn-success"
                                    data-toggle="modal" data-target="#modalRegistroNuevo"
                                    value="Agregar">
                             <input type="button" class="btn btn-warning "
@@ -149,7 +151,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr class="headt">
                         <td colspan="12" rowspan="2" name="direccionEmpeno">
-                            <textarea rows="2" cols="40" id="idDireccionEmpeno" class="textArea" disabled>
+                            <textarea rows="3" cols="30" id="idDireccionEmpeno" class="textArea" disabled>
                             </textarea>
                         </td>
                     </tr>
@@ -308,7 +310,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     <tr>
                         <td colspan="2">
                             <div id="divMetales">
-                                <table  width="100%">
+                                <table  width="90%" >
                                     <tbody class="text-body border" align="left">
                                     <tr>
                                         <td colspan="3">Tipo:</td>

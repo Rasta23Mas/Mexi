@@ -60,7 +60,7 @@ function LoginAdministradores(sucursal) {
         url: '../../../com.Mexicash/Controlador/Usuario/LogginAdministradores.php',
         success: function (HaySucursales) {
             if (HaySucursales == 1) {
-                location.href = '../Empeno/vInicio.php';
+                location.href = '../Empeno/vInicioAdmin.php';
             } else if (HaySucursales == 0) {
                 saldosInformativoAdmin();
             } else {
@@ -103,7 +103,7 @@ function saldosSucursalAdmin(saldoInicialInfo) {
         url: '../../../com.Mexicash/Controlador/Usuario/updateCajaSucursal.php',
         success: function (response) {
             if (response == 1) {
-                location.href = '../Empeno/vInicio.php'
+                location.href = '../Empeno/vInicioAdmin.php'
             } else {
                 alertify.error("Error en al conectar con el servidor. (ErrFn02)")
             }
@@ -181,7 +181,7 @@ function saldosInformativoGerente() {
             var i = 0;
             var PrestamoEmp = 0;
             for (i; i < datos.length; i++) {
-                 PrestamoEmp = datos[i].PrestamoEmp;
+                PrestamoEmp = datos[i].PrestamoEmp;
             }
             var saldoInicialInfo = Math.round(PrestamoEmp * 100) / 100;
             saldosSucursalGerente(saldoInicialInfo)
@@ -252,7 +252,11 @@ function BitacoraUsuario() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                location.href = '../Empeno/vInicio.php'
+                if (tipoUserGlb == 3) {
+                    location.href = '../Empeno/vInicioGerente.php'
+                } else {
+                    location.href = '../Empeno/vInicio.php'
+                }
             } else {
                 alertify.error("Error en al conectar con el servidor.  (ErrFn06)")
             }
@@ -270,7 +274,7 @@ function LoginVendedor() {
                 buscaridCajaVendedor();
             } else if (HaySucursales == 2) {
                 alertify.error('Sistema cerrado por cierre de sucursal.')
-            }  else if (HaySucursales == 0) {
+            } else if (HaySucursales == 0) {
                 saldosInformativoVendedor();
             } else {
                 alertify.error("Error en al conectar con el servidor. (ErrFn07)")
@@ -336,6 +340,7 @@ function buscaridCajaVendedor() {
         }
     });
 }
+
 /*
 function BitacoraUsuario() {
     //ErrFn06
@@ -428,12 +433,12 @@ function validarSucursalHoyAdmin() {
             if (response == 0) {
 
                 insertaCajaSelectMaxSucursal();
-            }else  if (response == 1) {
+            } else if (response == 1) {
                 buscaridCaja();
             } else if (response == 2) {
                 if (tipoUserGlb == 1 || tipoUserGlb == 2) {
                     confirmarEntrarSucursalInactiva();
-                }else  if (tipoUserGlb == 3) {
+                } else if (tipoUserGlb == 3) {
                     confirmarCancelarCierre();
                 } else {
                     alert("Se ha realizado el cierre de sucursal.")
@@ -464,9 +469,6 @@ function insertaCajaSelectMaxSucursal() {
 }
 
 
-
-
-
 function confirmarCancelarCierre() {
     alertify.confirm('Cierre de Sucursal',
         'El cierre de la sucursal ya fue realizado. ' + '<br>' + '\n¿Desea cancelar el cierre de la sucursal usando un token?',
@@ -483,15 +485,12 @@ function confirmarEntrarSucursalInactiva() {
         'El cierre de la sucursal ya fue realizado. ' + '<br>' + '\n¿Desea continuar, no podra realziar operaciones de dotación?',
         function () {
             //Adminisradores -> 9 Inicia sesion
-            location.href = '../Empeno/vInicio.php';
+            location.href = '../Empeno/vInicioGerente.php';
         },
         function () {
             alertify.error('Cancelado ingreso de sesión.')
         });
 }
-
-
-
 
 
 function buscaridCaja() {
@@ -501,16 +500,16 @@ function buscaridCaja() {
         url: '../../../com.Mexicash/Controlador/Usuario/busquedaCaja.php',
         success: function (response) {
             if (response > 0) {
-                if(tipoUserGlb==1||tipoUserGlb ==2){
-                    location.href = '../Empeno/vInicio.php'
-                }else{
+                if (tipoUserGlb == 1 || tipoUserGlb == 2) {
+                    location.href = '../Empeno/vInicioAdmin.php'
+                } else {
                     BitacoraUsuario();
                 }
             } else if (response == -1) {
                 //Adminisradores -> 5 Inicia la sesion
-                if(tipoUserGlb==3){
-                    location.href = '../Empeno/vInicio.php'
-                }else{
+                if (tipoUserGlb == 3) {
+                    location.href = '../Empeno/vInicioGerente.php'
+                } else {
                     alert("El usuario no tiene acceso, ya que se ha realizado el cierre de caja.")
                 }
             } else {

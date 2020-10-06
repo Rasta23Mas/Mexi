@@ -54,16 +54,6 @@ $dotaciones = $_SESSION['dotaciones'];
                     <li><a class="dropdown-item" href="../Consultas/vConsultaCompras.php">Consulta Compras</a></li>
                 </ul>
             </li>
-            <li class="nav-item dropdown" id="menuCompras">
-                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false">
-                    Compras
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="../Compras/vComprasMetal.php">Metales</a></li>
-                    <li><a class="dropdown-item" href="../Compras/vComprasElectronicos.php">Electrónicos</a></li>
-                </ul>
-            </li>
             <li class="nav-item dropdown" id="menuReportes">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
