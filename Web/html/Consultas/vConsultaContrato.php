@@ -67,14 +67,16 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
         .inputCliente {
             text-transform: uppercase;
         }
-
+        .letraExtraChica {
+            font-size: .9em;
+        }
 
     </style>
 </head>
 <body>
 
 <form id="idFormConsulta" name="formConsulta">
-    <div align="center">
+    <div align="center" class="letraExtraChica">
             <table width="85%" border="0">
                 <tr>
                     <td colspan="6">

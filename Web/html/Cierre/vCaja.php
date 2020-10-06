@@ -79,13 +79,15 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
         .terceraCol {
             width: 100px;
         }
-
+        .letraExtraChica {
+            font-size: .9em;
+        }
     </style>
 
 </head>
 <body>
-<form id="idFormEmpeno" name="formEmpeno">
-    <div class="container-fluid" style="position: absolute; top: 8.2vh; height: 91.8vh">
+<form id="idFormEmpeno" name="formEmpeno" class="letraExtraChica">
+    <div class="container-fluid " style="position: absolute; top: 8.2vh; height: 91.8vh">
         <div>
             <br>
             <h3 align="center">Cierre de caja</h3>
@@ -95,7 +97,7 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
             <div class="col-1">
             </div>
             <div class="col-10 " align="center">
-                <table width="80%" class="border border-primary" align="center" >
+                <table width="80%" class="border border-primary " align="center" >
                     <tr align="center">
                         <td class="titleTable">
                             <label>Cajero</label>

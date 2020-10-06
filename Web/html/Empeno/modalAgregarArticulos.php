@@ -10,7 +10,6 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nuevo Articulo</title>
     <script type="text/css" src="../../JavaScript/funcionesGenerales.js"></script>
 </head>
 <body>

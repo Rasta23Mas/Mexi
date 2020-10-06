@@ -7,7 +7,6 @@ include_once(SQL_PATH . "sqlCatalogoDAO.php");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Editar Clientes</title>
     <script src="../../JavaScript/funcionesCatalogos.js"></script>
 
 </head>

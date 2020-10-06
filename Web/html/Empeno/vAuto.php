@@ -17,6 +17,8 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
+    <title>Empeño Auto</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../../JavaScript/funcionesIntereses.js"></script>
     <script src="../../JavaScript/funcionesCliente.js"></script>
@@ -64,12 +66,14 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
             text-transform: lowercase;
 
         }
-
+        .letraExtraChica {
+            font-size: .9em;
+        }
     </style>
 </head>
 <body>
 <form id="idFormAuto" name="formAuto">
-    <div id="contenedor" class="container">
+    <div id="contenedor" class="container letraExtraChica">
         <div>
             <br>
         </div>

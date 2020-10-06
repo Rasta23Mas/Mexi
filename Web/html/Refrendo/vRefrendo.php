@@ -318,7 +318,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         </td>
                         <td colspan="2">
                             <input type="text" id="gpsNuevoNota" name="Gps" value="0"
-                                   style="width: 100px; text-align: right"/>
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr id="trPolizaNota">
@@ -331,7 +331,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         </td>
                         <td colspan="2">
                             <input type="text" id="polizaNuevoNota" name="Poliza" value="0"
-                                   style="width: 100px; text-align: right"/>
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr id="trPensionNota">
@@ -344,7 +344,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         </td>
                         <td colspan="2">
                             <input type="text" id="pensionNuevoNota" name="Pension" value="0"
-                                   style="width: 100px; text-align: right"/>
+                                   style="width: 100px; text-align: right" class="propInvisible"/>
                         </td>
                     </tr>
                     <tr id="trtotalInteresNovo">

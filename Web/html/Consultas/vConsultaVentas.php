@@ -71,7 +71,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 <body>
 
 <form id="idFormConsulta" name="formConsulta">
-    <div align="center">
+    <div align="center" class="letraExtraChica">
             <table width="85%" border="0">
                 <tr>
                     <td colspan="6">

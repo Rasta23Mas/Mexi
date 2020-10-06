@@ -70,7 +70,7 @@ include_once(SQL_PATH . "sqlClienteDAO.php");//ok
 <body>
 
 <form id="idFormConsulta" name="formConsulta">
-    <div align="center">
+    <div align="center" class="letraExtraChica">
             <table width="85%" border="0">
                 <tr>
                     <td colspan="6">
@@ -113,7 +113,7 @@ include_once(SQL_PATH . "sqlClienteDAO.php");//ok
                     <td align="center" style="width: 120px" class="border-primary border border-right-0">
                         <label>Nombre:</label>
                     </td>
-                    <td >
+                    <td class="border-bottom border-primary ">
                         <div>
                             <input id="idNombreConsulta" name="Nombres" type="text" style="width: 300px"
                                    class="inputCliente" onkeypress="fnClienteAutoCompleteVen()"

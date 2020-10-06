@@ -19,7 +19,7 @@ $sucursal = $_SESSION['sucursal'];
     <!--Generales-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Empeño</title>
+    <title>Compras</title>
     <!--Funciones-->
     <script src="../../JavaScript/funcionesCompras.js"></script>
     <script src="../../JavaScript/funcionesIntereses.js"></script>
@@ -80,19 +80,21 @@ $sucursal = $_SESSION['sucursal'];
         .inputCliente {
             text-transform: uppercase;
         }
-
+        .letraExtraChica {
+            font-size: .9em;
+        }
 
     </style>
 </head>
 <body>
 <form id="idFormCompras" name="formEmpeno">
-    <div id="contenedor" class="container">
+    <div id="contenedor" class="container letraExtraChica">
         <div>
             <br>
         </div>
         <div class="row">
-            <div class="col col-md-4">
-                <table border="0" width="100%" class="tableInteres">
+            <div class="col col-md-4 border-primary border border-right-0">
+                <table border="0" width="100%" class="tableInteres ">
                     <tbody>
                     <tr class="headt">
                         <td>
@@ -154,8 +156,8 @@ $sucursal = $_SESSION['sucursal'];
                     </tbody>
                 </table>
             </div>
-            <div class="col col-md-8">
-                <table width="100%"   class="border-primary border">
+            <div class="col col-md-8 border-primary border" >
+                <table width="100%"  >
                     <tr style="background: dodgerblue; color:white;">
                         <td colspan="4" align="center">Compra Metales</td>
                     </tr>
@@ -260,7 +262,7 @@ $sucursal = $_SESSION['sucursal'];
             </div>
         </div>
         <div class="row">
-            <div class="col col-md-4" >
+            <div class="col col-md-4 border-primary border" >
                 <table border="0" width="100%" >
                     <tbody>
                     <tr >
