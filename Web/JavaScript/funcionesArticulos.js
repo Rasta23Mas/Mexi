@@ -136,17 +136,22 @@ function Agregar() {
                                     var descObs = $("#idObs").val();
                                     var descDetalle = $("#idDetallePrenda").val();
 
-                                    var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + " " + descDetalle;
+                                    var idCantidad =  $("#idCantidad").val();
+                                    var idPeso = $("#idPeso").val();
+                                    var idPesoPiedra = $("#idPesoPiedra").val();
+                                    var idPiedras= $("#idPiedras").val();
+
+                                    var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + ", Cant:" + idCantidad + ",Peso:" + idPeso + ",Piedra:" + idPiedras+ ","+idPesoPiedra + " "+ descDetalle;
 
                                     var dataEnviar = {
                                         "$idTipoEnviar": 1,
                                         "idTipoMetal": formMetal,
                                         "idKilataje": $("#idKilataje").val(),
                                         "idCalidad": $("#idCalidad").val(),
-                                        "idCantidad": $("#idCantidad").val(),
-                                        "idPeso": $("#idPeso").val(),
-                                        "idPesoPiedra": $("#idPesoPiedra").val(),
-                                        "idPiedras": $("#idPiedras").val(),
+                                        "idCantidad": idCantidad,
+                                        "idPeso": idPeso,
+                                        "idPesoPiedra": idPesoPiedra,
+                                        "idPiedras": idPiedras,
                                         "idPrestamo": metalPrestamo,
                                         "idAvaluo": metalAvaluo,
                                         "idVitrina": $("#idVitrina").val(),
