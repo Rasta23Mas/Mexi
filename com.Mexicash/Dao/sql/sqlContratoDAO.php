@@ -364,7 +364,7 @@ class sqlContratoDAO
                         FROM contrato_mov_tbl as Mov
                         INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato 
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  fecha_Movimiento BETWEEN '$fechaInicio' AND '$fechaFinal' 
+                        WHERE tipo_contrato=$tipoContratoGlobal  AND sucursal=$sucursal AND  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaInicio' AND '$fechaFinal' 
                         ORDER BY Mov.id_Contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
