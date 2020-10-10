@@ -34,8 +34,7 @@ class sqlReportesDAO
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin
+                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
                         AND Art.sucursal = $sucursal ";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
@@ -55,8 +54,8 @@ class sqlReportesDAO
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin
+                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
+                        BETWEEN '$fechaIni' AND '$fechaFin' 
                         AND Art.sucursal = $sucursal 
                         ORDER BY Con.id_contrato
                         LIMIT " . $this->conexion->real_escape_string($limit) . " 

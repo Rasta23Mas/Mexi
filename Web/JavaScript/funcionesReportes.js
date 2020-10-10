@@ -239,6 +239,7 @@ function fnCreaPaginador(totalItems) {
     fnCargaPagina(0);
 
 }
+
 function fnCargaPagina(pagina){
     var desde = pagina * itemsPorPaginaGlb;
     var fechaIni = $("#idFechaInicial").val();
@@ -343,8 +344,10 @@ function fnTBodyHistorico(lista){
         var prestamoCon = elem.PRESTAMO;
         prestamoCon = formatoMoneda(prestamoCon);
         var formulario = elem.Form;
-        var obs = "";
+        var obs = " ";
         if(formulario==1){
+            obs  = elem.ObserArt;
+        }else if(formulario==2){
             obs  = elem.ObserArt;
         }else{
             obs  = elem.ObserAuto;
