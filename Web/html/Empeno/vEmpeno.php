@@ -485,7 +485,6 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                     <tr>
                                         <td colspan="12">
                                             <input type="button" class="btn btn-info" value="Calcular" onclick="calculaAvaluoElec()">
-
                                         </td>
                                     </tr>
                                     <tr>

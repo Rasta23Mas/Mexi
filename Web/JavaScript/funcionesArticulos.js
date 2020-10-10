@@ -836,8 +836,7 @@ function calculaPrestamoBtn() {
             var peso = parseFloat($("#idPeso").val());
             var pesoPiedra = parseFloat($("#idPesoPiedra").val());
             var piedras = parseInt($("#idPiedras").val());
-            var kilPrecio = parseInt($("#idKilatajePrecio").val());
-
+            var kilPrecio = parseFloat($("#idKilatajePrecio").val());
             var pesoTotalMetal = cantidad * peso;
             var pesoTotalPiedra = piedras * pesoPiedra;
             var pesoTotal = pesoTotalMetal - pesoTotalPiedra;
