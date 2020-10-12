@@ -16,8 +16,6 @@ if (isset($_GET['fechaFin'])) {
 if (isset($_GET['sucursal'])) {
     $sucursal = $_GET['sucursal'];
 }
-
-
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 //use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -71,7 +69,7 @@ $spreadsheet->getDefaultStyle()
 
 //heading
 $spreadsheet->getActiveSheet()
-    ->setCellValue('A1', "Reporte Ingresos");
+    ->setCellValue('A1', "Reporte Empenos");
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading
@@ -85,63 +83,95 @@ $spreadsheet->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(Al
 
 $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(13);
 $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+$spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(18);
 $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(17);
-$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(40);
 $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(20);
-$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(13);
 $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
 $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
-$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(20);
-$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(20);
-
+$spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
+$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
+$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(10);
 
 
 $spreadsheet->getActiveSheet()
-    ->setCellValue('A2', 'ID')
-    ->setCellValue('B2', 'DESEMPEÑO')
-    ->setCellValue('C2', 'COSTO CONTRATO')
-    ->setCellValue('D2', 'ABONO')
-    ->setCellValue('E2', 'INTERÉS')
-    ->setCellValue('F2', 'IVA')
-    ->setCellValue('G2', 'VENTAS')
-    ->setCellValue('H2', 'IVA VENTAS<')
-    ->setCellValue('I2', 'APARTADOS')
-    ->setCellValue('J2', 'ABONO VENTA')
-    ->setCellValue('K2', 'UTILIDAD')
-    ->setCellValue('L2', 'FECHA');
+        ->setCellValue('A2', 'FECHA')
+        ->setCellValue('B2', 'VENCIMIENTO')
+        ->setCellValue('C2', 'ALMONEDA')
+        ->setCellValue('D2', 'CONTRATO')
+        ->setCellValue('E2', 'CLIENTE')
+        ->setCellValue('F2', 'PRÉSTAMO')
+        ->setCellValue('G2', 'PLAZO')
+        ->setCellValue('H2', 'PERIODO')
+        ->setCellValue('I2', 'TIPO INTERÉS')
+        ->setCellValue('J2', 'DETALLE')
+        ->setCellValue('K2', 'OBSERVACIONES')
+        ->setCellValue('L2', 'TIPO');
 
 $spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);
 
-//$query = $db->query("SELECT * FROM products ORDER BY id DESC");
-$rptIng = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
-                       costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
-                       utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
-                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
-                       FROM bit_cierresucursal
-                       WHERE fecha_Creacion BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
-
-$query = $db->query($rptIng);
+$rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.id_contrato AS CONTRATO,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Art.descripcionCorta AS DESCRIPCION,
+                        Art.observaciones as ObserArt,
+                        Aut.observaciones as ObserAuto,
+                        Con.id_Formulario as Form
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
+                        BETWEEN '$fechaIni' AND '$fechaFin' 
+                        AND Art.sucursal = $sucursal 
+                        ORDER BY Con.id_contrato";
+$query = $db->query($rptHisto);
 
 
 if($query->num_rows > 0) {
     $i = 3;
     while($row = $query->fetch_assoc()) {
+        $descripcionCorta = $row["descripcionCorta"];
+        $observaciones = $row["observaciones"];
+        $ObserAuto = $row["ObserAuto"];
+        $DetalleAuto = $row["DetalleAuto"];
+        $Form = $row["Form"];
+        $PRESTAMO = $row["PRESTAMO"];
+        $PRESTAMOFORM = number_format($PRESTAMO, 2,'.',',');
+        //$PRESTAMOFORM = "$100,000.00";
+
+        $Obser = "";
+        $DetalleFin = "";
+        if($Form==1){
+            $Obser = $descripcionCorta;
+            $DetalleFin = $observaciones;
+            $tipoArt = "METAL";
+        }else if($Form==2){
+            $Obser = $descripcionCorta;
+            $DetalleFin = $observaciones;
+            $tipoArt = "ELECTRÓNICOS";
+        }else if($Form ==3){
+            $Obser = $ObserAuto;
+            $DetalleFin = $DetalleAuto;
+            $tipoArt = "AUTO";
+        }
         $spreadsheet->getActiveSheet()
-            ->setCellValue('A'.$i , $row['id_CierreSucursal'])
-            ->setCellValue('B'.$i , $row['Desem'])
-            ->setCellValue('C'.$i , $row['AbonoRef'])
-            ->setCellValue('D'.$i , $row['Inte'])
-            ->setCellValue('E'.$i , $row['costoContrato'])
-            ->setCellValue('F'.$i , $row['Iva'])
-            ->setCellValue('G'.$i , $row['Ventas'])
-            ->setCellValue('H'.$i , $row['IvaVenta'])
-            ->setCellValue('I'.$i , $row['Utilidad'])
-            ->setCellValue('J'.$i , $row['Apartados'])
-            ->setCellValue('K'.$i , $row['AbonoVen'])
-            ->setCellValue('L'.$i , $row['Fecha']);
+                ->setCellValue('A'.$i , $row['FECHA'])
+                ->setCellValue('B'.$i , $row['FECHAVEN'])
+                ->setCellValue('C'.$i , $row['FECHAALM'])
+                ->setCellValue('D'.$i , $row['CONTRATO'])
+                ->setCellValue('E'.$i , $row['NombreCompleto'])
+                ->setCellValue('F'.$i , $PRESTAMOFORM)
+                ->setCellValue('G'.$i , $row['Plazo'])
+                ->setCellValue('H'.$i , $row['Periodo'])
+                ->setCellValue('I'.$i , $row['TipoInteres'])
+                ->setCellValue('J'.$i , $Obser)
+                ->setCellValue('K'.$i , $DetalleFin)
+                ->setCellValue('L'.$i , $tipoArt);
 
         //set row style
         if ($i % 2 == 0) {
@@ -178,7 +208,7 @@ $lastRow = $i - 1;
 $spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":L" . $lastRow);
 
 
-$filename = 'Ingresos';
+$filename = 'Reporte_Historicos';
 
 //header('Content-Type: application/vnd.ms-excel');
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

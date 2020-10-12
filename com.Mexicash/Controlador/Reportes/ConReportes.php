@@ -37,6 +37,8 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteCierreCaja($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if($tipoReporte==24) {
     $sqlReportesDAO->sqlReporteCierreSucursal($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+}else if ($tipoReporte == 27) {
+    $sqlReportesDAO->sqlReporteEmpeno($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }
 
     ?>

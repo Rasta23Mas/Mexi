@@ -34,7 +34,8 @@ class sqlReportesDAO
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
+                        AND '$fechaFin'  <= Con.fecha_fisico_fin
                         AND Art.sucursal = $sucursal ";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
@@ -54,8 +55,8 @@ class sqlReportesDAO
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
-                        BETWEEN '$fechaIni' AND '$fechaFin' 
+                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
+                        AND '$fechaFin'  <= Con.fecha_fisico_fin
                         AND Art.sucursal = $sucursal 
                         ORDER BY Con.id_contrato
                         LIMIT " . $this->conexion->real_escape_string($limit) . " 
@@ -85,7 +86,6 @@ class sqlReportesDAO
 
         echo json_encode($jsondata);
     }
-
     public function sqlReporteContratos($busqueda, $limit, $offset)
     {
         try {
@@ -755,5 +755,67 @@ class sqlReportesDAO
         echo json_encode($datos);
     }
 
+    public function sqlReporteEmpeno($busqueda, $fechaIni, $fechaFin, $limit, $offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if ($busqueda == 1) {
+                $count = "SELECT COUNT(Con.id_Contrato) as  totalCount 
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                        AND Art.sucursal = $sucursal ";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            } else {
+                $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.id_contrato AS CONTRATO,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Art.descripcionCorta AS DESCRIPCION,
+                        Art.observaciones as ObserArt,
+                        Aut.observaciones as ObserAuto,
+                        Con.id_Formulario as Form
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
+                        BETWEEN '$fechaIni' AND '$fechaFin' 
+                        AND Art.sucursal = $sucursal 
+                        ORDER BY Con.id_contrato
+                        LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                    OFFSET " . $this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while ($fila = $resultado->fetch_assoc()) {
+                    $jsondataperson = array();
+                    $jsondataperson["FECHA"] = $fila["FECHA"];
+                    $jsondataperson["FECHAVEN"] = $fila["FECHAVEN"];
+                    $jsondataperson["FECHAALM"] = $fila["FECHAALM"];
+                    $jsondataperson["NombreCompleto"] = $fila["NombreCompleto"];
+                    $jsondataperson["CONTRATO"] = $fila["CONTRATO"];
+                    $jsondataperson["PRESTAMO"] = $fila["PRESTAMO"];
+                    $jsondataperson["DESCRIPCION"] = $fila["DESCRIPCION"];
+                    $jsondataperson["ObserArt"] = $fila["ObserArt"];
+                    $jsondataperson["ObserAuto"] = $fila["ObserAuto"];
+                    $jsondataperson["Form"] = $fila["Form"];
+                    $jsondataList[] = $jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
 
 }

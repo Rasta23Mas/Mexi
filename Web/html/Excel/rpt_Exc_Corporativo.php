@@ -71,7 +71,7 @@ $spreadsheet->getDefaultStyle()
 
 //heading
 $spreadsheet->getActiveSheet()
-    ->setCellValue('A1', "Reporte Ingresos");
+    ->setCellValue('A1', "Reporte Corporativo");
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading
@@ -118,10 +118,10 @@ $spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);
 $rptIng = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
                        costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
                        utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
-                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
+                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha, MONTH(fecha_Creacion) as Mes
                        FROM bit_cierresucursal
-                       WHERE fecha_Creacion BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND sucursal = $sucursal ";
 
 $query = $db->query($rptIng);
 
@@ -178,7 +178,7 @@ $lastRow = $i - 1;
 $spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":L" . $lastRow);
 
 
-$filename = 'Ingresos';
+$filename = 'Corporativo';
 
 //header('Content-Type: application/vnd.ms-excel');
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
