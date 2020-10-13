@@ -330,3 +330,66 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
         }
     });
 }
+
+
+function fnEditarJoyeria() {
+    $("#modalEditarJoyeria").modal();
+}
+
+
+function tokenNuevo() {
+    var tokenDes = $("#idCodigoJoy").val();
+    var motivo = $("#idMotivoJoy").val();
+    var prestamoNuevo = $("#idPrestamoNuevo").val();
+    var dataEnviar = {
+        "token": tokenDes
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Desempeno/Token.php',
+        type: 'post',
+        success: function (response) {
+            if (response > 0) {
+                var prestamo= $("#idPrestamo").val();
+                fnTokenJoyeria(response,tokenDes,motivo,prestamo,prestamoNuevo);
+
+            } else {
+                if (errorToken < 3) {
+                    errorToken += 1;
+                    alertify.warning("Error de código. Por favor Verifique.");
+
+                } else {
+                    alertify.error("Demasiados intentos. Intente más tarde.");
+                }
+            }
+        },
+    })
+}
+
+function fnTokenJoyeria(response,tokenDes,motivo,prestamo,prestamoNuevo) {
+    var dataEnviar = {
+        "response": response,
+        "tokenDes": tokenDes,
+        "motivo": motivo,
+        "prestamo": prestamo,
+        "prestamoNuevo": prestamoNuevo,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Desempeno/TokenJoyeria.php',
+        type: 'post',
+        success: function (response) {
+            if (response > 0) {
+                $("#idPrestamo").val(prestamoNuevo);
+            } else {
+                if (errorToken < 3) {
+                    errorToken += 1;
+                    alertify.warning("Error de código. Por favor Verifique.");
+
+                } else {
+                    alertify.error("Demasiados intentos. Intente más tarde.");
+                }
+            }
+        },
+    })
+}

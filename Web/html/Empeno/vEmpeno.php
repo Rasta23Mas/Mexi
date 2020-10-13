@@ -14,7 +14,7 @@ include_once(HTML_PATH . "Empeno/modalArticulos.php");
 include_once(HTML_PATH . "Empeno/modalAgregarArticulos.php");
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 include_once (DESC_PATH."modalDescuentoToken.php");
-
+include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -370,8 +370,11 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                         <td colspan="3">Préstamo:</td>
                                         <td colspan="3">
                                             <input type="text" id="idPrestamo" name="prestamo" size="8"
-                                                   onkeypress="return calculaPrestamoPeso(event)";
+                                                   onkeypress="return calculaPrestamoPeso(event)"; disabled
                                                    style="text-align:center"/>
+                                            <img src="../../style/Img/editarXs.jpg" data-toggle="modal"
+                                                 alt="Editar"
+                                                 onclick="fnEditarJoyeria();">
                                         </td>
                                         <td colspan="3">Avalúo:</td>
                                         <td colspan="3">
@@ -460,6 +463,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                             <input type="text" id="idPrestamoElectronico" name="prestamoE" size="5"
                                                    onkeypress="return soloNumeros(event)"
                                                    style="text-align:center"/ >
+
                                         </td>
                                         <td colspan="3">Avalúo:</td>
                                         <td colspan="3">

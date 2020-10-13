@@ -6,6 +6,7 @@ include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
 include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
 include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
 include_once(HTML_PATH . "Compras/modalCompras.php");
+include_once(HTML_PATH . "Compras/modalArticulosCompras.php");
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 $sucursal = $_SESSION['sucursal'];
 

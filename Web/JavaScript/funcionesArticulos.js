@@ -1237,3 +1237,21 @@ function llenarComboTipoElec() {
         }
     });
 }
+
+function decimales(e) {
+    var tecla;
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 8) {
+        return true;
+    }
+    var patron;
+    patron = /[0-9.]/
+    var te;
+    te = String.fromCharCode(tecla);
+    if (e.keyCode == 13 && !e.shiftKey) {
+
+    } else {
+        return patron.test(te);
+    }
+
+}
