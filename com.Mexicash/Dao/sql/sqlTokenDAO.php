@@ -279,7 +279,7 @@ class sqlTokenDAO
         $sucursal = $_SESSION["sucursal"];
         try {
             $insertaBitacora = "INSERT INTO bit_token_joyeria ( token,descripcion, Motivo,prestamo, prestamoNuevo,usuario, sucursal, fecha_Creacion)
-                                        VALUES ($tokenID,'$token',$motivo, $prestamo,$prestamoNuevo, $usuario, $sucursal,'$fechaCreacion')";
+                                        VALUES ($tokenID,'$token','$motivo', $prestamo,$prestamoNuevo, $usuario, $sucursal,'$fechaCreacion')";
             if ($ps = $this->conexion->prepare($insertaBitacora)) {
                 if ($ps->execute()) {
                     $updateToken = "UPDATE cat_token SET

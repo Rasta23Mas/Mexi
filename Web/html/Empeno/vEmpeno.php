@@ -371,7 +371,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                         <td colspan="3">
                                             <input type="text" id="idPrestamo" name="prestamo" size="8"
                                                    onkeypress="return calculaPrestamoPeso(event)"; disabled
-                                                   style="text-align:center"/>
+                                                   style="text-align:center" value="0"/>
                                             <img src="../../style/Img/editarXs.jpg" data-toggle="modal"
                                                  alt="Editar"
                                                  onclick="fnEditarJoyeria();">

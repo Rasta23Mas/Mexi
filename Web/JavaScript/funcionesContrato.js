@@ -376,15 +376,16 @@ function fnTokenJoyeria(response,tokenDes,motivo,prestamo,prestamoNuevo) {
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Desempeno/TokenJoyeria.php',
+        url: '../../../com.Mexicash/Controlador/Token/TokenJoyeria.php',
         type: 'post',
         success: function (response) {
             if (response > 0) {
                 $("#idPrestamo").val(prestamoNuevo);
+                alert("Prestamo modificado correctamente.")
             } else {
                 if (errorToken < 3) {
                     errorToken += 1;
-                    alertify.warning("Error de código. Por favor Verifique.");
+                    alertify.warning("Error de código. Por favor Verifiquse.");
 
                 } else {
                     alertify.error("Demasiados intentos. Intente más tarde.");
