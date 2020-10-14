@@ -826,44 +826,93 @@ function fnTBodyEmpeno(lista){
             "</tr>").appendTo($("#idTBodyEmpeno"));
     });
 }
-function exportarExcel() {
+function exportar(expor) {
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
     var sucursal = $('#idSucursal').val();
     if (tipoReporte == 7) {
-        window.open('../Excel/rpt_Exc_Inventario.php?sucursal=' + sucursal);
-
+        if(expor==1){
+            window.open('../Excel/rpt_Exc_Inventario.php?sucursal=' + sucursal);
+        }else{
+            window.open('../PDF/callPdf_R_Inventario.php');
+        }
     } else if (tipoReporte == 2) {
-        window.open('../Excel/rpt_Exc_Contrato.php?sucursal=' + sucursal);
-
+        if(expor==1){
+            window.open('../Excel/rpt_Exc_Contrato.php?sucursal=' + sucursal);
+        }else{
+            window.open('../PDF/callPdf_R_Contratos.php');
+        }
     } else if (tipoReporte == 5) {
-        window.open('../Excel/rpt_Exc_Bazar.php?sucursal=' + sucursal);
-
+        if(expor==1){
+            window.open('../Excel/rpt_Exc_Bazar.php?sucursal=' + sucursal);
+        }else{
+            window.open('../PDF/callPdf_R_Bazar.php');
+        }
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
             if (tipoReporte == 1) {
-                window.open('../Excel/rpt_Exc_Historico.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Historico.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                }else{
+                    window.open('../PDF/callPdf_R_Historico.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                }
             } else if (tipoReporte == 3) {
-                window.open('../Excel/rpt_Exc_Desempeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Desempeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                }else{
+                    window.open('../PDF/callPdf_R_Desempeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                }
             } else if (tipoReporte == 4) {
-                window.open('../Excel/rpt_Exc_Refrendo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Refrendo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                }else{
+                    window.open('../PDF/callPdf_R_Refrendo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                }
             }else if (tipoReporte == 6) {
-                window.open('../Excel/rpt_Exc_Compra.php?sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Compra.php?sucursal=' + sucursal);
+                }else{
+
+                }
             }else if (tipoReporte == 9) {
-                window.open('../Excel/rpt_Exc_Venta.php?sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Venta.php?sucursal=' + sucursal);
+                }else{
+
+                }
             }else if (tipoReporte == 10) {
-                window.open('../Excel/rpt_Exc_Ingresos.php?sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Ingresos.php?sucursal=' + sucursal);
+                }else{
+
+                }
             }else if (tipoReporte == 11) {
-                window.open('../Excel/rpt_Exc_Corporativo.php?sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Corporativo.php?sucursal=' + sucursal);
+                }else{
+
+                }
             }else if (tipoReporte == 23) {
-                window.open('../Excel/rpt_Exc_Caja.php?sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Caja.php?sucursal=' + sucursal);
+                }else{
+
+                }
             }else if (tipoReporte == 24) {
-                window.open('../Excel/rpt_Exc_Sucursal.php?sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Sucursal.php?sucursal=' + sucursal);
+                }else{
+
+                }
             }else if (tipoReporte == 27) {
-                window.open('../Excel/rpt_Exc_Empenos.php?sucursal=' + sucursal);
+                if(expor==1){
+                    window.open('../Excel/rpt_Exc_Empenos.php?sucursal=' + sucursal);
+                }else{
+                    window.open('../PDF/callPdf_R_Empeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                }
             }
         } else {
             alertify.error("Seleccione fecha de inicio y fecha final.");
@@ -871,37 +920,6 @@ function exportarExcel() {
     }
 }
 
-function exportarPDF() {
-    var fechaIni = $("#idFechaInicial").val();
-    var fechaFin = $("#idFechaFinal").val();
-    var tipoReporte = $('#idTipoReporte').val();
-
-    if (tipoReporte == 2) {
-        window.open('../PDF/callPdf_R_Inventario.php');
-
-    } else if (tipoReporte == 3) {
-        window.open('../PDF/callPdf_R_Contratos.php');
-
-    } else if (tipoReporte == 6) {
-        window.open('../PDF/callPdf_R_Bazar.php');
-
-    } else {
-        if (fechaFin !== "" && fechaIni !== "") {
-            fechaIni = fechaSQL(fechaIni);
-            fechaFin = fechaSQL(fechaFin);
-            if (tipoReporte == 1) {
-                window.open('../PDF/callPdf_R_Historico.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
-            } else if (tipoReporte == 4) {
-                window.open('../PDF/callPdf_R_Desempeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
-
-            } else if (tipoReporte == 5) {
-                window.open('../PDF/callPdf_R_Refrendo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
-            }
-        } else {
-            alertify.error("Seleccione fecha de inicio y fecha final.");
-        }
-    }
-}
 // MONITOREO
 function selectReporteMon() {
     var nombre = $('select[name="nombreReporte"] option:selected').text();
