@@ -7,7 +7,7 @@ var totalGlb = 0;
 var IvaCatalogoGlb = 0;
 var sucursalGlb = 0;
 var efectivoGlb = 0;
-var cambioGlb = 0;
+var cambioGlb = -1;
 var idContratoCompraGlb = 0;
 var idTokenGlb = 0;
 var idTokenDescGlb = 0;
@@ -349,7 +349,7 @@ function fnAgregarArtCompra() {
                         var id_serieTipo = 2;
 
                         var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
-
+                        var serie = $("#idSerie").val();
                         //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
                         var dataEnviar = {
                             "idTipoEnviar": 2,
@@ -357,7 +357,7 @@ function fnAgregarArtCompra() {
                             "idMarca": $("#idMarca").val(),
                             "idEstado": $("#idEstado").val(),
                             "idModelo": $("#idModelo").val(),
-                            "idSerie": $("#idSerie").val(),
+                            "idSerie": serie,
                             "idVitrina": $("#idVitrinaElectronico").val(),
                             "idPrecioCat": $("#idPrecioCat").val(),
                             "idObsElectronico": $("#idObsElectronico").val(),
@@ -803,7 +803,7 @@ function fnValidaciones() {
     } else if (idArticuloGlb == 0) {
         alert("Por Favor. Agrega un artículo.");
         validate = false;
-    } else if (cambioGlb == 0) {
+    } else if (cambioGlb == -1) {
         alert("Por Favor. Calcula el cambio.");
         validate = false;
     }

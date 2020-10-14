@@ -1025,8 +1025,6 @@ function llenarDatosElectronico(tipoSelect, marcaSelect, modeloSelect) {
 }
 
 function fnCatalogoEnviar(idProducto,Catalogo){
-   alert(idProducto);
-    alert(Catalogo);
     if(Catalogo ==1){
         llenarDatosFromModal(idProducto);
     }else if(Catalogo==2){
