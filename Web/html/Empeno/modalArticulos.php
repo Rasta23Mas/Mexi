@@ -12,6 +12,8 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/css" src="../../JavaScript/funcionesGenerales.js"></script>
+    <script src="../../JavaScript/funcionesArticulos.js"></script>
+
 
 </head>
 <body>
@@ -63,6 +65,8 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
                                     <input type="button" class="btn btn-success" data-toggle="modal"
                                            data-target="#modalAgregarProducto"
                                            onclick="cargarProductoModal()"  value="Agregar" />
+                                    <input type="text" id="idCatalogoEnviar" name="catalogo" size="5" value="1"
+                                           style="text-align:center" class="invisible"/>
                                 </td>
                             </tr>
                         </table>

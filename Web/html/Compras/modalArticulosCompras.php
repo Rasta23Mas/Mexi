@@ -63,6 +63,8 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
                                     <input type="button" class="btn btn-success" data-toggle="modal"
                                            data-target="#modalAgregarProducto"
                                            onclick="cargarProductoModal()"  value="Agregar" />
+                                    <input type="text" id="idCatalogoEnviar" name="catalogo" size="5" value="2"
+                                           style="text-align:center" class="invisible"/>
                                 </td>
                             </tr>
                         </table>
@@ -91,6 +93,7 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
                     <input type="button" class="btn btn-warning w-23" data-dismiss="modal"
                            value="Salir">
                 </div>
+
             </div>
         </div>
     </div>

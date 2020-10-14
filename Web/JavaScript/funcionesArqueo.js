@@ -727,6 +727,7 @@ function saldoCajaUser() {
         url: '../../../com.Mexicash/Controlador/Flujo/busquedaCaja.php',
         dataType: "json",
         success: function (datos) {
+            alert(datos)
             var i = 0;
             if (datos.length > 0) {
                 var dotacion = 0;

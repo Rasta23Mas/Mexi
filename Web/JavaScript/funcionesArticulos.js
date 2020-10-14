@@ -1024,6 +1024,16 @@ function llenarDatosElectronico(tipoSelect, marcaSelect, modeloSelect) {
     });
 }
 
+function fnCatalogoEnviar(idProducto,Catalogo){
+   alert(idProducto);
+    alert(Catalogo);
+    if(Catalogo ==1){
+        llenarDatosFromModal(idProducto);
+    }else if(Catalogo==2){
+        llenarDatosFromModalCompras(idProducto);
+    }
+}
+
 function llenarDatosFromModal(idProducto) {
     var dataEnviar = {
         "tipo": 1,
@@ -1094,7 +1104,76 @@ function llenarDatosFromModal(idProducto) {
     });
 
 }
+function llenarDatosFromModalCompras(idProducto) {
+    var dataEnviar = {
+        "tipo": 1,
+        "idProducto": idProducto
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Electronicos/ActualizarTblElectronico.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            var i = 0;
+            for (i; i < datos.length; i++) {
+                //var idElectronico = datos[i].idElectronico;
+                var tipoId = datos[i].tipoId;
+                var tipoEditar = datos[i].tipoEditar;
+                var marcaId = datos[i].marcaId;
+                var marca = datos[i].marca;
+                var modeloId = datos[i].modeloId;
+                var modelo = datos[i].modelo;
+                var precio = datos[i].precio;
+                var vitrina = datos[i].vitrina;
+                var caracteristicas = datos[i].caracteristicas;
+                if (tipoId == null) {
+                    tipoId = '';
+                }
+                if (marcaId == null) {
+                    marcaId = '';
+                }
+                if (modeloId == null) {
+                    modeloId = '';
+                }
+                if (tipoEditar == null) {
+                    tipoEditar = '';
+                }
+                if (marca == null) {
+                    marca = '';
+                }
+                if (modelo == null) {
+                    modelo = '';
+                }
+                if (precio == null) {
+                    precio = '';
+                }
+                if (vitrina == null) {
+                    vitrina = '';
+                }
+                if (caracteristicas == null) {
+                    caracteristicas = '';
+                }
+                combTipoVEmpeFromModal(tipoId, marcaId);
+                alert("Cargando marca y modelo.");
+                var pretamoElec = parseFloat(precio);
+                var avaluoImporte = Math.floor(pretamoElec * 75) / 100;
+                avaluoImporte = pretamoElec + avaluoImporte;
+                avaluoImporte = avaluoImporte.toFixed(2)
+                avaluoImporte = parseFloat(avaluoImporte);
+                $("#idTipoElectronico").val(tipoId);
+                $("#idMarca").val(marcaId);
+                $("#idModelo").val(modeloId);
+                $("#idPrestamoElectronico").val(precio);
+                $("#idAvaluoElectronico").val(avaluoImporte);
+                $("#idVitrinaElectronico").val(vitrina);
+                $("#idPrecioCat").val(vitrina);
+                $("#idDetallePrendaElectronico").val(caracteristicas);
+            }
+        }
+    });
 
+}
 function combTipoVEmpeFromModal(tipoId, marcaId) {
     var dataEnviar = {
         "tipo": 1,

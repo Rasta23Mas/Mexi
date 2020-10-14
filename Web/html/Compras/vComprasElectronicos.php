@@ -27,6 +27,7 @@ $sucursal = $_SESSION['sucursal'];
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesMovimiento.js"></script>
     <script src="../../JavaScript/funcionNumerosLetras.js"></script>
+    <script src="../../JavaScript/funcionesArticulos.js"></script>
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {

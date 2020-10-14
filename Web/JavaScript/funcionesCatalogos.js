@@ -1,3 +1,5 @@
+
+
 function cargarTablaCatMetales(tipoMetal) {
     var dataEnviar = {
         "tipoMetal": tipoMetal
@@ -526,6 +528,7 @@ function editarProducto($idProducto) {
 }
 
 function cargarTblProducto(tipoSelect, marcaSelect, modeloSelect) {
+
     var dataEnviar = {
         "tipoCombo": tipoSelect,
         "marcaCombo": marcaSelect,
@@ -541,6 +544,7 @@ function cargarTblProducto(tipoSelect, marcaSelect, modeloSelect) {
             var html = '';
             var i = 0;
             for (i; i < datos.length; i++) {
+                var Catalogo = $("#idCatalogoEnviar").val();
                 var idElectronico = datos[i].idElectronico;
                 var tipo = datos[i].tipoE;
                 var marca = datos[i].marca;
@@ -576,7 +580,7 @@ function cargarTblProducto(tipoSelect, marcaSelect, modeloSelect) {
                     '<td><img src="../../style/Img/editarNor.jpg"  data-toggle="modal" ' +
                     'data-target="#modalEditarProducto" alt="Editar"  onclick="editarProducto(' + idElectronico + ')"></td>' +
                     '<td><img src="../../style/Img/eliminarNor.jpg" alt="Eliminar"  onclick="confirmarEliminarProd(' + idElectronico + ')"></td>' +
-                    '<td><img src="../../style/Img/seleccionarNor.png"  data-dismiss="modal" alt="Seleccionar"  onclick="llenarDatosFromModal(' + idElectronico + ')"></td>' +
+                    '<td><img src="../../style/Img/seleccionarNor.png"  data-dismiss="modal" alt="Seleccionar"  onclick="fnCatalogoEnviar(' + idElectronico + ',' + Catalogo +')"></td>' +
                     '</tr>';
             }
 
