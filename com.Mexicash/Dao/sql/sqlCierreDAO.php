@@ -507,8 +507,7 @@ class sqlCierreDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT Con.tipo_movimiento, Con.e_pagoDesempeno,Con.e_costoContrato,
-                       Con.e_abono,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
+            $buscar = "SELECT Con.tipo_movimiento, Con.e_capital_recuperado,Con.e_costoContrato,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
                        e_gps,	e_poliza,e_pension 
                        FROM contrato_mov_tbl AS Con
                        WHERE Con.id_CierreCaja=$idCierreCaja AND Con.tipo_movimiento !=20";
@@ -517,9 +516,8 @@ class sqlCierreDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "tipo_movimiento" => $row["tipo_movimiento"],
-                        "e_pagoDesempeno" => $row["e_pagoDesempeno"],
+                        "e_capital_recuperado" => $row["e_capital_recuperado"],
                         "e_costoContrato" => $row["e_costoContrato"],
-                        "e_abono" => $row["e_abono"],
                         "s_descuento_aplicado" => $row["s_descuento_aplicado"],
                         "s_prestamo_nuevo" => $row["s_prestamo_nuevo"],
                         "e_iva" => $row["e_iva"],
@@ -551,6 +549,7 @@ class sqlCierreDAO
             $buscar = "SELECT tipo_movimiento,subTotal,abono,apartado
                        FROM contrato_mov_baz_tbl  
                        WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
+            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

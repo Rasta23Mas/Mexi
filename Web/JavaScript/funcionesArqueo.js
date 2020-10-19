@@ -272,9 +272,10 @@ function validarAjustes() {
             var cajaAuto = 0;
 
             for (i; i < datos.length; i++) {
-                var e_pagoDesempeno = datos[i].e_pagoDesempeno;
+                //var e_pagoDesempeno = datos[i].e_pagoDesempeno;
+                var e_capital_recuperado = datos[i].e_capital_recuperado;
                 var e_costoContrato = datos[i].e_costoContrato;
-                var e_abono = datos[i].e_abono;
+                //var e_abono = datos[i].e_abono;
                 var e_IVA = datos[i].e_iva;
                 var s_descuento_aplicado = datos[i].s_descuento_aplicado;
                 var s_prestamo_nuevo = datos[i].s_prestamo_nuevo;
@@ -287,10 +288,12 @@ function validarAjustes() {
                 //Salidas
                 s_prestamo_nuevo = Math.round(s_prestamo_nuevo * 100) / 100;
                 s_descuento_aplicado = Math.round(s_descuento_aplicado * 100) / 100;
+
                 //Entradas
-                e_pagoDesempeno = Math.round(e_pagoDesempeno * 100) / 100;
+                e_capital_recuperado = Math.round(e_capital_recuperado * 100) / 100;
+                //e_pagoDesempeno = Math.round(e_pagoDesempeno * 100) / 100;
                 e_costoContrato = Math.round(e_costoContrato * 100) / 100;
-                e_abono = Math.round(e_abono * 100) / 100;
+                //e_abono = Math.round(e_abono * 100) / 100;
                 e_IVA = Math.round(e_IVA * 100) / 100;
                 e_intereses = Math.round(e_intereses * 100) / 100;
                 e_moratorios = Math.round(e_moratorios * 100) / 100;
@@ -303,20 +306,20 @@ function validarAjustes() {
                 //salidas += s_descuento_aplicado;
                 //Entradas
 
-                entradas += e_pagoDesempeno;
-                entradas += e_costoContrato;
-                entradas += e_abono;
+                entradas += e_capital_recuperado;
+                //entradas += e_costoContrato;
                 //entradas += e_IVA;
-                entradas += e_intereses;
-                entradas += e_moratorios;
-                entradas += e_gps;
-                entradas += e_poliza;
-                entradas += e_pension;
+                //entradas += e_intereses;
+                //entradas += e_moratorios;
+                //entradas += e_gps;
+                //entradas += e_poliza;
+                //entradas += e_pension;
 
                 //saldo Caja
-                cajaEntradas += e_pagoDesempeno;
+                //cajaEntradas += e_pagoDesempeno;
                 cajaEntradas += e_costoContrato;
-                cajaEntradas += e_abono;
+                cajaEntradas += e_capital_recuperado;
+                //cajaEntradas += e_abono;
                 //IVA
                 cajaIva += e_IVA;
                 //Interes
@@ -335,7 +338,6 @@ function validarAjustes() {
             saldoCajaGlobal += entradasConCaja;
             saldoCajaGlobal -= salidas;
             saldoCajaGlobal = Math.round(saldoCajaGlobal * 100) / 100;
-
             cajaEntradas = Math.round(cajaEntradas * 100) / 100;
             cajaIva = Math.round(cajaIva * 100) / 100;
             cajaInteres = Math.round(cajaInteres * 100) / 100;
@@ -349,7 +351,6 @@ function validarAjustes() {
             $("#idSaldoCajaAuto").val(cajaAuto);
 
             saldoCajaGlobal = Math.round(saldoCajaGlobal * 100) / 100;
-
             $("#idSaldoCajaSistema").val(saldoCajaGlobal);
             validarAjustesVenta();
         }
@@ -367,7 +368,7 @@ function validarAjustesVenta() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Cierre/ConArqueoAjustesVentas.php',
         type: 'post',
-        dataType: "json",
+       dataType: "json",
 
         success: function (datos) {
             var i = 0;
@@ -394,10 +395,9 @@ function validarAjustesVenta() {
                     entradas += e_venta_abono;
                 }
             }
-            var saldoSistema = $("#idSaldoCajaIva").val();
-            saldoSistema = Math.round(saldoSistema * 100) / 100;
-            alert(entradas)
-            var cajaConVenta = entradas + saldoSistema;
+            //var saldoSistema = $("#idSaldoCajaIva").val();
+            //saldoSistema = Math.round(saldoSistema * 100) / 100;
+            var cajaConVenta = entradas ;
             cajaConVenta = Math.round(cajaConVenta * 100) / 100;
             saldoCajaGlobal += cajaConVenta;
 
@@ -410,7 +410,6 @@ function validarAjustesVenta() {
 
             $("#idSaldoVenta").val(entradas);
            // $("#idSaldoCajaIva").val(iva);
-
             $("#idSaldoCajaSistema").val(saldoCajaGlobal);
         }
     })
@@ -727,7 +726,6 @@ function saldoCajaUser() {
         url: '../../../com.Mexicash/Controlador/Flujo/busquedaCaja.php',
         dataType: "json",
         success: function (datos) {
-            alert(datos)
             var i = 0;
             if (datos.length > 0) {
                 var dotacion = 0;

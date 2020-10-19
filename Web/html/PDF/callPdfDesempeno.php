@@ -58,7 +58,7 @@ $query = "SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pa
                     Suc.direccion AS DirSucursal, Suc.telefono AS TelSucursal ,Con.pag_total,Con.pag_subtotal
                     FROM contrato_mov_tbl AS Con 
                     INNER JOIN contratos_tbl AS CoT on Con.id_contrato = CoT.id_Contrato 
-                    INNER JOIN cliente_tbl AS Cli on Cot.id_Cliente = Cli.id_Cliente 
+                    INNER JOIN cliente_tbl AS Cli on CoT.id_Cliente = Cli.id_Cliente 
                     INNER JOIN bit_cierrecaja AS Bit on Con.id_cierreCaja = Bit.id_CierreCaja 
                     INNER JOIN usuarios_tbl AS Usu on Bit.usuario = Usu.id_User 
                     INNER JOIN cat_sucursal AS Suc on Con.sucursal = Suc.id_Sucursal 

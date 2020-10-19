@@ -399,23 +399,40 @@ function fnTBodyDesempeno(lista){
     $("#idTBodyDesempeno").html("");
     $.each(lista, function(ind, elem){
         var prestamoCon = elem.PRESTAMO;
+        var interesesCon = elem.INTERESES;
+        var almacenajeCon = elem.ALMACENAJE;
+        var seguroCon = elem.SEGURO;
+        var abonoCon = elem.ABONO;
+        var descuCon = elem.DESCU;
+        var ivaCon = elem.IVA;
+        var costoCon = elem.COSTO;
+        var subtotalCon = elem.pag_subtotal;
+        var totalCon = elem.pag_total;
         prestamoCon = formatoMoneda(prestamoCon);
-        var formulario = elem.Form;
-        var obs = "";
-        if(formulario==1){
-            obs  = elem.ObserArt;
-        }else{
-            obs  = elem.ObserAuto;
-        }
+        interesesCon = formatoMoneda(interesesCon);
+        almacenajeCon = formatoMoneda(almacenajeCon);
+        seguroCon = formatoMoneda(seguroCon);
+        abonoCon = formatoMoneda(abonoCon);
+        descuCon = formatoMoneda(descuCon);
+        ivaCon = formatoMoneda(ivaCon);
+        costoCon = formatoMoneda(costoCon);
+        subtotalCon = formatoMoneda(subtotalCon);
+        totalCon = formatoMoneda(totalCon);
         $("<tr>"+
             "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.FECHAMOV+"</td>"+
             "<td>"+elem.FECHAVEN+"</td>"+
-            "<td>"+elem.FECHAALM+"</td>"+
-            "<td>"+elem.NombreCompleto+"</td>"+
             "<td>"+elem.CONTRATO+"</td>"+
             "<td align='right'>"+prestamoCon+"</td>"+
-            "<td>"+elem.DESCRIPCION+"</td>"+
-            "<td>"+obs+"</td>"+
+            "<td align='right'>"+interesesCon+"</td>"+
+            "<td align='right'>"+almacenajeCon+"</td>"+
+            "<td align='right'>"+seguroCon+"</td>"+
+            "<td align='right'>"+abonoCon+"</td>"+
+            "<td align='right'>"+descuCon+"</td>"+
+            "<td align='right'>"+ivaCon+"</td>"+
+            "<td align='right'>"+costoCon+"</td>"+
+            "<td align='right'>"+subtotalCon+"</td>"+
+            "<td align='right'>"+totalCon+"</td>"+
             "</tr>").appendTo($("#idTBodyDesempeno"));
     });
 }
@@ -423,23 +440,40 @@ function fnTBodyRefrendo(lista){
     $("#idTBodyRefrendo").html("");
     $.each(lista, function(ind, elem){
         var prestamoCon = elem.PRESTAMO;
+        var interesesCon = elem.INTERESES;
+        var almacenajeCon = elem.ALMACENAJE;
+        var seguroCon = elem.SEGURO;
+        var abonoCon = elem.ABONO;
+        var descuCon = elem.DESCU;
+        var ivaCon = elem.IVA;
+        var costoCon = elem.COSTO;
+        var subtotalCon = elem.pag_subtotal;
+        var totalCon = elem.pag_total;
         prestamoCon = formatoMoneda(prestamoCon);
-        var formulario = elem.Form;
-        var obs = "";
-        if(formulario==1){
-            obs  = elem.ObserArt;
-        }else{
-            obs  = elem.ObserAuto;
-        }
+        interesesCon = formatoMoneda(interesesCon);
+        almacenajeCon = formatoMoneda(almacenajeCon);
+        seguroCon = formatoMoneda(seguroCon);
+        abonoCon = formatoMoneda(abonoCon);
+        descuCon = formatoMoneda(descuCon);
+        ivaCon = formatoMoneda(ivaCon);
+        costoCon = formatoMoneda(costoCon);
+        subtotalCon = formatoMoneda(subtotalCon);
+        totalCon = formatoMoneda(totalCon);
         $("<tr>"+
             "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.FECHAMOV+"</td>"+
             "<td>"+elem.FECHAVEN+"</td>"+
-            "<td>"+elem.FECHAALM+"</td>"+
-            "<td>"+elem.NombreCompleto+"</td>"+
             "<td>"+elem.CONTRATO+"</td>"+
             "<td align='right'>"+prestamoCon+"</td>"+
-            "<td>"+elem.DESCRIPCION+"</td>"+
-            "<td>"+obs+"</td>"+
+            "<td align='right'>"+interesesCon+"</td>"+
+            "<td align='right'>"+almacenajeCon+"</td>"+
+            "<td align='right'>"+seguroCon+"</td>"+
+            "<td align='right'>"+abonoCon+"</td>"+
+            "<td align='right'>"+descuCon+"</td>"+
+            "<td align='right'>"+ivaCon+"</td>"+
+            "<td align='right'>"+costoCon+"</td>"+
+            "<td align='right'>"+subtotalCon+"</td>"+
+            "<td align='right'>"+totalCon+"</td>"+
             "</tr>").appendTo($("#idTBodyRefrendo"));
     });
 }
