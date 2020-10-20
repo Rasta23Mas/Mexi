@@ -164,9 +164,10 @@ class sqlCierreDAO
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
+            $idCierreSucursal = $_SESSION["idCierreSucursal"];
 
             $buscar = "SELECT id_cat_flujo,importe FROM flujo_tbl
-                       WHERE sucursal= $sucursal AND usuarioCaja=$idUsuarioSelect";
+                       WHERE sucursal= $sucursal AND usuarioCaja=$idUsuarioSelect AND id_cierreSucursal=$idCierreSucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -191,7 +192,7 @@ class sqlCierreDAO
         $datos = array();
         try {
 
-            $buscar = "SELECT Con.tipo_movimiento, Con.e_pagoDesempeno,Con.e_costoContrato,
+            $buscar = "SELECT Con.tipo_movimiento, Con.e_capital_recuperado,Con.e_pagoDesempeno,Con.e_costoContrato,
                        Con.e_abono,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
                        e_gps,	e_poliza,e_pension
                        FROM contrato_mov_tbl AS Con
@@ -202,6 +203,7 @@ class sqlCierreDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "tipo_movimiento" => $row["tipo_movimiento"],
+                        "e_capital_recuperado" => $row["e_capital_recuperado"],
                         "e_pagoDesempeno" => $row["e_pagoDesempeno"],
                         "e_costoContrato" => $row["e_costoContrato"],
                         "e_abono" => $row["e_abono"],

@@ -234,6 +234,8 @@ function entradasSalidas() {
 
             for (i; i < datos.length; i++) {
                 var tipo_movimiento = datos[i].tipo_movimiento;
+                var e_capital_recuperado = datos[i].e_capital_recuperado;
+
                 var e_pagoDesempeno = datos[i].e_pagoDesempeno;
                 var e_costoContrato = datos[i].e_costoContrato;
                 var e_abono = datos[i].e_abono;
@@ -246,7 +248,7 @@ function entradasSalidas() {
                 var e_poliza = datos[i].e_poliza;
                 var e_pension = datos[i].e_pension;
 
-
+                e_capital_recuperado = Math.round(e_capital_recuperado * 100) / 100;
                 e_pagoDesempeno = Math.round(e_pagoDesempeno * 100) / 100;
                 e_costoContrato = Math.round(e_costoContrato * 100) / 100;
                 e_abono = Math.round(e_abono * 100) / 100;
@@ -269,6 +271,8 @@ function entradasSalidas() {
                 if (tipo_movimiento == 4) {
                     CantAbonoCapital++;
                     abonoCapital += e_abono;
+                    CantCapitalRecuperado++;
+                    capitalRecuperado += e_capital_recuperado;
                     CantIva++;
                     iva += e_IVA;
                     CantIntereses++;
@@ -287,7 +291,7 @@ function entradasSalidas() {
                 if (tipo_movimiento == 5) {
                     //DESEMPEÑO
                     CantCapitalRecuperado++;
-                    capitalRecuperado += e_pagoDesempeno;
+                    capitalRecuperado += e_capital_recuperado;
                     CantIva++;
                     iva += e_IVA;
                     CantIntereses++;
@@ -311,7 +315,8 @@ function entradasSalidas() {
                     iva += e_IVA;
                     CantIntereses++;
                     intereses += e_intereses;
-
+                    CantCapitalRecuperado++;
+                    capitalRecuperado += e_capital_recuperado;
                     //AUTO
                     CantGPS++;
                     gps += e_gps;
@@ -335,7 +340,7 @@ function entradasSalidas() {
                 if (tipo_movimiento == 9) {
                     //DESEMPEÑO AUTO
                     CantCapitalRecuperado++;
-                    capitalRecuperado += e_pagoDesempeno;
+                    capitalRecuperado += e_capital_recuperado;
                     CantIva++;
                     iva += e_IVA;
                     CantIntereses++;
@@ -363,7 +368,7 @@ function entradasSalidas() {
                 if (tipo_movimiento == 21) {
                     //Desempeño sin interes
                     CantCapitalRecuperado++;
-                    capitalRecuperado += e_pagoDesempeno;
+                    capitalRecuperado += e_capital_recuperado;
                     CantCostoContrato++;
                     costoContrato += e_costoContrato;
                     CantIva++;
@@ -372,9 +377,9 @@ function entradasSalidas() {
 
             }
 
-            var totalEntrada = capitalRecuperado + costoContrato + abonoCapital+intereses+gps+poliza+pension;
+            var totalEntrada = capitalRecuperado + costoContrato;
             var totalSalidas = prestamoNuevo ;
-            saldoCajaGlobal = saldoCajaGlobal + totalEntrada + iva;
+            saldoCajaGlobal = saldoCajaGlobal + totalEntrada;
             saldoCajaGlobal = saldoCajaGlobal - totalSalidas;
             //Guardar Cierre en Caja
             CantCapitalRecuperadoGlb = CantCapitalRecuperado;
