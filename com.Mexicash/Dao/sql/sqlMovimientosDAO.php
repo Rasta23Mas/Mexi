@@ -154,12 +154,23 @@ class sqlMovimientosDAO
             if($fechaUpdateRealizado==1){
                 $sucursal = $_SESSION["sucursal"];
                 $id_contrato = trim($id_contrato);
-                $insertaMovimiento = "INSERT INTO contrato_mov_tbl (id_contrato,fechaVencimiento,fechaAlmoneda,prestamo_actual, s_prestamo_nuevo,
+
+                $buscarContrato = "select max(id_movimiento) as ID_Movimiento from contrato_mov_tbl where sucursal = $sucursal";
+                $statement = $this->conexion->query($buscarContrato);
+                $encontro = $statement->num_rows;
+                $contratoMax = 0;
+                if ($encontro > 0) {
+                    $fila = $statement->fetch_object();
+                    $contratoMax = $fila->ID_Movimiento;
+                }
+                $contratoMax++;
+
+                $insertaMovimiento = "INSERT INTO contrato_mov_tbl (id_movimiento,id_contrato,fechaVencimiento,fechaAlmoneda,prestamo_actual, s_prestamo_nuevo,
                         s_descuento_aplicado, descuentoTotal, abonoTotal,e_capital_recuperado, e_pagoDesempeno, 
                         e_abono,e_intereses,e_interes, e_almacenaje, e_seguro,e_moratorios,e_iva, e_gps, e_poliza,e_pension, e_costoContrato,
                         tipo_Contrato, tipo_movimiento, id_cierreCaja, fecha_Movimiento, prestamo_Informativo, 
                         pag_subtotal, pag_total, pag_efectivo,pag_cambio,sucursal) VALUES 
-                        ($id_contrato, '$fechaVencimiento', '$fechaAlmoneda', $prestamo_actual, $s_prestamo_nuevo,
+                        ($contratoMax,$id_contrato, '$fechaVencimiento', '$fechaAlmoneda', $prestamo_actual, $s_prestamo_nuevo,
                          $s_descuento_aplicado, $descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, 
                          $e_abono, $e_intereses, $e_interes,$e_almacenaje,$e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato,
                          $tipo_Contrato, $tipo_movimiento, $idCierreCaja,'$fechaHoy',$prestamo_Informativo,
