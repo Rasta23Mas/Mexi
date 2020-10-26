@@ -11,7 +11,6 @@ if($sucursal==1){
 }
 
 
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -55,7 +54,7 @@ if($sucursal==1){
                         <td colspan="1" align="center" ><input type="button" class="btn btn-primary w-50" value="Empeños" onclick="location.href='../Reportes/vReportes.php?tipoReporte=1"></td>
                         <td colspan="1" align="center" ><input type="button" class="btn btn-primary w-50" value="Monitoreo" onclick="location.href='../Reportes/vReportes.php?tipoReporte=4"></td>
                         <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Consulta" onclick="location.href='../Consultas/vConsultaContrato.php'"></td>
-                        <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Movimientos" onclick="location.href='../Cierre/vMovimientosCentral.php'"></td>
+                        <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Movimientos" onclick="location.href='../Dotacion/vMovimientosCentral.php'"></td>
                     </tr>
                     <tr>
                         <td colspan="1"align="left"><label>&nbsp;Operación Sucursal: <?php echo $_SESSION["idCierreSucursal"]; ?></label></td>
