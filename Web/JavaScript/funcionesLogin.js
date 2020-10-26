@@ -37,7 +37,8 @@ function validarUser() {
                         if (validateMobile) {
                             alert("El sistema Mexicash se encuentra inhabilitado para dispositivos moviles.");
                         } else {
-                            validarHorario();
+                                validarHorario();
+
                         }
                     }
                 } else {
@@ -71,7 +72,6 @@ function LoginAdministradores(sucursal) {
 }
 
 function saldosInformativoAdmin() {
-
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Usuario/saldoInicialInfo.php',
         type: 'post',
@@ -81,8 +81,7 @@ function saldosInformativoAdmin() {
             var i = 0;
             var saldoInicialInfo = 0;
             for (i; i < datos.length; i++) {
-                var prestamo_Informativo = datos[i].prestamo_Informativo;
-
+                var prestamo_Informativo = datos[i].PrestamoEmp;
                 prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
                 saldoInicialInfo += prestamo_Informativo;
             }
