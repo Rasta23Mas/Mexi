@@ -161,8 +161,6 @@ function Agregar() {
                                         "idArticulo": idArticulo,
                                         "descCorto": descripcionCorta,
                                         "IMEI": imei,
-
-
                                     };
                                     $.ajax({
                                         data: dataEnviar,

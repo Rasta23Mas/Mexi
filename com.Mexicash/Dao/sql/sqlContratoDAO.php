@@ -57,16 +57,27 @@ class sqlContratoDAO
             $id_cat_estatus = 1;
 
 
+            $sucursal = $_SESSION["sucursal"];
+            $IdContratoMax= 0;
+            $buscarContrato = "select max(id_Contrato) as UltimoContrato from contratos_tbl where sucursal = $sucursal";
+            $statement = $this->conexion->query($buscarContrato);
+            $encontro = $statement->num_rows;
+            if ($encontro > 0) {
+                $fila = $statement->fetch_object();
+                $IdContratoMax = $fila->UltimoContrato;
+            }
+            $IdContratoMax++;
+
             $insertaContrato = "INSERT INTO contratos_tbl
-                (id_Cliente, total_Prestamo,total_Avaluo,avaluo_Letra, suma_InteresPrestamo,total_Interes,diasAlm, cotitular,
+                (id_Contrato,id_Cliente, total_Prestamo,total_Avaluo,avaluo_Letra, suma_InteresPrestamo,total_Interes,diasAlm, cotitular,
                  beneficiario, plazo,periodo,tipoInteres,tasa, alm,seguro,iva,dias, id_Formulario,Aforo, fecha_creacion,
-                 fecha_vencimiento,fecha_almoneda,tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus) VALUES 
-                ( $id_Cliente, $totalPrestamo ,$totalAvaluo,'$AvaluoLetra',$suma_InteresPrestamo,$total_Intereses,$diasAlm,'$cotitular','$beneficiario',
+                 fecha_vencimiento,fecha_almoneda,tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus,sucursal) VALUES 
+                ( $IdContratoMax,$id_Cliente, $totalPrestamo ,$totalAvaluo,'$AvaluoLetra',$suma_InteresPrestamo,$total_Intereses,$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'$fechaCreacion','$fecha_vencimiento',
-                  '$fecha_almoneda', $tipoContrato,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus)";
+                  '$fecha_almoneda', $tipoContrato,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus,$sucursal)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
-                    $buscarContrato = "select max(id_Contrato) as UltimoContrato from contratos_tbl where id_cierreCaja = $idCierreCaja";
+                    $buscarContrato = "select max(id_Contrato) as UltimoContrato from contratos_tbl where id_cierreCaja = $idCierreCaja AND sucursal = $sucursal";
                     $statement = $this->conexion->query($buscarContrato);
                     $encontro = $statement->num_rows;
                     if ($encontro > 0) {
