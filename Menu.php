@@ -7,13 +7,7 @@ $tipoUsuario = $_SESSION['tipoUsuario'];
 
 $cierreCaja = $_SESSION["idCierreCaja"];
 $cierreSucursal = $_SESSION["idCierreSucursal"];
-if($cierreCaja==0){
-    session_destroy();
-    echo'<script type="text/javascript">
-    alert("Error al iniciar la sesión, por favor consulte con su administrador.");
-    window.location.href="../../../index.php";
-    </script>';
-}elseif ($cierreSucursal==0){
+if ($cierreSucursal==0){
     session_destroy();
     echo'<script type="text/javascript">
     alert("Error al iniciar la sesión, por favor consulte con su administrador.");
@@ -22,6 +16,15 @@ if($cierreCaja==0){
     header("Location: ../../../index.php");
 }
 
+if($tipoUsuario==3||$tipoUsuario==4){
+    if($cierreCaja==0){
+        session_destroy();
+        echo'<script type="text/javascript">
+    alert("Error al iniciar la sesión, por favor consulte con su administrador.");
+    window.location.href="../../../index.php";
+    </script>';
+    }
+}
 
 if($tipoUsuario==2){
     include_once (HTML_PATH."menuAdmin.php");
