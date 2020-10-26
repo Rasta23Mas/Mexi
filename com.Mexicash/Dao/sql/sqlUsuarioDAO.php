@@ -239,7 +239,7 @@ class sqlUsuarioDAO
                     $estatus = 1;
                     $fechaCreacion = date('Y-m-d H:i:s');
                     $usuario = $_SESSION["idUsuario"];
-                    $maxIdCierreSuc = "SELECT MAX( id_CierreSucursal ) as idSucursal FROM bit_cierresucursal";
+                    $maxIdCierreSuc = "SELECT MAX( id_CierreSucursal ) as idSucursal FROM bit_cierresucursal WHERE sucursal=$sucursal";
                     $statement = $this->conexion->query($maxIdCierreSuc);
                     if ($statement->num_rows > 0) {
                         $fila = $statement->fetch_object();

@@ -336,17 +336,17 @@ function nombreAutocompletar() {
 
 
 //Funcion modal Editar cliente
-function modalEditarCliente($clienteEmpeno) {
+function modalEditarCliente(clienteEmpeno) {
     $("#idFormRegistro")[0].reset();
-    $("#idClienteEditar").val($clienteEmpeno);
-    if ($clienteEmpeno == '' || $clienteEmpeno == null) {
+    $("#idClienteEditar").val(clienteEmpeno);
+    if (clienteEmpeno == '' || clienteEmpeno == null) {
         alert("Por favor selecciona un cliente.")
     } else {
         if ($("#idNombres").val() == '' || $("#idNombres").val == null) {
             alert("Por favor selecciona un cliente.")
         } else {
             var dataEnviar = {
-                "idClienteEditar": $clienteEmpeno
+                "idClienteEditar": clienteEmpeno
             };
             $.ajax({
                 type: "POST",

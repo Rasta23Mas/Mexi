@@ -208,7 +208,7 @@ function actualizarArticulo(ultimoContrato,tipoFormulario,cliente) {
 }
 
 //Agrega articulos obsololetos
-function articulosObsoletos() {
+function fnArticulosObsoletos() {
     //FEErr04
     $.ajax({
         url: '../../../com.Mexicash/Controlador/ArticulosObsoletos.php',
@@ -333,37 +333,60 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
 
 
 function fnEditarJoyeria() {
-    $("#modalEditarJoyeria").modal();
+    var prestamo = $("#idPrestamo").val();
+    if(prestamo==0){
+        alert("Por Favor. Calcule el prestamo.")
+    }else{
+        $("#modalEditarJoyeria").modal();
+        $("#idPrestamoCalculado").val(prestamo);
+    }
+
 }
 
 
-function tokenNuevo() {
+function tokenNuevoJoyeria() {
     var tokenDes = $("#idCodigoJoy").val();
     var motivo = $("#idMotivoJoy").val();
+    var prestamoCalculado = $("#idPrestamoCalculado").val();
     var prestamoNuevo = $("#idPrestamoNuevo").val();
-    var dataEnviar = {
-        "token": tokenDes
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Desempeno/Token.php',
-        type: 'post',
-        success: function (response) {
-            if (response > 0) {
-                var prestamo= $("#idPrestamo").val();
-                fnTokenJoyeria(response,tokenDes,motivo,prestamo,prestamoNuevo);
 
-            } else {
-                if (errorToken < 3) {
-                    errorToken += 1;
-                    alertify.warning("Error de código. Por favor Verifique.");
+    if(motivo==''){
+        alert("Por Favor.Llena el campo de motivo.");
+    }else if(prestamoNuevo==''){
+        alert("Por Favor.Llena el campo de nuevo prestamo.");
+    }else{
+        if(prestamoNuevo<prestamoCalculado){
+            fnTokenJoyeria(0,'Precio Menor',motivo,prestamoCalculado,prestamoNuevo);
+        }else{
+            if(tokenDes==''||tokenDes==0){
+                alert("Por Favor.Llena el campo de token.");
+            }else {
+                var dataEnviar = {
+                    "token": tokenDes
+                };
+                $.ajax({
+                    data: dataEnviar,
+                    url: '../../../com.Mexicash/Controlador/Desempeno/Token.php',
+                    type: 'post',
+                    success: function (response) {
+                        if (response > 0) {
+                            var prestamo= $("#idPrestamo").val();
+                            fnTokenJoyeria(response,tokenDes,motivo,prestamo,prestamoNuevo,1);
 
-                } else {
-                    alertify.error("Demasiados intentos. Intente más tarde.");
-                }
+                        } else {
+                            if (errorToken < 3) {
+                                errorToken += 1;
+                                alertify.warning("Error de código. Por favor Verifique.");
+
+                            } else {
+                                alertify.error("Demasiados intentos. Intente más tarde.");
+                            }
+                        }
+                    },
+                })
             }
-        },
-    })
+        }
+    }
 }
 
 function fnTokenJoyeria(response,tokenDes,motivo,prestamo,prestamoNuevo) {
@@ -381,11 +404,15 @@ function fnTokenJoyeria(response,tokenDes,motivo,prestamo,prestamoNuevo) {
         success: function (response) {
             if (response > 0) {
                 $("#idPrestamo").val(prestamoNuevo);
-                alert("Prestamo modificado correctamente.")
+                $("#modalEditarJoyeria").modal('hide');//ocultamos el modal
+                $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
+                $('.modal-backdrop').remove();//eliminamos el backdrop del modal
+                alert("Prestamo modificado correctamente.");
+                calculaPrestamoBtn()
             } else {
                 if (errorToken < 3) {
                     errorToken += 1;
-                    alertify.warning("Error de código. Por favor Verifiquse.");
+                    alertify.warning("Error de código. Por favor Verifique.");
 
                 } else {
                     alertify.error("Demasiados intentos. Intente más tarde.");

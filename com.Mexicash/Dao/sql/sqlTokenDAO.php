@@ -282,18 +282,23 @@ class sqlTokenDAO
                                         VALUES ($tokenID,'$token','$motivo', $prestamo,$prestamoNuevo, $usuario, $sucursal,'$fechaCreacion')";
             if ($ps = $this->conexion->prepare($insertaBitacora)) {
                 if ($ps->execute()) {
-                    $updateToken = "UPDATE cat_token SET
+                    if($tokenID==0){
+                        $verdad = 1;
+                    }else{
+                        $updateToken = "UPDATE cat_token SET
                                          estatus = 2
                                         WHERE id_token =$tokenID";
-                    if ($ps = $this->conexion->prepare($updateToken)) {
-                        if ($ps->execute()) {
-                            $verdad = mysqli_stmt_affected_rows($ps);
+                        if ($ps = $this->conexion->prepare($updateToken)) {
+                            if ($ps->execute()) {
+                                $verdad = mysqli_stmt_affected_rows($ps);
+                            } else {
+                                $verdad = -1;
+                            }
                         } else {
                             $verdad = -1;
                         }
-                    } else {
-                        $verdad = -1;
                     }
+
                 } else {
                     $verdad = -1;
                 }
@@ -308,5 +313,6 @@ class sqlTokenDAO
         }
         echo $verdad;
     }
+
 
 }

@@ -41,11 +41,22 @@
                         </tr>
                         <tr>
                             <td align="center">
+                                <label>Prestamo:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <input type="text" id="idPrestamoCalculado" name="prestamo" size="8"
+                                      disabled style="text-align:center"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
                                 <label>Nuevo Prestamo:</label>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
+                            <td align="center">
                                 <input type="text" id="idPrestamoNuevo" name="prestamo" size="8"
                                        onkeypress="return decimales(event)";
                                        style="text-align:center"/>
@@ -63,14 +74,14 @@
                         </tr>
                         <tr>
                             <td align="center">
-                                <input type="text" id="idCodigoJoy" name="codigoAut" size="20" value="" style="text-align: center" class="inputMinus"/>
+                                <input type="text" id="idCodigoJoy" name="codigoAut" size="20" value=""  style="text-align: center" class="inputMinus"/>
                             </td>
                         </tr>
                     </table>
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-success " data-dismiss="modal"
-                       onclick="tokenNuevo();"  value="Verificar">
+                <input type="button" class="btn btn-success "
+                       onclick="tokenNuevoJoyeria();"  value="Verificar">
             </div>
         </div>
     </div>

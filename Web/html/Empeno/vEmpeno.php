@@ -35,7 +35,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
     <script type="application/javascript">
         $(document).ready(function () {
             // $('.menuContainer').load('menu.php');
-            articulosObsoletos();
+            fnArticulosObsoletos();
             $("#divElectronicos").hide();
             $("#divMetales").show();
             $("#idFormEmpeno").trigger("reset");
@@ -370,7 +370,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                         <td colspan="3">Préstamo:</td>
                                         <td colspan="3">
                                             <input type="text" id="idPrestamo" name="prestamo" size="8"
-                                                   onkeypress="return calculaPrestamoPeso(event)"; disabled
+                                                   disabled
                                                    style="text-align:center" value="0"/>
                                             <img src="../../style/Img/editarXs.jpg" data-toggle="modal"
                                                  alt="Editar"
@@ -391,7 +391,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                                    style="text-align:center"/>
                                         </td>
                                         <td colspan="6" >
-                                            <input type="button" class="btn btn-info" value="Calcular" onclick="calculaPrestamoBtn()">
+                                            <input type="button" class="btn btn-info" id="idCalcular" value="Calcular" onclick="calculaPrestamoBtn()">
                                         </td>
                                     </tr>
                                     <tr>
