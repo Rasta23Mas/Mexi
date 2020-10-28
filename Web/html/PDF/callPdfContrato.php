@@ -65,22 +65,21 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
   Cli.telefono AS Tel, Cli.celular AS Celular,Cli.correo AS Correo, 
   Con.cotitular AS Cotitular,Con.beneficiario AS Beneficiario, Con.total_Prestamo AS MontoPrestamo, 
   Con.suma_InteresPrestamo AS MontoTotal, Con.total_Interes AS Intereses,Con.tasa AS Tasa,
-  Con.alm AS Almacenaje, Con.seguro AS Seguro,Con.Iva AS Iva,Mov.fechaAlmoneda AS FechaAlmoneda, 
-  Con.dias AS Dias,Mov.fechaVencimiento AS FechaVenc, Con.total_Avaluo AS Avaluo,avaluo_Letra,
+  Con.alm AS Almacenaje, Con.seguro AS Seguro,Con.Iva AS Iva,Con.fecha_almoneda AS FechaAlmoneda, 
+  Con.dias AS Dias,Con.fecha_vencimiento AS FechaVenc, Con.total_Avaluo AS Avaluo,avaluo_Letra,
   CONCAT(Con.plazo, ' ' ,Con.periodo ) AS PlazoMov, 
   CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, 
   Con.id_Formulario AS TipFormulario, Con.Aforo AS Aforo,CATS.NombreCasa, 
   CATS.Nombre,CATS.direccion, CATS.telefono,CATS.rfc, CATS.correo as CorreoCasa, 
   CATS.pagina as PaginaCasa,CATS.horario as HorarioCasa 
   FROM contratos_tbl AS Con 
-  INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
-  INNER JOIN cat_cliente AS CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente 
-  INNER JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado
-  INNER JOIN contrato_mov_tbl AS Mov on Con.id_Contrato = Mov.id_contrato 
+  LEFT JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
+  LEFT JOIN cat_cliente AS CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente 
+  LEFT JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado
   LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja 
   LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
-  LEFT JOIN cat_sucursal CATS ON Mov.sucursal= CATS.id_Sucursal  
-  WHERE Con.id_Contrato =$idContrato ";
+  LEFT JOIN cat_sucursal CATS ON Con.sucursal= CATS.id_Sucursal  
+  WHERE Con.id_Contrato =$idContrato AND Con.sucursal = $sucursal AND Caj.sucursal= $sucursal";
 
 $resultado = $db->query($query);
 
@@ -173,12 +172,13 @@ $tipoDescripcion = '';
 $query = "SELECT Ar.descripcionCorta,
     Ar.observaciones AS ObsArt, 
     CONCAT ( Aut.marca,' ', Aut.modelo, ' ',Aut.anio ,' ', Aut.color, ' ' , Aut.placas, ' ',Aut.factura, ' ',Aut.num_motor) as detalleAuto, Aut.observaciones AS ObsAuto, 
-    Ar.prestamo as PrestamoArt, Ar.avaluo as AvaluoArt
+    Ar.prestamo as PrestamoArt, Ar.avaluo as AvaluoArt,Ar.IMEI, Ar.num_Serie
 FROM contratos_tbl as Con 
 LEFT JOIN articulo_tbl as Ar on Con.id_Contrato = Ar.id_Contrato 
 LEFT JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato 
-            WHERE Con.id_Contrato =$idContrato ";
+            WHERE Con.id_Contrato =$idContrato AND Con.sucursal = $sucursal AND Ar.sucursal = $sucursal";
 $tablaArt = $db->query($query);
+
 
 foreach ($tablaArt as $row) {
     if ($TipFormulario == "1") {
@@ -187,12 +187,20 @@ foreach ($tablaArt as $row) {
         $Obs = $row["ObsArt"];
         $avaluoArt = $row["AvaluoArt"];
         $prestamoArt = $row["PrestamoArt"];
+        $prestamoArt = number_format($prestamoArt, 2, '.', ',');
+
     }elseif ($TipFormulario == "2") {
         $tipoDescripcion = 'ELECTRÓNICOS';
-        $detalle = $row["descripcionCorta"];
+        $descripcionCorta = $row["descripcionCorta"];
+        $IMEI = $row["IMEI"];
+        $num_Serie = $row["num_Serie"];
+        $detalle = $descripcionCorta . ',Serie/IMEI: '. $num_Serie .' '. $IMEI ;
+
         $Obs = $row["ObsArt"];
         $avaluoArt = $row["AvaluoArt"];
         $prestamoArt = $row["PrestamoArt"];
+        $prestamoArt = number_format($prestamoArt, 2, '.', ',');
+
     }elseif ($TipFormulario == "3") {
         $tipoDescripcion = 'AUTO';
         $detalle = $row["detalleAuto"];
@@ -200,6 +208,7 @@ foreach ($tablaArt as $row) {
         $avaluoArt = $Avaluo;
         $prestamoArt = $MontoPrestamo;
     }
+
     $detalleDescripcion = $detalle . " " . $Obs;
     $tablaArticulos .= '
                                 <tr>
