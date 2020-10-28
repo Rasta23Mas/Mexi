@@ -509,8 +509,7 @@ class sqlCierreDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT Con.tipo_movimiento, Con.e_capital_recuperado,Con.e_costoContrato,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
-                       e_gps,	e_poliza,e_pension 
+            $buscar = "SELECT tipo_movimiento, pag_total,prestamo_Informativo
                        FROM contrato_mov_tbl AS Con
                        WHERE Con.id_CierreCaja=$idCierreCaja AND Con.tipo_movimiento !=20";
             $rs = $this->conexion->query($buscar);
@@ -518,16 +517,8 @@ class sqlCierreDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "tipo_movimiento" => $row["tipo_movimiento"],
-                        "e_capital_recuperado" => $row["e_capital_recuperado"],
-                        "e_costoContrato" => $row["e_costoContrato"],
-                        "s_descuento_aplicado" => $row["s_descuento_aplicado"],
-                        "s_prestamo_nuevo" => $row["s_prestamo_nuevo"],
-                        "e_iva" => $row["e_iva"],
-                        "e_intereses" => $row["e_intereses"],
-                        "e_moratorios" => $row["e_moratorios"],
-                        "e_gps" => $row["e_gps"],
-                        "e_poliza" => $row["e_poliza"],
-                        "e_pension" => $row["e_pension"],
+                        "pag_total" => $row["pag_total"],
+                        "prestamo_Informativo" => $row["prestamo_Informativo"]
 
 
                     ];
@@ -548,16 +539,16 @@ class sqlCierreDAO
         $datos = array();
         try {
 
-            $buscar = "SELECT tipo_movimiento,subTotal,abono,apartado
+            $buscar = "SELECT tipo_movimiento,subTotal,iva,abono,apartado
                        FROM contrato_mov_baz_tbl  
                        WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
-            echo $buscar;
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "tipo_movimiento" => $row["tipo_movimiento"],
                         "subTotal" => $row["subTotal"],
+                        "iva" => $row["iva"],
                         "abono" => $row["abono"],
                         "apartado" => $row["apartado"],
                     ];
@@ -572,7 +563,31 @@ class sqlCierreDAO
 
         echo json_encode($datos);
     }
+    function sqlArqueoEntradasySalidasCompras($idCierreCaja)
+    {
+        $datos = array();
+        try {
 
+            $buscar = "SELECT total
+                       FROM contrato_mov_com_tbl  
+                       WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "total" => $row["total"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
     public function busquedaPorFechasCajaCierre($fechaInicial, $fechaFinal)
     {
         $datos = array();

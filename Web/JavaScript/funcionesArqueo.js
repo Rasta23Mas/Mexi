@@ -32,7 +32,6 @@ var idCincuentaCGlobal = 0;
 var idCentavosGlobal = 0;
 
 var guardadoPorGerenteGlb = 0;
-var saldoCajaGlobal = 0;
 var ajustesGbl = 0;
 var incrementoPatGbl = 0;
 var idArqueoGbl = 0;
@@ -44,6 +43,9 @@ var bitCant_Dotacion_glb = 0;
 var bitCant_Retiro_glb = 0;
 var bitDotacion_glb = 0;
 var bitRetiro_glb = 0;
+
+var totalEntradaNew_glb = 0;
+var totalSalidasNew_glb = 0;
 
 function arqueo() {
     calculado = 1;
@@ -208,8 +210,8 @@ function arqueo() {
 
 function confirmarGuardarCaja() {
     var usuarioCaja = $("#idUsuarioCaja").val();
-    var saldoCajaSistema = $("#idSaldoCajaSistema").val();
-    diferenciaGbl = totalArqueoGlobal - saldoCajaSistema;
+    var TotCajaNew = $("#idTotCajaNew").val();
+    diferenciaGbl = totalArqueoGlobal - TotCajaNew;
     diferenciaGbl = Math.round(diferenciaGbl * 100) / 100;
     var diferencia = "";
     if (calculado == 0) {
@@ -249,7 +251,6 @@ function confirmarGuardarCaja() {
 
 function validarAjustes() {
     //1 llena movimientos de dotacion y retiro
-    saldoCajaGlobal = 0;
     var idCierreCaja = $("#idCierreCaja").text();
     var dataEnviar = {
         "idCierreCaja": idCierreCaja,
@@ -262,96 +263,38 @@ function validarAjustes() {
 
         success: function (datos) {
             var i = 0;
-            var entradas = 0;
-            var salidas = 0;
-
-            var cajaEntradas = 0;
-            var cajaIva = 0;
-            var cajaInteres = 0;
-            var cajaMoratorio = 0;
-            var cajaAuto = 0;
+            var empenos = 0;
+            var refrendos = 0;
+            var desempeno = 0;
+            totalEntradaNew_glb = 0;
+            totalSalidasNew_glb = 0;
 
             for (i; i < datos.length; i++) {
-                //var e_pagoDesempeno = datos[i].e_pagoDesempeno;
-                var e_capital_recuperado = datos[i].e_capital_recuperado;
-                var e_costoContrato = datos[i].e_costoContrato;
-                //var e_abono = datos[i].e_abono;
-                var e_IVA = datos[i].e_iva;
-                var s_descuento_aplicado = datos[i].s_descuento_aplicado;
-                var s_prestamo_nuevo = datos[i].s_prestamo_nuevo;
-                var e_intereses = datos[i].e_intereses;
-                var e_moratorios = datos[i].e_moratorios;
-                var e_gps = datos[i].e_gps;
-                var e_poliza = datos[i].e_poliza;
-                var e_pension = datos[i].e_pension;
+                var tipoMov = datos[i].tipo_movimiento;
+                var pag_total = datos[i].pag_total;
+                var prestamo_Informativo = datos[i].prestamo_Informativo;
 
-                //Salidas
-                s_prestamo_nuevo = Math.round(s_prestamo_nuevo * 100) / 100;
-                s_descuento_aplicado = Math.round(s_descuento_aplicado * 100) / 100;
+                if(tipoMov==3||tipoMov==7){
+                    prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                    empenos += prestamo_Informativo;
 
-                //Entradas
-                e_capital_recuperado = Math.round(e_capital_recuperado * 100) / 100;
-                //e_pagoDesempeno = Math.round(e_pagoDesempeno * 100) / 100;
-                e_costoContrato = Math.round(e_costoContrato * 100) / 100;
-                //e_abono = Math.round(e_abono * 100) / 100;
-                e_IVA = Math.round(e_IVA * 100) / 100;
-                e_intereses = Math.round(e_intereses * 100) / 100;
-                e_moratorios = Math.round(e_moratorios * 100) / 100;
-                e_gps = Math.round(e_gps * 100) / 100;
-                e_poliza = Math.round(e_poliza * 100) / 100;
-                e_pension = Math.round(e_pension * 100) / 100;
+                }else if(tipoMov==4||tipoMov==8){
+                    pag_total = Math.round(pag_total * 100) / 100;
+                    refrendos += pag_total;
+                }else if(tipoMov==5||tipoMov==9||tipoMov==21){
+                    pag_total = Math.round(pag_total * 100) / 100;
+                    desempeno += pag_total;
+                }
 
-                //Salidas
-                salidas += s_prestamo_nuevo;
-                //salidas += s_descuento_aplicado;
-                //Entradas
-
-                entradas += e_capital_recuperado;
-                //entradas += e_costoContrato;
-                //entradas += e_IVA;
-                //entradas += e_intereses;
-                //entradas += e_moratorios;
-                //entradas += e_gps;
-                //entradas += e_poliza;
-                //entradas += e_pension;
-
-                //saldo Caja
-                //cajaEntradas += e_pagoDesempeno;
-                cajaEntradas += e_costoContrato;
-                cajaEntradas += e_capital_recuperado;
-                //cajaEntradas += e_abono;
-                //IVA
-                cajaIva += e_IVA;
-                //Interes
-                cajaInteres += e_intereses;
-                //Interes Moratorio
-                cajaMoratorio += e_moratorios;
-                //Auto
-                cajaAuto += e_gps;
-                cajaAuto += e_poliza;
-                cajaAuto += e_pension;
             }
-            var dotacionCaja = $("#idSaldoCajaVal").val();
-            dotacionCaja = Math.round(dotacionCaja * 100) / 100;
-
-            var entradasConCaja = entradas + dotacionCaja;
-            saldoCajaGlobal += entradasConCaja;
-            saldoCajaGlobal -= salidas;
-            saldoCajaGlobal = Math.round(saldoCajaGlobal * 100) / 100;
-            cajaEntradas = Math.round(cajaEntradas * 100) / 100;
-            cajaIva = Math.round(cajaIva * 100) / 100;
-            cajaInteres = Math.round(cajaInteres * 100) / 100;
-            cajaMoratorio = Math.round(cajaMoratorio * 100) / 100;
-            cajaAuto = Math.round(cajaAuto * 100) / 100;
-
-            $("#idSaldoCajaEntradas").val(cajaEntradas);
-            $("#idSaldoCajaIva").val(cajaIva);
-            $("#idSaldoCajaInteres").val(cajaInteres);
-            $("#idSaldoCajaMor").val(cajaMoratorio);
-            $("#idSaldoCajaAuto").val(cajaAuto);
-
-            saldoCajaGlobal = Math.round(saldoCajaGlobal * 100) / 100;
-            $("#idSaldoCajaSistema").val(saldoCajaGlobal);
+            empenos = Math.round(empenos * 100) / 100;
+            refrendos = Math.round(refrendos * 100) / 100;
+            desempeno = Math.round(desempeno * 100) / 100;
+            totalEntradaNew_glb += desempeno + refrendos;
+            totalSalidasNew_glb += empenos;
+            $("#idEmpenosNew").val(empenos);
+            $("#idRefrendoNew").val(refrendos);
+            $("#idDesempenoNew").val(desempeno);
             validarAjustesVenta();
         }
     })
@@ -363,59 +306,87 @@ function validarAjustesVenta() {
     var idCierreCaja = $("#idCierreCaja").text();
     var dataEnviar = {
         "idCierreCaja": idCierreCaja,
+        "tipo": 1,
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Cierre/ConArqueoAjustesVentas.php',
+        url: '../../../com.Mexicash/Controlador/Cierre/ConArqueoAjustes.php',
         type: 'post',
        dataType: "json",
 
         success: function (datos) {
             var i = 0;
-            var entradas = 0;
+            var venta = 0;
+            var venta_abono = 0;
+            var venta_apartado = 0;
 
             for (i; i < datos.length; i++) {
                 var tipo_movimiento = datos[i].tipo_movimiento;
                 //VENTA
                 var e_venta_mostrador = datos[i].subTotal;
+                var iva = datos[i].iva;
                 var e_venta_apartados = datos[i].apartado;
                 var e_venta_abono = datos[i].abono;
 
-                //Entradas
-                e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
-                e_venta_apartados = Math.round(e_venta_apartados * 100) / 100;
-                e_venta_abono = Math.round(e_venta_abono * 100) / 100;
-
-                //Entradas
-                if(tipo_movimiento==6){
-                    entradas += e_venta_mostrador;
+                if(tipo_movimiento==6||tipo_movimiento==10){
+                    e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
+                    iva = Math.round(iva * 100) / 100;
+                    var totalVenta= e_venta_mostrador+ iva;
+                    venta += totalVenta;
                 }else if(tipo_movimiento==22){
-                    entradas += e_venta_apartados;
+                    e_venta_abono = Math.round(e_venta_abono * 100) / 100;
+                    venta_abono += e_venta_apartados;
                 }else if(tipo_movimiento==23){
-                    entradas += e_venta_abono;
+                    e_venta_apartados = Math.round(e_venta_apartados * 100) / 100;
+                    venta_apartado += e_venta_abono;
                 }
             }
-            //var saldoSistema = $("#idSaldoCajaIva").val();
-            //saldoSistema = Math.round(saldoSistema * 100) / 100;
-            var cajaConVenta = entradas ;
-            cajaConVenta = Math.round(cajaConVenta * 100) / 100;
-            saldoCajaGlobal += cajaConVenta;
 
-            //var iva = $("#idSaldoCajaIva").val();
-            //iva = Math.round(iva * 100) / 100;
-            //cajaIva = Math.round(cajaIva * 100) / 100;
-            //iva += cajaIva;
-
-
-
-            $("#idSaldoVenta").val(entradas);
-           // $("#idSaldoCajaIva").val(iva);
-            $("#idSaldoCajaSistema").val(saldoCajaGlobal);
+            var totalVenta = venta +venta_abono +venta_apartado;
+            totalVenta = Math.round(totalVenta * 100) / 100;
+            totalEntradaNew_glb += totalVenta;
+            $("#idVentasNew").val(totalVenta);
+            validarAjustesCompra();
         }
     })
 
 }
+function validarAjustesCompra() {
+    //1 llena movimientos de dotacion y retiro
+    var idCierreCaja = $("#idCierreCaja").text();
+    var dataEnviar = {
+        "idCierreCaja": idCierreCaja,
+        "tipo": 2,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/ConArqueoAjustes.php',
+        type: 'post',
+        dataType: "json",
 
+        success: function (datos) {
+            var i = 0;
+            var compra = 0;
+            for (i; i < datos.length; i++) {
+                var total = datos[i].total;
+                total = Math.round(total * 100) / 100;
+                compra += total;
+            }
+            compra = Math.round(compra * 100) / 100;
+            totalSalidasNew_glb += compra;
+            totalEntradaNew_glb += bitDotacion_glb;
+            totalSalidasNew_glb += bitRetiro_glb;
+            var TotalCajaNew = totalEntradaNew_glb - totalSalidasNew_glb;
+            TotalCajaNew = Math.round(TotalCajaNew * 100) / 100;
+            $("#idComprasNew").val(compra);
+            $("#idTotEntradasNew").val(totalEntradaNew_glb);
+            $("#idTotSalidasNew").val(totalSalidasNew_glb);
+            $("#idTotCajaNew").val(TotalCajaNew);
+
+        }
+    })
+
+}
 function guardarCaja() {
     idMilGlobal = Math.round(idMilGlobal * 100) / 100;
     idQuinientosGlobal = Math.round(idQuinientosGlobal * 100) / 100;
@@ -608,7 +579,6 @@ function cambioDeArqueo() {
     var id_cierreCaja = $("#idCierreCaja").text();
     var NombreUsuario = $('select[name="usuarioCaja"] option:selected').text();
     var idCierreCaja = "";
-    $("#idSaldoCajaSistema").val("");
     saldoCajaUser();
     //buscarArqueoAnterior();
     if (idUserSesion !== idUsuarioCaja) {
@@ -747,8 +717,8 @@ function saldoCajaUser() {
                 }
                 bitDotacion_glb = dotacion;
                 bitRetiro_glb = retiro;
-                var SaldoCaja = dotacion- retiro;
-                $("#idSaldoCajaVal").val(SaldoCaja);
+                $("#idDotacionesNew").val(bitDotacion_glb);
+                $("#idRetirosNew").val(bitRetiro_glb);
             } else {
                 alertify.error("El usuario no tiene una dotación a caja.");
             }

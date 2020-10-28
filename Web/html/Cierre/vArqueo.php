@@ -269,36 +269,101 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                             <input type="button" class="btn btn-success" id="btnGuardarArqueo" value="Guardar Arqueo" onclick="confirmarGuardarCaja()">&nbsp;
                         </td>
                     </tr>
-
+                    <tr>
+                        <td align="center" style="width: 700px;">
+                            <table class="table-bordered border-primary" width="80%">
+                                <tr style="background: dodgerblue; color:white;">
+                                    <td align="center" colspan="2">
+                                        <label>Entradas</label>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Dotaciones</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idDotacionesNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Desempeño</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idDesempenoNew"
+                                               disabled
+                                              /></td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Refrendo</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idRefrendoNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Ventas</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idVentasNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Total Entradas</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idTotEntradasNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td align="center" style="width: 700px;">
+                            <table class="table-bordered border-primary" width="80%">
+                                <tr style="background: dodgerblue; color:white;">
+                                    <td align="center" colspan="2">
+                                        <label>Salidas</label>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Retiros</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idRetirosNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Empeños</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idEmpenosNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Compras</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idComprasNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Total Salidas</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idTotSalidasNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Total Caja</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idTotCajaNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="2" class="invisible">
                             <input type="text" name="userSesion" id="idUserSesion" style="width: 100px"
                                    disabled/>
                             <input type="text" name="cierreCaja" id="idCierreCajaSesion" style="width: 100px"
-                                   disabled/>
-                            <label>saldo caja</label>
-                            <input type="text" name="saldoCaja" id="idSaldoCajaVal" style="width: 100px"
-                                   disabled/>
-                            <label>Entradas caja</label>
-                            <input type="text" name="saldoCajaIva" id="idSaldoCajaEntradas" style="width: 100px"
-                                   disabled/>
-                            <label>iva caja</label>
-                            <input type="text" name="saldoCajaIva" id="idSaldoCajaIva" style="width: 100px"
-                                   disabled/>
-                            <label>interes caja</label>
-                            <input type="text" name="SaldoCajaInteres" id="idSaldoCajaInteres" style="width: 100px"
-                                   disabled/>
-                            <label>interes mor</label>
-                            <input type="text" name="SaldoCajaMor" id="idSaldoCajaMor" style="width: 100px"
-                                   disabled/>
-                            <label>interes auto</label>
-                            <input type="text" name="saldoCajaAuto" id="idSaldoCajaAuto" style="width: 100px"
-                                   disabled/>
-                            <label>venta</label>
-                            <input type="text" name="saldoVenta" id="idSaldoVenta" style="width: 100px"
-                                   disabled/>
-                            <label>saldo caja</label>
-                            <input type="text" name="saldoCajaSistema" id="idSaldoCajaSistema" style="width: 100px"
                                    disabled/>
                         </td>
                     </tr>
