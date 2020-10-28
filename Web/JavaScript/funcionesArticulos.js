@@ -1044,6 +1044,11 @@ function llenarDatosFromModal(idProducto) {
                 if (caracteristicas == null) {
                     caracteristicas = '';
                 }
+                if (tipoId == 1 || tipoId == 2) {
+                    $("#trIMEI").show();
+                } else {
+                    $("#trIMEI").hide();
+                }
                 combTipoVEmpeFromModal(tipoId, marcaId);
                 alert("Cargando marca y modelo.");
                 var pretamoElec = parseFloat(precio);
