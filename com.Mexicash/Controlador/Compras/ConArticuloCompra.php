@@ -9,6 +9,7 @@ $SerieBazar = $_POST['SerieBazar'];
 $id_serieTipo = $_POST['id_serieTipo'];
 $tipo_movimiento = $_POST['tipo_movimiento'];
 $descripcionCorta = $_POST['descripcionCorta'];
+$idPrecioCompra = $_POST['idPrecioCompra'];
 
 if ($idTipoEnviar == 1) {
 
@@ -83,7 +84,7 @@ $articulo = new ArticuloCompras(
 
 
 $sqlArticuloCompras = new sqlArticulosComprasDAO();
-$sqlArticuloCompras->sqlGuardarArticuloCompras($idTipoEnviar, $articulo);
+$sqlArticuloCompras->sqlGuardarArticuloCompras($idTipoEnviar, $articulo,$idPrecioCompra);
 
 ?>
 

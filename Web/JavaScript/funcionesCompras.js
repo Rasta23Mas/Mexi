@@ -305,6 +305,7 @@ function fnAgregarArtCompra() {
                             "idPesoPiedra": $("#idPesoPiedra").val(),
                             "idPiedras": $("#idPiedras").val(),
                             "idVitrina": $("#idVitrina").val(),
+                            "idPrecioCompra": $("#idPrecioCompra").val(),
                             "idObs": $("#idObs").val(),
                             "idDetallePrenda": $("#idDetallePrenda").val(),
                             "idContrato": 0,

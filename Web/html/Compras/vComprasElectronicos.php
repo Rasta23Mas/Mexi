@@ -210,6 +210,15 @@ $sucursal = $_SESSION['sucursal'];
                         </td>
                     </tr>
                     <tr>
+                        <td>Precio Compra:</td>
+                        <td>
+                            <input type="text" id="idPrecioCompra" name="vitrinaE" size="5"
+                                   onkeypress="return soloNumeros(event)"
+                                   style="text-align:center"/>
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
                         <td colspan="2" align="left">Descripción de la prenda:</td>
                         <td colspan="2">Observaciones de la tienda:</td>
                     </tr>

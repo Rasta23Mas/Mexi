@@ -22,7 +22,7 @@ class sqlArticulosComprasDAO
         $this->conexion = $this->db->connectDB();
     }
 
-    public function sqlGuardarArticuloCompras($tipoPost, ArticuloCompras $articulo)
+    public function sqlGuardarArticuloCompras($tipoPost, ArticuloCompras $articulo,$idPrecioCompra)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -53,10 +53,10 @@ class sqlArticulosComprasDAO
                 $idDetallePrenda = strtoupper($idDetallePrenda);
                 $insert = "INSERT INTO articulo_bazar_tbl " .
                     "(id_serie,id_serieTipo,tipo_movimiento,tipoArticulo,tipo, " .
-                    " kilataje, calidad, cantidad, peso, peso_Piedra, piedras,vitrina, " .
+                    " kilataje, calidad, cantidad, peso, peso_Piedra, piedras,precioCompra,vitrina, " .
                     " vitrinaVenta,observaciones, detalle,descripcionCorta,sucursal,id_cierreCaja)  VALUES " .
                     " ('$SerieBazar',$idSerieTipo,$tipoMovimiento,$tipoPost,$idTipoM,$idKilataje,$idCalidad,$idCantidad,$idPeso,
-                      $idPesoPiedra, $idPiedras, $idVitrina,$idVitrina ,' $idObs',' $idDetallePrenda ',' $descCorta ',$sucursal,$idCierreCaja)";
+                      $idPesoPiedra, $idPiedras, $idPrecioCompra,$idVitrina,$idVitrina ,' $idObs',' $idDetallePrenda ',' $descCorta ',$sucursal,$idCierreCaja)";
             } else if ($tipoPost == "2") {
                 $idTipoE = $articulo->getTipoE();
                 $idMarca = $articulo->getMarca();
@@ -71,10 +71,10 @@ class sqlArticulosComprasDAO
 
                 $insert = "INSERT INTO articulo_bazar_tbl " .
                     "(id_serie,id_serieTipo,tipo_movimiento,tipoArticulo,tipo, " .
-                    " marca, modelo, num_Serie,vitrina,vitrinaVenta, precioCat,   observaciones," .
+                    " marca, modelo, num_Serie,precioCompra,vitrina,vitrinaVenta, precioCat,   observaciones," .
                     " detalle, descripcionCorta, sucursal,id_cierreCaja)  VALUES " .
                     "('$SerieBazar',$idSerieTipo,$tipoMovimiento,$tipoPost,$idTipoE,$idMarca,$idModelo,
-                       '$idSerie',$idVitrina,$idVitrina,$precioCat,'$idObsE',' $idDetallePrendaE ',' $descCorta ',$sucursal,$idCierreCaja)";
+                       '$idSerie',$idPrecioCompra,$idVitrina,$idVitrina,$precioCat,'$idObsE',' $idDetallePrendaE ',' $descCorta ',$sucursal,$idCierreCaja)";
 
 
             }

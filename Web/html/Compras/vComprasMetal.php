@@ -221,6 +221,15 @@ $sucursal = $_SESSION['sucursal'];
                                    onkeypress="return soloNumeros(event)"
                                    style="text-align:center"/>
                         </td>
+                        <td>Precio Compra:</td>
+                        <td>
+                            <input type="text" id="idPrecioCompra" name="vitrina" size="8"
+                                   onkeypress="return soloNumeros(event)"
+                                   style="text-align:center"/>
+                        </td>
+                    </tr>
+                    <tr class="headt">
+
                         <td>
                             <input type="button" class="btn btn-info" value="Calcular" onclick="fnCalculaPrestamoBtn()">
                         </td>
