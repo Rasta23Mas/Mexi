@@ -164,25 +164,25 @@ $contenido = '<html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         .letraNormalNegrita{
-          font-size: .6em;
+          font-size: .4em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
-          font-size: 1em;
+          font-size: .5em;
           font-weight: bold;
          }
           .letraChicaNegrita{
-          font-size: .4em;
+          font-size: .3em;
           font-weight: bold;
          }
           .letraNormal{
-          font-size: .6em;
+          font-size: .4em;
          }
           .letraGrande{
-          font-size: 1em;
+          font-size: .5em;
          }
           .letraChica{
-          font-size: .4em;
+          font-size: .3em;
          }
         .tituloCelda{
           background-color: #ebebe0

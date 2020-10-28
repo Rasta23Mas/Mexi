@@ -307,7 +307,8 @@ function llenarEntradasSalidas() {
             totalSalidasGlb += total_SalidaSuma;
             saldoFinalGlb = totalEntradasGlb - totalSalidasGlb;
             var saldoFinal = saldoFinalGlb;
-
+            var dotacionesNew = dotacionesA_CajaSuma - cantRetirosSuma;
+            var saldoFinalOper = dotacionesNew - saldoFinal;
             dotacionesA_CajaSuma = formatoMoneda(dotacionesA_CajaSuma);
             capitalRecuperadoSuma = formatoMoneda(capitalRecuperadoSuma);
             abonoCapitalSuma = formatoMoneda(abonoCapitalSuma);
@@ -333,6 +334,7 @@ function llenarEntradasSalidas() {
             total_SalidaSuma = formatoMoneda(total_SalidaSuma);
             saldoFinal = formatoMoneda(saldoFinal);
 
+            document.getElementById('totalDotacionesNew').innerHTML = dotacionesNew;
             document.getElementById('dotaciones').innerHTML = dotacionesA_CajaSuma;
             document.getElementById('CantRetirosCaja').innerHTML = "( " + cantRetirosSuma + " )";
             document.getElementById('retirosCaja').innerHTML = retirosCajaSuma;
@@ -367,7 +369,10 @@ function llenarEntradasSalidas() {
             document.getElementById('totalEntrados').innerHTML = total_EntradaSuma;
             document.getElementById('totalIVA').innerHTML = total_IVASuma;
             document.getElementById('totalSalidas').innerHTML = total_SalidaSuma;
-            document.getElementById('saldoFinal').innerHTML = saldoFinal;
+            document.getElementById('diferenciaOper').innerHTML = saldoFinal;
+
+
+            document.getElementById('saldoFinal').innerHTML = saldoFinalOper;
             llenarGeneral();
         }
     })

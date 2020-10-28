@@ -132,7 +132,7 @@ foreach ($tablaArt as $row) {
     $descripcionCorta = $row["descripcionCorta"];
     $observaciones = $row["observaciones"];
 
-    $detallePiePagina .= $DescripcionCorta . '/' . $observaciones;
+    $detallePiePagina .= $descripcionCorta . '/' . $observaciones;
 }
 
 
@@ -164,12 +164,12 @@ $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .letraNormalNegrita{
-          font-size: .5em;
+         .letraNormalNegrita{
+          font-size: .4em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
-          font-size: .9em;
+          font-size: .5em;
           font-weight: bold;
          }
           .letraChicaNegrita{
@@ -177,10 +177,10 @@ $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
           font-weight: bold;
          }
           .letraNormal{
-          font-size: .5em;
+          font-size: .4em;
          }
           .letraGrande{
-          font-size: .9em;
+          font-size: .5em;
          }
           .letraChica{
           font-size: .3em;
