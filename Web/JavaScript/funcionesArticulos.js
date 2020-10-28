@@ -71,6 +71,11 @@ function LimpiarSinResetearIdArticulo() {
     $("#idPeso").val("");
     $("#idPiedras").val(0);
     $("#idPesoPiedra").val(0);
+    $("#idCantidad").prop('disabled', false);
+    $("#idPeso").prop('disabled', false);
+    $("#idPiedras").prop('disabled', false);
+    $("#idPesoPiedra").prop('disabled', false);
+    $("#idCalcular").prop('disabled', false);
 }
 
 //Agrega articulos a la tabla
