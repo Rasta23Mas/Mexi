@@ -659,8 +659,10 @@ class sqlCierreDAO
     function validarCierreSucursal($idCierreSucursal)
     {
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT folio_CierreSucursal FROM bit_cierresucursal
-                       WHERE id_CierreSucursal= $idCierreSucursal AND estatus=1";
+                       WHERE id_CierreSucursal= $idCierreSucursal AND estatus=1  and sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 $consulta = $rs->fetch_assoc();
@@ -678,8 +680,9 @@ class sqlCierreDAO
     function llenarSaldosSucursal($idCierreSucursal)
     {
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT saldo_Inicial, InfoSaldoInicial FROM bit_cierresucursal
-                       WHERE id_CierreSucursal= $idCierreSucursal AND estatus=1";
+                       WHERE id_CierreSucursal= $idCierreSucursal AND estatus=1 and sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 $consulta = $rs->fetch_assoc();
@@ -700,13 +703,15 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT dotacionesA_Caja,cantCapitalRecuperado,capitalRecuperado,cantAbono,abonoCapital,intereses,iva,
                         cantMostrador, mostrador, cantIvaVenta, iva_venta, cantApartados,apartadosVentas,cantAbonoVentas,abonoVentas,gps, poliza,pension,cantAjustes, ajuste,
                         CantIncremento,incremento,
                         cantRetiros,retirosCaja, cantPrestamos,prestamosNuevos,cantDescuentos,descuentosAplicados,cantDescuentosVentas,descuento_Ventas,cantCostoContrato,
                         costoContrato,total_Salida,total_Entrada,total_Iva
                         FROM bit_cierrecaja
-                        WHERE id_CierreSucursal= $idCierreSucursal AND estatus=2";
+                        WHERE id_CierreSucursal= $idCierreSucursal AND estatus=2 and sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

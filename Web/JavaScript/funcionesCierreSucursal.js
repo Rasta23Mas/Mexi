@@ -78,7 +78,6 @@ function validarEsatusSucursal() {
     })
 }
 function llenarSaldosSucursal() {
-    alert("entra");
     $("#guardarCaja").prop('disabled', false);
     $("#cargarUsuario").prop('disabled', true);
     var tipo = 2;
@@ -116,7 +115,6 @@ function llenarSaldosSucursal() {
     })
 }
 function llenarEntradasSalidas() {
-    alert("llenar")
     var tipo = 3;
     var dataEnviar = {
         "tipo": tipo,
