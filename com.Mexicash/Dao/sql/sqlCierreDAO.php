@@ -452,11 +452,10 @@ class sqlCierreDAO
             $buscar = "SELECT Bit.usuario AS idUsuario, Usu.usuario AS Usuario FROM bit_cierrecaja AS Bit 
                         INNER JOIN usuarios_tbl  AS Usu ON Bit.usuario = Usu.id_User
                         WHERE sucursal = $sucursal and estatus = 1 ";
-            if ($tipoUsuario == 4) {
-                $buscar .= " AND Bit.Usuario = $usuario";
+            if ($tipoUsuario == 3) {
+                $buscar .= " AND Bit.usuario = $usuario";
             }
             $buscar .= " ORDER BY Usu.id_User";
-            echo $buscar;
             $rs = $this->conexion->query($buscar);
 
             if ($rs->num_rows > 0) {
