@@ -29,7 +29,6 @@ class sqlUsuarioDAO
             $id = -1;
 
             $buscar = "select id_User,usuario,id_Sucursal,tipoUsuario  from usuarios_tbl where usuario = '" . $usuario . "' and password = '" . $pass . "'";
-
             $statement = $this->conexion->query($buscar);
 
             if ($statement->num_rows > 0) {
@@ -296,7 +295,8 @@ class sqlUsuarioDAO
 
             $buscarCajaGerente = "select id_CierreCaja from bit_cierrecaja AS Caj
                             INNER JOIN bit_cierresucursal AS Suc ON Caj.id_CierreSucursal = Suc.id_CierreSucursal
-                            where Caj.usuario = $usuario and Caj.flag_Activa = 1  and Suc.flag_Activa = 1";
+                            where Caj.usuario = $usuario and Caj.flag_Activa = 1  
+                            and Suc.flag_Activa = 1 AND Suc.sucursal=$sucursal";
             $statement = $this->conexion->query($buscarCajaGerente);
             $encontro = $statement->num_rows;
             if ($encontro > 0) {
@@ -321,7 +321,8 @@ class sqlUsuarioDAO
                         if ($ps->execute()) {
                             $insertoFila = mysqli_stmt_affected_rows($ps);
                             if ($insertoFila > 0) {
-                                $buscarIdCierre = "select id_CierreCaja  from bit_cierrecaja where usuario = $usuario AND sucursal = $sucursal and flag_Activa =1";
+                                $buscarIdCierre = "select id_Ci-erreCaja  from bit_cierrecaja where usuario = $usuario AND sucursal = $sucursal and flag_Activa =1";
+
                                 $resultado = $this->conexion->query($buscarIdCierre);
                                 if ($resultado->num_rows > 0) {
                                     $fila = $resultado->fetch_object();

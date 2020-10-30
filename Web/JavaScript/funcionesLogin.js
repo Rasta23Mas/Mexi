@@ -159,6 +159,7 @@ function LoginGerente() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/LogginGerente.php',
         success: function (HaySucursales) {
+
             if (HaySucursales == 1) {
                 buscaridCajaGerente();
             } else if (HaySucursales == 0) {

@@ -118,8 +118,9 @@ class sqlCierreDAO
     function validaCierreCajaArqueo($idCierreCaja)
     {
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscarMaxArqueo = "SELECT max(id_Arqueo) as idArqueo 
-                                    FROM bit_arqueo WHERE id_cierreCaja= $idCierreCaja";
+                                    FROM bit_arqueo WHERE id_cierreCaja= $idCierreCaja AND sucursal=$sucursal";
             $rs = $this->conexion->query($buscarMaxArqueo);
             if ($rs->num_rows > 0) {
                 $consulta = $rs->fetch_assoc();
