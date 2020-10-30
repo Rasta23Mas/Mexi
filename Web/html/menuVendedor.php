@@ -109,9 +109,9 @@ $_SESSION['dotaciones'] = 0;
                     Cierre
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" id="CI_Arqueo" href="Cierre/vArqueo.php">Arqueo</a></li>
-                    <li><a class="dropdown-item" id="CI_Caja" href="Cierre/vCaja.php">Cierre de Caja</a></li>
-                    <li><a class="dropdown-item"   href="Cierre/vCierre.php">Cierre de Sucursal</a></li>
+                    <li><a class="dropdown-item" id="CI_Arqueo" href="../Cierre/vArqueo.php">Arqueo</a></li>
+                    <li><a class="dropdown-item" id="CI_Caja" href="../Cierre/vCaja.php">Cierre de Caja</a></li>
+                    <li><a class="dropdown-item"   href="../Cierre/vCierre.php">Cierre de Sucursal</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuVentas">

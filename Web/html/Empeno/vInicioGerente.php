@@ -57,7 +57,7 @@ if ($sucursal == 1) {
                         <td colspan="1" align="center" ><input type="button" class="btn btn-primary w-50" value="Auto" onclick="location.href='vAuto.php'"></td>
                         <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Consulta" onclick="location.href='../Consultas/vConsultaContrato.php'"></td>
                         <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Arqueo" onclick="location.href='../Cierre/vArqueo.php'"></td>
-                        <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Movimientos" onclick="location.href='../Cierre/vMovimientosCentral.php'"></td>
+                        <td colspan="1" align="center" ><input type="button" class="btn btn-primary  w-50" value="Movimientos" onclick="location.href='../Dotacion/vMovimientosCentral.php'"></td>
                     </tr>
                     <tr>
                         <td colspan="1"align="left"><label>&nbsp;Operación Sucursal: <?php echo $_SESSION["idCierreSucursal"]; ?></label></td>
