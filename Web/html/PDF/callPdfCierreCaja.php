@@ -11,7 +11,7 @@ if (!isset($_SESSION)) {
 $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
 $NombreUsuario = $_SESSION["usuario"];
-
+$id_CierreCaja = 0;
 $querySucursal = "SELECT NombreCasa, Nombre FROM cat_sucursal
                     WHERE id_Sucursal =$sucursal ";
 $resultadoSucursal = $db->query($querySucursal);
@@ -654,7 +654,7 @@ $contenido .= '
 $contenido .= '</tbody></table></form></body></html>';
 //echo $contenido;
 //exit();
-$nombreContrato = 'Caja Num ' . $folioCierreCaja . ".pdf";
+$nombreContrato = 'Caja Num ' . $id_CierreCaja . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'portrait');

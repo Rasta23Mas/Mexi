@@ -105,7 +105,6 @@ function validarArqueoCierre() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            alert(response)
             if (response.status == 'ok') {
                 idMaxArqueoGlb = response.result.idArqueo;
                 if(idMaxArqueoGlb!=null){

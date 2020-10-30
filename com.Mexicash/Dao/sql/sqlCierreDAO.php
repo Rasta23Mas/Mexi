@@ -97,8 +97,10 @@ class sqlCierreDAO
     function validaCierreCaja($idCierreCaja)
     {
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT folio_CierreCaja, estatus FROM bit_cierrecaja
-                       WHERE  id_cierreCaja=$idCierreCaja and estatus!=20";
+                       WHERE  id_cierreCaja=$idCierreCaja and estatus!=20  AND sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 $consulta = $rs->fetch_assoc();
@@ -140,10 +142,11 @@ class sqlCierreDAO
     function traerCierreCaja($idUsuarioSelect)
     {
         try {
+            $sucursal = $_SESSION["sucursal"];
 
             $buscar = "select id_cierreCaja from bit_cierrecaja AS Caj
                         INNER JOIN bit_cierresucursal AS Suc ON Caj.id_CierreSucursal = Suc.id_CierreSucursal
-                            where Caj.usuario = " . $idUsuarioSelect . " and Caj.estatus = 1  and Suc.estatus = 1";
+                            where Caj.usuario = " . $idUsuarioSelect . " and Caj.estatus = 1  and Suc.estatus = 1  AND Caj.sucursal=$sucursal AND Suc.sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 $consulta = $rs->fetch_assoc();
@@ -192,12 +195,12 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
-
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Con.tipo_movimiento, Con.e_capital_recuperado,Con.e_pagoDesempeno,Con.e_costoContrato,
                        Con.e_abono,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
                        e_gps,	e_poliza,e_pension
                        FROM contrato_mov_tbl AS Con
-                       WHERE Con.id_CierreCaja=$idCierreCaja AND Con.tipo_movimiento !=20";
+                       WHERE Con.sucursal = $sucursal AND Con.id_CierreCaja=$idCierreCaja AND Con.tipo_movimiento !=20";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -233,10 +236,11 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT tipo_movimiento,subTotal,abono,apartado,descuento_Venta,iva
                        FROM contrato_mov_baz_tbl  
-                       WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
+                       WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 AND sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -264,14 +268,16 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
-            $buscarFlujoGenerado = "SELECT max(id_Arqueo) as idArqueo FROM bit_arqueo WHERE id_cierreCaja= $idCierreCaja";
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscarFlujoGenerado = "SELECT max(id_Arqueo) as idArqueo FROM bit_arqueo WHERE id_cierreCaja= $idCierreCaja   AND sucursal=$sucursal";
             $statement = $this->conexion->query($buscarFlujoGenerado);
             $encontro = $statement->num_rows;
             if ($encontro > 0) {
                 $fila = $statement->fetch_object();
                 $idArqueo = $fila->idArqueo;
                 $buscar = "SELECT total_Cierre FROM bit_arqueo
-                       WHERE  id_Arqueo=$idArqueo";
+                       WHERE  id_Arqueo=$idArqueo AND sucursal=$sucursal";
                 $rs = $this->conexion->query($buscar);
                 if ($rs->num_rows > 0) {
                     while ($row = $rs->fetch_assoc()) {
@@ -297,8 +303,11 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
+
             $buscar = "SELECT ajustes,incremento_pat FROM bit_arqueo
-                       WHERE  id_cierreCaja=$idCierreCaja";
+                       WHERE  id_cierreCaja=$idCierreCaja AND sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -481,9 +490,11 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT s_prestamo_nuevo AS Prestamo
                         FROM contrato_mov_tbl AS Mov 
-                        WHERE Mov.id_CierreCaja=$idCierreCaja AND 
+                        WHERE Mov.id_CierreCaja=$idCierreCaja AND sucursal=$sucursal AND 
                          Mov.tipo_movimiento = 4 || Mov.tipo_movimiento = 8";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
