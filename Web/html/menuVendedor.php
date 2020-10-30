@@ -1,6 +1,10 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+$tipoUsuario = $_SESSION['tipoUsuario'];
+$cajaInactiva = $_SESSION['cajaInactiva'];
+$sesionInactiva = $_SESSION['sesionInactiva'];
+$_SESSION['dotaciones'] = 0;
 ?>
 
 <!DOCTYPE html>
@@ -8,18 +12,54 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../librerias/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../librerias/bootstrap/css/bootstrapNav.css">
-    <link rel="stylesheet" type="text/css" href="../librerias/alertifyjs/css/alertify.css">
-    <link rel="stylesheet" type="text/css" href="../librerias/alertifyjs/css/themes/default.css">
-    <script src="../librerias/jquery-3.4.1.min.js"></script>
-    <script src="../librerias/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../librerias/bootstrap/js/bootstrapNav.js"></script>
-    <script src="../librerias/alertifyjs/alertify.js"></script>
-    <script src="../librerias/popper.min.js"></script>
+    <link rel="stylesheet" href="../../librerias/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../librerias/bootstrap/css/bootstrapNav.css">
+    <link rel="stylesheet" type="text/css" href="../../librerias/alertifyjs/css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="../../librerias/alertifyjs/css/themes/default.css">
+    <script src="../../librerias/jquery-3.4.1.min.js"></script>
+    <script src="../../librerias/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../librerias/bootstrap/js/bootstrapNav.js"></script>
+    <script src="../../librerias/alertifyjs/alertify.js"></script>
+    <script src="../../librerias/popper.min.js"></script>
     <link rel="shortcut icon" href="#"/>
-    <link rel="stylesheet" type="text/css" href="../style/General/StyloGeneral.css">
-    <script src="../JavaScript/funcionesGenerales.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../style/General/StyloGeneral.css">
+    <script src="../../JavaScript/funcionesGenerales.js"></script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var tipoUser = <?php echo $tipoUsuario; ?>;
+            var cajaInactiva = <?php echo $sesionInactiva; ?>;
+            var sesionInactiva = <?php echo $sesionInactiva; ?>;
+
+            if (tipoUser === 3) {
+                if (cajaInactiva === 0) {
+                    $("#menuEmpeno").show();
+                    $("#menuEmpenoAuto").show();
+                    $("#menuVentas").show();
+                    $("#menuDotaciones").show();
+                    $("#CI_Arqueo").show();
+                    $("#CI_Caja").show();
+                } else {
+                    $("#menuEmpeno").hide();
+                    $("#menuEmpenoAuto").hide();
+                    $("#menuVentas").hide();
+                    $("#menuDotaciones").hide();
+                    $("#CI_Arqueo").hide();
+                    $("#CI_Caja").hide();
+                }
+
+                if (sesionInactiva === 0) {
+                    $("#menuCierre").show();
+                } else {
+                    $("#menuCierre").hide();
+                }
+
+                $("#menuCatalogos").show();
+                $("#menuCancelaciones").show();
+                $("#menuConfiguracion").show();
+
+            }
+        })
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-xl bg-success navbar-dark">
