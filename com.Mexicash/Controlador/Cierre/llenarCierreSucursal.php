@@ -17,7 +17,7 @@ if($tipo==1){
 }else if($tipo==4){
     $sqlTblCierre->llenarGenerales($idCierreSucursal);
 }else if($tipo==5){
-    $sqlTblCierre->llenarInformativo();
+    $sqlTblCierre->sqlLlenarInformativo();
 }else if($tipo==6){
     $sqlTblCierre->ventasInfo();
 }else if($tipo==7){

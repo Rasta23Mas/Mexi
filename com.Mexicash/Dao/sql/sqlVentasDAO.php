@@ -26,20 +26,23 @@ class sqlVentasDAO
         //Modifique los estatus de usuario
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja and sucursal=$sucursal";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
                 $idBazar = $fila->id_Bazar;
             } else {
                 $fechaCreacion = date('Y-m-d H:i:s');
-                $sucursal = $_SESSION["sucursal"];
+
+                $id_CierreSucursal = $_SESSION["idCierreSucursal"];
+
                 $insertaCarrito = "INSERT INTO  contrato_mov_baz_tbl
-                       (tipo_movimiento, id_CierreCaja,sucursal,fecha_creacion)
-                        VALUES (0,$idCierreCaja,$sucursal,'$fechaCreacion')";
+                       (tipo_movimiento, id_CierreCaja,id_CierreSucursal,sucursal,fecha_creacion)
+                        VALUES (0,$idCierreCaja,$id_CierreSucursal,$sucursal,'$fechaCreacion')";
                 if ($ps = $this->conexion->prepare($insertaCarrito)) {
                     if ($ps->execute()) {
-                        $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+                        $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja  and sucursal=$sucursal";
                         $statement = $this->conexion->query($buscar);
                         if ($statement->num_rows > 0) {
                             $fila = $statement->fetch_object();
@@ -294,9 +297,10 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
             $Fisico = 1;
+            $total = $iva + $subTotal;
 
             $updateContratoBaz = "UPDATE contrato_mov_baz_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
-                                iva=$iva,apartado=$apartado,id_Apartado=$idBazar,faltaPagar=$faltaPagar, total=$total,efectivo=$efectivo,cambio=$cambio,
+                                iva=$iva,total=$total,total=$total,apartado=$apartado,id_Apartado=$idBazar,faltaPagar=$faltaPagar, total=$total,efectivo=$efectivo,cambio=$cambio,
                                 cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
                                 sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico, fechaVencimiento='$vencimiento'
                                 WHERE id_Bazar=$idBazar";

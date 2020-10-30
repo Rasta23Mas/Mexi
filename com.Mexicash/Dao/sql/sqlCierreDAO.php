@@ -670,6 +670,7 @@ class sqlCierreDAO
 
     function validarCierreSucursal($idCierreSucursal)
     {
+
         try {
             $sucursal = $_SESSION["sucursal"];
 
@@ -781,8 +782,9 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT importe, id_cat_flujo  FROM flujo_tbl
-                        WHERE id_cierreSucursal= $idCierreSucursal";
+                        WHERE id_cierreSucursal= $idCierreSucursal AND sucursal = $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -803,19 +805,20 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function llenarInformativo()
+    function sqlLlenarInformativo()
     {
         $datos = array();
         try {
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
-
-            $buscar = "SELECT prestamo_Empeno,tipo_movimiento  FROM contrato_mov_baz_tbl
-                        WHERE id_CierreSucursal= $id_CierreSucursal and tipo_movimiento=22 || tipo_movimiento=23";
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT abono,apartado, tipo_movimiento  FROM contrato_mov_baz_tbl
+                        WHERE id_CierreSucursal= $id_CierreSucursal AND sucursal= $sucursal and tipo_movimiento=22 || tipo_movimiento=23";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "prestamo_Empeno" => $row["prestamo_Empeno"],
+                        "abono" => $row["abono"],
+                        "apartado" => $row["apartado"],
                         "tipo_movimiento" => $row["tipo_movimiento"],
                     ];
                     array_push($datos, $data);
@@ -835,15 +838,17 @@ class sqlCierreDAO
         $datos = array();
         try {
             $fechaCreacion = date('Y-m-d');
-            $buscar = "SELECT prestamo_Informativo,v_PrecioVenta
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT prestamo_Informativo
                         FROM contrato_mov_tbl
-                        WHERE  fecha_Venta='$fechaCreacion' and tipo_movimiento = 6";
+                        WHERE  fecha_Venta='$fechaCreacion' and tipo_movimiento = 6 AND sucursal= $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "prestamo_Informativo" => $row["prestamo_Informativo"],
-                        "v_PrecioVenta" => $row["v_PrecioVenta"],
+                        "v_PrecioVenta" => $row["prestamo_Informativo"],
                     ];
                     array_push($datos, $data);
                 }

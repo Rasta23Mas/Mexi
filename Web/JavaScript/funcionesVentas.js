@@ -79,6 +79,7 @@ function busquedaCodigoMostrador(e) {
 
 function busquedaCodigoMostradorBoton(tipoBusqueda) {
     var idCodigo = $("#idCodigoMostrador").val();
+
     var dataEnviar = {
         "idCodigo": idCodigo,
         "tipoBusqueda": tipoBusqueda,

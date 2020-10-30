@@ -420,7 +420,6 @@ function llenarGeneral() {
     })
 }
 function llenarInformativo() {
-    alert("informa")
     var tipo = 5;
     var dataEnviar = {
         "tipo": tipo,
@@ -430,25 +429,25 @@ function llenarInformativo() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
         type: 'post',
-        dataType: "json",
+       dataType: "json",
 
         success: function (datos) {
             var i = 0;
             var abonosTotal = 0;
             var apartadosTotal = 0;
 
-
             for (i; i < datos.length; i++) {
-                var prestamo_EmpenoVenta = datos[i].prestamo_Empeno;
+                var apartado = datos[i].apartado;
+                var abono = datos[i].abono;
                 var tipo_movimiento = datos[i].tipo_movimiento;
 
                 prestamo_EmpenoVenta = Math.round(prestamo_EmpenoVenta * 100) / 100;
 
                 if(tipo_movimiento==22){
-                    apartadosTotal += prestamo_EmpenoVenta;
+                    apartadosTotal += apartado;
                 }
                 else if(tipo_movimiento==23){
-                    abonosTotal += prestamo_EmpenoVenta;
+                    abonosTotal += abono;
                 }
             }
             apartadosTotal = Math.round(apartadosTotal * 100) / 100;
@@ -463,13 +462,11 @@ function llenarInformativo() {
 
             document.getElementById('apartadosInfo').innerHTML = apartadosTotal;
             document.getElementById('abonosInfo').innerHTML = abonosTotal;
-
             llenarTotalInventario();
         }
     })
 }
 function llenarTotalInventario() {
-    alert("invent")
     var tipo = 8;
     var dataEnviar = {
         "tipo": tipo,
@@ -504,7 +501,7 @@ function llenarTotalInventario() {
     })
 }
 function llenarVentas() {
-    alert("ventas")
+    alert("llenarVentas")
     var tipo = 6;
     var dataEnviar = {
         "tipo": tipo,
@@ -514,9 +511,10 @@ function llenarVentas() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
         type: 'post',
-        dataType: "json",
+        //dataType: "json",
 
         success: function (datos) {
+            alert(datos)
             var i = 0;
             var salidasInfo = 0;
             var utilidadVenta = 0;
