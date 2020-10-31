@@ -670,24 +670,27 @@ class sqlCierreDAO
 
     function validarCierreSucursal($idCierreSucursal)
     {
-
+        $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-
             $buscar = "SELECT folio_CierreSucursal FROM bit_cierresucursal
                        WHERE id_CierreSucursal= $idCierreSucursal AND estatus=1  and sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
-                $consulta = $rs->fetch_assoc();
-                $data['status'] = 'ok';
-                $data['result'] = $consulta;
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "folio_CierreSucursal" => $row["folio_CierreSucursal"],
+                    ];
+                    array_push($datos, $data);
+                }
             }
         } catch (Exception $exc) {
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
-        echo json_encode($data);
+
+        echo json_encode($datos);
     }
 
     function llenarSaldosSucursal($idCierreSucursal)
@@ -970,7 +973,7 @@ class sqlCierreDAO
                              saldo_final = $saldo_final,
                              InfoSaldoInicial = $InfoSaldoInicial,InfoEntradas = $InfoEntradas,InfoSalidas = $InfoSalidas,InfoSaldoFinal = $InfoSaldoFinal,
                              InfoApartados = $InfoApartados,InfoAbono = $InfoAbono,InfoTotalInventario = $InfoTotalInventario,
-                             fecha_Creacion = '$fechaCreacion', estatus = $estatus 
+                             fecha_Creacion = '$fechaCreacion', estatus = $estatus ,flag_Activa = $estatus 
                              WHERE id_CierreSucursal=$idCierreSucursal and estatus =1";
             if ($ps = $this->conexion->prepare($updateCierreSucursal)) {
                 if ($ps->execute()) {
@@ -1056,12 +1059,12 @@ class sqlCierreDAO
                         WHERE  Con.fecha_almoneda='$fechaCreacion'";
             if ($ps = $this->conexion->prepare($insertaBazar)) {
                 if ($ps->execute()) {
-                    $respuesta = 1;
+                    $respuesta = mysqli_stmt_affected_rows($ps);
                 } else {
-                    $respuesta = 2;
+                    $respuesta = -1;
                 }
             } else {
-                $respuesta = 3;
+                $respuesta = -1;
             }
         } catch (Exception $exc) {
             $respuesta = 4;

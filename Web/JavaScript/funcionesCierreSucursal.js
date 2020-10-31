@@ -65,15 +65,11 @@ function validarEsatusSucursal() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if (response.status == 'ok') {
+            if (folioCierreSucursal > 0) {
                 folioCierreSucursal = response.result.folio_CierreSucursal;
-                if (folioCierreSucursal > 0) {
-                    validarEsatusCajas();
-                } else {
-                    alert("El proceso de Cierre de Sucursal ya fue realizado.");
-                }
+                validarEsatusCajas();
             } else {
-                alertify.error('El cierre de sucursal ya fue realizado.')
+                alert("El proceso de Cierre de Sucursal ya fue realizado.");
             }
         },
     })
@@ -93,12 +89,12 @@ function validarEsatusCajas() {
         dataType: "json",
         success: function (datos) {
             var i = 0;
-            if(datos.length>0){
+            if (datos.length > 0) {
                 for (i; i < datos.length; i++) {
                     var nombre = datos[i].Nombre;
                     alert("El Usuario: " + nombre + ", no ha realizado el corte de caja.");
                 }
-            }else{
+            } else {
                 llenarSaldosSucursal();
             }
         },
@@ -684,7 +680,6 @@ function guardarCierreSucursal() {
         url: '../../../com.Mexicash/Controlador/Cierre/GuardarSucursal.php',
         data: dataEnviar,
         success: function (response) {
-            alert(response)
             if (response > 0) {
                 guardarBazar();
             } else {
@@ -701,11 +696,13 @@ function guardarBazar() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if (response == 1) {
-                alertify.success("Se guardaron en bazar los articulos.")
-                actualizarBazar();
+            if (response == -1) {
+                alert("Error al guardar bazar")
             } else if (response == 0) {
                 BitacoraUsuarioCierreSucursal();
+            } else {
+                alertify.success("Se guardaron en bazar los articulos.")
+                actualizarBazar();
             }
         },
     })
@@ -713,6 +710,7 @@ function guardarBazar() {
 
 function actualizarBazar() {
     //1 llena movimientos de dotacion y retiro
+    alert("actualizarBazar");
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Cierre/ActualizaBazar.php',
         type: 'post',
@@ -729,7 +727,6 @@ function actualizarBazar() {
 function BitacoraUsuarioCierreSucursal() {
     //id_Movimiento = 18 Ciere de Caja
     //FEErr08
-
     var id_Movimiento = 18;
     var id_contrato = 0;
     var id_almoneda = 0;

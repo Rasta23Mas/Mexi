@@ -31,7 +31,7 @@ if (isset($_GET['folioCierreSucursal'])) {
 
 
 $queryCierreCaja = "SELECT * FROM bit_cierresucursal
-                    WHERE folio_CierreSucursal =$folioCierreSucursal ";
+                    WHERE folio_CierreSucursal =$folioCierreSucursal AND sucursal=$sucursal";
 $resultado = $db->query($queryCierreCaja);
 
 
