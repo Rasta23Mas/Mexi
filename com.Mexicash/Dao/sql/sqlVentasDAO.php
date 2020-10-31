@@ -369,7 +369,7 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function sqlGuardarVenta($tipo_movimiento, $subTotal, $iva, $descuento, $total, $efectivo, $cambio, $cliente, $vendedor, $idToken, $tokenDesc, $idBazar)
+    public function sqlGuardarVenta($tipo_movimiento, $subTotal, $iva, $descuento, $total,$totalprestamo,$utilidad, $efectivo, $cambio, $cliente, $vendedor, $idToken, $tokenDesc, $idBazar)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -379,7 +379,7 @@ class sqlVentasDAO
             $Fisico = 0;
 
             $updateContratoBaz = "UPDATE contrato_mov_baz_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
-                                iva=$iva,descuento_Venta=$descuento,total=$total,efectivo=$efectivo,cambio=$cambio,
+                                iva=$iva,descuento_Venta=$descuento,total=$total,totalPrestamo=$totalprestamo,utilidad=$utilidad,efectivo=$efectivo,cambio=$cambio,
                                 cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
                                 sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico
                                 WHERE id_Bazar=$idBazar";
@@ -510,10 +510,10 @@ class sqlVentasDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Ven.id_ventas as id_ventas,Baz.id_serie as Codigo,Baz.id_Contrato,
-                            Baz.descripcionCorta, Baz.vitrinaVenta
+                            Baz.descripcionCorta, Baz.vitrinaVenta,Baz.prestamo
                             FROM bit_ventas as Ven
                             LEFT JOIN articulo_bazar_tbl as Baz on Ven.id_ArticuloBazar = Baz.id_ArticuloBazar
-                            WHERE Ven.sucursal=$sucursal AND Ven.guardar = 0 AND Ven.id_cierreCaja=$idCierreCaja";
+                            WHERE Ven.sucursal=$sucursal AND Baz.sucursal=$sucursal AND Ven.guardar = 0 AND Ven.id_cierreCaja=$idCierreCaja";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -523,6 +523,7 @@ class sqlVentasDAO
                         "id_ContratoVentas" => $row["id_Contrato"],
                         "descripcionCorta" => $row["descripcionCorta"],
                         "precio_Actual" => $row["vitrinaVenta"],
+                        "prestamo" => $row["prestamo"],
                     ];
                     array_push($datos, $data);
                 }

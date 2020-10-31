@@ -72,7 +72,12 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
              visibility: hidden;
          }
 
-
+        .tablaArticulosCarrito{
+            font-size: .8em;
+        }
+        .tablaArticulos{
+            font-size: .9em;
+        }
     </style>
 </head>
 <body>
@@ -182,12 +187,21 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
         </div>
         <div class="row">
             <div class="col col-md-9">
-                <div id="divTblArticulosCompra" >
+                <div id="divTblArticulosCompra"  class="tablaArticulosCarrito">
                 </div>
             </div>
             <div class="col col-md-3" >
                 <table border="0" width="100%" >
                     <tbody>
+                    <tr >
+                        <td >
+                            <label for="subtotal">Total Prestamo:</label>
+                        </td>
+                        <td align="right">
+                            <input type="text" name="subtotal"  id="idPrestamoTot"
+                                   style="width: 120px; text-align: right "disabled/>
+                        </td>
+                    </tr>
                     <tr >
                         <td >
                             <label for="subtotal">SubTotal:</label>
@@ -269,13 +283,15 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
             </div>
         </div>
         <div class="row">
-            <div id="divTablaMetales" class="col col-md-12 " >
+            <div id="divTablaMetales" class="col col-md-12 " class="tablaArticulos">
             </div>
         </div>
         <div class="row propInvisible">
             <div class="col col-lg-12" >
                 <br>
                 <input type="text" name="subtotal"  id="idSubTotalValue"
+                       style="width: 120px " disabled/>
+                <input type="text" name="subtotal"  id="idPrestamoTotValue"
                        style="width: 120px " disabled/>
                 <input type="text" name="iva"  id="idIvaValue"
                        style="width: 120px " disabled/>

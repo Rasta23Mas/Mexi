@@ -5,6 +5,7 @@ var idBazarGlb = 0;
 var id_ClienteGlb = 0;
 var id_VendedorGlb = 0;
 var idSubtotalGlb = 0;
+var idEmpenoGlb = 0;
 var idIvaGlb = 0;
 var idTokenSubtotalGlb = 0;
 var idTokenIvaGlb = 0;
@@ -104,8 +105,8 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
                     var descripcionCorta = datos[i].descripcionCorta;
                     var observaciones = datos[i].observaciones;
 
-                    var empeno = formatoMoneda(empeno);
-                    var avaluo = formatoMoneda(avaluo);
+                    var empenoFormat = formatoMoneda(empeno);
+                    var avaluoFormat = formatoMoneda(avaluo);
                     var precio_ActualFormat = formatoMoneda(precio_Actual);
 
                     html += '<tr>' +
@@ -113,13 +114,13 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
                         '<td>' + id_Contrato + '</td>' +
                         '<td>' + descripcionCorta + '</td>' +
                         '<td>' + Adquisicion + '</td>' +
-                        '<td>' + empeno + '</td>' +
-                        '<td>' + avaluo + '</td>' +
+                        '<td>' + empenoFormat + '</td>' +
+                        '<td>' + avaluoFormat + '</td>' +
                         '<td>' + precio_ActualFormat + '</td>' +
                         '<td>' + observaciones + '</td>' +
                         '<td align="center">' +
                         '<img src="../../style/Img/carritoNor.png"  data-dismiss="modal" alt="Agregar"' +
-                        'onclick="validarCarrito(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
+                        'onclick="validarCarrito(' + id_ArticuloBazar + ',' + precio_Actual + ',' + empeno + ')"> ' +
                         '</td></tr>';
 
                 }
@@ -133,7 +134,7 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
 }
 
 //Carrito
-function validarCarrito(id_ArticuloBazar, precio_Enviado) {
+function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
     var vendedor = $("#idVendedor").val();
     var cliente = $("#idClienteSeleccion").val();
 
@@ -153,7 +154,7 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado) {
             type: 'post',
             success: function (respuesta) {
                 if (respuesta == 0) {
-                    agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor)
+                    agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno,cliente,vendedor)
                 } else {
                     alertify.error("El artículo ya esta en el carrito de compras.");
                 }
@@ -162,7 +163,7 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado) {
     }
 }
 
-function agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor) {
+function agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno,cliente,vendedor) {
     id_ClienteGlb = cliente;
     id_VendedorGlb = vendedor;
         var tipoCarrito = 1;
@@ -180,7 +181,7 @@ function agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor) {
             success: function (respuesta) {
                 if (respuesta == 1) {
                     busquedaCodigoMostradorBoton(3);
-                    refrescarCarrito(precio_Enviado, tipoCarrito);
+                    refrescarCarrito(precio_Enviado,empeno, tipoCarrito);
                 } else {
                     alertify.error("Error al agregar el artículo.");
                 }
@@ -188,7 +189,7 @@ function agregarCarrito(id_ArticuloBazar, precio_Enviado,cliente,vendedor) {
         })
 }
 
-function eliminarDelCarrito(id_Ventas, precio_Enviado) {
+function eliminarDelCarrito(id_Ventas, precio_Enviado,prestamo) {
     var tipoCarrito = 2;
     var dataEnviar = {
         "id_Ventas": id_Ventas,
@@ -199,7 +200,7 @@ function eliminarDelCarrito(id_Ventas, precio_Enviado) {
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
-                refrescarCarrito(precio_Enviado, tipoCarrito);
+                refrescarCarrito(precio_Enviado,prestamo, tipoCarrito);
             } else {
                 alertify.error("Error al eliminar el artículo.");
             }
@@ -213,14 +214,14 @@ function limpiarCarrito() {
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
-                refrescarCarrito(0, 3);
+                refrescarCarrito(0, 0,3);
             }
         },
     })
 }
 
-function refrescarCarrito(precio_Enviado, tipoCarrito) {
-    calcularIva(precio_Enviado, tipoCarrito);
+function refrescarCarrito(precio_Enviado,empeno, tipoCarrito) {
+    calcularIva(precio_Enviado, empeno,tipoCarrito);
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Ventas/CarritoRefrescar.php',
         type: 'post',
@@ -235,16 +236,18 @@ function refrescarCarrito(precio_Enviado, tipoCarrito) {
                     var id_Contrato = datos[i].id_ContratoVentas;
                     var descripcionCorta = datos[i].descripcionCorta;
                     var precio_Actual = datos[i].precio_Actual;
+                    var prestamo = datos[i].prestamo;
                     var precio_ActualFormat = formatoMoneda(precio_Actual);
-
+                    var prestamoFormat = formatoMoneda(prestamo);
                     html += '<tr>' +
                         '<td>' + Codigo + '</td>' +
                         '<td>' + id_Contrato + '</td>' +
                         '<td>' + descripcionCorta + '</td>' +
                         '<td>' + precio_ActualFormat + '</td>' +
+                        '<td>' + prestamoFormat + '</td>' +
                         '<td align="center">' +
                         '<img src="../../style/Img/eliminarNor.jpg"  data-dismiss="modal" alt="Eliminar"' +
-                        'onclick="eliminarDelCarrito(' + id_ventas + ',' + precio_Actual + ')"> ' +
+                        'onclick="eliminarDelCarrito(' + id_ventas + ',' + precio_Actual + ',' + prestamo + ')"> ' +
                         '</td></tr>';
                 }
                 $('#idTBodyArticulosCarrito').html(html);
@@ -260,28 +263,36 @@ function refrescarCarrito(precio_Enviado, tipoCarrito) {
     })
 }
 
-function calcularIva(precio_Enviado, tipoCarrito) {
+function calcularIva(precio_Enviado, empeno,tipoCarrito) {
     $("#idDescuento").prop('disabled', false);
     if (tipoCarrito == 1) {
         idSubtotalGlb += precio_Enviado;
+        idEmpenoGlb+= empeno;
     } else if (tipoCarrito == 2) {
         idSubtotalGlb -= precio_Enviado;
+        idEmpenoGlb -= empeno;
     } else if (tipoCarrito == 3) {
         idSubtotalGlb = 0;
+        idEmpenoGlb = 0;
+
     }
     var precioFinal = Math.floor(idSubtotalGlb * 100) / 100;
+    idEmpenoGlb = Math.floor(idEmpenoGlb * 100) / 100;
     var calculaIva = Math.floor(precioFinal * 16) / 100;
     idIvaGlb = calculaIva;
     var precioFinalFormat = formatoMoneda(idSubtotalGlb);
+    var empenoTotalFormat = formatoMoneda(idEmpenoGlb);
     var calculaIvaFormat = formatoMoneda(idIvaGlb);
     var totalPagarFormat = formatoMoneda(idSubtotalGlb);
     $("#idSubTotal").val(precioFinalFormat);
+    $("#idPrestamoTot").val(empenoTotalFormat);
     $("#idIva").val(calculaIvaFormat);
     $("#idTotalPagar").val(totalPagarFormat);
     $("#idSubTotalValue").val(idSubtotalGlb);
     $("#idIvaValue").val(idIvaGlb);
     $("#idTotalValue").val(idSubtotalGlb);
     $("#idTotalBase").val(idSubtotalGlb);
+    $("#idPrestamoTotValue").val(idEmpenoGlb);
 
 
     $("#idDescuento").val("");
@@ -403,7 +414,7 @@ function validaVenta() {
 }
 
 function tokenVenta() {
-    var tokenDes = 0;
+    var tokenDes = $("#idCodigoVenta").val();
     var dataEnviar = {
         "token": tokenDes
     };
@@ -446,6 +457,8 @@ function guardarVenta() {
         var iva = $("#idIvaValue").val();
         var descuento = $("#idDescuentoValue").val();
         var total = $("#idTotalValue").val();
+        var totalprestamo = $("#idPrestamoTotValue").val();
+        var utilidad = total -totalprestamo;
         var cambio = $("#idCambioValue").val();
         var cliente = $("#idClienteSeleccion").val();
         var vendedor = $("#idVendedor").val();
@@ -455,6 +468,7 @@ function guardarVenta() {
             tokenDesc = $("#tokenDescripcion").val();
         }
         var idBazar = $("#idBazar").val();
+        utilidad = Math.floor(utilidad * 100) / 100;
         idTokenSubtotalGlb =subtotal;
         idTokenIvaGlb =iva;
         idTokenDescuentoGlb =descuento;
@@ -466,6 +480,8 @@ function guardarVenta() {
             "iva": iva,
             "descuento": descuento,
             "total": total,
+            "totalprestamo": totalprestamo,
+            "utilidad": utilidad,
             "efectivo": efectivo,
             "cambio": cambio,
             "cliente": cliente,
