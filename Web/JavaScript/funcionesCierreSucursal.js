@@ -51,6 +51,7 @@ var totalApartadosGbl = 0;
 var totalInventarioGbl = 0;
 var utilidadVentaGlb = 0;
 var folioCierreSucursal = 0;
+
 function validarEsatusSucursal() {
     var tipo = 1;
     idCierreSucursalGlb = $("#idCierreSucursal").text();
@@ -65,9 +66,9 @@ function validarEsatusSucursal() {
         dataType: "json",
         success: function (response) {
             if (response.status == 'ok') {
-                 folioCierreSucursal = response.result.folio_CierreSucursal;
+                folioCierreSucursal = response.result.folio_CierreSucursal;
                 if (folioCierreSucursal > 0) {
-                    llenarSaldosSucursal();
+                    validarEsatusCajas();
                 } else {
                     alert("El proceso de Cierre de Sucursal ya fue realizado.");
                 }
@@ -77,6 +78,33 @@ function validarEsatusSucursal() {
         },
     })
 }
+
+function validarEsatusCajas() {
+    var tipo = 9;
+    idCierreSucursalGlb = $("#idCierreSucursal").text();
+    var dataEnviar = {
+        "tipo": tipo,
+        "idCierreSucursal": idCierreSucursalGlb,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
+        type: 'post',
+        dataType: "json",
+        success: function (datos) {
+            var i = 0;
+            if(datos.length>0){
+                for (i; i < datos.length; i++) {
+                    var nombre = datos[i].Nombre;
+                    alert("El Usuario: " + nombre + ", no ha realizado el corte de caja.");
+                }
+            }else{
+                llenarSaldosSucursal();
+            }
+        },
+    })
+}
+
 function llenarSaldosSucursal() {
     $("#guardarCaja").prop('disabled', false);
     $("#cargarUsuario").prop('disabled', true);
@@ -114,6 +142,7 @@ function llenarSaldosSucursal() {
         },
     })
 }
+
 function llenarEntradasSalidas() {
     var tipo = 3;
     var dataEnviar = {
@@ -289,7 +318,7 @@ function llenarEntradasSalidas() {
             CantAjustesGlb += CantAjustesSuma;
             ajustesGlb += ajustesSuma;
             CantIncrementoGlb += CantIncrementoSuma;
-            incrementoGlb +=  incrementoSuma;
+            incrementoGlb += incrementoSuma;
             CantRetirosCajaGlb += cantRetirosSuma;
             retirosCajaGlb += retirosCajaSuma;
             CantPrestamosNuevosGlb += cantPrestamosSuma;
@@ -375,6 +404,7 @@ function llenarEntradasSalidas() {
         }
     })
 }
+
 function llenarGeneral() {
     var tipo = 4;
     var dataEnviar = {
@@ -392,8 +422,8 @@ function llenarGeneral() {
             for (i; i < datos.length; i++) {
                 var importe = datos[i].importe;
                 var id_cat_flujo = datos[i].id_cat_flujo;
-                var aportacionesBov =0;
-                var retirosBoveda =0;
+                var aportacionesBov = 0;
+                var retirosBoveda = 0;
                 importe = Math.round(importe * 100) / 100;
                 id_cat_flujo = Math.round(id_cat_flujo * 100) / 100;
 
@@ -419,6 +449,7 @@ function llenarGeneral() {
         }
     })
 }
+
 function llenarInformativo() {
     var tipo = 5;
     var dataEnviar = {
@@ -429,7 +460,7 @@ function llenarInformativo() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
         type: 'post',
-       dataType: "json",
+        dataType: "json",
 
         success: function (datos) {
             var i = 0;
@@ -443,10 +474,9 @@ function llenarInformativo() {
 
                 prestamo_EmpenoVenta = Math.round(prestamo_EmpenoVenta * 100) / 100;
 
-                if(tipo_movimiento==22){
+                if (tipo_movimiento == 22) {
                     apartadosTotal += apartado;
-                }
-                else if(tipo_movimiento==23){
+                } else if (tipo_movimiento == 23) {
                     abonosTotal += abono;
                 }
             }
@@ -466,6 +496,7 @@ function llenarInformativo() {
         }
     })
 }
+
 function llenarTotalInventario() {
     var tipo = 8;
     var dataEnviar = {
@@ -480,14 +511,14 @@ function llenarTotalInventario() {
 
         success: function (datos) {
             var i = 0;
-            var totalInventario= 0;
+            var totalInventario = 0;
 
 
             for (i; i < datos.length; i++) {
                 var prestamo_Empeno = datos[i].s_prestamo_nuevo;
                 var tipo_movimiento = datos[i].tipo_movimiento;
                 prestamo_Empeno = Math.round(prestamo_Empeno * 100) / 100;
-                if(tipo_movimiento==3){
+                if (tipo_movimiento == 3) {
                     totalInventario += prestamo_Empeno;
                 }
             }
@@ -500,6 +531,7 @@ function llenarTotalInventario() {
         }
     })
 }
+
 function llenarVentas() {
     alert("llenarVentas")
     var tipo = 6;
@@ -528,9 +560,9 @@ function llenarVentas() {
                 v_PrecioVenta = Math.round(v_PrecioVenta * 100) / 100;
 
                 salidasInfo += prestamo_Informativo;
-                var utilidad = v_PrecioVenta-prestamo_Informativo;
+                var utilidad = v_PrecioVenta - prestamo_Informativo;
 
-                utilidadVenta+=utilidad;
+                utilidadVenta += utilidad;
             }
             utilidadVenta = Math.round(utilidadVenta * 100) / 100;
             salidasInfo = Math.round(salidasInfo * 100) / 100;
@@ -548,6 +580,7 @@ function llenarVentas() {
         }
     })
 }
+
 function pasarBazar() {
     alert("pasar")
     var tipo = 7;
@@ -574,7 +607,7 @@ function pasarBazar() {
 
             InfoEntradasGbl = entradasInfo;
 
-            var saldofinal = InfoSaldoInicialGbl +InfoEntradasGbl;
+            var saldofinal = InfoSaldoInicialGbl + InfoEntradasGbl;
             saldofinal = saldofinal - InfoSalidasGbl;
             saldofinal = Math.round(saldofinal * 100) / 100;
             InfoSaldoFinalGbl = saldofinal;
@@ -588,6 +621,7 @@ function pasarBazar() {
         }
     })
 }
+
 function confirmarCierreSucursal() {
     alertify.confirm('Cierre de Sucursal',
         'Al realizar el cierre de la sucursal, no podran volver a iniciar sesión el día de hoy. ' + '<br>' + '\n¿Desea continuar?',
@@ -598,6 +632,7 @@ function confirmarCierreSucursal() {
             alertify.error('Cierre cancelado.')
         });
 }
+
 function guardarCierreSucursal() {
     var dataEnviar = {
         "dotacionesA_Caja": DotacionesCajaGlb,
@@ -663,6 +698,7 @@ function guardarCierreSucursal() {
         }
     });
 }
+
 function guardarBazar() {
     //1 llena movimientos de dotacion y retiro
     $.ajax({
@@ -670,15 +706,16 @@ function guardarBazar() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if(response==1){
+            if (response == 1) {
                 alertify.success("Se guardaron en bazar los articulos.")
                 actualizarBazar();
-            }else if(response==0){
+            } else if (response == 0) {
                 BitacoraUsuarioCierreSucursal();
             }
         },
     })
 }
+
 function actualizarBazar() {
     //1 llena movimientos de dotacion y retiro
     $.ajax({
@@ -686,13 +723,14 @@ function actualizarBazar() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            if(response>0){
+            if (response > 0) {
                 alertify.success("Se actualizaron en bazar los articulos.")
                 BitacoraUsuarioCierreSucursal();
             }
         },
     })
 }
+
 function BitacoraUsuarioCierreSucursal() {
     //id_Movimiento = 18 Ciere de Caja
     //FEErr08
@@ -736,9 +774,11 @@ function BitacoraUsuarioCierreSucursal() {
         }
     });
 }
+
 function cargarPDFCaja() {
     window.open('../PDF/callPdfCierreSucursal.php?folioCierreSucursal=' + folioCierreSucursal);
 }
+
 function cargarPDFCajaDesdeBusqueda(folio) {
     window.open('../PDF/callPdfCierreSucursal.php?folioCierreSucursal=' + folio);
 }

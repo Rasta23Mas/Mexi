@@ -24,6 +24,8 @@ if($tipo==1){
     $sqlTblCierre->pasarBazar();
 } else if($tipo==8){
     $sqlTblCierre->llenarTotalInformativo();
+}else if($tipo==9){
+    $sqlTblCierre->verificarCierreCaja($idCierreSucursal);
 }
 
 

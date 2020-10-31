@@ -1099,4 +1099,33 @@ class sqlCierreDAO
         echo $verdad;
     }
 
+
+
+    function verificarCierreCaja($idCierreSucursal)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT Usu.usuario as Nombre FROM bit_cierrecaja as Bit
+                        INNER JOIN usuarios_tbl as Usu on Bit.usuario = Usu.id_User 
+                        WHERE id_CierreSucursal=$idCierreSucursal AND sucursal= $sucursal AND estatus=1 AND flag_Activa = 1";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "Nombre" => $row["Nombre"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
 }
