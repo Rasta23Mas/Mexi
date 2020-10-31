@@ -533,7 +533,6 @@ function llenarTotalInventario() {
 }
 
 function llenarVentas() {
-    alert("llenarVentas")
     var tipo = 6;
     var dataEnviar = {
         "tipo": tipo,
@@ -543,26 +542,23 @@ function llenarVentas() {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
         type: 'post',
-        //dataType: "json",
+        dataType: "json",
 
         success: function (datos) {
-            alert(datos)
             var i = 0;
             var salidasInfo = 0;
             var utilidadVenta = 0;
 
 
             for (i; i < datos.length; i++) {
-                var prestamo_Informativo = datos[i].prestamo_Informativo;
-                var v_PrecioVenta = datos[i].v_PrecioVenta;
+                var prestamo_Informativo = datos[i].total;
+                var v_PrecioVenta = datos[i].utilidad;
 
                 prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
                 v_PrecioVenta = Math.round(v_PrecioVenta * 100) / 100;
 
                 salidasInfo += prestamo_Informativo;
-                var utilidad = v_PrecioVenta - prestamo_Informativo;
-
-                utilidadVenta += utilidad;
+                utilidadVenta += v_PrecioVenta;
             }
             utilidadVenta = Math.round(utilidadVenta * 100) / 100;
             salidasInfo = Math.round(salidasInfo * 100) / 100;
@@ -582,7 +578,6 @@ function llenarVentas() {
 }
 
 function pasarBazar() {
-    alert("pasar")
     var tipo = 7;
     var dataEnviar = {
         "tipo": tipo,

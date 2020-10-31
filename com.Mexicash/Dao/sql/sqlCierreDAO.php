@@ -840,15 +840,15 @@ class sqlCierreDAO
             $fechaCreacion = date('Y-m-d');
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT prestamo_Informativo
-                        FROM contrato_mov_tbl
-                        WHERE  fecha_Venta='$fechaCreacion' and tipo_movimiento = 6 AND sucursal= $sucursal";
+            $buscar = "SELECT total,utilidad
+                        FROM contrato_mov_baz_tbl
+                        WHERE  DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaCreacion' and tipo_movimiento = 6 AND sucursal= $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "prestamo_Informativo" => $row["prestamo_Informativo"],
-                        "v_PrecioVenta" => $row["prestamo_Informativo"],
+                        "total" => $row["total"],
+                        "utilidad" => $row["utilidad"],
                     ];
                     array_push($datos, $data);
                 }
