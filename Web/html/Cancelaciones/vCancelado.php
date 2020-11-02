@@ -33,72 +33,48 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                 <br>
                 <table width="20%" align="center" class="table-bordered border-primary ">
                     <tr style="background: dodgerblue; color:white;">
-                        <td align="center" colspan="2">
+                        <td align="center" colspan="4">
                             <label>Empeños</label>
                         </td>
-                    </tr>
-                    <tr>
-                        <td align="center" style="width: 50%">
-                            <input type="radio" name="auto" id="idAutoCheck" onclick="clickAuto()">
-                            Auto</label>
-                        </td>
-                        <td>
-                            <input type="button" class="btn btn-warning" value="Limpiar"
-                                   style="width: 130px" onclick="limpiarCancelado()">&nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="2">
-                            <input type="button" class="btn btn-success" value="Empeños"
-                                   style="width: 130px" onclick="cancelarEmpeno()">&nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="2">
-                            <input type="button" class="btn btn-success" value="Refrendo"
-                                   style="width: 130px" onclick="cancelarRefrendo()">&nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="2">
-                            <input type="button" class="btn btn-success" value="Desempeño"
-                                   style="width: 130px"  onclick="cancelarDesempeno()">&nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="2">
-                            <input type="button" class="btn btn-success" value="Todos"
-                                   style="width: 130px"  onclick="cancelarTodos()">&nbsp;
-                        </td>
-                    </tr>
-                    <tr style="background: dodgerblue; color:white;">
                         <td align="center" colspan="2">
                             <label>Cierre</label>
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" colspan="2">
+                        <td align="center"><br>
+                            <input type="button" class="btn btn-success" value="Empeños"
+                                   style="width: 130px" onclick="cancelarEmpeno()">&nbsp;
+                        </td>
+                        <td align="center"><br>
+                            <input type="button" class="btn btn-success" value="Refrendo"
+                                   style="width: 130px" onclick="cancelarRefrendo()">&nbsp;
+                        </td>
+                        <td align="center"><br>
+                            <input type="button" class="btn btn-success" value="Desempeño"
+                                   style="width: 130px"  onclick="cancelarDesempeno()">&nbsp;
+                        </td>
+                        <td align="center"><br>
+                            <input type="button" class="btn btn-success" value="Todos"
+                                   style="width: 130px"  onclick="cancelarTodos()">&nbsp;
+                        </td>
+                        <td align="center"><br>
                             <input type="button" class="btn btn-success" value="Cierre Caja"
                                    style="width: 130px"  onclick="cancelarCierreCaja()">&nbsp;
                         </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="2">
+                        <td align="center" ><br>
                             <input type="button" class="btn btn-success" value="Cierre Sucursal"
-                             style="width: 130px"  onclick="cancelarCierreSucursal()">&nbsp;
+                                   style="width: 130px"  onclick="cancelarCierreSucursal()">&nbsp;
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            <br>
+                        <td align="center" style="width: 50%" colspan="2">
+                            <input type="radio" name="auto" id="idAutoCheck" onclick="clickAuto()">
+                            Auto</label>
                         </td>
-                    </tr>
-                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="button" class="btn btn-warning" value="Limpiar"
+                                   style="width: 130px" onclick="limpiarCancelado()">&nbsp;
+                        </td>
                         <td colspan="2">
                             <br>
                         </td>

@@ -565,43 +565,6 @@ class sqlDesempenoDAO
         echo json_encode($datos);
     }
 
-    //Generar Refrendo
-    public function guardarPagos($id_ContratoPDF, $id_ClientePDF, $prestamoPDF, $abonoCapitalPDF, $interesesPDF, $almacenajePDF, $seguroPDF,
-                                 $desempeñoExtPDF, $moratoriosPDF, $otrosCobrosPDF, $descuentoAplicadoPDF, $descuentoPuntosPDF, $ivaPDF, $efectivoPDF, $cambioPDF, $mutuoPDF,
-                                 $refrendoPDF, $newFechaVencimiento, $newFechaAlm, $tipeFormulario, $costo_Contrato, $ultimoMovimiento)
-    {
-        // TODO: Implement guardaCiente() method.
-        try {
-            $fechaCreacion = date('Y-m-d H:i:s');
-            $usuario = $_SESSION["idUsuario"];
-            $sucursal = $_SESSION["sucursal"];
-
-            $insertaBitacora = "INSERT INTO bit_pagos (id_Contrato, id_Cliente, prestamo, abonoCapital,
-                                intereses, almacenaje, seguro, desempeñoExt, moratorios, otrosCobros, descuentoAplicado, 
-                                descuentoPuntos, iva, efectivo, cambio, mutuo, refrendo, costoContrato,ultimoMovimiento, Fecha_Almoneda, Fecha_Vencimiento, 
-                                Fecha_Creacion,usuario,sucursal,estatus) VALUES 
-                                ($id_ContratoPDF, $id_ClientePDF, $prestamoPDF, $abonoCapitalPDF, $interesesPDF, $almacenajePDF, $seguroPDF, $desempeñoExtPDF,
-                                 $moratoriosPDF, $otrosCobrosPDF,$descuentoAplicadoPDF, $descuentoPuntosPDF, $ivaPDF, $efectivoPDF, $cambioPDF, $mutuoPDF, 
-                                 $refrendoPDF, $costo_Contrato,$ultimoMovimiento,'$newFechaAlm', '$newFechaVencimiento', '$fechaCreacion', $usuario, $sucursal,1)";
-            if ($ps = $this->conexion->prepare($insertaBitacora)) {
-                if ($ps->execute()) {
-                    $verdad = mysqli_stmt_affected_rows($ps);
-                } else {
-                    $verdad = -13;
-                }
-            } else {
-                $verdad = -15;
-            }
-        } catch (Exception $exc) {
-            $verdad = -20;
-            echo $exc->getMessage();
-        } finally {
-            $this->db->closeDB();
-        }
-        //return $verdad;
-        echo $verdad;
-    }
-
 
     public function costoContrato($contrato)
     {

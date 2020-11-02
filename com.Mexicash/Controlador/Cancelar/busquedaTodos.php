@@ -5,9 +5,6 @@ include_once(SQL_PATH . "sqlCancelarDAO.php");
 $tipoContratoGlobal = $_POST['tipoContratoGlobal'];
 $sqlCancelar = new sqlCancelarDAO();
 
-
-    //Datos por tipo de contrato
-    $sqlCancelar->todosCancelar($tipoContratoGlobal);
-
-
+//Datos por tipo de contrato
+$sqlCancelar->todosCancelar($tipoContratoGlobal);
 ?>

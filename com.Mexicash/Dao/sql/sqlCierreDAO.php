@@ -977,7 +977,7 @@ class sqlCierreDAO
                              saldo_final = $saldo_final,
                              InfoSaldoInicial = $InfoSaldoInicial,InfoEntradas = $InfoEntradas,InfoSalidas = $InfoSalidas,InfoSaldoFinal = $InfoSaldoFinal,
                              InfoApartados = $InfoApartados,InfoAbono = $InfoAbono,InfoTotalInventario = $InfoTotalInventario,
-                             fecha_Creacion = '$fechaCreacion', estatus = $estatus ,flag_Activa = $estatus 
+                             fecha_Creacion = '$fechaCreacion', estatus = $estatus ,flag_Activa = 0 
                              WHERE id_CierreSucursal=$idCierreSucursal AND sucursal = $sucursal and estatus =1";
             if ($ps = $this->conexion->prepare($updateCierreSucursal)) {
                 if ($ps->execute()) {
