@@ -85,35 +85,6 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                             <label ><?php echo $_SESSION["idCierreSucursal"]; ?></label>
                         </td>
                     </tr>
-                   <!-- <tr align="center">
-                        <td class="titleTable">
-                            <label>Fecha Inicial</label>
-                        </td>
-                        <td class="titleTable">
-                            <label>Fecha Final</label>
-                        </td>
-                        <td class="titleTable">
-                            <label>Buscar cierre </label>
-                        </td>
-                    </tr>
-                    <tr align="center">
-                        <td align="center">
-                            <input type="text" name="fechaInicial" id="idFechaInicial" style="width: 100px"
-                                   class="calendarioModBoton"
-                                   disabled/>
-                        </td>
-                        <td>
-                            <input type="text" name="fechaFinal" id="idFechaFinal" style="width: 100px"
-                                   class="calendarioModBoton"
-                                   disabled/>
-                        </td>
-                        <td align="center">
-                            <input type="button" class="btn btn-success w-25"
-                                   data-toggle="modal" data-target="#modalArqueo"
-                                   onclick="buscarArqueo()"
-                                   value="Buscar"/>
-                        </td>
-                    </tr>-->
                 </table>
             </div>
         </div>

@@ -335,7 +335,7 @@ class sqlCierreDAO
     {
         try {
             $fechaCreacion = date('Y-m-d H:i:s');
-
+            $sucursal = $_SESSION["sucursal"];
             $updateArqueo = "UPDATE bit_cierrecaja SET 
                             cantDotaciones=$cantDotaciones,dotacionesA_Caja=$dotacionesA_Caja,cantCapitalRecuperado=$cantCapitalRecuperado,capitalRecuperado=$capitalRecuperado,
                             cantAbono=$cantAbono,abonoCapital=$abonoCapital,cantInteres=$cantInteres,intereses=$intereses,cantIva=$cantIva,iva=$iva,
@@ -346,7 +346,7 @@ class sqlCierreDAO
                             cantDescuentos=$cantDescuentos,descuentosAplicados=$descuentosAplicados,cantDescuentosVentas=$cantDescuentosVentas,
                             descuento_Ventas=$descuento_Ventas,cantCostoContrato=$cantCostoContrato,costoContrato=$costoContrato,total_Salida=$total_Salida,
                             total_Entrada=$total_Entrada,total_Iva=$total_Iva,saldo_Caja=$saldo_Caja,efectivo_Caja=$efectivo_Caja,cantAjustes=$cantAjustes,ajuste=$ajuste,cantIncremento=$CantIncremento,incremento=$incrementoPatrimonio,
-                            cantRefrendos=$cantRefrendos,informeRefrendo=$informeRefrendo,fecha_Creacion='$fechaCreacion',estatus=2, CerradoPorGerente=$cerradoPorGerenteGlb,flag_Activa=0 WHERE id_CierreCaja=$idCierreCaja and estatus =1";
+                            cantRefrendos=$cantRefrendos,informeRefrendo=$informeRefrendo,fecha_Creacion='$fechaCreacion',estatus=2, CerradoPorGerente=$cerradoPorGerenteGlb,flag_Activa=0 WHERE id_CierreCaja=$idCierreCaja AND sucursal = $sucursal and estatus =1";
             if ($ps = $this->conexion->prepare($updateArqueo)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
@@ -370,7 +370,8 @@ class sqlCierreDAO
         //Funcion Verificada
         // TODO: Implement guardaCiente() method.
         try {
-            $buscarFlujoGenerado = "SELECT id_flujo FROM flujo_tbl WHERE id_cat_flujo= 0";
+            $sucursal = $_SESSION["sucursal"];
+            $buscarFlujoGenerado = "SELECT id_flujo FROM flujo_tbl WHERE id_cat_flujo= 0 AND sucursal = $sucursal";
             $statement = $this->conexion->query($buscarFlujoGenerado);
             $encontro = $statement->num_rows;
             if ($encontro > 0) {
@@ -464,6 +465,8 @@ class sqlCierreDAO
                         WHERE sucursal = $sucursal and estatus = 1 ";
             if ($tipoUsuario == 3) {
                 $buscar .= " AND Bit.usuario = $usuario";
+            }else if ($tipoUsuario == 4) {
+            $buscar .= " AND Bit.usuario = $usuario";
             }
             $buscar .= " ORDER BY Usu.id_User";
             $rs = $this->conexion->query($buscar);
@@ -522,7 +525,7 @@ class sqlCierreDAO
 
             $buscar = "SELECT tipo_movimiento, pag_total,prestamo_Informativo
                        FROM contrato_mov_tbl AS Con
-                       WHERE Con.id_CierreCaja=$idCierreCaja AND Con.tipo_movimiento !=20";
+                       WHERE Con.id_CierreCaja=$idCierreCaja AND sucursal = $sucursal AND Con.tipo_movimiento !=20";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -549,10 +552,10 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
-
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT tipo_movimiento,subTotal,iva,abono,apartado
                        FROM contrato_mov_baz_tbl  
-                       WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
+                       WHERE id_CierreCaja=$idCierreCaja AND sucursal =$sucursal  AND tipo_movimiento !=20 ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -578,10 +581,10 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
-
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT total
                        FROM contrato_mov_com_tbl  
-                       WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 ";
+                       WHERE id_CierreCaja=$idCierreCaja AND sucursal =$sucursal AND tipo_movimiento !=20 ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -956,6 +959,7 @@ class sqlCierreDAO
         try {
             $fechaCreacion = date('Y-m-d H:i:s');
             $estatus = 2;
+            $sucursal = $_SESSION["sucursal"];
 
             $updateCierreSucursal = "UPDATE bit_cierresucursal SET 
                              dotacionesA_Caja = $dotacionesA_Caja, CantAportacionesBoveda = $CantAportacionesBoveda,
@@ -974,7 +978,7 @@ class sqlCierreDAO
                              InfoSaldoInicial = $InfoSaldoInicial,InfoEntradas = $InfoEntradas,InfoSalidas = $InfoSalidas,InfoSaldoFinal = $InfoSaldoFinal,
                              InfoApartados = $InfoApartados,InfoAbono = $InfoAbono,InfoTotalInventario = $InfoTotalInventario,
                              fecha_Creacion = '$fechaCreacion', estatus = $estatus ,flag_Activa = $estatus 
-                             WHERE id_CierreSucursal=$idCierreSucursal and estatus =1";
+                             WHERE id_CierreSucursal=$idCierreSucursal AND sucursal = $sucursal and estatus =1";
             if ($ps = $this->conexion->prepare($updateCierreSucursal)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
@@ -1018,8 +1022,9 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT total_Cierre, incremento_pat,ajustes FROM bit_arqueo
-                       WHERE usuario= $usuarioCaja AND id_cierreCaja=$idCierreCaja";
+                       WHERE usuario= $usuarioCaja AND id_cierreCaja=$idCierreCaja AND sucursal = $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -1045,6 +1050,7 @@ class sqlCierreDAO
     {
         try {
             $fechaCreacion = date('Y-m-d');
+
             $insertaBazar = "INSERT INTO articulo_bazar_tbl(id_Contrato, id_serie, id_Articulo, tipo_movimiento,
                                 fecha_Bazar, tipoArticulo, tipo, kilataje, calidad, cantidad, peso, peso_Piedra,
                                 piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,precioCat,
@@ -1079,10 +1085,12 @@ class sqlCierreDAO
     function actualizarBazar()
     {
         try {
+
             $fechaCreacion = date('Y-m-d');
+            $sucursal = $_SESSION["sucursal"];
             $updateBazar = "UPDATE contrato_mov_tbl 
                                 SET fechaAlmoneda='',tipo_movimiento=24
-                                WHERE  fechaAlmoneda='$fechaCreacion'";
+                                WHERE  fechaAlmoneda='$fechaCreacion' AND sucursal = $sucursal";
             if ($ps = $this->conexion->prepare($updateBazar)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
