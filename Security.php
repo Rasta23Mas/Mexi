@@ -11,7 +11,7 @@ if ($_SESSION["autentificado"] != "SI") {
     $fechaGuardada = $_SESSION["ultimoAcceso"];
     $ahora = date("Y-n-j H:i:s");
     $tiempo_transcurrido = (strtotime($ahora)-strtotime($fechaGuardada));
-    $tiempo_limite = 6000;
+    $tiempo_limite = 600;
     if($tiempo_transcurrido >= $tiempo_limite) {
         session_destroy();
         header("Location: ../../../index.php");
