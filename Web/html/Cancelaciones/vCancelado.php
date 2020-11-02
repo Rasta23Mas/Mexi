@@ -41,6 +41,19 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                         </td>
                     </tr>
                     <tr>
+                        <td align="center" style="width: 50%" colspan="2">
+                            <input type="radio" name="auto" id="idAutoCheck" onclick="clickAuto()">
+                            Auto</label>
+                        </td>
+                        <td colspan="2" align="center">
+                            <input type="button" class="btn btn-warning" value="Limpiar"
+                                   style="width: 130px" onclick="limpiarCancelado()">&nbsp;
+                        </td>
+                        <td colspan="2">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
                         <td align="center"><br>
                             <input type="button" class="btn btn-success" value="Empeños"
                                    style="width: 130px" onclick="cancelarEmpeno()">&nbsp;
@@ -66,19 +79,7 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                                    style="width: 130px"  onclick="cancelarCierreSucursal()">&nbsp;
                         </td>
                     </tr>
-                    <tr>
-                        <td align="center" style="width: 50%" colspan="2">
-                            <input type="radio" name="auto" id="idAutoCheck" onclick="clickAuto()">
-                            Auto</label>
-                        </td>
-                        <td colspan="2" align="center">
-                            <input type="button" class="btn btn-warning" value="Limpiar"
-                                   style="width: 130px" onclick="limpiarCancelado()">&nbsp;
-                        </td>
-                        <td colspan="2">
-                            <br>
-                        </td>
-                    </tr>
+
                 </table>
             </div>
         </div>
