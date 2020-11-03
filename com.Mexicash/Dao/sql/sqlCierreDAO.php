@@ -1120,7 +1120,7 @@ class sqlCierreDAO
 
             $buscar = "SELECT Usu.usuario as Nombre FROM bit_cierrecaja as Bit
                         INNER JOIN usuarios_tbl as Usu on Bit.usuario = Usu.id_User 
-                        WHERE id_CierreSucursal=$idCierreSucursal AND sucursal= $sucursal AND estatus=1 AND flag_Activa = 1";
+                        WHERE id_CierreSucursal=$idCierreSucursal AND sucursal= $sucursal AND CierreCajaIndispensable=1";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

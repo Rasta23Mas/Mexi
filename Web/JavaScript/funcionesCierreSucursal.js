@@ -64,10 +64,14 @@ function validarEsatusSucursal() {
         url: '../../../com.Mexicash/Controlador/Cierre/llenarCierreSucursal.php',
         type: 'post',
         dataType: "json",
-        success: function (response) {
-            if (folioCierreSucursal > 0) {
-                folioCierreSucursal = response.result.folio_CierreSucursal;
-                validarEsatusCajas();
+        success: function (datos) {
+            var i = 0;
+            alert(datos.length)
+            if (datos.length > 0) {
+                for (i; i < datos.length; i++) {
+                    folioCierreSucursal = datos[i].folio_CierreSucursal;
+                    validarEsatusCajas();
+                }
             } else {
                 alert("El proceso de Cierre de Sucursal ya fue realizado.");
             }
@@ -100,6 +104,7 @@ function validarEsatusCajas() {
         },
     })
 }
+
 
 function llenarSaldosSucursal() {
     $("#guardarCaja").prop('disabled', false);

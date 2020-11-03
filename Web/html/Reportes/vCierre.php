@@ -2,41 +2,34 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
-
 include_once(SQL_PATH . "sqlCierreDAO.php");
+include_once(HTML_PATH . "Cierre/modalBusquedaCaja.php");
 
-$tipoUsuario = $_SESSION['tipoUsuario'];
-$idUserSesion = $_SESSION["idUsuario"];
-$idCierreCaja =  $_SESSION["idCierreCaja"];
+$UsuarioNombre = $_SESSION["usuario"];
+$idCierreSucursal = $_SESSION['idCierreSucursal'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="../../JavaScript/funcionesCierres.js"></script>
+    <script src="../../JavaScript/funcionesCierreSucursal.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
-    <script src="../../JavaScript/funcionNumerosLetras.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
     <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
     <script type="application/javascript">
         $(document).ready(function () {
-            var usuariotipo = <?php echo $tipoUsuario ?>;
-            $("#idUserSesion").val(<?php echo $idUserSesion ?>);
-            var cierreCaja = <?php echo $idCierreCaja?>;
-            document.getElementById('idCierreCaja').innerHTML = cierreCaja;
-            $("#idCierreCajaSesion").val(cierreCaja);
-            if(usuariotipo===3){
-                $("#idUsuarioCaja").prop('disabled', false);
-            }
+            document.getElementById('usuarioNombre').innerHTML = '<?php echo $UsuarioNombre?>';
+            var cierreSucursal = <?php echo $idCierreSucursal?>;
+
+            document.getElementById('idCierreSucursal').innerHTML = cierreSucursal;
+
             $("#guardarCaja").prop('disabled', true);
-            $("#idTipoSesion").val(usuariotipo);
 
         })
     </script>
-
     <style type="text/css">
         .titleTable {
             background: dodgerblue;
@@ -70,6 +63,10 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
             width: 75px;
             text-align: center;
         }
+        .primeraColLeft {
+            width: 75px;
+            text-align: left;
+        }
 
         .segundaCol {
             width: 200px;
@@ -78,59 +75,79 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
         .terceraCol {
             width: 100px;
         }
-        .letraExtraChica {
-            font-size: .9em;
-        }
+
     </style>
 
 </head>
 <body>
-<form id="idFormEmpeno" name="formEmpeno" class="letraExtraChica">
-    <div class="container-fluid " style="position: absolute; top: 8.2vh; height: 91.8vh">
+<form id="idFormEmpeno" name="formEmpeno">
+    <div class="container-fluid" style="position: absolute; top: 8.2vh; height: 91.8vh">
         <div>
             <br>
-            <h3 align="center">Cierre de caja</h3>
+            <h3 align="center">Cierre de Sucursal</h3>
             <br>
         </div>
         <div class="row">
             <div class="col-1">
             </div>
             <div class="col-10 " align="center">
-                <table width="80%" class="border border-primary " align="center" >
+                <table width="80%" class="border border-primary" align="center" >
                     <tr align="center">
                         <td class="titleTable">
                             <label>Cajero</label>
                         </td>
                         <td class="titleTable">
-                            <label>Operación Caja</label>
+                            <label>Operación Sucursal</label>
                         </td>
                         <td class="titleTable">
                             <label>Cargar Caja</label>
                         </td>
                     </tr>
                     <tr align="center">
-                        <td align="center">
-                       <select id="idUsuarioCaja" name="usuarioCaja" class="selectpicker" disabled
-                                    style="width: 100px" onchange="cambioDeCaja();">
-                                <?php
-                                $data = array();
-                                $sql = new sqlCierreDAO();
-                                $data = $sql->cargarUsuariosCaja();
-                                for ($i = 0; $i < count($data); $i++) {
-                                    echo "<option value=" . $data[$i]['idUsuario'] . ">" . $data[$i]['Usuario'] . "</option>";
-                                }
-                                ?>
-                            </select>
+                        <td align="center" class="prueba">
+                            <label id="usuarioNombre"></label>
                         </td>
                         <td align="center" class="prueba">
-                            <label id="idCierreCaja"></label>
+                            <label id="idCierreSucursal"></label>
                         </td>
                         <td align="center">
-                            <input type="button" class="btn btn-primary w-50" value="Cargar" id="cargarUsuario" onclick="validarEsatusCaja()"/>
+                            <input type="button" class="btn btn-primary w-50" value="Cargar" id="cargarUsuario" onclick="validarEsatusSucursal()"/>
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td class="titleTable">
+                            <label>Fecha Inicial</label>
+                        </td>
+                        <td class="titleTable">
+                            <label>Fecha Final</label>
+                        </td>
+                        <td class="titleTable">
+                            <label>Buscar cierre </label>
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td align="center">
+                            <input type="text" name="fechaInicial" id="idFechaInicial" style="width: 100px"
+                                   class="calendarioModBoton"
+                                   disabled/>
+                        </td>
+                        <td>
+                            <input type="text" name="fechaFinal" id="idFechaFinal" style="width: 100px"
+                                   class="calendarioModBoton"
+                                   disabled/>
+                        </td>
+                        <td align="center">
+                            <input type="button" class="btn btn-success w-50"
+                                   data-toggle="modal" data-target="#modalCierreCaja"
+                                   onclick="validarEsatusSucursal()"
+                                   value="Buscar"/>
                         </td>
                     </tr>
                 </table>
             </div>
+        </div>
+        <div>
+            <br>
         </div>
         <div class="row">
             <div class="col-1">
@@ -139,8 +156,11 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                 <br>
                 <table border="0" width="850px">
                     <tr>
-                        <td colspan="3" class="titleTable border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES DE EFECTIVO</label>
+                        <td class="primeraColLeft border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="saldoInicial"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -150,26 +170,23 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         </td>
                     </tr>
                     <tr>
-                        <td class="primeraCol border border-primary">
-                            <label id="CantDotacionesCaja"></label>
-                        </td>
-                        <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES A CAJA</label>
+                        <td class="primeraColLeft border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;DOTACIONES A CAJA:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="dotacionCajaVal"></label>
+                            <label id="dotaciones"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
                         <td class="primeraCol border border-primary">
-                            <label id="CantRetiroCaja"></label>
+                            <label id="CantRetirosCaja"></label>
                         </td>
-                        <td class="segundaCol border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;RETIROS A CAJA</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;RETIROS A CAJA:</label>
                         </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="retiroCaja"></label>
+                        <td class="terceraCol  border border-primary">
+                            <label id="retirosCaja"></label>
                         </td>
                     </tr>
                     <tr>
@@ -190,48 +207,60 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td colspan="7"><br></td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="titleTable border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;TRADICIONALES</label>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantAportaciones"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;APORTACIONES BÓVEDA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="aportaciones"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" class="titleTable border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;TRADICIONALES</label>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantRetiros"></label>
+                        </td>
+                        <td class="segundaCol border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;RETIROS A BÓVEDA:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="retiros"></label>
                         </td>
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantCapitalRecuperado"></label>
+                            <label id="CantRecuperado"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="capitalRecuperado"></label>
+                            <label id="recuperado"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
                         <td class="primeraCol border border-primary">
-                            <label id="CantPrestamosNuevos"></label>
+                            <label id="CantPrestamos"></label>
                         </td>
                         <td class="segundaCol border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;PRÉSTAMOS NUEVOS:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="prestamosNuevos"></label>
+                            <label id="prestamos"></label>
                         </td>
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantAbonoCapital"></label>
+                            <label id="CantAbono"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;ABONO A CAPITAL:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="abonoCapital"></label>
+                            <label id="abono"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -248,25 +277,29 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantIntereses"></label>
+                            <label ></label>
                         </td>
                         <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;INTERESES:</label>
                         </td>
+
                         <td class="terceraCol  border border-primary">
-                            <label id="intereses"></label>
+                            <label id="interes"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
                         <td class="primeraCol border border-primary">
-                            <label id="CantDescuentosVentas"></label>
+                            <label id="CantDescVentas"></label>
                         </td>
                         <td class="segundaCol border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;DESC. VENTAS:</label>
                         </td>
                         <td class="terceraCol border border-primary">
                             <label id="descuentosVentas"></label>
+                        </td>
+
+
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -275,6 +308,7 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;COSTO CONTRATO:</label>
                         </td>
+
                         <td class="terceraCol  border border-primary">
                             <label id="costoContrato"></label>
                         </td>
@@ -292,32 +326,16 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         </td>
                     </tr>
                     <tr>
+
                         <td class="primeraCol border border-primary">
-                            <label id="CantIVA"></label>
+                            <label id="CantIva"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;I.V.A. :</label>
                         </td>
+
                         <td class="terceraCol  border border-primary">
                             <label id="iva"></label>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                        <td colspan="3" class="">
-                            <br>
-                        </td>
-                    </tr>
-                    <tr>
-
-                        <td class="primeraCol border border-primary">
-                            <label id="CantGps"></label>
-                        </td>
-                        <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;RENTA GPS:</label>
-                        </td>
-                        <td class="terceraCol  border border-primary">
-                            <label id="gps"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -325,6 +343,134 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td colspan="3" class="titleTable border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;TOTALES</label>
                         </td>
+
+
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantVentas"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;VENTAS MOSTRADOR:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="ventas"></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL DOTACIONES:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="totalDotacionesNew"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantIvaVentas"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;IVA VENTAS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="ivaVentas"></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="totalEntrados"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                        <!--<label id="CantIvaUtilidad"></label>-->
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;UTILIDAD VENTA:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="utilidad"></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="totalIVA"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantApartados"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="apartadoVenta"></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="totalSalidas"></label>
+                        </td>
+
+
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantAbonoVenta"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;ABONO:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="abonoVenta"></label>
+                        </td>
+
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;DIFERENCIA DE OPERACIONES:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="diferenciaOper"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantGPS"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;GPS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="gps"></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="saldoFinal"></label>
+                        </td>
+
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -339,19 +485,17 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales border border-primary" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
+                        <td colspan="3" class="titleTable border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;INFORMATIVOS</label>
                         </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="totalEntradas"></label>
-                        </td>
+
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
                             <label id="CantPension"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;PENSIÓN:</label>
+                            <label>&nbsp;&nbsp;&nbsp;PENSION:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
                             <label id="pension"></label>
@@ -359,128 +503,104 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales border border-primary" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
+                        <td class="primeraColTotales  border border-primary" colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO INICIAL:</label>
                         </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="totalIVA"></label>
+                        <td class="terceraCol  border border-primary">
+                            <label id="saldoInicialInfo"></label>
                         </td>
+
                     </tr>
                     <tr>
-
                         <td class="primeraCol border border-primary">
-                            <label id="CantAjuste"></label>
+                            <label id="CantAjustes"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
                             <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="ajustesArq"></label>
+                            <label id="ajustes"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
-                        </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="totalSalidas"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" >
-
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                        <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
-                        </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="saldoCaja"></label>
-                        </td>
-
-                    <!--    <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;AJUSTE:</label>
-                        </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="ajuste"></label>
-                        </td>-->
-
-                    </tr>
-                    <tr>
-                        <td colspan="3" class="titleTable border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;VENTAS</label>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                        <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
-                        </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="efectivoCaja"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="primeraCol border border-primary">
-                            <label id="CantMostrador"></label>
-                        </td>
-                        <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;ENTRADAS:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="mostrador"></label>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
+                            <label id="entradasInfo"></label>
                         </td>
 
                     </tr>
                     <tr>
-                        <td class="primeraCol border border-primary">
-                            <label id="CantIvaVenta"></label>
-                        </td>
-                        <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;I.V.A.:</label>
-                        </td>
-                        <td class="terceraCol  border border-primary">
-                            <label id="ivaVenta"></label>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALIDAS:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="salidasInfo"></label>
+                        </td>
+
                     </tr>
                     <tr>
-                        <td class="primeraCol border border-primary">
-                            <label id="CantApartados"></label>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
                         </td>
-                        <td class="segundaCol  border border-primary">
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="saldoFinalInfo"></label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
                             <label>&nbsp;&nbsp;&nbsp;APARTADOS:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="apartados"></label>
+                            <label id="apartadosInfo"></label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="primeraCol" colspan="3">
+                            <label></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                    </tr>
-                    <tr>
-                        <td class="primeraCol border border-primary">
-                            <label id="CantAbono"></label>
-                        </td>
-                        <td class="segundaCol  border border-primary">
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
                             <label>&nbsp;&nbsp;&nbsp;ABONOS:</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="abono"></label>
+                            <label id="abonosInfo"></label>
                         </td>
-                        <td class="espacioEnmedio ">
+
+                    </tr>
+                    <tr>
+                        <td colspan="4">
                             <br>
                         </td>
-                        <td colspan="3">
-                            <br>
+                        <td class="primeraColTotales  border border-primary"  colspan="2">
+                            <label>&nbsp;&nbsp;&nbsp;TOTAL INVENTARIO:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="totalInventarioInfo"></label>
                         </td>
                     </tr>
                     <tr>
@@ -488,43 +608,11 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                             <br>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="primeraCol border border-primary">
-                            <label id="CantRefrendos"></label>
-                        </td>
-                        <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;* INFORM. REFRENDO:</label>
-                        </td>
-                        <td class="terceraCol  border border-primary">
-                            <label id="refrendos"></label>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                        <td colspan="3"  align="right">
+                        <tr>
+                        <td colspan="7"  align="right">
                             <input type="button" class="btn btn-warning w-25" value="Limpiar" id="idLimpiarCaja" onclick="limpiarCierreCaja()"/>
-&nbsp;&nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary w-25" value="Guardar" id="guardarCaja" onclick="confirmarGuardarCierre()"/>
-                        </td>
-                    </tr>
-                    <tr style="visibility: hidden">
-                        <td class="primeraCol">
-                            <input type="text" name="userSesion" id="idUserSesion" style="width: 100px"
-                                   disabled/>
-                        </td>
-                        <td class="segundaCol">
-                            <input type="text" name="cierreCaja" id="idCierreCajaSesion" style="width: 100px"
-                                   disabled/>
-                        </td>
-                        <td class="terceraCol">
-                            <input type="text" name="tipoSesion" id="idTipoSesion" style="width: 100px"
-                                   disabled/>
-                        </td>
-                        <td class="espacioEnmedio ">
-                            <br>
-                        </td>
-                        <td colspan="3"  align="right">
-
+                            &nbsp;&nbsp;&nbsp;
+                            <input type="button" class="btn btn-primary w-25" value="Guardar" id="guardarCaja" onclick="confirmarCierreSucursal()"/>
                         </td>
                     </tr>
                 </table>

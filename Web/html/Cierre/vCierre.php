@@ -114,35 +114,6 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                             <input type="button" class="btn btn-primary w-50" value="Cargar" id="cargarUsuario" onclick="validarEsatusSucursal()"/>
                         </td>
                     </tr>
-                    <tr align="center">
-                        <td class="titleTable">
-                            <label>Fecha Inicial</label>
-                        </td>
-                        <td class="titleTable">
-                            <label>Fecha Final</label>
-                        </td>
-                        <td class="titleTable">
-                            <label>Buscar cierre </label>
-                        </td>
-                    </tr>
-                    <tr align="center">
-                        <td align="center">
-                            <input type="text" name="fechaInicial" id="idFechaInicial" style="width: 100px"
-                                   class="calendarioModBoton"
-                                   disabled/>
-                        </td>
-                        <td>
-                            <input type="text" name="fechaFinal" id="idFechaFinal" style="width: 100px"
-                                   class="calendarioModBoton"
-                                   disabled/>
-                        </td>
-                        <td align="center">
-                            <input type="button" class="btn btn-success w-50"
-                                   data-toggle="modal" data-target="#modalCierreCaja"
-                                   onclick="validarEsatusSucursal()"
-                                   value="Buscar"/>
-                        </td>
-                    </tr>
                 </table>
             </div>
         </div>
