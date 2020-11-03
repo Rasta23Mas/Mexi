@@ -1139,4 +1139,32 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
+
+    public function sqlCierreCajaIndispensable($estatus)
+    {
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $updateCajaIndispensable = "UPDATE bit_cierrecaja SET CierreCajaIndispensable=$estatus
+                                            WHERE sucursal=$sucursal and  id_cierreCaja=$idCierreCaja";
+            if ($ps = $this->conexion->prepare($updateCajaIndispensable)) {
+                if ($ps->execute()) {
+                    $verdad = mysqli_stmt_affected_rows($ps);
+                } else {
+                    $verdad = -2;
+                }
+            } else {
+                $verdad = -3;
+            }
+        } catch (Exception $exc) {
+            $respuesta = 4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $verdad;
+    }
 }

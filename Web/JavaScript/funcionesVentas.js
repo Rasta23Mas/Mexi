@@ -518,6 +518,7 @@ function ArticulosUpdateVenta() {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Artículos actualizados correctamente.");
+                fnCierreCajaIndispensable(1);
                 if (idTokenGLb != 0) {
                     fnUpdateToken();
                 }else{

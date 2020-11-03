@@ -864,9 +864,10 @@ function fnGenerarCompra() {
         url: '../../../com.Mexicash/Controlador/Compras/ConGuardarCompra.php',
         type: 'post',
         success: function (contrato) {
-            alert(contrato)
             if (contrato > 0) {
                 fnUpdateToken();
+                fnCierreCajaIndispensable(1);
+
             } else {
                 alertify.error("Error al generar contrato.");
             }

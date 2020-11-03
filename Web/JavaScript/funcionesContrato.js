@@ -125,7 +125,6 @@ function generarContrato() {
         url: '../../../com.Mexicash/Controlador/Contrato/cContrato.php',
         type: 'post',
         success: function (contrato) {
-            alert(contrato)
             if (contrato > 0) {
                 actualizarArticulo(contrato,tipoFormulario,cliente);
                 var mov_contrato = contrato;

@@ -341,7 +341,8 @@ function ArticulosUpdateVenta(id_Bazar) {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                alertify.success("Artículos actualizados correctamente.")
+                alertify.success("Artículos actualizados correctamente.");
+                fnCierreCajaIndispensable(1);
                 fnBitacoraAbonos();
             } else {
                 alertify.error("Error en al conectar con el servidor.")
@@ -351,7 +352,6 @@ function ArticulosUpdateVenta(id_Bazar) {
 }
 
 function fnBitacoraAbonos() {
-    alert("llega")
     var dataEnviar = {
         "id_Movimiento": tipo_movimientoGlb,
         "id_bazar": idBazarGlb,
