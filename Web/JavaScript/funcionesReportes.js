@@ -92,6 +92,72 @@ function fnSelectReporte() {
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 12) {
+        nameForm += "Descuento de Intéres"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 13) {
+        nameForm += "Cancelaciones"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 14) {
+        nameForm += "Central a Banco"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 15) {
+        nameForm += "Banco a Central"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 16) {
+        nameForm += "Banco a Bóveda"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 17) {
+        nameForm += "Bóveda a Banco"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 18) {
+        nameForm += "Descuento en Ventas"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 19) {
+        nameForm += "Cambio de precio vitrina"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 20) {
+        nameForm += "Monto mayor artículos"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 21) {
+        nameForm += "Monto mayor autos"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
+    }else if (reporte == 22) {
+        nameForm += "Horario"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinCorporativo.php');
     }else if (reporte == 23) {
         nameForm += "Cierre Caja"
         document.getElementById('NombreReporte').innerHTML = nameForm;
