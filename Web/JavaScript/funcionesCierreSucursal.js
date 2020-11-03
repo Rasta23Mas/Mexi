@@ -66,7 +66,6 @@ function validarEsatusSucursal() {
         dataType: "json",
         success: function (datos) {
             var i = 0;
-            alert(datos.length)
             if (datos.length > 0) {
                 for (i; i < datos.length; i++) {
                     folioCierreSucursal = datos[i].folio_CierreSucursal;
