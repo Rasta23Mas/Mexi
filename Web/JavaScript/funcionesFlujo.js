@@ -306,6 +306,8 @@ function guardarFlujoTotales(importe) {
         saldoCajaFinal = saldoCaja + importe;
         saldoBovedaFinal = Math.round(saldoBovedaFinal * 100) / 100;
         saldoCajaFinal = Math.round(saldoCajaFinal * 100) / 100;
+        fnCierreCajaIndispensable(1,idUsuarioCaja,1);
+
     }else if(checkCentral==6){
         //CAJA A BOVEDA
         saldoCentralFinal = saldoCentral;

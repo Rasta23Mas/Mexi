@@ -465,7 +465,7 @@ function ArticulosUpdateVenta() {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Artículos actualizados correctamente.")
-                fnCierreCajaIndispensable(1);
+                fnCierreCajaIndispensable(1,0,0);
                 fnBitacoraVenta();
             } else {
                 alertify.error("Error en al conectar con el servidor.")

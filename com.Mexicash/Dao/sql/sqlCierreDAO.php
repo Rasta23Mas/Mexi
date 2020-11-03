@@ -1151,12 +1151,48 @@ class sqlCierreDAO
                                             WHERE sucursal=$sucursal and  id_cierreCaja=$idCierreCaja";
             if ($ps = $this->conexion->prepare($updateCajaIndispensable)) {
                 if ($ps->execute()) {
-                    $verdad = mysqli_stmt_affected_rows($ps);
+                    $verdad = 1;
                 } else {
                     $verdad = -2;
                 }
             } else {
                 $verdad = -3;
+            }
+        } catch (Exception $exc) {
+            $respuesta = 4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $verdad;
+    }
+    public function sqlCierreCajaIndispensableUser($estatus,$user)
+    {
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $id_CierreSucursal = $_SESSION["idCierreSucursal"];
+            $buscar = "SELECT id_CierreCaja  FROM bit_cierrecaja 
+                        WHERE usuario=$user AND sucursal= $sucursal 
+                        AND id_CierreSucursal=$id_CierreSucursal and estatus=1";
+            $statement = $this->conexion->query($buscar);
+            $encontro = $statement->num_rows;
+            if ($encontro > 0) {
+                $fila = $statement->fetch_object();
+                $id_CierreCajaSelect = $fila->id_CierreCaja;
+                $updateCajaIndispensable = "UPDATE bit_cierrecaja SET CierreCajaIndispensable=$estatus
+                                            WHERE sucursal=$sucursal and  id_cierreCaja=$id_CierreCajaSelect";
+                if ($ps = $this->conexion->prepare($updateCajaIndispensable)) {
+                    if ($ps->execute()) {
+                        $verdad = 1;
+                    } else {
+                        $verdad = -2;
+                    }
+                } else {
+                    $verdad = -3;
+                }
             }
         } catch (Exception $exc) {
             $respuesta = 4;

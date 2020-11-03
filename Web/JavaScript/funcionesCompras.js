@@ -866,7 +866,7 @@ function fnGenerarCompra() {
         success: function (contrato) {
             if (contrato > 0) {
                 fnUpdateToken();
-                fnCierreCajaIndispensable(1);
+                fnCierreCajaIndispensable(1,0,0);
 
             } else {
                 alertify.error("Error al generar contrato.");

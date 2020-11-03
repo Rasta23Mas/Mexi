@@ -1,7 +1,9 @@
 
-function fnCierreCajaIndispensable(estatus) {
+function fnCierreCajaIndispensable(estatus,user,tipo) {
     var dataEnviar = {
         "estatus": estatus,
+        "user": user,
+        "tipo": tipo,
     };
     $.ajax({
         data: dataEnviar,
