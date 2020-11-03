@@ -345,8 +345,11 @@ class sqlCierreDAO
                             pension=$pension,cantRetiros=$cantRetiros,retirosCaja=$retirosCaja,cantPrestamos=$cantPrestamos,prestamosNuevos=$prestamosNuevos,
                             cantDescuentos=$cantDescuentos,descuentosAplicados=$descuentosAplicados,cantDescuentosVentas=$cantDescuentosVentas,
                             descuento_Ventas=$descuento_Ventas,cantCostoContrato=$cantCostoContrato,costoContrato=$costoContrato,total_Salida=$total_Salida,
-                            total_Entrada=$total_Entrada,total_Iva=$total_Iva,saldo_Caja=$saldo_Caja,efectivo_Caja=$efectivo_Caja,cantAjustes=$cantAjustes,ajuste=$ajuste,cantIncremento=$CantIncremento,incremento=$incrementoPatrimonio,
-                            cantRefrendos=$cantRefrendos,informeRefrendo=$informeRefrendo,fecha_Creacion='$fechaCreacion',estatus=2, CerradoPorGerente=$cerradoPorGerenteGlb,flag_Activa=0 WHERE id_CierreCaja=$idCierreCaja AND sucursal = $sucursal and estatus =1";
+                            total_Entrada=$total_Entrada,total_Iva=$total_Iva,saldo_Caja=$saldo_Caja,efectivo_Caja=$efectivo_Caja,cantAjustes=$cantAjustes,
+                            ajuste=$ajuste,cantIncremento=$CantIncremento,incremento=$incrementoPatrimonio,
+                            cantRefrendos=$cantRefrendos,informeRefrendo=$informeRefrendo,fecha_Creacion='$fechaCreacion',
+                            estatus=2, CerradoPorGerente=$cerradoPorGerenteGlb,flag_Activa=0,CierreCajaIndispensable=0  
+                            WHERE id_CierreCaja=$idCierreCaja AND sucursal = $sucursal and estatus =1";
             if ($ps = $this->conexion->prepare($updateArqueo)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
