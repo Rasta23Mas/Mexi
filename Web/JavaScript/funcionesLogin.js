@@ -39,14 +39,19 @@ function mostrarContrasena() {
     var tipo = document.getElementById("idPassword");
     if (tipo.type == "password") {
         tipo.type = "text";
+        var imgClose = document.getElementById("ojoClose");
+        imgClose.style.visibility = 'visible';
+        var imgOpen = document.getElementById("ojoOpen");
+        imgOpen.style.visibility = 'hidden';
     } else {
         tipo.type = "password";
+        var imgClose = document.getElementById("ojoClose");
+        imgClose.style.visibility = 'hidden';
+        var imgOpen = document.getElementById("ojoOpen");
+        imgOpen.style.visibility = 'visible';
     }
 }
-function ocultarContrasena() {
-    var tipo = document.getElementById("idPassword");
-    tipo.type = "password";
-}
+
 
 function validarContrasenas() {
     var pass = $("#idPassword").val();

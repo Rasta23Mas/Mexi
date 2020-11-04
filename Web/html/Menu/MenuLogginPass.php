@@ -35,6 +35,13 @@ if (isset($_GET['userGet'])) {
             color:#39b54a;
         }
     </style>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            var imgOpen = document.getElementById("ojoOpen");
+            imgOpen.style.visibility = 'hidden';
+        });
+
+    </script>
 
 </head>
 <body id="bodyHome">
@@ -68,10 +75,10 @@ if (isset($_GET['userGet'])) {
                                    style="width: 170px" />
                         </td>
                         <td>
-                            <img src="../../style/Img/ojo_abierto.png"  alt="Ver Contraseña"
+                            <img src="../../style/Img/ojo_abierto.png"  alt="Ver Contraseña" id="ojoOpen"
                                  onclick="mostrarContrasena();">
-                            <img src="../../style/Img/ojo_cerrado.jpg"  alt="Ocultar Contraseña" class="invisible"
-                                 onclick="ocultarContrasena();">
+                            <img src="../../style/Img/ojo_cerrado.jpg"  alt="Ocultar Contraseña" id="ojoClose" 
+                                 onclick="mostrarContrasena();">
                         </td>
                     </tr>
                     <tr>
