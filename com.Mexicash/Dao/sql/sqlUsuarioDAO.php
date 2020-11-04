@@ -816,8 +816,10 @@ class sqlUsuarioDAO
             $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT Usu.id_User as id_User, Usu.usuario as NombreUser 
-                        FROM usuarios_tbl  as Usu
-                        Where Usu.id_Estatus=1 AND Usu.id_Caja != 0 AND id_Sucursal=$sucursal";
+                        From bit_cierrecaja AS BitC
+                        INNER JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
+                        Where Usu.id_Estatus=1 AND Usu.id_Caja != 0 AND Usu.id_Sucursal=$sucursal
+                        AND BitC.sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
 
             if ($rs->num_rows > 0) {
@@ -1010,9 +1012,11 @@ class sqlUsuarioDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT  Usu.id_User as id_User, Usu.usuario as NombreUser
-                        FROM usuarios_tbl AS Usu
-                        Where Usu.id_Estatus=1 AND id_Sucursal=$sucursal  AND tipoUsuario = 3 OR tipoUsuario=4 ";
+            $buscar = "SELECT Usu.id_User as id_User, Usu.usuario as NombreUser 
+                        From bit_cierrecaja AS BitC
+                        INNER JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
+                        Where Usu.id_Estatus=1 AND Usu.id_Caja != 0 AND Usu.id_Sucursal=$sucursal
+                        AND BitC.sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
 
             if ($rs->num_rows > 0) {
