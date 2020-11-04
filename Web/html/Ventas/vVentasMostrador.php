@@ -145,19 +145,19 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                                     <textarea  cols="50" id="idDireccionVenta" class="textArea" disabled>
                                     </textarea>
                         </td>
-                        <td colspan="2" style="vertical-align:top;" align="center">
+                        <!--<td colspan="2" style="vertical-align:top;" align="center">
                             <select id="idVendedor" name="cmbVendedor" class="selectpicker" style="width: 200px">
                                 <option value="0">Seleccione:</option>
                                 <?php
-                                $data = array();
+/*                                $data = array();
                                 $sqlUsu = new sqlUsuarioDAO();
                                 $data = $sqlUsu->vendedores();
                                 for ($i = 0; $i < count($data); $i++) {
                                     echo "<option value=" . $data[$i]['id_User'] . ">" . $data[$i]['NombreUser'] . "</option>";
                                 }
-                                ?>
+                                */?>
                             </select>
-                        </td>
+                        </td>-->
                     </tr>
                     <tr >
                         <td colspan="4">

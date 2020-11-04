@@ -135,16 +135,16 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
 
 //Carrito
 function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
-    var vendedor = $("#idVendedor").val();
+    var vendedor = 0;
     var cliente = $("#idClienteSeleccion").val();
 
     if (cliente == 0) {
         alertify.warning("Favor de seleccionar el cliente.");
-    } else if (vendedor == 0) {
+    } else if (vendedor == 33) {
         alertify.warning("Favor de seleccionar el vendedor.");
     } else {
         $("#idNombreVenta").prop('disabled', true);
-        $("#idVendedor").prop('disabled', true);
+       // $("#idVendedor").prop('disabled', true);
         var dataEnviar = {
             "id_ArticuloBazar": id_ArticuloBazar,
         };
@@ -461,7 +461,7 @@ function guardarVenta() {
         var utilidad = total -totalprestamo;
         var cambio = $("#idCambioValue").val();
         var cliente = $("#idClienteSeleccion").val();
-        var vendedor = $("#idVendedor").val();
+        var vendedor =0;
         idTokenGLb = $("#idToken").val();
         var tokenDesc = "";
         if (idTokenGLb != 0) {
