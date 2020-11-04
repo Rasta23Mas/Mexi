@@ -18,7 +18,7 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
 
 <script type="application/javascript">
     $(document).ready(function () {
-        $("#divCancelados").load('tablaCancelacionEmpeño.php');
+        $("#divCancelados").load('tablaCancelacionEmpeno.php');
     })
 </script>
 <body>

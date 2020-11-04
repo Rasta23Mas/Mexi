@@ -26,7 +26,6 @@ class sqlBitacorasDAO
 
             $usuario = $_SESSION["idUsuario"];
             $sucursal = $_SESSION["sucursal"];
-            $namePC = $_SESSION["namePC"];
             $id_CierreCaja = $_SESSION["idCierreCaja"];
             $insert = "INSERT INTO bit_user_ventas(id_Bazar, tipo_movimiento, cliente, vendedor, id_token,sucursal, id_CierreCaja, Usuario) 
                                 VALUES ($id_bazar,$id_Movimiento,$id_cliente,$id_vendedor,$idToken,$sucursal,$id_CierreCaja,$usuario)";

@@ -14,7 +14,6 @@ include_once(MENU_PATH . "menuPrincipal.php");
     <script src="../../librerias/bootstrap/js/bootstrap.js"></script>
     <script src="../../librerias/alertifyjs/alertify.js"></script>
     <script src="../../JavaScript/funcionesLogin.js"></script>
-    <title>Ingresar</title>
     <style>
         .login-container{
             margin-top: 5%;
@@ -46,14 +45,14 @@ include_once(MENU_PATH . "menuPrincipal.php");
             <div class="form-group" align="center">
                 <br>
                 <input type="text" name="usuario" id="usuario" class="form-control"
-                       placeholder="Usuario:" required style="width: 130px"/>
+                       placeholder="Usuario:" required style="width: 130px" value="Test"/>
             </div>
             <div class="form-group" align="center">
                 <input type="password" name="password" id="password" class="form-control"
                        placeholder="Contraseña" required style="width: 130px"  onkeypress="return enterValidaUser(event)"/>
             </div>
             <div class="form-group" align="center">
-                <input type="button" class="sub btn btn-primary" value="Entrar" onclick="validarUser()"/>
+                <input type="button" class="sub btn btn-primary" value="Entrar" onclick="validarPass()"/>
             </div>
         </div>
     </div>

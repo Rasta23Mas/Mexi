@@ -23,6 +23,27 @@ class sqlUsuarioDAO
         $this->conexion = $this->db->connectDB();
     }
 
+    function sqlCambioPass($usuario)
+    {
+        try {
+            $Pass = 0;
+
+            $buscar = "select Pass_reset  from usuarios_tbl where usuario ='$usuario'";
+            $statement = $this->conexion->query($buscar);
+            if ($statement->num_rows > 0) {
+                $fila = $statement->fetch_object();
+                $Pass = $fila->Pass_reset;
+            }
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo $Pass;
+    }
+
     function loginAutentificion($usuario, $pass)
     {
         try {
@@ -45,7 +66,6 @@ class sqlUsuarioDAO
                 $_SESSION['cajaInactiva'] = 0;
                 $_SESSION['idCierreSucursal'] = 0;
                 $_SESSION['idCierreCaja'] = 0;
-                $_SESSION['namePC'] =  gethostname();
                 $_SESSION["autentificado"]= "SI";
                 $_SESSION["ultimoAcceso"]= date("Y-n-j H:i:s");
 
@@ -774,7 +794,6 @@ class sqlUsuarioDAO
             $fechaCreacion = date('Y-m-d H:i:s');
             $usuario = $_SESSION["idUsuario"];
             $sucursal = $_SESSION["sucursal"];
-            $namePC = $_SESSION["namePC"];
             $id_CierreCaja = $_SESSION["idCierreCaja"];
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
             $tipoUsuario = $_SESSION['tipoUsuario'];
@@ -785,7 +804,7 @@ class sqlUsuarioDAO
                         id_contrato, id_almoneda, id_cliente, consulta_fechaInicio, consulta_fechaFinal,idArqueo, fecha_Creacion,NombrePC)
                          VALUES 
                          ($usuario, $sucursal, $id_CierreCaja,$id_CierreSucursal, $id_Movimiento, $id_contrato, $id_almoneda,
-                          $id_cliente,'$consulta_fechaInicio', '$consulta_fechaFinal',$idArqueo, '$fechaCreacion','$namePC');";
+                          $id_cliente,'$consulta_fechaInicio', '$consulta_fechaFinal',$idArqueo, '$fechaCreacion');";
                 if ($ps = $this->conexion->prepare($insert)) {
                     if ($ps->execute()) {
                         $verdad = mysqli_stmt_affected_rows($ps);

@@ -23,7 +23,7 @@ include_once(MENU_PATH . "modalSucursal.php");
 <nav class="navbar navbar-expand-sm bg-success navbar-dark fixed-top" style="background-color: #e3f2fd;">
     <ul class="navbar-nav">
         <li class="nav-item active">
-            <a class="nav-link" href="MenuLoggin.php">Ingresar</a>
+            <a class="nav-link" href="MenuLoggin.php">Mexicash</a>
         </li>
     </ul>
 

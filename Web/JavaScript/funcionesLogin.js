@@ -2,9 +2,64 @@ var tipoUserGlb = 0;
 
 function enterValidaUser(e) {
     if (e.keyCode == 13 && !e.shiftKey) {
-        validarUser();
+        validarPass();
     }
 }
+
+function validarPass() {
+    var user = $("#usuario").val();
+    var validate = true;
+    if (user == '' || user == null) {
+        alertify.error("Por favor ingrese un usuario.");
+        validate = false;
+    }
+    if (validate) {
+        var dataEnviar = {
+            "User": user,
+        };
+        $.ajax({
+            type: "POST",
+            url: '../../../com.Mexicash/Controlador/Usuario/PaassChange.php',
+            data: dataEnviar,
+            success: function (Pass) {
+                var validar = parseInt(Pass);
+                if (validar == 1) {
+                    alert("El usuario necesita cambiar su contraseña.");
+                    location.href = 'MenuLogginPass.php?userGet=' + user;
+                } else {
+                    alert("El usuario");
+                    validarUser();
+                }
+            }
+        });
+    }
+}
+
+function mostrarContrasena() {
+    var tipo = document.getElementById("idPassword");
+    if (tipo.type == "password") {
+        tipo.type = "text";
+    } else {
+        tipo.type = "password";
+    }
+}
+function ocultarContrasena() {
+    var tipo = document.getElementById("idPassword");
+    tipo.type = "password";
+}
+
+function validarContrasenas() {
+    var pass = $("#idPassword").val();
+    var passSecond = $("#idPasswordSecond").val();
+    if (pass != passSecond) {
+        alertify.error("Las contraseñas no son iguales.");
+    } else {
+        alert("si son iguales");
+    }
+
+
+}
+
 
 function validarUser() {
     var user = $("#usuario").val();
@@ -37,7 +92,7 @@ function validarUser() {
                         if (validateMobile) {
                             alert("El sistema Mexicash se encuentra inhabilitado para dispositivos moviles.");
                         } else {
-                                validarHorario();
+                            validarHorario();
 
                         }
                     }

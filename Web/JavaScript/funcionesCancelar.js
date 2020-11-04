@@ -7,7 +7,7 @@ var idMovimientoCancelar = 0;
 var errorToken = 0;
 
 function cancelarEmpeno() {
-    $("#divCancelados").load('tablaCancelacionEmpeño.php');
+    $("#divCancelados").load('tablaCancelacionEmpeno.php');
     var tipoMovimiento = 0;
     if (tipoContratoGlobal == 1) {
          tipoMovimiento = 3;
@@ -18,7 +18,7 @@ function cancelarEmpeno() {
 }
 
 function cancelarRefrendo() {
-    $("#divCancelados").load('tablaCancelacionEmpeño.php');
+    $("#divCancelados").load('tablaCancelacionEmpeno.php');
     var tipoMovimiento = 0;
 
     if (tipoContratoGlobal == 1) {
@@ -30,7 +30,7 @@ function cancelarRefrendo() {
 }
 
 function cancelarDesempeno() {
-    $("#divCancelados").load('tablaCancelacionEmpeño.php');
+    $("#divCancelados").load('tablaCancelacionEmpeno.php');
     var tipoMovimiento = 0;
 
     if (tipoContratoGlobal == 1) {
@@ -42,7 +42,7 @@ function cancelarDesempeno() {
 }
 
 function cancelarTodos() {
-    $("#divCancelados").load('tablaCancelacionEmpeño.php');
+    $("#divCancelados").load('tablaCancelacionEmpeno.php');
     buscarTodosContratos();
 }
 
@@ -134,7 +134,7 @@ function buscarContratos(tipoMovimiento) {
             }
         }
     });
-    $("#divCancelados").load('tablaCancelacionEmpeño.php');
+    $("#divCancelados").load('tablaCancelacionEmpeno.php');
 }
 function buscarTodosContratos() {
     if (tipoContratoGlobal == 2) {
@@ -203,7 +203,7 @@ function buscarTodosContratos() {
         }
         }
     });
-    $("#divCancelados").load('tablaCancelacionEmpeño.php');
+    $("#divCancelados").load('tablaCancelacionEmpeno.php');
 }
 
 function buscarEstatusCancelar(Contrato, MovimientoTipo) {
