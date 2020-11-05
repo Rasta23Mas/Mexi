@@ -49,57 +49,80 @@ if (isset($_GET['userGet'])) {
     <div class="row">
         <div class="col-md-5"></div>
         <div class="col-md-5 login-form-1" align="center">
-            <div align="center">
-                <img src="../../img/logo/logoChT.png" alt=""/>
-            </div>
-            <h3>Cambio de Contraseña</h3>
-            <div id="resultado" style="color:#FF0000;" align="center">
-            </div>
-            <div class="form-group" align="center">
-                <table>
+                <table width="100%">
                     <tr>
-                        <td class="2">
-                            <input type="text" name="us" id="idUsuarioReset" class="form-control"
-                                   style="width: 170px"  disabled value="<?php echo $usuarioGet; ?>" />
+                        <td align="center" colspan="5">
+                            <img src="../../img/logo/logoChT.png" alt=""/>
                         </td>
                     </tr>
                     <tr>
-                        <td class="2">
+                        <td colspan="5">
                             <br>
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="5">
+                            <h3>Cambio de Contraseña</h3>
+                            <div id="resultado" style="color:#FF0000;" align="center">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="right">
+                            <input type="text" name="us" id="idUsuarioReset" class="form-control"
+                                   style="width: 170px"  disabled value="<?php echo $usuarioGet; ?>" />
+                        </td>
                         <td>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" colspan="4">
                             <input type="password" name="password" id="idPassword" class="form-control"
                                    placeholder="Nueva Contraseña"
                                    style="width: 170px" />
                         </td>
-                        <td>
-                            <img src="../../style/Img/ojo_abierto.png"  alt="Ver Contraseña" id="ojoOpen"
-                                 onclick="mostrarContrasena();">
-                            <img src="../../style/Img/ojo_cerrado.jpg"  alt="Ocultar Contraseña" id="ojoClose" 
-                                 onclick="mostrarContrasena();">
+                        <td align="left" >
+                            <img src="../../style/Img/ojo_abierto.png"  alt="Ocultar Contraseña" id="ojoClose"  onclick="mostrarContrasena();">
+                            <img src="../../style/Img/ojo_cerrado.jpg"  alt="Ver Contraseña" id="ojoOpen" onclick="mostrarContrasena();">
                         </td>
                     </tr>
                     <tr>
-                        <td class="2">
+                        <td colspan="5">
                             <br>
                         </td>
                     </tr>
                     <tr>
-                        <td class="2">
+                        <td colspan="4" align="right">
                         <input type="password" name="password" id="idPasswordSecond" class="form-control"
                                placeholder="Repetir Contraseña"
                                style="width: 170px"/>
                         </td>
+                        <td>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" align="center">
+                            <input type="button" class="sub btn btn-primary" value="Guardar" onclick="validarContrasenas()"/>
+                        </td>
                     </tr>
                 </table>
-            </div>
-
-            <div class="form-group" align="center">
-                <input type="button" class="sub btn btn-primary" value="Guardar" onclick="validarContrasenas()"/>
-                <input type="button" class="sub btn btn-primary" value="Mostrar" onclick="mostrarContrasena()"/>
-
             </div>
         </div>
     </div>

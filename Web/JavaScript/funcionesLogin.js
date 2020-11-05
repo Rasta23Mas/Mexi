@@ -19,7 +19,7 @@ function validarPass() {
         };
         $.ajax({
             type: "POST",
-            url: '../../../com.Mexicash/Controlador/Usuario/PaassChange.php',
+            url: '../../../com.Mexicash/Controlador/Usuario/PassChange.php',
             data: dataEnviar,
             success: function (Pass) {
                 var validar = parseInt(Pass);
@@ -27,7 +27,6 @@ function validarPass() {
                     alert("El usuario necesita cambiar su contraseña.");
                     location.href = 'MenuLogginPass.php?userGet=' + user;
                 } else {
-                    alert("El usuario");
                     validarUser();
                 }
             }
@@ -37,29 +36,55 @@ function validarPass() {
 
 function mostrarContrasena() {
     var tipo = document.getElementById("idPassword");
-    if (tipo.type == "password") {
-        tipo.type = "text";
-        var imgClose = document.getElementById("ojoClose");
-        imgClose.style.visibility = 'visible';
-        var imgOpen = document.getElementById("ojoOpen");
-        imgOpen.style.visibility = 'hidden';
-    } else {
-        tipo.type = "password";
-        var imgClose = document.getElementById("ojoClose");
-        imgClose.style.visibility = 'hidden';
-        var imgOpen = document.getElementById("ojoOpen");
-        imgOpen.style.visibility = 'visible';
+    var pass = $("#idPassword").val();
+    var user = $("#idUsuarioReset").val();
+    if(pass!=""){
+        if (tipo.type == "password") {
+            tipo.type = "text";
+            var imgClose = document.getElementById("ojoClose");
+            imgClose.style.visibility = 'hidden';
+            var imgOpen = document.getElementById("ojoOpen");
+            imgOpen.style.visibility = 'visible';
+        } else {
+            tipo.type = "password";
+            var imgClose = document.getElementById("ojoClose");
+            imgClose.style.visibility = 'visible';
+            var imgOpen = document.getElementById("ojoOpen");
+            imgOpen.style.visibility = 'hidden';
+        }
+    }else{
+        alert("Por favor capture la contraseña.");
     }
+
 }
 
 
 function validarContrasenas() {
     var pass = $("#idPassword").val();
     var passSecond = $("#idPasswordSecond").val();
+    var user = $("#idUsuarioReset").val();
     if (pass != passSecond) {
         alertify.error("Las contraseñas no son iguales.");
     } else {
-        alert("si son iguales");
+
+        var dataEnviar = {
+            "pass": pass,
+            "user": user,
+        };
+        $.ajax({
+            type: "POST",
+            url: '../../../com.Mexicash/Controlador/Usuario/PassGuardar.php',
+            data: dataEnviar,
+            success: function (guardado) {
+                var validar = parseInt(guardado);
+                if (validar == 1) {
+                    alert("Se cambio la contraseña correctamente.");
+                    location.href = 'MenuLoggin.php';
+                } else {
+                    alert("Error al guardar contraseña.");
+                }
+            }
+        });
     }
 
 
@@ -311,6 +336,7 @@ function BitacoraUsuario() {
         url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
         data: dataEnviar,
         success: function (response) {
+            alert(response)
             if (response > 0) {
                 if (tipoUserGlb == 3) {
                     location.href = '../Empeno/vInicioGerente.php'

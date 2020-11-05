@@ -47,27 +47,30 @@ class sqlUsuarioDAO
     function loginAutentificion($usuario, $pass)
     {
         try {
-            $id = -1;
-
-            $buscar = "select id_User,usuario,id_Sucursal,tipoUsuario  from usuarios_tbl where usuario = '" . $usuario . "' and password = '" . $pass . "'";
+            $tipoUsuario = 0;
+            $buscar = "select id_User,usuario,password,id_Sucursal,tipoUsuario  from usuarios_tbl where usuario = '$usuario'";
             $statement = $this->conexion->query($buscar);
 
             if ($statement->num_rows > 0) {
-                $fila = $statement->fetch_object();
-                $id = $fila->id_User;
-                $idName = $fila->usuario;
-                $id_Sucursal = $fila->id_Sucursal;
-                $tipoUsuario = $fila->tipoUsuario;
-                $_SESSION['idUsuario'] = $id;
-                $_SESSION['usuario'] = $idName;
-                $_SESSION['sucursal'] = $id_Sucursal;
-                $_SESSION['tipoUsuario'] = $tipoUsuario;
-                $_SESSION['sesionInactiva'] = 0;
-                $_SESSION['cajaInactiva'] = 0;
-                $_SESSION['idCierreSucursal'] = 0;
-                $_SESSION['idCierreCaja'] = 0;
-                $_SESSION["autentificado"]= "SI";
-                $_SESSION["ultimoAcceso"]= date("Y-n-j H:i:s");
+                    $fila = $statement->fetch_object();
+                    $pass_hash = $fila->password;
+                if(password_verify($pass, $pass_hash)) {
+                    $id = $fila->id_User;
+                    $idName = $fila->usuario;
+                    $id_Sucursal = $fila->id_Sucursal;
+                    $tipoUsuario =  $fila->tipoUsuario;
+                    $_SESSION['idUsuario'] = $id;
+                    $_SESSION['usuario'] = $idName;
+                    $_SESSION['sucursal'] = $id_Sucursal;
+                    $_SESSION['tipoUsuario'] = $tipoUsuario;
+                    $_SESSION['sesionInactiva'] = 0;
+                    $_SESSION['cajaInactiva'] = 0;
+                    $_SESSION['idCierreSucursal'] = 0;
+                    $_SESSION['idCierreCaja'] = 0;
+                    $_SESSION["autentificado"]= "SI";
+                    $_SESSION["ultimoAcceso"]= date("Y-n-j H:i:s");
+                }
+
 
             }
 
@@ -801,7 +804,7 @@ class sqlUsuarioDAO
                 $verdad = 1;
             } else {
                 $insert = "INSERT INTO bit_usuario (usuario, sucursal, bit_cierreCaja, bit_cierreSucursal, id_Movimiento,
-                        id_contrato, id_almoneda, id_cliente, consulta_fechaInicio, consulta_fechaFinal,idArqueo, fecha_Creacion,NombrePC)
+                        id_contrato, id_almoneda, id_cliente, consulta_fechaInicio, consulta_fechaFinal,idArqueo, fecha_Creacion)
                          VALUES 
                          ($usuario, $sucursal, $id_CierreCaja,$id_CierreSucursal, $id_Movimiento, $id_contrato, $id_almoneda,
                           $id_cliente,'$consulta_fechaInicio', '$consulta_fechaFinal',$idArqueo, '$fechaCreacion');";
@@ -1054,5 +1057,28 @@ class sqlUsuarioDAO
         }
 
         return $datos;
+    }
+
+    function sqlGuardarPass($hashed_password,$user)
+    {
+        try {
+            $verdad = 0;
+            $updatePassword = "UPDATE usuarios_tbl SET password='$hashed_password', Pass_reset=0
+                WHERE usuario='$user'";
+            if ($ps = $this->conexion->prepare($updatePassword)) {
+                if ($ps->execute()) {
+                    $verdad = 1;
+                } else {
+                    $verdad = -2;
+                }
+            } else {
+                $verdad = -3;
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
     }
 }
