@@ -55,6 +55,7 @@ function LimpiarSinResetearIdArticulo() {
     $("#idAvaluo").val("");
     $("#idObs").val("");
     $("#idDetallePrenda").val("");
+    $("#idIMEI").val("");
     <!--   Limpiar Electronicos-->
     $("#idTipoElectronico").val(0);
     $("#idMarca").val("");
@@ -234,7 +235,6 @@ function Agregar() {
                                         url: '../../../com.Mexicash/Controlador/Articulos/Articulo.php',
                                         type: 'post',
                                         success: function (response) {
-                                            alert(response)
                                             if (response == 1) {
                                                 cargarTablaArticulo();
                                                 $("#divTablaArticulos").load('tablaArticulos.php');

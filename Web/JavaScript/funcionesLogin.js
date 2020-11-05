@@ -336,7 +336,6 @@ function BitacoraUsuario() {
         url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraUsuario.php',
         data: dataEnviar,
         success: function (response) {
-            alert(response)
             if (response > 0) {
                 if (tipoUserGlb == 3) {
                     location.href = '../Empeno/vInicioGerente.php'

@@ -324,15 +324,12 @@ function validarAjustesVenta() {
                 var tipo_movimiento = datos[i].tipo_movimiento;
                 //VENTA
                 var e_venta_mostrador = datos[i].subTotal;
-                var iva = datos[i].iva;
                 var e_venta_apartados = datos[i].apartado;
                 var e_venta_abono = datos[i].abono;
 
                 if(tipo_movimiento==6||tipo_movimiento==10){
                     e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
-                    iva = Math.round(iva * 100) / 100;
-                    var totalVenta= e_venta_mostrador+ iva;
-                    venta += totalVenta;
+                    venta += e_venta_mostrador;
                 }else if(tipo_movimiento==22){
                     e_venta_abono = Math.round(e_venta_abono * 100) / 100;
                     venta_abono += e_venta_apartados;
