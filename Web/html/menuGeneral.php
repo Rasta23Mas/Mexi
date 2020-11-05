@@ -63,7 +63,7 @@ $_SESSION['dotaciones'] = 0;
 </head>
 <body>
 <nav class="navbar navbar-expand-xl bg-success navbar-dark">
-    <a class="navbar-brand" href="../Empeno/vInicio.php">Inicio</a>
+    <a class="navbar-brand" href="../Empeno/vInicioGerente.php">Inicio</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
