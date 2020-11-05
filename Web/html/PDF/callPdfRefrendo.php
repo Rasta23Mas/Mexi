@@ -165,25 +165,25 @@ $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
          .letraNormalNegrita{
-          font-size: .4em;
+          font-size: .6em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
-          font-size: .5em;
+          font-size: .7em;
           font-weight: bold;
          }
           .letraChicaNegrita{
-          font-size: .3em;
+          font-size: .5em;
           font-weight: bold;
          }
           .letraNormal{
-          font-size: .4em;
+          font-size: .6em;
          }
           .letraGrande{
-          font-size: .5em;
+          font-size: .7em;
          }
           .letraChica{
-          font-size: .3em;
+          font-size: .5em;
          }
         .tituloCelda{
           background-color: #ebebe0
@@ -414,7 +414,7 @@ $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
 $nombreContrato = 'Refrendo_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-$customPaper = array(0,0,226.772,625.197);
+$customPaper = array(0,0,400,700);
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);
