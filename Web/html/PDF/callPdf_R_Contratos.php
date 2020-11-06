@@ -94,7 +94,7 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
                         WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
                         AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
-                        AND Bit.sucursal = $sucursal 
+                        AND Bit.sucursal = $sucursal AND Cli.sucursal = $sucursal AND Con.sucursal = $sucursal 
                         ORDER BY Form";
 $resultado = $db->query($query);
 $tipoMetal = 0;

@@ -72,7 +72,7 @@ $query = " SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_B
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
                         LEFT JOIN cat_movimientos AS Mov on Baz.tipo_movimiento = Mov.id_Movimiento
-                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
+                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal and ART.sucursal=$sucursal";
 $resultado = $db->query($query);
 
 $tablaArticulos = '';
