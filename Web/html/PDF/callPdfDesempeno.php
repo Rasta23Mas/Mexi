@@ -32,7 +32,6 @@ $Fecha_Almoneda = "";
 $Fecha_Vencimiento = "";
 $Fecha_Creacion = "";
 $NombreUsuario = "";
-$sucursal = "";
 
 $subTotal = 0;
 $Total = 0;
