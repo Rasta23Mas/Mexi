@@ -79,7 +79,8 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
   LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja 
   LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
   LEFT JOIN cat_sucursal CATS ON Con.sucursal= CATS.id_Sucursal  
-  WHERE Con.id_Contrato =$idContrato AND Con.sucursal = $sucursal AND Caj.sucursal= $sucursal";
+  WHERE Con.id_Contrato =$idContrato AND Con.sucursal = $sucursal AND Caj.sucursal= $sucursal
+  AND Cli.sucursal= $sucursal";
 
 $resultado = $db->query($query);
 

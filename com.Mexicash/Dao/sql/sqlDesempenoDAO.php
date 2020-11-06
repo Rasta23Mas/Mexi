@@ -26,9 +26,11 @@ class sqlDesempenoDAO
         //Modifique los estatus de usuario
         //$datos = array();
         $id="";
+        $sucursal = $_SESSION["sucursal"];
         try {
             $buscar = "SELECT max(id_movimiento) as IdMovimiento FROM contrato_mov_tbl 
-                        WHERE id_contrato = '$idContratoDes' and tipo_Contrato= $tipoContrato and tipo_movimiento!=20";
+                        WHERE id_contrato = '$idContratoDes' and tipo_Contrato= $tipoContrato 
+                        and sucursal= $sucursal and tipo_movimiento!=20";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 $fila = $rs->fetch_object();
@@ -50,6 +52,7 @@ class sqlDesempenoDAO
         //Modifique los estatus de usuario
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Mov.id_contrato as Contrato, Mov.fecha_Movimiento  as Fecha,
                         CONCAT (Cli.nombre, ' ',Cli.apellido_Pat,' ', Cli.apellido_Mat) as NombreCompleto,
                         CatM.descripcion as Movimiento, Mov.tipo_movimiento as tipoMovimiento
@@ -57,7 +60,8 @@ class sqlDesempenoDAO
                         INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato  
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         INNER JOIN cat_movimientos as CatM on Mov.tipo_movimiento = CatM.id_Movimiento  
-                        WHERE Mov.id_movimiento = $IdMovimiento ";
+                        WHERE Mov.id_movimiento = $IdMovimiento  and Con.sucursal=$sucursal 
+                        and Mov.sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
@@ -85,6 +89,8 @@ class sqlDesempenoDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT 	Con.id_Cliente AS Cliente,CONCAT (Cli.apellido_Pat,'/', Cli.apellido_Mat,'/',Cli.nombre) as NombreCompleto,
                         CONCAT (calle, ', ',num_interior, ', ',num_exterior, ', ',  localidad, ', ') as DireccionCompleta,
                         CONCAT (municipio,', ',Est.descripcion ) as DireccionCompletaEst,
@@ -95,7 +101,8 @@ class sqlDesempenoDAO
                         LEFT JOIN cat_estado as Est on Cli.estado = Est.id_Estado  
                         LEFT JOIN bit_cierrecaja as Caj on Mov.id_CierreCaja = Caj.id_cierreCaja
                         LEFT JOIN usuarios_tbl as Usu on Caj.usuario = Usu.id_User
-                       	WHERE Mov.id_movimiento = $IdMovimiento";
+                       	WHERE Mov.id_movimiento = $IdMovimiento  and Con.sucursal=$sucursal 
+                        and Mov.sucursal=$sucursal";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -124,6 +131,8 @@ class sqlDesempenoDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT
                         ConMov.fecha_Movimiento AS FechaEmpMovimiento,
                         DATE(ConMov.fecha_Movimiento) AS FechaEmpConvertMovimiento,
@@ -147,7 +156,7 @@ class sqlDesempenoDAO
                         ConMov.prestamo_Informativo as PrestamoInfo
                         From contrato_mov_tbl AS ConMov
                         INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato
-						WHERE ConMov.id_movimiento = $IdMovimiento";
+						WHERE ConMov.id_movimiento = $IdMovimiento  and Con.sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -191,10 +200,12 @@ class sqlDesempenoDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT Art.detalle as Detalle,Art.observaciones as Obseracion 
                         FROM articulo_tbl as Art
                         INNER JOIN contrato_mov_tbl  as Mov ON Art.id_Contrato = Mov.id_contrato
-                        WHERE Mov.id_movimiento = $IdMovimiento";
+                        WHERE Mov.id_movimiento = $IdMovimiento and Mov.sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
@@ -219,11 +230,13 @@ class sqlDesempenoDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT Auto.marca as Marca,Auto.modelo as Modelo,Auto.anio as Anio,
                         Auto.observaciones as Obs, Auto.color as ColorAuto 
                         FROM auto_tbl as Auto 
                         INNER JOIN contrato_mov_tbl  as Mov ON Auto.id_Contrato = Mov.id_contrato
-                        WHERE Mov.id_movimiento = $IdMovimiento";
+                        WHERE Mov.id_movimiento = $IdMovimiento  and Mov.sucursal=$sucursal";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -571,9 +584,10 @@ class sqlDesempenoDAO
 
         try {
             $resultado = -1;
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Cos.costo AS Costo FROM contratos_tbl as Con
                        INNER JOIN cat_costo_contrato AS Cos ON Con.id_Formulario = Cos.id_formulario
-                       WHERE Con.id_Contrato = $contrato";
+                       WHERE Con.id_Contrato = $contrato and Cos.sucursal=$sucursal  and Con.sucursal=$sucursal";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();

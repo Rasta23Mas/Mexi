@@ -24,8 +24,10 @@ class sqlBazarDAO
         $datos = array();
         try {
             $fechaHoy = date('Y-m-d');
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_movimiento,prestamo_Informativo FROM contrato_mov_tbl
                         WHERE  DATE_FORMAT(fechaAlmoneda,'%Y-%m-%d') = '$fechaHoy' 
+                        and sucursal= $sucursal
                         AND tipo_movimiento = 3 
                         AND id_contrato NOT IN 
                         (select id_contrato from contrato_mov_tbl where estatus != 3)";
