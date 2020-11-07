@@ -984,13 +984,14 @@ function exportar(expor) {
                 if(expor==1){
                     window.open('../Excel/rpt_Exc_Compra.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }else{
-
+                    alert("entra");
+                    window.open('../PDF/callPdf_R_Compra.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
             }else if (tipoReporte == 9) {
                 if(expor==1){
                     window.open('../Excel/rpt_Exc_Venta.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-
                 }else{
+                    window.open('../PDF/callPdf_R_Venta.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
 
                 }
             }else if (tipoReporte == 10) {
