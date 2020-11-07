@@ -139,7 +139,7 @@ class sqlCancelarDAO
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
                         INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
                         WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.tipo_movimiento  !=20 AND Mov.sucursal= $sucursal 
-                        AND DATE_FORMAT(Mov.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaHoy' AND '$fechaHoy'";
+                        AND DATE_FORMAT(Mov.fecha_Movimiento,'%Y-%m-%d') = '$fechaHoy'";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -158,6 +158,83 @@ class sqlCancelarDAO
                         "Plazo" => $row["PlazoMov"],
                         "CostoContrato" => $row["CostoContrato"],
                         "MovimientoTipo" => $row["MovimientoTipo"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    function comprasCancelar($tipoContratoGlobal)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $fechaHoy = date('Y-m-d');
+            $buscar = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
+                        vitrinaVenta AS precio_venta, 
+                        precioCompra , (vitrinaVenta - precioCompra) as utilidad, 
+                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        FROM articulo_bazar_tbl 
+                        LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
+                        WHERE DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')  =  '$fechaHoy'
+                        AND id_serieTipo=2  AND sucursal=$sucursal";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "id_Contrato" => $row["id_Contrato"],
+                        "id_serie" => $row["id_serie"],
+                        "precio_venta" => $row["precio_venta"],
+                        "precioCompra" => $row["precioCompra"],
+                        "utilidad" => $row["utilidad"],
+                        "Detalle" => $row["Detalle"],
+                        "CatDesc" => $row["CatDesc"],
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    function ventasCancelar($tipoContratoGlobal)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $fechaHoy = date('Y-m-d');
+            $buscar = "SELECT DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
+                        descripcionCorta as Detalle,descuento_Venta,CAT.descripcion as CatDesc
+                        FROM bit_ventas as Ven
+                        LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
+                        LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar
+                        LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
+                        WHERE DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  =  '$fechaHoy'
+                        AND Ven.sucursal=$sucursal ";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "FECHA" => $row["FECHA"],
+                        "id_Contrato" => $row["id_Contrato"],
+                        "id_serie" => $row["id_serie"],
+                        "precio_venta" => $row["precio_venta"],
+                        "Detalle" => $row["Detalle"],
+                        "descuento_Venta" => $row["descuento_Venta"],
+                        "CatDesc" => $row["CatDesc"],
                     ];
                     array_push($datos, $data);
                 }

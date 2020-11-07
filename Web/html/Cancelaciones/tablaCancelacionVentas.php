@@ -6,21 +6,15 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
 <table class="table table-hover table-condensed table-bordered" width="100%">
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
+        <th>Fecha Venta</th>
         <th>Contrato</th>
-        <th>Creación</th>
-        <th>Movimiento</th>
-        <th>Folio</th>
-        <th>Prestamo</th>
-        <th>Abono</th>
-        <th>Pago</th>
-        <th>Interes</th>
-        <th>Moratorios</th>
-        <th>Costo Contrato</th>
+        <th>Serie</th>
+        <th width="800px">Detalle</th>
+        <th>Venta</th>
         <th>Descuento</th>
-        <th>Plazo</th>
-        <th>Cancelar</th>
+        <th>Tipo Adquisición</th>
     </tr>
     </thead>
-    <tbody id="idTBodyCancelaciones" class="letraExtraChica" align="center">
+    <tbody id="idTBodyCancelacionesVentas" class="letraExtraChica" align="center">
     </tbody>
 </table>
