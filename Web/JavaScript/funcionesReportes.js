@@ -988,7 +988,8 @@ function exportar(expor) {
                 }
             }else if (tipoReporte == 9) {
                 if(expor==1){
-                    window.open('../Excel/rpt_Exc_Venta.php?sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_Venta.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+
                 }else{
 
                 }

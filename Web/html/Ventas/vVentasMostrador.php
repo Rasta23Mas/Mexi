@@ -123,9 +123,6 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                         <td colspan="6">
                             <label for="direccion">Dirección:</label>
                         </td>
-                        <td colspan="2">
-                            <label for="celular">Vendedor:</label>
-                        </td>
                     </tr>
                     <tr>
                         <td colspan="2" style="vertical-align:top;">

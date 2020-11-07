@@ -420,8 +420,8 @@ class sqlReportesDAO
             if ($busqueda == 1) {
                 $count = "SELECT COUNT(id_ventas) as  totalCount 
                         FROM bit_ventas as Con
-                        WHERE fecha_Creacion  >=  '$fechaIni'
-                        AND fecha_Creacion  <=  '$fechaFin' 
+                        WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
+                        AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
                         AND sucursal=$sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
@@ -433,8 +433,8 @@ class sqlReportesDAO
                         LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
                         LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar
                         LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
-                        WHERE Ven.fecha_Creacion  >=  '$fechaIni'
-                        AND Ven.fecha_Creacion  <=  '$fechaFin' 
+                        WHERE DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
+                        AND DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
                         AND Ven.sucursal=$sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
                       OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);

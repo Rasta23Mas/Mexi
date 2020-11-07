@@ -106,8 +106,8 @@ $rptRef = "SELECT DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contra
                         LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
                         LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar
                         LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
-                        WHERE Ven.fecha_Creacion  >=  '$fechaIni'
-                        AND Ven.fecha_Creacion  <=  '$fechaFin' 
+                        WHERE DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
+                        AND DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
                         AND Ven.sucursal=$sucursal";
 $query = $db->query($rptRef);
 
