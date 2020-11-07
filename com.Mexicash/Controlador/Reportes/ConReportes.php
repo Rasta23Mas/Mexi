@@ -41,4 +41,4 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteEmpeno($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }
 
-    ?>
+?>

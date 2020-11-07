@@ -566,7 +566,6 @@ class sqlUsuarioDAO
 
                     $updateSaldoInicial = "UPDATE bit_cierrecaja SET id_CierreCaja=$idCierreCajaMax
                         WHERE id_CierreCaja=0 AND sucursal=$sucursal AND estatus=1";
-
                     if ($ps = $this->conexion->prepare($updateSaldoInicial)) {
                         if ($ps->execute()) {
                             $insertoFila = mysqli_stmt_affected_rows($ps);
@@ -594,7 +593,7 @@ class sqlUsuarioDAO
                 }
             } else {
                 $fechaHoy = date('Y-m-d');
-                $buscarHoy = "select id_CierreCaja from bit_cierrecaja where flag_Activa=0 AND sucursal=$sucursal AND DATE(fecha_Creacion	)='$fechaHoy'";
+                $buscarHoy = "select id_CierreCaja from bit_cierrecaja where flag_Activa=0 AND sucursal=$sucursal AND DATE(fecha_Creacion)='$fechaHoy'";
                 $statement = $this->conexion->query($buscarHoy);
                 $encontro = $statement->num_rows;
                 if ($encontro > 0) {

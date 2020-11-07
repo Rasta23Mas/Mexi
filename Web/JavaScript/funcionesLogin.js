@@ -417,7 +417,7 @@ function buscaridCajaVendedor() {
         success: function (response) {
             if (response == 1) {
                 BitacoraUsuario();
-            } else if (response == 1) {
+            } else if (response == 2) {
                 alertify.error('Sistema cerrado. El usuario ha realizado el cierre de su caja.')
             } else {
                 alertify.error("Error en al conectar con el servidor.  (ErrFn10)")
