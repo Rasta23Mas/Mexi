@@ -363,6 +363,7 @@ function fnAgregarArtCompra() {
                             "idPrecioCat": $("#idPrecioCat").val(),
                             "idObsElectronico": $("#idObsElectronico").val(),
                             "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
+                            "idPrecioCompra": $("#idPrecioCompra").val(),
                             "idContrato": 0,
                             "SerieBazar": SerieBazar,
                             "id_serieTipo": id_serieTipo,
@@ -412,6 +413,7 @@ function fnLimpiarSinResetearIdArticulo() {
     $("#idAvaluo").val("");
     $("#idObs").val("");
     $("#idDetallePrenda").val("");
+    $("#idPrecioCompra").val("");
     <!--   Limpiar Electronicos-->
     $("#idTipoElectronico").val(0);
     $("#idMarca").val("");
@@ -454,15 +456,18 @@ function fnCargarArticulos() {
                     var descripcionCorta = datos[i].descripcionCorta;
                     var observaciones = datos[i].observaciones;
                     var vitrina = datos[i].vitrina;
+                    var precioCompra = datos[i].precioCompra;
+                    precioCompra = parseFloat(precioCompra);
 
                     vitrina = parseFloat(vitrina);
-                    subtotal += vitrina;
+                    subtotal += precioCompra;
                     vitrina = formatoMoneda(vitrina);
-
+                    precioCompra = formatoMoneda(precioCompra);
                     html += '<tr>' +
                         '<td>' + id_serie + '</td>' +
                         '<td>' + descripcionCorta + '</td>' +
                         '<td>' + observaciones + '</td>' +
+                        '<td>' + precioCompra + '</td>' +
                         '<td>' + vitrina + '</td>' +
                         '<td><input type="button" class="btn btn-danger" value="Eliminar" ' +
                         'onclick="fnConfirmarEliminarArticulo(' + id_ArticuloBazar + ')"></td>' +

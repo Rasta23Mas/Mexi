@@ -46,6 +46,16 @@ function cancelarTodos() {
     buscarTodosContratos();
 }
 
+function cancelarCompra() {
+    $("#divCancelados").load('tablaCancelacionBazar.php');
+    buscarBazarContratos(1);
+}
+
+function cancelarVenta() {
+    $("#divCancelados").load('tablaCancelacionBazar.php');
+    buscarBazarContratos(2);
+}
+
 function cancelarCierreCaja() {
     $("#divCancelados").load('tablaCancelacionCierre.php');
     buscarCierreCaja();
@@ -136,6 +146,7 @@ function buscarContratos(tipoMovimiento) {
     });
     $("#divCancelados").load('tablaCancelacionEmpeno.php');
 }
+
 function buscarTodosContratos() {
     if (tipoContratoGlobal == 2) {
         $('#idAutoCheck').prop('checked', true);
@@ -201,6 +212,78 @@ function buscarTodosContratos() {
         } else {
             alertify.error("No hay registros para mostrar.")
         }
+        }
+    });
+    $("#divCancelados").load('tablaCancelacionEmpeno.php');
+}
+
+function buscarBazarContratos(tipo) {
+    //tipo 1 Compras// tipo 2 Ventas
+    if (tipoContratoGlobal == 2) {
+        $('#idAutoCheck').prop('checked', true);
+    } else if (tipoContratoGlobal == 1) {
+        $('#idAutoCheck').prop('checked', false);
+    }
+    var dataEnviar = {
+        "tipoContratoGlobal": tipoContratoGlobal,
+        "tipo": tipo
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Cancelar/busquedaTodos.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            alert("Refrescando tabla.");
+            var html = '';
+            var i = 0;
+            if(datos.length>0){
+                for (i; i < datos.length; i++) {
+                    var Contrato = datos[i].Contrato;
+                    var FechaCreacion = datos[i].FechaCreacion;
+                    var Movimiento = datos[i].Movimiento;
+                    var idMovimiento = datos[i].idMovimiento;
+                    var Prestamo = datos[i].Prestamo;
+                    var PrestamoActual = datos[i].PrestamoActual;
+                    var Abono = datos[i].Abono;
+                    var Interes = datos[i].Interes;
+                    var Moratorios = datos[i].Moratorios;
+                    var Descuento = datos[i].Descuento;
+                    var Pago = datos[i].Pago;
+                    var Plazo = datos[i].Plazo;
+                    var CostoContrato = datos[i].CostoContrato;
+                    var MovimientoTipo = datos[i].MovimientoTipo;
+                    Prestamo = formatoMoneda(Prestamo);
+                    Abono = formatoMoneda(Abono);
+                    Interes = formatoMoneda(Interes);
+                    Moratorios = formatoMoneda(Moratorios);
+                    Descuento = formatoMoneda(Descuento);
+                    Pago = formatoMoneda(Pago);
+                    CostoContrato = formatoMoneda(CostoContrato);
+
+
+                    html += '<tr>' +
+                        '<td >' + Contrato + '</td>' +
+                        '<td>' + FechaCreacion + '</td>' +
+                        '<td>' + Movimiento + '</td>' +
+                        '<td>' + idMovimiento + '</td>' +
+                        '<td>' + PrestamoActual + '</td>' +
+                        '<td>' + Abono + '</td>' +
+                        '<td>' + Pago + '</td>' +
+                        '<td>' + Interes + '</td>' +
+                        '<td>' + Moratorios + '</td>' +
+                        '<td>' + CostoContrato + '</td>' +
+                        '<td>' + Descuento + '</td>' +
+                        '<td>' + Plazo + '</td>' +
+                        '<td align="center">' +
+                        '<img src="../../style/Img/cancelarNor.png"   alt="Cancelar" onclick="buscarEstatusCancelar(' + Contrato + ',' + MovimientoTipo + ' )">' +
+                        '</td>';
+
+                }
+                $('#idTBodyCancelaciones').html(html);
+            } else {
+                alertify.error("No hay registros para mostrar.")
+            }
         }
     });
     $("#divCancelados").load('tablaCancelacionEmpeno.php');

@@ -34,7 +34,10 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                 <table width="20%" align="center" class="table-bordered border-primary ">
                     <tr style="background: dodgerblue; color:white;">
                         <td align="center" colspan="4">
-                            <label>Empeños</label>
+                            <label>Artículos</label>
+                        </td>
+                        <td align="center" colspan="2">
+                            <label>Bazar</label>
                         </td>
                         <td align="center" colspan="2">
                             <label>Cierre</label>
@@ -48,6 +51,9 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                         <td colspan="2" align="center">
                             <input type="button" class="btn btn-warning" value="Limpiar"
                                    style="width: 130px" onclick="limpiarCancelado()">&nbsp;
+                        </td>
+                        <td colspan="2">
+                            <br>
                         </td>
                         <td colspan="2">
                             <br>
@@ -69,6 +75,14 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                         <td align="center"><br>
                             <input type="button" class="btn btn-success" value="Todos"
                                    style="width: 130px"  onclick="cancelarTodos()">&nbsp;
+                        </td>
+                        <td align="center"><br>
+                            <input type="button" class="btn btn-success" value="Compras"
+                                   style="width: 130px"  onclick="cancelarCompra()">&nbsp;
+                        </td>
+                        <td align="center"><br>
+                            <input type="button" class="btn btn-success" value="Ventas"
+                                   style="width: 130px"  onclick="cancelarVenta()">&nbsp;
                         </td>
                         <td align="center"><br>
                             <input type="button" class="btn btn-success" value="Cierre Caja"

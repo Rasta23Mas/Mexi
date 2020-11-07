@@ -122,7 +122,7 @@ class sqlArticulosComprasDAO
         $datos = array();
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $buscar = "SELECT id_ArticuloBazar,id_serie, descripcionCorta,observaciones,vitrina
+            $buscar = "SELECT id_ArticuloBazar,id_serie, descripcionCorta,observaciones,vitrina, precioCompra
                         FROM articulo_bazar_tbl 
                         WHERE id_Contrato=0  and id_cierreCaja=" . $idCierreCaja;
             $rs = $this->conexion->query($buscar);
@@ -134,6 +134,7 @@ class sqlArticulosComprasDAO
                         "descripcionCorta" => $row["descripcionCorta"],
                         "observaciones" => $row["observaciones"],
                         "vitrina" => $row["vitrina"],
+                        "precioCompra" => $row["precioCompra"],
                     ];
                     array_push($datos, $data);
                 }

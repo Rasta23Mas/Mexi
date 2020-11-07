@@ -336,6 +336,7 @@ $sucursal = $_SESSION['sucursal'];
                         <th>Serie</th>
                         <th>Descripción</th>
                         <th>Observaciones</th>
+                        <th>Precio Compra</th>
                         <th>Vitrina</th>
                         <th>Eliminar</th>
                     </tr>
