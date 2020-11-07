@@ -326,19 +326,20 @@ class sqlReportesDAO
                 $count = "SELECT COUNT(Baz.id_Contrato) as  totalCount 
                         FROM articulo_bazar_tbl as Baz
                         LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
-                        WHERE fecha_Bazar  >=  '$fechaIni'
-                        AND fecha_Bazar  <=  '$fechaFin' 
+                        WHERE DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')   >=  '$fechaIni'
+                        AND DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')   <=  '$fechaFin' 
                         AND id_serieTipo=2  AND Baz.sucursal=$sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
             } else {
-                $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
-                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
+                        vitrinaVenta AS precio_venta, 
+                        precioCompra ,descripcionCorta as Detalle,CAT.descripcion as CatDesc
                         FROM articulo_bazar_tbl 
                         LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
-                        WHERE fecha_Bazar  >=  '$fechaIni'
-                        AND fecha_Bazar  <=  '$fechaFin' 
+                        WHERE DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')   >=  '$fechaIni'
+                        AND DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')   <=  '$fechaFin' 
                         AND id_serieTipo=2  AND sucursal=$sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
@@ -348,6 +349,7 @@ class sqlReportesDAO
                     $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
                     $jsondataperson["id_serie"] = $fila["id_serie"];
                     $jsondataperson["precio_venta"] = $fila["precio_venta"];
+                    $jsondataperson["precioCompra"] = $fila["precioCompra"];
                     $jsondataperson["Detalle"] = $fila["Detalle"];
                     $jsondataperson["CatDesc"] = $fila["CatDesc"];
                     $jsondataList[] = $jsondataperson;

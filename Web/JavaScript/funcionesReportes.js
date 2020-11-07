@@ -246,6 +246,7 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
 }
 //PAginador
 function fnCreaPaginador(totalItems) {
+    $("#paginador").html("");
     paginadorGlb = $(".pagination");
     totalPaginasGlb = Math.ceil(totalItems/itemsPorPaginaGlb);
 
@@ -564,13 +565,21 @@ function fnTBodyCompra(lista){
 
     $.each(lista, function(ind, elem){
         var venta = elem.precio_venta;
-        venta = formatoMoneda(venta)
+        var compra = elem.precioCompra;
+        venta = parseFloat(venta);
+        compra = parseFloat(compra);
+        var utilidad = venta - compra;
+        venta = formatoMoneda(venta);
+        compra = formatoMoneda(compra);
+        utilidad = formatoMoneda(utilidad);
         $("<tr>"+
             "<td>"+elem.FECHA+"</td>"+
             "<td>"+elem.id_Contrato+"</td>"+
             "<td>"+elem.id_serie+"</td>"+
             "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+compra+"</td>"+
             "<td align='right'>"+venta+"</td>"+
+            "<td align='right'>"+utilidad+"</td>"+
             "<td>"+elem.CatDesc+"</td>"+
             "</tr>").appendTo($("#idTBodyCompras"));
     });
@@ -973,7 +982,7 @@ function exportar(expor) {
                 }
             }else if (tipoReporte == 6) {
                 if(expor==1){
-                    window.open('../Excel/rpt_Exc_Compra.php?sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_Compra.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }else{
 
                 }
@@ -1009,7 +1018,7 @@ function exportar(expor) {
                 }
             }else if (tipoReporte == 27) {
                 if(expor==1){
-                    window.open('../Excel/rpt_Exc_Empenos.php?sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_Empenos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }else{
                     window.open('../PDF/callPdf_R_Empeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
@@ -1297,3 +1306,4 @@ function exportarFinanciero(tipoExportar) {
     alert("Reporte en construcción");
     location.reload();
 }
+

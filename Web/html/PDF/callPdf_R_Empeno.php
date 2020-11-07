@@ -85,7 +85,7 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
                         Con.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO,
-                        Art.descripcionCorta AS DESCRIPCION,
+                        Art.descripcionCorta AS descripcion,
                         Art.observaciones as ObserArt,
                         Aut.observaciones as ObserAuto,
                         Con.id_Formulario as Form
@@ -95,7 +95,7 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
                         WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
                         BETWEEN '$fechaIni' AND '$fechaFin' 
-                        AND Art.sucursal = $sucursal 
+                        AND Art.sucursal = $sucursal AND Con.sucursal=$sucursal
                         ORDER BY Con.id_contrato";
 $resultado = $db->query($query);
 $tipoMetal = 0;
@@ -110,13 +110,9 @@ foreach ($resultado as $row) {
     $CONTRATO = $row["CONTRATO"];
     $NombreCompleto = $row["NombreCompleto"];
     $PRESTAMO = $row["PRESTAMO"];
-    $Plazo = $row["Plazo"];
-    $Periodo = $row["Periodo"];
-    $TipoInteres = $row["TipoInteres"];
-    $descripcionCorta = $row["descripcionCorta"];
-    $observaciones = $row["observaciones"];
+    $descripcion= $row["descripcion"];
+    $ObserArt = $row["ObserArt"];
     $ObserAuto = $row["ObserAuto"];
-    $DetalleAuto = $row["DetalleAuto"];
     $Form = $row["Form"];
 
     $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
@@ -125,19 +121,19 @@ foreach ($resultado as $row) {
     $DetalleFin = "";
     if($Form==1){
         $tipoMetal++;
-        $Obser = $descripcionCorta;
-        $DetalleFin = $observaciones;
+        $Obser = $descripcion;
+        $DetalleFin = $ObserArt;
     }else if($Form==2){
         $tipoMetal=0;
         $tipoElectro++;
-        $Obser = $descripcionCorta;
-        $DetalleFin = $observaciones;
+        $Obser = $descripcion;
+        $DetalleFin = $ObserArt;
     }else if($Form ==3){
         $tipoMetal=0;
         $tipoElectro=0;
         $tipoAuto++;
-        $Obser = $ObserAuto;
-        $DetalleFin = $DetalleAuto;
+        $Obser = $descripcion;
+        $DetalleFin = $ObserAuto;
     }
     if($tipoMetal==1){
         $tablaArticulos .= '<tr>
@@ -156,12 +152,9 @@ foreach ($resultado as $row) {
     $tablaArticulos .= '<tr><td >' . $FECHA . '</td>
                         <td>' . $FECHAVEN . '</td>
                         <td>' . $FECHAALM . '</td>
-                        <td>' . $CONTRATO . '</td>
                         <td>' . $NombreCompleto . '</td>
+                        <td>' . $CONTRATO . '</td>
                         <td>' . $PRESTAMO . '</td>
-                        <td>' . $Plazo . '</td>
-                        <td>' . $Periodo . '</td>
-                        <td>' . $TipoInteres . '</td>
                         <td>' . $Obser . '</td>
                         <td>' . $DetalleFin . '</td>
                         </tr>';
@@ -177,7 +170,6 @@ $contenido .='
                         </tbody>
                         </table>';
 $contenido .= '</form></body></html>';
-
 $nombreContrato = 'Reporte_Empeno.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

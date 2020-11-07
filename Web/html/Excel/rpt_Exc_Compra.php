@@ -3,7 +3,6 @@
 require_once "../../../com.Mexicash/Base/Conectar.php";
 require_once "../../../vendor/autoload.php";
 
-//require_once "bd.php";
 $sucursal='';
 if (isset($_GET['fechaIni'])) {
     $fechaIni = $_GET['fechaIni'];
@@ -71,7 +70,7 @@ $spreadsheet->getActiveSheet()
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading
-$spreadsheet->getActiveSheet()->mergeCells("A1:F1");
+$spreadsheet->getActiveSheet()->mergeCells("A1:H1");
 
 // set font style
 $spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(13);
@@ -82,9 +81,11 @@ $spreadsheet->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(Al
 $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(40);
-$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+$spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(40);
+$spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+$spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+$spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+$spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
 
 
 $spreadsheet->getActiveSheet()
@@ -92,19 +93,24 @@ $spreadsheet->getActiveSheet()
     ->setCellValue('B2', 'CONTRATO')
     ->setCellValue('C2', 'SERIE')
     ->setCellValue('D2', 'DETALLE')
-    ->setCellValue('E2', 'VENTA')
-    ->setCellValue('F2', 'TIPO ADQUISICIÓN');
+    ->setCellValue('E2', 'COMPRA')
+    ->setCellValue('F2', 'VENTA')
+    ->setCellValue('G2', 'UTILIDAD')
+    ->setCellValue('H2', 'TIPO ADQUISICIÓN');
 
-$spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
+$spreadsheet->getActiveSheet()->getStyle('A2:H2')->applyFromArray($tableHead);
 
 ////$query = $db->query("SELECT * FROM products ORDER BY id DESC");
-$rptRef = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
+$rptRef = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
+                        vitrinaVenta AS precio_venta, 
+                        precioCompra ,
+                        (vitrinaVenta - precioCompra) as utilidad,
                         descripcionCorta as Detalle,CAT.descripcion as CatDesc
                         FROM articulo_bazar_tbl 
                         LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
-                        WHERE fecha_Bazar  >=  '$fechaIni'
-                        AND fecha_Bazar  <=  '$fechaFin' 
-                        AND id_serieTipo=2  AND sucursal=$sucursal ";
+                        WHERE DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')   >=  '$fechaIni'
+                        AND DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')   <=  '$fechaFin' 
+                        AND id_serieTipo=2  AND sucursal=$sucursal";
 $query = $db->query($rptRef);
 
 
@@ -117,16 +123,18 @@ if($query->num_rows > 0) {
             ->setCellValue('B'.$i , $row['id_Contrato'])
             ->setCellValue('C'.$i , $row['id_serie'])
             ->setCellValue('D'.$i , $row['Detalle'])
-            ->setCellValue('E'.$i , $row['precio_venta'])
-            ->setCellValue('F'.$i , $row['CatDesc']);
+            ->setCellValue('E'.$i , $row['precioCompra'])
+            ->setCellValue('F'.$i , $row['precio_venta'])
+            ->setCellValue('G'.$i , $row['utilidad'])
+            ->setCellValue('H'.$i , $row['CatDesc']);
 
         //set row style
         if ($i % 2 == 0) {
             //even row
-            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':F' . $i)->applyFromArray($evenRow);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':H' . $i)->applyFromArray($evenRow);
         } else {
             //odd row
-            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':F' . $i)->applyFromArray($oddRow);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':H' . $i)->applyFromArray($oddRow);
         }
         $i++;
     }
@@ -139,14 +147,16 @@ if($query->num_rows > 0) {
         ->setCellValue('C'.$i , "")
         ->setCellValue('D'.$i , "")
         ->setCellValue('E'.$i , "")
-        ->setCellValue('F'.$i , "");
-    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':F' . $i)->applyFromArray($evenRow);
+        ->setCellValue('F'.$i , "")
+        ->setCellValue('G'.$i , "")
+        ->setCellValue('H'.$i , "");
+    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':H' . $i)->applyFromArray($evenRow);
 
 }
 
 $firstRow = 2;
 $lastRow = $i - 1;
-$spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":F" . $lastRow);
+$spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":H" . $lastRow);
 
 
 $filename = 'Reporte_Compras';
