@@ -150,10 +150,11 @@ class sqlArticulosDAO
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $hayArticulos = 0;
+            $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT Ar.id_Articulo
                         FROM articulo_tbl Ar
-                        WHERE id_Contrato=0 and id_cierreCaja=$idCierreCaja";
+                        WHERE id_Contrato=0 and id_cierreCaja=$idCierreCaja and sucursal=$sucursal";
 
             $statement = $this->conexion->query($buscar);
 
@@ -174,12 +175,13 @@ class sqlArticulosDAO
         $datos = array();
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_Articulo, TA.descripcion as tipoMetal, TK.descripcion as kilataje,TC.descripcion as calidad, 
                         prestamo,avaluo, detalle FROM articulo_tbl AR
                         INNER JOIN cat_tipoarticulo as TA on AR.tipo = TA.id_tipo
                         INNER JOIN cat_kilataje as TK on AR.kilataje = TK.id_Kilataje
                         INNER JOIN cat_calidad as TC on AR.calidad = TC.id_calidad
-                        WHERE id_Contrato=0 and id_cierreCaja=" . $idCierreCaja;
+                        WHERE id_Contrato=0 and id_cierreCaja= $idCierreCaja and sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -227,7 +229,8 @@ class sqlArticulosDAO
     public function buscarMontoToken()
     {
         try {
-            $buscar = "SELECT Monto FROM cat_montotoken where id = 1";
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT Monto FROM cat_montotoken where sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 $consulta = $rs->fetch_assoc();

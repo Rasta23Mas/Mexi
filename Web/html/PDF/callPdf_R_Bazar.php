@@ -20,7 +20,7 @@ $Movimiento = "";
 $Detalle = "";
 $precio_venta = "";
 $CatDesc = "";
-$id_ContratoMig = "";
+
 
 $contenido = '<html>
 <head>
@@ -67,7 +67,7 @@ $contenido .= '
                         </thead>
                         <tbody id="idTBodyInventario"  align="center"> ';
 $query = " SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,precio_venta, 
-                        ART.detalle as Detalle, CAT.descripcion as CatDesc, ART.id_ContratoMig
+                        ART.detalle as Detalle, CAT.descripcion as CatDesc
                         FROM articulo_bazar_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
@@ -85,7 +85,7 @@ foreach ($resultado as $row) {
     $Detalle = $row["Detalle"];
     $precio_venta = $row["precio_venta"];
     $CatDesc = $row["CatDesc"];
-    $id_ContratoMig = $row["id_ContratoMig"];
+
 
     $precio_venta = number_format($precio_venta, 2,'.',',');
 
@@ -97,7 +97,7 @@ foreach ($resultado as $row) {
                         <td>' . $Detalle . '</td>
                         <td>$' . $precio_venta . '</td>
                         <td>' . $CatDesc . '</td>
-                        <td>' . $id_ContratoMig . '</td>
+                        <td>--borrar--</td>
                         </tr>';
 }
 

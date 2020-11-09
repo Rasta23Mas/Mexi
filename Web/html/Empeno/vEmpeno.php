@@ -431,7 +431,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                             <select id="idTipoElectronico" name="cmbTipoElectronico"
                                                     class="selectpicker"
                                                     onchange="combMarcaVEmpe($('#idTipoElectronico').val())"
-                                                    style="width: 150px">
+                                                    style="width: 200px">
                                             </select>
                                             <img src="../../style/Img/lupa.png" data-toggle="modal"
                                                  data-target="#modalArticulos" alt="Buscar"
@@ -442,7 +442,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                         <td colspan="3">Marca:</td>
                                         <td colspan="9">
                                             <select id="idMarca" name="marcaSelect" class="selectpicker"
-                                                    style="width:150px" disabled
+                                                    style="width:200px" disabled
                                                     onchange="cmbModeloVEmpe($('#idMarca').val());">
                                             </select>
                                         </td>
@@ -451,7 +451,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                         <td colspan="3">Modelo:</td>
                                         <td colspan="9">
                                             <select id="idModelo" name="modeloSelect" class="selectpicker"
-                                                    style="width:150px" disabled
+                                                    style="width:200px" disabled
                                                     onchange="llenarDatosElectronico($('#idTipoElectronico').val(),$('#idMarca').val(),$('#idModelo').val())">
                                             </select>
                                         </td>

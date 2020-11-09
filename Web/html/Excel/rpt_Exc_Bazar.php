@@ -97,7 +97,7 @@ $spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
 
 ////$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptRef = "SELECT Baz.id_Contrato,id_serie,Mov.descripcion as Movimiento,fecha_Bazar,precio_venta, 
-                        ART.detalle as Detalle, CAT.descripcion as CatDesc, ART.id_ContratoMig
+                        ART.detalle as Detalle, CAT.descripcion as CatDesc
                         FROM articulo_bazar_tbl as Baz
                         LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
                         LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
@@ -118,7 +118,7 @@ if($query->num_rows > 0) {
             ->setCellValue('E'.$i , $row['Detalle'])
             ->setCellValue('F'.$i , $row['precio_venta'])
             ->setCellValue('G'.$i , $row['CatDesc'])
-            ->setCellValue('H'.$i , $row['id_ContratoMig']);
+            ->setCellValue('H'.$i , $row['CatDesc']);
 
         //set row style
         if ($i % 2 == 0) {

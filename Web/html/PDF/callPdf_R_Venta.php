@@ -25,7 +25,7 @@ $Movimiento = "";
 $Detalle = "";
 $precio_venta = "";
 $CatDesc = "";
-$id_ContratoMig = "";
+
 
 $contenido = '<html>
 <head>
