@@ -28,12 +28,13 @@ if (isset($_GET['folio'])) {
 
 
 }
+
 $buscarFlujo = "SELECT Cat.descripcion as Descrip,Flu.importe as Importe,Flu.importeLetra as ImporteLetra,Usu.usuario as User, Flu.usuarioCaja as UserCaja,
                 Flu.concepto as Concepto,fechaCreacion as FechaCreacion
                 FROM flujo_tbl as Flu 
                 INNER JOIN cat_flujo as Cat on Flu.id_cat_flujo = Cat.id_CatFlujo 
                 INNER JOIN usuarios_tbl as Usu on Flu.usuario = Usu.id_User 
-                WHERE id_flujo = $idFolio ";
+                WHERE id_flujo = $idFolio and sucursal=$sucursal ";
 
 $flujo = $db->query($buscarFlujo);
 
@@ -50,9 +51,10 @@ foreach ($flujo as $fila) {
 //Con PHP: 2 decimales separados por comas y miles por punto.
 $ImporteFormat = number_format($Importe, 2,'.',',');
 if($UserCaja!=0){
+    $sucursal = $_SESSION["sucursal"];
     $buscarVendedor = "SELECT Usu.usuario as UserCaja FROM flujo_tbl as Flu
     INNER JOIN usuarios_tbl as Usu on Flu.usuarioCaja = Usu.id_User      
-    WHERE id_flujo = $idFolio";
+    WHERE id_flujo = $idFolio and sucursal=$sucursal ";
     $folio = $db->query($buscarVendedor);
     foreach ($folio as $fila) {
         $Vendedor = $fila['UserCaja'];

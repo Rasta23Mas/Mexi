@@ -145,9 +145,21 @@ class sqlFlujoDAO
                 $fila = $statement->fetch_object();
                 $id_flujo = $fila->id_flujo;
             } else {
+                $sucursal = $_SESSION["sucursal"];
+                $IdFlujoMax= 0;
+                $buscarCompra = "select max(id_flujo) as UltimoFlujo from flujo_tbl where sucursal = $sucursal";
+                $statement = $this->conexion->query($buscarCompra);
+                $encontro = $statement->num_rows;
+                if ($encontro > 0) {
+                    $fila = $statement->fetch_object();
+                    $IdFlujoMax = $fila->UltimoFlujo;
+                }
+                $IdFlujoMax++;
+
+
                 $insertarFlujo = "INSERT INTO flujo_tbl " .
-                    "( usuario, sucursal, id_cierreSucursal, estatus, fechaCreacion)  VALUES " .
-                    "(" . $usuario . "," . $sucursal . "," . $idCierreSucursal . "," . $estatus . ",'" . $fechaCreacion . "')";
+                    "(id_flujo, usuario, sucursal, id_cierreSucursal, estatus, fechaCreacion)  VALUES " .
+                    "($IdFlujoMax, $usuario, $sucursal, $idCierreSucursal, $estatus,'$fechaCreacion')";
                 if ($ps = $this->conexion->prepare($insertarFlujo)) {
                     if ($ps->execute()) {
                         $insertoFila = mysqli_stmt_affected_rows($ps);
@@ -306,8 +318,9 @@ class sqlFlujoDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_cat_flujo FROM flujo_tbl
-                       WHERE id_flujo= $idFolioBuscar ";
+                       WHERE id_flujo= $idFolioBuscar and sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -376,7 +389,9 @@ class sqlFlujoDAO
         //Funcion Verificada
         // TODO: Implement guardaCiente() method.
         try {
-            $buscarFlujoGenerado = "SELECT id_flujo FROM flujo_tbl WHERE id_cat_flujo= 0";
+
+            $sucursal = $_SESSION["sucursal"];
+            $buscarFlujoGenerado = "SELECT id_flujo FROM flujo_tbl WHERE id_cat_flujo= 0 and sucursal=$sucursal ";
             $statement = $this->conexion->query($buscarFlujoGenerado);
             $encontro = $statement->num_rows;
             if ($encontro > 0) {
