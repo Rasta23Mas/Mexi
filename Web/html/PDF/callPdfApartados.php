@@ -49,7 +49,7 @@ foreach ($resultado as $row) {
     $usuario = $row["usuario"];
     $apartado = $row["apartado"];
 }
-$faltaPagar = $total - $apartado;
+$faltaPagar = $subTotal - $apartado;
 $subTotal = number_format($subTotal, 2, '.', ',');
 $iva = number_format($iva, 2, '.', ',');
 $efectivo = number_format($efectivo, 2, '.', ',');
@@ -204,7 +204,7 @@ $contenido .= '
                 </tr>
                 <tr>
                    <td colspan="2" align="right"><label>TOTAL:</label></td>
-                    <td  align="right"><label>$ ' . $total . '</label></td>
+                    <td  align="right"><label>$ ' . $subTotal . '</label></td>
                 </tr>
                 <tr>
                    <td colspan="2" align="right"><label>APARTADO:</label></td>
@@ -303,8 +303,8 @@ $contenido .= '
         </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
-echo $contenido;
-exit();
+//echo $contenido;
+//exit();
 $nombreContrato = 'Apartado_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

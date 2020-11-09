@@ -333,6 +333,7 @@ function BitacoraTokenEmpeno(contrato,tipoFormulario) {
 
 function fnEditarJoyeria() {
     var prestamo = $("#idPrestamo").val();
+    prestamo = Math.round(prestamo * 100) / 100;
     if(prestamo==0){
         alert("Por Favor. Calcule el prestamo.")
     }else{
