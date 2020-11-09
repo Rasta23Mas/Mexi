@@ -483,7 +483,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                             <td colspan="3">
                                                 <input type="text" id="idPrecioCat" disabled name="vitrinaE" size="5"
                                                        onkeypress="return soloNumeros(event)"
-                                                       style="text-align:center"/>
+                                                       style="text-align:center" val="0"/>
                                             </td>
                                     </tr>
                                     <tr>
