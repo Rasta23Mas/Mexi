@@ -45,7 +45,7 @@ include_once(MENU_PATH . "menuPrincipal.php");
             <div class="form-group" align="center">
                 <br>
                 <input type="text" name="usuario" id="usuario" class="form-control"
-                       placeholder="Usuario:" required style="width: 130px" value="Test"/>
+                       placeholder="Usuario:" required style="width: 130px" value=""/>
             </div>
             <div class="form-group" align="center">
                 <input type="password" name="password" id="password" class="form-control"
