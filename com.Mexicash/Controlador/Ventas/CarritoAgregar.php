@@ -4,7 +4,6 @@ include_once(SQL_PATH . "sqlVentasDAO.php");
 
 $id_ArticuloBazar = $_POST['id_ArticuloBazar'];
 $idCliente = $_POST['idCliente'];
-$idVendedor = $_POST['idVendedor'];
 $idBazar = $_POST['idBazar'];
 $sqlVenta = new sqlVentasDAO();
-$sqlVenta->sqlAgregarCarrito($id_ArticuloBazar,$idCliente,$idVendedor,$idBazar);
+$sqlVenta->sqlAgregarCarrito($id_ArticuloBazar,$idCliente,$idBazar);

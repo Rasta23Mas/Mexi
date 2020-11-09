@@ -3,7 +3,6 @@ var errorToken = 0;
 var tipo_movimientoGlb = 22;
 var idBazarGlb = 0;
 var id_ClienteGlb = 0;
-var id_VendedorGlb = 0;
 var idSubtotalGlb = 0;
 var  idEmpenoGlb = 0;
 var idApartadoGlb = 0;
@@ -132,16 +131,12 @@ function busquedaCodigoApartadoBoton(tipoBusqueda) {
 
 //Carrito
 function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
-    var vendedor = $("#idVendedor").val();
     var cliente = $("#idClienteSeleccion").val();
 
     if (cliente == 0) {
         alertify.warning("Favor de seleccionar el cliente.");
-    } else if (vendedor == 0) {
-        alertify.warning("Favor de seleccionar el vendedor.");
-    } else {
+    }  else {
         $("#idNombreVenta").prop('disabled', true);
-        $("#idVendedor").prop('disabled', true);
         var dataEnviar = {
             "id_ArticuloBazar": id_ArticuloBazar,
         };
@@ -151,7 +146,7 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
             type: 'post',
             success: function (respuesta) {
                 if (respuesta == 0) {
-                    agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno, cliente, vendedor)
+                    agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno, cliente)
                 } else {
                     alertify.error("El artículo ya esta en el carrito de compras.");
                 }
@@ -160,15 +155,13 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
     }
 }
 
-function agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno, cliente, vendedor) {
+function agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno, cliente) {
     id_ClienteGlb = cliente;
-    id_VendedorGlb = vendedor;
     var tipoCarrito = 1;
     var idBazar = $("#idBazar").val();
     var dataEnviar = {
         "id_ArticuloBazar": id_ArticuloBazar,
         "idCliente": cliente,
-        "idVendedor": vendedor,
         "idBazar": idBazar,
     };
     $.ajax({
@@ -419,7 +412,6 @@ function guardarApartado() {
     var total = $("#idTotalValue").val();
     var cambio = $("#idCambioValue").val();
     var cliente = $("#idClienteSeleccion").val();
-    var vendedor = $("#idVendedor").val();
     var idBazar = $("#idBazar").val();
     var vencimiento = $("#idFechaVen").text();
     var dataEnviar = {
@@ -431,7 +423,6 @@ function guardarApartado() {
         "efectivo": efectivo,
         "cambio": cambio,
         "cliente": cliente,
-        "vendedor": vendedor,
         "idBazar": idBazar,
         "vencimiento": vencimiento,
         "faltaPagar": faltaPagar,
@@ -463,6 +454,7 @@ function ArticulosUpdateVenta() {
         url: '../../../com.Mexicash/Controlador/Ventas/UpdateArticulos.php',
         data: dataEnviar,
         success: function (response) {
+
             if (response > 0) {
                 alertify.success("Artículos actualizados correctamente.")
                 fnCierreCajaIndispensable(1,0,0);
@@ -479,7 +471,6 @@ function fnBitacoraVenta() {
         "id_Movimiento": tipo_movimientoGlb,
         "id_bazar": idBazarGlb,
         "id_cliente": id_ClienteGlb,
-        "id_vendedor": id_VendedorGlb,
         "idToken": idTokenGLb,
     };
 

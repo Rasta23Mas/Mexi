@@ -217,24 +217,27 @@ class sqlCancelarDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $fechaHoy = date('Y-m-d');
-            $buscar = "SELECT id_ventas,DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
-                        descripcionCorta as Detalle,descuento_Venta,CAT.descripcion as CatDesc
+            $buscar = "SELECT id_ventas,Ven.id_Bazar,Ven.id_ArticuloBazar,Con.tipo_movimiento as Movimiento,DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie, 
+                        descripcionCorta as Detalle,vitrinaVenta AS precio_venta, descuento_Venta,Cat.descripcion as CatDesc
                         FROM bit_ventas as Ven
                         LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
                         LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar
-                        LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
+                        LEFT JOIN cat_movimientos AS CAT on Con.tipo_movimiento = CAT.id_Movimiento
                         WHERE DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  =  '$fechaHoy'
-                        AND Ven.sucursal=$sucursal ";
+                        AND Ven.sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "id_ventas" => $row["id_ventas"],
+                        "id_Bazar" => $row["id_Bazar"],
+                        "id_ArticuloBazar" => $row["id_ArticuloBazar"],
+                        "Movimiento" => $row["Movimiento"],
                         "FECHA" => $row["FECHA"],
                         "id_Contrato" => $row["id_Contrato"],
                         "id_serie" => $row["id_serie"],
-                        "precio_venta" => $row["precio_venta"],
                         "Detalle" => $row["Detalle"],
+                        "precio_venta" => $row["precio_venta"],
                         "descuento_Venta" => $row["descuento_Venta"],
                         "CatDesc" => $row["CatDesc"],
                     ];
@@ -259,6 +262,38 @@ class sqlCancelarDAO
             $buscar = "SELECT  Con.id_movimiento as IdMovimiento,tipo_movimiento,
                         CMov.descripcion as Movimiento
                         FROM contrato_mov_tbl AS Con
+                        INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento
+                        WHERE id_contrato = $Contrato AND sucursal = $sucursal ";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "IdMovimiento" => $row["IdMovimiento"],
+                        "tipo_movimiento" => $row["tipo_movimiento"],
+                        "MovimientoDesc" => $row["Movimiento"],
+
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+    }
+
+    function sqlBusquedaEstatusBazar($Contrato)
+    {
+        $datos = array();
+        try {
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT  Con.id_movimiento as IdMovimiento,tipo_movimiento,
+                        CMov.descripcion as Movimiento
+                        FROM contrato_mov_baz_tbl AS Con
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento
                         WHERE id_contrato = $Contrato AND sucursal = $sucursal ";
             $rs = $this->conexion->query($buscar);

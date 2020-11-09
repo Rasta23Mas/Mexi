@@ -19,7 +19,7 @@ class sqlBitacorasDAO
         $this->conexion = $this->db->connectDB();
     }
 
-    function sqlBitacoraVentas($id_Movimiento, $id_bazar, $id_cliente, $id_vendedor,$idToken)
+    function sqlBitacoraVentas($id_Movimiento, $id_bazar, $id_cliente,$idToken)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -28,7 +28,7 @@ class sqlBitacorasDAO
             $sucursal = $_SESSION["sucursal"];
             $id_CierreCaja = $_SESSION["idCierreCaja"];
             $insert = "INSERT INTO bit_user_ventas(id_Bazar, tipo_movimiento, cliente, vendedor, id_token,sucursal, id_CierreCaja, Usuario) 
-                                VALUES ($id_bazar,$id_Movimiento,$id_cliente,$id_vendedor,$idToken,$sucursal,$id_CierreCaja,$usuario)";
+                                VALUES ($id_bazar,$id_Movimiento,$id_cliente,$usuario,$idToken,$sucursal,$id_CierreCaja,$usuario)";
             if ($ps = $this->conexion->prepare($insert)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

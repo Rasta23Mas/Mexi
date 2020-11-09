@@ -27,7 +27,7 @@ class sqlVentasDAO
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja and sucursal=$sucursal";
+            $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 and sucursal=$sucursal";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
@@ -37,9 +37,19 @@ class sqlVentasDAO
 
                 $id_CierreSucursal = $_SESSION["idCierreSucursal"];
 
+                $IdBazarMax= 0;
+                $buscarCompra = "select max(id_Bazar) as UltimoIdBazar from contrato_mov_baz_tbl where sucursal = $sucursal";
+                $statement = $this->conexion->query($buscarCompra);
+                $encontro = $statement->num_rows;
+                if ($encontro > 0) {
+                    $fila = $statement->fetch_object();
+                    $IdBazarMax = $fila->UltimoIdBazar;
+                }
+                $IdBazarMax++;
+
                 $insertaCarrito = "INSERT INTO  contrato_mov_baz_tbl
-                       (tipo_movimiento, id_CierreCaja,id_CierreSucursal,sucursal,fecha_creacion)
-                        VALUES (0,$idCierreCaja,$id_CierreSucursal,$sucursal,'$fechaCreacion')";
+                       (id_Bazar,tipo_movimiento, id_CierreCaja,id_CierreSucursal,sucursal,fecha_creacion)
+                        VALUES ($IdBazarMax,0,$idCierreCaja,$id_CierreSucursal,$sucursal,'$fechaCreacion')";
                 if ($ps = $this->conexion->prepare($insertaCarrito)) {
                     if ($ps->execute()) {
                         $buscar = "SELECT id_Bazar FROM contrato_mov_baz_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja  and sucursal=$sucursal";
@@ -289,7 +299,7 @@ class sqlVentasDAO
     }
 
     //Generar Venta
-    public function sqlGuardarApartado($tipo_movimiento,$subTotal,$iva,$apartado,$faltaPagar,$total,$efectivo,$cambio,$cliente,$vendedor,$idBazar,$vencimiento)
+    public function sqlGuardarApartado($tipo_movimiento,$subTotal,$iva,$apartado,$faltaPagar,$total,$efectivo,$cambio,$cliente,$idBazar,$vencimiento)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -301,7 +311,7 @@ class sqlVentasDAO
 
             $updateContratoBaz = "UPDATE contrato_mov_baz_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
                                 iva=$iva,total=$total,total=$total,apartado=$apartado,id_Apartado=$idBazar,faltaPagar=$faltaPagar, total=$total,efectivo=$efectivo,cambio=$cambio,
-                                cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
+                                cliente=$cliente,fecha_Creacion='$fechaModificacion',
                                 sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico, fechaVencimiento='$vencimiento'
                                 WHERE id_Bazar=$idBazar";
             if ($ps = $this->conexion->prepare($updateContratoBaz)) {
@@ -339,10 +349,19 @@ class sqlVentasDAO
             $fechaCreacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
+            $IdBazarMax= 0;
+            $buscarCompra = "select max(id_Bazar) as UltimoIdBazar from contrato_mov_baz_tbl where sucursal = $sucursal";
+            $statement = $this->conexion->query($buscarCompra);
+            $encontro = $statement->num_rows;
+            if ($encontro > 0) {
+                $fila = $statement->fetch_object();
+                $IdBazarMax = $fila->UltimoIdBazar;
+            }
+            $IdBazarMax++;
 
             $insertaAbono = "INSERT INTO contrato_mov_baz_tbl 
-                       (cliente,tipo_movimiento,efectivo,cambio,abono,abono_Total,faltaPagar,id_Apartado,fecha_Creacion,sucursal,id_CierreCaja)
-                        VALUES ($id_Cliente,$tipo_movimiento, $efectivo,$cambio,$abono,$abono_Total,$faltaPagar,$idBazar,'$fechaCreacion',$sucursal,$idCierreCaja)";
+                       (id_Bazar,cliente,tipo_movimiento,efectivo,cambio,abono,abono_Total,faltaPagar,id_Apartado,fecha_Creacion,sucursal,id_CierreCaja)
+                        VALUES ($IdBazarMax,$id_Cliente,$tipo_movimiento, $efectivo,$cambio,$abono,$abono_Total,$faltaPagar,$idBazar,'$fechaCreacion',$sucursal,$idCierreCaja)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
                     $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_mov_baz_tbl where id_CierreCaja = $idCierreCaja";
@@ -382,11 +401,11 @@ class sqlVentasDAO
                                 iva=$iva,descuento_Venta=$descuento,total=$total,totalPrestamo=$totalprestamo,utilidad=$utilidad,efectivo=$efectivo,cambio=$cambio,
                                 cliente=$cliente,vendedor=$vendedor,fecha_Creacion='$fechaModificacion',
                                 sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico
-                                WHERE id_Bazar=$idBazar";
+                                WHERE id_Bazar=$idBazar and sucursal= $sucursal";
             if ($ps = $this->conexion->prepare($updateContratoBaz)) {
                 if ($ps->execute()) {
                     $updateBitVentas = "UPDATE bit_ventas SET guardar = 1
-                            WHERE sucursal=$sucursal AND guardar = 0 AND id_cierreCaja=$idCierreCaja";
+                            WHERE sucursal=$sucursal AND guardar = 0 AND id_cierreCaja=$idCierreCaja and sucursal= $sucursal";
                     if ($ps = $this->conexion->prepare($updateBitVentas)) {
                         if ($ps->execute()) {
                             $respuesta = 1;
@@ -420,16 +439,16 @@ class sqlVentasDAO
             }else{
                 $Fisico = 1;
             }
-
+            $sucursal = $_SESSION["sucursal"];
             $HayMovimiento= 1;
-            $buscar = "SELECT id_ArticuloBazar as Articulo FROM bit_ventas WHERE id_Bazar=$idBazar";
+            $buscar = "SELECT id_ArticuloBazar as Articulo FROM bit_ventas WHERE id_Bazar=$idBazar and sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $articulo = $row['Articulo'];
                     $updateArtBaz = "UPDATE articulo_bazar_tbl SET tipo_movimiento = $tipo_movimiento,
                                             Fisico=$Fisico, HayMovimiento=$HayMovimiento
-                                            WHERE id_ArticuloBazar=$articulo";
+                                            WHERE id_ArticuloBazar=$articulo and sucursal=$sucursal";
                     if ($ps = $this->conexion->prepare($updateArtBaz)) {
                         if ($ps->execute()) {
                             $respuesta = 1;
@@ -451,7 +470,7 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function sqlAgregarCarrito($id_ArticuloBazar, $idCliente, $idVendedor, $idBazar)
+    public function sqlAgregarCarrito($id_ArticuloBazar, $idCliente, $idBazar)
     {
         // TODO: Implement guardaCiente() method.
         $datos = array();
@@ -459,10 +478,10 @@ class sqlVentasDAO
             $fechaCreacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
-
+            $usuario = $_SESSION["idUsuario"];
             $insertaCarrito = "INSERT INTO  bit_ventas
                        (id_Bazar,id_ArticuloBazar, id_cliente,id_vendedor,sucursal,id_cierreCaja,guardar,fecha_creacion)
-                        VALUES ($idBazar,$id_ArticuloBazar,$idCliente, $idVendedor,$sucursal,$idCierreCaja,0,'$fechaCreacion')";
+                        VALUES ($idBazar,$id_ArticuloBazar,$idCliente, $usuario,$sucursal,$idCierreCaja,0,'$fechaCreacion')";
             if ($ps = $this->conexion->prepare($insertaCarrito)) {
                 if ($ps->execute()) {
                     $respuesta = 1;

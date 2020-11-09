@@ -79,7 +79,7 @@ $query = "SELECT DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrat
                         LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
                         WHERE DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
                         AND DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
-                        AND Ven.sucursal=$sucursal";
+                        AND Ven.sucursal=$sucursal and Con.sucursal=$sucursal";
 $resultado = $db->query($query);
 
 $tablaArticulos = '';

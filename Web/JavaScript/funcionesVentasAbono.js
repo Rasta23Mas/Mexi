@@ -315,7 +315,6 @@ function guardarAbono() {
                 url: '../../../com.Mexicash/Controlador/Ventas/GuardarAbono.php',
                 type: 'post',
                 success: function (response) {
-                    alert(response)
                     if (response > 0) {
                         idBazarGlb = response;
                         ArticulosUpdateVenta(id_Bazar);

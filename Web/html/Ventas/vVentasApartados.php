@@ -120,7 +120,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                             <label>Dirección:</label>
                         </td>
                         <td>
-                            <label>Vendedor:</label>
+                            <br>
                         </td>
                     </tr>
                     <tr>
@@ -141,18 +141,8 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                                     <textarea cols="30" id="idDireccionVenta" class="textArea" disabled>
                                     </textarea>
                         </td>
-                        <td style="vertical-align:top;">
-                            <select id="idVendedor" name="cmbVendedor" class="selectpicker" style="width: 200px">
-                                <option value="0">Seleccione:</option>
-                                <?php
-                                $data = array();
-                                $sqlUsu = new sqlUsuarioDAO();
-                                $data = $sqlUsu->vendedores();
-                                for ($i = 0; $i < count($data); $i++) {
-                                    echo "<option value=" . $data[$i]['id_User'] . ">" . $data[$i]['NombreUser'] . "</option>";
-                                }
-                                ?>
-                            </select>
+                        <td>
+                            <br>
                         </td>
                     </tr>
                     <tr>
@@ -300,7 +290,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                 <input type="text" name="subtotal" id="idSubTotalValue"
                        style="width: 120px " class="propInvisible" disabled/>
                 <input type="text" name="subtotal"  id="idPrestamoTotValue"
-                       style="width: 120px " disabled/>
+                       style="width: 120px " class="propInvisible" disabled/>
                 <input type="text" name="iva" id="idIvaValue"
                        style="width: 120px " class="propInvisible" disabled/>
                 <input type="text" name="total" id="idTotalBase"

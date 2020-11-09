@@ -6,6 +6,10 @@ var tipoCancelar = 0;
 var idMovimientoCancelar = 0;
 var errorToken = 0;
 
+var ventaCancelarglb = 0;
+var ventaArtCancelarglb = 0;
+var ventaBazCancelarglb = 0;
+var ventaMovimientoCancelarglb = 0;
 function cancelarEmpeno() {
     $("#divCancelados").load('tablaCancelacionEmpeno.php');
     var tipoMovimiento = 0;
@@ -295,21 +299,23 @@ function fnBuscarVentas(tipo) {
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
+            alert(datos)
             alert("Refrescando tabla.");
-            //$("#divCancelados").load('tablaCancelacionCompras.php');
             var html = '';
             var i = 0;
             if(datos.length>0){
                 for (i; i < datos.length; i++) {
                     var id_ventas = datos[i].id_ventas;
+                    var id_Bazar = datos[i].id_Bazar;
+                    var id_ArticuloBazar = datos[i].id_ArticuloBazar;
+                    var Movimiento = datos[i].Movimiento;
                     var FECHA = datos[i].FECHA;
                     var id_Contrato = datos[i].id_Contrato;
                     var id_serie = datos[i].id_serie;
+                    var Detalle = datos[i].Detalle;
                     var precio_venta = datos[i].precio_venta;
                     var descuento_Venta = datos[i].descuento_Venta;
-                    var Detalle = datos[i].Detalle;
                     var CatDesc = datos[i].CatDesc;
-
                     precio_venta = formatoMoneda(precio_venta);
                     descuento_Venta = formatoMoneda(descuento_Venta);
 
@@ -323,7 +329,7 @@ function fnBuscarVentas(tipo) {
                         '<td>' + descuento_Venta + '</td>' +
                         '<td>' + CatDesc + '</td>' +
                         '<td align="center">' +
-                        '<img src="../../style/Img/cancelarNor.png"   alt="Cancelar" onclick="buscarEstatusCancelarBazar(' + id_ArticuloBazar + ',' + tipo + ' )">' +
+                        '<img src="../../style/Img/cancelarNor.png"   alt="Cancelar" onclick="buscarEstatusCancelarBazar(' + id_ventas + ',' + id_Bazar + ',' + id_ArticuloBazar + ',' + Movimiento + ' )">' +
                         '</td>';
 
                 }
@@ -375,13 +381,21 @@ function buscarEstatusCancelar(Contrato, MovimientoTipo) {
     });
 }
 
-function buscarEstatusCancelarBazar(Contrato, tipo) {
+function buscarEstatusCancelarBazar(id_ventas, id_Bazar,id_ArticuloBazar,Movimiento) {
+    ventaCancelar = id_ventas;
+    ventaArtCancelarglb = id_ArticuloBazar;
+    ventaBazCancelarglb = id_Bazar;
+    ventaMovimientoCancelarglb = Movimiento;
+    if(ventaMovimientoCancelarglb==6){
+        cancelarConfirmar();
+    }
+
     var dataEnviar = {
         "Contrato": Contrato
     };
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Cancelar/busquedaEstatus.php',
+        url: '../../../com.Mexicash/Controlador/Cancelar/busquedaEstatusBazar.php',
         data: dataEnviar,
         dataType: "json",
         success: function (datos) {
@@ -406,7 +420,7 @@ function buscarEstatusCancelarBazar(Contrato, tipo) {
                 ContratoCancelar = Contrato;
                 tipoCancelar = tipo_movimiento;
                 idMovimientoCancelar = IdMovimiento;
-                cancelarConfirmar();
+
             } else {
                 alert("No se puede cancelar, ya que el contrato se encuentra en estatus: " + MovimientoDesc);
             }
@@ -448,7 +462,12 @@ function tokenCancelar() {
                 }
                 alertify.success("Código correcto.");
 
-                busquedaContrato();
+                if(ventaMovimientoCancelarglb!=0){
+                    busquedaVenta();
+                }else{
+                    busquedaContrato();
+                }
+
             } else {
                 if (errorToken < 3) {
                     errorToken += 1;
@@ -496,6 +515,66 @@ function busquedaContrato() {
     }
 
 
+}
+function busquedaVenta() {
+    var fechaAlmoneda = '';
+    var id_movimiento = '';
+    if(ventaMovimientoCancelarglb==6){
+        cancelacionMovimientoVenta();
+    }else{
+        //CancelaMovimiento y Bit Pagos
+        var dataEnviar = {
+            "ContratoCancelar":ContratoCancelar,
+            "IdMovimiento": idMovimientoCancelar
+
+        };
+        $.ajax({
+            type: "POST",
+            url: '../../../com.Mexicash/Controlador/Cancelar/recuperarFechaAlm.php',
+            data: dataEnviar,
+            dataType: "json",
+            success: function (datos) {
+                var i = 0;
+                if (datos.length > 0) {
+                    for (i; i < datos.length; i++) {
+                        id_movimiento = datos[i].id_movimiento;
+                        fechaAlmoneda = datos[i].fechaAlmoneda;
+                        cancelacionMovimiento(id_movimiento,fechaAlmoneda);
+                    }
+                } else {
+                    alertify.error("No hay registros para mostrar.")
+                }
+            }
+        });
+    }
+
+
+}
+function cancelacionMovimientoVenta(id_movimientoAnterior,fechaAlmoneda) {
+    //CancelaMovimiento y Bit Pagos
+    var dataEnviar = {
+        "tipo_movimiento":tipoCancelar,
+        "movimientoCancelado": movimientoCancelado,
+        "IdMovimiento": idMovimientoCancelar,
+        "fechaAlmoneda": fechaAlmoneda,
+        "id_movimientoAnterior": id_movimientoAnterior
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Cancelar/cancelarMovimiento.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response == 1) {
+                if(tipoCancelar==3||tipoCancelar==7){
+                    cancelacionContrato();
+                }else{
+                    BitacoraUsuarioCancelacion()
+                }
+            }else{
+                alertify.error("Error al cancelar movimiento.")
+            }
+        }
+    });
 }
 
 function cancelacionMovimiento(id_movimientoAnterior,fechaAlmoneda) {

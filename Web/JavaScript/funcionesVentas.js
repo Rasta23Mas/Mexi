@@ -144,7 +144,6 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
         alertify.warning("Favor de seleccionar el vendedor.");
     } else {
         $("#idNombreVenta").prop('disabled', true);
-       // $("#idVendedor").prop('disabled', true);
         var dataEnviar = {
             "id_ArticuloBazar": id_ArticuloBazar,
         };

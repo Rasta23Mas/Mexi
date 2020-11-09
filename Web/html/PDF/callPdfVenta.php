@@ -28,7 +28,7 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
             LEFT JOIN cat_sucursal CSUC ON Baz.sucursal=CSUC.id_Sucursal
             LEFT JOIN cliente_tbl AS Cli on Baz.cliente = Cli.id_Cliente
             LEFT JOIN usuarios_tbl as USU on Baz.vendedor = USU.id_User
-            WHERE id_Bazar=$id_Bazar ";
+            WHERE id_Bazar=$id_Bazar and Baz.sucursal=$sucursal";
 $resultado = $db->query($query);
 $descripcionCorta = "";
 $observaciones = "";

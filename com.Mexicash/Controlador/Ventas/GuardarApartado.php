@@ -12,9 +12,8 @@ $total = $_POST['total'];
 $efectivo = $_POST['efectivo'];
 $cambio = $_POST['cambio'];
 $cliente = $_POST['cliente'];
-$vendedor = $_POST['vendedor'];
 $idBazar = $_POST['idBazar'];
 $vencimiento = $_POST['vencimiento'];
 
 $sqlVenta = new sqlVentasDAO();
-$sqlVenta->sqlGuardarApartado($tipo_movimiento,$subTotal,$iva,$apartado,$faltaPagar,$total,$efectivo,$cambio,$cliente,$vendedor,$idBazar,$vencimiento);
+$sqlVenta->sqlGuardarApartado($tipo_movimiento,$subTotal,$iva,$apartado,$faltaPagar,$total,$efectivo,$cambio,$cliente,$idBazar,$vencimiento);
