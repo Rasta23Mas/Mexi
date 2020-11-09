@@ -9,10 +9,15 @@ $concepto = $_POST['concepto'];
 $usuarioCaja = $_POST['usuarioCaja'];
 $importeLetra = $_POST['importeLetra'];
 
+$Central = $_POST['Central'];
+$Banco = $_POST['Banco'];
+$Boveda = $_POST['Boveda'];
+$Caja = $_POST['Caja'];
+
 
 
 
 $sqlFlujo = new sqlFlujoDAO();
-$sqlFlujo->updateFlujo($id_catFlujo,$importe,$idFolio,$concepto,$usuarioCaja,$importeLetra);
+$sqlFlujo->updateFlujo($id_catFlujo,$importe,$idFolio,$concepto,$usuarioCaja,$importeLetra,$Central,$Banco,$Boveda,$Caja);
 
 ?>

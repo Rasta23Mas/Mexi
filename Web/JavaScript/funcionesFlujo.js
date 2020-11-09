@@ -136,10 +136,10 @@ function aceptarCentral() {
                 var saldoBoveda = $("#idSaldoBovedaVal").val();
                 var idUsuarioCaja = $("#idUsuarioCaja").val();
                 var saldoCaja = $("#idSaldoCajaVal").val();
-                saldoCentral = Number(saldoCentral);
-                saldoBanco = Number(saldoBanco);
-                saldoBoveda = Number(saldoBoveda);
-                idUsuarioCaja = Number(idUsuarioCaja);
+                saldoCentral = parseFloat(saldoCentral);
+                saldoBanco = parseFloat(saldoBanco);
+                saldoBoveda = parseFloat(saldoBoveda);
+                idUsuarioCaja = parseFloat(idUsuarioCaja);
                 var pideToken = 0;
 
                 var validate = true;
@@ -201,7 +201,6 @@ function aceptarCentral() {
                             guardarFlujoTotales(importe)
 
                         }
-
                     } else{
                         guardarFlujoTotales(importe)
                     }
@@ -251,16 +250,16 @@ function tokenFlujo() {
 }
 
 function guardarFlujoTotales(importe) {
-    importe = Number(importe);
+    importe = parseFloat(importe);
     var saldoCentral = $("#idSaldoCentralVal").val();
     var saldoBanco = $("#idSaldoBancosVal").val();
     var saldoBoveda = $("#idSaldoBovedaVal").val();
     var saldoCaja = $("#idSaldoCajaVal").val();
     var idUsuarioCaja = $("#idUsuarioCaja").val();
-    saldoCentral = Number(saldoCentral);
-    saldoBanco = Number(saldoBanco);
-    saldoBoveda = Number(saldoBoveda);
-    saldoCaja = Number(saldoCaja);
+    saldoCentral = parseFloat(saldoCentral);
+    saldoBanco = parseFloat(saldoBanco);
+    saldoBoveda = parseFloat(saldoBoveda);
+    saldoCaja = parseFloat(saldoCaja);
 
     var saldoCentralFinal = 0;
     var saldoBancoFinal = 0;
@@ -333,7 +332,7 @@ function guardarFlujoTotales(importe) {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Totales guardados correctamente.");
-                guardarFlujo(importe);
+                guardarFlujo(importe,saldoCentralFinal,saldoBancoFinal,saldoBovedaFinal,saldoCajaFinal);
             } else {
                     alertify.error("Error al guardar los totales.");
             }
@@ -342,7 +341,7 @@ function guardarFlujoTotales(importe) {
 
 }
 
-function guardarFlujo(importe) {
+function guardarFlujo(importe,saldoCentralFinal,saldoBancoFinal,saldoBovedaFinal,saldoCajaFinal) {
 
     importe = Number(importe);
     var idFolio = $("#idFolio").text();
@@ -357,6 +356,11 @@ function guardarFlujo(importe) {
         "concepto": concepto,
         "usuarioCaja": usuarioCaja,
         "importeLetra": importeLetra,
+        "Central": saldoCentralFinal,
+        "Banco": saldoBancoFinal,
+        "Boveda": saldoBovedaFinal,
+        "Caja": saldoCajaFinal,
+
     };
     $.ajax({
         data: dataEnviar,
@@ -366,7 +370,7 @@ function guardarFlujo(importe) {
             if (response > 0) {
                 alert("Movimiento guardado.");
                 setTimeout(function(){  cargarPDFDepositaria(idFolio); }, 2000);
-                setTimeout(function(){ location.reload() }, 3000);
+                setTimeout(function(){ location.reload() }, 2000);
             } else {
                 alertify.error("Error al guardar el movimiento.");
             }

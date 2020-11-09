@@ -96,7 +96,7 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                 <br>
                 <table width="450" align="center" class="border border-primary" border="0">
                     <tr style="background: dodgerblue; color:white;">
-                        <td align="left" colspan="4">
+                        <td align="center" colspan="4">
                             <label>&nbsp;&nbsp;&nbsp;Movimientos</label>
                         </td>
                     </tr>
@@ -242,8 +242,6 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                             <input type="button" class="btn btn-warning "
                                    data-toggle="modal" data-target="#modalBusqueda" id="btnReimprimirCentral"
                                    value="Re-Imprimir" >
-                          <!--  <input type="button" class="btn btn-danger" value="Salir"
-                                   style="width: 125px" onclick="salirCentral()">&nbsp;-->
                         </td>
                     </tr>
                     <tr>
@@ -257,7 +255,7 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                             <input id="idSaldoBovedaVal" name="saldoBoveda" type="text"
                                    style="width: 100px; text-align: right" value=""/>
                             <input id="idSaldoCajaVal" name="saldoCaja" type="text"
-                                   style="width: 100px; text-align: right" value=""/>
+                                   style="width: 100px; text-align: right" value="0"/>
                         </td>
                     </tr>
                 </table>

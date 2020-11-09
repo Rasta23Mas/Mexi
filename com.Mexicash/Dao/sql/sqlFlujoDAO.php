@@ -280,7 +280,7 @@ class sqlFlujoDAO
         echo $verdad;
     }
 
-    public function updateFlujo($id_catFlujo, $importe, $idFolio, $concepto, $usuarioCaja, $importeLetra)
+    public function updateFlujo($id_catFlujo, $importe, $idFolio, $concepto, $usuarioCaja, $importeLetra,$Central,$Banco,$Boveda,$Caja)
     {
         //Funcion Verificada
         // TODO: Implement guardaCiente() method.
@@ -292,7 +292,7 @@ class sqlFlujoDAO
 
             $updateFlujo = "UPDATE flujo_tbl SET importe=$importe,importeLetra='$importeLetra',id_cat_flujo=$id_catFlujo,
                 fechaCreacion='$fechaCreacion',estatus=1,concepto = '$concepto',usuario=$usuario,usuarioCaja=$usuarioCaja,
-                id_cierreSucursal=$idCierreSucursal  
+                id_cierreSucursal=$idCierreSucursal,Central=$Central,Banco=$Banco,Boveda=$Boveda,Caja=$Caja  
                 WHERE id_flujo=$idFolio";
             if ($ps = $this->conexion->prepare($updateFlujo)) {
                 if ($ps->execute()) {
