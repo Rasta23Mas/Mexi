@@ -171,13 +171,13 @@ class sqlCancelarDAO
         echo json_encode($datos);
     }
 
-    function comprasCancelar($tipoContratoGlobal)
+    function comprasCancelar()
     {
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
             $fechaHoy = date('Y-m-d');
-            $buscar = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
+            $buscar = "SELECT id_ArticuloBazar,DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
                         vitrinaVenta AS precio_venta, 
                         precioCompra , (vitrinaVenta - precioCompra) as utilidad, 
                         descripcionCorta as Detalle,CAT.descripcion as CatDesc
@@ -189,6 +189,7 @@ class sqlCancelarDAO
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
+                        "id_ArticuloBazar" => $row["id_ArticuloBazar"],
                         "FECHA" => $row["FECHA"],
                         "id_Contrato" => $row["id_Contrato"],
                         "id_serie" => $row["id_serie"],
@@ -210,13 +211,13 @@ class sqlCancelarDAO
         echo json_encode($datos);
     }
 
-    function ventasCancelar($tipoContratoGlobal)
+    function ventasCancelar()
     {
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
             $fechaHoy = date('Y-m-d');
-            $buscar = "SELECT DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
+            $buscar = "SELECT id_ventas,DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
                         descripcionCorta as Detalle,descuento_Venta,CAT.descripcion as CatDesc
                         FROM bit_ventas as Ven
                         LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
@@ -228,6 +229,7 @@ class sqlCancelarDAO
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
+                        "id_ventas" => $row["id_ventas"],
                         "FECHA" => $row["FECHA"],
                         "id_Contrato" => $row["id_Contrato"],
                         "id_serie" => $row["id_serie"],

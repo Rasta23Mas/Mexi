@@ -25,23 +25,35 @@ class sqlComprasDAO
         $idBazar = 0;
         //Modifique los estatus de usuario
         try {
+            $sucursal = $_SESSION["sucursal"];
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+            $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND sucursal=$sucursal";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
                 $idCompra = $fila->id_Compra;
             } else {
                 $fechaCreacion = date('Y-m-d H:i:s');
-                $sucursal = $_SESSION["sucursal"];
+
                 $usuario = $_SESSION["idUsuario"];
 
+                $sucursal = $_SESSION["sucursal"];
+                $IdCompraMax= 0;
+                $buscarCompra = "select max(id_Compra) as UltimaCompra from contrato_mov_com_tbl where sucursal = $sucursal";
+                $statement = $this->conexion->query($buscarCompra);
+                $encontro = $statement->num_rows;
+                if ($encontro > 0) {
+                    $fila = $statement->fetch_object();
+                    $IdCompraMax = $fila->UltimaCompra;
+                }
+                $IdCompraMax++;
+
                 $insertaCarrito = "INSERT INTO  contrato_mov_com_tbl
-                       (tipo_movimiento, id_CierreCaja,sucursal,fecha_creacion,usuario)
-                        VALUES (0,$idCierreCaja,$sucursal,'$fechaCreacion',$usuario)";
+                       (id_Compra,tipo_movimiento, id_CierreCaja,sucursal,fecha_creacion,usuario)
+                        VALUES ($IdCompraMax,0,$idCierreCaja,$sucursal,'$fechaCreacion',$usuario)";
                 if ($ps = $this->conexion->prepare($insertaCarrito)) {
                     if ($ps->execute()) {
-                        $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND id_CierreCaja= $idCierreCaja";
+                        $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND sucursal=$sucursal";
                         $statement = $this->conexion->query($buscar);
                         if ($statement->num_rows > 0) {
                             $fila = $statement->fetch_object();
