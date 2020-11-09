@@ -217,29 +217,24 @@ class sqlCancelarDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $fechaHoy = date('Y-m-d');
-            $buscar = "SELECT id_ventas,Ven.id_Bazar,Ven.id_ArticuloBazar,Con.tipo_movimiento as Movimiento,DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie, 
-                        descripcionCorta as Detalle,vitrinaVenta AS precio_venta, descuento_Venta,Cat.descripcion as CatDesc
-                        FROM bit_ventas as Ven
-                        LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
-                        LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar
+            $buscar = "SELECT id_Bazar, subTotal,iva, descuento_Venta,total,fecha_Creacion, Cat.descripcion AS Movimiento,tipo_movimiento
+                        from contrato_mov_baz_tbl AS Con
                         LEFT JOIN cat_movimientos AS CAT on Con.tipo_movimiento = CAT.id_Movimiento
-                        WHERE DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  =  '$fechaHoy'
-                        AND Ven.sucursal=$sucursal";
+                        WHERE DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  =  '$fechaHoy'
+                        AND Con.sucursal=$sucursal AND tipo_movimiento=6";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "id_ventas" => $row["id_ventas"],
                         "id_Bazar" => $row["id_Bazar"],
-                        "id_ArticuloBazar" => $row["id_ArticuloBazar"],
-                        "Movimiento" => $row["Movimiento"],
-                        "FECHA" => $row["FECHA"],
-                        "id_Contrato" => $row["id_Contrato"],
-                        "id_serie" => $row["id_serie"],
-                        "Detalle" => $row["Detalle"],
-                        "precio_venta" => $row["precio_venta"],
+                        "subTotal" => $row["subTotal"],
+                        "iva" => $row["iva"],
                         "descuento_Venta" => $row["descuento_Venta"],
-                        "CatDesc" => $row["CatDesc"],
+                        "total" => $row["total"],
+                        "fecha_Creacion" => $row["fecha_Creacion"],
+                        "Movimiento" => $row["Movimiento"],
+                        "tipo_movimiento" => $row["tipo_movimiento"],
+
                     ];
                     array_push($datos, $data);
                 }
@@ -285,22 +280,21 @@ class sqlCancelarDAO
         echo json_encode($datos);
     }
 
-    function sqlBusquedaEstatusBazar($Contrato)
+    function sqlBusquedaEstatusApartado($id_Bazar)
     {
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT  Con.id_movimiento as IdMovimiento,tipo_movimiento,
+            $buscar = "SELECT tipo_movimiento,
                         CMov.descripcion as Movimiento
                         FROM contrato_mov_baz_tbl AS Con
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento
-                        WHERE id_contrato = $Contrato AND sucursal = $sucursal ";
+                        WHERE id_Apartado = $id_Bazar AND sucursal = $sucursal AND tipo_movimiento!=22 ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "IdMovimiento" => $row["IdMovimiento"],
                         "tipo_movimiento" => $row["tipo_movimiento"],
                         "MovimientoDesc" => $row["Movimiento"],
 
@@ -518,4 +512,38 @@ class sqlCancelarDAO
         echo $verdad;
     }
 
+    function sqlCancelarVenta($id_Bazar)
+    {
+        try {
+
+            $EstatusAnterior = 20;
+            $sucursal = $_SESSION["sucursal"];
+
+            $fechaModificacion = date('Y-m-d H:i:s');
+            if ($tipoContratoGlobal == 1) {
+                $updateArticulos = "UPDATE articulo_tbl SET  fecha_modificacion = '$fechaModificacion', id_Estatus = $EstatusAnterior 
+                                WHERE id_Contrato=$Contrato  and sucursal=$sucursal ";
+            }
+            if ($tipoContratoGlobal == 2) {
+                $updateArticulos = "UPDATE auto_tbl SET  fecha_modificacion = '$fechaModificacion', id_Estatus = $EstatusAnterior 
+                                WHERE id_Contrato=$Contrato  and sucursal=$sucursal";
+            }
+            if ($ps = $this->conexion->prepare($updateArticulos)) {
+                if ($ps->execute()) {
+                    $verdad = 1;
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch
+        (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
 }

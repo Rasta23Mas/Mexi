@@ -9,7 +9,11 @@ $sqlCancelar = new sqlCancelarDAO();
 //Datos por tipo de contrato
 if($tipo==1){
     $sqlCancelar->comprasCancelar();
-}else{
+}else if($tipo==2){
+    $sqlCancelar->ventasCancelar();
+}else if($tipo==3){
+    $sqlCancelar->ventasCancelar();
+}else if($tipo==4){
     $sqlCancelar->ventasCancelar();
 }
 ?>

@@ -147,7 +147,7 @@ class sqlInteresesDAO
         $datos = array();
 
         try {
-            $buscar = "SELECT  id_fechaAlm, dias FROM cat_almoneda Where activo=1 order by dias";
+            $buscar = "SELECT  id_fechaAlm, dias FROM cat_almoneda Where activo=1 order by id_fechaAlm";
             $rs = $this->conexion->query($buscar);
 
             if ($rs->num_rows > 0) {

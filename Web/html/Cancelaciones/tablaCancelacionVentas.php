@@ -18,6 +18,7 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
         <th>Descuento</th>
         <th>Tipo Adquisición</th>
         <th>Cancelar</th>
+
     </tr>
     </thead>
     <tbody id="idTBodyCancelacionesVentas" class="letraExtraChica" align="center">

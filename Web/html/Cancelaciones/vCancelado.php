@@ -36,7 +36,7 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                         <td align="center" colspan="4">
                             <label>Artículos</label>
                         </td>
-                        <td align="center" colspan="2">
+                        <td align="center" colspan="4">
                             <label>Bazar</label>
                         </td>
                         <td align="center" colspan="2">
@@ -52,7 +52,7 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                             <input type="button" class="btn btn-warning" value="Limpiar"
                                    style="width: 130px" onclick="limpiarCancelado()">&nbsp;
                         </td>
-                        <td colspan="2">
+                        <td colspan="4">
                             <br>
                         </td>
                         <td colspan="2">
@@ -83,6 +83,14 @@ include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
                         <td align="center"><br>
                             <input type="button" class="btn btn-success" value="Ventas"
                                    style="width: 130px"  onclick="cancelarVenta()">&nbsp;
+                        </td>
+                        <td align="center"><br>
+                            <input type="button" class="btn btn-success" value="Apartado"
+                                   style="width: 130px"  onclick="cancelarApartado()">&nbsp;
+                        </td>
+                        <td align="center"><br>
+                            <input type="button" class="btn btn-success" value="Abono"
+                                   style="width: 130px"  onclick="cancelarAbono()">&nbsp;
                         </td>
                         <td align="center"><br>
                             <input type="button" class="btn btn-success" value="Cierre Caja"
