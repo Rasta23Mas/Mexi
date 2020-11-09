@@ -59,7 +59,7 @@ if (isset($_GET['contrato'])) {
     $idContrato = $_GET['contrato'];
 }
 $nombreContrato = 'Contrato_Num_' . $idContrato . ".pdf";
-$query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Mat, ' ',Cli.apellido_Pat) as NombreCompleto,
+$query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cli.apellido_Pat, ' ',Cli.apellido_Mat) as NombreCompleto,
  CatCli.descripcion AS Identificacion, Cli.num_Identificacion AS NumIde, 
  CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS Direccion,
   Cli.telefono AS Tel, Cli.celular AS Celular,Cli.correo AS Correo, 
