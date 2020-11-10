@@ -869,7 +869,17 @@ function guardarCierreCaja() {
     });
 }
 
-
+function validarFolioCaja(){
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Cierre/ConValidarFolioCaja.php',
+        type: 'post',
+        success: function (response) {
+            if (response < 0) {
+                generarFolioCaja(2);
+            }
+        },
+    })
+}
 function guardarFlujoCaja() {
     var importeLetra = NumeroALetras(efectivoGlobalNuevo);
     var idUsuarioCaja = $("#idUsuarioCaja").val();
@@ -885,7 +895,7 @@ function guardarFlujoCaja() {
         type: 'post',
         success: function (response) {
             if (response > 0) {
-                generarFolioCaja();
+                generarFolioCaja(1);
             } else {
                 alertify.error("Error al guardar la recolección de efectivo.");
             }
@@ -893,14 +903,16 @@ function guardarFlujoCaja() {
     })
 }
 
-function generarFolioCaja() {
+function generarFolioCaja(tipo) {
     $.ajax({
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Flujo/generarFolio.php',
         success: function (respuesta) {
             if(respuesta>0){
-                alert("Movimiento guardado.");
-                BitacoraUsuarioCierreCaja();
+                if(tipo==1){
+                    alert("Movimiento guardado.");
+                    BitacoraUsuarioCierreCaja();
+                }
             }else {
                 alertify.error("Error al guardar el arqueo.");
             }

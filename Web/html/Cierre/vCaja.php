@@ -33,7 +33,7 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
             }
             $("#guardarCaja").prop('disabled', true);
             $("#idTipoSesion").val(usuariotipo);
-
+            validarFolioCaja();
         })
     </script>
 

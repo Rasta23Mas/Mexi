@@ -327,6 +327,10 @@ function validarAjustesVenta() {
                 var e_venta_apartados = datos[i].apartado;
                 var e_venta_abono = datos[i].abono;
 
+                e_venta_mostrador = parseFloat(e_venta_mostrador);
+                e_venta_apartados = parseFloat(e_venta_apartados);
+                e_venta_abono = parseFloat(e_venta_abono);
+
                 if(tipo_movimiento==6||tipo_movimiento==10){
                     e_venta_mostrador = Math.round(e_venta_mostrador * 100) / 100;
                     venta += e_venta_mostrador;
@@ -339,7 +343,7 @@ function validarAjustesVenta() {
                 }
             }
 
-            var totalVenta = venta +venta_abono +venta_apartado;
+            var totalVenta = venta + venta_abono + venta_apartado;
             totalVenta = Math.round(totalVenta * 100) / 100;
             totalEntradaNew_glb += totalVenta;
             $("#idVentasNew").val(totalVenta);

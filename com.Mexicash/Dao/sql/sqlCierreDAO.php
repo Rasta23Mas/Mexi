@@ -452,6 +452,29 @@ class sqlCierreDAO
         echo $verdad;
     }
 
+    public function sqlValidarFolioCaja()
+    {
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $buscarFlujoGenerado = "SELECT id_flujo FROM flujo_tbl WHERE id_cat_flujo= 0 AND sucursal = $sucursal";
+            $statement = $this->conexion->query($buscarFlujoGenerado);
+            $encontro = $statement->num_rows;
+            if ($encontro > 0) {
+                $verdad = 1;
+            } else {
+                $verdad = -1;
+            }
+
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
 
     function cargarUsuariosCaja()
     {
