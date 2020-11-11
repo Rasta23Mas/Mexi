@@ -686,11 +686,25 @@ function guardarCierreSucursal() {
         success: function (response) {
             if (response > 0) {
                 guardarBazar();
+                fnCierreCajas(1,0,0);
             } else {
                 alertify.error("Error de conexion, intente más tarde.")
             }
         }
     });
+}
+
+function fnCierreCajas() {
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Cierre/ConCierreCajaIndispensable.php',
+        type: 'post',
+        dataType: "json",
+        success: function (response) {
+            if (response > 0) {
+                alertify.success("Se cerraron todas las cajas.")
+            }
+        },
+    })
 }
 
 function guardarBazar() {

@@ -1192,6 +1192,35 @@ class sqlCierreDAO
         //return $verdad;
         echo $verdad;
     }
+
+    public function sqlCierreCajas()
+    {
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $idCierreSucursal= $_SESSION['idCierreSucursal'];
+            $updateCajaIndispensable = "UPDATE bit_cierrecaja SET estatus=2, flag_Activa= 0
+                                            WHERE sucursal=$sucursal AND  id_CierreSucursal= $idCierreSucursal";
+            if ($ps = $this->conexion->prepare($updateCajaIndispensable)) {
+                if ($ps->execute()) {
+                    $verdad = 1;
+                } else {
+                    $verdad = -2;
+                }
+            } else {
+                $verdad = -3;
+            }
+        } catch (Exception $exc) {
+            $respuesta = 4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $verdad;
+    }
+
     public function sqlCierreCajaIndispensableUser($estatus,$user)
     {
         //Funcion Verificada

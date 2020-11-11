@@ -137,6 +137,12 @@ function validarUser() {
 //Login Administradores
 function LoginAdministradores(sucursal) {
     //ErrFn01
+    if (tipoUserGlb == 1) {
+        $("#modalSucursal").modal();
+    }else{
+
+    }
+
     var dataEnviar = {
         "sucursal": sucursal,
     };

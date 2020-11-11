@@ -43,6 +43,7 @@ function Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_pr
             if (response > 0) {
                 alertify.success("Contrato guardado.");
                 fnCierreCajaIndispensable(1,0,0);
+
             } else if (response==-7){
                 alertify.error("Error al actualizar las fechas del contrato.");
             } else {
