@@ -592,7 +592,6 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                     <tr>
                         <td align="right">
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMontoAuto()">&nbsp;
-                            <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
                         </td>
                     </tr>
                 </table>

@@ -279,6 +279,13 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                                         /></td>
                                 </tr>
                                 <tr >
+                                    <td  align="center" style="width: 40%"><label>Refrendo/Migración</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idRefrendoMigNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+                                <tr >
                                     <td  align="center" style="width: 40%"><label>Ventas</label></td>
                                     <td  align="center" style="width: 70px">
                                         <input type="text" value="0" id="idVentasNew"

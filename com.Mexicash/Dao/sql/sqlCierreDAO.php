@@ -543,13 +543,13 @@ class sqlCierreDAO
         echo json_encode($datos);
     }
 
-    function ArqueoEntradasySalidas($idCierreCaja)
+    function sqlArqueoEntradasySalidas($idCierreCaja)
     {
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT tipo_movimiento, pag_total,prestamo_Informativo
+            $buscar = "SELECT tipo_movimiento, pag_total,prestamo_Informativo,migracion, refrendoMig
                        FROM contrato_mov_tbl AS Con
                        WHERE Con.id_CierreCaja=$idCierreCaja AND sucursal = $sucursal AND Con.tipo_movimiento !=20";
             $rs = $this->conexion->query($buscar);
@@ -558,8 +558,9 @@ class sqlCierreDAO
                     $data = [
                         "tipo_movimiento" => $row["tipo_movimiento"],
                         "pag_total" => $row["pag_total"],
-                        "prestamo_Informativo" => $row["prestamo_Informativo"]
-
+                        "prestamo_Informativo" => $row["prestamo_Informativo"],
+                        "migracion" => $row["migracion"],
+                        "refrendoMig" => $row["refrendoMig"],
 
                     ];
                     array_push($datos, $data);

@@ -107,7 +107,6 @@ function validateFormAuto() {
         $("#idObservacionesAuto").focus();
         alertify.error("Por favor, ingresa las observaciones.");
     }else{
-
         validateForm= true;
     }
 

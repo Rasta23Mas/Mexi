@@ -32,6 +32,8 @@ $pag_total = $_POST['pag_total'];
 $pag_efectivo = $_POST['pag_efectivo'];
 $pag_cambio = $_POST['pag_cambio'];
 
+$idRefrendoMigracion = $_POST['idRefrendoMigracion'];
+
 
 
 
@@ -40,7 +42,7 @@ $sqlMovimientos = new sqlMovimientosDAO();
 $sqlMovimientos->insertContratoMov($id_contrato,$fechaVencimiento,$fechaAlmoneda,$prestamo_actual,$s_prestamo_nuevo,
 $s_descuento_aplicado,$descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses, $e_interes, $e_almacenaje,
 $e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato, $tipo_Contrato, $tipo_movimiento, $prestamo_Informativo,
-$pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio);
+$pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio,$idRefrendoMigracion);
 
 ?>
 

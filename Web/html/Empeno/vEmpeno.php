@@ -530,6 +530,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                             </div>
                         </td>
                     </tr>
+
                     <tr align="center">
                         <td>
                             <input type="button" class="btn btn-warning" value="Limpiar" onclick="Limpiar()">
@@ -562,6 +563,20 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                 <table border="0" width="100%">
                     <tr>
                         <td align="right">
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-lg-12">
+                <table border="0" width="100%">
+                    <tr>
+                        <td align="right">
+                            <b>Refrendo Migración:</b>
+                            <input type="text" id="idRefrendoMigracion" name="refrendoM" size="6"
+                                   onkeypress="return soloNumeros(event)" style="text-align:right" placeholder="0"/>
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="hayArticulos()">&nbsp;
                             <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
                             <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;
@@ -570,6 +585,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                 </table>
             </div>
         </div>
+
         <div class="row">
             <div class="col col-lg-12">
                 <table>

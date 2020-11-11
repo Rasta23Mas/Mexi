@@ -1,7 +1,7 @@
 function Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
                       mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_interes,mov_almacenaje,mov_seguro,
                       mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
-                      mov_subtotal,mov_total,mov_efectivo,mov_cambio) {
+                      mov_subtotal,mov_total,mov_efectivo,mov_cambio,idRefrendoMigracion) {
 
     var dataEnviar = {
         "id_contrato": mov_contrato,
@@ -32,6 +32,7 @@ function Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_pr
         "pag_total": mov_total,
         "pag_efectivo": mov_efectivo,
         "pag_cambio": mov_cambio,
+        "idRefrendoMigracion": idRefrendoMigracion,
 
     };
 
@@ -40,6 +41,7 @@ function Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_pr
         url: '../../../com.Mexicash/Controlador/Movimientos/movimientosContrato.php',
         data: dataEnviar,
         success: function (response) {
+            alert(response)
             if (response > 0) {
                 alertify.success("Contrato guardado.");
                 fnCierreCajaIndispensable(1,0,0);

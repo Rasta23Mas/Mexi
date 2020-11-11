@@ -254,10 +254,11 @@ function validarAjustes() {
     var idCierreCaja = $("#idCierreCaja").text();
     var dataEnviar = {
         "idCierreCaja": idCierreCaja,
+        "tipo": 0,
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Cierre/ArqueoAjustes.php',
+        url: '../../../com.Mexicash/Controlador/Cierre/ConArqueoAjustes.php',
         type: 'post',
         dataType: "json",
 
@@ -266,6 +267,7 @@ function validarAjustes() {
             var empenos = 0;
             var refrendos = 0;
             var desempeno = 0;
+            var refrendosMigracion = 0;
             totalEntradaNew_glb = 0;
             totalSalidasNew_glb = 0;
 
@@ -273,11 +275,17 @@ function validarAjustes() {
                 var tipoMov = datos[i].tipo_movimiento;
                 var pag_total = datos[i].pag_total;
                 var prestamo_Informativo = datos[i].prestamo_Informativo;
+                var migracion = datos[i].migracion;
+                var refrendoMig = datos[i].refrendoMig;
 
                 if(tipoMov==3||tipoMov==7){
-                    prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
-                    empenos += prestamo_Informativo;
-
+                    if(migracion==1){
+                        refrendoMig = Math.round(refrendoMig * 100) / 100;
+                        refrendosMigracion += refrendoMig;
+                    }else{
+                        prestamo_Informativo = Math.round(prestamo_Informativo * 100) / 100;
+                        empenos += prestamo_Informativo;
+                    }
                 }else if(tipoMov==4||tipoMov==8){
                     pag_total = Math.round(pag_total * 100) / 100;
                     refrendos += pag_total;
@@ -285,15 +293,17 @@ function validarAjustes() {
                     pag_total = Math.round(pag_total * 100) / 100;
                     desempeno += pag_total;
                 }
-
             }
             empenos = Math.round(empenos * 100) / 100;
             refrendos = Math.round(refrendos * 100) / 100;
             desempeno = Math.round(desempeno * 100) / 100;
-            totalEntradaNew_glb += desempeno + refrendos;
+            refrendosMigracion = Math.round(refrendosMigracion * 100) / 100;
+
+            totalEntradaNew_glb += desempeno + refrendos + refrendosMigracion;
             totalSalidasNew_glb += empenos;
             $("#idEmpenosNew").val(empenos);
             $("#idRefrendoNew").val(refrendos);
+            $("#idRefrendoMigNew").val(refrendosMigracion);
             $("#idDesempenoNew").val(desempeno);
             validarAjustesVenta();
         }

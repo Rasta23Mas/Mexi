@@ -97,7 +97,7 @@ class sqlMovimientosDAO
     public function insertContratoMov($id_contrato, $fechaVencimiento, $fechaAlmoneda, $prestamo_actual, $s_prestamo_nuevo,
                                       $s_descuento_aplicado, $descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, $e_abono, $e_intereses,$e_interes, $e_almacenaje,
                                       $e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato, $tipo_Contrato, $tipo_movimiento, $prestamo_Informativo,
-                                      $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio){
+                                      $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio,$idRefrendoMigracion){
         // TODO: Implement guardaCiente() method.
         try {
             $verdad = -1;
@@ -106,6 +106,11 @@ class sqlMovimientosDAO
             $fechaHoyShort = date('Y-m-d');
             $flagFecha = 0;
             $fechaUpdateRealizado = 0;
+            if($idRefrendoMigracion!=0){
+                $migracion = 1;
+            }else{
+                $migracion = 0;
+            }
 
             if($tipo_movimiento==4||$tipo_movimiento==8) {
                 //Refrendo
@@ -169,12 +174,12 @@ class sqlMovimientosDAO
                         s_descuento_aplicado, descuentoTotal, abonoTotal,e_capital_recuperado, e_pagoDesempeno, 
                         e_abono,e_intereses,e_interes, e_almacenaje, e_seguro,e_moratorios,e_iva, e_gps, e_poliza,e_pension, e_costoContrato,
                         tipo_Contrato, tipo_movimiento, id_cierreCaja, fecha_Movimiento, prestamo_Informativo, 
-                        pag_subtotal, pag_total, pag_efectivo,pag_cambio,sucursal) VALUES 
+                        pag_subtotal, pag_total, pag_efectivo,pag_cambio,sucursal,migracion, refrendoMig) VALUES 
                         ($contratoMax,$id_contrato, '$fechaVencimiento', '$fechaAlmoneda', $prestamo_actual, $s_prestamo_nuevo,
                          $s_descuento_aplicado, $descuentoTotal, $abonoTotal, $e_capital_recuperado, $e_pagoDesempeno, 
                          $e_abono, $e_intereses, $e_interes,$e_almacenaje,$e_seguro, $e_moratorios, $e_iva, $e_gps, $e_poliza, $e_pension, $costo_Contrato,
                          $tipo_Contrato, $tipo_movimiento, $idCierreCaja,'$fechaHoy',$prestamo_Informativo,
-                         $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio,$sucursal)";
+                         $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio,$sucursal,$migracion,$idRefrendoMigracion)";
                 if ($ps = $this->conexion->prepare($insertaMovimiento)) {
                     if ($ps->execute()) {
                         // $verdad = mysqli_stmt_affected_rows($ps);
