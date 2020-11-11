@@ -255,6 +255,14 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                                                disabled
                                         /></td>
                                 </tr>
+
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Incremento Pat</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idIncrementoNew"
+                                               disabled
+                                        /></td>
+                                </tr>
                                 <tr >
                                     <td  align="center" style="width: 40%"><label>Desempeño</label></td>
                                     <td  align="center" style="width: 70px">
@@ -262,6 +270,7 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                                                disabled
                                               /></td>
                                 </tr>
+
                                 <tr >
                                     <td  align="center" style="width: 40%"><label>Refrendo</label></td>
                                     <td  align="center" style="width: 70px">
@@ -296,6 +305,14 @@ include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");
                                     <td  align="center" style="width: 40%"><label>Retiros</label></td>
                                     <td  align="center" style="width: 70px">
                                         <input type="text" value="0" id="idRetirosNew"
+                                               disabled
+                                        /></td>
+                                </tr>
+
+                                <tr >
+                                    <td  align="center" style="width: 40%"><label>Ajustes</label></td>
+                                    <td  align="center" style="width: 70px">
+                                        <input type="text" value="0" id="idAjustesNew"
                                                disabled
                                         /></td>
                                 </tr>

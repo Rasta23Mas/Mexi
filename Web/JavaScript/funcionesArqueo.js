@@ -375,19 +375,57 @@ function validarAjustesCompra() {
             }
             compra = Math.round(compra * 100) / 100;
             totalSalidasNew_glb += compra;
+
+
+            $("#idComprasNew").val(compra);
+            buscarArqueoAnterior();
+        }
+    })
+}
+
+function buscarArqueoAnterior() {
+    //1 llena movimientos de dotacion y retiro
+    var idCierreCaja = $("#idCierreCaja").text();
+    var dataEnviar = {
+        "idCierreCaja": idCierreCaja,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Cierre/ConArqueoAnterior.php',
+        type: 'post',
+        dataType: "json",
+
+        success: function (datos) {
+            var i = 0;
+            var Salidas_Ajustes = 0;
+            var Entradas_Incremento = 0;
+            for (i; i < datos.length; i++) {
+                var incremento_pat = datos[i].incremento_pat;
+                var ajustes = datos[i].ajustes;
+                incremento_pat = Math.round(incremento_pat * 100) / 100;
+                ajustes = Math.round(ajustes * 100) / 100;
+                Entradas_Incremento += incremento_pat;
+                Salidas_Ajustes += ajustes;
+            }
+            Entradas_Incremento = Math.round(Entradas_Incremento * 100) / 100;
+            Salidas_Ajustes = Math.round(Salidas_Ajustes * 100) / 100;
+
+            totalEntradaNew_glb += Entradas_Incremento;
+            totalSalidasNew_glb += Salidas_Ajustes;
+
             totalEntradaNew_glb += bitDotacion_glb;
             totalSalidasNew_glb += bitRetiro_glb;
             var TotalCajaNew = totalEntradaNew_glb - totalSalidasNew_glb;
             TotalCajaNew = Math.round(TotalCajaNew * 100) / 100;
-            $("#idComprasNew").val(compra);
+            $("#idIncrementoNew").val(Entradas_Incremento);
+            $("#idAjustesNew").val(Salidas_Ajustes);
             $("#idTotEntradasNew").val(totalEntradaNew_glb);
             $("#idTotSalidasNew").val(totalSalidasNew_glb);
             $("#idTotCajaNew").val(TotalCajaNew);
-
         }
     })
-
 }
+
 function guardarCaja() {
     idMilGlobal = Math.round(idMilGlobal * 100) / 100;
     idQuinientosGlobal = Math.round(idQuinientosGlobal * 100) / 100;
@@ -581,7 +619,7 @@ function cambioDeArqueo() {
     var NombreUsuario = $('select[name="usuarioCaja"] option:selected').text();
     var idCierreCaja = "";
     saldoCajaUser();
-    //buscarArqueoAnterior();
+
     if (idUserSesion !== idUsuarioCaja) {
 
         //1 llena movimientos de dotacion y retiro

@@ -1043,18 +1043,17 @@ class sqlCierreDAO
         echo json_encode($data);
     }
 
-    function busquedaArqueoAnterior($usuarioCaja, $idCierreCaja)
+    function sqlBusquedaArqueoAnterior($idCierreCaja)
     {
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT total_Cierre, incremento_pat,ajustes FROM bit_arqueo
-                       WHERE usuario= $usuarioCaja AND id_cierreCaja=$idCierreCaja AND sucursal = $sucursal";
+            $buscar = "SELECT incremento_pat,ajustes FROM bit_arqueo
+                       WHERE  id_cierreCaja=$idCierreCaja AND sucursal = $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
-                        "total_Cierre" => $row["total_Cierre"],
                         "incremento_pat" => $row["incremento_pat"],
                         "ajustes" => $row["ajustes"],
 
