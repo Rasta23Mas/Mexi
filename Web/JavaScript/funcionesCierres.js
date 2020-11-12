@@ -48,6 +48,8 @@ var CantAbonosGlb = 0;
 var abonoAbonosGlb = 0;
 var CantDescuentoVentasGlb = 0;
 var descuentoVentasGlb = 0;
+var CantRefrendoMigGlb = 0;
+var refrendoMigGlb = 0;
 
 var folioCierreCaja = 0;
 var NombreUsuarioGlb = "";
@@ -231,6 +233,8 @@ function entradasSalidas() {
             var CantPension = 0;
             var pension = 0;
 
+            var CantRefrendoMig = 0;
+            var refrendoMig = 0;
 
             for (i; i < datos.length; i++) {
                 var tipo_movimiento = datos[i].tipo_movimiento;
@@ -248,6 +252,9 @@ function entradasSalidas() {
                 var e_poliza = datos[i].e_poliza;
                 var e_pension = datos[i].e_pension;
 
+                var migracion = datos[i].migracion;
+                var e_refrendoMig = datos[i].refrendoMig;
+
                 e_capital_recuperado = Math.round(e_capital_recuperado * 100) / 100;
                 e_pagoDesempeno = Math.round(e_pagoDesempeno * 100) / 100;
                 e_costoContrato = Math.round(e_costoContrato * 100) / 100;
@@ -260,12 +267,19 @@ function entradasSalidas() {
                 e_gps = Math.round(e_gps * 100) / 100;
                 e_poliza = Math.round(e_poliza * 100) / 100;
                 e_pension = Math.round(e_pension * 100) / 100;
+                refrendoMig = Math.round(refrendoMig * 100) / 100;
 
                 //Empeño y Empeño Auto 3 y 7
                 if (tipo_movimiento == 3 || tipo_movimiento == 7) {
                     //Empeño y Empeño Auto
-                    CantPrestamoNuevo++;
-                    prestamoNuevo += s_prestamo_nuevo;
+                    if(migracion==1){
+                        CantRefrendoMig++;
+                        refrendoMig += e_refrendoMig;
+                    }else{
+                        CantPrestamoNuevo++;
+                        prestamoNuevo += s_prestamo_nuevo;
+                    }
+
                 }
                 //Refrendo 4
                 if (tipo_movimiento == 4) {
@@ -377,11 +391,14 @@ function entradasSalidas() {
 
             }
 
-            var totalEntrada = capitalRecuperado + costoContrato;
+            var totalEntrada = capitalRecuperado + costoContrato + refrendoMig;
             var totalSalidas = prestamoNuevo ;
             saldoCajaGlobal = saldoCajaGlobal + totalEntrada;
             saldoCajaGlobal = saldoCajaGlobal - totalSalidas;
             //Guardar Cierre en Caja
+            CantRefrendoMigGlb = CantRefrendoMig;
+            refrendoMigGlb = refrendoMig;
+
             CantCapitalRecuperadoGlb = CantCapitalRecuperado;
             capitalRecuperadoGlb = capitalRecuperado;
             CantAbonoCapitalGlb = CantAbonoCapital;
@@ -423,8 +440,10 @@ function entradasSalidas() {
             pension = formatoMoneda(pension);
 
             var saldoCaja = formatoMoneda(saldoCajaGlobal);
+            refrendoMig = formatoMoneda(refrendoMig);
 
-
+            document.getElementById('CantRefrendoMig').innerHTML = "( " + CantRefrendoMig + " )";
+            document.getElementById('refrendoMig').innerHTML = refrendoMig;
             //DESEMPEÑO SIN INTERES 21
             document.getElementById('CantCapitalRecuperado').innerHTML = "( " + CantCapitalRecuperado + " )";
             document.getElementById('capitalRecuperado').innerHTML = capitalRecuperado;

@@ -198,7 +198,7 @@ class sqlCierreDAO
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Con.tipo_movimiento, Con.e_capital_recuperado,Con.e_pagoDesempeno,Con.e_costoContrato,
                        Con.e_abono,  Con.s_descuento_aplicado,  Con.s_prestamo_nuevo, Con.e_iva,e_intereses,e_moratorios,
-                       e_gps,	e_poliza,e_pension
+                       e_gps,	e_poliza,e_pension,migracion,refrendoMig
                        FROM contrato_mov_tbl AS Con
                        WHERE Con.sucursal = $sucursal AND Con.id_CierreCaja=$idCierreCaja AND Con.tipo_movimiento !=20";
 
@@ -219,6 +219,8 @@ class sqlCierreDAO
                         "e_gps" => $row["e_gps"],
                         "e_poliza" => $row["e_poliza"],
                         "e_pension" => $row["e_pension"],
+                        "migracion" => $row["migracion"],
+                        "refrendoMig" => $row["refrendoMig"],
                     ];
                     array_push($datos, $data);
                 }
