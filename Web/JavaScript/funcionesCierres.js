@@ -255,6 +255,7 @@ function entradasSalidas() {
                 var migracion = datos[i].migracion;
                 var e_refrendoMig = datos[i].refrendoMig;
 
+
                 e_capital_recuperado = Math.round(e_capital_recuperado * 100) / 100;
                 e_pagoDesempeno = Math.round(e_pagoDesempeno * 100) / 100;
                 e_costoContrato = Math.round(e_costoContrato * 100) / 100;
@@ -267,12 +268,13 @@ function entradasSalidas() {
                 e_gps = Math.round(e_gps * 100) / 100;
                 e_poliza = Math.round(e_poliza * 100) / 100;
                 e_pension = Math.round(e_pension * 100) / 100;
-                refrendoMig = Math.round(refrendoMig * 100) / 100;
+
 
                 //Empeño y Empeño Auto 3 y 7
                 if (tipo_movimiento == 3 || tipo_movimiento == 7) {
                     //Empeño y Empeño Auto
                     if(migracion==1){
+                        e_refrendoMig = Math.round(e_refrendoMig * 100) / 100;
                         CantRefrendoMig++;
                         refrendoMig += e_refrendoMig;
                     }else{
@@ -441,7 +443,6 @@ function entradasSalidas() {
 
             var saldoCaja = formatoMoneda(saldoCajaGlobal);
             refrendoMig = formatoMoneda(refrendoMig);
-
             document.getElementById('CantRefrendoMig').innerHTML = "( " + CantRefrendoMig + " )";
             document.getElementById('refrendoMig').innerHTML = refrendoMig;
             //DESEMPEÑO SIN INTERES 21
