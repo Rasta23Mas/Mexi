@@ -325,24 +325,12 @@ function buscarDatosContrato() {
                     TasaDescGlb = TasaDesc;
                     AlmacDescGlb = AlmacDesc;
                     SeguDescGlb = SeguDesc;
-                    //Se saca los porcentajes mensuales
-                    //alert("Se calcula");
-                    //alert(TotalPrestamo);
-                    //alert("por ")
-                    //alert(TasaDesc);
-                    //alert("Entre")
-                    // alert("100")
-                    //alert("igual a")
+
 
                     var calculaInteres = Math.floor(TotalPrestamo * TasaDesc) / 100;
                     var calculaALm = Math.floor(TotalPrestamo * AlmacDesc) / 100;
                     var calculaSeg = Math.floor(TotalPrestamo * SeguDesc) / 100;
-                    //var calculaIva = Math.floor(TotalPrestamo * IvaDesc) / 100;
 
-                    //alert(calculaInteres)
-                    //alert("por ")
-                    //alert(DiasContrato)
-                    //alert("igual a")
                     var totalInteres = calculaInteres + calculaALm + calculaSeg;
                     //interes por dia
                     var interesDia = totalInteres / DiasContrato;
@@ -351,14 +339,9 @@ function buscarDatosContrato() {
 
                     //Porcentajes por dia
                     var diaInteres = calculaInteres / DiasContrato;
-                    //alert(diaInteres)
                     var diaAlm = calculaALm / DiasContrato;
                     var diaSeg = calculaSeg / DiasContrato;
-                    //var diaIva = calculaIva / DiasContrato;
-                    //INTERES:
-                    //alert("dia interes = " + diaInteres);
-                    //alert("dia diasForInteres = " + diasForInteres)
-                    //alert(totalVencInteres)
+
                     var totalVencInteres = diaInteres * diasForInteres;
                     //ALMACENAJE
                     var totalVencAlm = diaAlm * diasForInteres;
@@ -971,7 +954,6 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     var e_poliza = 0;
     var e_pension = 0;
     var movimiento = 0;
-    alert(tipeFormulario)
     if (tipeFormulario == 3) {
         movimiento = 5;
     } else if (tipeFormulario == 4) {
@@ -1035,11 +1017,12 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     var mov_total = totalPagar;
     var mov_efectivo = efectivoPDF;
     var mov_cambio = cambioPDF;
+    var idRefrendoMigracion = 0;
 
     Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
         mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_interes,mov_almacenaje,mov_seguro,
         mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
-        mov_subtotal,mov_total,mov_efectivo,mov_cambio);
+        mov_subtotal,mov_total,mov_efectivo,mov_cambio,idRefrendoMigracion);
     BitacoraUsuarioRefrendo();
 }
 
