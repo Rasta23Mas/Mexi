@@ -516,7 +516,8 @@ function buscarDatosContrato() {
                     $("#cambioNuevoNota").val(cambioNuevoNota);
                     $("#saldoPendienteNuevoNota").val(saldoPendiente);
                     $("#idIVAValue").val(ivaTotal);
-
+                    var gastosAdmin = 30;
+                    $("#gastosAdminNuevoNota").val(gastosAdmin);
                     prestamoNuevoNota = formatoMoneda(prestamoNuevoNota);
                     interesNuevoNota = formatoMoneda(interesNuevoNota);
                     moratoriosNuevoNota = formatoMoneda(moratoriosNuevoNota);
@@ -525,6 +526,9 @@ function buscarDatosContrato() {
                     totalPagarNuevoNota = formatoMoneda(totalPagarNuevoNota);
                     ivaTotal = formatoMoneda(ivaTotal);
 
+
+                    gastosAdmin = formatoMoneda(gastosAdmin);
+                    $("#idGastosAdminNotaNuevo").val(gastosAdmin);
 
                     $("#idPrestamoNotaNuevo").val(prestamoNuevoNota);
                     $("#idInteresNotaNuevo").val(interesNuevoNota);
@@ -649,46 +653,69 @@ function descuentoNuevo(e) {
         descuento = Number(descuento);
 
         var interes = $("#interesPagarNuevoNota").val();
+        var gastosAdmin = $("#gastosAdminNuevoNota").val();
         interes = Number(interes);
-        if (descuento <= interes) {
+        gastosAdmin = Number(gastosAdmin);
 
+        if(interes <= gastosAdmin){
 
-            calcularTotalPagar(descuento, interes, 0)
-            $("#descuentoNuevoNota").val(descuento);
-            var descuentoFormat = formatoMoneda(descuento)
+            var ivaDesc = $("#idTblIva").val();
             $("#idDescuentoNotaNuevo").val(descuentoFormat);
             $("#idDescuentoNotaNuevo").prop('disabled', true);
             $("#idEfectivoNotaNuevo").prop('disabled', false);
             $("#idEfectivoNotaNuevo").focus();
+            var prestamo =    $("#idPrestamoSinInteres").val();
+            prestamo = Number(prestamo);
+            var totalGastosAdmin = prestamo + gastosAdmin;
+            totalGastosAdmin = totalGastosAdmin-descuento;
+            totalGastosAdmin = Math.round(totalGastosAdmin * 100) / 100;
+            $("#totalPagarNuevoNota").val(totalGastosAdmin);
+            var totalGastosAdminFormat = formatoMoneda(totalGastosAdmin)
+            $("#idTotalAPagarNotaNuevo").val(totalGastosAdminFormat);
+           // $("#descuentoNuevoNota").val(descuento);
+
+        }else {
+            if (descuento <= interes) {
 
 
-            var ivaDesc = $("#idTblIva").val();
-            var totalInteres = $("#interesPagarNuevoNota").val();
-            ivaDesc = Number(ivaDesc);
-            var ivaPorc = "." + ivaDesc;
-            ivaPorc = Number(ivaPorc);
-            totalInteres = totalInteres - descuento;
-            totalInteres = Math.round(totalInteres * 100) / 100;
-            $("#interesPagarNuevoNota").val(totalInteres);
-            var totalInteresFormat = formatoMoneda(totalInteres)
-            $("#idInteresAPagarNotaNuevo").val(totalInteresFormat);
-            ivaDesc += 100;
-            var totalInteresDescuento = totalInteres / ivaDesc;
-            totalInteresDescuento = totalInteresDescuento * 100;
+                calcularTotalPagar(descuento, interes, 0)
+                $("#descuentoNuevoNota").val(descuento);
+                var descuentoFormat = formatoMoneda(descuento)
+                $("#idDescuentoNotaNuevo").val(descuentoFormat);
+                $("#idDescuentoNotaNuevo").prop('disabled', true);
+                $("#idEfectivoNotaNuevo").prop('disabled', false);
+                $("#idEfectivoNotaNuevo").focus();
 
-            var ivaValue = totalInteresDescuento * ivaPorc;
-            totalInteresDescuento = Math.round(totalInteresDescuento * 100) / 100;
-            ivaValue = Math.round(ivaValue * 100) / 100;
 
-            $("#totalInteresNuevoNota").val(totalInteresDescuento);
-            $("#idIVAValue").val(ivaValue);
-            descuentoTabla();
+                var ivaDesc = $("#idTblIva").val();
+                var totalInteres = $("#interesPagarNuevoNota").val();
+                ivaDesc = Number(ivaDesc);
+                var ivaPorc = "." + ivaDesc;
+                ivaPorc = Number(ivaPorc);
+                totalInteres = totalInteres - descuento;
+                totalInteres = Math.round(totalInteres * 100) / 100;
+                $("#interesPagarNuevoNota").val(totalInteres);
+                var totalInteresFormat = formatoMoneda(totalInteres)
+                $("#idInteresAPagarNotaNuevo").val(totalInteresFormat);
+                ivaDesc += 100;
+                var totalInteresDescuento = totalInteres / ivaDesc;
+                totalInteresDescuento = totalInteresDescuento * 100;
 
-        } else {
-            alert("El descuento no puede ser mayor al interes.");
-            $("#idEfectivoNotaNuevo").val('');
-            $("#efectivoNuevoNota").val('');
+                var ivaValue = totalInteresDescuento * ivaPorc;
+                totalInteresDescuento = Math.round(totalInteresDescuento * 100) / 100;
+                ivaValue = Math.round(ivaValue * 100) / 100;
+
+                $("#totalInteresNuevoNota").val(totalInteresDescuento);
+                $("#idIVAValue").val(ivaValue);
+                descuentoTabla();
+
+            } else {
+                alert("El descuento no puede ser mayor al interes.");
+                $("#idEfectivoNotaNuevo").val('');
+                $("#efectivoNuevoNota").val('');
+            }
         }
+
 
     }
     return patron.test(te);
@@ -1259,6 +1286,7 @@ function desempenoSinInteres() {
     idIVAValue = formatoMoneda(idIVAValue);
     $("#idIVANotaNuevoSinInteres").val(idIVAValue);
 
+    alert("aqui");
     $("#totalSinInteresValue").val(totalSinInteres)
     totalSinInteres = formatoMoneda(totalSinInteres);
     $("#totalSinInteres").val(totalSinInteres);

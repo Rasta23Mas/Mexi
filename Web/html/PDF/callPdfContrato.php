@@ -334,7 +334,7 @@ $contenido = '<html>
                     Comisión por Comercialización: <u>10.00%</u> (Claus. 11c)<br>
                     Comisión por reposición de contrato <u>$ 0.00</u> (Claus. 11d)<br>
                     Desempeño Extemporáneo: <u>0.00%</u> (Claus. 11e)<br>
-                    Gastos de Administración <u>$ 0.00</u> (Claus 11f)<br> 
+                    Gastos de Administración <u>$ 30.00</u> (Claus 11f)<br> 
                 </label>
             </td>
         </tr>

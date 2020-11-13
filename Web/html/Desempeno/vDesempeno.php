@@ -83,7 +83,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
     </script>
     <style>
         .propInvisible {
-            visibility: hidden;
+            visibility: visible;
         }
         .letraExtraChica {
             font-size: .9em;
@@ -399,6 +399,19 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                                    style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
+                    <tr id="trInteresPagarNovo">
+                        <td align="right">
+                            <h6>Gastos Administración:</label></h6>
+                        </td>
+                        <td align="right">
+                            <h6><input type="text" id="idGastosAdminNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h6>
+                        </td>
+                        <td colspan="2" class="propInvisible">
+                            <input type="text" id="gastosAdminNuevoNota" name="Interes"
+                                   style="width: 100px; text-align: right"/>
+                        </td>
+                    </tr>
                     <tr id="trDescuentoInteresNovo">
                         <td align="right">
                             <h6>Descuento a interés:</label></h6>
@@ -453,7 +466,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                     </tr>
                     <tr id="trTotalSinInteres">
                         <td align="right">
-                            <h6>Total a pagar:</label></h6>
+                            <h6>Total a pagar:1</label></h6>
                         </td>
                         <td align="right">
                             <h6><input type="text" id="totalSinInteres" name="prestamoNota"
