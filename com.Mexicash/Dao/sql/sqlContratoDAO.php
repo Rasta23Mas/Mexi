@@ -67,7 +67,6 @@ class sqlContratoDAO
                 $IdContratoMax = $fila->UltimoContrato;
             }
             $IdContratoMax++;
-
             $insertaContrato = "INSERT INTO contratos_tbl
                 (id_Contrato,id_Cliente, total_Prestamo,total_Avaluo,avaluo_Letra, suma_InteresPrestamo,total_Interes,diasAlm, cotitular,
                  beneficiario, plazo,periodo,tipoInteres,tasa, alm,seguro,iva,dias, id_Formulario,Aforo, fecha_creacion,

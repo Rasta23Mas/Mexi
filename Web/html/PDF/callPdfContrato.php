@@ -78,9 +78,10 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
   LEFT JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado
   LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja 
   LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
-  LEFT JOIN cat_sucursal CATS ON Con.sucursal= CATS.id_Sucursal  
+  LEFT JOIN cat_sucursal CATS ON Con.sucursal= CATS.id_Sucursal
+  LEFT JOIN cat_costo_contrato CCC ON Con.id_Formulario= CCC.id_formulario    
   WHERE Con.id_Contrato =$idContrato AND Con.sucursal = $sucursal AND Caj.sucursal= $sucursal
-  AND Cli.sucursal= $sucursal";
+  AND Cli.sucursal= $sucursal AND CCC.sucursal =$sucursal ";
 
 $resultado = $db->query($query);
 
