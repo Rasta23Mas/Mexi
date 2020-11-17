@@ -153,9 +153,12 @@ class sqlDesempenoDAO
                         Con.gps AS GPS,
                         Con.pension AS Pension,
                         Con.total_Avaluo as TotalAvaluo,                        
-                        ConMov.prestamo_Informativo as PrestamoInfo
+                        ConMov.prestamo_Informativo as PrestamoInfo,
+                        CCC.costo as CostoContrato
                         From contrato_mov_tbl AS ConMov
                         INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato
+                        INNER JOIN cat_costo_contrato AS CCC ON Con.id_Formulario =  CCC.id_formulario
+                        AND Con.sucursal = CCC.sucursal
 						WHERE ConMov.id_movimiento = $IdMovimiento  and Con.sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -181,7 +184,7 @@ class sqlDesempenoDAO
                         "Pension" => $row["Pension"],
                         "TotalAvaluo" => $row["TotalAvaluo"],
                         "PrestamoInfo" => $row["PrestamoInfo"],
-
+                        "CostoContrato" => $row["CostoContrato"],
 
                     ];
                     array_push($datos, $data);
