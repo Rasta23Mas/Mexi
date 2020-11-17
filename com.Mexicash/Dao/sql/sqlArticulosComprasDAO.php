@@ -176,14 +176,15 @@ class sqlArticulosComprasDAO
         $datos = array();
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT Ar.id_Articulo, ET.descripcion as tipo, EM.descripcion as marca, EMOD.descripcion as modelo, Ar.prestamo,
                         Ar.avaluo, Ar.detalle 
                         FROM articulo_tbl Ar
-                        INNER JOIN cat_electronico_tipo ET on Ar.tipo = ET.id_tipo
-                        INNER JOIN cat_electronico_marca EM on Ar.marca = EM.id_marca
-                        INNER JOIN cat_electronico_modelo EMOD on Ar.modelo = EMOD.id_modelo
-                        WHERE id_Contrato=0 and id_cierreCaja=" . $idCierreCaja;
+                        INNER JOIN cat_electronico_tipo ET on Ar.tipo = ET.id_tipo AND ET.sucursal= $sucursal
+                        INNER JOIN cat_electronico_marca EM on Ar.marca = EM.id_marca AND EM.sucursal= $sucursal
+                        INNER JOIN cat_electronico_modelo EMOD on Ar.modelo = EMOD.id_modelo AND EMOD.sucursal= $sucursal
+                        WHERE id_Contrato=0 and id_cierreCaja= $idCierreCaja AND Ar.sucursal = $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

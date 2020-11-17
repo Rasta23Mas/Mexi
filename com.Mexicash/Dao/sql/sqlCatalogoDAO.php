@@ -333,7 +333,9 @@ class sqlCatalogoDAO
         $datos = array();
 
         try {
-            $buscar = "SELECT id_marca, descripcion FROM cat_electronico_marca where id_tipo=$tipoCombo";
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT id_marca, descripcion FROM cat_electronico_marca where id_tipo=$tipoCombo AND sucursal=$sucursal";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -360,7 +362,8 @@ class sqlCatalogoDAO
         $datos = array();
 
         try {
-            $buscar = "SELECT id_modelo, descripcion FROM cat_electronico_modelo where id_tipo=$tipoCombo and id_marca=$marcaCombo";
+            $sucursal = $_SESSION["sucursal"];
+            $buscar = "SELECT id_modelo, descripcion FROM cat_electronico_modelo where id_tipo=$tipoCombo and id_marca=$marcaCombo AND sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -413,8 +416,8 @@ class sqlCatalogoDAO
         // TODO: Implement guardaCiente() method.
         try {
             $descripcion = mb_strtoupper($descripcion, 'UTF-8');
-
-            $insertarMarca = "INSERT INTO cat_electronico_marca (id_tipo, descripcion) VALUES ($tipoCombo,'$descripcion')";
+            $sucursal = $_SESSION["sucursal"];
+            $insertarMarca = "INSERT INTO cat_electronico_marca (id_tipo, descripcion,sucursal) VALUES ($tipoCombo,'$descripcion',$sucursal)";
             if ($ps = $this->conexion->prepare($insertarMarca)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
@@ -439,8 +442,8 @@ class sqlCatalogoDAO
         // TODO: Implement guardaCiente() method.
         try {
             $descripcion = mb_strtoupper($descripcion, 'UTF-8');
-
-            $insertarMarca = "INSERT INTO cat_electronico_modelo (id_tipo,id_marca, descripcion) VALUES ($tipoCombo,$marcaCombo,'$descripcion')";
+            $sucursal = $_SESSION["sucursal"];
+            $insertarMarca = "INSERT INTO cat_electronico_modelo (id_tipo,id_marca, descripcion,sucursal) VALUES ($tipoCombo,$marcaCombo,'$descripcion',$sucursal)";
             if ($ps = $this->conexion->prepare($insertarMarca)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);
@@ -490,11 +493,13 @@ class sqlCatalogoDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT idElectronico, CT.descripcion as tipo,CM.descripcion as marca,CMO.descripcion as modelo,precio,vitrina,caracteristicas 
                         FROM cat_electronico as E
-                        INNER JOIN cat_electronico_tipo as CT on E.tipo = CT.id_tipo
-                        INNER JOIN cat_electronico_marca as CM on E.marca = CM.id_marca
-                        INNER JOIN cat_electronico_modelo as CMO on E.modelo = CMO.id_modelo WHERE E.tipo = $tipoComboTbl";
+                        INNER JOIN cat_electronico_tipo as CT on E.tipo = CT.id_tipo AND CT.sucursal =$sucursal
+                        INNER JOIN cat_electronico_marca as CM on E.marca = CM.id_marca AND CM.sucursal =$sucursal
+                        INNER JOIN cat_electronico_modelo as CMO on E.modelo = CMO.id_modelo AND CMO.sucursal =$sucursal 
+                        WHERE E.tipo = $tipoComboTbl";
 
             if ($marcaComboTbl != 0) {
                 $buscar = $buscar . " AND E.marca = " . $marcaComboTbl;
@@ -532,12 +537,14 @@ class sqlCatalogoDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT idElectronico,E.tipo as tipoId, CT.descripcion as tipoEditar,E.marca as marcaId, CM.descripcion as marca, 
 E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas 
                         FROM cat_electronico as E
-                        INNER JOIN cat_electronico_tipo as CT on E.tipo = CT.id_tipo
-                        INNER JOIN cat_electronico_marca as CM on E.marca = CM.id_marca
-                        INNER JOIN cat_electronico_modelo as CMO on E.modelo = CMO.id_modelo WHERE idElectronico = $idProducto";
+                        INNER JOIN cat_electronico_tipo as CT on E.tipo = CT.id_tipo AND CT.sucursal = $sucursal 
+                        INNER JOIN cat_electronico_marca as CM on E.marca = CM.id_marca AND CM.sucursal = $sucursal 
+                        INNER JOIN cat_electronico_modelo as CMO on E.modelo = CMO.id_modelo CMO CM.sucursal = $sucursal 
+                        WHERE idElectronico = $idProducto";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

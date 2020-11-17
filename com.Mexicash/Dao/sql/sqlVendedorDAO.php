@@ -389,6 +389,8 @@ class sqlVendedorDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT Con.id_Contrato as Contrato,Cont.id_Cliente as Cliente,
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto, 
                         CONCAT(Cont.plazo, ' ', Cont.periodo, ' ',Cont.tipoInteres) as Interes, 
@@ -406,9 +408,9 @@ class sqlVendedorDAO
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
                         LEFT JOIN cat_movimientos as Mov on Con.tipo_movimiento = Mov.id_Movimiento 
-                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca
-                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo
-                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo
+                        LEFT JOIN cat_electronico_marca as EM on Art.marca = EM.id_marca AND EM.sucursal = $sucursal 
+                        LEFT JOIN cat_electronico_modelo as EMOD on Art.modelo = EMOD.id_modelo AND EMOD.sucursal = $sucursal 
+                        LEFT JOIN cat_electronico_tipo as ET on Art.tipo = ET.id_tipo AND ET.sucursal = $sucursal 
                         LEFT JOIN cat_kilataje as Kil on Art.kilataje = Kil.id_Kilataje
                         LEFT JOIN cat_tipoarticulo as Tipo on Art.tipo = Tipo.id_tipo
                         LEFT JOIN cat_calidad as Cal on Art.calidad = Cal.id_calidad
