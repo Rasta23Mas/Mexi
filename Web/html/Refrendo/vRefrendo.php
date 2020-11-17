@@ -26,6 +26,7 @@ include_once (DESC_PATH."modalDescuentoToken.php");
         $(document).ready(function () {
             $("#btnGenerar").prop('disabled', true);
             $("#idFormulario").val(form);
+            $("#trGastosAdminNovo").hide();
 
             if (form === 1) {
                 nameForm = "Refrendo";
@@ -384,6 +385,19 @@ include_once (DESC_PATH."modalDescuentoToken.php");
                         <td colspan="2">
                             <input type="text" id="interesPagarNuevoNota" name="Interes"
                                    style="width: 100px; text-align: right"  class="propInvisible"/>
+                        </td>
+                    </tr>
+                    <tr id="trGastosAdminNovo">
+                        <td align="right">
+                            <h6>Gastos Administración:</label></h6>
+                        </td>
+                        <td align="right">
+                            <h6><input type="text" id="idGastosAdminNotaNuevo" name="prestamoNota"
+                                       style="width: 160px; text-align: right" disabled value="$0.00"/></h6>
+                        </td>
+                        <td colspan="2" class="propInvisible">
+                            <input type="text" id="gastosAdminNuevoNota" name="Interes"
+                                   style="width: 100px; text-align: right"/>
                         </td>
                     </tr>
                     <tr id="trDescuentoInteresNovo">
