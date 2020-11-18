@@ -543,7 +543,7 @@ E.modelo as modeloId,CMO.descripcion as modelo,precio,vitrina,caracteristicas
                         FROM cat_electronico as E
                         INNER JOIN cat_electronico_tipo as CT on E.tipo = CT.id_tipo AND CT.sucursal = $sucursal 
                         INNER JOIN cat_electronico_marca as CM on E.marca = CM.id_marca AND CM.sucursal = $sucursal 
-                        INNER JOIN cat_electronico_modelo as CMO on E.modelo = CMO.id_modelo CMO CM.sucursal = $sucursal 
+                        INNER JOIN cat_electronico_modelo as CMO on E.modelo = CMO.id_modelo AND CMO.sucursal = $sucursal 
                         WHERE idElectronico = $idProducto";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {

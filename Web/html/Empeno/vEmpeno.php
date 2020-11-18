@@ -460,14 +460,14 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                     <tr>
                                         <td colspan="3">Préstamo:</td>
                                         <td colspan="3">
-                                            <input type="text" id="idPrestamoElectronico" name="prestamoE" size="5"
+                                            <input type="text" id="idPrestamoElectronico" name="prestamoE" size="7"
                                                    onkeypress="return soloNumeros(event)"
                                                    style="text-align:center"/ >
 
                                         </td>
                                         <td colspan="3">Avalúo:</td>
                                         <td colspan="3">
-                                            <input type="text" id="idAvaluoElectronico" name="avaluoE" size="5"
+                                            <input type="text" id="idAvaluoElectronico" name="avaluoE" size="7"
                                                    onkeypress="return soloNumeros(event)" disabled
                                                    style="text-align:center" />
                                         </td>
@@ -475,13 +475,13 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                         <tr>
                                         <td colspan="3">Vitrina:</td>
                                         <td colspan="3">
-                                            <input type="text" id="idVitrinaElectronico" name="vitrinaE" size="5"
+                                            <input type="text" id="idVitrinaElectronico" name="vitrinaE" size="7"
                                                    onkeypress="return soloNumeros(event)"
                                                    style="text-align:center"/>
                                         </td>
                                             <td colspan="3">Catalogo:</td>
                                             <td colspan="3">
-                                                <input type="text" id="idPrecioCat" disabled name="vitrinaE" size="5"
+                                                <input type="text" id="idPrecioCat" disabled name="vitrinaE" size="7"
                                                        onkeypress="return soloNumeros(event)"
                                                        style="text-align:center" val="0"/>
                                             </td>
