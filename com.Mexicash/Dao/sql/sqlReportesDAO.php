@@ -431,7 +431,7 @@ class sqlReportesDAO
                         descripcionCorta as Detalle,descuento_Venta,CAT.descripcion as CatDesc
                         FROM bit_ventas as Ven
                         LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
-                        LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar
+                        LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar AND Con.sucursal=$sucursal
                         LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
                         WHERE DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
                         AND DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
