@@ -302,7 +302,12 @@ exit();*/
 $nombreContrato = 'Venta_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-$dompdf->setPaper('letter', 'portrait');
+if($sucursal==1){
+    $dompdf->setPaper('letter', 'portrait');
+}else if($sucursal==2){
+    $customPaper = array(0,0,227,426);
+}
+
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);

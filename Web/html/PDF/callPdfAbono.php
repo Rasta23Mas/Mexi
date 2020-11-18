@@ -83,27 +83,28 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-          .letraNormalNegrita{
-          font-size: .8em;
+      .letraNormalNegrita{
+          font-size: .4em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
-          font-size: 1.2em;
+          font-size: .5em;
           font-weight: bold;
          }
           .letraChicaNegrita{
-          font-size: .6em;
+          font-size: .3em;
           font-weight: bold;
          }
           .letraNormal{
-          font-size: .8em;
+          font-size: .4em;
          }
           .letraGrande{
-          font-size: 1.2em;
+          font-size: .5em;
          }
           .letraChica{
-          font-size: .6em;
+          font-size: .3em;
          }
+         
         .tituloCelda{
           background-color: #ebebe0
         }
@@ -296,7 +297,11 @@ exit();*/
 $nombreContrato = 'Abono_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-$dompdf->setPaper('letter', 'portrait');
+if($sucursal==1){
+    $dompdf->setPaper('letter', 'portrait');
+}else if($sucursal==2){
+    $customPaper = array(0,0,227,426);
+}
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);

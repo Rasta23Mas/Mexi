@@ -158,32 +158,27 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .letraNormalNegrita {
-            font-size: .6em;
-            font-weight: bold;
-        }
-
-        .letraGrandeNegrita {
-            font-size: 1em;
-            font-weight: bold;
-        }
-
-        .letraChicaNegrita {
-            font-size: .6em;
-            font-weight: bold;
-        }
-
-        .letraNormal {
-            font-size: .8em;
-        }
-
-        .letraGrande {
-            font-size: 1em;
-        }
-
-        .letraChica {
-            font-size: .6em;
-        }
+      .letraNormalNegrita{
+          font-size: .4em;
+          font-weight: bold;
+         }
+          .letraGrandeNegrita{
+          font-size: .5em;
+          font-weight: bold;
+         }
+          .letraChicaNegrita{
+          font-size: .3em;
+          font-weight: bold;
+         }
+          .letraNormal{
+          font-size: .4em;
+         }
+          .letraGrande{
+          font-size: .5em;
+         }
+          .letraChica{
+          font-size: .3em;
+         }
       
         
         .tdborderBlue{
@@ -657,6 +652,13 @@ $contenido .= '</tbody></table></form></body></html>';
 $nombreContrato = 'Caja Num ' . $id_CierreCaja . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
+if($sucursal==1){
+    $dompdf->setPaper('letter', 'portrait');
+
+}else if($sucursal==2){
+    $dompdf->setPaper('letter', 'portrait');
+
+}
 $dompdf->setPaper('letter', 'portrait');
 $dompdf->render();
 $pdf = $dompdf->output();

@@ -165,26 +165,33 @@ $contenido = '<html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
        .letraNormalNegrita{
-          font-size: .6em;
+          font-size: .4em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
-          font-size: .7em;
+          font-size: .5em;
           font-weight: bold;
          }
           .letraChicaNegrita{
-          font-size: .5em;
+          font-size: .3em;
           font-weight: bold;
          }
           .letraNormal{
-          font-size: .6em;
+          font-size: .4em;
          }
           .letraGrande{
-          font-size: .7em;
-         }
-          .letraChica{
           font-size: .5em;
          }
+          .letraChica{
+          font-size: .3em;
+         }
+         
+         .tableColl {
+        border-collapse: collapse;
+        }
+        .tdAlto{
+        height: 10px;
+        }
         .tituloCelda{
           background-color: #ebebe0
         }
@@ -400,7 +407,11 @@ $contenido .= '</tbody></table></form></body></html>';
 $nombreContrato = 'Desempeno_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-$customPaper = array(0,0,400,700);
+if($sucursal==1){
+    $dompdf->setPaper('letter', 'portrait');
+}else if($sucursal==2){
+    $customPaper = array(0,0,227,426);
+}
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);

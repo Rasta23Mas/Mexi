@@ -170,7 +170,12 @@ $nombreContrato = 'Flujo_' . $idFolio . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 //$customPaper = array(0,0,ANCHO,Largo);
-$customPaper = array(0,0,226.772,425.197);
+
+if($sucursal==1){
+    $dompdf->setPaper('letter', 'portrait');
+}else if($sucursal==2){
+    $customPaper = array(0,0,226.772,425.197);
+}
 $dompdf->setPaper($customPaper);
 $dompdf->render();
 $pdf = $dompdf->output();

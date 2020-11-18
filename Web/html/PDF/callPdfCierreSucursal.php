@@ -168,32 +168,27 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
       <style>
-        .letraNormalNegrita {
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        .letraGrandeNegrita {
-            font-size: 1.6em;
-            font-weight: bold;
-        }
-
-        .letraChicaNegrita {
-            font-size: .8em;
-            font-weight: bold;
-        }
-
-        .letraNormal {
-            font-size: 1.2em;
-        }
-
-        .letraGrande {
-            font-size: 1.6em;
-        }
-
-        .letraChica {
-            font-size: .8em;
-        }
+       .letraNormalNegrita{
+          font-size: .4em;
+          font-weight: bold;
+         }
+          .letraGrandeNegrita{
+          font-size: .5em;
+          font-weight: bold;
+         }
+          .letraChicaNegrita{
+          font-size: .3em;
+          font-weight: bold;
+         }
+          .letraNormal{
+          font-size: .4em;
+         }
+          .letraGrande{
+          font-size: .5em;
+         }
+          .letraChica{
+          font-size: .3em;
+         }
           .btn{
             color: #0099CC;
             background: transparent;
@@ -656,7 +651,13 @@ $contenido .= '</tbody></table></form></body></html>';
 $nombreContrato = 'Cierre_Sucursal_Num ' . $folioCierreSucursal . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-$dompdf->setPaper('letter', 'portrait');
+if($sucursal==1){
+    $dompdf->setPaper('letter', 'portrait');
+
+}else if($sucursal==2){
+    $dompdf->setPaper('letter', 'portrait');
+
+}
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);

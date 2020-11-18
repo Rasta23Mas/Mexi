@@ -654,7 +654,11 @@ $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 //letter carta, legal oficio
 //Vertical
-$dompdf->setPaper("legal", "portrait");
+if($sucursal==1){
+    $dompdf->setPaper("legal", "portrait");
+}else if($sucursal==2){
+    $dompdf->setPaper("legal", "portrait");
+}
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);

@@ -72,27 +72,28 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .letraNormalNegrita{
-          font-size: .6em;
+       .letraNormalNegrita{
+          font-size: .4em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
-          font-size: 1em;
+          font-size: .5em;
           font-weight: bold;
          }
           .letraChicaNegrita{
-          font-size: .4em;
+          font-size: .3em;
           font-weight: bold;
          }
           .letraNormal{
-          font-size: .6em;
-         }
-          .letraGrande{
-          font-size: 1em;
-         }
-          .letraChica{
           font-size: .4em;
          }
+          .letraGrande{
+          font-size: .5em;
+         }
+          .letraChica{
+          font-size: .3em;
+         }
+         
          
          .tableColl {
         border-collapse: collapse;
@@ -165,7 +166,11 @@ $dompdf->load_html($contenido);
 //$dompdf->setPaper('letter', 'landscape');
 //letter carta, legal oficio
 //Vertical
-$dompdf->setPaper('letter', 'portrait');
+if($sucursal==1){
+    $dompdf->setPaper('letter', 'portrait');
+}else if($sucursal==2){
+    $customPaper = array(0,0,227,426);
+}
 $dompdf->render();
 $pdf = $dompdf->output();
 $dompdf->stream($nombreContrato);
