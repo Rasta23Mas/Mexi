@@ -221,7 +221,7 @@ $contenido .= '<table width="30%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label ID="sucursalTel">Tel: ' . $TelSucursal . '</label>
+                        <label ID="sucursalTel">TEL: ' . $TelSucursal . '</label>
                     </td>
                 </tr>
                 <tr>
@@ -409,6 +409,7 @@ if($sucursal==1){
     $dompdf->setPaper('letter', 'portrait');
 }else if($sucursal==2){
     $customPaper = array(0,0,227,426);
+    $dompdf->setPaper($customPaper);
 }
 $dompdf->render();
 $pdf = $dompdf->output();

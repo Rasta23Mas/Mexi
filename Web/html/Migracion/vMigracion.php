@@ -21,7 +21,7 @@ $sucursal = $_SESSION['sucursal'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Compras</title>
     <!--Funciones-->
-    <script src="../../JavaScript/funcionesMigración.js"></script>
+    <script src="../../JavaScript/funcionesMigracion.js"></script>
     <script src="../../JavaScript/funcionesIntereses.js"></script>
     <script src="../../JavaScript/funcionesVendedor.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>

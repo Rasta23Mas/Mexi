@@ -336,6 +336,7 @@ if($sucursal==1){
     $dompdf->setPaper('letter', 'portrait');
 }else if($sucursal==2){
     $customPaper = array(0,0,227,426);
+    $dompdf->setPaper($customPaper);
 }
 
 $dompdf->render();
