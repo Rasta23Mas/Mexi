@@ -33,12 +33,9 @@ $sucursal = $_SESSION['sucursal'];
             $("#idFormCompras").trigger("reset");
             $("#btnEditar").prop('disabled', true);
             $("#btnCompra").prop('disabled', true);
-            var sucursal =<?php echo $sucursal ?>;
-            fnBuscaridBazarCompras();
             fnSelectPrendaCompras();
-
             fnLlenarComboTipoElec();
-            fnArticulosObsoletosCom();
+           // fnArticulosObsoletosCom();
             //alert(sucursal)
         })
     </script>
@@ -119,13 +116,13 @@ $sucursal = $_SESSION['sucursal'];
                         <td>&nbsp;
                             <label class="form-check-label">
                                 <input type="radio" name="migracionDe" id="idMetalesRadio"
-                                       onclick="radioFecha()">
+                                       onclick="radioMetal()">
                                 Metales&nbsp;</label>
                         </td>
                         <td>&nbsp;
                             <label class="form-check-label">
                                 <input type="radio" name="migracionDe" id="idElectroRadio"
-                                       onclick="radioFecha()">
+                                       onclick="radioElect()">
                                 Electrónicos&nbsp;</label>
                         </td>
                     </tr>

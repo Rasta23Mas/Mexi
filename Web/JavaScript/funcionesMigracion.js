@@ -1,3 +1,4 @@
+var radioSelect = 0;
 
 function fnCheckCompra (){
     if (document.getElementById('idCheckCompra').checked)
@@ -21,11 +22,19 @@ function fnBuscarIdContrato() {
             if (respuesta == 0) {
                 location.reload()
             } else {
-                idContratoCompraGlb = respuesta;
-                idContratoCompraGlb = parseInt(idContratoCompraGlb)
+               $("#idContratoMig").val(respuesta)
             }
         },
     })
+}
+
+function radioMetal() {
+    fnSelectPrendaCompras();
+    radioSelect = 1;
+}
+function radioElect() {
+    fnLlenarComboTipoElec();
+    radioSelect = 2;
 }
 
 function fnBuscarIVACatalogo() {
