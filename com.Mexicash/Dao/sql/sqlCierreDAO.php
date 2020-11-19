@@ -670,11 +670,13 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Bit.folio_CierreCaja,Bit.id_CierreCaja,Bit.id_CierreSucursal,Usu.usuario AS usuario,
                         Bit.CerradoPorGerente, Bit.estatus ,Bit.fecha_Creacion
                         FROM bit_cierrecaja AS Bit 
                         INNER JOIN 
-                        usuarios_tbl as Usu on Bit.usuario = Usu.id_User";
+                        usuarios_tbl as Usu on Bit.usuario = Usu.id_User  and sucursal=$sucursal
+                        and sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -903,9 +905,11 @@ class sqlCierreDAO
         $datos = array();
         try {
             $fechaCreacion = date('Y-m-d');
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT prestamo_Informativo
                         FROM contrato_mov_tbl
-                        WHERE  fechaAlmoneda='$fechaCreacion'";
+                        WHERE  fechaAlmoneda='$fechaCreacion' and sucursal =$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -959,8 +963,10 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT prestamo_Informativo  FROM contrato_mov_tbl
-                        WHERE tipo_movimiento=24";
+                        WHERE tipo_movimiento=24 and sucursal =  $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -1080,6 +1086,7 @@ class sqlCierreDAO
     {
         try {
             $fechaCreacion = date('Y-m-d');
+            $sucursal = $_SESSION["sucursal"];
 
             $insertaBazar = "INSERT INTO articulo_bazar_tbl(id_Contrato, id_serie, id_Articulo, tipo_movimiento,
                                 fecha_Bazar, tipoArticulo, tipo, kilataje, calidad, cantidad, peso, peso_Piedra,
@@ -1091,8 +1098,8 @@ class sqlCierreDAO
                                 precioCat, observaciones, detalle, Art.fecha_creacion,Art.descripcionCorta,
                                 Art.sucursal
                             FROM articulo_tbl as Art
-                            INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato
-                        WHERE  Con.fecha_almoneda='$fechaCreacion'";
+                            INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato AND sucursal=$sucursal
+                        WHERE  Con.fecha_almoneda='$fechaCreacion' and sucursal=$sucursal";
             if ($ps = $this->conexion->prepare($insertaBazar)) {
                 if ($ps->execute()) {
                     $respuesta = mysqli_stmt_affected_rows($ps);
