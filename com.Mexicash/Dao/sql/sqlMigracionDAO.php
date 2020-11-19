@@ -28,7 +28,8 @@ class sqlMigracionDAO
 
                 $sucursal = $_SESSION["sucursal"];
                 $IdCompraMax= 0;
-                $buscar = "SELECT MAX(id_Contrato) FROM articulo_bazar_tbl WHERE sucursal=$sucursal AND (id_serieTipo=2 || compra_mig=1)";
+                $buscar = "SELECT MAX(id_Contrato) as UltimaCompra FROM articulo_bazar_tbl WHERE sucursal=$sucursal AND (id_serieTipo=2 || compra_mig=1)";
+
                 $statement = $this->conexion->query($buscar);
                 $encontro = $statement->num_rows;
                 if ($encontro > 0) {

@@ -7,6 +7,7 @@ function fnCheckCompra (){
         fnBuscarIdContrato();
     } else {
         $("#idContratoMig").prop('disabled', false);
+        $("#idContratoMig").val('');
     }
 }
 

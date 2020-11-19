@@ -98,7 +98,6 @@ function generarContrato() {
     var cliente = $("#idClienteEmpeno").val();
     var totalAvaluoLetra = NumeroALetras(totalAvaluo);
     var seguro = $("#idSeguroPorcen").text();
-    alert(seguro);
     var dataEnviar = {
         "idCliente": $("#idClienteEmpeno").val(),
         "totalPrestamo": totalPrestamo,
@@ -127,7 +126,6 @@ function generarContrato() {
         url: '../../../com.Mexicash/Controlador/Contrato/cContrato.php',
         type: 'post',
         success: function (contrato) {
-            alert(contrato)
             if (contrato > 0) {
                 actualizarArticulo(contrato,tipoFormulario,cliente);
                 var idRefrendoMigracion = $("#idRefrendoMigracion").val();
