@@ -240,7 +240,7 @@ class sqlCierreDAO
         try {
             $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT tipo_movimiento,subTotal,abono,apartado,descuento_Venta,iva
+            $buscar = "SELECT tipo_movimiento,total,abono,apartado,descuento_Venta,iva
                        FROM contrato_mov_baz_tbl  
                        WHERE id_CierreCaja=$idCierreCaja AND tipo_movimiento !=20 AND sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
@@ -248,7 +248,7 @@ class sqlCierreDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "tipo_movimiento" => $row["tipo_movimiento"],
-                        "subTotal" => $row["subTotal"],
+                        "total" => $row["total"],
                         "abono" => $row["abono"],
                         "apartado" => $row["apartado"],
                         "descuento_Venta" => $row["descuento_Venta"],
@@ -582,7 +582,7 @@ class sqlCierreDAO
         $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "SELECT tipo_movimiento,subTotal,abono,apartado
+            $buscar = "SELECT tipo_movimiento,total,abono,apartado
                        FROM contrato_mov_baz_tbl  
                        WHERE id_CierreCaja=$idCierreCaja AND sucursal =$sucursal  AND tipo_movimiento !=20 ";
             $rs = $this->conexion->query($buscar);
@@ -590,7 +590,7 @@ class sqlCierreDAO
                 while ($row = $rs->fetch_assoc()) {
                     $data = [
                         "tipo_movimiento" => $row["tipo_movimiento"],
-                        "subTotal" => $row["subTotal"],
+                        "total" => $row["total"],
                         "abono" => $row["abono"],
                         "apartado" => $row["apartado"],
                     ];

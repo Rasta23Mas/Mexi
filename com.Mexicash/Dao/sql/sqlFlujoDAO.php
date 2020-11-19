@@ -106,8 +106,10 @@ class sqlFlujoDAO
         $datos = array();
         try {
             $idCierreSucursal = $_SESSION["idCierreSucursal"];
+            $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_cat_flujo, importe FROM flujo_tbl 
-                        WHERE usuarioCaja=$idUsuarioCaja AND id_cierreSucursal= $idCierreSucursal AND (id_cat_flujo=5 || id_cat_flujo=6)";
+                        WHERE usuarioCaja=$idUsuarioCaja AND id_cierreSucursal= $idCierreSucursal
+                         AND sucursal = $sucursal AND (id_cat_flujo=5 || id_cat_flujo=6)";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

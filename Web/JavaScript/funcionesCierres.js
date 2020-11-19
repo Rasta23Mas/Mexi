@@ -169,7 +169,10 @@ function movimientosEfectivo() {
                 location.href = '../Dotacion/vMovimientosCentral.php'
             } else {
                 efectivoCajaGlobal = retiroImporte;
+
+
                 saldoCajaGlobal = dotacionImporte - retiroImporte;
+
                 //Guardar Cierre en Caja
                 CantDotacionesGlb = cantDotacion;
                 dotacionesCajaGlb = dotacionImporte;
@@ -521,7 +524,7 @@ function entradasSalidasVentas() {
                 var tipo_movimiento = datos[i].tipo_movimiento;
                 //VENTA
                 var s_descuento_venta = datos[i].descuento_Venta;
-                var e_venta_mostrador = datos[i].subTotal;
+                var e_venta_mostrador = datos[i].total;
                 var e_venta_iva = datos[i].iva;
                 var e_venta_apartados = datos[i].apartado;
                 var e_venta_abono = datos[i].abono;
@@ -563,7 +566,6 @@ function entradasSalidasVentas() {
             //Guardar Cierre en Caja
 
             //SaldoCajaGlb += saldoCajaGlobal;
-
 
             saldoCajaGlobal += totalEntrada;
             //Venta

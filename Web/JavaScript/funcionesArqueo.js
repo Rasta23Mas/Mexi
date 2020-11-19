@@ -333,7 +333,7 @@ function validarAjustesVenta() {
             for (i; i < datos.length; i++) {
                 var tipo_movimiento = datos[i].tipo_movimiento;
                 //VENTA
-                var e_venta_mostrador = datos[i].subTotal;
+                var e_venta_mostrador = datos[i].total;
                 var e_venta_apartados = datos[i].apartado;
                 var e_venta_abono = datos[i].abono;
 

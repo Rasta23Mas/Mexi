@@ -202,13 +202,13 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
-                            <label id="CantCapitalRecuperado"></label>
+                            <label id="CantRefrendoMig"></label>
                         </td>
                         <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
+                            <label>&nbsp;&nbsp;&nbsp;REFRENDO MIG :</label>
                         </td>
                         <td class="terceraCol  border border-primary">
-                            <label id="capitalRecuperado"></label>
+                            <label id="refrendoMig"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -221,6 +221,31 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         </td>
                         <td class="terceraCol border border-primary">
                             <label id="prestamosNuevos"></label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantCapitalRecuperado"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="capitalRecuperado"></label>
+                        </td>
+                        <td class="espacioEnmedio ">
+                            <br>
+                        </td>
+
+                        <td class="primeraCol border border-primary">
+                            <label id="CantDescuentos"></label>
+                        </td>
+                        <td class="segundaCol border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;DESC. APLICADOS:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="descuentos"></label>
                         </td>
                     </tr>
                     <tr>
@@ -237,14 +262,13 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                             <br>
                         </td>
                         <td class="primeraCol border border-primary">
-                            <label id="CantDescuentos"></label>
+                            <label id="CantDescuentosVentas"></label>
                         </td>
                         <td class="segundaCol border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;DESC. APLICADOS:</label>
+                            <label>&nbsp;&nbsp;&nbsp;DESC. VENTAS:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="descuentos"></label>
-                        </td>
+                            <label id="descuentosVentas"></label>
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -259,14 +283,16 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
+
                         <td class="primeraCol border border-primary">
-                            <label id="CantDescuentosVentas"></label>
+                            <label id="CantPatrimonio"></label>
                         </td>
-                        <td class="segundaCol border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;DESC. VENTAS:</label>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;INCREMENTO PAT.:</label>
                         </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="descuentosVentas"></label>
+                        <td class="terceraCol  border border-primary">
+                            <label id="patrimonio"></label>
+                        </td>
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -280,15 +306,6 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
-                        </td>
-                        <td class="primeraCol border border-primary">
-                            <label id="CantPatrimonio"></label>
-                        </td>
-                        <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;INCREMENTO PAT.:</label>
-                        </td>
-                        <td class="terceraCol  border border-primary">
-                            <label id="patrimonio"></label>
                         </td>
                     </tr>
                     <tr>
@@ -304,14 +321,9 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraCol border border-primary">
-                            <label id="CantRefrendoMig"></label>
-                        </td>
-                        <td class="segundaCol  border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;Refrendo Mig :</label>
-                        </td>
-                        <td class="terceraCol  border border-primary">
-                            <label id="refrendoMig"></label>
+
+                        <td colspan="3" class="titleTable border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;TOTALES</label>
                         </td>
                     </tr>
                     <tr>
@@ -328,8 +340,12 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" >
-                           <br>
+
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="totalEntradas"></label>
                         </td>
                     </tr>
                     <tr>
@@ -345,8 +361,12 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td colspan="3" class="titleTable border border-primary">
-                            <label>&nbsp;&nbsp;&nbsp;TOTALES</label>
+
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
+                        </td>
+                        <td class="terceraCol border border-primary">
+                            <label id="totalIVA"></label>
                         </td>
                     </tr>
                     <tr>
@@ -363,10 +383,10 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                             <br>
                         </td>
                         <td class="primeraColTotales border border-primary" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL ENTRADAS:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="totalEntradas"></label>
+                            <label id="saldoCaja"></label>
                         </td>
                     </tr>
                     <tr>
@@ -383,11 +403,12 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
+
                         <td class="primeraColTotales border border-primary" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="totalIVA"></label>
+                            <label id="efectivoCaja"></label>
                         </td>
                     </tr>
                     <tr>
@@ -419,12 +440,7 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
-                        </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="saldoCaja"></label>
-                        </td>
+
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -438,12 +454,6 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
-                        </td>
-                        <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
-                        </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="efectivoCaja"></label>
                         </td>
                     </tr>
                     <tr>
