@@ -873,12 +873,12 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
-            $fechaCreacion = date('Y-m-d');
             $sucursal = $_SESSION["sucursal"];
-
+            $id_CierreSucursal = $_SESSION["idCierreSucursal"];
             $buscar = "SELECT total,utilidad
                         FROM contrato_mov_baz_tbl
-                        WHERE  DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaCreacion' and tipo_movimiento = 6 AND sucursal= $sucursal";
+                        WHERE id_CierreSucursal=$id_CierreSucursal
+                        and tipo_movimiento = 6 AND sucursal= $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -929,11 +929,12 @@ class sqlCierreDAO
     {
         $datos = array();
         try {
+            $sucursal = $_SESSION["sucursal"];
 
-            $buscar = "SELECT s_prestamo_nuevo,tipo_movimiento FROM contrato_mov_tbl 
-                        WHERE tipo_movimiento=3 and id_contrato not in 
+            $buscar = "SELECT s_prestamo_nuevo,tipo_movimiento,migracion FROM contrato_mov_tbl 
+                        WHERE sucursal=$sucursal and tipo_movimiento=3 and migracion=0 AND id_contrato not in 
                         (select id_contrato FROM contrato_mov_tbl 
-                        where tipo_movimiento = 4 || tipo_movimiento = 5 || tipo_movimiento = 5 
+                        where sucursal=$sucursal AND tipo_movimiento = 4 || tipo_movimiento = 5 
                         || tipo_movimiento = 20 || tipo_movimiento = 24 )";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {

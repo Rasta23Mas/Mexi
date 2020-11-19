@@ -973,9 +973,7 @@ class sqlUsuarioDAO
             $sucursal = $_SESSION["sucursal"];
 
             $buscar = "SELECT SUM(prestamo) as PrestamoEmp FROM articulo_bazar_tbl
-                        WHERE tipo_movimiento=24 and sucursal = $sucursal and id_Contrato not in 
-                        (select id_Contrato FROM contrato_mov_baz_tbl 
-                        where sucursal= $sucursal AND tipo_movimiento = 6 || tipo_movimiento = 22 || tipo_movimiento = 23 )";
+                        WHERE tipo_movimiento=24 and sucursal = $sucursal and HayMovimiento=0";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

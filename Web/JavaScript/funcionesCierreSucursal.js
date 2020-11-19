@@ -346,7 +346,8 @@ function llenarEntradasSalidas() {
             totalSalidasGlb += total_SalidaSuma;
             saldoFinalGlb = totalEntradasGlb - totalSalidasGlb;
             var saldoFinal = saldoFinalGlb;
-            var dotacionesNew = dotacionesA_CajaSuma - cantRetirosSuma;
+
+            var dotacionesNew = dotacionesA_CajaSuma;
             var saldoFinalOper = dotacionesNew - saldoFinal;
             dotacionesA_CajaSuma = formatoMoneda(dotacionesA_CajaSuma);
             capitalRecuperadoSuma = formatoMoneda(capitalRecuperadoSuma);
@@ -373,7 +374,7 @@ function llenarEntradasSalidas() {
 
             total_SalidaSuma = formatoMoneda(total_SalidaSuma);
             saldoFinal = formatoMoneda(saldoFinal);
-
+            dotacionesNew = formatoMoneda(dotacionesNew);
 
             document.getElementById('totalDotacionesNew').innerHTML = dotacionesNew;
             document.getElementById('dotaciones').innerHTML = dotacionesA_CajaSuma;
@@ -617,7 +618,6 @@ function pasarBazar() {
             entradasInfo = Math.round(entradasInfo * 100) / 100;
 
             InfoEntradasGbl = entradasInfo;
-
             var saldofinal = InfoSaldoInicialGbl + InfoEntradasGbl;
             saldofinal = saldofinal - InfoSalidasGbl;
             saldofinal = Math.round(saldofinal * 100) / 100;

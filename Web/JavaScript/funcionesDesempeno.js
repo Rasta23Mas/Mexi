@@ -690,7 +690,12 @@ function descuentoNuevo(e) {
                 $("#descuentoNuevoNota").val(descuento);
                 var descuentoFormat = formatoMoneda(descuento)
                 $("#idDescuentoNotaNuevo").val(descuentoFormat);
-                $("#idValidaToken").val(1);
+                if(descuento==0){
+                    $("#idValidaToken").val(0);
+                }else{
+                    $("#idValidaToken").val(1);
+                }
+
             }else {
                 alert("El descuento no puede ser mayor a los gastos de administración.");
                 $("#idDescuentoNotaNuevo").val('');
@@ -1061,7 +1066,6 @@ function MovimientosRefrendo(descuentoAplicado,descuentoFinal, abonoFinal, newFe
     var mov_costoContrato = 0;
     if(GastosAdminGlb==1){
         mov_costoContrato = $("#gastosAdminNuevoNota").val();
-        alert(mov_costoContrato);
     }
 
     var mov_tipoContrato = tipoContrato;

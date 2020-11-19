@@ -199,7 +199,7 @@ $contenido = '<html>
 </head>
 <body>
 <form>';
-$contenido .= '<table width="30%" border="1">
+$contenido .= '<table width="100%" border="1">
         <tbody>
         <tr>
         <td align="center" >
