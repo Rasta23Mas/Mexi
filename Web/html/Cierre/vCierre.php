@@ -161,7 +161,7 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="7"><br></td>
+                        <td colspan="3"><br></td>
                     </tr>
                     <tr>
                         <td colspan="3" class="titleTableEntrada" align="center">
@@ -175,7 +175,7 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="7"><br></td>
+                        <td colspan="3"><br></td>
                     </tr>
                     <tr>
                         <td class="primeraCol border border-primary">
@@ -504,8 +504,14 @@ $idCierreSucursal = $_SESSION['idCierreSucursal'];
 
                     </tr>
                     <tr>
-                        <td class="primeraCol" colspan="3">
-                            <label></label>
+                        <td class="primeraCol border border-primary">
+                            <label id="CantRefMigLbl"></label>
+                        </td>
+                        <td class="segundaCol  border border-primary">
+                            <label>&nbsp;&nbsp;&nbsp;REFRENDO MIG:</label>
+                        </td>
+                        <td class="terceraCol  border border-primary">
+                            <label id="refrendoMigLbl"></label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>

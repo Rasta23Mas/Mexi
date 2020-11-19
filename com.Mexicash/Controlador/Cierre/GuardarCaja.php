@@ -48,7 +48,8 @@ $cantAjustes = $_POST['cantAjustes'];
 $ajuste = $_POST['ajustes'];
 $CantIncremento = $_POST['cantIncremento'];
 $incrementoPatrimonio = $_POST['incrementoPatrimonio'];
-
+$CantRefrendoMig = $_POST['CantRefrendoMig'];
+$refrendoMig = $_POST['refrendoMig'];
 $cantRefrendos = $_POST['cantRefrendos'];
 $informeRefrendo = $_POST['informeRefrendo'];
 $idCierreCaja = $_POST['idCierreCaja'];
@@ -100,6 +101,7 @@ $cantAjustes,
 $ajuste,
 $CantIncremento,
 $incrementoPatrimonio,
+$CantRefrendoMig,$refrendoMig,
 $cantRefrendos,
 $informeRefrendo,
 $idCierreCaja,

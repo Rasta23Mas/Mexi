@@ -361,12 +361,11 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-
                         <td class="primeraColTotales border border-primary" colspan="2">
-                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="totalIVA"></label>
+                            <label id="totalSalidas"></label>
                         </td>
                     </tr>
                     <tr>
@@ -382,11 +381,12 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
+
                         <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
+                            <label><b>&nbsp;&nbsp;&nbsp;TOTAL IVA:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="saldoCaja"></label>
+                            <label id="totalIVA"></label>
                         </td>
                     </tr>
                     <tr>
@@ -405,10 +405,10 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         </td>
 
                         <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
+                            <b><label>&nbsp;&nbsp;&nbsp;SALDO CAJA:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="efectivoCaja"></label>
+                            <label id="saldoCaja"></label>
                         </td>
                     </tr>
                     <tr>
@@ -418,19 +418,14 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
-                        <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;TOTAL SALIDAS:</label>
-                        </td>
-                        <td class="terceraCol border border-primary">
-                            <label id="totalSalidas"></label>
-                        </td>
 
-                    <!--    <td class="primeraColTotales border border-primary" colspan="2">
-                            <b><label>&nbsp;&nbsp;&nbsp;AJUSTE:</label>
+
+                        <td class="primeraColTotales border border-primary" colspan="2">
+                            <b><label>&nbsp;&nbsp;&nbsp;EFECTIVO CAJA:</label>
                         </td>
                         <td class="terceraCol border border-primary">
-                            <label id="ajuste"></label>
-                        </td>-->
+                            <label id="efectivoCaja"></label>
+                        </td>
 
                     </tr>
                     <tr>
@@ -502,7 +497,7 @@ $idCierreCaja =  $_SESSION["idCierreCaja"];
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="7">
+                        <td >
                             <br>
                         </td>
                     </tr>

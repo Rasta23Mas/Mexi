@@ -26,6 +26,8 @@ var CantAjustesGlb = 0;
 var ajustesGlb = 0;
 var CantIncrementoGlb = 0;
 var incrementoGlb = 0;
+var CantRefMigGlb = 0;
+var refrendoMigGlb = 0;
 var CantRetirosCajaGlb = 0;
 var retirosCajaGlb = 0;
 var CantPrestamosNuevosGlb = 0;
@@ -178,6 +180,8 @@ function llenarEntradasSalidas() {
             var ajustesSuma = 0;
             var CantIncrementoSuma = 0;
             var incrementoSuma = 0;
+            var CantRefMigSuma = 0;
+            var refrendoMigSuma = 0;
             var cantRetirosSuma = 0;
             var retirosCajaSuma = 0;
             var cantPrestamosSuma = 0;
@@ -214,6 +218,8 @@ function llenarEntradasSalidas() {
                 var ajustes = datos[i].ajuste;
                 var CantIncremento = datos[i].CantIncremento;
                 var incrementoPatrimonio = datos[i].incrementoPatrimonio;
+                var CantRefMig = datos[i].cantRefMig;
+                var refrendoMig = datos[i].refrendoMig;
                 var cantRetiros = datos[i].cantRetiros;
                 var retirosCaja = datos[i].retirosCaja;
                 var cantPrestamos = datos[i].cantPrestamos;
@@ -250,6 +256,8 @@ function llenarEntradasSalidas() {
                 ajustes = Math.round(ajustes * 100) / 100;
                 CantIncremento = Math.round(CantIncremento * 100) / 100;
                 incrementoPatrimonio = Math.round(incrementoPatrimonio * 100) / 100;
+                CantRefMig = Math.round(CantRefMig * 100) / 100;
+                refrendoMig = Math.round(refrendoMig * 100) / 100;
                 cantRetiros = Math.round(cantRetiros * 100) / 100;
                 retirosCaja = Math.round(retirosCaja * 100) / 100;
                 cantPrestamos = Math.round(cantPrestamos * 100) / 100;
@@ -283,6 +291,8 @@ function llenarEntradasSalidas() {
                 ajustesSuma += ajustes;
                 CantIncrementoSuma += CantIncremento;
                 incrementoSuma += incrementoPatrimonio;
+                CantRefMigSuma += CantRefMig;
+                refrendoMigSuma += refrendoMig;
                 cantRetirosSuma += cantRetiros;
                 retirosCajaSuma += retirosCaja;
                 cantPrestamosSuma += cantPrestamos;
@@ -319,6 +329,8 @@ function llenarEntradasSalidas() {
             ajustesGlb += ajustesSuma;
             CantIncrementoGlb += CantIncrementoSuma;
             incrementoGlb += incrementoSuma;
+            CantRefMigGlb += CantRefMig;
+            refrendoMigGlb += refrendoMig;
             CantRetirosCajaGlb += cantRetirosSuma;
             retirosCajaGlb += retirosCajaSuma;
             CantPrestamosNuevosGlb += cantPrestamosSuma;
@@ -350,6 +362,7 @@ function llenarEntradasSalidas() {
             pensionSuma = formatoMoneda(pensionSuma);
             ajustesSuma = formatoMoneda(ajustesSuma);
             incrementoSuma = formatoMoneda(incrementoSuma);
+            refrendoMigSuma = formatoMoneda(refrendoMigSuma);
             retirosCajaSuma = formatoMoneda(retirosCajaSuma);
             prestamosNuevosSuma = formatoMoneda(prestamosNuevosSuma);
             descuentosAplicadosSuma = formatoMoneda(descuentosAplicadosSuma);
@@ -360,6 +373,7 @@ function llenarEntradasSalidas() {
 
             total_SalidaSuma = formatoMoneda(total_SalidaSuma);
             saldoFinal = formatoMoneda(saldoFinal);
+
 
             document.getElementById('totalDotacionesNew').innerHTML = dotacionesNew;
             document.getElementById('dotaciones').innerHTML = dotacionesA_CajaSuma;
@@ -393,6 +407,8 @@ function llenarEntradasSalidas() {
             document.getElementById('ajustes').innerHTML = ajustesSuma;
             document.getElementById('CantPatrimonio').innerHTML = "( " + CantIncrementoSuma + " )";
             document.getElementById('patrimonio').innerHTML = incrementoSuma;
+            document.getElementById('CantRefMigLbl').innerHTML = "( " + CantRefMigSuma + " )";
+            document.getElementById('refrendoMigLbl').innerHTML = refrendoMigSuma;
             document.getElementById('totalEntrados').innerHTML = total_EntradaSuma;
             document.getElementById('totalIVA').innerHTML = total_IVASuma;
             document.getElementById('totalSalidas').innerHTML = total_SalidaSuma;

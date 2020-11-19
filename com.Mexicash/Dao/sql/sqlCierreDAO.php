@@ -333,7 +333,7 @@ class sqlCierreDAO
                                $cantGps, $gps,
                                $cantPoliza, $poliza, $cantPension, $pension, $cantRetiros, $retirosCaja, $cantPrestamos, $prestamosNuevos, $cantDescuentos, $descuentosAplicados,
                                $cantDescuentosVentas, $descuento_Ventas, $cantCostoContrato, $costoContrato, $total_Salida, $total_Entrada, $total_Iva, $saldo_Caja, $efectivo_Caja,
-                               $cantAjustes, $ajuste, $CantIncremento, $incrementoPatrimonio, $cantRefrendos, $informeRefrendo, $idCierreCaja, $cerradoPorGerenteGlb)
+                               $cantAjustes, $ajuste, $CantIncremento, $incrementoPatrimonio,$CantRefrendoMig,$refrendoMig, $cantRefrendos, $informeRefrendo, $idCierreCaja, $cerradoPorGerenteGlb)
     {
         try {
             $fechaCreacion = date('Y-m-d H:i:s');
@@ -348,7 +348,7 @@ class sqlCierreDAO
                             cantDescuentos=$cantDescuentos,descuentosAplicados=$descuentosAplicados,cantDescuentosVentas=$cantDescuentosVentas,
                             descuento_Ventas=$descuento_Ventas,cantCostoContrato=$cantCostoContrato,costoContrato=$costoContrato,total_Salida=$total_Salida,
                             total_Entrada=$total_Entrada,total_Iva=$total_Iva,saldo_Caja=$saldo_Caja,efectivo_Caja=$efectivo_Caja,cantAjustes=$cantAjustes,
-                            ajuste=$ajuste,cantIncremento=$CantIncremento,incremento=$incrementoPatrimonio,
+                            ajuste=$ajuste,cantIncremento=$CantIncremento,incremento=$incrementoPatrimonio,cantRefMig=$CantRefrendoMig,refrendoMig=$refrendoMig,
                             cantRefrendos=$cantRefrendos,informeRefrendo=$informeRefrendo,fecha_Creacion='$fechaCreacion',
                             estatus=2, CerradoPorGerente=$cerradoPorGerenteGlb,flag_Activa=0,CierreCajaIndispensable=0  
                             WHERE id_CierreCaja=$idCierreCaja AND sucursal = $sucursal and estatus =1";
@@ -754,7 +754,7 @@ class sqlCierreDAO
 
             $buscar = "SELECT dotacionesA_Caja,cantCapitalRecuperado,capitalRecuperado,cantAbono,abonoCapital,intereses,iva,
                         cantMostrador, mostrador, cantIvaVenta, iva_venta, cantApartados,apartadosVentas,cantAbonoVentas,abonoVentas,gps, poliza,pension,cantAjustes, ajuste,
-                        CantIncremento,incremento,
+                        CantIncremento,incremento,cantRefMig,refrendoMig,
                         cantRetiros,retirosCaja, cantPrestamos,prestamosNuevos,cantDescuentos,descuentosAplicados,cantDescuentosVentas,descuento_Ventas,cantCostoContrato,
                         costoContrato,total_Salida,total_Entrada,total_Iva
                         FROM bit_cierrecaja
@@ -785,6 +785,8 @@ class sqlCierreDAO
                         "ajuste" => $row["ajuste"],
                         "CantIncremento" => $row["CantIncremento"],
                         "incrementoPatrimonio" => $row["incremento"],
+                        "cantRefMig" => $row["cantRefMig"],
+                        "refrendoMig" => $row["refrendoMig"],
                         "cantRetiros" => $row["cantRetiros"],
                         "retirosCaja" => $row["retirosCaja"],
                         "cantPrestamos" => $row["cantPrestamos"],

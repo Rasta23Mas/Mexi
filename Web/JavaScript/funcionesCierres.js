@@ -564,6 +564,17 @@ function entradasSalidasVentas() {
             TotalEntradaGlb += totalEntrada;
             TotalIvaGlb += ventaIVA;
             //Guardar Cierre en Caja
+            CantMostradorGlb = CantVenta;
+            mostradorGlb = venta;
+            CantIvaVentaGlb = CantVentaIVA;
+            ivaVentaGlb = ventaIVA;
+            CantApartadosGlb = CantApartado;
+            abonoApartadosGlb = ventaApartado;
+            CantAbonosGlb = CantAbono;
+            abonoAbonosGlb = ventaAbono;
+
+            CantDescuentoVentasGlb = CantDescuentoVenta;
+            descuentoVentasGlb = ventaDescuento;
 
             //SaldoCajaGlb += saldoCajaGlobal;
 
@@ -872,6 +883,8 @@ function guardarCierreCaja() {
         "ajustes": ajustesGlb,
         "cantIncremento": cantIncrementosGlb,
         "incrementoPatrimonio": incrementoGlb,
+        "CantRefrendoMig": CantRefrendoMigGlb,
+        "refrendoMig": refrendoMigGlb,
         "idCierreCaja": idCierreCaja,
         "cerradoPorGerenteGlb": cerradoPorGerenteGlb,
 
