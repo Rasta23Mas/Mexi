@@ -165,26 +165,10 @@ $contenido = '<html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
          .letraNormalNegrita{
-          font-size: .4em;
+          font-size: .6em;
           font-weight: bold;
          }
-          .letraGrandeNegrita{
-          font-size: .5em;
-          font-weight: bold;
-         }
-          .letraChicaNegrita{
-          font-size: .3em;
-          font-weight: bold;
-         }
-          .letraNormal{
-          font-size: .4em;
-         }
-          .letraGrande{
-          font-size: .5em;
-         }
-          .letraChica{
-          font-size: .3em;
-         }
+       
          
          .tableColl {
         border-collapse: collapse;
@@ -397,6 +381,16 @@ $contenido .= '<table width="100%" border="1">
                         <label>Usuario</label>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                      <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                      <br>
+                    </td>
+                </tr>
             </table>
         </td> 
         </tr>';
@@ -408,7 +402,7 @@ $dompdf->load_html($contenido);
 if($sucursal==1){
     $dompdf->setPaper('letter', 'portrait');
 }else if($sucursal==2){
-    $customPaper = array(0,0,227,426);
+    $customPaper = array(0,0,300,650);
     $dompdf->setPaper($customPaper);
 }
 $dompdf->render();

@@ -346,7 +346,9 @@ function llenarEntradasSalidas() {
             totalSalidasGlb += total_SalidaSuma;
             saldoFinalGlb = totalEntradasGlb - totalSalidasGlb;
             var saldoFinal = saldoFinalGlb;
-
+            if(saldoFinal<0){
+                saldoFinal = (saldoFinal)*-1;
+            }
             var dotacionesNew = dotacionesA_CajaSuma;
             var saldoFinalOper = saldoInicialGbl - saldoFinal;
             dotacionesA_CajaSuma = formatoMoneda(dotacionesA_CajaSuma);

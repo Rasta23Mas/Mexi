@@ -13,9 +13,8 @@ function SeleccionarInteres(tipoInteresValue,tipoFormulario) {
                     document.getElementById('idTipoInteres').innerHTML = response.result.tipoInteres;
                     document.getElementById('idPeriodo').innerHTML = response.result.periodo;
                     var diasPeriodo = response.result.dias;
-                    var sumarMes = sumarDias(diasPeriodo);
                     diasPeriodo = parseInt(diasPeriodo);
-
+                    var sumarMes = sumarDias(diasPeriodo);
                     $("#diasInteres").val(diasPeriodo);
                     document.getElementById('idFecVencimiento').innerHTML = sumarMes;
                     document.getElementById('idPlazo').innerHTML = response.result.plazo;

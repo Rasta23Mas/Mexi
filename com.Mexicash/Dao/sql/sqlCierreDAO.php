@@ -1098,8 +1098,8 @@ class sqlCierreDAO
                                 precioCat, observaciones, detalle, Art.fecha_creacion,Art.descripcionCorta,
                                 Art.sucursal
                             FROM articulo_tbl as Art
-                            INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato AND sucursal=$sucursal
-                        WHERE  Con.fecha_almoneda='$fechaCreacion' and sucursal=$sucursal";
+                            INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato AND Con.sucursal=$sucursal
+                        WHERE  Con.fecha_almoneda='$fechaCreacion' and Art.sucursal=$sucursal";
             if ($ps = $this->conexion->prepare($insertaBazar)) {
                 if ($ps->execute()) {
                     $respuesta = mysqli_stmt_affected_rows($ps);
