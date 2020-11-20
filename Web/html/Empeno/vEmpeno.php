@@ -338,6 +338,17 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td colspan="3">Pieza:</td>
+                                        <td colspan="3">
+                                            <input type="text" id="idPiezaNew" name="cantidad" size="5"
+                                                   onkeypress="return soloNumeros(event)"  placeholder="0"
+                                                   style="text-align:center"/>
+                                        </td>
+                                        <td colspan="6">
+                                            <br>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="3">Cantidad:</td>
                                         <td colspan="3">
                                             <input type="text" id="idCantidad" name="cantidad" size="5"
@@ -585,7 +596,6 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                 </table>
             </div>
         </div>
-
         <div class="row">
             <div class="col col-lg-12">
                 <table>

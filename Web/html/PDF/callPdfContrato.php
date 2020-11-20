@@ -71,17 +71,16 @@ $query = "SELECT Con.fecha_creacion AS FechaCreacion, CONCAT ( Cli.nombre,' ',Cl
   CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, 
   Con.id_Formulario AS TipFormulario, Con.Aforo AS Aforo,CATS.NombreCasa, 
   CATS.Nombre,CATS.direccion, CATS.telefono,CATS.rfc, CATS.correo as CorreoCasa, 
-  CATS.pagina as PaginaCasa,CATS.horario as HorarioCasa 
+  CATS.pagina as PaginaCasa,CATS.horario as HorarioCasa , CCC.costo AS GastoAdmin
   FROM contratos_tbl AS Con 
-  LEFT JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
+  LEFT JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente AND Cli.sucursal= $sucursal
   LEFT JOIN cat_cliente AS CatCli on Cli.tipo_Identificacion = CatCli.id_Cat_Cliente 
   LEFT JOIN cat_estado As CatEst on Cli.estado = CatEst.id_Estado
-  LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja 
+  LEFT JOIN bit_cierrecaja AS Caj on Con.id_cierreCaja = Caj.id_CierreCaja AND Caj.sucursal= $sucursal 
   LEFT JOIN usuarios_tbl AS Usu on Caj.usuario = Usu.id_User 
   LEFT JOIN cat_sucursal CATS ON Con.sucursal= CATS.id_Sucursal
-  LEFT JOIN cat_costo_contrato CCC ON Con.id_Formulario= CCC.id_formulario    
-  WHERE Con.id_Contrato =$idContrato AND Con.sucursal = $sucursal AND Caj.sucursal= $sucursal
-  AND Cli.sucursal= $sucursal AND CCC.sucursal =$sucursal ";
+  LEFT JOIN cat_costo_contrato CCC ON Con.id_Formulario= CCC.id_formulario AND CCC.sucursal =$sucursal  
+  WHERE Con.id_Contrato =$idContrato AND Con.sucursal = $sucursal  ";
 
 $resultado = $db->query($query);
 
@@ -125,6 +124,8 @@ foreach ($resultado as $row) {
     $TipFormulario = $row["TipFormulario"];
     $Aforo = $row["Aforo"];
     $NombreUsuario = $row["NombreUsuario"];
+
+    $GastoAdmin = $row["GastoAdmin"];
 }
 
 if ($Dias == 30) {
@@ -165,6 +166,8 @@ $porDesempeño = number_format($porDesempeño, 2, '.', ',');
 $MontoPrestamo = number_format($MontoPrestamo, 2, '.', ',');
 $MontoTotal = number_format($MontoTotal, 2, '.', ',');
 $Avaluo = number_format($Avaluo, 2, '.', ',');
+$GastoAdmin = number_format($GastoAdmin, 2, '.', ',');
+
 $i = 1;
 $tablaArticulos = '';
 $detallePiePagina = '';
@@ -335,7 +338,7 @@ $contenido = '<html>
                     Comisión por Comercialización: <u>10.00%</u> (Claus. 11c)<br>
                     Comisión por reposición de contrato <u>$ 0.00</u> (Claus. 11d)<br>
                     Desempeño Extemporáneo: <u>0.00%</u> (Claus. 11e)<br>
-                    Gastos de Administración <u>$ 30.00</u> (Claus 11f)<br> 
+                    Gastos de Administración <u>$ '. $GastoAdmin .'</u> (Claus 11f)<br> 
                 </label>
             </td>
         </tr>

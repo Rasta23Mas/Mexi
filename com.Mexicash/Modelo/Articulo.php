@@ -119,6 +119,7 @@ class Articulo
 
     }
 
+
     /**
      * @return mixed
      */

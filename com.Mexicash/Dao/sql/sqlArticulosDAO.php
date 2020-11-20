@@ -22,7 +22,7 @@ class sqlArticulosDAO
         $this->conexion = $this->db->connectDB();
     }
 
-    public function guardarArticulo($tipoPost,$idArticulo,$imei, Articulo $articulo)
+    public function guardarArticulo($tipoPost,$idArticulo,$imei, $idPiezaNew,Articulo $articulo)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -58,10 +58,10 @@ class sqlArticulosDAO
                 $descCorto = mb_strtoupper($descCorto, 'UTF-8');
 
                 $insert = "INSERT INTO articulo_tbl " .
-                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras, prestamo, avaluo,vitrina, interes, observaciones," .
+                    "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, kilataje, calidad, cantidad, peso, peso_Piedra, piedras,piezas, prestamo, avaluo,vitrina, interes, observaciones," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja,descripcionCorta,sucursal,IMEI)  VALUES " .
                     "('$sucursalSerie','$idArticulo',$tipoPost,'" . $idTipoM . "', '" . $idKilataje . "', '" . $idCalidad . "', '" . $idCantidad . "', '" . $idPeso
-                    . "', '" . $idPesoPiedra . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "', '" . $interes . "','" . $idObs . "','"
+                    . "', '" . $idPesoPiedra . "', '"  . $idPiezaNew . "', '" . $idPiedras . "', '" . $idPrestamo . "', '" . $idAvaluo . "', '" . $idVitrina . "', '" . $interes . "','" . $idObs . "','"
                     . $idDetallePrenda . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . ",'$descCorto',$sucursal ,$imei)";
 
             } else if ($tipoPost == "2") {

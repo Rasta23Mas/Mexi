@@ -16,6 +16,7 @@ if ($idTipoEnviar == 1) {
     $idPeso = $_POST['idPeso'];
     $idPesoPiedra = $_POST['idPesoPiedra'];
     $idPiedras = $_POST['idPiedras'];
+    $idPiezaNew = $_POST['idPiezaNew'];
     $idPrestamo = $_POST['idPrestamo'];
     $idAvaluo = $_POST['idAvaluo'];
     $idAvaluo = $_POST['idAvaluo'];
@@ -52,6 +53,7 @@ if ($idTipoEnviar == 1) {
     $tipoInteres = null;
     $interesMetal = null;
     $idObs = null;
+    $idPiezaNew = null;
     $idDetallePrenda = null;
     $descCorto = null;
     $idTipoE = $_POST['idTipoElectronico'];
@@ -99,7 +101,7 @@ $articulo = new Articulo(
 );
 
 $sqlArticulo = new sqlArticulosDAO();
-$sqlArticulo->guardarArticulo($idTipoEnviar,$idArticulo,$imei, $articulo);
+$sqlArticulo->guardarArticulo($idTipoEnviar,$idArticulo,$imei,$idPiezaNew, $articulo);
 
 ?>
 

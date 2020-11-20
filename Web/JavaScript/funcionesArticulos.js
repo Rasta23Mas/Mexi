@@ -147,12 +147,13 @@ function Agregar() {
                                     var descObs = $("#idObs").val();
                                     var descDetalle = $("#idDetallePrenda").val();
 
+                                    var idPiezaNew =  $("#idPiezaNew").val();
                                     var idCantidad =  $("#idCantidad").val();
                                     var idPeso = $("#idPeso").val();
                                     var idPesoPiedra = $("#idPesoPiedra").val();
                                     var idPiedras= $("#idPiedras").val();
 
-                                    var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + ", Cant:" + idCantidad + ",Peso:" + idPeso + ",Piedra:" + idPiedras+ ","+idPesoPiedra + " "+ descDetalle;
+                                    var descripcionCorta = descTipoMetal + ", Pieza: " + idPiezaNew + ", Kil/Cal: "+ descKilataje + " " + descCalidad + ", Cant:" + idCantidad + ", Peso:" + idPeso + ",Piedra:" + idPiedras+ ","+idPesoPiedra + ", Obs: "+ descDetalle;
 
                                     var dataEnviar = {
                                         "$idTipoEnviar": 1,
@@ -163,6 +164,7 @@ function Agregar() {
                                         "idPeso": idPeso,
                                         "idPesoPiedra": idPesoPiedra,
                                         "idPiedras": idPiedras,
+                                        "idPiezaNew": idPiezaNew,
                                         "idPrestamo": metalPrestamo,
                                         "idAvaluo": metalAvaluo,
                                         "idVitrina": $("#idVitrina").val(),
@@ -178,13 +180,14 @@ function Agregar() {
                                         url: '../../../com.Mexicash/Controlador/Articulos/Articulo.php',
                                         type: 'post',
                                         success: function (response) {
+                                            alert(response)
                                             if (response == 1) {
                                                 cargarTablaMetales();
                                                 $("#divTablaMetales").load('tablaMetales.php');
                                                 LimpiarSinResetearIdArticulo();
                                                 alertify.success("Articulo agregado exitosamente.");
                                             } else {
-                                                alertify.error("Error al agregar articulo1.");
+                                                alertify.error("Error al agregar articulo.");
                                             }
                                         },
                                     })
@@ -209,7 +212,7 @@ function Agregar() {
                                     var descObs = $("#idObsElectronico").val();
                                     var descDetalle = $("#idDetallePrendaElectronico").val();
 
-                                    var descripcionCorta = descTipoElectro + " " + descMarca + " " + descModelo + " " + descDetalle;
+                                    var descripcionCorta = descTipoElectro + ", Marca: " + descMarca + ", Mod: " + descModelo + ", Obs: " + descDetalle;
 
                                     //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
                                     var dataEnviar = {
@@ -241,7 +244,7 @@ function Agregar() {
                                                 LimpiarSinResetearIdArticulo();
                                                 alertify.success("Articulo agregado exitosamente.");
                                             } else {
-                                                alertify.error("Error al agregar articulo.2");
+                                                alertify.error("Error al agregar articulo.");
                                             }
                                         },
                                     })
