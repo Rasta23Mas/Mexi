@@ -732,6 +732,7 @@ function guardarBazar() {
         type: 'post',
         dataType: "json",
         success: function (response) {
+            alert(response)
             if (response == -1) {
                 alert("Error al guardar bazar")
             } else if (response == 0) {
@@ -746,9 +747,8 @@ function guardarBazar() {
 
 function actualizarBazar() {
     //1 llena movimientos de dotacion y retiro
-    alert("actualizarBazar");
     $.ajax({
-        url: '../../../com.Mexicash/Controlador/Cierre/ActualizaBazar.php',
+        url: '../../../com.Mexicash/Controlador/Cierre/ConActualizaBazar.php',
         type: 'post',
         dataType: "json",
         success: function (response) {

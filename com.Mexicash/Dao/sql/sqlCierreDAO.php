@@ -1100,6 +1100,7 @@ class sqlCierreDAO
                             FROM articulo_tbl as Art
                             INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato AND Con.sucursal=$sucursal
                         WHERE  Con.fecha_almoneda='$fechaCreacion' and Art.sucursal=$sucursal";
+            echo $insertaBazar;
             if ($ps = $this->conexion->prepare($insertaBazar)) {
                 if ($ps->execute()) {
                     $respuesta = mysqli_stmt_affected_rows($ps);
@@ -1119,7 +1120,7 @@ class sqlCierreDAO
         echo $respuesta;
     }
 
-    function actualizarBazar()
+    function sqlActualizarBazar()
     {
         try {
 
