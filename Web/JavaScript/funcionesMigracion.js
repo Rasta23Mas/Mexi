@@ -32,10 +32,35 @@ function fnBuscarIdContrato() {
 function radioMetal() {
     fnSelectPrendaCompras();
     radioSelect = 1;
+    $("#idTipoMetal").prop('disabled', true);
+    $("#idKilataje").prop('disabled', true);
+    $("#idCalidad").prop('disabled', true);
+    $("#idPiezas").prop('disabled', true);
+    $("#idCantidad").prop('disabled', true);
+    $("#idPeso").prop('disabled', true);
+    $("#idPiedras").prop('disabled', true);
+    $("#idPesoPiedra").prop('disabled', true);
+
 }
 function radioElect() {
     fnLlenarComboTipoElec();
     radioSelect = 2;
+    $("#idTipoMetal").prop('disabled', true);
+    $("#idKilataje").prop('disabled', true);
+    $("#idCalidad").prop('disabled', true);
+    $("#idPiezas").prop('disabled', true);
+    $("#idCantidad").prop('disabled', true);
+    $("#idPeso").prop('disabled', true);
+    $("#idPiedras").prop('disabled', true);
+    $("#idPesoPiedra").prop('disabled', true);
+
+    $("#idTipoElectronico").prop('disabled', false);
+    $("#idKilataje").prop('disabled', false);
+    $("#idMarca").prop('disabled', false);
+    $("#idModelo").prop('disabled', false);
+    $("#idSerie").prop('disabled', false);
+    $("#idIMEI").prop('disabled', false);
+
 }
 
 function fnBuscarIVACatalogo() {

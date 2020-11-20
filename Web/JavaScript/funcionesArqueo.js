@@ -766,6 +766,10 @@ function saldoCajaUser() {
                 }
                 bitDotacion_glb = dotacion;
                 bitRetiro_glb = retiro;
+
+
+                bitDotacion_glb = Math.round(bitDotacion_glb * 100) / 100;
+
                 $("#idDotacionesNew").val(bitDotacion_glb);
                 $("#idRetirosNew").val(bitRetiro_glb);
             } else {

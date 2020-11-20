@@ -33,10 +33,23 @@ $sucursal = $_SESSION['sucursal'];
             $("#idFormCompras").trigger("reset");
             $("#btnEditar").prop('disabled', true);
             $("#btnCompra").prop('disabled', true);
-            fnSelectPrendaCompras();
-            fnLlenarComboTipoElec();
-           // fnArticulosObsoletosCom();
-            //alert(sucursal)
+
+            $("#idTipoMetal").prop('disabled', true);
+            $("#idKilataje").prop('disabled', true);
+            $("#idCalidad").prop('disabled', true);
+            $("#idPiezas").prop('disabled', true);
+            $("#idCantidad").prop('disabled', true);
+            $("#idPeso").prop('disabled', true);
+            $("#idPiedras").prop('disabled', true);
+            $("#idPesoPiedra").prop('disabled', true);
+
+            $("#idTipoElectronico").prop('disabled', true);
+            $("#idKilataje").prop('disabled', true);
+            $("#idMarca").prop('disabled', true);
+            $("#idModelo").prop('disabled', true);
+            $("#idSerie").prop('disabled', true);
+            $("#idIMEI").prop('disabled', true);
+
         })
     </script>
     <style type="text/css">
@@ -146,7 +159,12 @@ $sucursal = $_SESSION['sucursal'];
                                     style="width: 150px">
                             </select>
                         </td>
-                        <td colspan="2"></td>
+                        <td >Piezas:</td>
+                        <td >
+                            <input type="text" id="idPiezas" name="cantidad" size="5"
+                                   onkeypress="return soloNumeros(event)" placeholder="0"
+                                   style="text-align:center"/>
+                        </td>
                     </tr>
                     <tr class="headt">
                         <td >Cantidad:</td>
