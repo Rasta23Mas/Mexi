@@ -207,7 +207,7 @@ class sqlDesempenoDAO
 
             $buscar = "SELECT Art.detalle as Detalle,Art.observaciones as Obseracion 
                         FROM articulo_tbl as Art
-                        INNER JOIN contrato_mov_tbl  as Mov ON Art.id_Contrato = Mov.id_contrato
+                        INNER JOIN contrato_mov_tbl  as Mov ON Art.id_Contrato = Mov.id_contrato AND Art.sucursal=$sucursal
                         WHERE Mov.id_movimiento = $IdMovimiento and Mov.sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {

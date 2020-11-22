@@ -31,19 +31,34 @@ function fnBuscarIdContrato() {
 
 function radioMetal() {
     fnSelectPrendaCompras();
+    $(".classMetales").show();
+    $(".classElect").hide();
     radioSelect = 1;
-    $("#idTipoMetal").prop('disabled', true);
-    $("#idKilataje").prop('disabled', true);
-    $("#idCalidad").prop('disabled', true);
-    $("#idPiezas").prop('disabled', true);
-    $("#idCantidad").prop('disabled', true);
-    $("#idPeso").prop('disabled', true);
-    $("#idPiedras").prop('disabled', true);
-    $("#idPesoPiedra").prop('disabled', true);
+    $("#idTipoMetal").prop('disabled', false);
+    $("#idKilataje").prop('disabled', false);
+    $("#idCalidad").prop('disabled', false);
+    $("#idPiezas").prop('disabled', false);
+    $("#idCantidad").prop('disabled', false);
+    $("#idPeso").prop('disabled', false);
+    $("#idPiedras").prop('disabled', false);
+    $("#idPesoPiedra").prop('disabled', false);
+
+    $("#idTipoElectronico").prop('disabled', true);
+    $("#idMarca").prop('disabled', true);
+    $("#idModelo").prop('disabled', true);
+    $("#idSerie").prop('disabled', true);
+    $("#idIMEI").prop('disabled', true);
+    $("#idTipoElectronico").val(0);
+    $("#idMarca").val(0);
+    $("#idModelo").val(0);
+    $("#idSerie").val("");
+    $("#idIMEI").val("");
 
 }
 function radioElect() {
     fnLlenarComboTipoElec();
+    $(".classMetales").hide();
+    $(".classElect").show();
     radioSelect = 2;
     $("#idTipoMetal").prop('disabled', true);
     $("#idKilataje").prop('disabled', true);
@@ -53,9 +68,16 @@ function radioElect() {
     $("#idPeso").prop('disabled', true);
     $("#idPiedras").prop('disabled', true);
     $("#idPesoPiedra").prop('disabled', true);
+    $("#idTipoMetal").val(0);
+    $("#idKilataje").val(0);
+    $("#idCalidad").val(0);
+    $("#idPiezas").val("");
+    $("#idCantidad").val("");
+    $("#idPeso").val("");
+    $("#idPiedras").val("");
+    $("#idPesoPiedra").val("");
 
     $("#idTipoElectronico").prop('disabled', false);
-    $("#idKilataje").prop('disabled', false);
     $("#idMarca").prop('disabled', false);
     $("#idModelo").prop('disabled', false);
     $("#idSerie").prop('disabled', false);

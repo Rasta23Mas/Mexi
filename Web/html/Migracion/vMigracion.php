@@ -1,15 +1,14 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
 include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
 include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
 include_once(HTML_PATH . "Compras/modalCompras.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 
 $sucursal = $_SESSION['sucursal'];
-
 
 
 ?>
@@ -19,7 +18,7 @@ $sucursal = $_SESSION['sucursal'];
     <!--Generales-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Compras</title>
+    <title>Migración</title>
     <!--Funciones-->
     <script src="../../JavaScript/funcionesMigracion.js"></script>
     <script src="../../JavaScript/funcionesIntereses.js"></script>
@@ -34,6 +33,7 @@ $sucursal = $_SESSION['sucursal'];
             $("#btnEditar").prop('disabled', true);
             $("#btnCompra").prop('disabled', true);
 
+
             $("#idTipoMetal").prop('disabled', true);
             $("#idKilataje").prop('disabled', true);
             $("#idCalidad").prop('disabled', true);
@@ -44,11 +44,12 @@ $sucursal = $_SESSION['sucursal'];
             $("#idPesoPiedra").prop('disabled', true);
 
             $("#idTipoElectronico").prop('disabled', true);
-            $("#idKilataje").prop('disabled', true);
             $("#idMarca").prop('disabled', true);
             $("#idModelo").prop('disabled', true);
             $("#idSerie").prop('disabled', true);
             $("#idIMEI").prop('disabled', true);
+            $(".classMetales").hide();
+            $(".classElect").hide();
 
         })
     </script>
@@ -85,6 +86,7 @@ $sucursal = $_SESSION['sucursal'];
         .inputCliente {
             text-transform: uppercase;
         }
+
         .letraExtraChica {
             font-size: .9em;
         }
@@ -104,11 +106,11 @@ $sucursal = $_SESSION['sucursal'];
             <br>
         </div>
         <div class="row">
-            <div class="col col-md-12 border-primary border" >
-                <table width="100%"  >
+            <div class="col col-md-12 border-primary border">
+                <table width="100%">
                     <tr class="headt">
-                        <td >Contrato:</td>
-                        <td >
+                        <td>Contrato:</td>
+                        <td>
                             <input type="text" id="idContratoMig" name="contratoMigracion" size="8"
                                    onkeypress="return soloNumeros(event)"
                                    style="text-align:center"/>
@@ -118,11 +120,11 @@ $sucursal = $_SESSION['sucursal'];
                                 <input type="checkbox" class="form-check-input"
                                        id="idCheckCompra" onclick="fnCheckCompra();">
                                 <label class="form-check-label" for="exampleCheck1">
-                                    Es Compra?</label>
+                                    ¿Es Compra?</label>
                             </div>
                         </td>
-                        <td >Folio Migración:</td>
-                        <td >
+                        <td>Folio Migración:</td>
+                        <td>
                             <input type="text" id="idFolioMig" name="folioMig" size="14"
                                    onkeypress="return isNumberDecimal(event)"
                                    style="text-align:center"/></td>
@@ -139,61 +141,64 @@ $sucursal = $_SESSION['sucursal'];
                                 Electrónicos&nbsp;</label>
                         </td>
                     </tr>
-                    <tr class="headt">
-                        <td >Tipo:</td>
-                        <td >
-                            <select id="idTipoMetal" name="cmbTipoMetal" class="selectpicker"
+                    <tr class="headt classMetales">
+                        <td>Tipo:</td>
+                        <td>
+                            <select id="idTipoMetal" name="cmbTipoMetal"
+                                    class="selectpicker"
                                     onchange="fnSelectMetalCmb($('#idTipoMetal').val())"
                                     style="width: 150px">
                             </select>
                         </td>
                         <td>Kilataje:</td>
-                        <td >
+                        <td>
                             <select id="idKilataje" name="cmbKilataje" class="selectpicker"
                                     style="width: 150px" onchange="fnLlenaPrecioKilataje()">
                             </select>
                         </td>
-                        <td >Calidad:</td>
-                        <td >
+                        <td>Calidad:</td>
+                        <td>
                             <select id="idCalidad" name="cmbCalidad" class="selectpicker"
                                     style="width: 150px">
                             </select>
                         </td>
-                        <td >Piezas:</td>
-                        <td >
+                        <td>Piezas:</td>
+                        <td>
                             <input type="text" id="idPiezas" name="cantidad" size="5"
                                    onkeypress="return soloNumeros(event)" placeholder="0"
                                    style="text-align:center"/>
                         </td>
                     </tr>
-                    <tr class="headt">
-                        <td >Cantidad:</td>
-                        <td >
+                    <tr class="headt classMetales">
+                        <td>Cantidad:</td>
+                        <td>
                             <input type="text" id="idCantidad" name="cantidad" size="5"
                                    onkeypress="return soloNumeros(event)" placeholder="0"
                                    style="text-align:center"/>
                         </td>
                         <td>Peso:</td>
-                        <td >
+                        <td>
                             <input type="text" id="idPeso" name="peso" size="4"
-                                   onkeypress="return isNumberDecimal(event)" placeholder="0"
+                                   onkeypress="return isNumberDecimal(event)"
+                                   placeholder="0"
                                    style="text-align:center"/>
                             <label>grs</label></td>
-                        <td >Piedras:</td>
-                        <td >
+                        <td>Piedras:</td>
+                        <td>
                             <input type="text" id="idPiedras" name="piedras" size="5"
                                    onkeypress="return soloNumeros(event)" value="0"
                                    style="text-align:center"/>
                             <label>pza</label>
                         </td>
-                        <td >Peso:</td>
-                        <td >
-                            <input type="text" id="idPesoPiedra" name="pesoPiedra" size="4" value="0"
+                        <td>Peso:</td>
+                        <td>
+                            <input type="text" id="idPesoPiedra" name="pesoPiedra" size="4"
+                                   value="0"
                                    onkeypress="return isNumberDecimal(event)"
                                    style="text-align:center"/>
                             <label>grs</label></td>
                     </tr>
-                    <tr>
+                    <tr class="headt classElect">
                         <td>Tipo:</td>
                         <td>
                             <select id="idTipoElectronico" name="cmbTipoElectronico"
@@ -225,88 +230,91 @@ $sucursal = $_SESSION['sucursal'];
                                    style="text-align:left" value=""/>
                         </td>
                     <tr>
-                    <tr id="trIMEI">
-                        <td >IMEI:</td>
-                        <td >
+                    <tr  class="headt classElect">
+                        <td>IMEI:</td>
+                        <td>
                             <input type="text" id="idIMEI" name="imei" size="18"
                                    style="text-align:left" value=""/>
                         </td>
                     </tr>
-                    <tr class="headt">
-                        <td>Prestamo Empeño:</td>
-                        <td>
-                            <input type="text" id="idPrestamoMig" name="vitrina" size="8"
-                                   onkeypress="return soloNumeros(event)"
-                                   style="text-align:center"/>
-                        </td>
-                        <td>Avaluo:</td>
-                        <td>
-                            <input type="text" id="idAvaluoMig" name="vitrina" size="8"
-                                   onkeypress="return soloNumeros(event)"
-                                   style="text-align:center"/>
-                        </td>
-                        <td>Vitrina:</td>
-                        <td>
-                            <input type="text" id="idVitrinaMig" name="vitrina" size="8"
-                                   onkeypress="return soloNumeros(event)"
-                                   style="text-align:center"/>
-                        </td>
-                        <td colspan="2"></td>
 
-                    </tr>
-                    <tr class="headt">
-                        <td colspan="2" align="left">Descripción de la prenda:
-                        </td>
-                        <td colspan="2">Observaciones de la tienda:
-                            <input type="text" id="idKilatajePrecio" name="kilatajePrecio" size="6"
-                                   value="0"
-                                   class="invisible" disabled/></td>
-                    </tr>
-                    <tr class="headt">
-                        <td colspan="2" name="detallePrenda">
-                            <p>
+
+        <tr class="headt">
+            <td>Prestamo Empeño:</td>
+            <td>
+                <input type="text" id="idPrestamoMig" name="vitrina" size="8"
+                       onkeypress="return soloNumeros(event)"
+                       style="text-align:center"/>
+            </td>
+            <td>Avaluo:</td>
+            <td>
+                <input type="text" id="idAvaluoMig" name="vitrina" size="8"
+                       onkeypress="return soloNumeros(event)"
+                       style="text-align:center"/>
+            </td>
+            <td>Vitrina:</td>
+            <td>
+                <input type="text" id="idVitrinaMig" name="vitrina" size="8"
+                       onkeypress="return soloNumeros(event)"
+                       style="text-align:center"/>
+            </td>
+            <td colspan="2"></td>
+
+        </tr>
+        <tr class="headt">
+            <td colspan="2" align="left">Descripción de la prenda:
+            </td>
+            <td colspan="2">Observaciones de la tienda:
+                <input type="text" id="idKilatajePrecio" name="kilatajePrecio" size="6"
+                       value="0"
+                       class="invisible" disabled/></td>
+        </tr>
+        <tr class="headt">
+            <td colspan="2" name="detallePrenda">
+                <p>
                             <textarea name="detalle" id="idDetallePrenda"
-                               class="textArea" rows="1" cols="40"></textarea></p>
-                        </td>
-                        <td colspan="2">
-                            <p><textarea name="mensaje" id="idObs"
-                               class="textArea" rows="1" cols="40"></textarea></p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="8" align="right">
-                            <input type="button" class="btn btn-success" value="Agregar" onclick="fnAgregarArtCompra()">&nbsp;
-                            <input type="button" class="btn btn-warning" value="Limpiar" onclick="fnLimpiarCompra()">&nbsp;
-                            <input type="button" id="btnCompra" class="btn btn-primary" value="Migrar" onclick="fnValidaciones()">&nbsp;
+                                      class="textArea" rows="1" cols="40"></textarea></p>
+            </td>
+            <td colspan="2">
+                <p><textarea name="mensaje" id="idObs"
+                             class="textArea" rows="1" cols="40"></textarea></p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" align="right">
+                <input type="button" class="btn btn-success" value="Agregar" onclick="fnAgregarArtCompra()">&nbsp;
+                <input type="button" class="btn btn-warning" value="Limpiar" onclick="fnLimpiarCompra()">&nbsp;
+                <input type="button" id="btnCompra" class="btn btn-primary" value="Migrar"
+                       onclick="fnValidaciones()">&nbsp;
 
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            </td>
+        </tr>
+        </table>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-12">
+            <br>
         </div>
-        <div class="row">
-            <div class="col col-md-12">
-                <br>
-            </div>
+    </div>
+    <div class="row">
+        <div id="divTablaArticulos" class="col col-md-12">
+            <table class="table table-hover table-condensed table-bordered" width="100%">
+                <thead>
+                <tr>
+                    <th>Serie</th>
+                    <th>Descripción</th>
+                    <th>Observaciones</th>
+                    <th>Precio Compra</th>
+                    <th>Vitrina</th>
+                    <th>Eliminar</th>
+                </tr>
+                </thead>
+                <tbody id="idTBodyArticulos">
+                </tbody>
+            </table>
         </div>
-        <div class="row">
-            <div id="divTablaArticulos" class="col col-md-12">
-                <table class="table table-hover table-condensed table-bordered" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Serie</th>
-                        <th>Descripción</th>
-                        <th>Observaciones</th>
-                        <th>Precio Compra</th>
-                        <th>Vitrina</th>
-                        <th>Eliminar</th>
-                    </tr>
-                    </thead>
-                    <tbody id="idTBodyArticulos">
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    </div>
     </div>
 </form>
 

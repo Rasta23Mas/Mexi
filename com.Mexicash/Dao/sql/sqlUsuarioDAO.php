@@ -118,6 +118,7 @@ class sqlUsuarioDAO
                                 if ($resultado->num_rows > 0) {
                                     $fila = $resultado->fetch_object();
                                     $_SESSION['idCierreSucursal'] = $fila->id_CierreSucursal;
+                                    $_SESSION['sucursal'] = $sucursalEnviada;
                                     $dotacion = 1;
                                     $retorna = 0;
                                 }

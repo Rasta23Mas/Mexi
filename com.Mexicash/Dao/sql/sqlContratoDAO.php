@@ -55,6 +55,8 @@ class sqlContratoDAO
             $total_Intereses = $contrato->getTotalIntereses();
             $AvaluoLetra = $contrato->getTotalAvaluoLetra();
             $id_cat_estatus = 1;
+            $cotitular = mb_strtoupper($cotitular, 'UTF-8');
+            $beneficiario = mb_strtoupper($beneficiario, 'UTF-8');
 
 
             $sucursal = $_SESSION["sucursal"];

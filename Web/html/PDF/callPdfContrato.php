@@ -287,7 +287,7 @@ $contenido = '<html>
                     Fecha de celebración del contrato: CIUDAD DE MEXICO a ' . $FechaCreacion . '<br>
                     <b>CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO)</b>, que celebran: ' . $NombreCasa . ',<b>"EL PROVEEDOR"</b>, con
                     domicilio en: ' . $direccionCasa . ', R.F.C.: ' . $rfcCasa . ', Tel.: ' . $telefonoCasa . ', correo electrónico: ' . $correoCasa . ', y el <b>"EL CONSUMIDOR"</b>,
-                    ' . $NombreCompleto . ' que se identifica con: ' . $Identificacion . ' número: ' . $NumIde . ' con domicilio en: ' . $Direccion . '
+                   <u><b> ' . $NombreCompleto . '</b></u> que se identifica con: ' . $Identificacion . ' número: ' . $NumIde . ' con domicilio en: ' . $Direccion . '
                     Tel.: ' . $Telefono . ' y Cel: ' . $Celular . 'correo electrónico:' . $Correo . '<br>
                     quien designa como cotitular a:' . $Cotitular . ' y beneficiario a: ' . $Beneficiario . ' solo para efectos de este contrato.
                 </label>
