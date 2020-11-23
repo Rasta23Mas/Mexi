@@ -1301,7 +1301,7 @@ function desempenoSinInteres() {
     $("#trAbonoNotaNuevo").hide();
     $("#trTotalAPagarNovo").hide();
     $("#btnGenerar").hide();
-
+    $("#trGastosAdminNovo").hide();
     $("#btnGenerarSinInteres").show();
     $("#trCostoContrato").show();
     $("#trTotalSinInteres").show();

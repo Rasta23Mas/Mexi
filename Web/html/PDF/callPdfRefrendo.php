@@ -123,8 +123,8 @@ foreach ($resultado as $row) {
 
 $query = "SELECT Ar.descripcionCorta, Ar.observaciones
                 FROM contratos_tbl as Con 
-                INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato
-                WHERE Con.id_Contrato =$idContrato ";
+                INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato AND Ar.sucursal= $sucursal
+                    WHERE Con.id_Contrato =$idContrato AND Con.sucursal= $sucursal";
 $tablaArt = $db->query($query);
 $tablaArticulos = '';
 $detallePiePagina = '';
