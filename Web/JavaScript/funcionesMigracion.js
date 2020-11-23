@@ -2,7 +2,6 @@ var radioSelect = 0;
 var idArticuloGlb = 0;
 var sucursalGlb = 0;
 var checkCompraGlb = 0;
-var sucursalGlb = 0;
 var idTokenGlb = 0;
 var idTokenDescGlb = 0;
 
@@ -502,6 +501,7 @@ function fnLimpiarSinResetearMig() {
     $("#idCheckCompra").prop('checked',false);
     $("#idMetalesRadio").prop('checked',false);
     $("#idElectroRadio").prop('checked',false);
+    checkCompraGlb=0;
 }
 
 function fnCargarArticulosMig() {
