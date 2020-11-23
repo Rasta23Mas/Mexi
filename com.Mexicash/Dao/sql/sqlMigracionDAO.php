@@ -212,4 +212,26 @@ class sqlMigracionDAO
     }
 
 
+    public function sqlArticulosMigObsoletos(){
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        $idCierreCaja = $_SESSION['idCierreCaja'];
+        $sucursal = $_SESSION["sucursal"];
+
+        try {
+            $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE tipo_movimiento =33 and 
+                                    id_cierreCaja=$idCierreCaja AND sucursal=$sucursal";
+            if ($this->conexion->query($eliminarArticulo) === TRUE) {
+                $verdad = 1;
+            } else {
+                $verdad = 2;
+            }
+        } catch (Exception $exc) {
+            $verdad = 4;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
 }

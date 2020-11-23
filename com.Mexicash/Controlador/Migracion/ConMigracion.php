@@ -11,4 +11,6 @@ if($tipo==1){
     $idContratoSerie = $_POST['idContratoSerie'];
     $checkCompraGlb = $_POST['checkCompraGlb'];
     $sqlMigracion->sqlBuscarValidarContrato($idContratoSerie,$checkCompraGlb);
+}else if($tipo==3){
+    $sqlMigracion->sqlArticulosMigObsoletos();
 }

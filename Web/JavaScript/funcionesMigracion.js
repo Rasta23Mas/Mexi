@@ -5,8 +5,26 @@ var checkCompraGlb = 0;
 var sucursalGlb = 0;
 var idTokenGlb = 0;
 var idTokenDescGlb = 0;
-function fnCargarSucursal(sucursal) {
+
+function fnArticulosObsoletosMig(sucursal) {
     sucursalGlb = sucursal;
+    //FEErr04
+    var dataEnviar = {
+        "tipo": 3,
+    };
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Migracion/ConMigracion.php',
+        type: 'post',
+        data: dataEnviar,
+        success: function (response) {
+            if (response == -1 || response == 0) {
+                alertify.error("Error FEErr04.");
+            } else {
+                $("#idFormMig")[0].reset();
+                alertify.success("Bienvenidos");
+            }
+        },
+    })
 }
 
 function fnValidarContrato() {
@@ -52,6 +70,7 @@ function fnCheckCompra() {
     } else {
         $("#idContratoMig").prop('disabled', false);
         $("#idContratoMig").val('');
+
     }
 }
 
@@ -413,7 +432,7 @@ function fnAgregarArtMig() {
                     success: function (response) {
                         if (response == 1) {
                             fnCargarArticulosMig();
-                            fnLimpiarSinResetearIdArticulo();
+                            fnLimpiarSinResetearMig();
                             alertify.success("Articulo agregado exitosamente.");
                         } else {
                             alertify.error("Error al agregar articulo.");
@@ -431,7 +450,7 @@ function fnAgregarArtMig() {
 }
 
 
-function fnLimpiarSinResetearIdArticulo() {
+function fnLimpiarSinResetearMig() {
     $("#idTipoMetal").prop('disabled', true);
     $("#idKilataje").prop('disabled', true);
     $("#idCalidad").prop('disabled', true);
@@ -440,7 +459,6 @@ function fnLimpiarSinResetearIdArticulo() {
     $("#idPeso").prop('disabled', true);
     $("#idPiedras").prop('disabled', true);
     $("#idPesoPiedra").prop('disabled', true);
-
     $("#idTipoElectronico").prop('disabled', true);
     $("#idMarca").prop('disabled', true);
     $("#idModelo").prop('disabled', true);
@@ -448,7 +466,6 @@ function fnLimpiarSinResetearIdArticulo() {
     $("#idIMEI").prop('disabled', true);
     $(".classMetales").hide();
     $(".classElect").hide();
-
     //valida primero el contrato
     $("#idFolioMig").prop('disabled', true);
     $("#idMetalesRadio").prop('disabled', true);
@@ -475,6 +492,16 @@ function fnLimpiarSinResetearIdArticulo() {
     $("#idPeso").val("");
     $("#idPiedras").val("");
     $("#idPesoPiedra").val("");
+    $("#idFolioMig").val("");
+    $("#idPrestamoMig").val("");
+    $("#idAvaluoMig").val("");
+    $("#idVitrinaMig").val("");
+    $("#idContratoMig").val("");
+    $("#idDetallePrenda").val("");
+    $("#idObs").val("");
+    $("#idCheckCompra").prop('checked',false);
+    $("#idMetalesRadio").prop('checked',false);
+    $("#idElectroRadio").prop('checked',false);
 }
 
 function fnCargarArticulosMig() {
@@ -555,7 +582,7 @@ function fnEliminarArticuloMig(idArticuloBazar) {
 
 }
 
-function fnValidaciones() {
+function fnValidacionesMig() {
     $("#modalMigracion").modal();
 }
 
@@ -596,13 +623,13 @@ function fnTokenMig() {
 function fnGenerarMig() {
     //FEErr01
     $.ajax({
-        url: '../../../com.Mexicash/Controlador/Compras/ConGuardarMig.php',
+        url: '../../../com.Mexicash/Controlador/Migracion/ConGuardarMig.php',
         type: 'post',
         success: function (respuesta) {
             if (respuesta > 0) {
                 fnUpdateTokenMig();
             } else {
-                alertify.error("Error al generar contrato.");
+                alertify.error("Error al generar la migración.");
             }
         },
     })
@@ -621,7 +648,7 @@ function fnUpdateTokenMig() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                fnBitacoraCompra(idTokenGlb);
+                alert("Se guardaron correctamente en bazar.")
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }

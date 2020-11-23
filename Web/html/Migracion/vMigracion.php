@@ -2,10 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
-include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
-include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
-include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
-include_once(HTML_PATH . "Compras/modalCompras.php");
+include_once(HTML_PATH . "Migracion/modalMigracion.php");
 include($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 
 $sucursal = $_SESSION['sucursal'];
@@ -31,7 +28,7 @@ $sucursal = $_SESSION['sucursal'];
         $(document).ready(function () {
             $("#idFormMig").trigger("reset");
             var sucursal =<?php echo $sucursal ?>;
-            fnCargarSucursal(sucursal);
+            fnArticulosObsoletosMig(sucursal);
             $("#idTipoMetal").prop('disabled', true);
             $("#idKilataje").prop('disabled', true);
             $("#idCalidad").prop('disabled', true);
@@ -312,7 +309,7 @@ $sucursal = $_SESSION['sucursal'];
                         <th>Serie</th>
                         <th>Descripción</th>
                         <th>Observaciones</th>
-                        <th>Precio Compra</th>
+                        <th>Prestamo</th>
                         <th>Vitrina</th>
                         <th>Eliminar</th>
                     </tr>
