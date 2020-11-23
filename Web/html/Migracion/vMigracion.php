@@ -318,7 +318,7 @@ $sucursal = $_SESSION['sucursal'];
                         <th>Eliminar</th>
                     </tr>
                     </thead>
-                    <tbody id="idTBodyArticulos">
+                    <tbody id="idTBodyArticulosMig">
                     </tbody>
                 </table>
             </div>

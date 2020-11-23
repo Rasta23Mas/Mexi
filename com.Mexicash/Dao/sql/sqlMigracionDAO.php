@@ -75,13 +75,10 @@ class sqlMigracionDAO
         echo $IdCompraMax;
     }
 
-    function sqlGuardarArticuloMig($idTipoEnviar, $idContrato, $idFolioMig,
-                                    $idKilataje, $idCalidad, $idPiezas, $idCantidad,
-                                   $idPeso, $idPiedras, $idPesoPiedra,
-                                   $idMarca, $idModelo, $idSerie, $idIMEI, $idPrestamoMig, $idAvaluoMig,
-                                   $idVitrinaMig, $descDetalle, $idObs,
-                                   $SerieBazar, $id_serieTipo, $tipo_movimiento, $descripcionCorta,$tipoCMB,
-                                   $checkCompraGlb)
+    function sqlGuardarArticuloMig($idTipoEnviar, $idContrato, $idFolioMig, $idKilataje, $idCalidad, $idPiezas, $idCantidad,
+    $idPeso, $idPiedras, $idPesoPiedra,$idMarca, $idModelo, $idSerie, $idIMEI, $idPrestamoMig, $idAvaluoMig,
+    $idVitrinaMig, $descDetalle, $idObs,$SerieBazar, $id_serieTipo, $tipo_movimiento, $descripcionCorta,$tipoCMB,
+    $checkCompraGlb)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -121,4 +118,66 @@ class sqlMigracionDAO
         echo $verdad;
     }
 
+    function sqlBuscarArticulosMig()
+
+    {
+        $datos = array();
+        try {
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
+
+            $buscar = "SELECT id_ArticuloBazar,id_serie, descripcionCorta,observaciones,prestamo,vitrina
+                        FROM articulo_bazar_tbl 
+                        WHERE tipo_movimiento=33  and id_cierreCaja=$idCierreCaja AND sucursal=$sucursal";
+            $rs = $this->conexion->query($buscar);
+            if ($rs->num_rows > 0) {
+                while ($row = $rs->fetch_assoc()) {
+                    $data = [
+                        "id_ArticuloBazar" => $row["id_ArticuloBazar"],
+                        "id_serie" => $row["id_serie"],
+                        "descripcionCorta" => $row["descripcionCorta"],
+                        "observaciones" => $row["observaciones"],
+                        "prestamo" => $row["prestamo"],
+                        "vitrina" => $row["vitrina"],
+
+                    ];
+                    array_push($datos, $data);
+                }
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($datos);
+        //echo json_encode($datos);
+    }
+
+    public function sqlEliminarArticuloMig($id_ArticuloBazar)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+            $sucursal = $_SESSION["sucursal"];
+
+            $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE id_ArticuloBazar=$id_ArticuloBazar
+            AND sucursal=$sucursal";
+            if ($ps = $this->conexion->prepare($eliminarArticulo)) {
+                if ($ps->execute()) {
+                    $verdad = mysqli_stmt_affected_rows($ps);
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $verdad;
+    }
 }

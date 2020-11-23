@@ -100,9 +100,11 @@ class sqlArticulosComprasDAO
         //Funcion Verificada
         // TODO: Implement guardaCiente() method.
         $idCierreCaja = $_SESSION['idCierreCaja'];
+        $sucursal = $_SESSION["sucursal"];
 
         try {
-            $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE id_Contrato = 0 and id_cierreCaja=$idCierreCaja ";
+            $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE id_Contrato = 0 and 
+                                    id_cierreCaja=$idCierreCaja AND sucursal=$sucursal";
             if ($this->conexion->query($eliminarArticulo) === TRUE) {
                 $verdad = 1;
             } else {
@@ -122,9 +124,11 @@ class sqlArticulosComprasDAO
         $datos = array();
         try {
             $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
+
             $buscar = "SELECT id_ArticuloBazar,id_serie, descripcionCorta,observaciones,vitrina, precioCompra
                         FROM articulo_bazar_tbl 
-                        WHERE id_Contrato=0  and id_cierreCaja=" . $idCierreCaja;
+                        WHERE id_Contrato=0  and id_cierreCaja=$idCierreCaja AND sucursal=$sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -152,7 +156,10 @@ class sqlArticulosComprasDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
-            $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE id_ArticuloBazar=$id_ArticuloBazar";
+            $sucursal = $_SESSION["sucursal"];
+
+            $eliminarArticulo = "DELETE FROM articulo_bazar_tbl WHERE id_ArticuloBazar=$id_ArticuloBazar
+            AND sucursal=$sucursal";
             if ($ps = $this->conexion->prepare($eliminarArticulo)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

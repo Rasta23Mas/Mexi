@@ -232,6 +232,63 @@ function fnSelectCalidad(tipoMetal) {
     });
 }
 
+function fnCombMarcaVEmpe() {
+    $('#idMarca').prop('disabled', false);
+    $('#idMarca').val(0);
+
+    var tipoSelect = $('#idTipoElectronico').val();
+    var dataEnviar = {
+        "tipo": 2,
+        "tipoCombo": tipoSelect
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            var html = "";
+            html += " <option value=0>Seleccione:</option>"
+            var i = 0;
+            for (i; i < datos.length; i++) {
+                var id_marca = datos[i].id_marca;
+                var descripcion = datos[i].descripcion;
+                html += '<option value=' + id_marca + '>' + descripcion + '</option>';
+            }
+            $('#idMarca').html(html);
+        }
+    });
+}
+
+function fnCmbModeloVEmpe() {
+    $('#idModelo').prop('disabled', false);
+    $('#idModelo').val(0);
+    var tipoSelect = $('#idTipoElectronico').val();
+    var marcaSelect = $('#idMarca').val();
+    var dataEnviar = {
+        "tipo": 3,
+        "tipoCombo": tipoSelect,
+        "marcaCombo": marcaSelect
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
+        data: dataEnviar,
+        dataType: "json",
+        success: function (datos) {
+            var html = "";
+            html += " <option value=0>Seleccione:</option>"
+            var i = 0;
+            for (i; i < datos.length; i++) {
+                var id_modelo = datos[i].id_modelo;
+                var descripcion = datos[i].descripcion;
+                html += '<option value=' + id_modelo + '>' + descripcion + '</option>';
+            }
+            $('#idModelo').html(html);
+        }
+    });
+}
+
 //Limpia la tabla de Articulos
 function fnLimpiarMig() {
     idArticuloGlb = 0;
@@ -243,7 +300,6 @@ function fnAgregarArtMig() {
     var vitrina = $("#idVitrinaMig").val();
     if (vitrina !== "") {
         if (radioSelect !== 0) {
-            var idSucursalSerie = "0" + sucursalGlb;
             var detalle = $("#idDetallePrenda").val();
             if (detalle == "") {
                 alertify.error("Favor de agregar la descripción de la prenda.");
@@ -354,7 +410,7 @@ function fnAgregarArtMig() {
                     type: 'post',
                     success: function (response) {
                         if (response == 1) {
-                            fnCargarArticulos();
+                            fnCargarArticulosMig();
                             fnLimpiarSinResetearIdArticulo();
                             alertify.success("Articulo agregado exitosamente.");
                         } else {
@@ -373,61 +429,113 @@ function fnAgregarArtMig() {
 }
 
 
-function fnCombMarcaVEmpe() {
-    $('#idMarca').prop('disabled', false);
-    $('#idMarca').val(0);
+function fnLimpiarSinResetearIdArticulo() {
+    $("#idTipoMetal").prop('disabled', true);
+    $("#idKilataje").prop('disabled', true);
+    $("#idCalidad").prop('disabled', true);
+    $("#idPiezas").prop('disabled', true);
+    $("#idCantidad").prop('disabled', true);
+    $("#idPeso").prop('disabled', true);
+    $("#idPiedras").prop('disabled', true);
+    $("#idPesoPiedra").prop('disabled', true);
 
-    var tipoSelect = $('#idTipoElectronico').val();
-    var dataEnviar = {
-        "tipo": 2,
-        "tipoCombo": tipoSelect
-    };
-    $.ajax({
-        type: "POST",
-        url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
-        data: dataEnviar,
-        dataType: "json",
-        success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
-            var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_marca = datos[i].id_marca;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_marca + '>' + descripcion + '</option>';
-            }
-            $('#idMarca').html(html);
-        }
-    });
+    $("#idTipoElectronico").prop('disabled', true);
+    $("#idMarca").prop('disabled', true);
+    $("#idModelo").prop('disabled', true);
+    $("#idSerie").prop('disabled', true);
+    $("#idIMEI").prop('disabled', true);
+    $(".classMetales").hide();
+    $(".classElect").hide();
+
+    //valida primero el contrato
+    $("#idFolioMig").prop('disabled', true);
+    $("#idMetalesRadio").prop('disabled', true);
+    $("#idElectroRadio").prop('disabled', true);
+    $("#idPrestamoMig").prop('disabled', true);
+    $("#idAvaluoMig").prop('disabled', true);
+    $("#idVitrinaMig").prop('disabled', true);
+    $("#idDetallePrenda").prop('disabled', true);
+    $("#idObs").prop('disabled', true);
+    $("#btnAgregar").prop('disabled', true);
+    $("#btnCompra").prop('disabled', false);
 }
 
-function fnCmbModeloVEmpe() {
-    $('#idModelo').prop('disabled', false);
-    $('#idModelo').val(0);
-    var tipoSelect = $('#idTipoElectronico').val();
-    var marcaSelect = $('#idMarca').val();
-    var dataEnviar = {
-        "tipo": 3,
-        "tipoCombo": tipoSelect,
-        "marcaCombo": marcaSelect
-    };
+function fnCargarArticulosMig() {
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Electronicos/Electronico.php',
-        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Migracion/ConTblArticulosMig.php',
         dataType: "json",
         success: function (datos) {
-            var html = "";
-            html += " <option value=0>Seleccione:</option>"
+            alert("Refrescando tabla.");
+            var html = '';
             var i = 0;
-            for (i; i < datos.length; i++) {
-                var id_modelo = datos[i].id_modelo;
-                var descripcion = datos[i].descripcion;
-                html += '<option value=' + id_modelo + '>' + descripcion + '</option>';
+            if (datos.length == 0) {
+                subtotal = 0;
+                html += '<tr>' +
+                    '<td colspan="7" align="center"> Sin datos a mostrar</td>' +
+                    '</tr>';
+            } else {
+                for (i; i < datos.length; i++) {
+                    var id_ArticuloBazar = datos[i].id_ArticuloBazar;
+                    var id_serie = datos[i].id_serie;
+                    var descripcionCorta = datos[i].descripcionCorta;
+                    var observaciones = datos[i].observaciones;
+                    var vitrina = datos[i].vitrina;
+                    var prestamo = datos[i].prestamo;
+                    prestamo = parseFloat(prestamo);
+                    vitrina = parseFloat(vitrina);
+
+                    vitrina = formatoMoneda(vitrina);
+                    prestamo = formatoMoneda(prestamo);
+                    html += '<tr>' +
+                        '<td>' + id_serie + '</td>' +
+                        '<td>' + descripcionCorta + '</td>' +
+                        '<td>' + observaciones + '</td>' +
+                        '<td>' + prestamo + '</td>' +
+                        '<td>' + vitrina + '</td>' +
+                        '<td><input type="button" class="btn btn-danger" value="Eliminar" ' +
+                        'onclick="fnConfirmarEliminarMig(' + id_ArticuloBazar + ')"></td>' +
+                        '</tr>';
+                }
+
             }
-            $('#idModelo').html(html);
+            $('#idTBodyArticulosMig').html(html);
         }
     });
+
+
+}
+
+function fnConfirmarEliminarMig(idArticuloBazar) {
+    alertify.confirm('Eliminar',
+        'Confirme eliminacion de articulo seleccionado.',
+        function () {
+            fnEliminarArticuloMig(idArticuloBazar)
+        },
+        function () {
+            alertify.error('Cancelado')
+        });
+}
+
+function fnEliminarArticuloMig(idArticuloBazar) {
+    idArticuloGlb--;
+    var dataEnviar = {
+        "idArticuloBazar": idArticuloBazar
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Migracion/ConEliminarArticuloMig.php',
+        type: 'post',
+        success: function (response) {
+            if (response == 1) {
+                fnCargarArticulosMig();
+                alertify.success("Eliminado con éxito.");
+            } else {
+                alertify.error("Error al eliminar articulo.");
+            }
+        },
+    })
+
 }
 
 
