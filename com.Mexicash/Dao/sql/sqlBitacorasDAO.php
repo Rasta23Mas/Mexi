@@ -103,4 +103,35 @@ class sqlBitacorasDAO
         echo $verdad;
     }
 
+    function sqlBitPrecioMod($precioAnteriorGlb,$precioModGlb,$idArticuloGlb,$idTokenGLb)
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+
+            $usuario = $_SESSION["idUsuario"];
+            $sucursal = $_SESSION["sucursal"];
+            $id_CierreCaja = $_SESSION["idCierreCaja"];
+            $insert = "INSERT INTO bit_user_preciomod(id_token, sucursal, id_CierreCaja, usuario, precioAnterior, 
+                            precioActual,id_ArticuloBazar) 
+                                VALUES ('$idTokenGLb',$sucursal,$id_CierreCaja,$usuario,$precioAnteriorGlb,
+                                $precioModGlb,$idArticuloGlb)";
+
+            if ($ps = $this->conexion->prepare($insert)) {
+                if ($ps->execute()) {
+                    $verdad = mysqli_stmt_affected_rows($ps);
+                } else {
+                    $verdad = -1;
+                }
+            } else {
+                $verdad = -1;
+            }
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        echo $verdad;
+    }
+
 }

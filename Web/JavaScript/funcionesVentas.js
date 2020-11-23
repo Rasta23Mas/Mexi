@@ -13,6 +13,11 @@ var idTokenTotalGlb = 0;
 var idTokenDescuentoGlb = 0;
 var idTokenGLb = 0;
 
+var precioAnteriorGlb = 0;
+var precioModGlb = 0;
+var idArticuloGlb = 0;
+var idTokenGLb = 0;
+
 function buscaridBazarVentas() {
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Ventas/ConBuscarIdBazar.php',
@@ -20,7 +25,7 @@ function buscaridBazarVentas() {
         success: function (respuesta) {
             if (respuesta == 0) {
                 location.reload();
-            }else{
+            } else {
                 $("#idBazar").val(respuesta);
             }
         },
@@ -121,6 +126,10 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
                         '<td align="center">' +
                         '<img src="../../style/Img/carritoNor.png"  data-dismiss="modal" alt="Agregar"' +
                         'onclick="validarCarrito(' + id_ArticuloBazar + ',' + precio_Actual + ',' + empeno + ')"> ' +
+                        '</td>' +
+                        '<td align="center">' +
+                        '<img src="../../style/Img/editarNor.jpg"  data-dismiss="modal" alt="Agregar"' +
+                        'onclick="fnModalPrecio(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
                         '</td></tr>';
 
                 }
@@ -133,8 +142,47 @@ function busquedaCodigoMostradorBoton(tipoBusqueda) {
     });
 }
 
+function fnModalPrecio(id_ArticuloBazar, precio_Actual) {
+    precioAnteriorGlb = precio_Actual;
+    precio_Actual = formatoMoneda(precio_Actual);
+    $("#idPrecioActual").val(precio_Actual);
+    $("#idPrecioMod").val(0);
+    $("#idArticulo").val(id_ArticuloBazar);
+    $("#modalPrecioVenta").modal();
+
+}
+
+function editarPrecio() {
+    var idPrecioMod = $("#idPrecioMod").val();
+    var idArticulo = $("#idArticulo").val();
+    var idCodigoAutMod = $("#idCodigoAutMod").val();
+
+     precioModGlb = idPrecioMod;
+     idArticuloGlb = idArticulo;
+     idTokenGLb = idCodigoAutMod;
+    var dataEnviar = {
+        "idPrecioMod": idPrecioMod,
+        "idArticulo": idArticulo,
+        "idCodigoAutMod": idCodigoAutMod,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/TokenVentaModPrecio.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta != 0) {
+                alert("Se modifico correctamente el precio.");
+                fnBitPrecioMod();
+            } else {
+                alertify.error("El artículo ya esta en el carrito de compras.");
+            }
+        },
+    })
+
+}
+
 //Carrito
-function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
+function validarCarrito(id_ArticuloBazar, precio_Enviado, empeno) {
     var vendedor = 0;
     var cliente = $("#idClienteSeleccion").val();
 
@@ -153,7 +201,7 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
             type: 'post',
             success: function (respuesta) {
                 if (respuesta == 0) {
-                    agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno,cliente,vendedor)
+                    agregarCarrito(id_ArticuloBazar, precio_Enviado, empeno, cliente, vendedor)
                 } else {
                     alertify.error("El artículo ya esta en el carrito de compras.");
                 }
@@ -162,33 +210,33 @@ function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
     }
 }
 
-function agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno,cliente,vendedor) {
+function agregarCarrito(id_ArticuloBazar, precio_Enviado, empeno, cliente, vendedor) {
     id_ClienteGlb = cliente;
     id_VendedorGlb = vendedor;
-        var tipoCarrito = 1;
-        var idBazar = $("#idBazar").val();
-        var dataEnviar = {
-            "id_ArticuloBazar": id_ArticuloBazar,
-            "idCliente": cliente,
-            "idVendedor": vendedor,
-            "idBazar": idBazar,
-        };
-        $.ajax({
-            data: dataEnviar,
-            url: '../../../com.Mexicash/Controlador/Ventas/CarritoAgregar.php',
-            type: 'post',
-            success: function (respuesta) {
-                if (respuesta == 1) {
-                    busquedaCodigoMostradorBoton(3);
-                    refrescarCarrito(precio_Enviado,empeno, tipoCarrito);
-                } else {
-                    alertify.error("Error al agregar el artículo.");
-                }
-            },
-        })
+    var tipoCarrito = 1;
+    var idBazar = $("#idBazar").val();
+    var dataEnviar = {
+        "id_ArticuloBazar": id_ArticuloBazar,
+        "idCliente": cliente,
+        "idVendedor": vendedor,
+        "idBazar": idBazar,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/CarritoAgregar.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta == 1) {
+                busquedaCodigoMostradorBoton(3);
+                refrescarCarrito(precio_Enviado, empeno, tipoCarrito);
+            } else {
+                alertify.error("Error al agregar el artículo.");
+            }
+        },
+    })
 }
 
-function eliminarDelCarrito(id_Ventas, precio_Enviado,prestamo) {
+function eliminarDelCarrito(id_Ventas, precio_Enviado, prestamo) {
     var tipoCarrito = 2;
     var dataEnviar = {
         "id_Ventas": id_Ventas,
@@ -199,7 +247,7 @@ function eliminarDelCarrito(id_Ventas, precio_Enviado,prestamo) {
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
-                refrescarCarrito(precio_Enviado,prestamo, tipoCarrito);
+                refrescarCarrito(precio_Enviado, prestamo, tipoCarrito);
             } else {
                 alertify.error("Error al eliminar el artículo.");
             }
@@ -213,14 +261,14 @@ function limpiarCarrito() {
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
-                refrescarCarrito(0, 0,3);
+                refrescarCarrito(0, 0, 3);
             }
         },
     })
 }
 
-function refrescarCarrito(precio_Enviado,empeno, tipoCarrito) {
-    calcularIva(precio_Enviado, empeno,tipoCarrito);
+function refrescarCarrito(precio_Enviado, empeno, tipoCarrito) {
+    calcularIva(precio_Enviado, empeno, tipoCarrito);
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Ventas/CarritoRefrescar.php',
         type: 'post',
@@ -262,11 +310,11 @@ function refrescarCarrito(precio_Enviado,empeno, tipoCarrito) {
     })
 }
 
-function calcularIva(precio_Enviado, empeno,tipoCarrito) {
+function calcularIva(precio_Enviado, empeno, tipoCarrito) {
     $("#idDescuento").prop('disabled', false);
     if (tipoCarrito == 1) {
         idSubtotalGlb += precio_Enviado;
-        idEmpenoGlb+= empeno;
+        idEmpenoGlb += empeno;
     } else if (tipoCarrito == 2) {
         idSubtotalGlb -= precio_Enviado;
         idEmpenoGlb -= empeno;
@@ -446,7 +494,6 @@ function tokenVenta() {
 
 }
 
-
 function guardarVenta() {
     var efectivo = $("#idEfectivoValue").val();
     if (efectivo == 0) {
@@ -457,10 +504,10 @@ function guardarVenta() {
         var descuento = $("#idDescuentoValue").val();
         var total = $("#idTotalValue").val();
         var totalprestamo = $("#idPrestamoTotValue").val();
-        var utilidad = total -totalprestamo;
+        var utilidad = total - totalprestamo;
         var cambio = $("#idCambioValue").val();
         var cliente = $("#idClienteSeleccion").val();
-        var vendedor =0;
+        var vendedor = 0;
         idTokenGLb = $("#idToken").val();
         var tokenDesc = "";
         if (idTokenGLb != 0) {
@@ -468,10 +515,10 @@ function guardarVenta() {
         }
         var idBazar = $("#idBazar").val();
         utilidad = Math.floor(utilidad * 100) / 100;
-        idTokenSubtotalGlb =subtotal;
-        idTokenIvaGlb =iva;
-        idTokenDescuentoGlb =descuento;
-        idTokenTotalGlb =total;
+        idTokenSubtotalGlb = subtotal;
+        idTokenIvaGlb = iva;
+        idTokenDescuentoGlb = descuento;
+        idTokenTotalGlb = total;
 
         var dataEnviar = {
             "tipo_movimiento": tipo_movimientoGlb,
@@ -505,6 +552,7 @@ function guardarVenta() {
         })
     }
 }
+
 function ArticulosUpdateVenta() {
     var dataEnviar = {
         "idBazar": idBazarGlb,
@@ -517,10 +565,10 @@ function ArticulosUpdateVenta() {
         success: function (response) {
             if (response > 0) {
                 alertify.success("Artículos actualizados correctamente.");
-                fnCierreCajaIndispensable(1,0,0);
+                fnCierreCajaIndispensable(1, 0, 0);
                 if (idTokenGLb != 0) {
                     fnUpdateToken();
-                }else{
+                } else {
                     fnBitacoraVenta();
                 }
             } else {
@@ -529,6 +577,7 @@ function ArticulosUpdateVenta() {
         }
     });
 }
+
 function fnUpdateToken() {
     var dataEnviar = {
         "idTokenSubtotalGlb": idTokenSubtotalGlb,
@@ -583,9 +632,33 @@ function verPDFVenta(idBazar) {
     alert("Venta realizada.");
     fnRecargarMostrador();
 }
+
 function fnRecargarMostrador() {
     location.reload();
 }
+
 function configurarRango() {
     alert("configuración")
+}
+
+function fnBitPrecioMod() {
+    var dataEnviar = {
+        "precioAnteriorGlb": precioAnteriorGlb,
+        "precioModGlb": precioModGlb,
+        "idArticuloGlb": idArticuloGlb,
+        "idTokenGLb": idTokenGLb,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/ConBitPrecioMod.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                location.reload();
+            } else {
+                alertify.error("Error en al conectar con el servidor.FnError04")
+            }
+        }
+    });
 }

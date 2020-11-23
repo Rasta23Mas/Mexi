@@ -7,6 +7,7 @@ include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
 include_once(HTML_PATH . "Ventas/modalDescuentoVenta.php");
+include_once(HTML_PATH . "Ventas/modalPrecioVenta.php");
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -142,19 +143,6 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                                     <textarea  cols="50" id="idDireccionVenta" class="textArea" disabled>
                                     </textarea>
                         </td>
-                        <!--<td colspan="2" style="vertical-align:top;" align="center">
-                            <select id="idVendedor" name="cmbVendedor" class="selectpicker" style="width: 200px">
-                                <option value="0">Seleccione:</option>
-                                <?php
-/*                                $data = array();
-                                $sqlUsu = new sqlUsuarioDAO();
-                                $data = $sqlUsu->vendedores();
-                                for ($i = 0; $i < count($data); $i++) {
-                                    echo "<option value=" . $data[$i]['id_User'] . ">" . $data[$i]['NombreUser'] . "</option>";
-                                }
-                                */?>
-                            </select>
-                        </td>-->
                     </tr>
                     <tr >
                         <td colspan="4">

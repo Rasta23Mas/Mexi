@@ -83,7 +83,7 @@ function fnBuscarIdContrato() {
         data: dataEnviar,
         success: function (respuesta) {
             if (respuesta == 0) {
-                location.reload()
+                location.reload();
             } else {
                 $("#idContratoMig").val(respuesta);
                 checkCompraGlb= 1;

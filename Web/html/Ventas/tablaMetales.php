@@ -2,11 +2,15 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlArticulosDAO.php");
 ?>
-
-<table class="table table-hover table-condensed table-bordered" width="80%">
+<style>
+    .letraExtraChica {
+        font-size: .8em;
+    }
+</style>
+<table class="table table-hover table-condensed table-bordered letraExtraChica" width="80%">
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
-        <th colspan="9">Consulta de Artículos</th>
+        <th colspan="10">Consulta de Artículos</th>
     </tr>
     <tr>
         <th>Código</th>
@@ -18,8 +22,9 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
         <th>Precio Vitrina</th>
         <th>Observaciones</th>
         <th>Agregar</th>
+        <th>Editar</th>
     </tr>
     </thead>
-    <tbody id="idTBodyMetales">
+    <tbody id="idTBodyMetales" >
     </tbody>
 </table>
