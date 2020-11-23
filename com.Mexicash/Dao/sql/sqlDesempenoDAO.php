@@ -57,11 +57,10 @@ class sqlDesempenoDAO
                         CONCAT (Cli.nombre, ' ',Cli.apellido_Pat,' ', Cli.apellido_Mat) as NombreCompleto,
                         CatM.descripcion as Movimiento, Mov.tipo_movimiento as tipoMovimiento
                         FROM contrato_mov_tbl as Mov
-                        INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato  
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato  and Con.sucursal=$sucursal 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente and Cli.sucursal=$sucursal 
                         INNER JOIN cat_movimientos as CatM on Mov.tipo_movimiento = CatM.id_Movimiento  
-                        WHERE Mov.id_movimiento = $IdMovimiento  and Con.sucursal=$sucursal 
-                        and Mov.sucursal=$sucursal ";
+                        WHERE Mov.id_movimiento = $IdMovimiento  And Mov.sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
@@ -96,13 +95,12 @@ class sqlDesempenoDAO
                         CONCAT (municipio,', ',Est.descripcion ) as DireccionCompletaEst,
                         Con.cotitular as Cotitular, Usu.usuario as UsuarioName
                         FROM contrato_mov_tbl as Mov
-                        INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato  
-                        LEFT JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato and Con.sucursal=$sucursal 
+                        LEFT JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente and Cli.sucursal=$sucursal
                         LEFT JOIN cat_estado as Est on Cli.estado = Est.id_Estado  
-                        LEFT JOIN bit_cierrecaja as Caj on Mov.id_CierreCaja = Caj.id_cierreCaja
-                        LEFT JOIN usuarios_tbl as Usu on Caj.usuario = Usu.id_User
-                       	WHERE Mov.id_movimiento = $IdMovimiento  and Con.sucursal=$sucursal 
-                        and Mov.sucursal=$sucursal";
+                        LEFT JOIN bit_cierrecaja as Caj on Mov.id_CierreCaja = Caj.id_cierreCaja and Caj.sucursal=$sucursal
+                        LEFT JOIN usuarios_tbl as Usu on Caj.usuario = Usu.id_User and Usu.sucursal=$sucursal
+                       	WHERE Mov.id_movimiento = $IdMovimiento  and Mov.sucursal=$sucursal";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -156,10 +154,9 @@ class sqlDesempenoDAO
                         ConMov.prestamo_Informativo as PrestamoInfo,
                         CCC.costo as CostoContrato
                         From contrato_mov_tbl AS ConMov
-                        INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato
-                        INNER JOIN cat_costo_contrato AS CCC ON Con.id_Formulario =  CCC.id_formulario
-                        AND Con.sucursal = CCC.sucursal
-						WHERE ConMov.id_movimiento = $IdMovimiento  and Con.sucursal=$sucursal ";
+                        INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato and Con.sucursal=$sucursal
+                        INNER JOIN cat_costo_contrato AS CCC ON Con.id_Formulario =  CCC.id_formulario AND Con.sucursal = CCC.sucursal
+						WHERE ConMov.id_movimiento = $IdMovimiento  and ConMov.sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
