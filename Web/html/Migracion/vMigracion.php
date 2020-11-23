@@ -29,11 +29,9 @@ $sucursal = $_SESSION['sucursal'];
     <!--    Script inicial-->
     <script type="application/javascript">
         $(document).ready(function () {
-            $("#idFormCompras").trigger("reset");
-            $("#btnEditar").prop('disabled', true);
-            $("#btnCompra").prop('disabled', true);
-
-
+            $("#idFormMig").trigger("reset");
+            var sucursal =<?php echo $sucursal ?>;
+            fnCargarSucursal(sucursal);
             $("#idTipoMetal").prop('disabled', true);
             $("#idKilataje").prop('disabled', true);
             $("#idCalidad").prop('disabled', true);
@@ -51,6 +49,17 @@ $sucursal = $_SESSION['sucursal'];
             $(".classMetales").hide();
             $(".classElect").hide();
 
+            //valida primero el contrato
+            $("#idFolioMig").prop('disabled', true);
+            $("#idMetalesRadio").prop('disabled', true);
+            $("#idElectroRadio").prop('disabled', true);
+            $("#idPrestamoMig").prop('disabled', true);
+            $("#idAvaluoMig").prop('disabled', true);
+            $("#idVitrinaMig").prop('disabled', true);
+            $("#idDetallePrenda").prop('disabled', true);
+            $("#idObs").prop('disabled', true);
+            $("#btnAgregar").prop('disabled', true);
+            $("#btnCompra").prop('disabled', true);
         })
     </script>
     <style type="text/css">
@@ -94,7 +103,7 @@ $sucursal = $_SESSION['sucursal'];
     </style>
 </head>
 <body>
-<form id="idFormCompras" name="formEmpeno">
+<form id="idFormMig" name="formEmpeno">
     <div id="contenedor" class="container letraExtraChica">
         <div>
             <br>
@@ -115,13 +124,17 @@ $sucursal = $_SESSION['sucursal'];
                                    onkeypress="return soloNumeros(event)"
                                    style="text-align:center"/>
                         </td>
-                        <td colspan="2">
+                        <td>
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input"
                                        id="idCheckCompra" onclick="fnCheckCompra();">
                                 <label class="form-check-label" for="exampleCheck1">
                                     ¿Es Compra?</label>
                             </div>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-success" value="Validar"
+                                   onclick="fnValidarContrato()">&nbsp;
                         </td>
                         <td>Folio Migración:</td>
                         <td>
@@ -153,7 +166,7 @@ $sucursal = $_SESSION['sucursal'];
                         <td>Kilataje:</td>
                         <td>
                             <select id="idKilataje" name="cmbKilataje" class="selectpicker"
-                                    style="width: 150px" onchange="fnLlenaPrecioKilataje()">
+                                    style="width: 150px" ">
                             </select>
                         </td>
                         <td>Calidad:</td>
@@ -220,8 +233,7 @@ $sucursal = $_SESSION['sucursal'];
                         <td>Modelo:</td>
                         <td>
                             <select id="idModelo" name="modeloSelect" class="selectpicker"
-                                    style="width:150px" disabled
-                                    onchange="fnLlenarDatosElectronico($('#idTipoElectronico').val(),$('#idMarca').val(),$('#idModelo').val())">
+                                    style="width:150px" disabled >
                             </select>
                         </td>
                         <td>No.Serie:</td>
@@ -229,92 +241,88 @@ $sucursal = $_SESSION['sucursal'];
                             <input type="text" id="idSerie" name="serie" size="18"
                                    style="text-align:left" value=""/>
                         </td>
-                    <tr>
-                    <tr  class="headt classElect">
+                    </tr>
+                    <tr class="headt classElect">
                         <td>IMEI:</td>
                         <td>
                             <input type="text" id="idIMEI" name="imei" size="18"
                                    style="text-align:left" value=""/>
                         </td>
                     </tr>
+                    <tr class="headt">
+                        <td>Prestamo Empeño:</td>
+                        <td>
+                            <input type="text" id="idPrestamoMig" name="vitrina" size="8"
+                                   onkeypress="return soloNumeros(event)"
+                                   style="text-align:center"/>
+                        </td>
+                        <td>Avaluo:</td>
+                        <td>
+                            <input type="text" id="idAvaluoMig" name="vitrina" size="8"
+                                   onkeypress="return soloNumeros(event)"
+                                   style="text-align:center"/>
+                        </td>
+                        <td>Vitrina:</td>
+                        <td>
+                            <input type="text" id="idVitrinaMig" name="vitrina" size="8"
+                                   onkeypress="return soloNumeros(event)"
+                                   style="text-align:center"/>
+                        </td>
+                        <td colspan="2"></td>
 
-
-        <tr class="headt">
-            <td>Prestamo Empeño:</td>
-            <td>
-                <input type="text" id="idPrestamoMig" name="vitrina" size="8"
-                       onkeypress="return soloNumeros(event)"
-                       style="text-align:center"/>
-            </td>
-            <td>Avaluo:</td>
-            <td>
-                <input type="text" id="idAvaluoMig" name="vitrina" size="8"
-                       onkeypress="return soloNumeros(event)"
-                       style="text-align:center"/>
-            </td>
-            <td>Vitrina:</td>
-            <td>
-                <input type="text" id="idVitrinaMig" name="vitrina" size="8"
-                       onkeypress="return soloNumeros(event)"
-                       style="text-align:center"/>
-            </td>
-            <td colspan="2"></td>
-
-        </tr>
-        <tr class="headt">
-            <td colspan="2" align="left">Descripción de la prenda:
-            </td>
-            <td colspan="2">Observaciones de la tienda:
-                <input type="text" id="idKilatajePrecio" name="kilatajePrecio" size="6"
-                       value="0"
-                       class="invisible" disabled/></td>
-        </tr>
-        <tr class="headt">
-            <td colspan="2" name="detallePrenda">
-                <p>
+                    </tr>
+                    <tr class="headt">
+                        <td colspan="2" align="left">Descripción de la prenda:
+                        </td>
+                        <td colspan="2">Observaciones de la tienda:</td>
+                    </tr>
+                    <tr class="headt">
+                        <td colspan="2" name="detallePrenda">
+                            <p>
                             <textarea name="detalle" id="idDetallePrenda"
-                                      class="textArea" rows="1" cols="40"></textarea></p>
-            </td>
-            <td colspan="2">
-                <p><textarea name="mensaje" id="idObs"
-                             class="textArea" rows="1" cols="40"></textarea></p>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="8" align="right">
-                <input type="button" class="btn btn-success" value="Agregar" onclick="fnAgregarArtCompra()">&nbsp;
-                <input type="button" class="btn btn-warning" value="Limpiar" onclick="fnLimpiarCompra()">&nbsp;
-                <input type="button" id="btnCompra" class="btn btn-primary" value="Migrar"
-                       onclick="fnValidaciones()">&nbsp;
+                                      class="textArea" rows="2" cols="40"></textarea></p>
+                        </td>
+                        <td colspan="2">
+                            <p><textarea name="mensaje" id="idObs"
+                                         class="textArea" rows="2" cols="40"></textarea></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" align="right">
+                            <input type="button" class="btn btn-success" id="btnAgregar" value="Agregar"
+                                   onclick="fnAgregarArtMig()">&nbsp;
+                            <input type="button" class="btn btn-warning"  value="Limpiar" onclick="fnLimpiarMig()">&nbsp;
+                            <input type="button" id="btnCompra" class="btn btn-primary" value="Migrar"
+                                   onclick="fnValidaciones()">&nbsp;
 
-            </td>
-        </tr>
-        </table>
-    </div>
-    </div>
-    <div class="row">
-        <div class="col col-md-12">
-            <br>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div id="divTablaArticulos" class="col col-md-12">
-            <table class="table table-hover table-condensed table-bordered" width="100%">
-                <thead>
-                <tr>
-                    <th>Serie</th>
-                    <th>Descripción</th>
-                    <th>Observaciones</th>
-                    <th>Precio Compra</th>
-                    <th>Vitrina</th>
-                    <th>Eliminar</th>
-                </tr>
-                </thead>
-                <tbody id="idTBodyArticulos">
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col col-md-12">
+                <br>
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div id="divTablaArticulos" class="col col-md-12">
+                <table class="table table-hover table-condensed table-bordered" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Serie</th>
+                        <th>Descripción</th>
+                        <th>Observaciones</th>
+                        <th>Precio Compra</th>
+                        <th>Vitrina</th>
+                        <th>Eliminar</th>
+                    </tr>
+                    </thead>
+                    <tbody id="idTBodyArticulos">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </form>
 

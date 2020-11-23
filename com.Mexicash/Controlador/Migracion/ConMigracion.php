@@ -7,4 +7,8 @@ $tipo = $_POST['tipo'];
 $sqlMigracion = new sqlMigracionDAO();
 if($tipo==1){
     $sqlMigracion->sqlBuscarIdContrato();
+}else if($tipo==2){
+    $idContratoSerie = $_POST['idContratoSerie'];
+    $checkCompraGlb = $_POST['checkCompraGlb'];
+    $sqlMigracion->sqlBuscarValidarContrato($idContratoSerie,$checkCompraGlb);
 }
