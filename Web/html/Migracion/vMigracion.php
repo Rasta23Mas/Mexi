@@ -199,14 +199,13 @@ $sucursal = $_SESSION['sucursal'];
                         <td>Piedras:</td>
                         <td>
                             <input type="text" id="idPiedras" name="piedras" size="5"
-                                   onkeypress="return soloNumeros(event)" value="0"
+                                   onkeypress="return soloNumeros(event)"
                                    style="text-align:center"/>
                             <label>pza</label>
                         </td>
                         <td>Peso:</td>
                         <td>
                             <input type="text" id="idPesoPiedra" name="pesoPiedra" size="4"
-                                   value="0"
                                    onkeypress="return isNumberDecimal(event)"
                                    style="text-align:center"/>
                             <label>grs</label></td>

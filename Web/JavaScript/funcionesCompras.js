@@ -855,7 +855,7 @@ function fnGenerarCompra() {
         type: 'post',
         success: function (contrato) {
             if (contrato > 0) {
-                fnUpdateToken();
+                fnUpdateTokenCom();
                 fnCierreCajaIndispensable(1,0,0);
 
             } else {
@@ -865,7 +865,7 @@ function fnGenerarCompra() {
     })
 }
 
-function fnUpdateToken() {
+function fnUpdateTokenCom() {
     var dataEnviar = {
         "idTokenSubtotalGlb": subTotalGlb,
         "idTokenIvaGlb": ivaGlb,

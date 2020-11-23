@@ -26,17 +26,17 @@ class sqlMigracionDAO
         //Modifique los estatus de usuario
         try {
 
-                $sucursal = $_SESSION["sucursal"];
-                $IdCompraMax= 0;
-                $buscar = "SELECT MAX(id_Contrato) as UltimaCompra FROM articulo_bazar_tbl 
+            $sucursal = $_SESSION["sucursal"];
+            $IdCompraMax = 0;
+            $buscar = "SELECT MAX(id_Contrato) as UltimaCompra FROM articulo_bazar_tbl 
                             WHERE sucursal=$sucursal  and compra_mig=1";
-                $statement = $this->conexion->query($buscar);
-                $encontro = $statement->num_rows;
-                if ($encontro > 0) {
-                    $fila = $statement->fetch_object();
-                    $IdCompraMax = $fila->UltimaCompra;
-                }
-                $IdCompraMax++;
+            $statement = $this->conexion->query($buscar);
+            $encontro = $statement->num_rows;
+            if ($encontro > 0) {
+                $fila = $statement->fetch_object();
+                $IdCompraMax = $fila->UltimaCompra;
+            }
+            $IdCompraMax++;
 
         } catch (Exception $exc) {
             echo $exc->getMessage();
@@ -46,17 +46,17 @@ class sqlMigracionDAO
         echo $IdCompraMax;
     }
 
-    function sqlBuscarValidarContrato($idContratoSerie,$checkCompraGlb)
+    function sqlBuscarValidarContrato($idContratoSerie, $checkCompraGlb)
     {
         $idBazar = 0;
         //Modifique los estatus de usuario
         try {
 
             $sucursal = $_SESSION["sucursal"];
-            $IdCompraMax= 0;
+            $IdCompraMax = 0;
             $buscar = "SELECT id_Contrato FROM articulo_bazar_tbl WHERE sucursal=$sucursal
             AND id_contrato=$idContratoSerie";
-            if($checkCompraGlb!=0){
+            if ($checkCompraGlb != 0) {
                 $buscar .= " AND compra_mig=1";
             }
 
@@ -76,9 +76,9 @@ class sqlMigracionDAO
     }
 
     function sqlGuardarArticuloMig($idTipoEnviar, $idContrato, $idFolioMig, $idKilataje, $idCalidad, $idPiezas, $idCantidad,
-    $idPeso, $idPiedras, $idPesoPiedra,$idMarca, $idModelo, $idSerie, $idIMEI, $idPrestamoMig, $idAvaluoMig,
-    $idVitrinaMig, $descDetalle, $idObs,$SerieBazar, $id_serieTipo, $tipo_movimiento, $descripcionCorta,$tipoCMB,
-    $checkCompraGlb)
+                                   $idPeso, $idPiedras, $idPesoPiedra, $idMarca, $idModelo, $idSerie, $idIMEI, $idPrestamoMig, $idAvaluoMig,
+                                   $idVitrinaMig, $descDetalle, $idObs, $SerieBazar, $id_serieTipo, $tipo_movimiento, $descripcionCorta, $tipoCMB,
+                                   $checkCompraGlb)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -91,17 +91,17 @@ class sqlMigracionDAO
             $descDetalle = strtoupper($descDetalle);
 
             $insert = "INSERT INTO articulo_bazar_tbl " .
-                    "(id_Contrato, id_serie,id_serieTipo,tipo_movimiento,tipoArticulo,tipo, " .
-                    " kilataje, calidad,piezas, cantidad, peso, piedras, peso_Piedra,
+                "(id_Contrato, id_serie,id_serieTipo,tipo_movimiento,tipoArticulo,tipo, " .
+                " kilataje, calidad,piezas, cantidad, peso, piedras, peso_Piedra,
                       marca, modelo, num_Serie,IMEI,prestamo,avaluo,vitrina, " .
-                    " vitrinaVenta,observaciones, detalle,descripcionCorta,sucursal,id_cierreCaja,compra_mig,codigo_mig)  VALUES " .
-                    " ($idContrato,'$SerieBazar',$id_serieTipo,$tipo_movimiento,$idTipoEnviar,$tipoCMB,$idKilataje,
-                        $idCalidad,$idPiezas,$idCantidad,$idPeso,$idPiedras,$idPesoPiedra,$idMarca,$idModelo,$idSerie
-                        $idIMEI,$idPrestamoMig,$idAvaluoMig,$idVitrinaMig,$idVitrinaMig,$idObs,$descDetalle
-                         $descripcionCorta,$sucursal,$idCierreCaja,$checkCompraGlb,$idFolioMig)";
+                " vitrinaVenta,observaciones, detalle,descripcionCorta,sucursal,id_cierreCaja,compra_mig,codigo_mig)  VALUES " .
+                " ($idContrato,'$SerieBazar',$id_serieTipo,$tipo_movimiento,$idTipoEnviar,$tipoCMB,$idKilataje,
+                        $idCalidad,$idPiezas,$idCantidad,$idPeso,$idPiedras,$idPesoPiedra,$idMarca,$idModelo,'$idSerie',
+                        '$idIMEI',$idPrestamoMig,$idAvaluoMig,$idVitrinaMig,$idVitrinaMig,'$idObs','$descDetalle',
+                         '$descripcionCorta',$sucursal,$idCierreCaja,$checkCompraGlb,$idFolioMig)";
             if ($ps = $this->conexion->prepare($insert)) {
                 if ($ps->execute()) {
-                    $verdad =  mysqli_stmt_affected_rows($ps);
+                    $verdad = mysqli_stmt_affected_rows($ps);
                 } else {
                     $verdad = -1;
                 }
@@ -180,4 +180,36 @@ class sqlMigracionDAO
         //return $verdad;
         echo $verdad;
     }
+
+    function sqlGuardarMig()
+    {
+        // TODO: Implement guardaCiente() method.
+        try {
+
+            $idCierreCaja = $_SESSION['idCierreCaja'];
+            $sucursal = $_SESSION["sucursal"];
+
+            $updateBitVentas = "UPDATE articulo_bazar_tbl SET tipo_movimiento = 24
+                            WHERE sucursal=$sucursal AND tipo_movimiento =33 AND id_cierreCaja=$idCierreCaja";
+            if ($ps = $this->conexion->prepare($updateBitVentas)) {
+                if ($ps->execute()) {
+                    $respuesta = 1;
+                } else {
+                    $respuesta = -1;
+                }
+            } else {
+                $respuesta = 1;
+            }
+        }
+        catch
+            (Exception $exc) {
+                $respuesta = -20;
+                echo $exc->getMessage();
+            } finally {
+                $this->db->closeDB();
+            }
+        echo $respuesta;
+    }
+
+
 }

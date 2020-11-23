@@ -458,6 +458,21 @@ function fnLimpiarSinResetearIdArticulo() {
     $("#idObs").prop('disabled', true);
     $("#btnAgregar").prop('disabled', true);
     $("#btnCompra").prop('disabled', false);
+    $("#idContratoMig").prop('disabled', false);
+    $("#idCheckCompra").prop('disabled', false);
+    $("#idTipoElectronico").val(0);
+    $("#idMarca").val(0);
+    $("#idModelo").val(0);
+    $("#idSerie").val("");
+    $("#idIMEI").val("");
+    $("#idTipoMetal").val(0);
+    $("#idKilataje").val(0);
+    $("#idCalidad").val(0);
+    $("#idPiezas").val("");
+    $("#idCantidad").val("");
+    $("#idPeso").val("");
+    $("#idPiedras").val("");
+    $("#idPesoPiedra").val("");
 }
 
 function fnCargarArticulosMig() {
@@ -557,7 +572,7 @@ function fnTokenMig() {
                     alert("Los Token se estan terminando, favor de avisar al administrador");
                 }
                 alertify.success("Código correcto.");
-                fnGenerarCompra();
+                fnGenerarMig();
 
             } else {
                 if (errorToken < 3) {
@@ -573,3 +588,43 @@ function fnTokenMig() {
 }
 
 
+function fnGenerarMig() {
+    //FEErr01
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Compras/ConGuardarMig.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta > 0) {
+                fnUpdateTokenMig();
+            } else {
+                alertify.error("Error al generar contrato.");
+            }
+        },
+    })
+}
+
+
+function fnUpdateTokenMig() {
+    var dataEnviar = {
+        "idTokenSubtotalGlb": subTotalGlb,
+        "idTokenIvaGlb": ivaGlb,
+        "idTokenTotalGlb": totalGlb,
+        "idToken": idTokenGlb,
+        "tokenDesc": idTokenDescGlb,
+        "idTokenMov": tipoMovimientoGlb,
+        "idContratoCompra": idContratoCompraGlb,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Token/TokenCompras.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                fnBitacoraCompra(idTokenGlb);
+            } else {
+                alertify.error("Error en al conectar con el servidor.")
+            }
+        }
+    });
+}
