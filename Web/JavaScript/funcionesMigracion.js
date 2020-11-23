@@ -539,3 +539,37 @@ function fnEliminarArticuloMig(idArticuloBazar) {
 }
 
 
+function fnTokenMig() {
+    var tokenDes = $("#idCodigoAutMig").val();
+    var dataEnviar = {
+        "token": tokenDes
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Token/ConTokenValidar.php',
+        type: 'post',
+        success: function (response) {
+            if (response > 0) {
+                idTokenGlb = response;
+                idTokenDescGlb = tokenDes;
+                var token = response;
+                if (token > 20) {
+                    alert("Los Token se estan terminando, favor de avisar al administrador");
+                }
+                alertify.success("Código correcto.");
+                fnGenerarCompra();
+
+            } else {
+                if (errorToken < 3) {
+                    errorToken += 1;
+                    alertify.warning("Error de código. Por favor Verifique.");
+
+                } else {
+                    alertify.error("Demasiados intentos. Intente más tarde.");
+                }
+            }
+        },
+    })
+}
+
+

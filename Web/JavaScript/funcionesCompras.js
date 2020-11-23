@@ -800,22 +800,7 @@ function cmbModeloVEmpeFromModal(tipoId, marcaId) {
 }
 
 function fnValidaciones() {
-    var idVendedor = $("#idVendedor").val();
-
-    var validate = true;
-    if (idVendedor == 0) {
-        alert("Por Favor. Selecciona un vendedor.");
-        validate = false;
-    } else if (idArticuloGlb == 0) {
-        alert("Por Favor. Agrega un artículo.");
-        validate = false;
-    } else if (cambioGlb == -1) {
-        alert("Por Favor. Calcula el cambio.");
-        validate = false;
-    }
-    if (validate) {
-        $("#modalCompras").modal();
-    }
+  $("#modalMigracion").modal();
 }
 
 function fnTokenCompras() {
