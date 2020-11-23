@@ -292,7 +292,7 @@ $sucursal = $_SESSION['sucursal'];
                                    onclick="fnAgregarArtMig()">&nbsp;
                             <input type="button" class="btn btn-warning"  value="Limpiar" onclick="fnLimpiarMig()">&nbsp;
                             <input type="button" id="btnCompra" class="btn btn-primary" value="Migrar"
-                                   onclick="fnValidaciones()">&nbsp;
+                                   onclick="fnValidacionesMig()">&nbsp;
 
                         </td>
                     </tr>

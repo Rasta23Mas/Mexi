@@ -3,6 +3,8 @@ var idArticuloGlb = 0;
 var sucursalGlb = 0;
 var checkCompraGlb = 0;
 var sucursalGlb = 0;
+var idTokenGlb = 0;
+var idTokenDescGlb = 0;
 function fnCargarSucursal(sucursal) {
     sucursalGlb = sucursal;
 }
@@ -553,6 +555,9 @@ function fnEliminarArticuloMig(idArticuloBazar) {
 
 }
 
+function fnValidaciones() {
+    $("#modalMigracion").modal();
+}
 
 function fnTokenMig() {
     var tokenDes = $("#idCodigoAutMig").val();
@@ -606,18 +611,13 @@ function fnGenerarMig() {
 
 function fnUpdateTokenMig() {
     var dataEnviar = {
-        "idTokenSubtotalGlb": subTotalGlb,
-        "idTokenIvaGlb": ivaGlb,
-        "idTokenTotalGlb": totalGlb,
         "idToken": idTokenGlb,
         "tokenDesc": idTokenDescGlb,
-        "idTokenMov": tipoMovimientoGlb,
-        "idContratoCompra": idContratoCompraGlb,
     };
 
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Token/TokenCompras.php',
+        url: '../../../com.Mexicash/Controlador/Token/TokenMig.php',
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {

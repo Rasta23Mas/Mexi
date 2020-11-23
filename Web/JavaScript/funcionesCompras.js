@@ -800,7 +800,7 @@ function cmbModeloVEmpeFromModal(tipoId, marcaId) {
 }
 
 function fnValidaciones() {
-  $("#modalMigracion").modal();
+  $("#modalCompras").modal();
 }
 
 function fnTokenCompras() {
