@@ -180,7 +180,6 @@ function Agregar() {
                                         url: '../../../com.Mexicash/Controlador/Articulos/Articulo.php',
                                         type: 'post',
                                         success: function (response) {
-                                            alert(response)
                                             if (response == 1) {
                                                 cargarTablaMetales();
                                                 $("#divTablaMetales").load('tablaMetales.php');

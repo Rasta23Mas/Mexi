@@ -604,7 +604,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                             <input type="text" id="idClienteEmpeno" name="clienteEmpeno" size="5"
                                    style="text-align:center" class="invisible"/>
                             <input type="text" id="idFechaAlm" name="fechaAlm" size="12"
-                                   style="text-align:center" class=""/>
+                                   style="text-align:center" class="invisible"/>
                             <input type="text" id="diasInteres" name="diasInteres" size="3"
                                    style="text-align:center" class="invisible"/>
                             <input id="idTotalInteres" name="totalInteres" disabled type="text"
