@@ -735,7 +735,11 @@ function descuentoNuevo(e) {
                 $("#totalInteresNuevoNota").val(totalInteresDescuento);
                 $("#idIVAValue").val(ivaValue);
                 descuentoTabla();
-                $("#idValidaToken").val(1);
+                if(descuento==0){
+                    $("#idValidaToken").val(0);
+                }else{
+                    $("#idValidaToken").val(1);
+                }
             } else {
                 alert("El descuento no puede ser mayor al interes.");
                 $("#idEfectivoNotaNuevo").val('');
