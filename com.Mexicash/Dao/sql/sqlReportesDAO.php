@@ -779,7 +779,7 @@ class sqlReportesDAO
                         DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
                         Con.id_contrato AS CONTRATO,
-                        Con.total_Prestamo AS PRESTAMO,
+                        Art.prestamo AS PRESTAMO,
                         Art.descripcionCorta AS DESCRIPCION,
                         Art.observaciones as ObserArt,
                         Aut.observaciones as ObserAuto,
