@@ -427,6 +427,8 @@ function buscarArqueoAnterior() {
             totalSalidasNew_glb += bitRetiro_glb;
             var TotalCajaNew = totalEntradaNew_glb - totalSalidasNew_glb;
             TotalCajaNew = Math.round(TotalCajaNew * 100) / 100;
+            totalEntradaNew_glb = Math.round(totalEntradaNew_glb * 100) / 100;
+            totalSalidasNew_glb = Math.round(totalSalidasNew_glb * 100) / 100;
             $("#idIncrementoNew").val(Entradas_Incremento);
             $("#idAjustesNew").val(Salidas_Ajustes);
             $("#idTotEntradasNew").val(totalEntradaNew_glb);
