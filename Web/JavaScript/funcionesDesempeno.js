@@ -1305,7 +1305,7 @@ function desempenoSinInteres() {
     $("#btnGenerarSinInteres").show();
     $("#trCostoContrato").show();
     $("#trTotalSinInteres").show();
-    $("#trIvaSinInteres").show();
+    $("#trIvaSinInteres").hide();
     var costoContrato = $("#idCostoContratoValue").val();
     var prestamoNuevoNota = $("#idPrestamoSinInteres").val();
     costoContrato = Number(costoContrato);
@@ -1313,13 +1313,13 @@ function desempenoSinInteres() {
     var totalSinInteres = costoContrato + prestamoNuevoNota;
 
     //Calculo de IVA
-    var idIVAValue = $("#idTblIva").val();
-    idIVAValue = Number(idIVAValue);
-    idIVAValue = Math.round(idIVAValue * totalSinInteres) / 100;
-    totalSinInteres = totalSinInteres + idIVAValue;
-    $("#idIVAValue").val(idIVAValue);
-    idIVAValue = formatoMoneda(idIVAValue);
-    $("#idIVANotaNuevoSinInteres").val(idIVAValue);
+    //var idIVAValue = $("#idTblIva").val();
+    //idIVAValue = Number(idIVAValue);
+    //idIVAValue = Math.round(idIVAValue * totalSinInteres) / 100;
+    //totalSinInteres = totalSinInteres + idIVAValue;
+    //$("#idIVAValue").val(idIVAValue);
+    //idIVAValue = formatoMoneda(idIVAValue);
+    //$("#idIVANotaNuevoSinInteres").val(idIVAValue);
 
     $("#totalSinInteresValue").val(totalSinInteres)
     totalSinInteres = formatoMoneda(totalSinInteres);

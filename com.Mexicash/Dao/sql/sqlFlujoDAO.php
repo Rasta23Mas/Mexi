@@ -30,7 +30,7 @@ class sqlFlujoDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT id_flujototal, id_flujoAgente, importe, sucursal FROM flujototales_tbl
-                       WHERE sucursal=$sucursal AND id_flujoAgente = 1 OR id_flujoAgente = 2 OR id_flujoAgente =3 ";
+                       WHERE sucursal=$sucursal AND (id_flujoAgente = 1 OR id_flujoAgente = 2 OR id_flujoAgente =3 )";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
