@@ -330,6 +330,9 @@ function fnAgregarArtMig() {
                 idArticulo = idArticulo.padStart(2, "0");
                 var idContrato = $("#idContratoMig").val();
                 var idFolioMig = $("#idFolioMig").val();
+                if(idFolioMig==""){
+                    idFolioMig=0;
+                }
                 var idContratoSerie = idContrato.padStart(6, "0");
                 var descTipoMetal = 0;
                 var descKilataje = 0;
@@ -396,7 +399,6 @@ function fnAgregarArtMig() {
                     idSerie = $("#idSerie").val();
                     idIMEI = $("#idIMEI").val();
                 }
-
                 var dataEnviar = {
                     "idTipoEnviar": tipo_enviar,
                     "idContrato": idContrato,
@@ -429,6 +431,7 @@ function fnAgregarArtMig() {
                     url: '../../../com.Mexicash/Controlador/Migracion/ConArticuloMig.php',
                     type: 'post',
                     success: function (response) {
+                        alert(response)
                         if (response == 1) {
                             fnCargarArticulosMig();
                             fnLimpiarSinResetearMig();
