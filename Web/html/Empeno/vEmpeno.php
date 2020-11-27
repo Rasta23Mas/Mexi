@@ -487,7 +487,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                                         <td colspan="3">Vitrina:</td>
                                         <td colspan="3">
                                             <input type="text" id="idVitrinaElectronico" name="vitrinaE" size="7"
-                                                   onkeypress="return soloNumeros(event)"
+                                                   onkeypress="return isNumberDecimal(event)"
                                                    style="text-align:center"/>
                                         </td>
                                             <td colspan="3">Catalogo:</td>
@@ -587,7 +587,7 @@ include_once(HTML_PATH . "Empeno/modalEditarJoyeria.php");
                         <td align="right">
                             <b>Refrendo Migración:</b>
                             <input type="text" id="idRefrendoMigracion" name="refrendoM" size="6"
-                                   onkeypress="return soloNumeros(event)" style="text-align:right" placeholder="0"/>
+                                   onkeypress="return isNumberDecimal(event)" style="text-align:right" placeholder="0"/>
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="hayArticulos()">&nbsp;
                             <input type="button" class="btn btn-warning" value="Cancelar" onclick="cancelar()">&nbsp;
                             <input type="button" class="btn btn-danger" value="Salir" onclick="location.href='vInicio.php'">&nbsp;

@@ -2,6 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(MODELO_PATH . "Vendedor.php");
 include_once(SQL_PATH . "sqlVendedorDAO.php");
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $idVendedorEditar = $_POST['idVendedorEditar'];
 $idNombre = $_POST['idNombre'];

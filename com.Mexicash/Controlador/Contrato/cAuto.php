@@ -2,6 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(MODELO_PATH . "Auto.php");
 include_once(SQL_PATH . "sqlAutoDAO.php");
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 //DatosContrato
 $idClienteAuto = $_POST['idClienteAuto'];

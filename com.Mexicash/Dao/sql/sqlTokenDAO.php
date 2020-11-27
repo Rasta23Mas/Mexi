@@ -6,6 +6,7 @@ if (!isset($_SESSION)) {
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(BASE_PATH . "Conexion.php");
 date_default_timezone_set('America/Mexico_City');
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 
 class sqlTokenDAO

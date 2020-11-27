@@ -6,6 +6,24 @@ $sucursal = $_SESSION['sucursal'];
 
 include_once (HTML_PATH. "Cancelaciones/modalCancelar.php");
 
+$fechaGuardada = $_SESSION["ultimoAcceso"];
+$ahora = date("Y-n-j H:i:s");
+$tiempo_transcurrido = (strtotime($ahora)-strtotime($fechaGuardada));
+$tiempo_limite = 20;
+echo $tiempo_transcurrido;
+echo '/';
+echo $tiempo_limite;
+echo '/';
+if($tiempo_transcurrido >= $tiempo_limite) {
+    session_destroy();
+    echo 'Entra';
+    header("Location: ../../../index.php");
+    //header("Location: $url");
+}else {
+    echo $ahora;
+    $_SESSION["ultimoAcceso"] = $ahora;
+
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

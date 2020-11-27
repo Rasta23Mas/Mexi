@@ -165,7 +165,7 @@ $contenido = '<html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
        .letraNormalNegrita{
-          font-size: .4em;
+          font-size: .6em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
@@ -199,7 +199,7 @@ $contenido = '<html>
 </head>
 <body>
 <form>';
-$contenido .= '<table width="30%" border="1">
+$contenido .= '<table width="100%" border="1">
         <tbody>
         <tr>
         <td align="center" >
@@ -410,7 +410,7 @@ $dompdf->load_html($contenido);
 if($sucursal==1){
     $dompdf->setPaper('letter', 'portrait');
 }else if($sucursal==2){
-    $customPaper = array(0,0,227,426);
+    $customPaper = array(0,0,300,650);
     $dompdf->setPaper($customPaper);
 }
 $dompdf->render();

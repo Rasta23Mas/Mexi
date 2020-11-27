@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlMovimientosDAO.php");
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 
 $id_contrato = $_POST['id_contrato'];

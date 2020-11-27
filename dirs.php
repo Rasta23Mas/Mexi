@@ -25,6 +25,7 @@ define('DESC_PATH', HTML_PATH.'Descuento/');
 define('ADMIN_PATH', HTML_PATH.'Admin/');
 //VENDOR
 define('VEN_PATH', ROOT_PATH.'vendor/');
+define('IND_PATH', ROOT_PATH.'../');
 ?>
 
 

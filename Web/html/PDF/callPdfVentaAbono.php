@@ -73,8 +73,8 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-          .letraNormalNegrita{
-          font-size: .8em;
+        .letraNormalNegrita{
+          font-size: .6em;
           font-weight: bold;
          }
           .letraGrandeNegrita{
@@ -105,7 +105,7 @@ $contenido .= '<table width="100%" border="0">
         <tbody>
         <tr>
         <td>
-         <table width="100%" border="0" class="letraGrandeNegrita">
+         <table width="100%" border="0" class="letraNormalNegrita">
                 <tr>
                     <td colspan="3" align="center">
                         <label>' . $NombreCasa . '</label>
@@ -273,7 +273,7 @@ $dompdf->load_html($contenido);
 if($sucursal==1){
     $dompdf->setPaper('letter', 'portrait');
 }else if($sucursal==2){
-    $customPaper = array(0,0,227,426);
+    $customPaper = array(0,0,300,650);
     $dompdf->setPaper($customPaper);
 }
 $dompdf->render();

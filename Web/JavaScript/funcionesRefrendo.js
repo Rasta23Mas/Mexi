@@ -463,7 +463,7 @@ function buscarDatosContrato() {
                     //totalVencIVA = formatoMoneda(totalVencIVA);
                     interesGenerado = formatoMoneda(interesGenerado);
                     TotalFinal = formatoMoneda(TotalFinal);
-                    TotalPrestamo = formatoMoneda(TotalPrestamo);
+                    TotalPrestamoMon = formatoMoneda(TotalPrestamo);
                     $("#abonoAnteriorNuevoNota").val(Abono)
                     Abono = formatoMoneda(Abono);
 
@@ -487,7 +487,7 @@ function buscarDatosContrato() {
                     $("#idTblIva").val(IvaDesc);
 
                     document.getElementById('idConTDDes').innerHTML = contratoGbl;
-                    document.getElementById('idPresTDDes').innerHTML = TotalPrestamo;
+                    document.getElementById('idPresTDDes').innerHTML = TotalPrestamoMon;
                     document.getElementById('idInteresTDDes').innerHTML = interesGenerado;
                     document.getElementById('idAbonoTDDes').innerHTML = Abono;
 
@@ -521,9 +521,9 @@ function buscarDatosContrato() {
                         $("#trGastosAdminNovo").show();
                         totalPagarNuevoNota = TotalPrestamo + GastosAdmin;
                         totalPagarNuevoNota = Math.round(totalPagarNuevoNota * 100) / 100;
-
                         $("#totalPagarNuevoNota").val(totalPagarNuevoNota);
                         var totalPagarNuevoNotaFormat = formatoMoneda(totalPagarNuevoNota);
+
                         $("#idTotalAPagarNotaNuevo").val(totalPagarNuevoNotaFormat);
                     }else{
                         totalPagarNuevoNota = totalPagarNuevoNota + ivaTotal;
@@ -690,13 +690,15 @@ function descuentoNuevo(e) {
                 $("#idDescuentoNotaNuevo").prop('disabled', true);
                 $("#idEfectivoNotaNuevo").prop('disabled', false);
                 $("#idEfectivoNotaNuevo").focus();
-                var prestamo =    $("#idPrestamoSinInteres").val();
+                var prestamo =    $("#totalPagarNuevoNota").val();
                 prestamo = Number(prestamo);
-                var totalGastosAdmin = prestamo + gastosAdmin;
-                totalGastosAdmin = totalGastosAdmin-descuento;
+
+                var totalGastosAdmin = prestamo-descuento;
                 totalGastosAdmin = Math.round(totalGastosAdmin * 100) / 100;
                 $("#totalPagarNuevoNota").val(totalGastosAdmin);
                 var totalGastosAdminFormat = formatoMoneda(totalGastosAdmin)
+
+
                 $("#idTotalAPagarNotaNuevo").val(totalGastosAdminFormat);
                 $("#descuentoNuevoNota").val(descuento);
                 var descuentoFormat = formatoMoneda(descuento)
@@ -1091,7 +1093,6 @@ function MovimientosRefrendo(descuentoAplicado, descuentoFinal, abonoFinal, newF
     var mov_costoContrato = 0;
     if(GastosAdminGlb==1){
         mov_costoContrato = $("#gastosAdminNuevoNota").val();
-        alert(mov_costoContrato);
     }
     var mov_tipoContrato = tipoContrato;
     var mov_tipoMovimiento = movimiento;//Empeño

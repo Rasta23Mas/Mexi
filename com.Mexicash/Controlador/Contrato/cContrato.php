@@ -2,6 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(MODELO_PATH . "Contratos.php");
 include_once(SQL_PATH . "sqlContratoDAO.php");
+include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $idCliente = $_POST['idCliente'];
 $totalPrestamo = $_POST['totalPrestamo'];

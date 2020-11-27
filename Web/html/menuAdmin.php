@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+
 $dotaciones = $_SESSION['dotaciones'];
 ?>
 
