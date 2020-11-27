@@ -6,8 +6,8 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
 include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
-include_once(HTML_PATH . "Ventas/modalDescuentoVenta.php");
-include_once(HTML_PATH . "Ventas/modalPrecioVenta.php");
+include_once(VENT_PATH . "modalDescuentoVenta.php");
+include_once(VENT_PATH . "modalPrecioVenta.php");
 include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -21,12 +21,13 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesVentas.js"></script>
-    <link href="../Paginator/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="../Paginator/jquery/jquery-1.11.3.js"></script>
-    <script src="../Paginator/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
+    <script src="../Paginator/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <link href="../Paginator/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+
 
     <script type="application/javascript">
         $(document).ready(function () {

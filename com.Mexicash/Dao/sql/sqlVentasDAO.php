@@ -188,7 +188,9 @@ class sqlVentasDAO
                 $count = "SELECT COUNT(id_ArticuloBazar) as  totalCount 
                             FROM articulo_bazar_tbl as ART
                             LEFT JOIN cat_adquisicion as ADQ on ART.id_serieTipo = ADQ.id_Adquisicion
-                            WHERE sucursal=$sucursal  AND HayMovimiento = 0 AND (id_serie like '%$idCodigo%' OR id_Contrato like '$idCodigo%')";
+                            WHERE sucursal=$sucursal  AND HayMovimiento = 0 
+                            AND (id_serie like '%$idCodigo%' OR id_Contrato like '$idCodigo%')
+                            AND id_ArticuloBazar NOT IN (SELECT id_ArticuloBazar FROM bit_ventas) ";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
@@ -197,7 +199,9 @@ class sqlVentasDAO
                         avaluo,vitrinaVenta, descripcionCorta,observaciones
                         FROM articulo_bazar_tbl as ART
                         LEFT JOIN cat_adquisicion as ADQ on ART.id_serieTipo = ADQ.id_Adquisicion
-                        WHERE sucursal=$sucursal  AND HayMovimiento = 0 AND (id_serie like '%$idCodigo%' OR id_Contrato like '$idCodigo%')
+                        WHERE sucursal=$sucursal  AND HayMovimiento = 0 
+                        AND (id_serie like '%$idCodigo%' OR id_Contrato like '$idCodigo%')
+                        AND id_ArticuloBazar NOT IN (SELECT id_ArticuloBazar FROM bit_ventas)
                         ORDER BY ART.id_contrato
                         LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);

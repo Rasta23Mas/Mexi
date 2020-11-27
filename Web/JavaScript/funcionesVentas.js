@@ -21,6 +21,7 @@ var paginadorGlb;
 var totalPaginasGlb;
 var itemsPorPaginaGlb = 20;
 var numerosPorPaginaGlb = 4;
+var idCodigoMostradorGlb = 0;
 function buscaridBazarVentas() {
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Ventas/ConBuscarIdBazar.php',
@@ -89,8 +90,9 @@ function busquedaCodigoMostrador(e) {
 //LLenar Reportes
 function fnLlenaReport() {
     var idCodigo = $("#idCodigoMostrador").val();
+    idCodigoMostradorGlb = idCodigo;
     var dataEnviar = {
-        "idCodigo": idCodigo,
+        "idCodigo": idCodigoMostradorGlb,
         "tipo": 1,
         "limit": 0,
         "offset": 0,
@@ -282,65 +284,6 @@ function fnCargaPagina(pagina){
 
 }
 
-function busquedaCodigoMostradorBoton(tipoBusqueda) {
-    var idCodigo = $("#idCodigoMostrador").val();
-
-    var dataEnviar = {
-        "idCodigo": idCodigo,
-        "tipoBusqueda": tipoBusqueda,
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigo.php',
-        type: 'post',
-        dataType: "json",
-        success: function (datos) {
-            if (datos.length > 0) {
-                var html = '';
-                var i = 0;
-                for (i; i < datos.length; i++) {
-                    var id_Contrato = datos[i].id_ContratoBaz;
-                    var id_ArticuloBazar = datos[i].id_ArtBazar;
-                    var id_serie = datos[i].id_serieBaz;
-                    var Adquisicion = datos[i].Adquisicion;
-                    var empeno = datos[i].empeno;
-                    var avaluo = datos[i].avaluo;
-                    var precio_Actual = datos[i].precio_Actual;
-                    var descripcionCorta = datos[i].descripcionCorta;
-                    var observaciones = datos[i].observaciones;
-
-                    var empenoFormat = formatoMoneda(empeno);
-                    var avaluoFormat = formatoMoneda(avaluo);
-                    var precio_ActualFormat = formatoMoneda(precio_Actual);
-
-                    html += '<tr>' +
-                        '<td>' + id_serie + '</td>' +
-                        '<td>' + id_Contrato + '</td>' +
-                        '<td>' + descripcionCorta + '</td>' +
-                        '<td>' + Adquisicion + '</td>' +
-                        '<td>' + empenoFormat + '</td>' +
-                        '<td>' + avaluoFormat + '</td>' +
-                        '<td>' + precio_ActualFormat + '</td>' +
-                        '<td>' + observaciones + '</td>' +
-                        '<td align="center">' +
-                        '<img src="../../style/Img/carritoNor.png"  data-dismiss="modal" alt="Agregar"' +
-                        'onclick="validarCarrito(' + id_ArticuloBazar + ',' + precio_Actual + ',' + empeno + ')"> ' +
-                        '</td>' +
-                        '<td align="center">' +
-                        '<img src="../../style/Img/editarNor.jpg"  data-dismiss="modal" alt="Agregar"' +
-                        'onclick="fnModalPrecio(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
-                        '</td></tr>';
-
-                }
-
-                $('#idTBodyMetales').html(html);
-            } else {
-                alertify.error("No se encontro ningún artiículo en bazar.");
-            }
-        }
-    });
-}
-
 function fnModalPrecio(id_ArticuloBazar, precio_Actual) {
     precioAnteriorGlb = precio_Actual;
     precio_Actual = formatoMoneda(precio_Actual);
@@ -426,7 +369,7 @@ function agregarCarrito(id_ArticuloBazar, precio_Enviado, empeno, cliente, vende
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
-                busquedaCodigoMostradorBoton(3);
+                fnLlenaReport();
                 refrescarCarrito(precio_Enviado, empeno, tipoCarrito);
             } else {
                 alertify.error("Error al agregar el artículo.");
@@ -446,6 +389,7 @@ function eliminarDelCarrito(id_Ventas, precio_Enviado, prestamo) {
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
+                fnLlenaReport();
                 refrescarCarrito(precio_Enviado, prestamo, tipoCarrito);
             } else {
                 alertify.error("Error al eliminar el artículo.");
@@ -854,7 +798,7 @@ function fnBitPrecioMod() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                location.reload();
+                fnLlenaReport();
             } else {
                 alertify.error("Error en al conectar con el servidor.FnError04")
             }
