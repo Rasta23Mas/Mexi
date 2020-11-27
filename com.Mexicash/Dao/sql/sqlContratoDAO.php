@@ -77,7 +77,6 @@ class sqlContratoDAO
                 ( $IdContratoMax,$id_Cliente, $totalPrestamo ,$totalAvaluo,'$AvaluoLetra',$suma_InteresPrestamo,$total_Intereses,$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$tipoFormulario,$aforo,'$fechaCreacion','$fecha_vencimiento',
                   '$fecha_almoneda', $tipoContrato,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus,$sucursal)";
-            echo $insertaContrato;
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     $buscarContrato = "select max(id_Contrato) as UltimoContrato from contratos_tbl where id_cierreCaja = $idCierreCaja AND sucursal = $sucursal";
