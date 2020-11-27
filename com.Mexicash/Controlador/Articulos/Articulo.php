@@ -2,7 +2,6 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(MODELO_PATH . "Articulo.php");
 include_once(SQL_PATH . "sqlArticulosDAO.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $idTipoEnviar = $_POST['$idTipoEnviar'];
 $idArticulo = $_POST['idArticulo'];

@@ -1,7 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlTokenDAO.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $tokenDes = $_POST['tokenDes'];
 $idFolio = $_POST['idFolio'];

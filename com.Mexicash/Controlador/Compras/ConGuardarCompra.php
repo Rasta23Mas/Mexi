@@ -1,7 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlComprasDAO.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $tipoMovimiento = $_POST['tipoMovimiento'];
 $idVendedor = $_POST['idVendedor'];

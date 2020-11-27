@@ -2,7 +2,6 @@
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlBitacorasDAO.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $precioAnteriorGlb = $_POST['precioAnteriorGlb'];
 $precioModGlb = $_POST['precioModGlb'];
