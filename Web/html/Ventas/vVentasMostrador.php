@@ -21,6 +21,12 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesVentas.js"></script>
+    <link href="../Paginator/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../Paginator/jquery/jquery-1.11.3.js"></script>
+    <script src="../Paginator/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
 
     <script type="application/javascript">
         $(document).ready(function () {
@@ -149,8 +155,7 @@ include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                             <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value=""
                                    onkeypress="return busquedaCodigoMostrador(event)"/>
                             &nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo" onclick="busquedaCodigoMostradorBoton(1)">&nbsp;
-                            <input type="button" class="btn btn-success" value="Buscar Contrato" id="btnBuscarContrato" onclick="busquedaCodigoMostradorBoton(2)">&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="fnLlenaReport()">&nbsp;
                         </td>
                         <td colspan="8">
 

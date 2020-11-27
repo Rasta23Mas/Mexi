@@ -4,8 +4,10 @@ include_once(SQL_PATH . "sqlVentasDAO.php");
 
 
 $idCodigo = $_POST['idCodigo'];
-$tipoBusqueda = $_POST['tipoBusqueda'];
+$tipo = $_POST['tipo'];
+$limit = $_POST['limit'];
+$offset = $_POST['offset'];
 $sqlVenta = new sqlVentasDAO();
-$sqlVenta->sqlBusquedaCodigo($idCodigo,$tipoBusqueda);
+$sqlVenta->sqlBusquedaCodigo($idCodigo,$tipo,$limit,$offset);
 
 

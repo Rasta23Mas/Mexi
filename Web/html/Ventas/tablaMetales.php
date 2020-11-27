@@ -9,8 +9,8 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
 </style>
 <table class="table table-hover table-condensed table-bordered letraExtraChica" width="80%">
     <thead style="background: dodgerblue; color:white;">
-    <tr align="center">
-        <th colspan="10">Consulta de Artículos</th>
+    <tr>
+        <th colspan="10"  style="text-align: center">Consulta de Artículos</th>
     </tr>
     <tr>
         <th>Código</th>
@@ -20,7 +20,7 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
         <th>Precio Empeño</th>
         <th>Precio Avaluo</th>
         <th>Precio Vitrina</th>
-        <th>Observaciones</th>
+        <th>Descripción</th>
         <th>Agregar</th>
         <th>Editar</th>
     </tr>
@@ -28,3 +28,6 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
     <tbody id="idTBodyMetales" >
     </tbody>
 </table>
+<div class="col-md-12 text-center">
+    <ul class="pagination" id="paginador"></ul>
+</div>

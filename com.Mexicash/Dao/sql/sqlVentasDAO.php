@@ -179,7 +179,54 @@ class sqlVentasDAO
         echo json_encode($datos);
     }
 
-    function sqlBusquedaCodigo($idCodigo, $tipoBusqueda)
+    public function sqlBusquedaCodigo($idCodigo,$tipo,$limit,$offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if ($tipo == 1) {
+                $count = "SELECT COUNT(id_ArticuloBazar) as  totalCount 
+                            FROM articulo_bazar_tbl as ART
+                            LEFT JOIN cat_adquisicion as ADQ on ART.id_serieTipo = ADQ.id_Adquisicion
+                            WHERE sucursal=$sucursal  AND HayMovimiento = 0 AND (id_serie like '%$idCodigo%' OR id_Contrato like '$idCodigo%')";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            } else {
+                $BusquedaQuery = "SELECT  id_Contrato,id_ArticuloBazar,id_serie ,ADQ.descripcion AS Adquisicion, prestamo, 
+                        avaluo,vitrinaVenta, descripcionCorta,observaciones
+                        FROM articulo_bazar_tbl as ART
+                        LEFT JOIN cat_adquisicion as ADQ on ART.id_serieTipo = ADQ.id_Adquisicion
+                        WHERE sucursal=$sucursal  AND HayMovimiento = 0 AND (id_serie like '%$idCodigo%' OR id_Contrato like '$idCodigo%')
+                        ORDER BY ART.id_contrato
+                        LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                    OFFSET " . $this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while ($fila = $resultado->fetch_assoc()) {
+                    $jsondataperson = array();
+                    $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
+                    $jsondataperson["id_ArticuloBazar"] = $fila["id_ArticuloBazar"];
+                    $jsondataperson["id_serie"] = $fila["id_serie"];
+                    $jsondataperson["Adquisicion"] = $fila["Adquisicion"];
+                    $jsondataperson["prestamo"] = $fila["prestamo"];
+                    $jsondataperson["avaluo"] = $fila["avaluo"];
+                    $jsondataperson["vitrinaVenta"] = $fila["vitrinaVenta"];
+                    $jsondataperson["descripcionCorta"] = $fila["descripcionCorta"];
+                    $jsondataperson["observaciones"] = $fila["observaciones"];
+                    $jsondataList[] = $jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
+
+   /* function sqlBusquedaCodigo($idCodigo, $tipo, $limit, $offset)
     {
         $datos = array();
         try {
@@ -223,7 +270,7 @@ class sqlVentasDAO
         }
 
         echo json_encode($datos);
-    }
+    }*/
 
     function busquedaCodigoSeleccionado($idCodigo)
     {

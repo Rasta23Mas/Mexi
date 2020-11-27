@@ -18,8 +18,8 @@ if ($sucursal == 1) {
     <meta charset="utf-8">
     <title>Mexicash-Inicio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="../Reportes/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../Reportes/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <link href="../Paginator/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../Paginator/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
 </head>
 <body>
 <form id="idFormEmpeno" name="formEmpeno">

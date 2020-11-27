@@ -18,9 +18,9 @@ $sucursal = $_SESSION["sucursal"];
     <script src="../../JavaScript/funcionesReportes.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
-    <link href="bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="jquery/jquery-1.11.3.js"></script>
-    <script src="bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+    <link href="../Paginator/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../Paginator/jquery/jquery-1.11.3.js"></script>
+    <script src="../Paginator/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
