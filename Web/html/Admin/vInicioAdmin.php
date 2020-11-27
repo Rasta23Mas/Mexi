@@ -1,6 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 $sucursal = $_SESSION["sucursal"];
 $sucName = "Sucursal";

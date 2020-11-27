@@ -1,6 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include_once(SQL_PATH . "sqlClienteDAO.php");
 include_once(SQL_PATH . "sqlInteresesDAO.php");
 include_once(SQL_PATH . "sqlArticulosDAO.php");
@@ -9,7 +9,7 @@ include_once(HTML_PATH . "Clientes/modalRegistroCliente.php");
 include_once(HTML_PATH . "Clientes/modalHistorial.php");
 include_once(HTML_PATH . "Clientes/modalBusquedaCliente.php");
 include_once(HTML_PATH . "Clientes/modalEditarCliente.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
 
 ?>

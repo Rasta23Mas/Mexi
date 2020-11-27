@@ -1,7 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 
 $sucursal = $_SESSION["sucursal"];
 include_once(HTML_PATH . "Catalogos/modalActualizarMetal.php");

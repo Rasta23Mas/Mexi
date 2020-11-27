@@ -1,12 +1,12 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 include_once(HTML_PATH . "Compras/modalRegistroVendedor.php");
 include_once(HTML_PATH . "Compras/modalEditarVendedor.php");
 include_once(HTML_PATH . "Compras/modalBusquedaVendedor.php");
 include_once(HTML_PATH . "Compras/modalCompras.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 
 $sucursal = $_SESSION['sucursal'];
 

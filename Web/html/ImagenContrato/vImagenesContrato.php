@@ -1,9 +1,9 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 // Archivo de conexion con la base de datos
 include_once(BASE_PATH . "ConexionImg.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 date_default_timezone_set('America/Mexico_City');
 
 // Condicional para validar el borrado de la imagen

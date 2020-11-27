@@ -1,9 +1,9 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 $sucursal = $_SESSION['sucursal'];
 include_once(SQL_PATH . "sqlCierreDAO.php");
-include ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
 $idUserSesion = $_SESSION["idUsuario"];
 $idCierreCaja =  $_SESSION["idCierreCaja"];
 include_once(HTML_PATH . "Cierre/modalBusquedaArqueo.php");

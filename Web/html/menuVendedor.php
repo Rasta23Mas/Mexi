@@ -1,6 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
-include ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
+include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 $tipoUsuario = $_SESSION['tipoUsuario'];
 $cajaInactiva = $_SESSION['cajaInactiva'];
 $sesionInactiva = $_SESSION['sesionInactiva'];

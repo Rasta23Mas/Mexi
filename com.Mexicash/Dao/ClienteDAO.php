@@ -1,5 +1,5 @@
 <?php
-include ('../Modelo/Cliente.php');
+include_once ('../Modelo/Cliente.php');
 
 
 interface ClienteDAO

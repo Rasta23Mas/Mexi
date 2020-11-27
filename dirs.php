@@ -24,6 +24,7 @@ define('EMPE_PATH', HTML_PATH.'Empeno/');
 define('DESC_PATH', HTML_PATH.'Descuento/');
 define('ADMIN_PATH', HTML_PATH.'Admin/');
 define('VENT_PATH', HTML_PATH.'Ventas/');
+define('CLI_PATH', HTML_PATH.'Clientes/');
 //VENDOR
 define('VEN_PATH', ROOT_PATH.'vendor/');
 define('IND_PATH', ROOT_PATH.'../');
