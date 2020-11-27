@@ -98,6 +98,7 @@ function generarContrato() {
     var cliente = $("#idClienteEmpeno").val();
     var totalAvaluoLetra = NumeroALetras(totalAvaluo);
     var seguro = $("#idSeguroPorcen").text();
+    alert("hola")
     var dataEnviar = {
         "idCliente": $("#idClienteEmpeno").val(),
         "totalPrestamo": totalPrestamo,
@@ -126,6 +127,7 @@ function generarContrato() {
         url: '../../../com.Mexicash/Controlador/Contrato/cContrato.php',
         type: 'post',
         success: function (contrato) {
+            alert(contrato)
             if (contrato > 0) {
                 actualizarArticulo(contrato,tipoFormulario,cliente);
                 var idRefrendoMigracion = $("#idRefrendoMigracion").val();
@@ -166,7 +168,7 @@ function generarContrato() {
                     mov_subtotal,mov_total,mov_efectivo,mov_cambio,idRefrendoMigracion);
 
             } else {
-                alertify.error("Error al generar contrato. (FEErr01)");
+                alertify.error("Error al generar contratso. (FEErr01)");
             }
         },
     })

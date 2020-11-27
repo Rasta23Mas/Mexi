@@ -5,7 +5,7 @@ function SeleccionarInteres(tipoInteresValue,tipoFormulario) {
         };
         $.ajax({
             data: dataEnviar,
-            url: '../../../com.Mexicash/Controlador/Intereses.php',
+            url: '../../../com.Mexicash/Controlador/Intereses/ConIntereses.php',
             type: 'post',
             dataType: "json",
             success: function (response) {
