@@ -21,12 +21,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesVentas.js"></script>
-    <script src="../Paginator/jquery/jquery-1.11.3.js"></script>
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="../../librerias/jqueryui/jquery-ui.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../librerias/jqueryui/jquery-ui.min.css">
-    <script src="../Paginator/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
-    <link href="../Paginator/bootstrap/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+
+
 
 
     <script type="application/javascript">

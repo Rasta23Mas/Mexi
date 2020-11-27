@@ -8,7 +8,8 @@ include_once(SQL_PATH . "sqlCatalogoDAO.php");
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../../JavaScript/funcionesCatalogos.js"></script>
-    
+    <link rel="stylesheet" href="../../librerias/bootstrap/css/bootstrap.min.css">
+
 </head>
 <body>
 <div class="modal fade " id="modalRegistroNuevo" tabindex="-1" role="dialog"

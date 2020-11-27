@@ -519,7 +519,7 @@ function buscarDatosContrato() {
                         var GastosAdminFormat = formatoMoneda(GastosAdmin);
                         $("#idGastosAdminNotaNuevo").val(GastosAdminFormat);
                         $("#trGastosAdminNovo").show();
-                        totalPagarNuevoNota = TotalPrestamo + GastosAdmin;
+                        totalPagarNuevoNota =  GastosAdmin;
                         totalPagarNuevoNota = Math.round(totalPagarNuevoNota * 100) / 100;
                         $("#totalPagarNuevoNota").val(totalPagarNuevoNota);
                         var totalPagarNuevoNotaFormat = formatoMoneda(totalPagarNuevoNota);
