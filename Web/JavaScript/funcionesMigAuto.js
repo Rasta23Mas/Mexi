@@ -189,9 +189,10 @@ function fnContratoAutoMig() {
         url: '../../../com.Mexicash/Controlador/Migracion/ConGuardarAutoMig.php',
         type: 'post',
         success: function (contrato) {
-            alert(contrato)
             if (contrato > 0) {
-                BitacoraTokenEmpeno();
+                BitacoraTokenAutoMig(idContratoMig);
+                alertify.success("Auto agregado a bazar.");
+
             } else {
                 alertify.error("Error al generar contrato. (FEErr02)");
             }
@@ -202,29 +203,25 @@ function fnContratoAutoMig() {
 
 
 
-function BitacoraTokenEmpeno(contrato,tipoFormulario,tipoCon) {
+function BitacoraTokenAutoMig(contrato) {
     //tokenMovimiento= 9 ->Monto Electronicos/Metales
     //tokenMovimiento= 10->Monto Auto
-    var tipoContrato = tipoCon;
+
     var token = $("#idToken").val();
     var tokenDescripcion = $("#tokenDescripcion").val();
-    var tokenMovimiento = 10;
     var dataEnviar = {
         "contrato": contrato,
-        "tipoContrato": tipoContrato,
-        "tipoFormulario": tipoFormulario,
         "token": token,
         "tokenDescripcion": tokenDescripcion,
-        "tokenMovimiento": tokenMovimiento,
     };
 
     $.ajax({
         type: "POST",
-        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraToken.php',
+        url: '../../../com.Mexicash/Controlador/Bitacora/bitacoraTokenMig.php',
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                alertify.success("Token guardado.");
+                alertify.success("Token actualizado.");
                 setTimeout(function(){ location.reload() }, 2000);
             } else {
                 alertify.error("Error en al guardar el token")

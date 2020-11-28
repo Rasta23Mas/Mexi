@@ -276,7 +276,6 @@ class sqlMigracionDAO
                   '$idFechaVencAuto','$idTipoPoliza','$observacionesAuto','$descripcionCorta',
                   $idCheckTarjeta,$idCheckFactura,$idCheckINE,$idCheckImportacion,$idCheckTenecia,
                   $idCheckPoliza,$idCheckLicencia,$idCierreCaja,$sucursal)";
-            echo $insertaContrato;
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     $verdad = 1;
