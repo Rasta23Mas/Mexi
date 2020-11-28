@@ -2,7 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
-include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
+include_once(DESC_PATH . "modalDescTokenAutoMig.php");
 include_once(SQL_PATH . "sqlArticulosDAO.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -14,8 +14,6 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../../JavaScript/funcionesMigAuto.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
-    <script src="../../JavaScript/funcionesMovimiento.js"></script>
-    <script src="../../JavaScript/funcionesArticulos.js"></script>
     <script src="../../JavaScript/funcionesCalendario.js"></script>
     <script src="../../JavaScript/funcionNumerosLetras.js"></script>
 
@@ -391,7 +389,7 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
                 <table>
                     <tr>
                         <td align="right">
-                            <input type="button" class="btn btn-primary" value="Contrato" onclick="validateFormAuto()">&nbsp;
+                            <input type="button" class="btn btn-primary" value="Contrato" onclick="validateAutoMig()">&nbsp;
                         </td>
                     </tr>
                 </table>

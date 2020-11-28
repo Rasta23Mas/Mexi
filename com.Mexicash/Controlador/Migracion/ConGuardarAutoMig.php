@@ -26,7 +26,6 @@ $idAseguradora = $_POST['idAseguradora'];
 $idPoliza = $_POST['idPoliza'];
 $idFechaVencAuto = $_POST['idFechaVencAuto'];
 $idTipoPoliza = $_POST['idTipoPoliza'];
-$totalAvaluoLetra = $_POST['totalAvaluoLetra'];
 $observacionesAuto = $_POST['observacionesAuto'];
 $idCheckTarjeta = $_POST['idCheckTarjeta'];
 $idCheckFactura = $_POST['idCheckFactura'];
@@ -35,6 +34,8 @@ $idCheckImportacion = $_POST['idCheckImportacion'];
 $idCheckTenecia = $_POST['idCheckTenecia'];
 $idCheckPoliza = $_POST['idCheckPoliza'];
 $idCheckLicencia = $_POST['idCheckLicencia'];
+$idContratoMigSerie = $_POST['idContratoMigSerie'];
+$descripcionCorta = $_POST['descripcionCorta'];
 
 
 $sqlMig = new sqlMigracionDAO();
@@ -63,7 +64,6 @@ $idAseguradora,
 $idPoliza,
 $idFechaVencAuto,
 $idTipoPoliza,
-$totalAvaluoLetra,
 $observacionesAuto,
 $idCheckTarjeta,
 $idCheckFactura,
@@ -71,5 +71,5 @@ $idCheckINE,
 $idCheckImportacion,
 $idCheckTenecia,
 $idCheckPoliza,
-$idCheckLicencia
+$idCheckLicencia,$idContratoMigSerie,$descripcionCorta
 );

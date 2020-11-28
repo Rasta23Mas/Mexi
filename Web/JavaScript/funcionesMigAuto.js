@@ -1,6 +1,6 @@
 
 
-function validateFormAuto() {
+function validateAutoMig() {
 
     var validateForm = false;
     if($("#idTipoVehiculo").val()==0){
@@ -72,7 +72,7 @@ function validateFormAuto() {
     }
 }
 
-function tokenNuevoAuto() {
+function tokenNuevoAutoMig() {
     var tokenDes = $("#idCodigoAut").val();
     var dataEnviar = {
         "token": tokenDes
@@ -91,7 +91,7 @@ function tokenNuevoAuto() {
                 }
                 alertify.success("Código correcto.");
                 $("#tokenDescripcion").val(tokenDes);
-                generarContratoAuto();
+                fnContratoAutoMig();
             } else {
                 if (errorToken < 3) {
                     errorToken += 1;
@@ -104,7 +104,7 @@ function tokenNuevoAuto() {
     })
 }
 
-function generarContratoAuto() {
+function fnContratoAutoMig() {
     //FEErr02
     var chkTarjeta = 1;
     var chkFActura = 1;
@@ -140,8 +140,10 @@ function generarContratoAuto() {
     var idPoliza = $("#idPoliza").val();
     var idFechaVencAuto = $("#idFechaVencAuto").val();
     var idTipoPoliza = $("#idTipoPoliza").val();
-    var observacionesAuto = $("#observacionesAuto").val().trim()
-    var totalAvaluoLetra = NumeroALetras(idAvaluoMig);
+    var observacionesAuto = $("#idObservacionesAuto").val().trim();
+    var idContratoMigSerie = String(idContratoMig);
+    idContratoMigSerie = idContratoMigSerie.padStart(6, "0");
+    var descripcionCorta = idMarca + " " + idModelo + " " + idColor + " " + idFactura + " " + observacionesAuto;
     idPrestamoMig = Math.round(idPrestamoMig * 100) / 100;
     idAvaluoMig = Math.round(idAvaluoMig * 100) / 100;
     idVitrinaMig = Math.round(idVitrinaMig * 100) / 100;
@@ -171,7 +173,6 @@ function generarContratoAuto() {
         "idPoliza": idPoliza,
         "idFechaVencAuto": idFechaVencAuto,
         "idTipoPoliza": idTipoPoliza,
-        "totalAvaluoLetra": totalAvaluoLetra,
         "observacionesAuto": observacionesAuto,
         "idCheckTarjeta": chkTarjeta,
         "idCheckFactura": chkFActura,
@@ -180,14 +181,17 @@ function generarContratoAuto() {
         "idCheckTenecia": chkTenencia,
         "idCheckPoliza": chkPoliza,
         "idCheckLicencia": chkLicencia,
+        "idContratoMigSerie": idContratoMigSerie,
+        "descripcionCorta": descripcionCorta,
     };
     $.ajax({
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Migracion/ConGuardarAutoMig.php',
         type: 'post',
         success: function (contrato) {
+            alert(contrato)
             if (contrato > 0) {
-                BitacoraTokenEmpeno
+                BitacoraTokenEmpeno();
             } else {
                 alertify.error("Error al generar contrato. (FEErr02)");
             }
