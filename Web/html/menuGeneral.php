@@ -120,6 +120,7 @@ $_SESSION['dotaciones'] = 0;
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Migracion/vMigracion.php">Migración</a></li>
+                    <li><a class="dropdown-item" href="../Migracion/vAutoMigracion.php">Auto Migración</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCierre">
