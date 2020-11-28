@@ -820,4 +820,45 @@ class sqlReportesDAO
         echo json_encode($jsondata);
     }
 
+    public function sqlReporteBazarAuto($busqueda, $limit, $offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if ($busqueda == 1) {
+                $count = "SELECT COUNT(Baz.id_AutoBazar) as  totalCount 
+                        FROM auto_bazar_tbl as Baz
+                        WHERE tipo_movimiento!= 10 and Baz.sucursal=$sucursal";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            } else {
+                $BusquedaQuery = "SELECT DATE_FORMAT(fecha_creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
+                        vitrina_venta AS precio_venta, 
+                        descripcionCorta as Detalle
+                        FROM auto_bazar_tbl as Baz
+                        WHERE fisico= 1 AND HayMovimiento=0 AND Baz.sucursal=$sucursal
+                        LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                    OFFSET " . $this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while ($fila = $resultado->fetch_assoc()) {
+                    $jsondataperson = array();
+                    $jsondataperson["FECHA"] = $fila["FECHA"];
+                    $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
+                    $jsondataperson["id_serie"] = $fila["id_serie"];
+                    $jsondataperson["precio_venta"] = $fila["precio_venta"];
+                    $jsondataperson["Detalle"] = $fila["Detalle"];
+                    $jsondataList[] = $jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
+
 }

@@ -39,6 +39,8 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteCierreSucursal($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if ($tipoReporte == 27) {
     $sqlReportesDAO->sqlReporteEmpeno($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+}else if ($tipoReporte == 28) {
+    $sqlReportesDAO->sqlReporteBazarAuto($busqueda,$limit,$offset);
 }
 
 ?>

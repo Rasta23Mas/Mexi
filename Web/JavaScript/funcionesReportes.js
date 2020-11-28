@@ -190,6 +190,11 @@ function fnSelectReporte() {
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptEmpEmpeno.php');
+    }else if (reporte == 28) {
+        nameForm += "Bazar Auto"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = true;
+        $("#divRpt").load('rptEmpBazar.php');
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
@@ -203,7 +208,7 @@ function fnLlenarReporte() {
     var tipoReporte = $('#idTipoReporte').val();
 
     var busqueda = 1;
-    if (tipoReporte == 2||tipoReporte == 5||tipoReporte == 7) {
+    if (tipoReporte == 2||tipoReporte == 5||tipoReporte == 7||tipoReporte == 28) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
@@ -364,6 +369,8 @@ function fnCargaPagina(pagina){
             fnTBodySucursal(lista);
         }else if (tipoReporte==27){
             fnTBodyEmpeno(lista);
+        }else if (tipoReporte==28){
+            fnTBodyBazarAuto(lista);
         }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
@@ -1270,6 +1277,23 @@ function cargarRptFinIng(fechaIni, fechaFin, tipoReporte) {
         }
     );
     $("#divRptFinancieros").load('rptFinIngresos.php');
+}
+
+function fnTBodyBazarAuto(lista){
+    $("#idTBodyBazar").html("");
+
+    $.each(lista, function(ind, elem){
+        var venta = elem.precio_venta;
+        venta = formatoMoneda(venta)
+        $("<tr>"+
+            "<td>"+elem.FECHA+"</td>"+
+            "<td>"+elem.id_Contrato+"</td>"+
+            "<td>"+elem.id_serie+"</td>"+
+            "<td align='left'>"+elem.Detalle+"</td>"+
+            "<td align='right'>"+venta+"</td>"+
+            "<td><label>Migración</label></td>"+
+            "</tr>").appendTo($("#idTBodyBazar"));
+    });
 }
 
 function exportarFinanciero(tipoExportar) {
