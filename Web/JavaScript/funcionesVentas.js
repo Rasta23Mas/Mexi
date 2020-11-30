@@ -83,12 +83,13 @@ function busquedaCodigoMostrador(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
-        fnLlenaReport();
+        fnLlenaReportMostrador();
     }
 }
 
 //LLenar Reportes
-function fnLlenaReport() {
+function fnLlenaReportMostrador() {
+    alert("test");
     var idCodigo = $("#idCodigoMostrador").val();
     idCodigoMostradorGlb = idCodigo;
     var dataEnviar = {
@@ -369,7 +370,7 @@ function agregarCarrito(id_ArticuloBazar, precio_Enviado, empeno, cliente, vende
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
-                fnLlenaReport();
+                fnLlenaReportMostrador();
                 refrescarCarrito(precio_Enviado, empeno, tipoCarrito);
             } else {
                 alertify.error("Error al agregar el artículo.");
@@ -389,7 +390,7 @@ function eliminarDelCarrito(id_Ventas, precio_Enviado, prestamo) {
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
-                fnLlenaReport();
+                fnLlenaReportMostrador();
                 refrescarCarrito(precio_Enviado, prestamo, tipoCarrito);
             } else {
                 alertify.error("Error al eliminar el artículo.");
@@ -798,7 +799,7 @@ function fnBitPrecioMod() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                fnLlenaReport();
+                fnLlenaReportMostrador();
             } else {
                 alertify.error("Error en al conectar con el servidor.FnError04")
             }

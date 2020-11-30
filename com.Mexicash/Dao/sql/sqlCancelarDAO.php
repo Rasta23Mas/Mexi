@@ -39,11 +39,10 @@ class sqlCancelarDAO
                         Mov.e_costoContrato AS CostoContrato,Mov.tipo_movimiento AS MovimientoTipo
                         FROM contrato_mov_tbl Mov
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
+                        INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.tipo_movimiento  !=20 
                         AND Mov.tipo_movimiento  =$tipoMovimiento AND Mov.sucursal= $sucursal
-                        AND DATE_FORMAT(Mov.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaHoy' AND '$fechaHoy'";
-
+                        AND DATE_FORMAT(Mov.fecha_Movimiento,'%Y-%m-%d') = '$fechaHoy'";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -90,9 +89,10 @@ class sqlCancelarDAO
                         Mov.e_pagoDesempeno AS PagoMov, CONCAT(Con.tipoInteres, ' ' ,Con.periodo ,' ' ,Con.plazo) AS PlazoMov, Mov.e_costoContrato AS CostoContrato,Mov.tipo_movimiento AS MovimientoTipo
                         FROM contrato_mov_tbl Mov
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato 
-                        WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.sucursal= $sucursal AND Mov.tipo_movimiento  !=20 AND Mov.tipo_movimiento  =$tipoMovimiento OR Mov.tipo_movimiento  =21
-                                AND DATE_FORMAT(Mov.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaHoy' AND '$fechaHoy'";
+                        INNER JOIN contratos_tbl Con on Mov.id_Contrato = Con.id_Contrato AND Con.sucursal=$sucursal
+                        WHERE Mov.tipo_Contrato = $tipoContratoGlobal AND Mov.sucursal= $sucursal 
+                        AND Mov.tipo_movimiento  !=20 AND (Mov.tipo_movimiento  =$tipoMovimiento OR Mov.tipo_movimiento  =21)
+                        AND DATE_FORMAT(Mov.fecha_Movimiento,'%Y-%m-%d') = '$fechaHoy' ";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

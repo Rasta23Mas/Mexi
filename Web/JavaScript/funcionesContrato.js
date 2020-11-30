@@ -59,7 +59,7 @@ function tokenNuevo() {
                 $("#idToken").val(response);
                 // var token = parseInt(response);
                 var token = response;
-                if (token > 20) {
+                if (token > 90) {
                     alert("Los Token se estan terminando, favor de avisar al administrador");
                 }
                 alertify.success("Código correcto.");
