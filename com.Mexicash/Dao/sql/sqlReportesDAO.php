@@ -158,7 +158,7 @@ class sqlReportesDAO
             if ($busqueda == 1) {
                 $count = "SELECT COUNT(ConM.id_contrato) as  totalCount 
                         FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 )  
                         ORDER BY ConM.id_contrato";
@@ -176,7 +176,7 @@ class sqlReportesDAO
                         ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
                          ConM.pag_subtotal,  ConM.pag_total
                         FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 )  
                         ORDER BY ConM.id_contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 
