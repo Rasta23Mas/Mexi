@@ -70,8 +70,8 @@ foreach ($tablaArt as $row) {
     $vitrinaVenta = number_format($vitrinaVenta, 2, '.', ',');
 
     $tablaArticulos .= '<tr>
-                            <td><label class="letraGrande">' . $id_serie . '</label></td>
-                            <td><label class="letraGrande">' . $descripcionCorta . '</label></td>
+                            <td><label class="letraNormalNegrita">' . $id_serie . '</label></td>
+                            <td><label class="letraNormalNegrita">' . $descripcionCorta . '</label></td>
                             <td align="right"><label>$ ' . $vitrinaVenta . '</label></td>
                         </tr>';
 
@@ -84,25 +84,8 @@ $contenido = '<html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       .letraNormalNegrita{
-          font-size: .4em;
+          font-size: .6em;
           font-weight: bold;
-         }
-          .letraGrandeNegrita{
-          font-size: .5em;
-          font-weight: bold;
-         }
-          .letraChicaNegrita{
-          font-size: .3em;
-          font-weight: bold;
-         }
-          .letraNormal{
-          font-size: .4em;
-         }
-          .letraGrande{
-          font-size: .5em;
-         }
-          .letraChica{
-          font-size: .3em;
          }
          
         .tituloCelda{
@@ -116,7 +99,7 @@ $contenido .= '<table width="100%" border="0">
         <tbody>
         <tr>
         <td>
-         <table width="100%" border="0" class="letraGrandeNegrita">
+         <table width="100%" border="0" class="letraNormalNegrita">
                 <tr>
                     <td colspan="3" align="center">
                         <label>' . $NombreCasa . '</label>
