@@ -106,7 +106,15 @@ $dotaciones = $_SESSION['dotaciones'];
                     <li><a class="dropdown-item" href="../Configuracion/vHorario.php">Horario</a></li>
                 </ul>
             </li>
-
+            <li class="nav-item dropdown" id="menuCancelaciones">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    Administrador
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="../Admin/vCancelado.php">Cancelar</a></li>
+                </ul>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
