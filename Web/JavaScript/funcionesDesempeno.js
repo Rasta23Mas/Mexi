@@ -1262,7 +1262,11 @@ function BitacoraUsuarioRefrendoSinInteres() {
 }
 
 function verPDFDesempenoSinInteres(contratoGbl) {
-    window.open('../PDF/callPdfDesempenoSinInteres.php?pdf=1&contrato=' + contratoGbl);
+    if(GastosAdminGlb==1){
+        window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl +'&tipo=2');
+    }else{
+        window.open('../PDF/callPdfDesempenoSinInteres.php?pdf=1&contrato=' + contratoGbl);
+    }
 }
 
 //Alerta para confirmar la Eliminacion

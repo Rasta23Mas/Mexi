@@ -1159,7 +1159,11 @@ function BitacoraUsuarioRefrendo() {
 
 //Generar PDF
 function verPDFRefrendo(contratoGbl) {
-    window.open('../PDF/callPdfRefrendo.php?pdf=1&contrato=' + contratoGbl);
+    if(GastosAdminGlb==1){
+        window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl +'&tipo=1');
+    }else{
+        window.open('../PDF/callPdfRefrendo.php?pdf=1&contrato=' + contratoGbl);
+    }
 }
 
 //Alerta para confirmar la Eliminacion
