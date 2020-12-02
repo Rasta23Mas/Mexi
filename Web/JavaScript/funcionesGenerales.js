@@ -254,3 +254,6 @@ function fnCierreCajaIndispensable(estatus,user,tipo) {
 //var  recargar = setTimeout(function(){ location.reload() }, 3000);
 //onclick String
 //onclick="verFotosContrato(\'' + id_serie + '\')
+
+//REHACER EN PHPSTORM
+//CRTL + MAYUS + Z

@@ -152,7 +152,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                             <input id="idCodigoMostrador" name="codigo" type="text" style="width: 130px" value=""
                                    onkeypress="return busquedaCodigoMostrador(event)"/>
                             &nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="fnLlenaReport()">&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="fnLlenaReportMostrador()">&nbsp;
                         </td>
                         <td colspan="8">
 

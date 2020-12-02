@@ -89,7 +89,6 @@ function busquedaCodigoMostrador(e) {
 
 //LLenar Reportes
 function fnLlenaReportMostrador() {
-    alert("test");
     var idCodigo = $("#idCodigoMostrador").val();
     idCodigoMostradorGlb = idCodigo;
     var dataEnviar = {

@@ -10,6 +10,11 @@ var idFaltaPagarGlb = 0;
 var idIvaGlb = 0;
 var idTokenGLb = 0;
 
+var paginadorGlb;
+var totalPaginasGlb;
+var itemsPorPaginaGlb = 20;
+var numerosPorPaginaGlb = 4;
+var idCodigoMostradorGlb = 0;
 function buscaridBazarApartado() {
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Ventas/ConBuscarIdBazar.php',
@@ -71,10 +76,208 @@ function busquedaCodigoApartado(e) {
     var te;
     te = String.fromCharCode(tecla);
     if (e.keyCode == 13 && !e.shiftKey) {
-        busquedaCodigoApartadoBoton(1);
+        fnLlenaReportApartado();
     }
 }
 
+//LLenar Reportes
+function fnLlenaReportApartado() {
+    var idCodigo = $("#idCodigoApartado").val();
+    idCodigoMostradorGlb = idCodigo;
+    var dataEnviar = {
+        "idCodigo": idCodigoMostradorGlb,
+        "tipo": 1,
+        "limit": 0,
+        "offset": 0,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigoApartados.php',
+        data: dataEnviar,
+        dataType: "json"
+    }).done(function (data, textStatus, jqXHR) {
+        var total = data.totalCount;
+
+        if(total==0){
+            alert("Sin resultados en la busqueda.")
+        }else{
+            fnCreaPaginadorApartado(total);
+        }
+    }).fail(function (jqXHR, textStatus, textError) {
+        alert("Error al realizar la peticion cuantos".textError);
+
+    });
+}
+
+
+function fnCreaPaginadorApartado(totalItems) {
+    $("#paginador").html("");
+    paginadorGlb = $(".pagination");
+    totalPaginasGlb = Math.ceil(totalItems/itemsPorPaginaGlb);
+
+    $('<li><a href="#" class="first_link"><</a></li>').appendTo(paginadorGlb);
+    $('<li><a href="#" class="prev_link">«</a></li>').appendTo(paginadorGlb);
+
+    var pag = 0;
+    while(totalPaginasGlb > pag)
+    {
+        $('<li><a href="#" class="page_link">'+(pag+1)+'</a></li>').appendTo(paginadorGlb);
+        pag++;
+    }
+
+    if(numerosPorPaginaGlb > 1)
+    {
+        $(".page_link").hide();
+        $(".page_link").slice(0,numerosPorPaginaGlb).show();
+    }
+
+    $('<li><a href="#" class="next_link">»</a></li>').appendTo(paginadorGlb);
+    $('<li><a href="#" class="last_link">></a></li>').appendTo(paginadorGlb);
+
+    paginadorGlb.find(".page_link:first").addClass("active");
+    paginadorGlb.find(".page_link:first").parents("li").addClass("active");
+
+    paginadorGlb.find(".prev_link").hide();
+
+    paginadorGlb.find("li .page_link").click(function()
+    {
+        var irpagina =$(this).html().valueOf()-1;
+        fnCargaPaginaApartado(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .first_link").click(function()
+    {
+        var irpagina =0;
+        fnCargaPaginaApartado(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .prev_link").click(function()
+    {
+        var irpagina =parseInt(paginadorGlb.data("pag")) -1;
+        fnCargaPaginaApartado(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .next_link").click(function()
+    {
+        var irpagina =parseInt(paginadorGlb.data("pag")) +1;
+        fnCargaPaginaApartado(irpagina);
+        return false;
+    });
+
+    paginadorGlb.find("li .last_link").click(function()
+    {
+        var irpagina =totalPaginasGlb -1;
+        fnCargaPaginaApartado(irpagina);
+        return false;
+    });
+
+    fnCargaPaginaApartado(0);
+
+}
+
+function fnCargaPaginaApartado(pagina){
+    var desde = pagina * itemsPorPaginaGlb;
+    var dataEnviar = {
+        "idCodigo": idCodigoMostradorGlb,
+        "tipo": 2,
+        "limit": itemsPorPaginaGlb,
+        "offset": desde,
+    };
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigoApartados.php',
+        data: dataEnviar,
+        dataType: "json"
+    }).done(function (data, textStatus, jqXHR) {
+        var lista = data.lista;
+        $("#idTBodyMetales").html("");
+        $.each(lista, function(ind, elem){
+            var prestamoCon = elem.prestamo;
+            var avaluoCon = elem.avaluo;
+            var vitrinaVentaCon = elem.vitrinaVenta;
+
+            var id_ArticuloBazar = elem.id_ArticuloBazar;
+            var empeno = prestamoCon;
+            var precio_Actual =vitrinaVentaCon;
+            prestamoCon = formatoMoneda(prestamoCon);
+            avaluoCon = formatoMoneda(avaluoCon);
+            vitrinaVentaCon = formatoMoneda(vitrinaVentaCon);
+            var desc = elem.descripcionCorta;
+            var obs = elem.observaciones;
+            var descripcion = desc + " " + obs;
+
+
+            $("<tr>"+
+                "<td>"+elem.id_Contrato+"</td>"+
+                "<td>"+id_ArticuloBazar+"</td>"+
+                "<td>"+elem.id_serie+"</td>"+
+                "<td>"+elem.Adquisicion+"</td>"+
+                "<td align='right'>"+prestamoCon+"</td>"+
+                "<td align='right'>"+avaluoCon+"</td>"+
+                "<td align='right'>"+vitrinaVentaCon+"</td>"+
+                "<td>"+descripcion+"</td>"+
+                '<td align="center">' +
+                '<img src="../../style/Img/carritoNor.png"  data-dismiss="modal" alt="Agregar"' +
+                'onclick="validarCarrito(' + id_ArticuloBazar + ',' + precio_Actual + ',' + empeno + ')"> ' +
+                '</td>' +
+                '<td align="center">' +
+                '<img src="../../style/Img/editarNor.jpg"  data-dismiss="modal" alt="Agregar"' +
+                'onclick="fnModalPrecio(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
+                '</td>'+
+                "</tr>").appendTo($("#idTBodyMetales"));
+        });
+
+    }).fail(function (jqXHR, textStatus, textError) {
+        alert("Error al realizar la peticion cuantos".textError);
+    });
+
+    if(pagina >= 1)
+    {
+        paginadorGlb.find(".prev_link").show();
+
+    }
+    else
+    {
+        paginadorGlb.find(".prev_link").hide();
+    }
+
+
+    if(pagina <(totalPaginasGlb- numerosPorPaginaGlb))
+    {
+        paginadorGlb.find(".next_link").show();
+    }else
+    {
+        paginadorGlb.find(".next_link").hide();
+    }
+
+    paginadorGlb.data("pag",pagina);
+
+    if(numerosPorPaginaGlb>1)
+    {
+        $(".page_link").hide();
+        if(pagina < (totalPaginasGlb- numerosPorPaginaGlb))
+        {
+            $(".page_link").slice(pagina,numerosPorPaginaGlb + pagina).show();
+        }
+        else{
+            if(totalPaginasGlb > numerosPorPaginaGlb)
+                $(".page_link").slice(totalPaginasGlb- numerosPorPaginaGlb).show();
+            else
+                $(".page_link").slice(0).show();
+
+        }
+    }
+
+    paginadorGlb.children().removeClass("active");
+    paginadorGlb.children().eq(pagina+2).addClass("active");
+
+
+}
+
+/*
 function busquedaCodigoApartadoBoton(tipoBusqueda) {
     var idCodigo = $("#idCodigoApartado").val();
     var dataEnviar = {
@@ -83,10 +286,11 @@ function busquedaCodigoApartadoBoton(tipoBusqueda) {
     };
     $.ajax({
         data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigo.php',
+        url: '../../../com.Mexicash/Controlador/Ventas/busquedaCodigoApartados.php',
         type: 'post',
-        dataType: "json",
+        //dataType: "json",
         success: function (datos) {
+            alert(datos)
             if (datos.length > 0) {
                 var html = '';
                 var i = 0;
@@ -127,7 +331,7 @@ function busquedaCodigoApartadoBoton(tipoBusqueda) {
             }
         }
     });
-}
+}*/
 
 //Carrito
 function validarCarrito(id_ArticuloBazar, precio_Enviado,empeno) {
@@ -170,7 +374,7 @@ function agregarCarrito(id_ArticuloBazar, precio_Enviado,empeno, cliente) {
         type: 'post',
         success: function (respuesta) {
             if (respuesta == 1) {
-                busquedaCodigoApartadoBoton(3);
+                fnLlenaReportApartado();
                 refrescarCarrito(precio_Enviado, empeno,tipoCarrito);
             } else {
                 alertify.error("Error al agregar el artículo.");

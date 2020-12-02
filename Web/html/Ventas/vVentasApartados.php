@@ -150,10 +150,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                             <input id="idCodigoApartado" name="codigo" type="text" style="width: 130px" value=""
                                    onkeypress="return busquedaCodigoApartado(event)"/>
                             &nbsp;&nbsp;
-                            <input type="button" class="btn btn-primary" value="Buscar Codigo" id="btnBuscarCodigo"
-                                   onclick="busquedaCodigoApartadoBoton(1))">&nbsp;
-                            <input type="button" class="btn btn-success" value="Buscar Contrato" id="btnBuscarContrato"
-                                   onclick="busquedaCodigoApartadoBoton(2)">&nbsp;
+                            <input type="button" class="btn btn-primary" value="Buscar" id="btnBuscarCodigo" onclick="fnLlenaReportApartado()">&nbsp;
+
                         </td>
                         <td colspan="4">
                             <br>

@@ -73,47 +73,53 @@ class sqlVentasDAO
         echo $idBazar;
     }
 
-    function busquedaApartados($codigo)
+    public function sqlBusquedaCodigoApartados($idCodigo,$tipo,$limit,$offset)
     {
-        //Modifique los estatus de usuario
-        $datos = array();
         try {
             $sucursal = $_SESSION["sucursal"];
-
-            $buscar = "SELECT Baz.id_Contrato,Baz.id_Bazar,Baz.id_serie ,ART.descripcionCorta,
-                        ART.observaciones, Baz.prestamo_Empeno,ART.avaluo,
-                        Baz.precio_venta
-                        FROM contrato_mov_baz_tbl as Baz
-                        LEFT JOIN articulo_tbl AS ART on Baz.id_Articulo = ART.id_Articulo 
-                        WHERE Baz.id_serie like '$codigo%' AND Baz.sucursal=$sucursal
-                        and Baz.id_serie not in 
-                        (select id_serie FROM contrato_mov_baz_tbl 
-                        where sucursal=$sucursal AND tipo_movimiento = 6 || tipo_movimiento = 20 || tipo_movimiento = 22 
-                        || tipo_movimiento = 23 )";
-            $rs = $this->conexion->query($buscar);
-            if ($rs->num_rows > 0) {
-
-                while ($row = $rs->fetch_assoc()) {
-                    $data = [
-                        "id_Bazar" => $row["id_Bazar"],
-                        "id_ContratoApartado" => $row["id_Contrato"],
-                        "id_serieApartado" => $row["id_serie"],
-                        "descripcionCorta" => $row["descripcionCorta"],
-                        "observaciones" => $row["observaciones"],
-                        "empeno" => $row["prestamo_Empeno"],
-                        "avaluo" => $row["avaluo"],
-                        "precio_venta" => $row["precio_venta"],
-                    ];
-                    array_push($datos, $data);
+            $jsondata = array();
+            if ($tipo == 1) {
+                $count = "SELECT COUNT(id_ArticuloBazar) as  totalCount 
+                         FROM articulo_bazar_tbl AS ART 
+                         WHERE (ART.id_serie like '%$idCodigo%' OR ART.id_Contrato='$idCodigo%') 
+                         AND ART.sucursal=$sucursal AND ART.HayMovimiento = 0  ";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            } else {
+                $BusquedaQuery = "SELECT id_Contrato,id_ArticuloBazar,id_serie ,ADQ.descripcion AS Adquisicion,
+                        prestamo, avaluo,vitrinaVenta, descripcionCorta,observaciones
+                        FROM articulo_bazar_tbl AS ART 
+                        LEFT JOIN cat_adquisicion as ADQ on ART.id_serieTipo = ADQ.id_Adquisicion
+                        WHERE (ART.id_serie like '%$idCodigo%' OR ART.id_Contrato='$idCodigo%') 
+                        AND ART.sucursal=$sucursal AND ART.HayMovimiento = 0 ORDER BY ART.id_contrato
+                        LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                    OFFSET " . $this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while ($fila = $resultado->fetch_assoc()) {
+                    $jsondataperson = array();
+                    $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
+                    $jsondataperson["id_ArticuloBazar"] = $fila["id_ArticuloBazar"];
+                    $jsondataperson["id_serie"] = $fila["id_serie"];
+                    $jsondataperson["Adquisicion"] = $fila["Adquisicion"];
+                    $jsondataperson["prestamo"] = $fila["prestamo"];
+                    $jsondataperson["avaluo"] = $fila["avaluo"];
+                    $jsondataperson["vitrinaVenta"] = $fila["vitrinaVenta"];
+                    $jsondataperson["descripcionCorta"] = $fila["descripcionCorta"];
+                    $jsondataperson["observaciones"] = $fila["observaciones"];
+                    $jsondataList[] = $jsondataperson;
                 }
+                $jsondata["lista"] = array_values($jsondataList);
             }
         } catch (Exception $exc) {
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
-        echo json_encode($datos);
+
+        echo json_encode($jsondata);
     }
+
 
     function busquedaApartadosCliente($id_ClienteGlb)
     {
