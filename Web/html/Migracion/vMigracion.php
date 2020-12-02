@@ -18,6 +18,7 @@ $sucursal = $_SESSION['sucursal'];
     <title>Migración</title>
     <!--Funciones-->
     <script src="../../JavaScript/funcionesMigracion.js"></script>
+    <script src="../../JavaScript/funcionesCatalogos.js"></script>
     <script src="../../JavaScript/funcionesIntereses.js"></script>
     <script src="../../JavaScript/funcionesVendedor.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>

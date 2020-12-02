@@ -603,7 +603,7 @@ function fnTokenMig() {
                 idTokenGlb = response;
                 idTokenDescGlb = tokenDes;
                 var token = response;
-                if (token > 20) {
+                if (token > 90) {
                     alert("Los Token se estan terminando, favor de avisar al administrador");
                 }
                 alertify.success("Código correcto.");
@@ -651,7 +651,8 @@ function fnUpdateTokenMig() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                alert("Se guardaron correctamente en bazar.")
+                alert("Se guardaron correctamente en bazar.");
+                location.reload();
             } else {
                 alertify.error("Error en al conectar con el servidor.")
             }
