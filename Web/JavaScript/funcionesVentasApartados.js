@@ -225,7 +225,7 @@ function fnCargaPaginaApartado(pagina){
                 '</td>' +
                 '<td align="center">' +
                 '<img src="../../style/Img/editarNor.jpg"  data-dismiss="modal" alt="Agregar"' +
-                'onclick="fnModalPrecio(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
+                'onclick="fnModalPrecioApart(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
                 '</td>'+
                 "</tr>").appendTo($("#idTBodyMetales"));
         });
@@ -274,6 +274,16 @@ function fnCargaPaginaApartado(pagina){
     paginadorGlb.children().removeClass("active");
     paginadorGlb.children().eq(pagina+2).addClass("active");
 
+
+}
+
+function fnModalPrecioApart(id_ArticuloBazar, precio_Actual) {
+    precioAnteriorGlb = precio_Actual;
+    precio_Actual = formatoMoneda(precio_Actual);
+    $("#idPrecioActual").val(precio_Actual);
+    $("#idPrecioMod").val(0);
+    $("#idArticulo").val(id_ArticuloBazar);
+    $("#modalPrecioVenta").modal();
 
 }
 
@@ -608,6 +618,7 @@ function validaApartado() {
 }
 
 function guardarApartado() {
+    //FnErr01
     var efectivo = $("#idEfectivoValue").val();
     var subtotal = $("#idSubTotalValue").val();
     var iva = $("#idIvaValue").val();
@@ -641,7 +652,7 @@ function guardarApartado() {
                 idBazarGlb = idBazar;
                 ArticulosUpdateVenta()
             } else {
-                alertify.error("Error en al conectar con el servidor.");
+                alertify.error("Error en al conectar con el servidor.(FnErr01)");
             }
         },
     })
@@ -649,6 +660,7 @@ function guardarApartado() {
 }
 
 function ArticulosUpdateVenta() {
+    //FnErr02
     var dataEnviar = {
         "idBazar": idBazarGlb,
         "tipo_movimiento": tipo_movimientoGlb,
@@ -662,15 +674,17 @@ function ArticulosUpdateVenta() {
             if (response > 0) {
                 alertify.success("Artículos actualizados correctamente.")
                 fnCierreCajaIndispensable(1,0,0);
+                verPDFApartado(idBazarGlb);
                 fnBitacoraVenta();
             } else {
-                alertify.error("Error en al conectar con el servidor.")
+                alertify.error("Error en al conectar con el servidor.(FnErr02)")
             }
         }
     });
 }
 
 function fnBitacoraVenta() {
+    //FnErr02
     var dataEnviar = {
         "id_Movimiento": tipo_movimientoGlb,
         "id_bazar": idBazarGlb,
@@ -684,9 +698,9 @@ function fnBitacoraVenta() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                verPDFApartado(idBazarGlb);
+                alertify.success("Bitacora guardada correctamente.")
             } else {
-                alertify.error("Error en al conectar con el servidor.")
+                alertify.error("Error en al conectar con el servidor.(FnErr03)")
             }
         }
     });
@@ -703,4 +717,57 @@ function fnRecargarApartado() {
 }
 function configurarRango() {
     alert("configuración")
+}
+
+
+function editarPrecio() {
+    var idPrecioMod = $("#idPrecioMod").val();
+    var idArticulo = $("#idArticulo").val();
+    var idCodigoAutMod = $("#idCodigoAutMod").val();
+
+    precioModGlb = idPrecioMod;
+    idArticuloGlb = idArticulo;
+    idTokenGLb = idCodigoAutMod;
+    var dataEnviar = {
+        "idPrecioMod": idPrecioMod,
+        "idArticulo": idArticulo,
+        "idCodigoAutMod": idCodigoAutMod,
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Ventas/TokenVentaModPrecio.php',
+        type: 'post',
+        success: function (respuesta) {
+            if (respuesta != 0) {
+                alert("Se modifico correctamente el precio.");
+                fnBitPrecioModApar();
+            } else {
+                alertify.error("El artículo ya esta en el carrito de compras.");
+            }
+        },
+    })
+
+}
+
+
+function fnBitPrecioModApar() {
+    var dataEnviar = {
+        "precioAnteriorGlb": precioAnteriorGlb,
+        "precioModGlb": precioModGlb,
+        "idArticuloGlb": idArticuloGlb,
+        "idTokenGLb": idTokenGLb,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../../../com.Mexicash/Controlador/Bitacora/ConBitPrecioMod.php',
+        data: dataEnviar,
+        success: function (response) {
+            if (response > 0) {
+                fnLlenaReportApartado();
+            } else {
+                alertify.error("Error en al conectar con el servidor.FnError04")
+            }
+        }
+    });
 }
