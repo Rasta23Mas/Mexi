@@ -36,6 +36,7 @@ function validarMonto() {
     if (validate) {
         totalPrestamo = Number(totalPrestamo);
         montoToken = Number(montoToken);
+        alert("El total de prestamo es de : " + totalPrestamo + " y el monto permitido es: " + montoToken);
         if(totalPrestamo>=montoToken){
             tokenBitacora =1;
             $("#modalDescuento").modal();
