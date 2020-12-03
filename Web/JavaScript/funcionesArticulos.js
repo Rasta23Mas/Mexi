@@ -35,6 +35,7 @@ function Limpiar() {
     $("#idPiedras").val(0);
     $("#idPesoPiedra").val(0);
     idArticuloGlb = 0;
+    $("#idTotalPrestamo").val(0);
     $("#idCantidad").prop('disabled', false);
     $("#idPeso").prop('disabled', false);
     $("#idPiedras").prop('disabled', false);
@@ -485,6 +486,9 @@ function eliminarArticulo($idArticulo) {
                 cargarTablaArticulo();
                 $("#divTablaArticulos").load('tablaArticulos.php');
                 alertify.success("Eliminado con éxito.");
+                if(idArticuloGlb==0){
+                    $("#idTotalPrestamo").val(0);
+                }
             } else {
                 alertify.error("Error al eliminar articulo.");
             }
@@ -507,6 +511,9 @@ function eliminarMetales($idArticulo) {
                 cargarTablaMetales();
                 $("#divTablaMetales").load('tablaMetales.php');
                 alertify.success("Eliminado con éxito.");
+                if(idArticuloGlb==0){
+                    $("#idTotalPrestamo").val(0);
+                }
             } else {
                 alertify.error("Error al eliminar articulo.");
             }

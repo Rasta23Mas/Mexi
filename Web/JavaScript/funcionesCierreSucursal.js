@@ -753,6 +753,7 @@ function actualizarBazar() {
         dataType: "json",
         success: function (response) {
             if (response > 0) {
+                cargarPDFCaja();
                 alertify.success("Se actualizaron en bazar los articulos.")
                 BitacoraUsuarioCierreSucursal();
             }
@@ -788,7 +789,6 @@ function BitacoraUsuarioCierreSucursal() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                cargarPDFCaja()
                 var tipoSesion = $("#idTipoSesion").val();
                 if (tipoSesion == 4) {
                     cerrarSesion();
