@@ -173,7 +173,10 @@ function cargarTablaContrato(idContratoBusqueda) {
                 var Plazo = datos[i].Plazo;
                 var CostoContrato = datos[i].CostoContrato;
                 var MovimientoTipo = datos[i].MovimientoTipo;
-
+                var tipoReporte = 0;
+                if (CostoContrato > 0) {
+                    tipoReporte = 1;
+                }
 
                 Prestamo = formatoMoneda(Prestamo);
                 Abono = formatoMoneda(Abono);
@@ -202,7 +205,7 @@ function cargarTablaContrato(idContratoBusqueda) {
                     '<img src="../../style/Img/seleccionarNor.png"  alt="Seleccionar"  onclick="cargarTablaDetalleNombre(' + Contrato + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ',' + tipoReporte + ')">' +
                     '</td>';
                 if (tipoContratoGlobal == 2) {
                     htmlAuto = '<td align="center"> ' +
@@ -263,7 +266,7 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                         var Vehiculo = datos[i].Vehiculo;
                         var Anio = datos[i].Anio;
                         var ColorAuto = datos[i].ColorAuto;
-                         Obs = datos[i].Obs;
+                        Obs = datos[i].Obs;
                         Serie = datos[i].Serie;
                         var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto;
                         html += '<tr align="center">' +
@@ -278,9 +281,9 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                             '</tr>';
                     } else {
                         var serieArticulo = datos[i].id_SerieArticulo;
-                         Serie = datos[i].Serie;
+                        Serie = datos[i].Serie;
                         var DescripcionCorta = datos[i].DescripcionCorta;
-                         Obs = datos[i].Obs;
+                        Obs = datos[i].Obs;
                         html += '<tr align="center">' +
                             '<td>' + idContratoBusqueda + '</td>' +
                             '<td>' + serieArticulo + '</td>' +
@@ -338,7 +341,11 @@ function cargarTablaNombre() {
                 var MovimientoTipo = datos[i].MovimientoTipo;
                 var ContratoReimprimir = Contrato;
                 var MovimientoReimprimir = idMovimiento;
+                var tipoReporte = 0;
 
+                if (CostoContrato > 0) {
+                    tipoReporte = 1;
+                }
                 Prestamo = formatoMoneda(Prestamo);
                 Abono = formatoMoneda(Abono);
                 Interes = formatoMoneda(Interes);
@@ -365,7 +372,7 @@ function cargarTablaNombre() {
                     '<img src="../../style/Img/seleccionarNor.png"   alt="Seleccionar"  onclick="cargarTablaDetalleNombre(' + Contrato + ')">' +
                     '</td>' +
                     '<td align="center">' +
-                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
+                    '<img src="../../style/Img/impresoraNor.png"  alt="Imprimir" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ',' + tipoReporte + ')">' +
                     '</td>';
                 if (tipoContratoGlobal == 2) {
                     htmlAuto = '<td align="center"> ' +
@@ -440,7 +447,11 @@ function cargarTablaFechas() {
                     var Plazo = datos[i].Plazo;
                     var CostoContrato = datos[i].CostoContrato;
                     var MovimientoTipo = datos[i].MovimientoTipo;
+                    var tipoReporte = 0;
 
+                    if (CostoContrato > 0) {
+                        tipoReporte = 1;
+                    }
                     var ContratoReimprimir = Contrato;
                     var MovimientoReimprimir = idMovimiento;
 
@@ -470,7 +481,7 @@ function cargarTablaFechas() {
                         '<img src="../../style/Img/seleccionarNor.png"  data-dismiss="modal" alt="Seleccionar"  onclick="buscarDatosPorFecha(' + Contrato + ')">' +
                         '</td>' +
                         '<td align="center">' +
-                        '<img src="../../style/Img/impresoraNor.png"  data-dismiss="modal" alt="impromor" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ')">' +
+                        '<img src="../../style/Img/impresoraNor.png"  data-dismiss="modal" alt="impromor" onclick="reimprimir(' + MovimientoTipo + ',' + idMovimiento + ',' + Contrato + ',' + tipoReporte + ')">' +
                         '</td>';
                     if (tipoContratoGlobal == 2) {
                         htmlAuto = '<td align="center"> ' +
@@ -547,17 +558,26 @@ function LimpiarConsulta() {
     $("#divDetallesContrato").load('tablaDetalleContrato.php');
 }
 
-function reimprimir(tipoMovimiento, idMovimiento, Contrato) {
+function reimprimir(tipoMovimiento, idMovimiento, Contrato, tipoReporte) {
     ContratoReimprimir = Contrato;
     if (tipoMovimiento == 3) {
         //3 = Empeño
         window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir + '&reimpresion=1');
     } else if (tipoMovimiento == 4) {
         //4 = Refrendo
-        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
+        if (tipoReporte == 0) {
+            window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
+        } else {
+            window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=1');
+        }
+
     } else if (tipoMovimiento == 5) {
         //5 = Desempeño
-        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
+        if (tipoReporte == 0) {
+            window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
+        } else {
+            window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=2');
+        }
     } else if (tipoMovimiento == 6) {
         //6 = Vent8a
     } else if (tipoMovimiento == 7) {
@@ -565,10 +585,18 @@ function reimprimir(tipoMovimiento, idMovimiento, Contrato) {
         window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir + '&reimpresion=1');
     } else if (tipoMovimiento == 8) {
         //8 = Refrendo Auto
-        window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
+        if (tipoReporte == 0) {
+            window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
+        } else {
+            window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=1');
+        }
     } else if (tipoMovimiento == 9) {
         //9 = Desempeño Auto
-        window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
+        if (tipoReporte == 0) {
+            window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
+        } else {
+            window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=2');
+        }
     } else if (tipoMovimiento == 10) {
         //10 = Venta Auto
     } else if (tipoMovimiento == 21) {
@@ -632,5 +660,5 @@ function BitacoraUsuarioConsulta(contrato, clienteEmpeno, BitFechaIni, BitFechaF
 }
 
 function verFotosContrato(Serie) {
-    location.href = '../ImagenContrato/vImagenesContrato.php?tipo=1&articulo=' + Serie ;
+    location.href = '../ImagenContrato/vImagenesContrato.php?tipo=1&articulo=' + Serie;
 }
