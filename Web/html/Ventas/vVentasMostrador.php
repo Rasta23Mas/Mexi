@@ -3,9 +3,9 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
-include_once(CLI_PATH . "modalRegistroCliente.php");
-include_once(CLI_PATH . "modalBusquedaCliente.php");
-include_once(CLI_PATH . "modalEditarCliente.php");
+include_once(VENT_PATH . "modalRegCliVen.php");
+include_once(VENT_PATH . "modalBusClienteVen.php");
+include_once(VENT_PATH . "modalEditCliVen.php");
 include_once(VENT_PATH . "modalDescuentoVenta.php");
 include_once(VENT_PATH . "modalPrecioVenta.php");
 include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
@@ -21,9 +21,6 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
     <script src="../../JavaScript/funcionesCliente.js"></script>
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script src="../../JavaScript/funcionesVentas.js"></script>
-
-
-
 
     <script type="application/javascript">
         $(document).ready(function () {
@@ -82,6 +79,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
         .tablaArticulos{
             font-size: .9em;
         }
+
     </style>
 </head>
 <body>
@@ -102,7 +100,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                                    value="Agregar">
                             <input type="button" class="btn btn-warning "
                                    data-toggle="modal" data-target="#modalEditarNuevo" id="btnEditar"
-                                   value="Editar" onclick="modalEditarCliente($('#idClienteEmpeno').val())" disabled>
+                                   value="Editar" onclick="modalEditarCliente($('#idClienteSeleccion').val())" disabled>
                             <input type="button" class="btn btn-primary "
                                    data-toggle="modal" data-target="#modalBusquedaCliente"
                                    onclick="mostrarTodos($('#idNombres').val())"
