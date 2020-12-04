@@ -1003,25 +1003,25 @@ function exportar(expor) {
                 }
             }else if (tipoReporte == 10) {
                 if(expor==1){
-                    window.open('../Excel/rpt_Exc_Ingresos.php?sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }else{
 
                 }
             }else if (tipoReporte == 11) {
                 if(expor==1){
-                    window.open('../Excel/rpt_Exc_Corporativo.php?sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_Corporativo.phpfechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }else{
 
                 }
             }else if (tipoReporte == 23) {
                 if(expor==1){
-                    window.open('../Excel/rpt_Exc_Caja.php?sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_Caja.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }else{
 
                 }
             }else if (tipoReporte == 24) {
                 if(expor==1){
-                    window.open('../Excel/rpt_Exc_Sucursal.php?sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_Sucursal.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }else{
 
                 }
