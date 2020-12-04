@@ -737,6 +737,7 @@ function guardarBazar() {
                 alert("Error al guardar bazar")
             } else if (response == 0) {
                 BitacoraUsuarioCierreSucursal();
+                cargarPDFCaja();
             } else {
                 alertify.success("Se guardaron en bazar los articulos.")
                 actualizarBazar();
