@@ -609,22 +609,68 @@ function fnTBodyInventario(lista){
 }
 function fnTBodyVentas(lista){
     $("#idTBodyVentas").html("");
-
+    var Total_SubTotal = 0;
+    var Total_Descuent = 0;
+    var Total_TotalVenta = 0;
+    var Total_TotalPrestamo = 0;
+    var Total_Utilidad = 0;
     $.each(lista, function(ind, elem){
-        var venta = elem.precio_venta;
-        var descuento = elem.descuento_Venta;
-        venta = formatoMoneda(venta);
-        descuento = formatoMoneda(descuento);
+        var subTotal = elem.subTotal;
+        var descuento_Venta = elem.descuento_Venta;
+        var total = elem.total;
+        var totalPrestamo = elem.totalPrestamo;
+        var utilidad = elem.utilidad;
+
+        subTotal = parseFloat(subTotal);
+        descuento_Venta = parseFloat(descuento_Venta);
+        total = parseFloat(total);
+        totalPrestamo = parseFloat(totalPrestamo);
+        utilidad = parseFloat(utilidad);
+
+        Total_SubTotal = Total_SubTotal+ subTotal;
+        Total_Descuent = Total_Descuent+ descuento_Venta;
+        Total_TotalVenta = Total_TotalVenta+ total;
+        Total_TotalPrestamo = Total_TotalPrestamo+ totalPrestamo;
+        Total_Utilidad = Total_Utilidad+ utilidad;
+        subTotal = formatoMoneda(subTotal);
+        descuento_Venta = formatoMoneda(descuento_Venta);
+        total = formatoMoneda(total);
+        totalPrestamo = formatoMoneda(totalPrestamo);
+        utilidad = formatoMoneda(utilidad);
+
         $("<tr>"+
+            "<td>"+elem.id_Bazar+"</td>"+
             "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td align='right'>"+descuento+"</td>"+
-            "<td>"+elem.CatDesc+"</td>"+
+            "<td align='right'>"+subTotal+"</td>"+
+            "<td align='right'>"+descuento_Venta+"</td>"+
+            "<td align='right'>"+total+"</td>"+
+            "<td align='right'>"+totalPrestamo+"</td>"+
+            "<td align='right'>"+utilidad+"</td>"+
+            "<td>"+elem.usuario+"</td>"+
             "</tr>").appendTo($("#idTBodyVentas"));
     });
+    Total_SubTotal = parseFloat(Total_SubTotal);
+    Total_Descuent = parseFloat(Total_Descuent);
+    Total_TotalVenta = parseFloat(Total_TotalVenta);
+    Total_TotalPrestamo = parseFloat(Total_TotalPrestamo);
+    Total_Utilidad = parseFloat(Total_Utilidad);
+
+    Total_SubTotal = formatoMoneda(Total_SubTotal);
+    Total_Descuent = formatoMoneda(Total_Descuent);
+    Total_TotalVenta = formatoMoneda(Total_TotalVenta);
+    Total_TotalPrestamo = formatoMoneda(Total_TotalPrestamo);
+    Total_Utilidad = formatoMoneda(Total_Utilidad);
+
+    $("<tr>"+
+        "<td></td>"+
+        "<td>TOTALES</td>"+
+        "<td>"+Total_SubTotal+"</td>"+
+        "<td>"+Total_Descuent+"</td>"+
+        "<td>"+Total_TotalVenta+"</td>"+
+        "<td>"+Total_TotalPrestamo+"</td>"+
+        "<td>"+Total_Utilidad+"</td>"+
+        "<td></td>"+
+        "</tr>").appendTo($("#idTBodyVentas"));
 }
 function fnTBodyIngresos(lista){
     $("#idTBodyIngresos").html("");

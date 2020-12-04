@@ -418,35 +418,39 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(id_ventas) as  totalCount 
-                        FROM bit_ventas as Con
-                        WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
-                        AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
-                        AND sucursal=$sucursal";
+                $count = "SELECT COUNT(id_Bazar) AS totalCount
+                    FROM contrato_mov_baz_tbl AS Con
+                    LEFT JOIN bit_cierrecaja AS BitC on Con.id_CierreCaja = BitC.id_CierreCaja 
+                    AND Bitc.sucursal=$sucursal
+                    LEFT JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
+                    WHERE DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
+                    AND DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
+                    AND Con.sucursal=$sucursal ";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
             } else {
-                $BusquedaQuery = "SELECT DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
-                        descripcionCorta as Detalle,descuento_Venta,CAT.descripcion as CatDesc
-                        FROM bit_ventas as Ven
-                        LEFT JOIN articulo_bazar_tbl AS ART on Ven.id_ArticuloBazar = ART.id_ArticuloBazar
-                        LEFT JOIN contrato_mov_baz_tbl AS Con on Con.id_Bazar = Ven.id_Bazar AND Con.sucursal=$sucursal
-                        LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
-                        WHERE DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
-                        AND DATE_FORMAT(Ven.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
-                        AND Ven.sucursal=$sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
-                      OFFSET " . $this->conexion->real_escape_string($offset);
+                $BusquedaQuery = "SELECT id_Bazar,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,Con.subTotal,
+                    Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu.usuario
+                    FROM contrato_mov_baz_tbl AS Con
+                    LEFT JOIN bit_cierrecaja AS BitC on Con.id_CierreCaja = BitC.id_CierreCaja 
+                    AND Bitc.sucursal=$sucursal
+                    LEFT JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
+                    WHERE DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
+                    AND DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
+                    AND Con.sucursal=$sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                    OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while ($fila = $resultado->fetch_assoc()) {
                     $jsondataperson = array();
+                    $jsondataperson["id_Bazar"] = $fila["id_Bazar"];
                     $jsondataperson["FECHA"] = $fila["FECHA"];
-                    $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
-                    $jsondataperson["id_serie"] = $fila["id_serie"];
-                    $jsondataperson["precio_venta"] = $fila["precio_venta"];
-                    $jsondataperson["Detalle"] = $fila["Detalle"];
+                    $jsondataperson["subTotal"] = $fila["subTotal"];
                     $jsondataperson["descuento_Venta"] = $fila["descuento_Venta"];
-                    $jsondataperson["CatDesc"] = $fila["CatDesc"];
+                    $jsondataperson["total"] = $fila["total"];
+                    $jsondataperson["totalPrestamo"] = $fila["totalPrestamo"];
+                    $jsondataperson["utilidad"] = $fila["utilidad"];
+                    $jsondataperson["usuario"] = $fila["usuario"];
                     $jsondataList[] = $jsondataperson;
                 }
                 $jsondata["lista"] = array_values($jsondataList);

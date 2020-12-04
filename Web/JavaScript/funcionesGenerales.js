@@ -158,9 +158,10 @@ function cerrarSesion() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                location.href = '../CerrarSesion.php'
+                location.href = '../CerrarSesion.php';
             } else {
-                alertify.error("Error en al conectar con el servidor.")
+                alertify.error("Error en al conectar con el servidor.");
+                location.href = '../CerrarSesion.php'
             }
         }
     });
