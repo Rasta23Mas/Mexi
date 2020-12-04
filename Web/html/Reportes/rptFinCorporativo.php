@@ -23,4 +23,6 @@
     <tbody id="idTBodyCorporativo" class="letraChica" align="center">
     </tbody>
 </table>
-
+<div class="col-md-12 text-center">
+    <ul class="pagination" id="paginador"></ul>
+</div>
