@@ -2,6 +2,7 @@ var paginadorGlb;
 var totalPaginasGlb;
 var itemsPorPaginaGlb = 20;
 var numerosPorPaginaGlb = 4;
+
 function fnBuscaReportes(tipo) {
     var dataEnviar = {
         "tipoReporte": tipo
@@ -24,6 +25,7 @@ function fnBuscaReportes(tipo) {
         }
     });
 }
+
 function fnSelectReporte() {
     var reporte = $('#idTipoReporte').val();
     var nameForm = "Reporte ";
@@ -80,117 +82,117 @@ function fnSelectReporte() {
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptEmpVentas.php');
-    }else if (reporte == 10) {
+    } else if (reporte == 10) {
         nameForm = "Ingresos"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinIngresos.php');
-    }else if (reporte == 11) {
+    } else if (reporte == 11) {
         nameForm += "Corporativo"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 12) {
+    } else if (reporte == 12) {
         nameForm += "Descuento de Intéres"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 13) {
+    } else if (reporte == 13) {
         nameForm += "Cancelaciones"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 14) {
+    } else if (reporte == 14) {
         nameForm += "Central a Banco"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 15) {
+    } else if (reporte == 15) {
         nameForm += "Banco a Central"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 16) {
+    } else if (reporte == 16) {
         nameForm += "Banco a Bóveda"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 17) {
+    } else if (reporte == 17) {
         nameForm += "Bóveda a Banco"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 18) {
+    } else if (reporte == 18) {
         nameForm += "Descuento en Ventas"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 19) {
+    } else if (reporte == 19) {
         nameForm += "Cambio de precio vitrina"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 20) {
+    } else if (reporte == 20) {
         nameForm += "Monto mayor artículos"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 21) {
+    } else if (reporte == 21) {
         nameForm += "Monto mayor autos"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 22) {
+    } else if (reporte == 22) {
         nameForm += "Horario"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinCorporativo.php');
-    }else if (reporte == 23) {
+    } else if (reporte == 23) {
         nameForm += "Cierre Caja"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptCieCaja.php');
-    }else if (reporte == 24) {
+    } else if (reporte == 24) {
         nameForm += "Cierre Sucursal"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptCieSucursal.php');
-    }else if (reporte == 25) {
+    } else if (reporte == 25) {
         nameForm += "Cierre Caja por día"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptCieCaja.php');
         fnRecargarReportes();
-    }else if (reporte == 26) {
+    } else if (reporte == 26) {
         nameForm += "Cierre Sucursal por día"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptCieSucursal.php');
         fnRecargarReportes();
-    }else if (reporte == 27) {
+    } else if (reporte == 27) {
         nameForm += "Empeños"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptEmpEmpeno.php');
-    }else if (reporte == 28) {
+    } else if (reporte == 28) {
         nameForm += "Bazar Auto"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = true;
@@ -202,13 +204,14 @@ function fnSelectReporte() {
     $("#idFechaInicial").prop('disabled', fechasDis);
     $("#idFechaFinal").prop('disabled', fechasDis);
 }
+
 function fnLlenarReporte() {
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
 
     var busqueda = 1;
-    if (tipoReporte == 2||tipoReporte == 5||tipoReporte == 7||tipoReporte == 28) {
+    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
@@ -222,6 +225,7 @@ function fnLlenarReporte() {
     }
 
 }
+
 //LLenar Reportes
 function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
     var dataEnviar = {
@@ -238,37 +242,36 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
         data: dataEnviar,
         dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
-            var total = data.totalCount;
-            if(total==0){
-                alert("Sin resultados en la busqueda.")
-            }else{
-                fnCreaPaginador(total);
-            }
+        var total = data.totalCount;
+        if (total == 0) {
+            alert("Sin resultados en la busqueda.")
+        } else {
+            fnCreaPaginador(total);
+        }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
 
     });
 }
+
 //PAginador
 function fnCreaPaginador(totalItems) {
     $("#paginador").html("");
     paginadorGlb = $(".pagination");
-    totalPaginasGlb = Math.ceil(totalItems/itemsPorPaginaGlb);
+    totalPaginasGlb = Math.ceil(totalItems / itemsPorPaginaGlb);
 
     $('<li><a href="#" class="first_link"><</a></li>').appendTo(paginadorGlb);
     $('<li><a href="#" class="prev_link">«</a></li>').appendTo(paginadorGlb);
 
     var pag = 0;
-    while(totalPaginasGlb > pag)
-    {
-        $('<li><a href="#" class="page_link">'+(pag+1)+'</a></li>').appendTo(paginadorGlb);
+    while (totalPaginasGlb > pag) {
+        $('<li><a href="#" class="page_link">' + (pag + 1) + '</a></li>').appendTo(paginadorGlb);
         pag++;
     }
 
-    if(numerosPorPaginaGlb > 1)
-    {
+    if (numerosPorPaginaGlb > 1) {
         $(".page_link").hide();
-        $(".page_link").slice(0,numerosPorPaginaGlb).show();
+        $(".page_link").slice(0, numerosPorPaginaGlb).show();
     }
 
     $('<li><a href="#" class="next_link">»</a></li>').appendTo(paginadorGlb);
@@ -279,37 +282,32 @@ function fnCreaPaginador(totalItems) {
 
     paginadorGlb.find(".prev_link").hide();
 
-    paginadorGlb.find("li .page_link").click(function()
-    {
-        var irpagina =$(this).html().valueOf()-1;
+    paginadorGlb.find("li .page_link").click(function () {
+        var irpagina = $(this).html().valueOf() - 1;
         fnCargaPagina(irpagina);
         return false;
     });
 
-    paginadorGlb.find("li .first_link").click(function()
-    {
-        var irpagina =0;
+    paginadorGlb.find("li .first_link").click(function () {
+        var irpagina = 0;
         fnCargaPagina(irpagina);
         return false;
     });
 
-    paginadorGlb.find("li .prev_link").click(function()
-    {
-        var irpagina =parseInt(paginadorGlb.data("pag")) -1;
+    paginadorGlb.find("li .prev_link").click(function () {
+        var irpagina = parseInt(paginadorGlb.data("pag")) - 1;
         fnCargaPagina(irpagina);
         return false;
     });
 
-    paginadorGlb.find("li .next_link").click(function()
-    {
-        var irpagina =parseInt(paginadorGlb.data("pag")) +1;
+    paginadorGlb.find("li .next_link").click(function () {
+        var irpagina = parseInt(paginadorGlb.data("pag")) + 1;
         fnCargaPagina(irpagina);
         return false;
     });
 
-    paginadorGlb.find("li .last_link").click(function()
-    {
-        var irpagina =totalPaginasGlb -1;
+    paginadorGlb.find("li .last_link").click(function () {
+        var irpagina = totalPaginasGlb - 1;
         fnCargaPagina(irpagina);
         return false;
     });
@@ -317,7 +315,8 @@ function fnCreaPaginador(totalItems) {
     fnCargaPagina(0);
 
 }
-function fnCargaPagina(pagina){
+
+function fnCargaPagina(pagina) {
     var desde = pagina * itemsPorPaginaGlb;
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
@@ -340,36 +339,41 @@ function fnCargaPagina(pagina){
         dataType: "json"
     }).done(function (data, textStatus, jqXHR) {
         var lista = data.lista;
-        if(tipoReporte==1){
+        if (tipoReporte == 1) {
             fnTBodyHistorico(lista);
-        }else if(tipoReporte==2){
+        } else if (tipoReporte == 2) {
             fnTBodyContratos(lista);
-        }else if(tipoReporte==3){
+        } else if (tipoReporte == 3) {
             fnTBodyDesempeno(lista);
-        }else if(tipoReporte==4){
+        } else if (tipoReporte == 4) {
             fnTBodyRefrendo(lista);
-        }else if(tipoReporte==5){
+        } else if (tipoReporte == 5) {
             fnTBodyBazar(lista);
-        }else if (tipoReporte==6){
+        } else if (tipoReporte == 6) {
             fnTBodyCompra(lista);
-        }else if (tipoReporte==7){
+        } else if (tipoReporte == 7) {
             fnTBodyInventario(lista);
-        }else if (tipoReporte==8){
+        } else if (tipoReporte == 8) {
             //Transferencias
             //fnTBodyInventario(lista);
-        }else if (tipoReporte==9){
+        } else if (tipoReporte == 9) {
             fnTBodyVentas(lista);
-        }else if (tipoReporte==10){
+        } else if (tipoReporte == 10) {
             fnTBodyIngresos(lista);
-        }else if (tipoReporte==11){
+        }
+        else if (tipoReporte == 11) {
             fnTBodyCorporativo(lista);
-        }else if (tipoReporte==23){
+        }else if (tipoReporte == 12) {
+            fnTBodyTknDescuento(lista);
+        }
+
+        else if (tipoReporte == 23) {
             fnTBodyCaja(lista);
-        }else if (tipoReporte==24){
+        } else if (tipoReporte == 24) {
             fnTBodySucursal(lista);
-        }else if (tipoReporte==27){
+        } else if (tipoReporte == 27) {
             fnTBodyEmpeno(lista);
-        }else if (tipoReporte==28){
+        } else if (tipoReporte == 28) {
             fnTBodyBazarAuto(lista);
         }
     }).fail(function (jqXHR, textStatus, textError) {
@@ -377,37 +381,29 @@ function fnCargaPagina(pagina){
 
     });
 
-    if(pagina >= 1)
-    {
+    if (pagina >= 1) {
         paginadorGlb.find(".prev_link").show();
 
-    }
-    else
-    {
+    } else {
         paginadorGlb.find(".prev_link").hide();
     }
 
 
-    if(pagina <(totalPaginasGlb- numerosPorPaginaGlb))
-    {
+    if (pagina < (totalPaginasGlb - numerosPorPaginaGlb)) {
         paginadorGlb.find(".next_link").show();
-    }else
-    {
+    } else {
         paginadorGlb.find(".next_link").hide();
     }
 
-    paginadorGlb.data("pag",pagina);
+    paginadorGlb.data("pag", pagina);
 
-    if(numerosPorPaginaGlb>1)
-    {
+    if (numerosPorPaginaGlb > 1) {
         $(".page_link").hide();
-        if(pagina < (totalPaginasGlb- numerosPorPaginaGlb))
-        {
-            $(".page_link").slice(pagina,numerosPorPaginaGlb + pagina).show();
-        }
-        else{
-            if(totalPaginasGlb > numerosPorPaginaGlb)
-                $(".page_link").slice(totalPaginasGlb- numerosPorPaginaGlb).show();
+        if (pagina < (totalPaginasGlb - numerosPorPaginaGlb)) {
+            $(".page_link").slice(pagina, numerosPorPaginaGlb + pagina).show();
+        } else {
+            if (totalPaginasGlb > numerosPorPaginaGlb)
+                $(".page_link").slice(totalPaginasGlb - numerosPorPaginaGlb).show();
             else
                 $(".page_link").slice(0).show();
 
@@ -415,63 +411,66 @@ function fnCargaPagina(pagina){
     }
 
     paginadorGlb.children().removeClass("active");
-    paginadorGlb.children().eq(pagina+2).addClass("active");
+    paginadorGlb.children().eq(pagina + 2).addClass("active");
 
 
 }
-function fnTBodyHistorico(lista){
+
+function fnTBodyHistorico(lista) {
     $("#idTBodyHistorico").html("");
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
         prestamoCon = formatoMoneda(prestamoCon);
         var formulario = elem.Form;
         var obs = " ";
-        if(formulario==1){
-            obs  = elem.ObserArt;
-        }else if(formulario==2){
-            obs  = elem.ObserArt;
-        }else{
-            obs  = elem.ObserAuto;
+        if (formulario == 1) {
+            obs = elem.ObserArt;
+        } else if (formulario == 2) {
+            obs = elem.ObserArt;
+        } else {
+            obs = elem.ObserAuto;
         }
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.FECHAVEN+"</td>"+
-            "<td>"+elem.FECHAALM+"</td>"+
-            "<td>"+elem.NombreCompleto+"</td>"+
-            "<td>"+elem.CONTRATO+"</td>"+
-            "<td align='right'>"+prestamoCon+"</td>"+
-            "<td>"+elem.DESCRIPCION+"</td>"+
-            "<td>"+obs+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td>" + obs + "</td>" +
             "</tr>").appendTo($("#idTBodyHistorico"));
     });
 }
-function fnTBodyContratos(lista){
+
+function fnTBodyContratos(lista) {
     $("#idTBodyContrato").html("");
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
         prestamoCon = formatoMoneda(prestamoCon);
         var formulario = elem.Form;
         var obs = "";
-        if(formulario==1){
-            obs  = elem.ObserArt;
-        }else{
-            obs  = elem.ObserAuto;
+        if (formulario == 1) {
+            obs = elem.ObserArt;
+        } else {
+            obs = elem.ObserAuto;
         }
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.FECHAVEN+"</td>"+
-            "<td>"+elem.FECHAALM+"</td>"+
-            "<td>"+elem.NombreCompleto+"</td>"+
-            "<td>"+elem.CONTRATO+"</td>"+
-            "<td align='right'>"+prestamoCon+"</td>"+
-            "<td>"+elem.DESCRIPCION+"</td>"+
-            "<td>"+obs+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td>" + obs + "</td>" +
             "</tr>").appendTo($("#idTBodyContrato"));
     });
 }
-function fnTBodyDesempeno(lista){
+
+function fnTBodyDesempeno(lista) {
     $("#idTBodyDesempeno").html("");
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
         var interesesCon = elem.INTERESES;
         var almacenajeCon = elem.ALMACENAJE;
@@ -492,27 +491,28 @@ function fnTBodyDesempeno(lista){
         costoCon = formatoMoneda(costoCon);
         subtotalCon = formatoMoneda(subtotalCon);
         totalCon = formatoMoneda(totalCon);
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.FECHAMOV+"</td>"+
-            "<td>"+elem.FECHAVEN+"</td>"+
-            "<td>"+elem.CONTRATO+"</td>"+
-            "<td align='right'>"+prestamoCon+"</td>"+
-            "<td align='right'>"+interesesCon+"</td>"+
-            "<td align='right'>"+almacenajeCon+"</td>"+
-            "<td align='right'>"+seguroCon+"</td>"+
-            "<td align='right'>"+abonoCon+"</td>"+
-            "<td align='right'>"+descuCon+"</td>"+
-            "<td align='right'>"+ivaCon+"</td>"+
-            "<td align='right'>"+costoCon+"</td>"+
-            "<td align='right'>"+subtotalCon+"</td>"+
-            "<td align='right'>"+totalCon+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAMOV + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td align='right'>" + interesesCon + "</td>" +
+            "<td align='right'>" + almacenajeCon + "</td>" +
+            "<td align='right'>" + seguroCon + "</td>" +
+            "<td align='right'>" + abonoCon + "</td>" +
+            "<td align='right'>" + descuCon + "</td>" +
+            "<td align='right'>" + ivaCon + "</td>" +
+            "<td align='right'>" + costoCon + "</td>" +
+            "<td align='right'>" + subtotalCon + "</td>" +
+            "<td align='right'>" + totalCon + "</td>" +
             "</tr>").appendTo($("#idTBodyDesempeno"));
     });
 }
-function fnTBodyRefrendo(lista){
+
+function fnTBodyRefrendo(lista) {
     $("#idTBodyRefrendo").html("");
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
         var interesesCon = elem.INTERESES;
         var almacenajeCon = elem.ALMACENAJE;
@@ -533,44 +533,46 @@ function fnTBodyRefrendo(lista){
         costoCon = formatoMoneda(costoCon);
         subtotalCon = formatoMoneda(subtotalCon);
         totalCon = formatoMoneda(totalCon);
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.FECHAMOV+"</td>"+
-            "<td>"+elem.FECHAVEN+"</td>"+
-            "<td>"+elem.CONTRATO+"</td>"+
-            "<td align='right'>"+prestamoCon+"</td>"+
-            "<td align='right'>"+interesesCon+"</td>"+
-            "<td align='right'>"+almacenajeCon+"</td>"+
-            "<td align='right'>"+seguroCon+"</td>"+
-            "<td align='right'>"+abonoCon+"</td>"+
-            "<td align='right'>"+descuCon+"</td>"+
-            "<td align='right'>"+ivaCon+"</td>"+
-            "<td align='right'>"+costoCon+"</td>"+
-            "<td align='right'>"+subtotalCon+"</td>"+
-            "<td align='right'>"+totalCon+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAMOV + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td align='right'>" + interesesCon + "</td>" +
+            "<td align='right'>" + almacenajeCon + "</td>" +
+            "<td align='right'>" + seguroCon + "</td>" +
+            "<td align='right'>" + abonoCon + "</td>" +
+            "<td align='right'>" + descuCon + "</td>" +
+            "<td align='right'>" + ivaCon + "</td>" +
+            "<td align='right'>" + costoCon + "</td>" +
+            "<td align='right'>" + subtotalCon + "</td>" +
+            "<td align='right'>" + totalCon + "</td>" +
             "</tr>").appendTo($("#idTBodyRefrendo"));
     });
 }
-function fnTBodyBazar(lista){
+
+function fnTBodyBazar(lista) {
     $("#idTBodyBazar").html("");
 
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var venta = elem.precio_venta;
         venta = formatoMoneda(venta)
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td>"+elem.CatDesc+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.id_Contrato + "</td>" +
+            "<td>" + elem.id_serie + "</td>" +
+            "<td align='left'>" + elem.Detalle + "</td>" +
+            "<td align='right'>" + venta + "</td>" +
+            "<td>" + elem.CatDesc + "</td>" +
             "</tr>").appendTo($("#idTBodyBazar"));
     });
 }
-function fnTBodyCompra(lista){
+
+function fnTBodyCompra(lista) {
     $("#idTBodyCompras").html("");
 
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var venta = elem.precio_venta;
         var compra = elem.precioCompra;
         venta = parseFloat(venta);
@@ -579,42 +581,44 @@ function fnTBodyCompra(lista){
         venta = formatoMoneda(venta);
         compra = formatoMoneda(compra);
         utilidad = formatoMoneda(utilidad);
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+compra+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td align='right'>"+utilidad+"</td>"+
-            "<td>"+elem.CatDesc+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.id_Contrato + "</td>" +
+            "<td>" + elem.id_serie + "</td>" +
+            "<td align='left'>" + elem.Detalle + "</td>" +
+            "<td align='right'>" + compra + "</td>" +
+            "<td align='right'>" + venta + "</td>" +
+            "<td align='right'>" + utilidad + "</td>" +
+            "<td>" + elem.CatDesc + "</td>" +
             "</tr>").appendTo($("#idTBodyCompras"));
     });
 }
-function fnTBodyInventario(lista){
+
+function fnTBodyInventario(lista) {
     $("#idTBodyInventario").html("");
 
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var venta = elem.precio_venta;
         venta = formatoMoneda(venta)
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td>"+elem.CatDesc+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.id_Contrato + "</td>" +
+            "<td>" + elem.id_serie + "</td>" +
+            "<td align='left'>" + elem.Detalle + "</td>" +
+            "<td align='right'>" + venta + "</td>" +
+            "<td>" + elem.CatDesc + "</td>" +
             "</tr>").appendTo($("#idTBodyInventario"));
     });
 }
-function fnTBodyVentas(lista){
+
+function fnTBodyVentas(lista) {
     $("#idTBodyVentas").html("");
     var Total_SubTotal = 0;
     var Total_Descuent = 0;
     var Total_TotalVenta = 0;
     var Total_TotalPrestamo = 0;
     var Total_Utilidad = 0;
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var subTotal = elem.subTotal;
         var descuento_Venta = elem.descuento_Venta;
         var total = elem.total;
@@ -627,26 +631,26 @@ function fnTBodyVentas(lista){
         totalPrestamo = parseFloat(totalPrestamo);
         utilidad = parseFloat(utilidad);
 
-        Total_SubTotal = Total_SubTotal+ subTotal;
-        Total_Descuent = Total_Descuent+ descuento_Venta;
-        Total_TotalVenta = Total_TotalVenta+ total;
-        Total_TotalPrestamo = Total_TotalPrestamo+ totalPrestamo;
-        Total_Utilidad = Total_Utilidad+ utilidad;
+        Total_SubTotal = Total_SubTotal + subTotal;
+        Total_Descuent = Total_Descuent + descuento_Venta;
+        Total_TotalVenta = Total_TotalVenta + total;
+        Total_TotalPrestamo = Total_TotalPrestamo + totalPrestamo;
+        Total_Utilidad = Total_Utilidad + utilidad;
         subTotal = formatoMoneda(subTotal);
         descuento_Venta = formatoMoneda(descuento_Venta);
         total = formatoMoneda(total);
         totalPrestamo = formatoMoneda(totalPrestamo);
         utilidad = formatoMoneda(utilidad);
 
-        $("<tr>"+
-            "<td>"+elem.id_Bazar+"</td>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td align='right'>"+subTotal+"</td>"+
-            "<td align='right'>"+descuento_Venta+"</td>"+
-            "<td align='right'>"+total+"</td>"+
-            "<td align='right'>"+totalPrestamo+"</td>"+
-            "<td align='right'>"+utilidad+"</td>"+
-            "<td>"+elem.usuario+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.id_Bazar + "</td>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td align='right'>" + subTotal + "</td>" +
+            "<td align='right'>" + descuento_Venta + "</td>" +
+            "<td align='right'>" + total + "</td>" +
+            "<td align='right'>" + totalPrestamo + "</td>" +
+            "<td align='right'>" + utilidad + "</td>" +
+            "<td>" + elem.usuario + "</td>" +
             "</tr>").appendTo($("#idTBodyVentas"));
     });
     Total_SubTotal = parseFloat(Total_SubTotal);
@@ -661,21 +665,22 @@ function fnTBodyVentas(lista){
     Total_TotalPrestamo = formatoMoneda(Total_TotalPrestamo);
     Total_Utilidad = formatoMoneda(Total_Utilidad);
 
-    $("<tr>"+
-        "<td></td>"+
-        "<td>TOTALES</td>"+
-        "<td>"+Total_SubTotal+"</td>"+
-        "<td>"+Total_Descuent+"</td>"+
-        "<td>"+Total_TotalVenta+"</td>"+
-        "<td>"+Total_TotalPrestamo+"</td>"+
-        "<td>"+Total_Utilidad+"</td>"+
-        "<td></td>"+
+    $("<tr>" +
+        "<td></td>" +
+        "<td>TOTALES</td>" +
+        "<td>" + Total_SubTotal + "</td>" +
+        "<td>" + Total_Descuent + "</td>" +
+        "<td>" + Total_TotalVenta + "</td>" +
+        "<td>" + Total_TotalPrestamo + "</td>" +
+        "<td>" + Total_Utilidad + "</td>" +
+        "<td></td>" +
         "</tr>").appendTo($("#idTBodyVentas"));
 }
-function fnTBodyIngresos(lista){
+
+function fnTBodyIngresos(lista) {
     $("#idTBodyIngresos").html("");
 
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var desempeno = elem.Desem;
         var costo = elem.costoContrato;
         var abono = elem.AbonoRef;
@@ -697,23 +702,24 @@ function fnTBodyIngresos(lista){
         abonoVenta = formatoMoneda(abonoVenta);
         utilidad = formatoMoneda(utilidad);
 
-        $("<tr>"+
-            "<td>"+elem.id_CierreSucursal+"</td>"+
-            "<td align='right'>"+desempeno+"</td>"+
-            "<td align='right'>"+costo+"</td>"+
-            "<td align='right'>"+abono+"</td>"+
-            "<td align='right'>"+interes+"</td>"+
-            "<td align='right'>"+iva+"</td>"+
-            "<td align='right'>"+ventas+"</td>"+
-            "<td align='right'>"+ivaVenta+"</td>"+
-            "<td align='right'>"+apartado+"</td>"+
-            "<td align='right'>"+abonoVenta+"</td>"+
-            "<td align='right'>"+utilidad+"</td>"+
-            "<td>"+elem.Fecha+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.id_CierreSucursal + "</td>" +
+            "<td align='right'>" + desempeno + "</td>" +
+            "<td align='right'>" + costo + "</td>" +
+            "<td align='right'>" + abono + "</td>" +
+            "<td align='right'>" + interes + "</td>" +
+            "<td align='right'>" + iva + "</td>" +
+            "<td align='right'>" + ventas + "</td>" +
+            "<td align='right'>" + ivaVenta + "</td>" +
+            "<td align='right'>" + apartado + "</td>" +
+            "<td align='right'>" + abonoVenta + "</td>" +
+            "<td align='right'>" + utilidad + "</td>" +
+            "<td>" + elem.Fecha + "</td>" +
             "</tr>").appendTo($("#idTBodyIngresos"));
     });
 }
-function fnTBodyCorporativo(lista){
+
+function fnTBodyCorporativo(lista) {
     $("#idTBodyCorporativo").html("");
     var desempenoMes = 0;
     var costoMes = 0;
@@ -725,14 +731,14 @@ function fnTBodyCorporativo(lista){
     var apartadoMes = 0;
     var abonoVentaMes = 0;
     var utilidadMes = 0;
-    var finLista =0;
+    var finLista = 0;
     var MesNombre = "";
-    $.each(lista, function(ind, elem){
-        finLista = lista.length -1 ;
+    $.each(lista, function (ind, elem) {
+        finLista = lista.length - 1;
 
         var Imprime = elem.Imprime;
 
-        if(Imprime==1){
+        if (Imprime == 1) {
             var Tdesempeno = formatoMoneda(desempenoMes);
             var Tcosto = formatoMoneda(costoMes);
             var Tabono = formatoMoneda(abonoMes);
@@ -754,19 +760,19 @@ function fnTBodyCorporativo(lista){
             abonoVentaMes = 0;
             utilidadMes = 0;
 
-            $("<tr style='background: dodgerblue; color:white; '>"+
-                "<td></td>"+
-                "<td>"+Tdesempeno+"</td>"+
-                "<td align='right'>"+Tcosto+"</td>"+
-                "<td align='right'>"+Tabono+"</td>"+
-                "<td align='right'>"+Tinteres+"</td>"+
-                "<td align='right'>"+Tiva+"</td>"+
-                "<td align='right'>"+Tventas+"</td>"+
-                "<td align='right'>"+TivaVenta+"</td>"+
-                "<td align='right'>"+Tapartado+"</td>"+
-                "<td align='right'>"+TabonoVenta+"</td>"+
-                "<td align='right'>"+Tutilidad+"</td>"+
-                "<td>"+MesNombre+"</td>"+
+            $("<tr style='background: dodgerblue; color:white; '>" +
+                "<td></td>" +
+                "<td>" + Tdesempeno + "</td>" +
+                "<td align='right'>" + Tcosto + "</td>" +
+                "<td align='right'>" + Tabono + "</td>" +
+                "<td align='right'>" + Tinteres + "</td>" +
+                "<td align='right'>" + Tiva + "</td>" +
+                "<td align='right'>" + Tventas + "</td>" +
+                "<td align='right'>" + TivaVenta + "</td>" +
+                "<td align='right'>" + Tapartado + "</td>" +
+                "<td align='right'>" + TabonoVenta + "</td>" +
+                "<td align='right'>" + Tutilidad + "</td>" +
+                "<td>" + MesNombre + "</td>" +
                 "</tr>").appendTo($("#idTBodyCorporativo"));
             MesNombre = "";
         }
@@ -814,22 +820,22 @@ function fnTBodyCorporativo(lista){
         apartado = formatoMoneda(apartado);
         abonoVenta = formatoMoneda(abonoVenta);
         utilidad = formatoMoneda(utilidad);
-        $("<tr>"+
-            "<td>"+elem.id_CierreSucursal+"</td>"+
-            "<td align='right'>"+desempeno+"</td>"+
-            "<td align='right'>"+costo+"</td>"+
-            "<td align='right'>"+abono+"</td>"+
-            "<td align='right'>"+interes+"</td>"+
-            "<td align='right'>"+iva+"</td>"+
-            "<td align='right'>"+ventas+"</td>"+
-            "<td align='right'>"+ivaVenta+"</td>"+
-            "<td align='right'>"+apartado+"</td>"+
-            "<td align='right'>"+abonoVenta+"</td>"+
-            "<td align='right'>"+utilidad+"</td>"+
-            "<td>"+elem.Fecha+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.id_CierreSucursal + "</td>" +
+            "<td align='right'>" + desempeno + "</td>" +
+            "<td align='right'>" + costo + "</td>" +
+            "<td align='right'>" + abono + "</td>" +
+            "<td align='right'>" + interes + "</td>" +
+            "<td align='right'>" + iva + "</td>" +
+            "<td align='right'>" + ventas + "</td>" +
+            "<td align='right'>" + ivaVenta + "</td>" +
+            "<td align='right'>" + apartado + "</td>" +
+            "<td align='right'>" + abonoVenta + "</td>" +
+            "<td align='right'>" + utilidad + "</td>" +
+            "<td>" + elem.Fecha + "</td>" +
             "</tr>").appendTo($("#idTBodyCorporativo"));
 
-        if(finLista==ind){
+        if (finLista == ind) {
             var Tdesempeno = formatoMoneda(desempenoMes);
             var Tcosto = formatoMoneda(costoMes);
             var Tabono = formatoMoneda(abonoMes);
@@ -851,35 +857,73 @@ function fnTBodyCorporativo(lista){
             abonoVentaMes = 0;
             utilidadMes = 0;
             var Mes = elem.Mes;
-            $("<tr style='background: dodgerblue; color:white; '>"+
-                "<td></td>"+
-                "<td>"+Tdesempeno+"</td>"+
-                "<td align='right'>"+Tcosto+"</td>"+
-                "<td align='right'>"+Tabono+"</td>"+
-                "<td align='right'>"+Tinteres+"</td>"+
-                "<td align='right'>"+Tiva+"</td>"+
-                "<td align='right'>"+Tventas+"</td>"+
-                "<td align='right'>"+TivaVenta+"</td>"+
-                "<td align='right'>"+Tapartado+"</td>"+
-                "<td align='right'>"+TabonoVenta+"</td>"+
-                "<td align='right'>"+Tutilidad+"</td>"+
-                "<td>"+MesNombre+"</td>"+
+            $("<tr style='background: dodgerblue; color:white; '>" +
+                "<td></td>" +
+                "<td>" + Tdesempeno + "</td>" +
+                "<td align='right'>" + Tcosto + "</td>" +
+                "<td align='right'>" + Tabono + "</td>" +
+                "<td align='right'>" + Tinteres + "</td>" +
+                "<td align='right'>" + Tiva + "</td>" +
+                "<td align='right'>" + Tventas + "</td>" +
+                "<td align='right'>" + TivaVenta + "</td>" +
+                "<td align='right'>" + Tapartado + "</td>" +
+                "<td align='right'>" + TabonoVenta + "</td>" +
+                "<td align='right'>" + Tutilidad + "</td>" +
+                "<td>" + MesNombre + "</td>" +
                 "</tr>").appendTo($("#idTBodyCorporativo"));
         }
 
     });
 }
-function fnTBodyCaja(lista){
+
+function fnTBodyTknDescuento(lista) {
+    $("#divRpt").load('rptTknDescuento.php');
+    $("#idTBodyTknDescuento").html("");
+    $.each(lista, function (ind, elem) {
+        $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
+        $jsondataperson["token"] = $fila["token"];
+        $jsondataperson["descripcion"] = $fila["descripcion"];
+        $jsondataperson["descuento"] = $fila["descuento"];
+        $jsondataperson["usuario"] = $fila["usuario"];
+        $jsondataperson["sucursal"] = $fila["sucursal"];
+        $jsondataperson["estatus"] = $fila["estatus"];
+        $jsondataperson["Fecha"] = $fila["Fecha"];
+
+        var descuento = elem.descuento;
+        descuento = formatoMoneda(descuento);
+        var formulario = elem.Form;
+        var obs = " ";
+        if (formulario == 1) {
+            obs = elem.ObserArt;
+        } else if (formulario == 2) {
+            obs = elem.ObserArt;
+        } else {
+            obs = elem.ObserAuto;
+        }
+        $("<tr>" +
+            "<td>" + elem.Fecha + "</td>" +
+            "<td>" + elem.id_Contrato + "</td>" +
+            "<td>" + elem.token + "</td>" +
+            "<td>" + elem.descripcion + "</td>" +
+            "<td align='right'>" + descuento + "</td>" +
+            "<td>" + elem.usuario + "</td>" +
+            "<td>" + sucursal + "</td>" +
+            "<td>" + estatus + "</td>" +
+            "</tr>").appendTo($("#idTBodyTknDescuento"));
+    });
+}
+
+function fnTBodyCaja(lista) {
     $("#idTBodyCaja").html("");
 
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var dotacion = elem.dotacionesA_Caja;
         var capitalRecuperado = elem.capitalRecuperado;
         var abonoCapital = elem.abonoCapital;
         var intereses = elem.intereses;
         var iva = elem.iva;
         var mostrador = elem.mostrador;
-        var ivaVen= elem.iva_venta;
+        var ivaVen = elem.iva_venta;
         var apartadoVen = elem.apartadosVentas;
         var abonoVen = elem.abonoVentas;
         var retiro = elem.retirosCaja;
@@ -898,35 +942,36 @@ function fnTBodyCaja(lista){
         retiro = formatoMoneda(retiro);
         prestamo = formatoMoneda(prestamo);
         costo = formatoMoneda(costo);
-        $("<tr>"+
-            "<td>"+elem.id_CierreCaja+"</td>"+
-            "<td>"+elem.id_CierreSucursal+"</td>"+
-            "<td align='right'>"+dotacion+"</td>"+
-            "<td align='right'>"+capitalRecuperado+"</td>"+
-            "<td align='right'>"+abonoCapital+"</td>"+
-            "<td align='right'>"+intereses+"</td>"+
-            "<td align='right'>"+iva+"</td>"+
-            "<td align='right'>"+mostrador+"</td>"+
-            "<td align='right'>"+ivaVen+"</td>"+
-            "<td align='right'>"+apartadoVen+"</td>"+
-            "<td align='right'>"+abonoVen+"</td>"+
-            "<td align='right'>"+retiro+"</td>"+
-            "<td align='right'>"+prestamo+"</td>"+
-            "<td align='right'>"+costo+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.id_CierreCaja + "</td>" +
+            "<td>" + elem.id_CierreSucursal + "</td>" +
+            "<td align='right'>" + dotacion + "</td>" +
+            "<td align='right'>" + capitalRecuperado + "</td>" +
+            "<td align='right'>" + abonoCapital + "</td>" +
+            "<td align='right'>" + intereses + "</td>" +
+            "<td align='right'>" + iva + "</td>" +
+            "<td align='right'>" + mostrador + "</td>" +
+            "<td align='right'>" + ivaVen + "</td>" +
+            "<td align='right'>" + apartadoVen + "</td>" +
+            "<td align='right'>" + abonoVen + "</td>" +
+            "<td align='right'>" + retiro + "</td>" +
+            "<td align='right'>" + prestamo + "</td>" +
+            "<td align='right'>" + costo + "</td>" +
             "</tr>").appendTo($("#idTBodyCaja"));
     });
 }
-function fnTBodySucursal(lista){
+
+function fnTBodySucursal(lista) {
     $("#idTBodySucursal").html("");
 
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var dotacion = elem.dotacionesA_Caja;
         var capitalRecuperado = elem.capitalRecuperado;
         var abonoCapital = elem.abonoCapital;
         var intereses = elem.intereses;
         var iva = elem.iva;
         var mostrador = elem.mostrador;
-        var ivaVen= elem.iva_venta;
+        var ivaVen = elem.iva_venta;
         var apartados = elem.apartados;
         var abonoVen = elem.abonoVentas;
         var retiro = elem.retirosCaja;
@@ -945,70 +990,72 @@ function fnTBodySucursal(lista){
         retiro = formatoMoneda(retiro);
         prestamo = formatoMoneda(prestamo);
         costo = formatoMoneda(costo);
-        $("<tr>"+
-            "<td>"+elem.id_CierreSucursal+"</td>"+
-            "<td align='right'>"+dotacion+"</td>"+
-            "<td align='right'>"+capitalRecuperado+"</td>"+
-            "<td align='right'>"+abonoCapital+"</td>"+
-            "<td align='right'>"+intereses+"</td>"+
-            "<td align='right'>"+iva+"</td>"+
-            "<td align='right'>"+mostrador+"</td>"+
-            "<td align='right'>"+ivaVen+"</td>"+
-            "<td align='right'>"+apartados+"</td>"+
-            "<td align='right'>"+abonoVen+"</td>"+
-            "<td align='right'>"+retiro+"</td>"+
-            "<td align='right'>"+prestamo+"</td>"+
-            "<td align='right'>"+costo+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.id_CierreSucursal + "</td>" +
+            "<td align='right'>" + dotacion + "</td>" +
+            "<td align='right'>" + capitalRecuperado + "</td>" +
+            "<td align='right'>" + abonoCapital + "</td>" +
+            "<td align='right'>" + intereses + "</td>" +
+            "<td align='right'>" + iva + "</td>" +
+            "<td align='right'>" + mostrador + "</td>" +
+            "<td align='right'>" + ivaVen + "</td>" +
+            "<td align='right'>" + apartados + "</td>" +
+            "<td align='right'>" + abonoVen + "</td>" +
+            "<td align='right'>" + retiro + "</td>" +
+            "<td align='right'>" + prestamo + "</td>" +
+            "<td align='right'>" + costo + "</td>" +
             "</tr>").appendTo($("#idTBodySucursal"));
     });
 }
-function fnTBodyEmpeno(lista){
+
+function fnTBodyEmpeno(lista) {
     $("#idTBodyEmpeno").html("");
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
         prestamoCon = formatoMoneda(prestamoCon);
         var formulario = elem.Form;
         var obs = " ";
-        if(formulario==1){
-            obs  = elem.ObserArt;
-        }else if(formulario==2){
-            obs  = elem.ObserArt;
-        }else{
-            obs  = elem.ObserAuto;
+        if (formulario == 1) {
+            obs = elem.ObserArt;
+        } else if (formulario == 2) {
+            obs = elem.ObserArt;
+        } else {
+            obs = elem.ObserAuto;
         }
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.FECHAVEN+"</td>"+
-            "<td>"+elem.FECHAALM+"</td>"+
-            "<td>"+elem.NombreCompleto+"</td>"+
-            "<td>"+elem.CONTRATO+"</td>"+
-            "<td align='right'>"+prestamoCon+"</td>"+
-            "<td>"+elem.DESCRIPCION+"</td>"+
-            "<td>"+obs+"</td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td>" + obs + "</td>" +
             "</tr>").appendTo($("#idTBodyEmpeno"));
     });
 }
+
 function exportar(expor) {
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
     var sucursal = $('#idSucursal').val();
     if (tipoReporte == 7) {
-        if(expor==1){
+        if (expor == 1) {
             window.open('../Excel/rpt_Exc_Inventario.php?sucursal=' + sucursal);
-        }else{
+        } else {
             window.open('../PDF/callPdf_R_Inventario.php');
         }
     } else if (tipoReporte == 2) {
-        if(expor==1){
+        if (expor == 1) {
             window.open('../Excel/rpt_Exc_Contrato.php?sucursal=' + sucursal);
-        }else{
+        } else {
             window.open('../PDF/callPdf_R_Contratos.php');
         }
     } else if (tipoReporte == 5) {
-        if(expor==1){
+        if (expor == 1) {
             window.open('../Excel/rpt_Exc_Bazar.php?sucursal=' + sucursal);
-        }else{
+        } else {
             window.open('../PDF/callPdf_R_Bazar.php');
         }
     } else {
@@ -1016,65 +1063,65 @@ function exportar(expor) {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
             if (tipoReporte == 1) {
-                if(expor==1){
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Historico.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
                     window.open('../PDF/callPdf_R_Historico.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
             } else if (tipoReporte == 3) {
-                if(expor==1){
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Desempeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
                     window.open('../PDF/callPdf_R_Desempeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
             } else if (tipoReporte == 4) {
-                if(expor==1){
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Refrendo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
                     window.open('../PDF/callPdf_R_Refrendo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
-            }else if (tipoReporte == 6) {
-                if(expor==1){
+            } else if (tipoReporte == 6) {
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Compra.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
                     alert("entra");
                     window.open('../PDF/callPdf_R_Compra.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
-            }else if (tipoReporte == 9) {
-                if(expor==1){
+            } else if (tipoReporte == 9) {
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Venta.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
                     window.open('../PDF/callPdf_R_Venta.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
 
                 }
-            }else if (tipoReporte == 10) {
-                if(expor==1){
+            } else if (tipoReporte == 10) {
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
 
                 }
-            }else if (tipoReporte == 11) {
-                if(expor==1){
+            } else if (tipoReporte == 11) {
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Corporativo.phpfechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
 
                 }
-            }else if (tipoReporte == 23) {
-                if(expor==1){
+            } else if (tipoReporte == 23) {
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Caja.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
 
                 }
-            }else if (tipoReporte == 24) {
-                if(expor==1){
+            } else if (tipoReporte == 24) {
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Sucursal.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
 
                 }
-            }else if (tipoReporte == 27) {
-                if(expor==1){
+            } else if (tipoReporte == 27) {
+                if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Empenos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
-                }else{
+                } else {
                     window.open('../PDF/callPdf_R_Empeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
             }
@@ -1091,18 +1138,7 @@ function selectReporteMon() {
     document.getElementById('NombreReporte').innerHTML = titulo;
 }
 
-function llenarReporteMonitoreo() {
-    var fechaIni = $("#idFechaInicial").val();
-    var fechaFin = $("#idFechaFinal").val();
 
-    if (fechaFin !== "" && fechaIni !== "") {
-        fechaIni = fechaSQL(fechaIni);
-        fechaFin = fechaSQL(fechaFin);
-        cargarRptMon(fechaIni, fechaFin)
-    } else {
-        alertify.error("Seleccione fecha de inicio y fecha final.");
-    }
-}
 
 //Reporte MONITOREO
 function cargarRptMon(fechaIni, fechaFin) {
@@ -1325,19 +1361,19 @@ function cargarRptFinIng(fechaIni, fechaFin, tipoReporte) {
     $("#divRptFinancieros").load('rptFinIngresos.php');
 }
 
-function fnTBodyBazarAuto(lista){
+function fnTBodyBazarAuto(lista) {
     $("#idTBodyBazar").html("");
 
-    $.each(lista, function(ind, elem){
+    $.each(lista, function (ind, elem) {
         var venta = elem.precio_venta;
         venta = formatoMoneda(venta)
-        $("<tr>"+
-            "<td>"+elem.FECHA+"</td>"+
-            "<td>"+elem.id_Contrato+"</td>"+
-            "<td>"+elem.id_serie+"</td>"+
-            "<td align='left'>"+elem.Detalle+"</td>"+
-            "<td align='right'>"+venta+"</td>"+
-            "<td><label>Migración</label></td>"+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.id_Contrato + "</td>" +
+            "<td>" + elem.id_serie + "</td>" +
+            "<td align='left'>" + elem.Detalle + "</td>" +
+            "<td align='right'>" + venta + "</td>" +
+            "<td><label>Migración</label></td>" +
             "</tr>").appendTo($("#idTBodyBazar"));
     });
 }
@@ -1373,8 +1409,7 @@ function exportarFinanciero(tipoExportar) {
 }
 
 
-
- function fnRecargarReportes() {
+function fnRecargarReportes() {
     alert("Reporte en construcción");
     location.reload();
 }

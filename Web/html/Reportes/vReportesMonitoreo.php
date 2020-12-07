@@ -97,7 +97,7 @@ $sucursal = $_SESSION["sucursal"];
             </td>
             <td align="center">
                 <input type="button" class="btn btn-success w-75"
-                       onclick="llenarReporteMonitoreo()"
+                       onclick="fnLlenarReporte()"
                        value="Buscar"/>
             </td>
 

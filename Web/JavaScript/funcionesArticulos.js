@@ -88,6 +88,7 @@ function Agregar() {
     var vitrinaE = $("#idVitrinaElectronico").val();
     var tipoSelect = $('#idTipoElectronico').val();
     var validaImei = 0;
+
     var imei = 0;
     if (tipoSelect == 1 || tipoSelect == 2) {
         imei = $('#idIMEI').val();
@@ -99,6 +100,7 @@ function Agregar() {
     } else {
         validaImei = 1;
     }
+
     if (clienteEmpeno !== 0) {
         if (tipoInteres !== 0) {
             if (validaImei != 0) {
@@ -194,7 +196,11 @@ function Agregar() {
                                 }
 
                             } else if (formElectronico > 0) {
-                                detalle = $("#detallePrendaE").val();
+                                var validaMarca = $('#idMarca').val();
+                                var validaModelo = $('#idModelo').val();
+                                if(validaMarca!=0&&validaModelo!=0){
+
+                                detalle = $("#idDetallePrendaElectronico").val();
                                 if (detalle == "") {
                                     alertify.error("Favor de agregar la descripción de la prenda.");
                                 } else {
@@ -248,6 +254,10 @@ function Agregar() {
                                             }
                                         },
                                     })
+                                }
+
+                                }else{
+                                    alertify.error("Por Favor. Valida Marca y Modelo.");
                                 }
                             } else {
                                 alertify.error("Por Favor. Selecciona un tipo de articulo.");

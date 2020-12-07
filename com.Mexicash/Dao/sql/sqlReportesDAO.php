@@ -612,6 +612,53 @@ class sqlReportesDAO
         echo json_encode($jsondata);
     }
 
+    //MONITOREO
+
+    public function sqlReporteDescuento($busqueda, $fechaIni, $fechaFin, $limit, $offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if ($busqueda == 1) {
+                $count = "SELECT COUNT(id_BitTokenVenta) as  totalCount 
+                       FROM bit_token
+                       WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       AND id_tokenMovimiento =1 ORDER BY id_BitTokenVenta";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+            } else {
+                $BusquedaQuery = "SELECT id_Contrato,token,descripcion,descuento,usuario,sucursal,estatus,DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') AS Fecha
+                        FROM `bit_token` WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                       id_tokenMovimiento= 1 
+                       LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                      OFFSET " . $this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                $mesLista = 0;
+                while ($fila = $resultado->fetch_assoc()) {
+                    $jsondataperson = array();
+                        $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
+                        $jsondataperson["token"] = $fila["token"];
+                        $jsondataperson["descripcion"] = $fila["descripcion"];
+                        $jsondataperson["descuento"] = $fila["descuento"];
+                        $jsondataperson["usuario"] = $fila["usuario"];
+                        $jsondataperson["sucursal"] = $fila["sucursal"];
+                        $jsondataperson["estatus"] = $fila["estatus"];
+                        $jsondataperson["Fecha"] = $fila["Fecha"];
+
+                    $jsondataList[] = $jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
+
     public function sqlReporteCierreCaja($busqueda, $fechaIni, $fechaFin, $limit, $offset)
     {
         try {
