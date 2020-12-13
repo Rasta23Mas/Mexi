@@ -44,6 +44,7 @@ FROM contratos_tbl AS Con
 INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
 INNER JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato 
 WHERE Con.id_Contrato=$idContrato AND Con.tipoContrato = 2";
+echo $query;
 $resultado = $db->query($query);
 
 
@@ -328,6 +329,8 @@ $contenido .= '<table width="30%" border="1">
             </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
+echo $contenido;
+exit;
 
 $nombreContrato = 'Documentos_Contrato_Num_' . $idContrato . ".pdf";
 $dompdf = new DOMPDF();

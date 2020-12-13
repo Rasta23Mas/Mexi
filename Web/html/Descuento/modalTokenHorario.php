@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/css" src="../../JavaScript/funcionesGenerales.js"></script>
 <style type="text/css">
-    .inputMinus {
+    .inputMayus {
         text-transform: uppercase;
     }
 </style>
@@ -30,7 +30,7 @@
                         </tr>
                         <tr>
                             <td align="center">
-                                <input type="text" id="idCodigoAutHor" name="codigoAut" size="20" value="" style="text-align: center" class="inputMinus"/>
+                                <input type="text" id="idCodigoAutHor" name="codigoAut" size="20" value="" style="text-align: center" class="inputMayus"/>
                             </td>
                         </tr>
                     </table>

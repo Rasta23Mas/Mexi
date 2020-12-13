@@ -265,19 +265,17 @@ class sqlDesempenoDAO
     public function validarToken($token)
     {
         $token = mb_strtoupper($token, 'UTF-8');
-
         try {
             $id = -1;
-            $buscar = "SELECT id_token,descripcion FROM cat_token 
+            $buscar = "SELECT id_token FROM cat_token 
                         WHERE descripcion = '$token' and estatus= 1";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
                 $id = $fila->id_token;
             } else {
-                $id = -1;
+                $id = -3;
             }
-
         } catch (Exception $exc) {
             $id = -1;
             echo $exc->getMessage();
@@ -285,7 +283,6 @@ class sqlDesempenoDAO
             $this->db->closeDB();
         }
         echo $id;
-        //return $id;
     }
 
     //Generar Refrendo

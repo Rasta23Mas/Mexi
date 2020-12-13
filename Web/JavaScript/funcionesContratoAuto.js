@@ -1,3 +1,4 @@
+var errorToken = 0;
 function validarMontoAuto() {
     var clienteEmpeno = $("#idClienteEmpeno").val();
     var tipoInteres = $("#tipoInteresEmpeno").val();
@@ -127,7 +128,6 @@ function tokenNuevoAuto() {
         success: function (response) {
             if (response > 0) {
                 $("#idToken").val(response);
-                // var token = parseInt(response);
                 var token = response;
                 if (token > 20) {
                     alert("Los Token se estan terminando, favor de avisar al administrador");
@@ -231,7 +231,11 @@ function generarContratoAuto() {
         url: '../../../com.Mexicash/Controlador/Contrato/cAuto.php',
         type: 'post',
         success: function (contrato) {
+            alert(contrato)
             if (contrato > 0) {
+                var idRefrendoMigracion = $("#idRefrendoMigracion").val();
+                idRefrendoMigracion = Math.round(idRefrendoMigracion * 100) / 100;
+
                 var mov_contrato = contrato;
                 var mov_fechaVencimiento = fechaVencimiento;
                 var mov_fechaAlmoneda = fechaAlmoneda;
@@ -264,7 +268,7 @@ function generarContratoAuto() {
                 Contrato_Mov(mov_contrato,mov_fechaVencimiento,mov_fechaAlmoneda,mov_prestamo_actual,mov_prestamo_nuevo,mov_descuentoApl,mov_descuentoTotal,
                     mov_abonoTotal,mov_capitalRecuperado,mov_pagoDesempeno,mov_abono,mov_intereses,mov_interes,mov_almacenaje,mov_seguro,
                     mov_moratorios,mov_iva,mov_gps,mov_poliza,mov_pension,mov_costoContrato,mov_tipoContrato,mov_tipoMovimiento,mov_Informativo,
-                    mov_subtotal,mov_total,mov_efectivo,mov_cambio);
+                    mov_subtotal,mov_total,mov_efectivo,mov_cambio,idRefrendoMigracion);
                 BitacoraUsuarioEmpeno(contrato, clienteEmpeno, 2,tipoFormulario);
 
                 //MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 2, totalAvaluo);

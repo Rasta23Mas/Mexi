@@ -650,8 +650,8 @@ $contenido .= '
             </td>
         </tr>';
 $contenido .= ' </tbody></table></form></body></html>';
-//echo $contenido;
-//exit;
+echo $contenido;
+exit;
 
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

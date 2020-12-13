@@ -4,11 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/css" src="../../JavaScript/funcionesGenerales.js"></script>
-<style type="text/css">
-    .inputMinus {
-        text-transform: uppercase;
-    }
-</style>
 </head>
 <body>
 <div class="modal fade " id="modalDescuento" tabindex="-1" role="dialog"
@@ -30,7 +25,7 @@
                         </tr>
                         <tr>
                             <td align="center">
-                                <input type="text" id="idCodigoAut" name="codigoAut" size="20" value="" style="text-align: center" class="inputMinus"/>
+                                <input type="text" id="idCodigoAut" name="codigoAut" size="20" value="" style="text-align: center" />
                             </td>
                         </tr>
                     </table>

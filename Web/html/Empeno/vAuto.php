@@ -591,6 +591,9 @@ include_once(DESC_PATH . "modalDescuentoTokenAuto.php");
                 <table>
                     <tr>
                         <td align="right">
+                            <b>Refrendo Migración:</b>
+                            <input type="text" id="idRefrendoMigracion" name="refrendoM" size="6"
+                                   onkeypress="return isNumberDecimal(event)" style="text-align:right" placeholder="0"/>
                             <input type="button" class="btn btn-primary" value="Contrato" onclick="validarMontoAuto()">&nbsp;
                         </td>
                     </tr>
