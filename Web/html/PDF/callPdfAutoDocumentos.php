@@ -41,9 +41,9 @@ $query = "SELECT CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre)
 DATE_FORMAT(Con.fecha_Creacion,'%d-%m-%Y') AS Creacion, Aut.chkTarjeta AS Tarjeta, Aut.chkFactura AS Factura, Aut.chkINE AS INE,
 Aut.chkImportacion AS Importacion,Aut.chkTenencias AS Tenencia, Aut.chkPoliza AS Poliza, Aut.chkLicencia AS Licencia 
 FROM contratos_tbl AS Con 
-INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente 
-INNER JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato 
-WHERE Con.id_Contrato=$idContrato AND Con.tipoContrato = 2";
+INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente AND Cli.sucursal=$sucursal
+INNER JOIN auto_tbl AS Aut on Con.id_Contrato = Aut.id_Contrato  AND Aut.sucursal=$sucursal
+WHERE Con.id_Contrato=$idContrato AND Con.tipoContrato = 2  AND Con.sucursal=$sucursal";
 echo $query;
 $resultado = $db->query($query);
 

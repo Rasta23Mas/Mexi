@@ -23,7 +23,7 @@ class sqlAutoDAO
     {
         // TODO: Implement guardaCiente() method.
         try {
-
+            $sucursal = $_SESSION["sucursal"];
             $id_Cliente = $auto->getIdClienteAuto();
             $totalPrestamo = $auto->getTotalPrestamo();
             $totalAvaluo = $auto->getTotalAvaluo();
@@ -59,10 +59,10 @@ class sqlAutoDAO
             $insertaContrato = "INSERT INTO contratos_tbl " .
                 "(id_Cliente, total_Prestamo,total_Avaluo,avaluo_Letra,diasAlm,cotitular, beneficiario, 
                   plazo,periodo,tipoInteres,tasa, alm, seguro,iva,dias,PolizaSeguro, GPS, Pension,id_Formulario,Aforo, total_Interes,suma_InteresPrestamo,fecha_creacion,
-                  fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus) VALUES 
+                  fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus,sucursal) VALUES 
                   ($id_Cliente,$totalPrestamo,$totalAvaluo,'$AvaluoLetra',$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$polizaInteres,$gps,$pension,$tipoFormulario,$aforo,$total_Inter,$sumaInteresPrestamo,'$fechaCreacion',
-                  '$fechaVencimiento','$fechaAlm',2,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus)";
+                  '$fechaVencimiento','$fechaAlm',2,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus,$sucursal)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     if (mysqli_stmt_affected_rows($ps) == 1) {

@@ -182,7 +182,6 @@ class sqlMovimientosDAO
                          $pag_subtotal, $pag_total, $pag_efectivo, $pag_cambio,$sucursal,$migracion,$idRefrendoMigracion)";
                 if ($ps = $this->conexion->prepare($insertaMovimiento)) {
                     if ($ps->execute()) {
-                        // $verdad = mysqli_stmt_affected_rows($ps);
                         $buscarContrato = "select max(id_movimiento) as ID_Movimiento from contrato_mov_tbl where id_cierreCaja = $idCierreCaja";
                         $statement = $this->conexion->query($buscarContrato);
                         $encontro = $statement->num_rows;

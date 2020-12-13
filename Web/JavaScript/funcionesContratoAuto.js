@@ -231,7 +231,6 @@ function generarContratoAuto() {
         url: '../../../com.Mexicash/Controlador/Contrato/cAuto.php',
         type: 'post',
         success: function (contrato) {
-            alert(contrato)
             if (contrato > 0) {
                 var idRefrendoMigracion = $("#idRefrendoMigracion").val();
                 idRefrendoMigracion = Math.round(idRefrendoMigracion * 100) / 100;
@@ -271,7 +270,6 @@ function generarContratoAuto() {
                     mov_subtotal,mov_total,mov_efectivo,mov_cambio,idRefrendoMigracion);
                 BitacoraUsuarioEmpeno(contrato, clienteEmpeno, 2,tipoFormulario);
 
-                //MovimientosContrato(contrato, idTipoInteres, idPeriodo, plazo, totalPrestamo, clienteEmpeno, fechaVencimiento, fechaAlmoneda, 2, totalAvaluo);
             } else {
                 alertify.error("Error al generar contrato. (FEErr02)");
             }
@@ -304,7 +302,6 @@ function cancelar() {
 }
 
 function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato,tipoFormulario) {
-
     var movimiento = 7;
     var id_Movimiento = movimiento;
     var id_contrato = contrato;
@@ -331,7 +328,7 @@ function BitacoraUsuarioEmpeno(contrato, clienteEmpeno, tipoContrato,tipoFormula
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                BitacoraTokenEmpeno(contrato,tipoFormulario,tipoContrato)
+                BitacoraTokenEmpeno(contrato,tipoFormulario,tipoContrato);
             } else {
                 alertify.error("Error en al conectar con el servidor. (FEErr07)")
             }
