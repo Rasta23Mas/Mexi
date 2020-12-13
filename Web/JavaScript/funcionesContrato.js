@@ -167,7 +167,7 @@ function generarContrato() {
                     mov_subtotal,mov_total,mov_efectivo,mov_cambio,idRefrendoMigracion);
 
             } else {
-                alertify.error("Error al generar contratso. (FEErr01)");
+                alertify.error("Error al generar contrato. (FEErr01)");
             }
         },
     })

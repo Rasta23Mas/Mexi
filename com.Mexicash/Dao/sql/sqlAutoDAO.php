@@ -24,6 +24,16 @@ class sqlAutoDAO
         // TODO: Implement guardaCiente() method.
         try {
             $sucursal = $_SESSION["sucursal"];
+
+            $IdContratoMax=0;
+            $buscarMax = "select max(id_Contrato) as UltimoContrato  from contratos_tbl where sucursal=$sucursal";
+            $statement = $this->conexion->query($buscarMax);
+            $encontro = $statement->num_rows;
+            if ($encontro > 0) {
+                $fila = $statement->fetch_object();
+                $IdContratoMax = $fila->UltimoContrato;
+            }
+            $IdContratoMax++;
             $id_Cliente = $auto->getIdClienteAuto();
             $totalPrestamo = $auto->getTotalPrestamo();
             $totalAvaluo = $auto->getTotalAvaluo();
@@ -57,25 +67,17 @@ class sqlAutoDAO
             $sumaInteresPrestamo = $auto->getSumaInteresPrestamo();
 
             $insertaContrato = "INSERT INTO contratos_tbl " .
-                "(id_Cliente, total_Prestamo,total_Avaluo,avaluo_Letra,diasAlm,cotitular, beneficiario, 
+                "(id_Contrato,id_Cliente, total_Prestamo,total_Avaluo,avaluo_Letra,diasAlm,cotitular, beneficiario, 
                   plazo,periodo,tipoInteres,tasa, alm, seguro,iva,dias,PolizaSeguro, GPS, Pension,id_Formulario,Aforo, total_Interes,suma_InteresPrestamo,fecha_creacion,
                   fecha_vencimiento,fecha_almoneda, tipoContrato,id_cierreCaja,fisico,fecha_fisico_ini,fecha_fisico_fin,id_cat_estatus,sucursal) VALUES 
-                  ($id_Cliente,$totalPrestamo,$totalAvaluo,'$AvaluoLetra',$diasAlm,'$cotitular','$beneficiario',
+                  ($IdContratoMax,$id_Cliente,$totalPrestamo,$totalAvaluo,'$AvaluoLetra',$diasAlm,'$cotitular','$beneficiario',
                   $plazo,'$periodo','$tipoInteres',$tasa,$alm,$seguro,$iva,$dias,$polizaInteres,$gps,$pension,$tipoFormulario,$aforo,$total_Inter,$sumaInteresPrestamo,'$fechaCreacion',
                   '$fechaVencimiento','$fechaAlm',2,$idCierreCaja,$fisico,'$fecha_fisico_ini','$fecha_fisico_fin',$id_cat_estatus,$sucursal)";
             if ($ps = $this->conexion->prepare($insertaContrato)) {
                 if ($ps->execute()) {
                     if (mysqli_stmt_affected_rows($ps) == 1) {
                         $sucursal = $_SESSION["sucursal"];
-                        $IdContratoMax=0;
-                        $buscarMax = "select max(id_Contrato) as UltimoContrato  from contratos_tbl where sucursal=$sucursal";
-                        $statement = $this->conexion->query($buscarMax);
-                        $encontro = $statement->num_rows;
-                        if ($encontro > 0) {
-                            $fila = $statement->fetch_object();
-                            $IdContratoMax = $fila->UltimoContrato;
-                        }
-                        $IdContratoMax++;
+
 
                         $fechaModificacion = date('Y-m-d H:i:s');
 
@@ -123,12 +125,12 @@ class sqlAutoDAO
 
                         $insertaAuto = "INSERT INTO auto_tbl(id_Contrato, tipo_Vehiculo,marca, modelo, anio, color, placas, factura," .
                             " kilometraje, agencia, num_motor, serie_chasis, vin, repuve, gasolina, tarjeta_circulacion, aseguradora, poliza, fechaVencimiento," .
-                            " tipoPoliza, observaciones, chkTarjeta, chkFactura, chkINE, chkImportacion, chkTenencias, chkPoliza, chkLicencia, fecha_creacion, fecha_modificacion, id_cierreCaja,id_Estatus)" .
+                            " tipoPoliza, observaciones, chkTarjeta, chkFactura, chkINE, chkImportacion, chkTenencias, chkPoliza, chkLicencia, fecha_creacion, fecha_modificacion, id_cierreCaja,id_Estatus,sucursal)" .
                             " VALUES ('" . $IdContratoMax . "', '" . $idTipoVehiculo . "', '" . $idMarca . "', '" . $idModelo . "'," .
                             " '" . $idAnio . "', '" . $idColor . "', '" . $idPlacas . "', '" . $idFactura . "', '" . $idKms . "','" . $idAgencia . "','" . $idMotor . "'," .
                             " '" . $idSerie . "', '" . $idVehiculo . "', '" . $idRepuve . "', '" . $idGasolina . "', '" . $idTarjeta . "','" . $idAseguradora . "','" . $idPoliza . "'," .
                             " '" . $idFecVencimientoAuto . "', '" . $idTipoPoliza . "', '" . $idObservacionesAuto . "', '" . $idCheckTarjeta . "', '" . $idCheckFactura . "','" . $idCheckINE . "'," .
-                            " '" . $idCheckImportacion . "', '" . $idCheckTenecia . "', '" . $idCheckPoliza . "', '" . $idCheckLicencia . "', '" . $fechaCreacion . "','" . $fechaModificacion . "','" . $idCierreCaja . "','" . $estatus . "')";
+                            " '" . $idCheckImportacion . "', '" . $idCheckTenecia . "', '" . $idCheckPoliza . "', '" . $idCheckLicencia . "', '" . $fechaCreacion . "','" . $fechaModificacion . "','" . $idCierreCaja . "','" . $estatus . "',$sucursal)";
                         if ($ps = $this->conexion->prepare($insertaAuto)) {
                             if ($ps->execute()) {
                                 $verdad =  $IdContratoMax;
