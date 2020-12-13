@@ -268,13 +268,12 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
                         var ColorAuto = datos[i].ColorAuto;
                         Obs = datos[i].Obs;
                         Serie = datos[i].Serie;
-                        var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto;
+                        var Descripcion = Marca + " " + Modelo + " " + Anio + " " + ColorAuto + " " +Obs;
                         html += '<tr align="center">' +
                             '<td>' + idContratoBusqueda + '</td>' +
                             '<td>' + Num + '</td>' +
                             '<td>' + Vehiculo + '</td>' +
                             '<td>' + Descripcion + '</td>' +
-                            '<td>' + Obs + '</td>' +
                             '<td align="center">' +
                             '<img src="../../style/Img/fotos_Nor.png"   alt="Ver Fotos" onclick="verFotosContrato(\'' + Serie + '\')">' +
                             '</td>' +
@@ -339,8 +338,6 @@ function cargarTablaNombre() {
                 var Plazo = datos[i].Plazo;
                 var CostoContrato = datos[i].CostoContrato;
                 var MovimientoTipo = datos[i].MovimientoTipo;
-                var ContratoReimprimir = Contrato;
-                var MovimientoReimprimir = idMovimiento;
                 var tipoReporte = 0;
 
                 if (CostoContrato > 0) {

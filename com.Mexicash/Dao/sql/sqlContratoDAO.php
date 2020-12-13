@@ -166,7 +166,7 @@ class sqlContratoDAO
             $buscar = "SELECT  Cli.id_Cliente AS Cliente, CONCAT (Cli.apellido_Pat, '/',Cli.apellido_Mat,'/', Cli.nombre) as NombreCompleto,
                         CONCAT(Cli.calle, ', ',Cli.num_interior,', ', Cli.num_exterior, ', ',Cli.localidad, ', ', Cli.municipio, ', ', CatEst.descripcion ) AS direccionCompleta
                         FROM contratos_tbl as Con 
-                        INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
+                        INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente AND Cli.sucursal=$sucursal
                          INNER JOIN cat_estado as CatEst on Cli.estado = CatEst.id_Estado
                         WHERE Con.id_Contrato =$idContratoBusqueda AND Con.tipoContrato = $tipoContratoGlobal AND Con.sucursal=$sucursal ";
             $rs = $this->conexion->query($buscar);
@@ -280,9 +280,10 @@ class sqlContratoDAO
                         CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, 
                         e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
                         FROM contrato_mov_tbl  as ConM
-                        INNER JOIN contratos_tbl Con on ConM.id_contrato = Con.id_Contrato 
-                        INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE ConM.id_Contrato= $idContratoBusqueda AND tipo_Contrato  =$tipoContratoGlobal AND ConM.sucursal= $sucursal AND Con.sucursal= $sucursal ORDER BY Contrato";
+                        INNER JOIN contratos_tbl Con on ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
+                        LEFT JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
+                        WHERE ConM.id_Contrato= $idContratoBusqueda AND tipo_Contrato  =$tipoContratoGlobal AND
+                         ConM.sucursal= $sucursal ORDER BY Contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -329,8 +330,8 @@ class sqlContratoDAO
                        CONCAT(Con.tipoInteres, ' ' ,Con.periodo ,' ' ,Con.plazo) AS PlazoMov, e_costoContrato AS CostoContrato,
                        tipo_movimiento AS MovimientoTipo  
                        FROM contrato_mov_tbl Mov 
+                       INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                        INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                       INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato 
                        WHERE Con.id_Cliente= $idClienteConsulta AND tipo_Contrato =$tipoContratoGlobal AND Mov.sucursal=$sucursal ORDER BY Mov.id_Contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -377,9 +378,10 @@ class sqlContratoDAO
                         e_intereses AS InteresMovimiento,e_moratorios AS MoratoriosMov, s_descuento_aplicado AS DescuentoMov,
                         e_pagoDesempeno AS PagoMov, CONCAT(tipoInteres, ' ' ,periodo ,' ' ,plazo) AS PlazoMov, e_costoContrato AS CostoContrato,tipo_movimiento AS MovimientoTipo 
                         FROM contrato_mov_tbl as Mov
-                        INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato 
+                        INNER JOIN contratos_tbl Con on Mov.id_contrato = Con.id_Contrato  AND Con.sucursal=$sucursal
                         INNER JOIN cat_movimientos CMov on tipo_movimiento = CMov.id_Movimiento 
-                        WHERE tipo_contrato=$tipoContratoGlobal  AND Mov.sucursal=$sucursal  AND Con.sucursal=$sucursal AND  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaInicio' AND '$fechaFinal' 
+                        WHERE tipo_contrato=$tipoContratoGlobal  AND Mov.sucursal=$sucursal  
+                        AND  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaInicio' AND '$fechaFinal' 
                         ORDER BY Mov.id_Contrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
