@@ -17,6 +17,11 @@
     <tbody id="idTBodyInventario" class="letraChica" align="center">
     </tbody>
 </table>
+<table class="table table-hover table-condensed table-bordered letraChica" width="100%">
+    <tr align="center" class="titleTable">
+        <td align="right"><b>Total Ventas:<b>&nbsp;&nbsp; <label id="totalVentas"></label></td>
+    </tr>
+</table>
 <div class="col-md-12 text-center">
     <ul class="pagination" id="paginador"></ul>
 </div>

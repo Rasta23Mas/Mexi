@@ -321,10 +321,10 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
             } else if (tipoReporte == 5) {
-            var TOT_VENTAS = data.TOT_VENTAS;
+                var TOT_VENTAS = data.TOT_VENTAS;
                 TOT_VENTAS = formatoMoneda(TOT_VENTAS);
-            document.getElementById('totalVentas').innerHTML = TOT_VENTAS;
-        } else if (tipoReporte == 6) {
+                document.getElementById('totalVentas').innerHTML = TOT_VENTAS;
+            } else if (tipoReporte == 6) {
                 var TOT_VENTAS = data.TOT_VENTAS;
                 var TOT_COMPRA = data.TOT_COMPRA;
                 TOT_VENTAS = parseFloat(TOT_VENTAS);
@@ -336,6 +336,32 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalCompras').innerHTML = TOT_COMPRA;
                 document.getElementById('totalPrecio').innerHTML = TOT_VENTAS;
                 document.getElementById('totalUtilidad').innerHTML = UTILIDAD;
+            } else if (tipoReporte == 7) {
+                var TOT_VENTAS = data.TOT_VENTAS;
+                TOT_VENTAS = formatoMoneda(TOT_VENTAS);
+                document.getElementById('totalVentas').innerHTML = TOT_VENTAS;
+            } else if (tipoReporte == 9) {
+                var TOT_SUB = data.TOT_SUB;
+                var TOT_DESC = data.TOT_DESC;
+                var TOT_VENTAS = data.TOT_VENTAS;
+                var TOT_PREST = data.TOT_PREST;
+                var TOT_UTIL = data.TOT_UTIL;
+
+                TOT_SUB = formatoMoneda(TOT_SUB);
+                TOT_DESC = formatoMoneda(TOT_DESC);
+                TOT_VENTAS = formatoMoneda(TOT_VENTAS);
+                TOT_PREST = formatoMoneda(TOT_PREST);
+                TOT_UTIL = formatoMoneda(TOT_UTIL);
+
+                document.getElementById('totalSubtotal').innerHTML = TOT_SUB;
+                document.getElementById('totalDescuento').innerHTML = TOT_DESC;
+                document.getElementById('totalVentas').innerHTML = TOT_VENTAS;
+                document.getElementById('totalPrestamo').innerHTML = TOT_PREST;
+                document.getElementById('totalUtilidad').innerHTML = TOT_UTIL;
+            } else if (tipoReporte == 28) {
+                var TOT_VENTAS = data.TOT_VENTAS;
+                TOT_VENTAS = formatoMoneda(TOT_VENTAS);
+                document.getElementById('totalVentas').innerHTML = TOT_VENTAS;
             }
 
             fnCreaPaginador(total);
@@ -712,11 +738,7 @@ function fnTBodyInventario(lista) {
 
 function fnTBodyVentas(lista) {
     $("#idTBodyVentas").html("");
-    var Total_SubTotal = 0;
-    var Total_Descuent = 0;
-    var Total_TotalVenta = 0;
-    var Total_TotalPrestamo = 0;
-    var Total_Utilidad = 0;
+
     $.each(lista, function (ind, elem) {
         var subTotal = elem.subTotal;
         var descuento_Venta = elem.descuento_Venta;
@@ -730,11 +752,6 @@ function fnTBodyVentas(lista) {
         totalPrestamo = parseFloat(totalPrestamo);
         utilidad = parseFloat(utilidad);
 
-        Total_SubTotal = Total_SubTotal + subTotal;
-        Total_Descuent = Total_Descuent + descuento_Venta;
-        Total_TotalVenta = Total_TotalVenta + total;
-        Total_TotalPrestamo = Total_TotalPrestamo + totalPrestamo;
-        Total_Utilidad = Total_Utilidad + utilidad;
         subTotal = formatoMoneda(subTotal);
         descuento_Venta = formatoMoneda(descuento_Venta);
         total = formatoMoneda(total);
@@ -752,28 +769,6 @@ function fnTBodyVentas(lista) {
             "<td>" + elem.usuario + "</td>" +
             "</tr>").appendTo($("#idTBodyVentas"));
     });
-    Total_SubTotal = parseFloat(Total_SubTotal);
-    Total_Descuent = parseFloat(Total_Descuent);
-    Total_TotalVenta = parseFloat(Total_TotalVenta);
-    Total_TotalPrestamo = parseFloat(Total_TotalPrestamo);
-    Total_Utilidad = parseFloat(Total_Utilidad);
-
-    Total_SubTotal = formatoMoneda(Total_SubTotal);
-    Total_Descuent = formatoMoneda(Total_Descuent);
-    Total_TotalVenta = formatoMoneda(Total_TotalVenta);
-    Total_TotalPrestamo = formatoMoneda(Total_TotalPrestamo);
-    Total_Utilidad = formatoMoneda(Total_Utilidad);
-
-    $("<tr>" +
-        "<td></td>" +
-        "<td>TOTALES</td>" +
-        "<td>" + Total_SubTotal + "</td>" +
-        "<td>" + Total_Descuent + "</td>" +
-        "<td>" + Total_TotalVenta + "</td>" +
-        "<td>" + Total_TotalPrestamo + "</td>" +
-        "<td>" + Total_Utilidad + "</td>" +
-        "<td></td>" +
-        "</tr>").appendTo($("#idTBodyVentas"));
 }
 
 function fnTBodyIngresos(lista) {

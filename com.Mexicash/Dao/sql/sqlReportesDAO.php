@@ -426,24 +426,26 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(id_Articulo) as  totalCount 
+                $count = "SELECT COUNT(id_Articulo) as  totalCount,
+                        SUM(vitrina)  AS TOT_VENTAS   
                             FROM articulo_tbl AS ART 
-                            LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato
+                            LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
                             LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
                             WHERE Con.fisico = 1
-                            AND sucursal = $sucursal";
+                            AND  ART.sucursal = $sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_VENTAS"] = $fila["TOT_VENTAS"];
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_Contrato,
                         CONCAT (id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) as id_serie,
                         vitrina AS precio_venta, 
                         descripcionCorta as Detalle,CAT.descripcion as CatDesc
                         FROM articulo_tbl AS ART 
-                        LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato
+                        LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
                         LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
-                        WHERE Con.fisico = 1 AND sucursal = $sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                        WHERE Con.fisico = 1 AND  ART.sucursal = $sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while ($fila = $resultado->fetch_assoc()) {
@@ -473,7 +475,12 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(id_Bazar) AS totalCount
+                $count = "SELECT COUNT(id_Bazar) AS totalCount,
+                        SUM(Con.subTotal)  AS TOT_SUB,
+                        SUM(Con.descuento_Venta)  AS TOT_DESC,
+                        SUM(Con.total)  AS TOT_VENTAS,
+                        SUM(Con.totalPrestamo)  AS TOT_PREST,
+                        SUM(Con.utilidad)  AS TOT_UTIL   
                     FROM contrato_mov_baz_tbl AS Con
                     LEFT JOIN bit_cierrecaja AS BitC on Con.id_CierreCaja = BitC.id_CierreCaja 
                     AND Bitc.sucursal=$sucursal
@@ -484,9 +491,15 @@ class sqlReportesDAO
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_SUB"] = $fila["TOT_SUB"];
+                $jsondata["TOT_DESC"] = $fila["TOT_DESC"];
+                $jsondata["TOT_VENTAS"] = $fila["TOT_VENTAS"];
+                $jsondata["TOT_PREST"] = $fila["TOT_PREST"];
+                $jsondata["TOT_UTIL"] = $fila["TOT_UTIL"];
+
             } else {
-                $BusquedaQuery = "SELECT id_Bazar,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,Con.subTotal,
-                    Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu.usuario
+                $BusquedaQuery = "SELECT id_Bazar,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu.usuario
                     FROM contrato_mov_baz_tbl AS Con
                     LEFT JOIN bit_cierrecaja AS BitC on Con.id_CierreCaja = BitC.id_CierreCaja 
                     AND Bitc.sucursal=$sucursal
@@ -935,12 +948,15 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(Baz.id_AutoBazar) as  totalCount 
+                $count = "SELECT COUNT(Baz.id_AutoBazar) as  totalCount,
+                        SUM(vitrina_venta)  AS TOT_VENTAS   
                         FROM auto_bazar_tbl as Baz
                         WHERE tipo_movimiento!= 10 and Baz.sucursal=$sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_VENTAS"] = $fila["TOT_VENTAS"];
+
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(fecha_creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
                         vitrina_venta AS precio_venta, 
