@@ -362,6 +362,39 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 var TOT_VENTAS = data.TOT_VENTAS;
                 TOT_VENTAS = formatoMoneda(TOT_VENTAS);
                 document.getElementById('totalVentas').innerHTML = TOT_VENTAS;
+            } else if (tipoReporte == 10) {
+                var TOT_DES = data.TOT_DES;
+                var TOT_COSTO = data.TOT_COST;
+                var TOT_ABONO = data.TOT_ABONO;
+                var TOT_INTER = data.TOT_INTER;
+                var TOT_IVA = data.TOT_IVA;
+                var TOT_VENTAS = data.TOT_MOS;
+                var TOT_IVAV = data.TOT_IVAVEN;
+                var TOT_APAR = data.TOT_APAR;
+                var TOT_ABON = data.TOT_ABON;
+                var TOT_UTIL = data.TOT_UTIL;
+
+                TOT_DES = formatoMoneda(TOT_DES);
+                TOT_COSTO = formatoMoneda(TOT_COSTO);
+                TOT_ABONO = formatoMoneda(TOT_ABONO);
+                TOT_INTER = formatoMoneda(TOT_INTER);
+                TOT_IVA = formatoMoneda(TOT_IVA);
+                TOT_VENTAS = formatoMoneda(TOT_VENTAS);
+                TOT_IVAV = formatoMoneda(TOT_IVAV);
+                TOT_APAR = formatoMoneda(TOT_APAR);
+                TOT_ABON = formatoMoneda(TOT_ABON);
+                TOT_UTIL = formatoMoneda(TOT_UTIL);
+
+                document.getElementById('totalDes').innerHTML = TOT_DES;
+                document.getElementById('totalCosto').innerHTML = TOT_COSTO;
+                document.getElementById('totalAbono').innerHTML = TOT_ABONO;
+                document.getElementById('totalInteres').innerHTML = TOT_INTER;
+                document.getElementById('totalIva').innerHTML = TOT_IVA;
+                document.getElementById('totalVentas').innerHTML = TOT_VENTAS;
+                document.getElementById('totalIvaVentas').innerHTML = TOT_IVAV;
+                document.getElementById('totalApart').innerHTML = TOT_APAR;
+                document.getElementById('totalAbono').innerHTML = TOT_ABON;
+                document.getElementById('totalUtil').innerHTML = TOT_UTIL;
             }
 
             fnCreaPaginador(total);
