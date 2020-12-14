@@ -1,7 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 require_once(WEB_PATH . "dompdf/autoload.inc.php");
-require_once (BASE_PATH . "Conectar.php");
+require_once(BASE_PATH . "Conectar.php");
+
 use Dompdf\Dompdf;
 
 
@@ -64,6 +65,9 @@ foreach ($resultado as $row) {
     $pension = $row["pension"];
     $cantRetiros = $row["cantRetiros"];
     $retirosCaja = $row["retirosCaja"];
+    $cantCapitalRefrendoMig = $row["cantRefMig"];
+    $refrendoMig = $row["refrendoMig"];
+
     $cantPrestamos = $row["cantPrestamos"];
     $prestamosNuevos = $row["prestamosNuevos"];
     $cantDescuentos = $row["cantDescuentos"];
@@ -89,8 +93,8 @@ foreach ($resultado as $row) {
 }
 
 
-
 $dotacionesA_Caja = number_format($dotacionesA_Caja, 2, '.', ',');
+$refrendoMig = number_format($refrendoMig, 2, '.', ',');
 $capitalRecuperado = number_format($capitalRecuperado, 2, '.', ',');
 $abonoCapital = number_format($abonoCapital, 2, '.', ',');
 $intereses = number_format($intereses, 2, '.', ',');
@@ -118,6 +122,7 @@ $informeRefrendo = number_format($informeRefrendo, 2, '.', ',');
 
 
 $dotacionesA_Caja = "$" . $dotacionesA_Caja;
+$refrendoMig = "$" . $refrendoMig;
 $capitalRecuperado = "$" . $capitalRecuperado;
 $abonoCapital = "$" . $abonoCapital;
 $intereses = "$" . $intereses;
@@ -158,27 +163,11 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-      .letraNormalNegrita{
-          font-size: .4em;
-          font-weight: bold;
-         }
           .letraGrandeNegrita{
-          font-size: .5em;
+          font-size: .6em;
           font-weight: bold;
          }
-          .letraChicaNegrita{
-          font-size: .3em;
-          font-weight: bold;
-         }
-          .letraNormal{
-          font-size: .4em;
-         }
-          .letraGrande{
-          font-size: .5em;
-         }
-          .letraChica{
-          font-size: .3em;
-         }
+
       
         
         .tdborderBlue{
@@ -244,41 +233,36 @@ $contenido = '<html>
 <body>
 <form>';
 $contenido .= '
-<table align="center" border="0" width="90%" class="letraGrandeNegrita">
+<table align="center" border="1" width="100%" class="letraGrandeNegrita">
         <tbody>
                 <tr>
-                    <td colspan="3" align="center" class="letraGrandeNegrita">
+                    <td colspan="3" align="center" >
                         <label>' . $NombreCasa . '</label>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="center" class="letraGrandeNegrita">
+                    <td colspan="3" align="center" >
                         <label ID="sucursal">SUCURSAL: ' . $Nombre . '</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label class="letraGrandeNegrita">&nbsp;&nbsp;CIERRE DE CAJA</label>
+                        <label >&nbsp;&nbsp;CIERRE DE CAJA</label>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <label class="letraGrandeNegrita">' . $CerradoNombreUsuario . '</label>
+                        <label >' . $CerradoNombreUsuario . '</label>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="3">
-                        <br>
-                    </td>
-                </tr>
-                <tr class="letraGrandeNegrita">
-                        <td >
+                <tr >
+                        <td width="33%">
                             <label>&nbsp;&nbsp;&nbsp;CAJA:  ' . $id_CierreCaja . '</label>
                         </td>
-                       <td>
+                       <td width="33%" align="center">
                             <label>&nbsp;&nbsp;&nbsp;CAJERO:  ' . $NombreUsuario . '</label>
                         </td>
-                        <td align="right">
+                        <td align="right" width="33%">
                             <label>&nbsp;&nbsp;&nbsp;FECHA:  ' . $fecha_Creacion . '</label>
                         </td>
                     </tr>
@@ -290,7 +274,7 @@ $contenido .= '
            
         <tr>
             <td colspan="3">
-                <table align="center" class="tableCierre letraNormalNegrita" width="90%">
+                <table align="center" class="tableCierre" width="100%">
                 <tr>
                         <td colspan="3" class="titleTable tableTDCierre">
                             <label>&nbsp;&nbsp;&nbsp;DOTACIONES DE EFECTIVO</label>
@@ -354,15 +338,16 @@ $contenido .= '
                         </td>
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantCapitalRecuperado . ' )</label>
+                <td class="primeraCol tableTDCierre">
+                            <label> ( ' . $cantCapitalRefrendoMig . ' )</label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
+                         <td class="segundaCol  tableTDCierre">
+                            <label>&nbsp;&nbsp;&nbsp;REFRENDO MIG:</label>
                         </td>
                         <td class="terceraCol  tableTDCierre">
-                              <label >' . $capitalRecuperado . '</label>
+                              <label >' . $refrendoMig . '</label>
                         </td>
+                        
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -377,15 +362,16 @@ $contenido .= '
                         </td>
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantAbono . ' )</label>
+                <td class="primeraCol tableTDCierre">
+                           <label> ( ' . $cantCapitalRecuperado . ' )</label>
                         </td>
-                        <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;ABONO A CAPITAL:</label>
+                        <td class="segundaCol  tableTDCierre">
+                            <label>&nbsp;&nbsp;&nbsp;CAPITAL RECUPERADO:</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                               <label >' . $abonoCapital . '</label>
+                        <td class="terceraCol  tableTDCierre">
+                              <label >' . $capitalRecuperado . '</label>
                         </td>
+                       
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -400,14 +386,14 @@ $contenido .= '
                         </td>
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantInteres . ' )</label>
+                 <td class="primeraCol tableTDCierre">
+                            <label> ( ' . $cantAbono . ' )</label>
                         </td>
                         <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;INTERESES:</label>
+                            <label>&nbsp;&nbsp;&nbsp;ABONO A CAPITAL:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
-                              <label >' . $intereses . '</label>
+                               <label >' . $abonoCapital . '</label>
                         </td>
                         <td class="espacioEnmedio ">
                             <br>
@@ -422,15 +408,15 @@ $contenido .= '
                                <label >' . $descuento_Ventas . '</label>
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantCostoContrato . ' )</label>
+                <td class="primeraCol tableTDCierre">
+                           <label> ( ' . $cantInteres . ' )</label>
                         </td>
                         <td class="segundaCol tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;COSTO CONTRATO:</label>
+                            <label>&nbsp;&nbsp;&nbsp;INTERESES:</label>
                         </td>
                         <td class="terceraCol tableTDCierre">
-                               <label >' . $costoContrato . '</label>
-                        </td>
+                              <label >' . $intereses . '</label>
+                        </td>                        
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -446,15 +432,16 @@ $contenido .= '
                  
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantIva . ' )</label>
+                <td class="primeraCol tableTDCierre">
+                           <label> ( ' . $cantCostoContrato . ' )</label>
                         </td>
-                        <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;I.V.A. :</label>
+                        <td class="segundaCol tableTDCierre">
+                            <label>&nbsp;&nbsp;&nbsp;COSTO CONTRATO:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                              <label >' . $iva . '</label>
+                        <td class="terceraCol tableTDCierre">
+                               <label >' . $costoContrato . '</label>
                         </td>
+                        
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -464,15 +451,16 @@ $contenido .= '
                    
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
-                           <label> ( ' . $cantGps . ' )</label>
+                <td class="primeraCol tableTDCierre">
+                           <label> ( ' . $cantIva . ' )</label>
                         </td>
                         <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;RENTA GPS:</label>
+                            <label>&nbsp;&nbsp;&nbsp;I.V.A. :</label>
                         </td>
-                        <td class="terceraCol tableTDCierre">
-                              <label >' . $gps . '</label>
+                        <td class="terceraCol  tableTDCierre">
+                              <label >' . $iva . '</label>
                         </td>
+                        
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -481,15 +469,16 @@ $contenido .= '
                         </td>
                 </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantPoliza . ' )</label>
+                <td class="primeraCol tableTDCierre">
+                           <label> ( ' . $cantGps . ' )</label>
                         </td>
                         <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
+                            <label>&nbsp;&nbsp;&nbsp;RENTA GPS:</label>
                         </td>
-                        <td class="terceraCol  tableTDCierre">
-                               <label >' . $poliza . '</label>
+                        <td class="terceraCol tableTDCierre">
+                              <label >' . $gps . '</label>
                         </td>
+                       
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -501,15 +490,16 @@ $contenido .= '
                         </td>
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantPension . ' )</label>
+                 <td class="primeraCol tableTDCierre">
+                            <label> ( ' . $cantPoliza . ' )</label>
                         </td>
                         <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;PENSIÓN:</label>
+                            <label>&nbsp;&nbsp;&nbsp;POLIZA:</label>
                         </td>
                         <td class="terceraCol  tableTDCierre">
-                              <label >' . $pension . '</label>
+                               <label >' . $poliza . '</label>
                         </td>
+                        
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -521,15 +511,16 @@ $contenido .= '
                         </td>
                     </tr>
                 <tr>
-                 <td class="primeraCol tableTDCierre">
-                            <label> ( ' . $cantAjustes . ' )</label>
+                <td class="primeraCol tableTDCierre">
+                            <label> ( ' . $cantPension . ' )</label>
                         </td>
                         <td class="segundaCol  tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+                            <label>&nbsp;&nbsp;&nbsp;PENSIÓN:</label>
                         </td>
                         <td class="terceraCol  tableTDCierre">
-                              <label >' . $ajuste . '</label>
+                              <label >' . $pension . '</label>
                         </td>
+                 
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -542,8 +533,16 @@ $contenido .= '
                      
                     </tr>
                 <tr>
-                       <td colspan="3" >
+                <td class="primeraCol tableTDCierre">
+                            <label> ( ' . $cantAjustes . ' )</label>
                         </td>
+                        <td class="segundaCol  tableTDCierre">
+                            <label>&nbsp;&nbsp;&nbsp;AJUSTES:</label>
+                        </td>
+                        <td class="terceraCol  tableTDCierre">
+                              <label >' . $ajuste . '</label>
+                        </td>
+                      
                         <td class="espacioEnmedio ">
                             <br>
                         </td>
@@ -555,9 +554,9 @@ $contenido .= '
                         </td>
                     </tr>
                 <tr>
-                       <td colspan="3" class="titleTable tableTDCierre">
-                            <label>&nbsp;&nbsp;&nbsp;VENTAS</label>
+                 <td colspan="3" >
                         </td>
+                       
                         <td colspan="1">
                             <br>
                         </td>
@@ -569,7 +568,16 @@ $contenido .= '
                         </td>
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
+                <td colspan="3" class="titleTable tableTDCierre">
+                            <label>&nbsp;&nbsp;&nbsp;VENTAS</label>
+                        </td>
+                        
+                        <td colspan="4">
+                            <br>
+                        </td>
+                    </tr>
+                <tr>
+                <td class="primeraCol tableTDCierre">
                             <label> ( ' . $cantCapitalRecuperado . ' )</label>
                         </td>
                         <td class="segundaCol  tableTDCierre">
@@ -578,12 +586,13 @@ $contenido .= '
                         <td class="terceraCol  tableTDCierre">
                                <label >' . $capitalRecuperado . '</label>
                         </td>
+                       
                         <td colspan="4">
                             <br>
                         </td>
                     </tr>
                 <tr>
-                        <td class="primeraCol tableTDCierre">
+                 <td class="primeraCol tableTDCierre">
                             <label> ( ' . $cantIvaVenta . ' )</label>
                         </td>
                         <td class="segundaCol tableTDCierre">
@@ -592,10 +601,11 @@ $contenido .= '
                         <td class="terceraCol  tableTDCierre">
                               <label >' . $iva_venta . '</label>
                         </td>
+                
                         <td colspan="4">
                             <br>
                         </td>
-                    </tr>
+                </tr>
                 <tr>
                 <td class="primeraCol tableTDCierre">
                             <label> ( ' . $cantApartados . ' )</label>
@@ -606,12 +616,13 @@ $contenido .= '
                         <td class="terceraCol tableTDCierre">
                                <label >' . $apartadosVentas . '</label>
                         </td>
+                    
                         <td colspan="4">
                             <br>
                         </td>
-                </tr>
+                    </tr>
                 <tr>
-                    <td class="primeraCol tableTDCierre">
+                <td class="primeraCol tableTDCierre">
                             <label> ( ' . $cantAbonoVentas . ' )</label>
                         </td>
                         <td class="segundaCol tableTDCierre">
@@ -624,7 +635,7 @@ $contenido .= '
                             <br>
                         </td>
                     </tr>
-                <tr>
+                    <tr>
                         <td class="primeraCol tableTDCierre">
                             <label> ( ' . $cantRefrendos . ' )</label>
                         </td>
@@ -652,10 +663,10 @@ $contenido .= '</tbody></table></form></body></html>';
 $nombreContrato = 'Caja Num ' . $id_CierreCaja . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
-if($sucursal==1){
+if ($sucursal == 1) {
     $dompdf->setPaper('letter', 'portrait');
 
-}else if($sucursal==2){
+} else if ($sucursal == 2) {
     $dompdf->setPaper('letter', 'portrait');
 
 }

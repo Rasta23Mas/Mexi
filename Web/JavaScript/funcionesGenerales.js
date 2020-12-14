@@ -239,6 +239,14 @@ function fnCierreCajaIndispensable(estatus,user,tipo) {
     })
 }
 
+function pdfCajaInicio(folioCierre) {
+    window.open('../PDF/callPdfCierreCaja.php?folioCierreCaja=' + folioCierre);
+}
+
+function pdfSucursalInicio(folioSucursal) {
+    window.open('../PDF/callPdfCierreSucursal.php?folioCierreSucursal=' + folioSucursal);
+}
+
 //Saber el tipo de dato
 //alert(typeof (totalVencInteres))
 //Obtener el valor texto de un select

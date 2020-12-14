@@ -88,6 +88,24 @@ if ($sucursal == 1) {
                         <td colspan="1" align="center" ></td>
                     </tr>
                     <tr>
+                        <td colspan="1" align="left">
+                            <input type="button" class="btn btn-success  w-75" value="PDF CAJA" onclick="pdfCajaInicio(<?php echo $_SESSION["idCierreCaja"]; ?>);"></td>
+                        <td colspan="5">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" align="center"><br></td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="1" align="left">
+                            <input type="button" class="btn btn-success  w-75" value="PDF SUCURSAL" onclick="pdfSucursalInicio(<?php echo $_SESSION["idCierreSucursal"]; ?>);"></td>
+                        <td colspan="5">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="6" align="center"><br></td>
 
                     </tr>

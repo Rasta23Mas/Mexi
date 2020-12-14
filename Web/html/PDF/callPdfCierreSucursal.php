@@ -62,6 +62,10 @@ foreach ($resultado as $row) {
     $pension = $row["pension"];
     $CantAjustes = $row["CantAjustes"];
     $ajustes = $row["ajustes"];
+
+    $CantRefrendoMig = $row["CantRefMig"];
+    $refrendoMig = $row["refrendoMig"];
+
     $CantRetirosCaja = $row["CantRetirosCaja"];
     $retirosCaja = $row["retirosCaja"];
     $CantRetirosBoveda = $row["CantRetirosBoveda"];
@@ -108,6 +112,7 @@ $gps = number_format($gps, 2, '.', ',');
 $poliza = number_format($poliza, 2, '.', ',');
 $pension = number_format($pension, 2, '.', ',');
 $ajustes = number_format($ajustes, 2, '.', ',');
+$refrendoMig = number_format($refrendoMig, 2, '.', ',');
 $retirosCaja = number_format($retirosCaja, 2, '.', ',');
 $retiros_boveda = number_format($retiros_boveda, 2, '.', ',');
 $prestamosNuevos = number_format($prestamosNuevos, 2, '.', ',');
@@ -144,6 +149,7 @@ $gps = "$" . $gps;
 $poliza = "$" . $poliza;
 $pension = "$" . $pension;
 $ajustes = "$" . $ajustes;
+$refrendoMig = "$" . $refrendoMig;
 $retirosCaja = "$" . $retirosCaja;
 $retiros_boveda = "$" . $retiros_boveda;
 $prestamosNuevos = "$" . $prestamosNuevos;
@@ -168,27 +174,11 @@ $contenido = '<html>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
       <style>
-       .letraNormalNegrita{
-          font-size: .4em;
-          font-weight: bold;
-         }
           .letraGrandeNegrita{
-          font-size: .5em;
+          font-size: .6em;
           font-weight: bold;
          }
-          .letraChicaNegrita{
-          font-size: .3em;
-          font-weight: bold;
-         }
-          .letraNormal{
-          font-size: .4em;
-         }
-          .letraGrande{
-          font-size: .5em;
-         }
-          .letraChica{
-          font-size: .3em;
-         }
+
           .btn{
             color: #0099CC;
             background: transparent;
@@ -261,8 +251,8 @@ $contenido = '<html>
 <body>
 <form>';
 $contenido .= '
-<table align="center" border="0" WIDTH="90%" class="letraChica">
-    <tbody>
+<table align="center" border="0" WIDTH="100%" class="letraGrandeNegrita tableTDCierre">
+    <tbody class="tableTDCierre">
         <tr>
             <th style="width:5%;"></th>
             <th style="width:30%;"></th>
@@ -272,18 +262,18 @@ $contenido .= '
             <th style="width:20%;"></th>
         </tr>
         <tr>
-            <td colspan="6" align="center" class="letraNormalNegrita">
+            <td colspan="6" align="center" >
                 <label>' . $NombreCasa . '</label>
             </td>
         </tr>
         <tr>
-            <td colspan="6" align="center" class="letraNormalNegrita">
+            <td colspan="6" align="center" >
                 <label ID="sucursal">SUCURSAL: ' . $Nombre . '</label>
             </td>
         </tr>
         <tr>
             <td colspan="6" align="center">
-                <label class="letraNormalNegrita">&nbsp;&nbsp;CIERRE DE SUCURSAL</label>
+                <label >&nbsp;&nbsp;CIERRE DE SUCURSAL</label>
             </td>
         </tr>
         <tr>
@@ -303,10 +293,10 @@ $contenido .= '
             </td>
         </tr>
         <tr>
-            <td  colspan="2" class="letraChicaNegrita">
+            <td  colspan="2" >
                 <label>&nbsp;&nbsp;&nbsp;DOTACIONES A CAJA:</label>
             </td>
-            <td class="letraChicaNegrita">
+            <td >
                 <label>' . $dotacionesA_Caja . '</label>
             </td>
             <td align="center">
@@ -598,8 +588,14 @@ $contenido .= '
             </td>
         </tr>
         <tr>
-            <td  colspan="3">
-                <label></label>
+             <td align="center">
+                <label>' . $CantRefrendoMig . '</label>
+            </td>
+            <td  >
+                <label>&nbsp;&nbsp;&nbsp;REFRENDO MIGRACIÓN:</label>
+            </td>
+            <td >
+                <label>' . $refrendoMig . '</label>
             </td>
             <td colspan="2" class="tableTDCierre" >
                 <label>&nbsp;&nbsp;&nbsp;SALDO FINAL:</label>
@@ -647,7 +643,8 @@ $contenido .= '
             </td>
         </tr>  ';
 $contenido .= '</tbody></table></form></body></html>';
-
+echo $contenido;
+exit();
 $nombreContrato = 'Cierre_Sucursal_Num ' . $folioCierreSucursal . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
