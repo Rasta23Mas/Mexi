@@ -29,17 +29,19 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(Con.id_Contrato) as  totalCount 
+                $count = "SELECT COUNT(Con.id_Contrato) as  totalCount,
+                        SUM(Con.total_Prestamo)  AS TOT_PRESTAMO
                         FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente AND Cli.sucursal=$sucursal
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato And Art.sucursal=$sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato AND Aut.sucursal=$sucursal
                         WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin
-                        AND Art.sucursal = $sucursal AND Con.sucursal=$sucursal";
+                        AND '$fechaFin'  <= Con.fecha_fisico_fin  AND Con.sucursal=$sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_PRESTAMO"] = $fila["TOT_PRESTAMO"];
+
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
@@ -50,14 +52,14 @@ class sqlReportesDAO
                         Art.descripcionCorta AS DESCRIPCION,
                         Art.observaciones as ObserArt,
                         Aut.observaciones as ObserAuto,
+                        CONCAT ( Aut.marca,' ', Aut.modelo, ' ',Aut.color, ' ' , Aut.placas) as detalleAuto,
                         Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente AND Cli.sucursal=$sucursal
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato And Art.sucursal=$sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato AND Aut.sucursal=$sucursal
                         WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin
-                        AND Art.sucursal = $sucursal  AND Con.sucursal=$sucursal
+                        AND '$fechaFin'  <= Con.fecha_fisico_fin  AND Con.sucursal=$sucursal
                         ORDER BY Con.id_contrato
                         LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
@@ -73,6 +75,7 @@ class sqlReportesDAO
                     $jsondataperson["DESCRIPCION"] = $fila["DESCRIPCION"];
                     $jsondataperson["ObserArt"] = $fila["ObserArt"];
                     $jsondataperson["ObserAuto"] = $fila["ObserAuto"];
+                    $jsondataperson["detalleAuto"] = $fila["detalleAuto"];
                     $jsondataperson["Form"] = $fila["Form"];
                     $jsondataList[] = $jsondataperson;
                 }
@@ -92,7 +95,8 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(id_Articulo) as  totalCount 
+                $count = "SELECT COUNT(id_Articulo) as  totalCount,
+                        SUM(Con.total_Prestamo)  AS TOT_PRESTAMO 
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
@@ -104,6 +108,8 @@ class sqlReportesDAO
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_PRESTAMO"] = $fila["TOT_PRESTAMO"];
+
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 

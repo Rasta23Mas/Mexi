@@ -246,6 +246,17 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
         if (total == 0) {
             alert("Sin resultados en la busqueda.")
         } else {
+            if (tipoReporte == 1) {
+                var TOT_PRESTAMO = data.TOT_PRESTAMO;
+                var TOT_PRESTAMOFloat = parseFloat(TOT_PRESTAMO);
+                var TOT_PRESTAMOFormat = formatoMoneda(TOT_PRESTAMOFloat);
+                document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMOFormat;
+            }else if (tipoReporte == 2) {
+                var TOT_PRESTAMO = data.TOT_PRESTAMO;
+                var TOT_PRESTAMOFloat = parseFloat(TOT_PRESTAMO);
+                var TOT_PRESTAMOFormat = formatoMoneda(TOT_PRESTAMOFloat);
+                document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMOFormat;
+            }
             fnCreaPaginador(total);
         }
     }).fail(function (jqXHR, textStatus, textError) {
@@ -417,30 +428,37 @@ function fnCargaPagina(pagina) {
 }
 
 function fnTBodyHistorico(lista) {
+
     $("#idTBodyHistorico").html("");
     $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
+        prestamoCon = parseFloat(prestamoCon);
         prestamoCon = formatoMoneda(prestamoCon);
         var formulario = elem.Form;
         var obs = " ";
+        var desc = " ";
         if (formulario == 1) {
             obs = elem.ObserArt;
+            desc = elem.DESCRIPCION;
         } else if (formulario == 2) {
             obs = elem.ObserArt;
+            desc = elem.DESCRIPCION;
         } else {
             obs = elem.ObserAuto;
+            desc = elem.detalleAuto;
         }
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
             "<td>" + elem.FECHAVEN + "</td>" +
             "<td>" + elem.FECHAALM + "</td>" +
-            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td align='left'>" + elem.NombreCompleto + "</td>" +
             "<td>" + elem.CONTRATO + "</td>" +
             "<td align='right'>" + prestamoCon + "</td>" +
-            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td align='left'>" + desc + "</td>" +
             "<td>" + obs + "</td>" +
             "</tr>").appendTo($("#idTBodyHistorico"));
     });
+
 }
 
 function fnTBodyContratos(lista) {
@@ -454,6 +472,9 @@ function fnTBodyContratos(lista) {
             obs = elem.ObserArt;
         } else {
             obs = elem.ObserAuto;
+        }
+        if(obs===null){
+            obs = "";
         }
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +

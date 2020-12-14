@@ -143,8 +143,8 @@ if($query->num_rows > 0) {
         $ObserAuto = $row["ObserAuto"];
         $DetalleAuto = $row["DetalleAuto"];
         $Form = $row["Form"];
-        $PRESTAMO = $row["PRESTAMO"];
-        $PRESTAMOFORM = number_format($PRESTAMO, 2,'.',',');
+        $PRESTAMOFORM = $row["PRESTAMO"];
+        //$PRESTAMOFORM = number_format($PRESTAMO, 2,'.',',');
         //$PRESTAMOFORM = "$100,000.00";
 
         $Obser = "";
