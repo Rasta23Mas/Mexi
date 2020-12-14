@@ -162,7 +162,17 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(ConM.id_contrato) as  totalCount 
+                $count = "SELECT COUNT(ConM.id_contrato) as  totalCount,
+                        SUM(Con.total_Prestamo)  AS TOT_PRESTAMO,
+                        SUM(ConM.e_interes)  AS TOT_INTERES,
+                        SUM(ConM.e_almacenaje)  AS TOT_ALM,
+                        SUM(ConM.e_seguro)  AS TOT_SEG,
+                        SUM(ConM.e_abono)  AS TOT_ABONO,
+                        SUM(ConM.s_descuento_aplicado)  AS TOT_DESC,
+                        SUM(ConM.e_iva)  AS TOT_IVA,
+                        SUM(ConM.e_costoContrato)  AS TOT_COSTO,
+                        SUM(ConM.pag_subtotal)  AS TOT_SUB,
+                        SUM(ConM.pag_total)  AS TOT_TOTAL         
                         FROM contrato_mov_tbl AS ConM
                         INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
@@ -171,6 +181,17 @@ class sqlReportesDAO
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_PRESTAMO"] = $fila["TOT_PRESTAMO"];
+                $jsondata["TOT_INTERES"] = $fila["TOT_INTERES"];
+                $jsondata["TOT_ALM"] = $fila["TOT_ALM"];
+                $jsondata["TOT_SEG"] = $fila["TOT_SEG"];
+                $jsondata["TOT_ABONO"] = $fila["TOT_ABONO"];
+                $jsondata["TOT_DESC"] = $fila["TOT_DESC"];
+                $jsondata["TOT_IVA"] = $fila["TOT_IVA"];
+                $jsondata["TOT_COSTO"] = $fila["TOT_COSTO"];
+                $jsondata["TOT_SUB"] = $fila["TOT_SUB"];
+                $jsondata["TOT_TOTAL"] = $fila["TOT_TOTAL"];
+
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
@@ -224,15 +245,35 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(ConM.id_contrato) as  totalCount 
+                $count = "SELECT COUNT(ConM.id_contrato) as  totalCount,
+                        SUM(Con.total_Prestamo)  AS TOT_PRESTAMO,
+                        SUM(ConM.e_interes)  AS TOT_INTERES,
+                        SUM(ConM.e_almacenaje)  AS TOT_ALM,
+                        SUM(ConM.e_seguro)  AS TOT_SEG,
+                        SUM(ConM.e_abono)  AS TOT_ABONO,
+                        SUM(ConM.s_descuento_aplicado)  AS TOT_DESC,
+                        SUM(ConM.e_iva)  AS TOT_IVA,
+                        SUM(ConM.e_costoContrato)  AS TOT_COSTO,
+                        SUM(ConM.pag_subtotal)  AS TOT_SUB,
+                        SUM(ConM.pag_total)  AS TOT_TOTAL 
                         FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  
                         ORDER BY ConM.id_contrato";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_PRESTAMO"] = $fila["TOT_PRESTAMO"];
+                $jsondata["TOT_INTERES"] = $fila["TOT_INTERES"];
+                $jsondata["TOT_ALM"] = $fila["TOT_ALM"];
+                $jsondata["TOT_SEG"] = $fila["TOT_SEG"];
+                $jsondata["TOT_ABONO"] = $fila["TOT_ABONO"];
+                $jsondata["TOT_DESC"] = $fila["TOT_DESC"];
+                $jsondata["TOT_IVA"] = $fila["TOT_IVA"];
+                $jsondata["TOT_COSTO"] = $fila["TOT_COSTO"];
+                $jsondata["TOT_SUB"] = $fila["TOT_SUB"];
+                $jsondata["TOT_TOTAL"] = $fila["TOT_TOTAL"];
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
@@ -244,7 +285,7 @@ class sqlReportesDAO
                         ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
                          ConM.pag_subtotal,  ConM.pag_total
                         FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  
                         ORDER BY ConM.id_contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 

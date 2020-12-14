@@ -25,6 +25,20 @@
     <tbody id="idTBodyRefrendo" class="letraChica" align="center">
     </tbody>
 </table>
+<table class="table table-hover table-condensed table-bordered letraChica" width="100%">
+    <tr align="center" class="titleTable">
+        <td align="right"><b>Total Prestamo:<b>&nbsp;&nbsp; <label id="totalPrestamo"></label></td>
+        <td align="right"><b>Total Intereses:<b>&nbsp;&nbsp; <label id="totaltInteres"></label></td>
+        <td align="right"><b>Total Alm:<b>&nbsp;&nbsp; <label id="totalAlmacenaje"></label></td>
+        <td align="right"><b>Total Seguro:<b>&nbsp;&nbsp; <label id="totalSeguro"></label></td>
+        <td align="right"><b>Total Abono:<b>&nbsp;&nbsp; <label id="totalAbono"></label></td>
+        <td align="right"><b>Total Desc:<b>&nbsp;&nbsp; <label id="totalDescuento"></label></td>
+        <td align="right"><b>Total Costo:<b>&nbsp;&nbsp; <label id="totalCosto"></label></td>
+        <td align="right"><b>Total Subtotal:<b>&nbsp;&nbsp; <label id="totalSubtotal"></label></td>
+        <td align="right"><b>Total Iva:<b>&nbsp;&nbsp; <label id="totalIva"></label></td>
+        <td align="right"><b>Total Cobrado:<b>&nbsp;&nbsp; <label id="totalCobrado"></label></td>
+    </tr>
+</table>
 <div class="col-md-12 text-center">
     <ul class="pagination" id="paginador"></ul>
 </div>
