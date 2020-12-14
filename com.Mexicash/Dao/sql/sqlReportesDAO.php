@@ -612,13 +612,34 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(id_CierreSucursal) as  totalCount 
+                $count = "SELECT COUNT(id_CierreSucursal) as  totalCount,
+                        SUM(capitalRecuperado)  AS TOT_CAP,
+                        SUM(abonoCapital)  AS TOT_ABONO,
+                        SUM(intereses)  AS TOT_INTER,
+                        SUM(costoContrato)  AS TOT_COST,
+                        SUM(iva)  AS TOT_IVA,
+                        SUM(mostrador)  AS TOT_MOS,
+                        SUM(iva_venta)  AS TOT_IVAVEN,
+                        SUM(utilidadVenta)  AS TOT_UTIL,
+                        SUM(apartados)  AS TOT_APAR,
+                        SUM(abonoVentas)  AS TOT_ABON 
                        FROM bit_cierresucursal
                        WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
                        AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_DES"] = $fila["TOT_CAP"];
+                $jsondata["TOT_COST"] = $fila["TOT_COST"];
+                $jsondata["TOT_ABONO"] = $fila["TOT_ABONO"];
+                $jsondata["TOT_INTER"] = $fila["TOT_INTER"];
+                $jsondata["TOT_IVA"] = $fila["TOT_IVA"];
+                $jsondata["TOT_MOS"] = $fila["TOT_MOS"];
+                $jsondata["TOT_IVAVEN"] = $fila["TOT_IVAVEN"];
+                $jsondata["TOT_APAR"] = $fila["TOT_APAR"];
+                $jsondata["TOT_ABON"] = $fila["TOT_ABON"];
+                $jsondata["TOT_UTIL"] = $fila["TOT_UTIL"];
             } else {
                 $BusquedaQuery = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
                        costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
