@@ -99,67 +99,67 @@ function fnSelectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 13) {
         nameForm += "Cancelaciones"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 14) {
         nameForm += "Central a Banco"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 15) {
         nameForm += "Banco a Central"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 16) {
         nameForm += "Banco a Bóveda"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 17) {
         nameForm += "Bóveda a Banco"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 18) {
         nameForm += "Descuento en Ventas"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptMonitoreo.php');
     } else if (reporte == 19) {
         nameForm += "Cambio de precio vitrina"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 20) {
         nameForm += "Monto mayor artículos"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 21) {
         nameForm += "Monto mayor autos"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 22) {
         nameForm += "Horario"
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
-        $("#divRpt").load('rptFinCorporativo.php');
+        $("#divRpt").load('rptTknDescuento.php');
     } else if (reporte == 23) {
         nameForm += "Cierre Caja"
         document.getElementById('NombreReporte').innerHTML = nameForm;
@@ -548,7 +548,27 @@ function fnCargaPagina(pagina) {
             fnTBodyCorporativo(lista);
         } else if (tipoReporte == 12) {
             fnTBodyTknDescuento(lista);
-        } else if (tipoReporte == 23) {
+        }  else if (tipoReporte == 13) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 14) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 15) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 16) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 17) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 18) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 19) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 20) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 21) {
+            fnTBodyTknDescuento(lista);
+        } else if (tipoReporte == 22) {
+            fnTBodyTknDescuento(lista);
+        }else if (tipoReporte == 23) {
             fnTBodyCaja(lista);
         } else if (tipoReporte == 24) {
             fnTBodySucursal(lista);
@@ -1037,40 +1057,25 @@ function fnTBodyCorporativo(lista) {
 }
 
 function fnTBodyTknDescuento(lista) {
-    $("#divRpt").load('rptTknDescuento.php');
     $("#idTBodyTknDescuento").html("");
-    $.each(lista, function (ind, elem) {
-        $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
-        $jsondataperson["token"] = $fila["token"];
-        $jsondataperson["descripcion"] = $fila["descripcion"];
-        $jsondataperson["descuento"] = $fila["descuento"];
-        $jsondataperson["usuario"] = $fila["usuario"];
-        $jsondataperson["sucursal"] = $fila["sucursal"];
-        $jsondataperson["estatus"] = $fila["estatus"];
-        $jsondataperson["Fecha"] = $fila["Fecha"];
 
+    $.each(lista, function (ind, elem) {
         var descuento = elem.descuento;
         descuento = formatoMoneda(descuento);
-        var formulario = elem.Form;
-        var obs = " ";
-        if (formulario == 1) {
-            obs = elem.ObserArt;
-        } else if (formulario == 2) {
-            obs = elem.ObserArt;
-        } else {
-            obs = elem.ObserAuto;
-        }
+
         $("<tr>" +
             "<td>" + elem.Fecha + "</td>" +
             "<td>" + elem.id_Contrato + "</td>" +
-            "<td>" + elem.token + "</td>" +
-            "<td>" + elem.descripcion + "</td>" +
+            "<td align='right'>" + elem.token + "</td>" +
+            "<td align='right'>" + elem.descripcion + "</td>" +
             "<td align='right'>" + descuento + "</td>" +
-            "<td>" + elem.usuario + "</td>" +
-            "<td>" + sucursal + "</td>" +
-            "<td>" + estatus + "</td>" +
+            "<td align='right'>" + elem.usuario + "</td>" +
+            "<td align='right'>" + elem.sucursal + "</td>" +
+            "<td>" + elem.estatus + "</td>" +
             "</tr>").appendTo($("#idTBodyTknDescuento"));
     });
+
+
 }
 
 function fnTBodyCaja(lista) {

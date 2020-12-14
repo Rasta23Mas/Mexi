@@ -724,27 +724,53 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
 
     //MONITOREO
 
-    public function sqlReporteDescuento($busqueda, $fechaIni, $fechaFin, $limit, $offset)
+    public function sqlReporteDescuento($busqueda, $fechaIni, $fechaFin, $limit, $offset,$tipoReporte)
     {
         try {
             $sucursal = $_SESSION["sucursal"];
+
+            if($tipoReporte==12){
+                $tokenMov=1;
+            }else if($tipoReporte==13){
+                $tokenMov=2;
+            }else if($tipoReporte==14){
+                $tokenMov=3;
+            }else if($tipoReporte==15){
+                $tokenMov=4;
+            }else if($tipoReporte==16){
+                $tokenMov=5;
+            }else if($tipoReporte==17){
+                $tokenMov=6;
+            }else if($tipoReporte==18){
+                $tokenMov=7;
+            }else if($tipoReporte==19){
+                $tokenMov=8;
+            }else if($tipoReporte==20){
+                $tokenMov=9;
+            }else if($tipoReporte==21){
+                $tokenMov=10;
+            }else if($tipoReporte==22){
+                $tokenMov=11;
+            }
+
             $jsondata = array();
             if ($busqueda == 1) {
                 $count = "SELECT COUNT(id_BitTokenVenta) as  totalCount 
                        FROM bit_token
                        WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND id_tokenMovimiento =1 ORDER BY id_BitTokenVenta";
+                       AND id_tokenMovimiento =$tokenMov AND sucursal=$sucursal ORDER BY id_BitTokenVenta";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
             } else {
-                $BusquedaQuery = "SELECT id_Contrato,token,descripcion,descuento,usuario,sucursal,estatus,DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') AS Fecha
-                        FROM `bit_token` WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
-                       id_tokenMovimiento= 1 
+                $BusquedaQuery = "SELECT id_Contrato,token,descripcion,descuento,usuario,sucursal,
+                        estatus,DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') AS Fecha
+                        FROM bit_token 
+                        WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
+                        AND id_tokenMovimiento= $tokenMov AND sucursal=$sucursal
                        LIMIT " . $this->conexion->real_escape_string($limit) . " 
                       OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
-                $mesLista = 0;
                 while ($fila = $resultado->fetch_assoc()) {
                     $jsondataperson = array();
                         $jsondataperson["id_Contrato"] = $fila["id_Contrato"];

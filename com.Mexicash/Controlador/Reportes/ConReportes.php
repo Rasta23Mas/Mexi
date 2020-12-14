@@ -35,37 +35,37 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if($tipoReporte==12) {
     //Descuento de Interés
-    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==13) {
     //Cancelaciones
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==14) {
     //Central a Banco
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==15) {
     //Banco a Central
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==16) {
     //Banco a Boveda
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==17) {
     //Boveda a Banco
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==18) {
     //Descuento a Ventas
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==19) {
     //Cambio de precio
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==20) {
     //Monto mayor articulos
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==21) {
     //Monto mayor auto
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==22) {
     //Horario
-    $sqlReportesDAO->sqlReporteCorporativo($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteDescuento($busqueda,$fechaIni,$fechaFin,$limit,$offset,$tipoReporte);
 }else if($tipoReporte==23) {
     $sqlReportesDAO->sqlReporteCierreCaja($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }else if($tipoReporte==24) {
