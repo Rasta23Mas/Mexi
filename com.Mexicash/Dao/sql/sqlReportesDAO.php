@@ -327,13 +327,16 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(Baz.id_Contrato) as  totalCount 
+                $count = "SELECT COUNT(Baz.id_Contrato) as  totalCount,
+                        SUM(vitrinaVenta)  AS TOT_VENTAS  
                         FROM articulo_bazar_tbl as Baz
                         LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
                         WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_VENTAS"] = $fila["TOT_VENTAS"];
+
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
                         descripcionCorta as Detalle,CAT.descripcion as CatDesc
@@ -370,7 +373,9 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(Baz.id_Contrato) as  totalCount 
+                $count = "SELECT COUNT(Baz.id_Contrato) as  totalCount,
+                        SUM(vitrinaVenta)  AS TOT_VENTAS,
+                        SUM(precioCompra)  AS TOT_COMPRA
                         FROM articulo_bazar_tbl as Baz
                         LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
                         WHERE DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')   >=  '$fechaIni'
@@ -379,6 +384,9 @@ class sqlReportesDAO
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_VENTAS"] = $fila["TOT_VENTAS"];
+                $jsondata["TOT_COMPRA"] = $fila["TOT_COMPRA"];
+
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
                         vitrinaVenta AS precio_venta, 

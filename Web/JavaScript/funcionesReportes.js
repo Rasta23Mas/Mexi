@@ -250,11 +250,11 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
-            }else if (tipoReporte == 2) {
+            } else if (tipoReporte == 2) {
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
-            }else if(tipoReporte==3){
+            } else if (tipoReporte == 3) {
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 var TOT_INTERES = data.TOT_INTERES;
                 var TOT_ALM = data.TOT_ALM;
@@ -285,42 +285,59 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalSubtotal').innerHTML = TOT_SUB;
                 document.getElementById('totalIva').innerHTML = TOT_IVA;
                 document.getElementById('totalCobrado').innerHTML = TOT_TOTAL;
-            } else if(tipoReporte==4){
-            var TOT_PRESTAMO = data.TOT_PRESTAMO;
-            var TOT_INTERES = data.TOT_INTERES;
-            var TOT_ALM = data.TOT_ALM;
-            var TOT_SEG = data.TOT_SEG;
-            var TOT_ABONO = data.TOT_ABONO;
-            var TOT_DESC = data.TOT_DESC;
-            var TOT_IVA = data.TOT_IVA;
-            var TOT_COSTO = data.TOT_COSTO;
-            var TOT_SUB = data.TOT_SUB;
-            var TOT_TOTAL = data.TOT_TOTAL;
-            TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
-            TOT_INTERES = formatoMoneda(TOT_INTERES);
-            TOT_ALM = formatoMoneda(TOT_ALM);
-            TOT_SEG = formatoMoneda(TOT_SEG);
-            TOT_ABONO = formatoMoneda(TOT_ABONO);
-            TOT_DESC = formatoMoneda(TOT_DESC);
-            TOT_IVA = formatoMoneda(TOT_IVA);
-            TOT_COSTO = formatoMoneda(TOT_COSTO);
-            TOT_SUB = formatoMoneda(TOT_SUB);
-            TOT_TOTAL = formatoMoneda(TOT_TOTAL);
-            document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
-            document.getElementById('totaltInteres').innerHTML = TOT_INTERES;
-            document.getElementById('totalAlmacenaje').innerHTML = TOT_ALM;
-            document.getElementById('totalSeguro').innerHTML = TOT_SEG;
-            document.getElementById('totalAbono').innerHTML = TOT_ABONO;
-            document.getElementById('totalDescuento').innerHTML = TOT_DESC;
-            document.getElementById('totalCosto').innerHTML = TOT_COSTO;
-            document.getElementById('totalSubtotal').innerHTML = TOT_SUB;
-            document.getElementById('totalIva').innerHTML = TOT_IVA;
-            document.getElementById('totalCobrado').innerHTML = TOT_TOTAL;
-        }else if (tipoReporte == 27) {
+            } else if (tipoReporte == 4) {
+                var TOT_PRESTAMO = data.TOT_PRESTAMO;
+                var TOT_INTERES = data.TOT_INTERES;
+                var TOT_ALM = data.TOT_ALM;
+                var TOT_SEG = data.TOT_SEG;
+                var TOT_ABONO = data.TOT_ABONO;
+                var TOT_DESC = data.TOT_DESC;
+                var TOT_IVA = data.TOT_IVA;
+                var TOT_COSTO = data.TOT_COSTO;
+                var TOT_SUB = data.TOT_SUB;
+                var TOT_TOTAL = data.TOT_TOTAL;
+                TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
+                TOT_INTERES = formatoMoneda(TOT_INTERES);
+                TOT_ALM = formatoMoneda(TOT_ALM);
+                TOT_SEG = formatoMoneda(TOT_SEG);
+                TOT_ABONO = formatoMoneda(TOT_ABONO);
+                TOT_DESC = formatoMoneda(TOT_DESC);
+                TOT_IVA = formatoMoneda(TOT_IVA);
+                TOT_COSTO = formatoMoneda(TOT_COSTO);
+                TOT_SUB = formatoMoneda(TOT_SUB);
+                TOT_TOTAL = formatoMoneda(TOT_TOTAL);
+                document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
+                document.getElementById('totaltInteres').innerHTML = TOT_INTERES;
+                document.getElementById('totalAlmacenaje').innerHTML = TOT_ALM;
+                document.getElementById('totalSeguro').innerHTML = TOT_SEG;
+                document.getElementById('totalAbono').innerHTML = TOT_ABONO;
+                document.getElementById('totalDescuento').innerHTML = TOT_DESC;
+                document.getElementById('totalCosto').innerHTML = TOT_COSTO;
+                document.getElementById('totalSubtotal').innerHTML = TOT_SUB;
+                document.getElementById('totalIva').innerHTML = TOT_IVA;
+                document.getElementById('totalCobrado').innerHTML = TOT_TOTAL;
+            } else if (tipoReporte == 27) {
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
+            } else if (tipoReporte == 5) {
+            var TOT_VENTAS = data.TOT_VENTAS;
+                TOT_VENTAS = formatoMoneda(TOT_VENTAS);
+            document.getElementById('totalVentas').innerHTML = TOT_VENTAS;
+        } else if (tipoReporte == 6) {
+                var TOT_VENTAS = data.TOT_VENTAS;
+                var TOT_COMPRA = data.TOT_COMPRA;
+                TOT_VENTAS = parseFloat(TOT_VENTAS);
+                TOT_COMPRA = parseFloat(TOT_COMPRA);
+                var UTILIDAD = TOT_VENTAS - TOT_COMPRA;
+                TOT_VENTAS = formatoMoneda(TOT_VENTAS);
+                TOT_COMPRA = formatoMoneda(TOT_COMPRA);
+                TOT_VENTAS = formatoMoneda(TOT_VENTAS);
+                document.getElementById('totalCompras').innerHTML = TOT_COMPRA;
+                document.getElementById('totalPrecio').innerHTML = TOT_VENTAS;
+                document.getElementById('totalUtilidad').innerHTML = UTILIDAD;
             }
+
             fnCreaPaginador(total);
         }
     }).fail(function (jqXHR, textStatus, textError) {
@@ -435,14 +452,11 @@ function fnCargaPagina(pagina) {
             fnTBodyVentas(lista);
         } else if (tipoReporte == 10) {
             fnTBodyIngresos(lista);
-        }
-        else if (tipoReporte == 11) {
+        } else if (tipoReporte == 11) {
             fnTBodyCorporativo(lista);
-        }else if (tipoReporte == 12) {
+        } else if (tipoReporte == 12) {
             fnTBodyTknDescuento(lista);
-        }
-
-        else if (tipoReporte == 23) {
+        } else if (tipoReporte == 23) {
             fnTBodyCaja(lista);
         } else if (tipoReporte == 24) {
             fnTBodySucursal(lista);
@@ -537,7 +551,7 @@ function fnTBodyContratos(lista) {
         } else {
             obs = elem.ObserAuto;
         }
-        if(obs==null){
+        if (obs == null) {
             obs = "";
         }
         $("<tr>" +
@@ -1222,7 +1236,6 @@ function selectReporteMon() {
     var titulo = "Autorizaciones : " + nombre;
     document.getElementById('NombreReporte').innerHTML = titulo;
 }
-
 
 
 //Reporte MONITOREO
