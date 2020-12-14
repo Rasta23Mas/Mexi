@@ -316,7 +316,11 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
             document.getElementById('totalSubtotal').innerHTML = TOT_SUB;
             document.getElementById('totalIva').innerHTML = TOT_IVA;
             document.getElementById('totalCobrado').innerHTML = TOT_TOTAL;
-        }
+        }else if (tipoReporte == 27) {
+                var TOT_PRESTAMO = data.TOT_PRESTAMO;
+                TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
+                document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
+            }
             fnCreaPaginador(total);
         }
     }).fail(function (jqXHR, textStatus, textError) {
@@ -1107,10 +1111,10 @@ function fnTBodyEmpeno(lista) {
             "<td>" + elem.FECHA + "</td>" +
             "<td>" + elem.FECHAVEN + "</td>" +
             "<td>" + elem.FECHAALM + "</td>" +
-            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td align='left'>" + elem.NombreCompleto + "</td>" +
             "<td>" + elem.CONTRATO + "</td>" +
             "<td align='right'>" + prestamoCon + "</td>" +
-            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td align='left'>" + elem.DESCRIPCION + "</td>" +
             "<td>" + obs + "</td>" +
             "</tr>").appendTo($("#idTBodyEmpeno"));
     });
