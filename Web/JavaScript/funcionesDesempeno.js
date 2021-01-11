@@ -105,6 +105,7 @@ function estatusContrato() {
         var dataEnviar = {
             "tipe": 1,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -157,6 +158,7 @@ function buscarCliente() {
         var dataEnviar = {
             "tipe": 2,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -569,6 +571,7 @@ function buscarDetalle() {
         var dataEnviar = {
             "tipe": 4,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -604,6 +607,7 @@ function buscarDetalleAuto() {
         var dataEnviar = {
             "tipe": 5,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",

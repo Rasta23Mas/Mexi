@@ -395,7 +395,8 @@ $contenido .= '<table width="100%" border="1">
         </td> 
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
-
+//echo $contenido;
+//exit;
 $nombreContrato = 'Desempeno_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

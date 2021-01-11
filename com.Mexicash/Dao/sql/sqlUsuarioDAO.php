@@ -52,13 +52,13 @@ class sqlUsuarioDAO
             $statement = $this->conexion->query($buscar);
 
             if ($statement->num_rows > 0) {
-                    $fila = $statement->fetch_object();
-                    $pass_hash = $fila->password;
-                if(password_verify($pass, $pass_hash)) {
+                $fila = $statement->fetch_object();
+                $pass_hash = $fila->password;
+                if (password_verify($pass, $pass_hash)) {
                     $id = $fila->id_User;
                     $idName = $fila->usuario;
                     $id_Sucursal = $fila->id_Sucursal;
-                    $tipoUsuario =  $fila->tipoUsuario;
+                    $tipoUsuario = $fila->tipoUsuario;
                     $_SESSION['idUsuario'] = $id;
                     $_SESSION['usuario'] = $idName;
                     $_SESSION['sucursal'] = $id_Sucursal;
@@ -67,8 +67,8 @@ class sqlUsuarioDAO
                     $_SESSION['cajaInactiva'] = 0;
                     $_SESSION['idCierreSucursal'] = 0;
                     $_SESSION['idCierreCaja'] = 0;
-                    $_SESSION["autentificado"]= "SI";
-                    $_SESSION["ultimoAcceso"]= date("Y-n-j H:i:s");
+                    $_SESSION["autentificado"] = "SI";
+                    $_SESSION["ultimoAcceso"] = date("Y-n-j H:i:s");
                 }
 
 
@@ -88,14 +88,15 @@ class sqlUsuarioDAO
         try {
             $_SESSION["sucursal"] = $sucursalEnviada;
             $dotacion = 1;
-            $buscar = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=1 AND sucursal=$sucursalEnviada";
+            //Valida si hay una sucursal Activa
+            $buscar = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=1 AND estatus = 1 AND sucursal=$sucursalEnviada";
             $statement = $this->conexion->query($buscar);
             $encontro = $statement->num_rows;
-
+            //Si hay una sucursal Activa Entra
             if ($encontro > 0) {
                 $fila = $statement->fetch_object();
                 $idCierreSucursal = $fila->id_CierreSucursal;
-                if($idCierreSucursal==0){
+                /*if($idCierreSucursal==0){
                     $maxIdCierreSuc = "SELECT MAX( id_CierreSucursal ) as idSucursal FROM bit_cierresucursal WHERE  sucursal=$sucursalEnviada";
                     $statement = $this->conexion->query($maxIdCierreSuc);
                     if ($statement->num_rows > 0) {
@@ -113,7 +114,8 @@ class sqlUsuarioDAO
                         if ($ps->execute()) {
                             $insertoFila = mysqli_stmt_affected_rows($ps);
                             if ($insertoFila > 0) {
-                                $buscarIdCierre = "select id_CierreSucursal  from bit_cierresucursal where sucursal = " . $sucursalEnviada . " and flag_Activa =1";
+                                $buscarIdCierre = "select id_CierreSucursal  from bit_cierresucursal where sucursal = " . $sucursalEnviada . " and
+                                 flag_Activa =1 and estatus=1";
                                 $resultado = $this->conexion->query($buscarIdCierre);
                                 if ($resultado->num_rows > 0) {
                                     $fila = $resultado->fetch_object();
@@ -131,13 +133,14 @@ class sqlUsuarioDAO
                     } else {
                         $retorna = -1;
                     }
-                }else{
-                    $_SESSION['idCierreSucursal'] = $idCierreSucursal;
-                    $retorna = 1;
-                }
+                }else{*/
+                $_SESSION['idCierreSucursal'] = $idCierreSucursal;
+                $retorna = 1;
+                // }
             } else {
+                //Si no hay una sucursal Activa
                 $fechaHoy = date('Y-m-d');
-                $buscarHoy = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=0 AND sucursal=$sucursalEnviada AND DATE(fecha_Creacion)='$fechaHoy'";
+                $buscarHoy = "select id_CierreSucursal from bit_cierresucursal where sucursal=$sucursalEnviada AND  DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
                 $statement = $this->conexion->query($buscarHoy);
                 $encontro = $statement->num_rows;
                 if ($encontro > 0) {
@@ -156,9 +159,10 @@ class sqlUsuarioDAO
                         $fila = $statement->fetch_object();
                         $idSucursalMax = $fila->idSucursal;
                         $idSucursalMax++;
-                    } else {
-                        $idSucursalMax = 1;
                     }
+                    /*else {
+                        $idSucursalMax = 1;
+                    }*/
                     $insertarCierreSucursal = "INSERT INTO bit_cierresucursal " .
                         "(id_CierreSucursal,	usuario, sucursal, fecha_Creacion, estatus,flag_Activa)  VALUES " .
                         "($idSucursalMax,$usuario,$sucursalEnviada,'$fechaCreacion',$estatus,1 )";
@@ -202,13 +206,15 @@ class sqlUsuarioDAO
         try {
             $sucursal = $_SESSION["sucursal"];
             $sesionInactiva = 0;
-            $buscar = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=1 AND sucursal=$sucursal";
+            $fechaHoy = date('Y-m-d');
+            $buscar = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=1 AND estatus = 1 AND
+                                                       sucursal=$sucursal AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
             $statement = $this->conexion->query($buscar);
             $encontro = $statement->num_rows;
             if ($encontro > 0) {
                 $fila = $statement->fetch_object();
                 $idCierreSucursal = $fila->id_CierreSucursal;
-                if($idCierreSucursal==0){
+                /*if ($idCierreSucursal == 0) {
                     $maxIdCierreSuc = "SELECT MAX( id_CierreSucursal ) as idSucursal FROM bit_cierresucursal WHERE  sucursal=$sucursal";
                     $statement = $this->conexion->query($maxIdCierreSuc);
                     if ($statement->num_rows > 0) {
@@ -242,14 +248,13 @@ class sqlUsuarioDAO
                     } else {
                         $retorna = -1;
                     }
-                }else{
-                    $_SESSION['idCierreSucursal'] = $idCierreSucursal;
-                    $retorna = 1;
-                }
-
+                } else {*/
+                $_SESSION['idCierreSucursal'] = $idCierreSucursal;
+                $retorna = 1;
+                //}
             } else {
-                $fechaHoy = date('Y-m-d');
-                $buscarHoy = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=0 AND sucursal=$sucursal AND DATE(fecha_Creacion)='$fechaHoy'";
+               $buscarHoy = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=0 AND sucursal=$sucursal 
+                                                   AND  DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
                 $statement = $this->conexion->query($buscarHoy);
                 $encontro = $statement->num_rows;
                 if ($encontro > 0) {
@@ -257,7 +262,7 @@ class sqlUsuarioDAO
                     $idCierreSucursal = $fila->id_CierreSucursal;
                     $_SESSION['idCierreSucursal'] = $idCierreSucursal;
                     $sesionInactiva = 1;
-                    $retorna = 1;
+                    $retorna = 3;
                 } else {
                     $estatus = 1;
                     $fechaCreacion = date('Y-m-d H:i:s');
@@ -268,9 +273,10 @@ class sqlUsuarioDAO
                         $fila = $statement->fetch_object();
                         $idSucursalMax = $fila->idSucursal;
                         $idSucursalMax++;
-                    } else {
-                        $idSucursalMax = 1;
                     }
+                    /*else {
+                        $idSucursalMax = 1;
+                    }*/
 
                     $insertarCierreSucursal = "INSERT INTO bit_cierresucursal " .
                         "(id_CierreSucursal,	usuario, sucursal, fecha_Creacion, estatus,flag_Activa)  VALUES " .
@@ -279,7 +285,8 @@ class sqlUsuarioDAO
                         if ($ps->execute()) {
                             $insertoFila = mysqli_stmt_affected_rows($ps);
                             if ($insertoFila > 0) {
-                                $buscarIdCierre = "select id_CierreSucursal  from bit_cierresucursal where sucursal = " . $sucursal . " and flag_Activa =1";
+                                $buscarIdCierre = "select id_CierreSucursal  from bit_cierresucursal where sucursal =$sucursal 
+                                 AND  DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
                                 $resultado = $this->conexion->query($buscarIdCierre);
                                 if ($resultado->num_rows > 0) {
                                     $fila = $resultado->fetch_object();
@@ -315,26 +322,28 @@ class sqlUsuarioDAO
             $usuario = $_SESSION["idUsuario"];
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
             $sucursal = $_SESSION["sucursal"];
-            $cajaInactiva  = 0;
+            $cajaInactiva = 0;
+            $fechaHoy = date('Y-m-d');
 
             $buscarCajaGerente = "select id_CierreCaja from bit_cierrecaja AS Caj
-                            INNER JOIN bit_cierresucursal AS Suc ON Caj.id_CierreSucursal = Suc.id_CierreSucursal
+                            INNER JOIN bit_cierresucursal AS Suc ON Caj.id_CierreSucursal = Suc.id_CierreSucursal AND Suc.sucursal=$sucursal
                             where Caj.usuario = $usuario and Caj.flag_Activa = 1  
-                            and Suc.flag_Activa = 1 AND Suc.sucursal=$sucursal";
+                            and Suc.flag_Activa = 1 AND DATE_FORMAT(Suc.fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
             $statement = $this->conexion->query($buscarCajaGerente);
             $encontro = $statement->num_rows;
             if ($encontro > 0) {
                 $fila = $statement->fetch_object();
                 $id_CierreCaja = $fila->id_CierreCaja;
 
-                if($id_CierreCaja==0){
+                /*if ($id_CierreCaja == 0) {
                     $maxIdCierreSuc = "SELECT MAX( id_CierreCaja ) as idCierreCaja FROM bit_cierrecaja WHERE sucursal = $sucursal";
                     $statement = $this->conexion->query($maxIdCierreSuc);
                     if ($statement->num_rows > 0) {
                         $fila = $statement->fetch_object();
                         $idCierreCajaMax = $fila->idCierreCaja;
                         $idCierreCajaMax++;
-                    } else {
+                    }
+                    else {
                         $idCierreCajaMax = 1;
                     }
 
@@ -363,14 +372,15 @@ class sqlUsuarioDAO
                     } else {
                         $retorna = -1;
                     }
-                }else{
+                } else {*/
                     $_SESSION['idCierreCaja'] = $id_CierreCaja;
                     $retorna = 1;
-                }
+                //}
 
             } else {
                 $fechaHoy = date('Y-m-d');
-                $buscarHoy = "select id_CierreCaja from bit_cierrecaja where flag_Activa=0 AND sucursal=$sucursal AND DATE(fecha_Creacion	)='$fechaHoy'";
+                $buscarHoy = "select id_CierreCaja from bit_cierrecaja where flag_Activa=0 AND sucursal=$sucursal 
+                                         AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
                 $statement = $this->conexion->query($buscarHoy);
                 $encontro = $statement->num_rows;
                 if ($encontro > 0) {
@@ -378,7 +388,7 @@ class sqlUsuarioDAO
                     $id_CierreCaja = $fila->id_CierreCaja;
                     $_SESSION['idCierreCaja'] = $id_CierreCaja;
                     $cajaInactiva = 1;
-                    $retorna = 1;
+                    $retorna = 3;
                 } else {
                     $estatus = 1;
                     $fechaCreacion = date('Y-m-d H:i:s');
@@ -389,9 +399,10 @@ class sqlUsuarioDAO
                         $fila = $statement->fetch_object();
                         $idCierreCajaMax = $fila->idCierreCaja;
                         $idCierreCajaMax++;
-                    } else {
-                        $idCierreCajaMax = 1;
                     }
+                    /*else {
+                        $idCierreCajaMax = 1;
+                    }*/
 
                     $insertarCierreCaja = "INSERT INTO bit_cierrecaja " .
                         "(id_CierreCaja,usuario,sucursal, id_CierreSucursal, fecha_Creacion, estatus,flag_Activa)  VALUES " .
@@ -401,7 +412,8 @@ class sqlUsuarioDAO
                         if ($ps->execute()) {
                             $insertoFila = mysqli_stmt_affected_rows($ps);
                             if ($insertoFila > 0) {
-                                $buscarIdCierre = "select id_CierreCaja  from bit_cierrecaja where usuario = $usuario AND sucursal = $sucursal and flag_Activa =1";
+                                $buscarIdCierre = "select id_CierreCaja  from bit_cierrecaja where usuario = $usuario 
+                                            AND sucursal = $sucursal   AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
                                 $resultado = $this->conexion->query($buscarIdCierre);
                                 if ($resultado->num_rows > 0) {
                                     $fila = $resultado->fetch_object();
@@ -433,14 +445,17 @@ class sqlUsuarioDAO
     {
         try {
             $sucursal = $_SESSION["sucursal"];
-            $buscar = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=1 AND sucursal=$sucursal";
+            $fechaHoy = date('Y-m-d');
+
+            $buscar = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=1 AND estatus = 1 AND
+                                                       sucursal=$sucursal AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
             $statement = $this->conexion->query($buscar);
             $encontro = $statement->num_rows;
 
             if ($encontro > 0) {
                 $fila = $statement->fetch_object();
                 $idCierreSucursal = $fila->id_CierreSucursal;
-                if($idCierreSucursal==0){
+                /*if ($idCierreSucursal == 0) {
                     $maxIdCierreSuc = "SELECT MAX( id_CierreSucursal ) as idSucursal FROM bit_cierresucursal WHERE  sucursal=$sucursal";
                     $statement = $this->conexion->query($maxIdCierreSuc);
                     if ($statement->num_rows > 0) {
@@ -474,35 +489,37 @@ class sqlUsuarioDAO
                     } else {
                         $retorna = -1;
                     }
-                }else{
+                } else {*/
                     $_SESSION['idCierreSucursal'] = $idCierreSucursal;
                     $retorna = 1;
-                }
+               // }
 
             } else {
                 $fechaHoy = date('Y-m-d');
-                $buscarHoy = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=0 AND sucursal=$sucursal AND DATE(fecha_Creacion)='$fechaHoy'";
-
+                $buscarHoy = "select id_CierreSucursal from bit_cierresucursal where flag_Activa=0 AND sucursal=$sucursal 
+                                                   AND  DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')=='$fechaHoy'";
                 $statement = $this->conexion->query($buscarHoy);
                 $encontro = $statement->num_rows;
                 if ($encontro > 0) {
                     $fila = $statement->fetch_object();
                     $idCierreSucursal = $fila->id_CierreSucursal;
                     $_SESSION['idCierreSucursal'] = $idCierreSucursal;
-                    $retorna = 2;
+                    $retorna = 3;
                 } else {
                     $estatus = 1;
                     $fechaCreacion = date('Y-m-d H:i:s');
                     $usuario = $_SESSION["idUsuario"];
-                    $maxIdCierreSuc = "SELECT MAX( id_CierreSucursal ) as idSucursal FROM bit_cierresucursal  WHERE  sucursal=$sucursal";
+                    $maxIdCierreSuc = "SELECT MAX( id_CierreSucursal ) as idSucursal FROM bit_cierresucursal 
+                                        WHERE  sucursal=$sucursal";
                     $statement = $this->conexion->query($maxIdCierreSuc);
                     if ($statement->num_rows > 0) {
                         $fila = $statement->fetch_object();
                         $idSucursalMax = $fila->idSucursal;
                         $idSucursalMax++;
-                    } else {
-                        $idSucursalMax = 1;
                     }
+                   /* else {
+                        $idSucursalMax = 1;
+                    }*/
 
                     $insertarCierreSucursal = "INSERT INTO bit_cierresucursal " .
                         "(id_CierreSucursal,	usuario, sucursal, fecha_Creacion, estatus,flag_Activa)  VALUES " .
@@ -511,7 +528,8 @@ class sqlUsuarioDAO
                         if ($ps->execute()) {
                             $insertoFila = mysqli_stmt_affected_rows($ps);
                             if ($insertoFila > 0) {
-                                $buscarIdCierre = "select id_CierreSucursal  from bit_cierresucursal where sucursal = " . $sucursal . " and flag_Activa =1";
+                                $buscarIdCierre = "select id_CierreSucursal  from bit_cierresucursal where sucursal =  $sucursal 
+                                                    AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')=='$fechaHoy'";
                                 $resultado = $this->conexion->query($buscarIdCierre);
                                 if ($resultado->num_rows > 0) {
                                     $fila = $resultado->fetch_object();
@@ -545,16 +563,18 @@ class sqlUsuarioDAO
             $usuario = $_SESSION["idUsuario"];
             $id_CierreSucursal = $_SESSION["idCierreSucursal"];
             $sucursal = $_SESSION["sucursal"];
+            $fechaHoy = date('Y-m-d');
             $buscarCajaGerente = "select id_CierreCaja from bit_cierrecaja AS Caj
-                            INNER JOIN bit_cierresucursal AS Suc ON Caj.id_CierreSucursal = Suc.id_CierreSucursal
-                            where Caj.usuario = $usuario and Caj.flag_Activa = 1  and Suc.flag_Activa = 1";
+                            INNER JOIN bit_cierresucursal AS Suc ON Caj.id_CierreSucursal = Suc.id_CierreSucursal AND Suc.sucursal=$sucursal
+                            where Caj.usuario = $usuario and Caj.flag_Activa = 1 
+                            and Suc.flag_Activa = 1 AND DATE_FORMAT(Suc.fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
             $statement = $this->conexion->query($buscarCajaGerente);
             $encontro = $statement->num_rows;
             if ($encontro > 0) {
                 $fila = $statement->fetch_object();
                 $id_CierreCaja = $fila->id_CierreCaja;
 
-                if($id_CierreCaja==0){
+               /* if ($id_CierreCaja == 0) {
                     $maxIdCierreSuc = "SELECT MAX( id_CierreCaja ) as idCierreCaja FROM bit_cierrecaja WHERE sucursal = $sucursal";
                     $statement = $this->conexion->query($maxIdCierreSuc);
                     if ($statement->num_rows > 0) {
@@ -588,33 +608,36 @@ class sqlUsuarioDAO
                     } else {
                         $retorna = -1;
                     }
-                }else{
+                } else {*/
                     $_SESSION['idCierreCaja'] = $id_CierreCaja;
                     $retorna = 1;
-                }
+               // }
             } else {
                 $fechaHoy = date('Y-m-d');
-                $buscarHoy = "select id_CierreCaja from bit_cierrecaja where flag_Activa=0 AND sucursal=$sucursal AND DATE(fecha_Creacion)='$fechaHoy'";
+                $buscarHoy = "select id_CierreCaja from bit_cierrecaja where flag_Activa=0 AND sucursal=$sucursal  
+                                           AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
                 $statement = $this->conexion->query($buscarHoy);
                 $encontro = $statement->num_rows;
                 if ($encontro > 0) {
                     $fila = $statement->fetch_object();
                     $id_CierreCaja = $fila->id_CierreCaja;
                     $_SESSION['idCierreCaja'] = $id_CierreCaja;
-                    $retorna = 2;
+                    $retorna = 3;
                 } else {
                     $estatus = 1;
                     $fechaCreacion = date('Y-m-d H:i:s');
                     $usuario = $_SESSION["idUsuario"];
-                    $maxIdCierreSuc = "SELECT MAX( id_CierreCaja ) as idCierreCaja FROM bit_cierrecaja";
+                    $maxIdCierreSuc = "SELECT MAX( id_CierreCaja ) as idCierreCaja FROM bit_cierrecaja 
+                    WHERE sucursal = $sucursal";
                     $statement = $this->conexion->query($maxIdCierreSuc);
                     if ($statement->num_rows > 0) {
                         $fila = $statement->fetch_object();
                         $idCierreCajaMax = $fila->idCierreCaja;
                         $idCierreCajaMax++;
-                    } else {
-                        $idCierreCajaMax = 1;
                     }
+                   /* else {
+                        $idCierreCajaMax = 1;
+                    }*/
 
                     $insertarCierreCaja = "INSERT INTO bit_cierrecaja " .
                         "(id_CierreCaja,usuario,sucursal, id_CierreSucursal, fecha_Creacion, estatus,flag_Activa)  VALUES " .
@@ -624,7 +647,8 @@ class sqlUsuarioDAO
                         if ($ps->execute()) {
                             $insertoFila = mysqli_stmt_affected_rows($ps);
                             if ($insertoFila > 0) {
-                                $buscarIdCierre = "select id_CierreCaja  from bit_cierrecaja where usuario = $usuario AND sucursal = " . $sucursal . " and flag_Activa =1";
+                                $buscarIdCierre = "select id_CierreCaja  from bit_cierrecaja where usuario = $usuario
+                                            AND sucursal =  $sucursal  AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')='$fechaHoy'";
                                 $resultado = $this->conexion->query($buscarIdCierre);
                                 if ($resultado->num_rows > 0) {
                                     $fila = $resultado->fetch_object();
@@ -1005,7 +1029,7 @@ class sqlUsuarioDAO
             $importeSaldoBoveda = $fila->importe;
 
             $updateSaldoInicial = "UPDATE bit_cierresucursal SET saldo_Inicial=$importeSaldoBoveda, InfoSaldoInicial=$saldoInicialInfo
-                WHERE id_CierreSucursal=$id_CierreSucursal and estatus=1";
+                WHERE id_CierreSucursal=$id_CierreSucursal and estatus=1 and  flag_Activa=1 ";
             if ($ps = $this->conexion->prepare($updateSaldoInicial)) {
                 if ($ps->execute()) {
                     $verdad = 1;
@@ -1055,7 +1079,7 @@ class sqlUsuarioDAO
         return $datos;
     }
 
-    function sqlGuardarPass($hashed_password,$user)
+    function sqlGuardarPass($hashed_password, $user)
     {
         try {
             $verdad = 0;

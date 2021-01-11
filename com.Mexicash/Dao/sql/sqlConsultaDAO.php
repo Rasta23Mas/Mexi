@@ -292,7 +292,7 @@ class sqlConsultaDAO
                         subTotal,iva,descuento_Venta,total,tipo_movimiento,CAT.descripcion
                         FROM contrato_mov_baz_tbl AS BAZ
                         INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
-                        WHERE tipo_movimiento!=0 AND sucursal= $sucursal AND (fecha_Creacion >= '$fechaInicio' OR fecha_Creacion <='$fechaFinal') ORDER BY id_Bazar";
+                        WHERE tipo_movimiento!=0 AND sucursal= $sucursal AND (DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') >= '$fechaInicio' AND DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') <='$fechaFinal') ORDER BY id_Bazar";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
@@ -457,7 +457,7 @@ class sqlConsultaDAO
                         subTotal,iva,total,CAT.descripcion
                         FROM contrato_mov_com_tbl AS BAZ
                         INNER JOIN cat_movimientos AS CAT ON BAZ.tipo_movimiento = CAT.id_Movimiento
-                        WHERE tipo_movimiento!=0 AND sucursal= $sucursal AND (fecha_Creacion >= '$fechaInicio' OR fecha_Creacion <='$fechaFinal') ORDER BY id_Compra";
+                        WHERE tipo_movimiento!=0 AND sucursal= $sucursal AND (fecha_Creacion >= '$fechaInicio' AND fecha_Creacion <='$fechaFinal') ORDER BY id_Compra";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {

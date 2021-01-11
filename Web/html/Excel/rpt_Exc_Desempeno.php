@@ -127,11 +127,11 @@ $rptRef = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
                         ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,ConM.pag_subtotal AS SUBTOTAL, 
                         ConM.pag_total AS TOTAL
-                        FROM contrato_mov_tbl AS ConM
-                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato
+                       FROM contrato_mov_tbl AS ConM
+                        INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 )  
-                        ORDER BY CONTRATO";
+                        ORDER BY ConM.id_contrato";
 $query = $db->query($rptRef);
 
 

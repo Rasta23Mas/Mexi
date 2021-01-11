@@ -231,7 +231,7 @@ function fnCargaPagina(pagina){
                 'onclick="validarCarrito(' + id_ArticuloBazar + ',' + precio_Actual + ',' + empeno + ')"> ' +
                 '</td>' +
                 '<td align="center">' +
-                '<img src="../../style/Img/editarNor.jpg"  data-dismiss="modal" alt="Agregar"' +
+                '<img src="../../style/Img/editarNor.jpg"  data-dismiss="modal" alt="Mod"' +
                 'onclick="fnModalPrecio(' + id_ArticuloBazar + ',' + precio_Actual + ')"> ' +
                 '</td>'+
                 "</tr>").appendTo($("#idTBodyMetales"));
@@ -290,7 +290,8 @@ function fnModalPrecio(id_ArticuloBazar, precio_Actual) {
     $("#idPrecioActual").val(precio_Actual);
     $("#idPrecioMod").val(0);
     $("#idArticulo").val(id_ArticuloBazar);
-    $("#modalPrecioVenta").modal();
+    //$("#modalPrecioVenta").modal();
+    $("#modalPrecioVenta").modal("show");
 
 }
 
@@ -650,7 +651,7 @@ function guardarVenta() {
         var utilidad = total - totalprestamo;
         var cambio = $("#idCambioValue").val();
         var cliente = $("#idClienteSeleccion").val();
-        var vendedor = 0;
+        //var vendedor = 0;
         idTokenGLb = $("#idToken").val();
         var tokenDesc = "";
         if (idTokenGLb != 0) {
@@ -674,7 +675,6 @@ function guardarVenta() {
             "efectivo": efectivo,
             "cambio": cambio,
             "cliente": cliente,
-            "vendedor": vendedor,
             "idToken": idTokenGLb,
             "tokenDesc": tokenDesc,
             "idBazar": idBazar,

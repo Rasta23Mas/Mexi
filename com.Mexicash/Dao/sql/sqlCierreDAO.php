@@ -1014,7 +1014,7 @@ class sqlCierreDAO
                              saldo_final = $saldo_final,
                              InfoSaldoInicial = $InfoSaldoInicial,InfoEntradas = $InfoEntradas,InfoSalidas = $InfoSalidas,InfoSaldoFinal = $InfoSaldoFinal,
                              InfoApartados = $InfoApartados,InfoAbono = $InfoAbono,InfoTotalInventario = $InfoTotalInventario,
-                             fecha_Creacion = '$fechaCreacion', estatus = $estatus ,flag_Activa = 0 
+                             fecha_Creacion = '$fechaCreacion', estatus = 1 ,flag_Activa = 1 
                              WHERE id_CierreSucursal=$idCierreSucursal AND sucursal = $sucursal and estatus =1";
             if ($ps = $this->conexion->prepare($updateCierreSucursal)) {
                 if ($ps->execute()) {
@@ -1090,17 +1090,16 @@ class sqlCierreDAO
 
             $insertaBazar = "INSERT INTO articulo_bazar_tbl(id_Contrato, id_serie, id_Articulo, tipo_movimiento,
                                 fecha_Bazar, tipoArticulo, tipo, kilataje, calidad, cantidad, peso, peso_Piedra,
-                                piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,precioCat,
+                                piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,vitrinaVenta, precioCat,
                                 observaciones, detalle, fecha_creacion,descripcionCorta,sucursal)
                             SELECT Art.id_Contrato, CONCAT (id_SerieSucursal, Adquisiciones_Tipo, id_SerieContrato,id_SerieArticulo) as idSerie,
                                 id_Articulo,24,fecha_almoneda, tipoArticulo, tipo, kilataje, calidad, cantidad,
-                                peso, peso_Piedra, piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,
+                                peso, peso_Piedra, piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,vitrina,
                                 precioCat, observaciones, detalle, Art.fecha_creacion,Art.descripcionCorta,
                                 Art.sucursal
                             FROM articulo_tbl as Art
                             INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato AND Con.sucursal=$sucursal
-                        WHERE  Con.fecha_almoneda='$fechaCreacion' and Art.sucursal=$sucursal";
-            echo $insertaBazar;
+                        WHERE Con.fecha_almoneda<='$fechaCreacion' AND Con.fecha_almoneda!='0000-00-00' and Art.sucursal=$sucursal";
             if ($ps = $this->conexion->prepare($insertaBazar)) {
                 if ($ps->execute()) {
                     $respuesta = mysqli_stmt_affected_rows($ps);
@@ -1128,7 +1127,7 @@ class sqlCierreDAO
             $sucursal = $_SESSION["sucursal"];
             $updateBazar = "UPDATE contrato_mov_tbl 
                                 SET fechaAlmoneda='',tipo_movimiento=24
-                                WHERE  fechaAlmoneda='$fechaCreacion' AND sucursal = $sucursal";
+                                WHERE  fecha_almoneda<='$fechaCreacion' AND sucursal = $sucursal";
             if ($ps = $this->conexion->prepare($updateBazar)) {
                 if ($ps->execute()) {
                     $verdad = mysqli_stmt_affected_rows($ps);

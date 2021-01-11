@@ -118,11 +118,11 @@ $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato AND Art.sucursal = $sucursal 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
                         WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
                         BETWEEN '$fechaIni' AND '$fechaFin' 
-                        AND Art.sucursal = $sucursal AND Con.sucursal=$sucursal
+                        AND Con.sucursal=$sucursal
                         ORDER BY Con.id_contrato";
 
 $query = $db->query($rptHisto);

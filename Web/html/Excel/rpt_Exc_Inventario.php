@@ -119,11 +119,12 @@ $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         Art.tipoArticulo, Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
+                        LEFT JOIN bit_cierrecaja as BitC on Con.id_cierreCaja = BitC.id_CierreCaja 
+                                                                AND BitC.sucursal=$sucursal                                                                
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
                         WHERE Con.fisico = 1
-                        AND Bit.sucursal = $sucursal 
+                        AND Con.sucursal = $sucursal 
                         ORDER BY Form";
 $query = $db->query($rptHisto);
 

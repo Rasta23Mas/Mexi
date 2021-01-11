@@ -372,10 +372,11 @@ class sqlVentasDAO
             $sucursal = $_SESSION["sucursal"];
             $Fisico = 1;
             $total = $iva + $subTotal;
-
+            $usuario = $_SESSION["idUsuario"];
             $updateContratoBaz = "UPDATE contrato_mov_baz_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,
-                                iva=$iva,total=$total,total=$total,apartado=$apartado,id_Apartado=$idBazar,faltaPagar=$faltaPagar, total=$total,efectivo=$efectivo,cambio=$cambio,
-                                cliente=$cliente,fecha_Creacion='$fechaModificacion',
+                                iva=$iva,total=$total,total=$total,apartado=$apartado,id_Apartado=$idBazar,faltaPagar=$faltaPagar, 
+                                total=$total,efectivo=$efectivo,cambio=$cambio,
+                                cliente=$cliente,fecha_Creacion='$fechaModificacion',vendedor=$usuario,
                                 sucursal=$sucursal,id_CierreCaja=$idCierreCaja,Fisico=$Fisico, fechaVencimiento='$vencimiento'
                                 WHERE id_Bazar=$idBazar AND sucursal = $sucursal";
             if ($ps = $this->conexion->prepare($updateContratoBaz)) {
@@ -422,10 +423,12 @@ class sqlVentasDAO
                 $IdBazarMax = $fila->UltimoIdBazar;
             }
             $IdBazarMax++;
-
+            $usuario = $_SESSION["idUsuario"];
             $insertaAbono = "INSERT INTO contrato_mov_baz_tbl 
-                       (id_Bazar,cliente,tipo_movimiento,efectivo,cambio,abono,abono_Total,faltaPagar,id_Apartado,fecha_Creacion,sucursal,id_CierreCaja)
-                        VALUES ($IdBazarMax,$id_Cliente,$tipo_movimiento, $efectivo,$cambio,$abono,$abono_Total,$faltaPagar,$idBazar,'$fechaCreacion',$sucursal,$idCierreCaja)";
+                       (id_Bazar,cliente,tipo_movimiento,efectivo,cambio,abono,abono_Total,faltaPagar,
+                        id_Apartado,fecha_Creacion,sucursal,id_CierreCaja,vendedor)
+                        VALUES ($IdBazarMax,$id_Cliente,$tipo_movimiento, $efectivo,$cambio,$abono,$abono_Total,$faltaPagar,
+                                $idBazar,'$fechaCreacion',$sucursal,$idCierreCaja,$usuario)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {
                     $buscarBazar = "select max(id_Bazar) as UltimoBazarID from contrato_mov_baz_tbl where id_CierreCaja = $idCierreCaja AND sucursal=$sucursal";
@@ -452,13 +455,14 @@ class sqlVentasDAO
         echo $respuesta;
     }
 
-    public function sqlGuardarVenta($tipo_movimiento, $subTotal, $iva, $descuento, $total,$totalprestamo,$utilidad, $efectivo, $cambio, $cliente, $vendedor, $idToken, $tokenDesc, $idBazar)
+    public function sqlGuardarVenta($tipo_movimiento, $subTotal, $iva, $descuento, $total,$totalprestamo,$utilidad, $efectivo, $cambio, $cliente, $idToken, $tokenDesc, $idBazar)
     {
         // TODO: Implement guardaCiente() method.
         try {
             $fechaModificacion = date('Y-m-d H:i:s');
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $sucursal = $_SESSION["sucursal"];
+            $vendedor =  $_SESSION['idUsuario'];
             $Fisico = 0;
 
             $updateContratoBaz = "UPDATE contrato_mov_baz_tbl SET tipo_movimiento = $tipo_movimiento,subTotal=$subTotal,

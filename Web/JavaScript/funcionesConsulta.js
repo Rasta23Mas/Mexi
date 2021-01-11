@@ -1,6 +1,6 @@
 var radioSelect = 0;
 var tipoContratoGlobal = 1;
-
+var contratoGbl = 0;
 var ContratoReimprimir = 0;
 
 function contratoBusquedaCon(e) {
@@ -557,6 +557,7 @@ function LimpiarConsulta() {
 
 function reimprimir(tipoMovimiento, idMovimiento, Contrato, tipoReporte) {
     ContratoReimprimir = Contrato;
+    contratoGbl = Contrato;
     if (tipoMovimiento == 3) {
         //3 = Empeño
         window.open('../PDF/callPdfContrato.php?contrato=' + ContratoReimprimir + '&reimpresion=1');
@@ -565,7 +566,7 @@ function reimprimir(tipoMovimiento, idMovimiento, Contrato, tipoReporte) {
         if (tipoReporte == 0) {
             window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
         } else {
-            window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=1');
+            window.open('../PDF/callPdfGastosAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=1');
         }
 
     } else if (tipoMovimiento == 5) {
@@ -573,7 +574,7 @@ function reimprimir(tipoMovimiento, idMovimiento, Contrato, tipoReporte) {
         if (tipoReporte == 0) {
             window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
         } else {
-            window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=2');
+            window.open('../PDF/callPdfGastosAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=2');
         }
     } else if (tipoMovimiento == 6) {
         //6 = Vent8a
@@ -585,14 +586,14 @@ function reimprimir(tipoMovimiento, idMovimiento, Contrato, tipoReporte) {
         if (tipoReporte == 0) {
             window.open('../PDF/callPdfRefrendo.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
         } else {
-            window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=1');
+            window.open('../PDF/callPdfGastosAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=1');
         }
     } else if (tipoMovimiento == 9) {
         //9 = Desempeño Auto
         if (tipoReporte == 0) {
             window.open('../PDF/callPdfDesempeno.php?contrato=' + ContratoReimprimir + '&ultimoMovimiento=' + idMovimiento + '&reimpresion=1');
         } else {
-            window.open('../PDF/callPdfGastpsAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=2');
+            window.open('../PDF/callPdfGastosAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=2');
         }
     } else if (tipoMovimiento == 10) {
         //10 = Venta Auto

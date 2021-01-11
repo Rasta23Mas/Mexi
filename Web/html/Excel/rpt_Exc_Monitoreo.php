@@ -122,18 +122,18 @@ $spreadsheet->getActiveSheet()
 $spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);
 
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
-$rptMon = "SELECT Bit.id_BitacoraToken,Bit.id_Contrato,Bit.tipo_formulario as FORMU,Bit.token,Bit.descripcion,
-                        Bit.descuento,Bit.interes, Cat.descripcion as Descrip, Usu.usuario,Bit.importe_flujo,
-                        Bit.id_flujo,
-                        DATE_FORMAT(Bit.fecha_Creacion,'%Y-%m-%d') as Fecha FROM bit_token as Bit
-                        INNER JOIN cat_token_movimiento as Cat on Bit.id_tokenMovimiento = Cat.id_tokenMovimiento
-                        LEFT JOIN usuarios_tbl as Usu on Bit.usuario = Usu.id_User  ";
+$rptMon = "SELECT BitC.id_BitacoraToken,BitC.id_Contrato,BitC.tipo_formulario as FORMU,BitC.token,BitC.descripcion,
+                        BitC.descuento,BitC.interes, Cat.descripcion as Descrip, Usu.usuario,BitC.importe_flujo,
+                        BitC.id_flujo,
+                        DATE_FORMAT(BitC.fecha_Creacion,'%Y-%m-%d') as Fecha FROM bit_token as BitC
+                        INNER JOIN cat_token_movimiento as Cat on BitC.id_tokenMovimiento = Cat.id_tokenMovimiento
+                        LEFT JOIN usuarios_tbl as Usu on BitC.usuario = Usu.id_User  ";
 if($tipo==0||$tipo=="0"){
-    $rptMon .= " WHERE Bit.fecha_Creacion BETWEEN '$fechaIni' 
-                            AND '$fechaFin' AND Bit.sucursal = $sucursal  ORDER BY Bit.id_BitacoraToken";
+    $rptMon .= " WHERE BitC.fecha_Creacion BETWEEN '$fechaIni' 
+                            AND '$fechaFin' AND BitC.sucursal = $sucursal  ORDER BY BitC.id_BitacoraToken";
 }else{
-    $rptMon .= "WHERE Bit.id_tokenMovimiento=$tipo AND  Bit.fecha_Creacion BETWEEN '$fechaIni' 
-                            AND '$fechaFin' AND Bit.sucursal = $sucursal  ORDER BY Bit.id_BitacoraToken";
+    $rptMon .= "WHERE BitC.id_tokenMovimiento=$tipo AND  BitC.fecha_Creacion BETWEEN '$fechaIni' 
+                            AND '$fechaFin' AND BitC.sucursal = $sucursal  ORDER BY BitC.id_BitacoraToken";
 }
 $query = $db->query($rptMon);
 

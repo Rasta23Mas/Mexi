@@ -3,21 +3,19 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once(SQL_PATH . "sqlDesempenoDAO.php");
 
 $idtipe = $_POST['tipe'];
-//$idContrato = $_POST['contrato'];
 $IdMovimiento = $_POST['IdMovimiento'];
-//$tipoContrato = $_POST['tipoContrato'];
-//$estatus = $_POST['estatus'];
 $sqlDesempeno= new sqlDesempenoDAO();
-
+$tipoContrato = $_POST['tipoContrato'];
 if($idtipe==1) {
     //Busqueda de estatus
-    $sqlDesempeno->estatusContrato($IdMovimiento);
+
+    $sqlDesempeno->estatusContrato($IdMovimiento,$tipoContrato);
 }else if($idtipe==2){
     //Datos del cliente
-    $sqlDesempeno->buscarCliente($IdMovimiento);
+    $sqlDesempeno->buscarCliente($IdMovimiento,$tipoContrato);
 }else if($idtipe==3){
     //Buscar datos del contrato
-    $sqlDesempeno->buscarContrato($IdMovimiento);
+    $sqlDesempeno->buscarContrato($IdMovimiento,$tipoContrato);
 }else if($idtipe==4){
     //Buscar detalle articulos
     $sqlDesempeno->buscarDetalle($IdMovimiento) ;
@@ -26,8 +24,7 @@ if($idtipe==1) {
     $sqlDesempeno->buscarDetalleAuto($IdMovimiento) ;
 }
 
-
- if($idtipe==22){
+/* if($idtipe==22){
     $sqlDesempeno->buscarContratoDes($idContrato) ;
 }else if($idtipe==44){
     $sqlDesempeno->buscarClienteDesAuto($idContrato) ;
@@ -41,7 +38,7 @@ if($idtipe==1) {
 }else if($idtipe==10){
     //Busqueda de estatus
     $sqlDesempeno->estatusContratoAuto($idContrato) ;
-}
+}*/
 
 
 

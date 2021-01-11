@@ -102,11 +102,11 @@ function estatusContrato() {
     $("#btnGenerar").prop('disabled', true);
     $("#idContrato").prop('disabled', true);
     $("#btnBuscar").prop('disabled', true);
-
     if (contratoGbl !== '') {
         var dataEnviar = {
             "tipe": 1,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -160,6 +160,7 @@ function buscarCliente() {
         var dataEnviar = {
             "tipe": 2,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -221,6 +222,7 @@ function buscarDatosContrato() {
         var dataEnviar = {
             "tipe": 3,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -581,6 +583,7 @@ function buscarDetalle() {
         var dataEnviar = {
             "tipe": 4,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -617,6 +620,7 @@ function buscarDetalleAuto() {
         var dataEnviar = {
             "tipe": 5,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -703,7 +707,8 @@ function descuentoNuevo(e) {
                 $("#descuentoNuevoNota").val(descuento);
                 var descuentoFormat = formatoMoneda(descuento)
                 $("#idDescuentoNotaNuevo").val(descuentoFormat);
-                $("#idValidaToken").val(1);
+                alert("entra 710")
+                $("#idValidaToken").val(0);
             }else {
                 alert("El descuento no puede ser mayor a los gastos de administración.");
                 $("#idDescuentoNotaNuevo").val('');
@@ -928,7 +933,6 @@ function generarNuevo() {
     //$tipe == 2 es refrendo auto
     //$tipe == 3 es desempeño normal
     //$tipe == 4 es desempeño auto
-
     var efectivoNuevoNota = $("#efectivoNuevoNota").val();
     efectivoNuevoNota = parseFloat(efectivoNuevoNota);
     var token = 0;

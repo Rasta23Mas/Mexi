@@ -42,7 +42,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
             box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, .2);
             height: auto;
             position: absolute;
-            top: 110px;
+            top: 85px;
             z-index: 9999;
             width: 350px;
         }
@@ -234,7 +234,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                             <input type="text" name="efectivo"  id="idEfectivo"
                                    style="width: 120px; text-align: right "
                                    placeholder="$0.00"
-                                   onkeypress="return efectivoVenta(event)"/>
+                                   onkeypress="return efectivoVenta(event)" disabled/>
                         </td>
                     </tr>
                     <tr >

@@ -283,7 +283,8 @@ function fnModalPrecioApart(id_ArticuloBazar, precio_Actual) {
     $("#idPrecioActual").val(precio_Actual);
     $("#idPrecioMod").val(0);
     $("#idArticulo").val(id_ArticuloBazar);
-    $("#modalPrecioVenta").modal();
+   // $("#modalPrecioVenta").modal();
+    $("#modalPrecioVenta").modal("show");
 
 }
 

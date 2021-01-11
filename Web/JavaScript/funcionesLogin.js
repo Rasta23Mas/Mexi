@@ -58,7 +58,6 @@ function mostrarContrasena() {
 
 }
 
-
 function validarContrasenas() {
     var pass = $("#idPassword").val();
     var passSecond = $("#idPasswordSecond").val();
@@ -89,7 +88,6 @@ function validarContrasenas() {
 
 
 }
-
 
 function validarUser() {
     var user = $("#usuario").val();
@@ -123,7 +121,6 @@ function validarUser() {
                             alert("El sistema Mexicash se encuentra inhabilitado para dispositivos moviles.");
                         } else {
                             validarHorario();
-
                         }
                     }
                 } else {
@@ -250,11 +247,12 @@ function LoginGerente() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Usuario/LogginGerente.php',
         success: function (HaySucursales) {
-
             if (HaySucursales == 1) {
                 buscaridCajaGerente();
             } else if (HaySucursales == 0) {
                 saldosInformativoGerente();
+            } else if (HaySucursales == 3) {
+               alert("El cierre de sucursal ya fue realizado.")
             } else {
                 alertify.error("Error en al conectar con el servidor. (ErrFn03)")
             }
@@ -308,7 +306,9 @@ function buscaridCajaGerente() {
         success: function (response) {
             if (response == 1) {
                 BitacoraUsuario();
-            } else {
+            } else  if (response == 3) {
+                alert("El cierre de caja ya se realizo.")
+            }else {
                 alertify.error("Error en al conectar con el servidor.  (ErrFn05)")
             }
         }
@@ -365,6 +365,8 @@ function LoginVendedor() {
                 buscaridCajaVendedor();
             } else if (HaySucursales == 2) {
                 alertify.error('Sistema cerrado por cierre de sucursal.')
+            } else if (HaySucursales == 3) {
+                alert("El cierre de sucursal ya fue realizado.")
             } else if (HaySucursales == 0) {
                 saldosInformativoVendedor();
             } else {

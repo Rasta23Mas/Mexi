@@ -490,15 +490,15 @@ function llenarInformativo() {
                 var apartado = datos[i].apartado;
                 var abono = datos[i].abono;
                 var tipo_movimiento = datos[i].tipo_movimiento;
-
-                prestamo_EmpenoVenta = Math.round(prestamo_EmpenoVenta * 100) / 100;
-
+                apartado = parseFloat(apartado);
+                abono = parseFloat(abono);
                 if (tipo_movimiento == 22) {
                     apartadosTotal += apartado;
                 } else if (tipo_movimiento == 23) {
                     abonosTotal += abono;
                 }
             }
+
             apartadosTotal = Math.round(apartadosTotal * 100) / 100;
             abonosTotal = Math.round(abonosTotal * 100) / 100;
 
@@ -732,7 +732,6 @@ function guardarBazar() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            alert(response)
             if (response == -1) {
                 alert("Error al guardar bazar")
             } else if (response == 0) {
@@ -740,6 +739,7 @@ function guardarBazar() {
                 cargarPDFCaja();
             } else {
                 alertify.success("Se guardaron en bazar los articulos.")
+                cargarPDFCaja();
                 actualizarBazar();
             }
         },
@@ -753,9 +753,8 @@ function actualizarBazar() {
         type: 'post',
         dataType: "json",
         success: function (response) {
+            alert("actualiza")
             if (response > 0) {
-                cargarPDFCaja();
-                alertify.success("Se actualizaron en bazar los articulos.")
                 BitacoraUsuarioCierreSucursal();
             }
         },

@@ -109,7 +109,7 @@ $rptRef = "SELECT id_Bazar,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,C
                     LEFT JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
                     WHERE DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
                     AND DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
-                    AND Con.sucursal=$sucursal ";
+                    AND Con.sucursal=$sucursal  ";
 $query = $db->query($rptRef);
 
 

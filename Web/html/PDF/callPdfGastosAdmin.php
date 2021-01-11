@@ -42,7 +42,7 @@ if (isset($_GET['reimpresion'])) {
     $reimpresion = "REIMPRESIÓN";
 }
 if (isset($_GET['tipo'])) {
-    $tipoReporte = 0;
+    $tipoReporte = $_GET['tipo'];
 }
 if (isset($_GET['contrato'])) {
     $idContrato = $_GET['contrato'];
@@ -54,7 +54,7 @@ if (isset($_GET['ultimoMovimiento'])) {
 }
 
 $query = " SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
-                    Con.s_descuento_aplicado,Con.prestamo, Con.pag_efectivo, Con.pag_cambio, Con.fechaAlmoneda, Con.fechaVencimiento,
+                    Con.s_descuento_aplicado,Cot.total_Prestamo, Con.pag_efectivo, Con.pag_cambio, Con.fechaAlmoneda, Con.fechaVencimiento,
                     Con.fecha_Movimiento, CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario,
                     Suc.Nombre AS NombreSucursal, Suc.NombreCasa, Suc.rfc,
                     Suc.direccion AS DirSucursal, Suc.telefono AS TelSucursal ,Con.pag_total,Con.pag_subtotal,e_costoContrato
@@ -70,13 +70,14 @@ $query = " SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_P
                             $query .= " and Con.id_movimiento = $ultimoMovimiento";
                         }
                     $query .= " ORDER BY id_movimiento DESC LIMIT 1";
+                        //echo $query;
 $resultado = $db->query($query);
 
 
 foreach ($resultado as $row) {
     $id_Recibo = $row["id_movimiento"];
     $NombreCompleto = $row["NombreCompleto"];
-    $prestamo = $row["prestamo"];
+    $prestamo = $row["total_Prestamo"];
     $descuentoAplicado = $row["s_descuento_aplicado"];
     $efectivo = $row["pag_efectivo"];
     $cambio = $row["pag_cambio"];
@@ -99,9 +100,12 @@ foreach ($resultado as $row) {
 }
 
 if($tipoReporte==1){
+    $nombreReporteAr="REFRENDO";
     $nombreReporte="REFRENDO";
+
 }else{
     $nombreReporte="DESEMPEÑO";
+    $nombreReporteAr="DESEMPENO";
 }
 $query = "SELECT  Ar.descripcionCorta AS DescripcionCorta,  Ar.observaciones AS Obs
                     FROM contratos_tbl as Con 
@@ -338,8 +342,9 @@ $contenido .= '<table width="100%" border="1">
         </td> 
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
-
-$nombreContrato = $nombreReporte.'_Num_' . $id_Recibo . ".pdf";
+//echo $contenido;
+//exit;
+$nombreContrato = $nombreReporteAr.'_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 if($sucursal==1){

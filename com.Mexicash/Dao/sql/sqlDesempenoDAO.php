@@ -48,7 +48,7 @@ class sqlDesempenoDAO
     }
 
     //Busqueda de Contrato
-    public function estatusContrato($IdMovimiento)
+    public function estatusContrato($IdMovimiento,$tipoContrato)
     {
         //Modifique los estatus de usuario
         $datos = array();
@@ -61,7 +61,8 @@ class sqlDesempenoDAO
                         INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato  and Con.sucursal=$sucursal 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente and Cli.sucursal=$sucursal 
                         INNER JOIN cat_movimientos as CatM on Mov.tipo_movimiento = CatM.id_Movimiento  
-                        WHERE Mov.id_movimiento = $IdMovimiento  And Mov.sucursal=$sucursal ";
+                        WHERE Mov.id_movimiento = $IdMovimiento And Mov.sucursal=$sucursal 
+                        AND tipo_Contrato=$tipoContrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 
@@ -85,7 +86,7 @@ class sqlDesempenoDAO
     }
 
     //Busqueda de Cliente
-    public function buscarCliente($IdMovimiento)
+    public function buscarCliente($IdMovimiento,$tipoContrato)
     {
         $datos = array();
         try {
@@ -100,8 +101,8 @@ class sqlDesempenoDAO
                         LEFT JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente and Cli.sucursal=$sucursal
                         LEFT JOIN cat_estado as Est on Cli.estado = Est.id_Estado  
                         LEFT JOIN bit_cierrecaja as Caj on Mov.id_CierreCaja = Caj.id_cierreCaja and Caj.sucursal=$sucursal
-                        LEFT JOIN usuarios_tbl as Usu on Caj.usuario = Usu.id_User and Usu.sucursal=$sucursal
-                       	WHERE Mov.id_movimiento = $IdMovimiento  and Mov.sucursal=$sucursal";
+                        LEFT JOIN usuarios_tbl as Usu on Caj.usuario = Usu.id_User and Usu.id_Sucursal=$sucursal
+                       	WHERE Mov.id_movimiento = $IdMovimiento  and Mov.sucursal=$sucursal AND tipo_Contrato=$tipoContrato";
 
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
@@ -126,7 +127,7 @@ class sqlDesempenoDAO
     }
 
     //Busqueda de Contrato
-    public function buscarContrato($IdMovimiento)
+    public function buscarContrato($IdMovimiento,$tipoContrato)
     {
         $datos = array();
         try {
@@ -157,7 +158,7 @@ class sqlDesempenoDAO
                         From contrato_mov_tbl AS ConMov
                         INNER JOIN contratos_tbl AS Con ON ConMov.id_contrato =  Con.id_Contrato and Con.sucursal=$sucursal
                         INNER JOIN cat_costo_contrato AS CCC ON Con.id_Formulario =  CCC.id_formulario AND Con.sucursal = CCC.sucursal
-						WHERE ConMov.id_movimiento = $IdMovimiento  and ConMov.sucursal=$sucursal ";
+						WHERE ConMov.id_movimiento = $IdMovimiento  and ConMov.sucursal=$sucursal AND ConMov.tipo_Contrato=$tipoContrato";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
