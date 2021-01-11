@@ -50,7 +50,6 @@ class sqlUsuarioDAO
             $tipoUsuario = 0;
             $buscar = "select id_User,usuario,password,id_Sucursal,tipoUsuario  from usuarios_tbl where usuario = '$usuario'";
             $statement = $this->conexion->query($buscar);
-
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
                 $pass_hash = $fila->password;

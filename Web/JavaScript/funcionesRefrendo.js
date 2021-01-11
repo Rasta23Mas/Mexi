@@ -707,8 +707,14 @@ function descuentoNuevo(e) {
                 $("#descuentoNuevoNota").val(descuento);
                 var descuentoFormat = formatoMoneda(descuento)
                 $("#idDescuentoNotaNuevo").val(descuentoFormat);
-                alert("entra 710")
-                $("#idValidaToken").val(0);
+                if (descuento > 0) {
+                    alert("entra")
+                    $("#idValidaToken").val(1);
+                }else{
+                    alert("no desc")
+                    $("#idValidaToken").val(0);
+                }
+
             }else {
                 alert("El descuento no puede ser mayor a los gastos de administración.");
                 $("#idDescuentoNotaNuevo").val('');

@@ -682,15 +682,14 @@ class sqlVentasDAO
         $idCodigoAutMod = mb_strtoupper($idCodigoAutMod, 'UTF-8');
 
         try {
-            $id = -1;
             $verdad = 0;
 
-            $buscar = "SELECT id_token,descripcion FROM cat_token 
+            $buscar = "SELECT id_token as Tkn FROM cat_token 
                         WHERE descripcion = '$idCodigoAutMod' and estatus= 1";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
                 $fila = $statement->fetch_object();
-                $id = $fila->id_token;
+                $id = $fila->Tkn;
                 $updatePrecio = "UPDATE articulo_bazar_tbl SET
                                          vitrinaVenta = $idPrecioMod
                                         WHERE id_ArticuloBazar =$idArticulo";
@@ -699,6 +698,8 @@ class sqlVentasDAO
                         $updateToken = "UPDATE cat_token SET
                                          estatus = 2
                                         WHERE id_token =$id";
+                        $ps = $this->conexion->prepare($updateToken);
+                        $ps->execute();
                         $verdad = 1;
                     } else {
                         $verdad = -1;
@@ -707,17 +708,15 @@ class sqlVentasDAO
                     $verdad = -1;
                 }
             } else {
-                $id = -1;
+                $verdad =  -1;
             }
 
         } catch (Exception $exc) {
-            $id = -1;
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
         echo $verdad;
-        //return $id;
     }
 
 }

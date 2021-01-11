@@ -317,7 +317,7 @@ function editarPrecio() {
                 alert("Se modifico correctamente el precio.");
                 fnBitPrecioMod();
             } else {
-                alertify.error("El artículo ya esta en el carrito de compras.");
+                alertify.error("Error al modificar el precio de venta.");
             }
         },
     })
