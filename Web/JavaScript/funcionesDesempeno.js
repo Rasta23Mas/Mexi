@@ -219,6 +219,7 @@ function buscarDatosContrato() {
         var dataEnviar = {
             "tipe": 3,
             "IdMovimiento": IdMovimientoGbl,
+            "tipoContrato": tipoContrato,
         };
         $.ajax({
             type: "POST",
@@ -437,7 +438,7 @@ function buscarDatosContrato() {
                     $("#idTblAlmacenajeDesc").val(totalVencAlm);
                     $("#idTblSeguroDesc").val(totalVencSeg);
                     var TotalFinal = TotalPrestamo + interesGenerado;
-                   // totalFinal = TotalFinal;
+                    // totalFinal = TotalFinal;
 
                     //Nuevo
                     interesNuevoNota = interesGenerado;
@@ -1174,7 +1175,7 @@ function MovimientosRefrendoSinInteres() {
     e_moratorios = Math.round(e_moratorios * 100) / 100;
     e_ivaValue = Math.round(e_ivaValue * 100) / 100;
     abonoFinal = Math.round(abonoFinal * 100) / 100;
-   if (tipeFormulario == 4) {
+    if (tipeFormulario == 4) {
         e_gps = $("#gpsNuevoNota").val();
         e_poliza = $("#polizaNuevoNota").val();
         e_pension = $("#pensionNuevoNota").val();

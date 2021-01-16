@@ -78,24 +78,24 @@ $contenido .= '
                         <tbody id="idTBodyInventario"  align="center">';
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
-                        Con.id_contrato AS CONTRATO,
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO,
-                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
-                        Art.descripcionCorta AS DescripcionCorta,  Art.observaciones AS Obs,
+                        Art.descripcionCorta AS DESCRIPCION,
+                        Art.observaciones as ObserArt,
                         Aut.observaciones as ObserAuto,
-                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
-                        Art.tipoArticulo, Con.id_Formulario as Form
+                        Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        AND Art.sucursal=$sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
+     					AND Aut.sucursal=$sucursal
                         WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
                         AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
-                        AND Bit.sucursal = $sucursal AND Cli.sucursal = $sucursal AND Con.sucursal = $sucursal 
-                        ORDER BY Form";
+                        AND Con.sucursal = $sucursal 
+                        ORDER BY Con.id_contrato ";
 $resultado = $db->query($query);
 $tipoMetal = 0;
 $tipoElectro = 0;

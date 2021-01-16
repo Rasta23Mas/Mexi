@@ -73,8 +73,7 @@ $contenido .= '
                         <tbody id="idTBodyInventario"  align="center"> ';
 $query = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
                         vitrinaVenta AS precio_venta, 
-                        precioCompra , (vitrinaVenta - precioCompra) as utilidad,
-                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        precioCompra ,descripcionCorta as Detalle,CAT.descripcion as CatDesc
                         FROM articulo_bazar_tbl 
                         LEFT JOIN cat_adquisicion AS CAT on id_serieTipo = CAT.id_Adquisicion
                         WHERE DATE_FORMAT(fecha_Bazar,'%Y-%m-%d')   >=  '$fechaIni'

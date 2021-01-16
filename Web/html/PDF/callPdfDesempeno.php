@@ -169,6 +169,10 @@ $contenido = '<html>
           font-weight: bold;
          }
        
+         .letraNormalNegritaCantil{
+          font-size: .5em;
+          font-weight: bold;
+         }
          
          .tableColl {
         border-collapse: collapse;
@@ -183,11 +187,26 @@ $contenido = '<html>
 </head>
 <body>
 <form>';
-$contenido .= '<table width="100%" border="1">
-        <tbody>
-        <tr>
-        <td align="center" >
-         <table width="100%" border="0" class="letraNormalNegrita">
+
+if($sucursal==1){
+    $contenido .= '<table width="50%" border="1">
+                <tbody>
+                    <tr>
+                        <td align="center" >
+                        <table width="40%" border="0" class="letraNormalNegritaCantil">
+                          <tr>
+                    <td colspan="3" align="center">
+                        <label>TEST2 GAMA VAZQUEZ</label>
+                    </td>
+                </tr>';
+}else{
+    $contenido .= '<table width="100%" border="1">
+                <tbody>
+                    <tr>
+                        <td align="center" >
+                        <table width="100%" border="0" class="letraNormalNegrita">';
+}
+$contenido .= '
                 <tr>
                     <td colspan="3" align="center">
                         <label>MIRIAM GAMA VAZQUEZ</label>
@@ -251,7 +270,7 @@ $contenido .= '<table width="100%" border="1">
                 </tr>
                 <tr>
                     <td colspan="3" align="left">
-                        <label id="idFechaHoy">FECHA: ' . $Fecha_Creacion . '</label>
+                        <label id="idFechaHoy">FECHA:: ' . $Fecha_Creacion . '</label>
                     </td>
                 </tr>
                 <tr>
@@ -401,7 +420,8 @@ $nombreContrato = 'Desempeno_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 if($sucursal==1){
-    $dompdf->setPaper('letter', 'portrait');
+    $customPaper = array(0,0,300,900);
+    $dompdf->setPaper($customPaper);
 }else if($sucursal==2){
     $customPaper = array(0,0,300,650);
     $dompdf->setPaper($customPaper);

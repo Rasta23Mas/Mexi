@@ -107,9 +107,9 @@ $spreadsheet->getActiveSheet()->getStyle('A2:I2')->applyFromArray($tableHead);
 
 $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
-                        Con.id_contrato AS CONTRATO, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Con.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO,
                         Art.descripcionCorta AS DESCRIPCION,
                         Art.observaciones as ObserArt,

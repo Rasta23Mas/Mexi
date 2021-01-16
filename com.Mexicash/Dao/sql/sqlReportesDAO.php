@@ -95,15 +95,18 @@ class sqlReportesDAO
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(id_Articulo) as  totalCount,
+                $count = "
+                        SELECT COUNT(id_Articulo) as  totalCount,
                         SUM(Con.total_Prestamo)  AS TOT_PRESTAMO 
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        AND Art.sucursal=$sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
+     					AND Aut.sucursal=$sucursal
                         WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
                         AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
-                        AND Art.sucursal = $sucursal 
+                        AND Con.sucursal = $sucursal 
                         ORDER BY Con.id_contrato";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
@@ -124,10 +127,12 @@ class sqlReportesDAO
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        AND Art.sucursal=$sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
+     					AND Aut.sucursal=$sucursal
                         WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
                         AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
-                        AND Art.sucursal = $sucursal 
+                        AND Con.sucursal = $sucursal 
                         ORDER BY Con.id_contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
@@ -773,14 +778,14 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while ($fila = $resultado->fetch_assoc()) {
                     $jsondataperson = array();
-                        $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
-                        $jsondataperson["token"] = $fila["token"];
-                        $jsondataperson["descripcion"] = $fila["descripcion"];
-                        $jsondataperson["descuento"] = $fila["descuento"];
-                        $jsondataperson["usuario"] = $fila["usuario"];
-                        $jsondataperson["sucursal"] = $fila["sucursal"];
-                        $jsondataperson["estatus"] = $fila["estatus"];
-                        $jsondataperson["Fecha"] = $fila["Fecha"];
+                    $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
+                    $jsondataperson["token"] = $fila["token"];
+                    $jsondataperson["descripcion"] = $fila["descripcion"];
+                    $jsondataperson["descuento"] = $fila["descuento"];
+                    $jsondataperson["usuario"] = $fila["usuario"];
+                    $jsondataperson["sucursal"] = $fila["sucursal"];
+                    $jsondataperson["estatus"] = $fila["estatus"];
+                    $jsondataperson["Fecha"] = $fila["Fecha"];
 
                     $jsondataList[] = $jsondataperson;
                 }

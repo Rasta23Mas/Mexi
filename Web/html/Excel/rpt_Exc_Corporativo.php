@@ -121,7 +121,7 @@ $rptIng = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as A
                        DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha, MONTH(fecha_Creacion) as Mes
                        FROM bit_cierresucursal
                        WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND sucursal = $sucursal ";
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal  ";
 
 $query = $db->query($rptIng);
 

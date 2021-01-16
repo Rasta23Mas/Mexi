@@ -1223,6 +1223,12 @@ function exportar(expor) {
         } else {
             window.open('../PDF/callPdf_R_Bazar.php');
         }
+    }else if (tipoReporte == 28) {
+        if (expor == 1) {
+            window.open('../Excel/rpt_Exc_BazarAuto.php?sucursal=' + sucursal);
+        } else {
+            window.open('../PDF/callPdf_R_BazarAuto.php');
+        }
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
@@ -1556,13 +1562,13 @@ function exportarFinanciero(tipoExportar) {
             if (tipo == 1) {
                 window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
             } else if (tipo == 2) {
-                window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
+                window.open('../Excel/rpt_Exc_Corporativo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
             }
         } else if (tipoExportar == 2) {
             if (tipo == 1) {
                 window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
             } else if (tipo == 2) {
-                window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
+                window.open('../PDF/callPdf_R_Corporativo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
             }
         }
 

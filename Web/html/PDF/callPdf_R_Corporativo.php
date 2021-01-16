@@ -78,10 +78,10 @@ $contenido .= '
 $rptIng = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
                        costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
                        utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
-                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
+                       DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha, MONTH(fecha_Creacion) as Mes
                        FROM bit_cierresucursal
                        WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal ";
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal  ";
 $resultado = $db->query($rptIng);
 $tipoMetal = 0;
 $tipoElectro = 0;
@@ -137,7 +137,7 @@ $contenido .='
                         </table>';
 $contenido .= '</form></body></html>';
 
-$nombreContrato = 'Reporte_Ingresos.pdf';
+$nombreContrato = 'Reporte_Corporativo.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');

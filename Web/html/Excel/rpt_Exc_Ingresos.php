@@ -116,12 +116,12 @@ $spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);
 
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptIng = "SELECT id_CierreSucursal,capitalRecuperado as Desem,abonoCapital as AbonoRef,intereses as Inte,
-                       costoContrato as costo,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
+                       costoContrato as costoContrato,iva as Iva,mostrador as Ventas,iva_venta as IvaVenta,
                        utilidadVenta as Utilidad, apartados as Apartados,abonoVentas as AbonoVen, 
                        DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') as Fecha 
                        FROM bit_cierresucursal
                        WHERE DATE_FORMAT(fecha_Creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
-                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal";
+                       AND sucursal = $sucursal  ORDER BY id_CierreSucursal ";
 
 $query = $db->query($rptIng);
 

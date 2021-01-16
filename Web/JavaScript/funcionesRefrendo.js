@@ -75,7 +75,6 @@ function busquedaMovimiento() {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Desempeno/busquedaMovimiento.php',
         data: dataEnviar,
-
         success: function (response) {
             if (response > 0) {
                 IdMovimientoGbl = response;
@@ -708,10 +707,8 @@ function descuentoNuevo(e) {
                 var descuentoFormat = formatoMoneda(descuento)
                 $("#idDescuentoNotaNuevo").val(descuentoFormat);
                 if (descuento > 0) {
-                    alert("entra")
                     $("#idValidaToken").val(1);
                 }else{
-                    alert("no desc")
                     $("#idValidaToken").val(0);
                 }
 

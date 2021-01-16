@@ -10,12 +10,7 @@ if (!isset($_SESSION)) {
 }
 $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
-if (isset($_GET['fechaIni'])) {
-    $fechaIni = $_GET['fechaIni'];
-}
-if (isset($_GET['fechaFin'])) {
-    $fechaFin = $_GET['fechaFin'];
-}
+
 
 
 $fecha_Bazar = "";
@@ -55,53 +50,45 @@ tr:nth-child(even) {
 <body>
 <form>';
 $contenido .= '
-                    <center><h3><b>Contratos Vencidos</b></h3></center>
+                    <center><h3><b>Reporte Bazar</b></h3></center>
                     <br>
          <table  width="100%"border="1">
                         <thead style="background: dodgerblue; color:white;">
                             <tr align="center">
-                                   <th>Fecha Venta</th>
-                                    <th>Contrato</th>
-                                    <th>Serie</th>
-                                    <th width="400px">Detalle</th>
-                                    <th>Venta</th>
-                                    <th>Descuento</th>
-                                    <th>Tipo Adquisición</th>
+                                <th>Fecha Bazar</th>
+                                <th>Contrato</th>
+                                <th>Serie</th>
+                                <th>Detalle</th>
+                                <th>Precio Venta</th>
+                                <th>Tipo Adquisición</th>
                             </tr>
                         </thead>
                         <tbody id="idTBodyInventario"  align="center"> ';
-$query = "SELECT id_Bazar,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu.usuario
-                    FROM contrato_mov_baz_tbl AS Con
-                    LEFT JOIN bit_cierrecaja AS BitC on Con.id_CierreCaja = BitC.id_CierreCaja 
-                    AND Bitc.sucursal=$sucursal
-                    LEFT JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
-                    WHERE DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
-                    AND DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
-                    AND Con.sucursal=$sucursal";
+$query = "SELECT DATE_FORMAT(fecha_creacion,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
+                        vitrina_venta AS precio_venta, 
+                        descripcionCorta as Detalle
+                        FROM auto_bazar_tbl as Baz
+                        WHERE fisico= 1 AND HayMovimiento=0 AND Baz.sucursal=$sucursal";
 $resultado = $db->query($query);
 
 $tablaArticulos = '';
 
 foreach ($resultado as $row) {
-    $FECHA = $row["FECHA"];
+    $fecha_Bazar = $row["FECHA"];
     $id_Contrato = $row["id_Contrato"];
     $id_serie = $row["id_serie"];
-    $precio_venta = $row["precio_venta"];
     $Detalle = $row["Detalle"];
-    $descuento_Venta = $row["descuento_Venta"];
+    $precio_venta = $row["precio_venta"];
     $CatDesc = $row["CatDesc"];
 
     $precio_venta = number_format($precio_venta, 2,'.',',');
-    $descuento_Venta = number_format($descuento_Venta, 2,'.',',');
 
 
-    $tablaArticulos .= '<tr><td >' . $FECHA . '</td>
+    $tablaArticulos .= '<tr><td >' . $fecha_Bazar . '</td>
                         <td>' . $id_Contrato . '</td>
                         <td>' . $id_serie . '</td>
                         <td>' . $Detalle . '</td>
                         <td>$' . $precio_venta . '</td>
-                        <td>$' . $descuento_Venta . '</td>
                         <td>' . $CatDesc . '</td>
                         </tr>';
 }
@@ -111,7 +98,8 @@ $contenido .='
                         </tbody>
                         </table>';
 $contenido .= '</form></body></html>';
-
+//echo $contenido;
+//exit();
 $nombreContrato = 'Reporte_Bazar.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

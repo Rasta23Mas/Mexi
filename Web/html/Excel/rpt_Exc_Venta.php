@@ -101,15 +101,15 @@ $spreadsheet->getActiveSheet()
 $spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
 
 ////$query = $db->query("SELECT * FROM products ORDER BY id DESC");
-$rptRef = "SELECT id_Bazar,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,Con.subTotal,
-                    Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu.usuario
+$rptRef = "SELECT id_Bazar,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu.usuario
                     FROM contrato_mov_baz_tbl AS Con
                     LEFT JOIN bit_cierrecaja AS BitC on Con.id_CierreCaja = BitC.id_CierreCaja 
                     AND Bitc.sucursal=$sucursal
                     LEFT JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
                     WHERE DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
                     AND DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
-                    AND Con.sucursal=$sucursal  ";
+                    AND Con.sucursal=$sucursal ";
 $query = $db->query($rptRef);
 
 

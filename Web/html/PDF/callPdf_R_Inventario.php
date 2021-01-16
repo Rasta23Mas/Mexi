@@ -74,26 +74,14 @@ $contenido .= '
                             </tr>
                         </thead>
                         <tbody id="idTBodyInventario"  align="center">';
-$query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM, 
-                        Con.id_contrato AS CONTRATO,
-                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
-                        Con.total_Prestamo AS PRESTAMO,
-                        Con.plazo AS Plazo, Con.periodo as Periodo, Con.tipoInteres as TipoInteres,
-                        Art.descripcionCorta,
-                        Aut.observaciones as ObserAuto,
-                        CONCAT(Aut.marca, ' ', Aut.modelo) as DetalleAuto, 
-                        CONCAT(Art.observaciones) as Observaciones,
-                        Art.tipoArticulo, Con.id_Formulario as Form
-                        FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN bit_cierrecaja as Bit on Con.id_cierreCaja = Bit.id_CierreCaja
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        WHERE Con.fisico = 1
-                        AND Bit.sucursal = $sucursal 
-                        ORDER BY Form";
+$query = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_Contrato,
+                        CONCAT (id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) as id_serie,
+                        vitrina AS precio_venta, 
+                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        FROM articulo_tbl AS ART 
+                        LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
+                        LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
+                        WHERE Con.fisico = 1 AND  ART.sucursal = $sucursal ";
 $resultado = $db->query($query);
 $tipoMetal = 0;
 $tipoElectro = 0;

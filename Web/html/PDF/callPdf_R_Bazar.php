@@ -64,8 +64,8 @@ $contenido .= '
                             </tr>
                         </thead>
                         <tbody id="idTBodyInventario"  align="center"> ';
-$query = " SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
-                        descripcionCorta as Detalle,vitrinaVenta AS precio_venta, CAT.descripcion as CatDesc
+$query = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
+                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
                         FROM articulo_bazar_tbl as Baz
                         LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
                         WHERE fisico= 1 AND HayMovimiento=0 AND Baz.sucursal=$sucursal";
