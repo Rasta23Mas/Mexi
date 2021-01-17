@@ -106,6 +106,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     <li><a class="dropdown-item" href="../Ventas/vVentasMostrador.php">Mostrador</a></li>
                     <li><a class="dropdown-item" href="../Ventas/vVentasAbonos.php">Abono</a></li>
                     <li><a class="dropdown-item" href="../Ventas/vVentasApartados.php">Apartados</a></li>
+                    <li><a class="dropdown-item" href="../Ventas/vVentasModificarPrecio.php">Modificar Precio</a></li>
                 </ul>
             </li>
 
