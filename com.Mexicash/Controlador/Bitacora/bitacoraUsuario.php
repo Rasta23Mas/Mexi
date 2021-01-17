@@ -12,6 +12,6 @@ $consulta_fechaFinal = $_POST['consulta_fechaFinal'];
 $idArqueo = $_POST['idArqueo'];
 
 $usu = new sqlUsuarioDAO();
-$usu->bitacoraUsuario($id_Movimiento,$id_contrato,$id_almoneda,$id_cliente,$consulta_fechaInicio,$consulta_fechaFinal,$idArqueo);
+$usu->sqlBitacoraUsuario($id_Movimiento,$id_contrato,$id_almoneda,$id_cliente,$consulta_fechaInicio,$consulta_fechaFinal,$idArqueo);
 
 

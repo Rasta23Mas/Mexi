@@ -93,8 +93,8 @@ if (isset($_GET['userGet'])) {
                                    style="width: 170px" />
                         </td>
                         <td align="left" >
-                            <img src="../../style/Img/ojo_abierto.png"  alt="Ocultar Contraseña" id="ojoClose"  onclick="mostrarContrasena();">
-                            <img src="../../style/Img/ojo_cerrado.jpg"  alt="Ver Contraseña" id="ojoOpen" onclick="mostrarContrasena();">
+                            <img src="../../style/Img/ojo_abierto.png"  alt="Ocultar Contraseña" id="ojoClose"  onclick="fnMostrarContrasena();">
+                            <img src="../../style/Img/ojo_cerrado.jpg"  alt="Ver Contraseña" id="ojoOpen" onclick="fnMostrarContrasena();">
                         </td>
                     </tr>
                     <tr>
@@ -119,7 +119,7 @@ if (isset($_GET['userGet'])) {
                     </tr>
                     <tr>
                         <td colspan="5" align="center">
-                            <input type="button" class="sub btn btn-primary" value="Guardar" onclick="validarContrasenas()"/>
+                            <input type="button" class="sub btn btn-primary" value="Guardar" onclick="fnValidarContrasenas()"/>
                         </td>
                     </tr>
                 </table>

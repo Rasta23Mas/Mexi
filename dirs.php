@@ -9,7 +9,6 @@ define('DAO_PATH', COM_PATH.'Dao/');
 define('SQL_PATH', DAO_PATH.'sql/');
 define('ESAPI_PATH', COM_PATH.'esapi/');
 define('MODELO_PATH', COM_PATH.'Modelo/');
-define('PETICIONES_PATH', COM_PATH.'Peticiones/');
 define('IMAGEN_PATH', ROOT_PATH.'Imagenes/');
 //WEB DIR
 define('WEB_PATH', ROOT_PATH.'Web/');

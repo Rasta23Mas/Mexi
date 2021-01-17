@@ -83,7 +83,7 @@ class sqlArticulosDAO
                 $insert = "INSERT INTO articulo_tbl " .
                     "(id_SerieSucursal,id_SerieArticulo,tipoArticulo,tipo, marca, modelo, num_Serie, prestamo, avaluo,vitrina, precioCat, interes,  observaciones," .
                     " detalle, id_Estatus, fecha_creacion, fecha_modificacion,id_cierreCaja,descripcionCorta,sucursal,IMEI)  VALUES " .
-                    "('$sucursal','$idArticulo',$tipoPost,'" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
+                    "('$sucursalSerie','$idArticulo',$tipoPost,'" . $idTipoE . "','" . $idMarca . "', '" . $idModelo
                     . "', '" . $idSerie . "','" . $idPrestamoE . "', '" . $idAvaluoE . "', '" . $idVitrina . "', '" . $precioCat . "','" . $interes . "','" . $idObsE . "','"
                     . $idDetallePrendaE . "','" . $status . "','" . $fechaCreacion . "','" . $fechaModificacion . "'," . $idCierreCaja . ",'$descCortoElectro',$sucursal,$imei)";
             }

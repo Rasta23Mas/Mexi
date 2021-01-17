@@ -49,10 +49,10 @@ include_once(MENU_PATH . "menuPrincipal.php");
             </div>
             <div class="form-group" align="center">
                 <input type="password" name="password" id="password" class="form-control"
-                       placeholder="Contraseña" required style="width: 130px"  onkeypress="return enterValidaUser(event)"/>
+                       placeholder="Contraseña" required style="width: 130px"  onkeypress="return fnEnterValidaUser(event)"/>
             </div>
             <div class="form-group" align="center">
-                <input type="button" class="sub btn btn-primary" value="Entrar" onclick="validarPass()"/>
+                <input type="button" class="sub btn btn-primary" value="Entrar" onclick="fnValidarPass()"/>
             </div>
         </div>
     </div>

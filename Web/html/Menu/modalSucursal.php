@@ -40,7 +40,7 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
             </div>
             <div class="modal-footer">
                 <input type="button" class="btn btn-success " data-dismiss="modal"
-                       onclick="LoginAdministradores($('#idSucursalSelect').val());"  value="Continuar">
+                       onclick="fnLoginAdministradores($('#idSucursalSelect').val());"  value="Continuar">
 
             </div>
         </div>

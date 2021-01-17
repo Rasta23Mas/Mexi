@@ -187,7 +187,7 @@ include_once(SQL_PATH . "sqlUsuarioDAO.php");
                                 <?php
                                 $data = array();
                                 $sql = new sqlUsuarioDAO();
-                                $data = $sql->usuariosCaja();
+                                $data = $sql->sqlUsuariosCaja();
                                 for ($i = 0; $i < count($data); $i++) {
                                     echo "<option value=" . $data[$i]['id_User'] . ">" . $data[$i]['NombreUser'] . "</option>";
                                 }
