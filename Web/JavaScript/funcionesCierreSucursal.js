@@ -704,7 +704,7 @@ function guardarCierreSucursal() {
         success: function (response) {
             if (response > 0) {
                 guardarBazar();
-                fnCierreCajas(1,0,0);
+                fnCierreTodasLasCajas();
             } else {
                 alertify.error("Error de conexion, intente más tarde.")
             }
@@ -712,9 +712,29 @@ function guardarCierreSucursal() {
     });
 }
 
-function fnCierreCajas() {
+/*
+function fnCierreCajas(estatus,user,tipo) {
+    var dataEnviar = {
+        "estatus": estatus,
+        "user": user,
+        "tipo": tipo,
+    };
     $.ajax({
+        data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Cierre/ConCierreCajaIndispensable.php',
+        type: 'post',
+        dataType: "json",
+        success: function (response) {
+            if (response > 0) {
+                alertify.success("Se cerraron la caja.")
+            }
+        },
+    })
+}
+*/
+function fnCierreTodasLasCajas() {
+    $.ajax({
+        url: '../../../com.Mexicash/Controlador/Cierre/ConCierreCajas.php',
         type: 'post',
         dataType: "json",
         success: function (response) {
@@ -724,7 +744,6 @@ function fnCierreCajas() {
         },
     })
 }
-
 function guardarBazar() {
     //1 llena movimientos de dotacion y retiro
     $.ajax({
@@ -753,7 +772,6 @@ function actualizarBazar() {
         type: 'post',
         dataType: "json",
         success: function (response) {
-            alert("actualiza")
             if (response > 0) {
                 BitacoraUsuarioCierreSucursal();
             }

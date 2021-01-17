@@ -643,8 +643,8 @@ $contenido .= '
             </td>
         </tr>  ';
 $contenido .= '</tbody></table></form></body></html>';
-echo $contenido;
-exit();
+//echo $contenido;
+//exit();
 $nombreContrato = 'Cierre_Sucursal_Num ' . $folioCierreSucursal . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
