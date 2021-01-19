@@ -64,6 +64,7 @@ $query = "SELECT Art.id_serie, Art.descripcionCorta,Art.vitrinaVenta
 FROM articulo_bazar_tbl AS Art 
 INNER JOIN bit_ventas AS Ven ON Art.id_ArticuloBazar = Ven.id_ArticuloBazar AND Ven.sucursal=$sucursal 
 WHERE id_Bazar = $id_Bazar AND Art.sucursal=$sucursal";
+//echo $query;
 $tablaArt = $db->query($query);
 
 foreach ($tablaArt as $row) {
@@ -281,8 +282,8 @@ $contenido .= '
         </td>
         </tr>';
 $contenido .= '</tbody></table></form></body></html>';
-/*echo $contenido;
-exit();*/
+//echo $contenido;
+//exit();
 $nombreContrato = 'Venta_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

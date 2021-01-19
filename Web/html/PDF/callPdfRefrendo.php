@@ -54,26 +54,21 @@ if (isset($_GET['ultimoMovimiento'])) {
     $ultimoMovimiento = 0;
 }
 
-$query = "SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
-                    Con.prestamo_Informativo,Con.e_abono, 
-                    Con.e_interes, Con.e_almacenaje, Con.e_seguro, Con.e_moratorios, Con.s_descuento_aplicado, Con.e_iva, 
-                    Con.pag_efectivo, Con.pag_cambio, Con.fechaAlmoneda, Con.fechaVencimiento, Con.fecha_Movimiento, 
-                    CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, Suc.Nombre AS NombreSucursal, 
-                    Suc.direccion AS DirSucursal, Suc.telefono AS TelSucursal ,Con.pag_total,Con.pag_subtotal
-                    FROM contrato_mov_tbl AS Con 
-                    INNER JOIN contratos_tbl AS Cot on Con.id_contrato = Cot.id_Contrato 
-                    INNER JOIN cliente_tbl AS Cli on Cot.id_Cliente = Cli.id_Cliente 
-                    INNER JOIN bit_cierrecaja AS Bit on Con.id_cierreCaja = Bit.id_CierreCaja 
-                    INNER JOIN usuarios_tbl AS Usu on Bit.usuario = Usu.id_User 
-                    INNER JOIN cat_sucursal AS Suc on Con.sucursal = Suc.id_Sucursal 
-                    WHERE Con.id_Contrato =$idContrato AND Con.sucursal=$sucursal AND Cot.sucursal=$sucursal
-                     AND Bit.sucursal=$sucursal";
-                    if($ultimoMovimiento!=0){
-                        $query .= " and Con.id_movimiento = $ultimoMovimiento";
-                    }
-                    $query .= " ORDER BY id_movimiento DESC LIMIT 1";
+$query = "SELECT Con.id_movimiento,CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto, Con.prestamo_Informativo,Con.e_abono, Con.e_interes, Con.e_almacenaje, Con.e_seguro, Con.e_moratorios, Con.s_descuento_aplicado, Con.e_iva, Con.pag_efectivo, Con.pag_cambio, Con.fechaAlmoneda, Con.fechaVencimiento, Con.fecha_Movimiento, CONCAT (Usu.apellido_Pat, ' ',Usu.apellido_Mat,' ', Usu.nombre) as NombreUsuario, Suc.Nombre AS NombreSucursal, Suc.direccion AS DirSucursal, Suc.telefono AS TelSucursal ,Con.pag_total,Con.pag_subtotal 
+FROM contrato_mov_tbl AS Con 
+INNER JOIN contratos_tbl AS Cot on Con.id_contrato = Cot.id_Contrato AND Cot.sucursal = $sucursal
+LEFT JOIN cliente_tbl AS Cli on Cot.id_Cliente = Cli.id_Cliente 
+LEFT JOIN bit_cierrecaja AS Bit on Con.id_cierreCaja = Bit.id_CierreCaja AND Bit.sucursal=$sucursal 
+LEFT JOIN usuarios_tbl AS Usu on Bit.usuario = Usu.id_User 
+LEFT JOIN cat_sucursal AS Suc on Con.sucursal = Suc.id_Sucursal
+WHERE Con.id_Contrato =$idContrato AND Con.sucursal=$sucursal";
+if($ultimoMovimiento!=0){
+    $query .= " and Con.id_movimiento = $ultimoMovimiento";
+}
+$query .= " ORDER BY id_movimiento DESC LIMIT 1";
 $resultado = $db->query($query);
 
+//echo $query;
 
 foreach ($resultado as $row) {
 
@@ -125,6 +120,7 @@ $query = "SELECT Ar.descripcionCorta, Ar.observaciones
                 FROM contratos_tbl as Con 
                 INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato AND Ar.sucursal= $sucursal
                     WHERE Con.id_Contrato =$idContrato AND Con.sucursal= $sucursal";
+//echo $query;
 $tablaArt = $db->query($query);
 $tablaArticulos = '';
 $detallePiePagina = '';
@@ -160,7 +156,7 @@ $Fecha_Creacion = date("d-m-Y", strtotime($Fecha_Creacion));
 $Fecha_Almoneda = date("d-m-Y", strtotime($Fecha_Almoneda));
 $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
 
-    $contenido = '<html>
+$contenido = '<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -200,7 +196,7 @@ $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
 </head>
 <body>
 <form>';
-    $contenido .= '<table width="100%" border="1">
+$contenido .= '<table width="100%" border="1">
         <tbody>
         <tr>
         <td>
@@ -417,8 +413,9 @@ $Fecha_Vencimiento = date("d-m-Y", strtotime($Fecha_Vencimiento));
             </table>
         </td>
         </tr>';
-    $contenido .= '</tbody></table></form></body></html>';
-
+$contenido .= '</tbody></table></form></body></html>';
+//echo $contenido;
+//exit();
 $nombreContrato = 'Refrendo_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
