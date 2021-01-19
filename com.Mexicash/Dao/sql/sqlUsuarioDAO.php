@@ -115,7 +115,7 @@ class sqlUsuarioDAO
             if ($encontro > 0) {
                 //EL usuario tiene una sesion iniciada
                 $fila = $statement->fetch_object();
-                $idCierreCaja = $fila->id_CierreSucursal;
+                $idCierreCaja = $fila->id_CierreCaja;
                 $idCierreSucursal = $fila->id_CierreSucursal;
                 $status = $fila->estatus;
                 $flag_Activa = $fila->flag_Activa;
