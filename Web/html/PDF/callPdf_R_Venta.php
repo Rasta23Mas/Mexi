@@ -55,7 +55,7 @@ tr:nth-child(even) {
 <body>
 <form>';
 $contenido .= '
-                    <center><h3><b>Contratos Vencidos</b></h3></center>
+                    <center><h3><b>Ventas</b></h3></center>
                     <br>
          <table  width="100%"border="1">
                         <thead style="background: dodgerblue; color:white;">
@@ -80,29 +80,32 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                     AND DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
                     AND Con.sucursal=$sucursal";
 $resultado = $db->query($query);
-
+//echo $query;
 $tablaArticulos = '';
 
 foreach ($resultado as $row) {
     $FECHA = $row["FECHA"];
-    $id_Contrato = $row["id_Contrato"];
-    $id_serie = $row["id_serie"];
-    $precio_venta = $row["precio_venta"];
-    $Detalle = $row["Detalle"];
+    $subTotal = $row["subTotal"];
     $descuento_Venta = $row["descuento_Venta"];
-    $CatDesc = $row["CatDesc"];
+    $total = $row["total"];
+    $totalPrestamo = $row["totalPrestamo"];
+    $utilidad = $row["utilidad"];
+    $usuario = $row["usuario"];
 
-    $precio_venta = number_format($precio_venta, 2,'.',',');
+    $subTotal = number_format($subTotal, 2,'.',',');
     $descuento_Venta = number_format($descuento_Venta, 2,'.',',');
+    $total = number_format($total, 2,'.',',');
+    $totalPrestamo = number_format($totalPrestamo, 2,'.',',');
+    $utilidad = number_format($utilidad, 2,'.',',');
 
 
     $tablaArticulos .= '<tr><td >' . $FECHA . '</td>
-                        <td>' . $id_Contrato . '</td>
-                        <td>' . $id_serie . '</td>
-                        <td>' . $Detalle . '</td>
-                        <td>$' . $precio_venta . '</td>
+                        <td>$' . $subTotal . '</td>
                         <td>$' . $descuento_Venta . '</td>
-                        <td>' . $CatDesc . '</td>
+                        <td>$' . $total . '</td>
+                        <td>$' . $totalPrestamo . '</td>
+                        <td>$' . $utilidad . '</td>
+                        <td>' . $usuario . '</td>
                         </tr>';
 }
 
@@ -111,8 +114,9 @@ $contenido .='
                         </tbody>
                         </table>';
 $contenido .= '</form></body></html>';
-
-$nombreContrato = 'Reporte_Bazar.pdf';
+//echo $contenido;
+//exit();
+$nombreContrato = 'Reporte_Ventas.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');
