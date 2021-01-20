@@ -178,7 +178,14 @@ class sqlUsuarioDAO
 
                         } else {
                             //La sucursal ya cerro operaciones
-                            $Validar = 2;
+                            if($usuario==2){
+                                $_SESSION['idCierreSucursal'] = $idCierreSucursal;
+                                $_SESSION['idCierreCaja'] = 0;
+                                $Validar = 1;
+                            }else{
+                                $Validar = 2;
+                            }
+
                         }
                     } else {
                         //NADIE A INICIADO SESION DE SUCURSAL
@@ -330,7 +337,13 @@ class sqlUsuarioDAO
 
                     } else {
                         //La sucursal ya cerro operaciones
-                        $Validar = 2;
+                        if($usuario==2){
+                            $_SESSION['idCierreSucursal'] = $idCierreSucursal;
+                            $_SESSION['idCierreCaja'] = 0;
+                            $Validar = 1;
+                        }else{
+                            $Validar = 2;
+                        }
                     }
                 } else {
                     //NADIE A INICIADO SESION DE SUCURSAL

@@ -218,6 +218,7 @@ function fnLoginGerenteYVendedor() {
                 }
                 fnBitacoraUsuario();
             } else if (Validar == 2) {
+
                 alert("La sucursal ya cerro operaciónes el día de hoy");
             }  else if (Validar == 3) {
                 alert("La sesión de caja no se guardo correctamente, favor de intenar de nuevo.");
