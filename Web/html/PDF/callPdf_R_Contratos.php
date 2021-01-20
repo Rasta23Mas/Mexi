@@ -55,6 +55,7 @@ tr:nth-child(even) {
 </head>
 <body>
 <form>';
+
 $contenido .= '
                     <center><h3><b>Contratos Vencidos</b></h3></center>
                     <br>
@@ -66,13 +67,10 @@ $contenido .= '
                                 <th>Almoneda</th>
                                 <th>Contrato</th>
                                 <th>Cliente</th>
+                                <th>Celular</th>
                                 <th>Préstamo</th>
                                 <th>Plazo</th>
-                                <th>Periodo</th>
-                                <th>Tipo Interés</th>
-                                  <th>Detalle</th>
                                 <th>Observaciones</th>
-                              
                             </tr>
                         </thead>
                         <tbody id="idTBodyInventario"  align="center">';
@@ -80,6 +78,7 @@ $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Cli.celular,
                         Con.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO,
                         Art.descripcionCorta AS DESCRIPCION,
@@ -108,14 +107,11 @@ foreach ($resultado as $row) {
     $FECHAALM = $row["FECHAALM"];
     $CONTRATO = $row["CONTRATO"];
     $NombreCompleto = $row["NombreCompleto"];
+    $celular = $row["celular"];
     $PRESTAMO = $row["PRESTAMO"];
-    $Plazo = $row["Plazo"];
-    $Periodo = $row["Periodo"];
-    $TipoInteres = $row["TipoInteres"];
-    $descripcionCorta = $row["descripcionCorta"];
-    $Obs = $row["Obs"];
+    $descripcionCorta = $row["DESCRIPCION"];
+    $Obs = $row["ObserArt"];
     $ObserAuto = $row["ObserAuto"];
-    $DetalleAuto = $row["DetalleAuto"];
     $Form = $row["Form"];
 
     $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
@@ -135,8 +131,8 @@ foreach ($resultado as $row) {
         $tipoMetal=0;
         $tipoElectro=0;
         $tipoAuto++;
-        $Obser = $ObserAuto;
-        $DetalleFin = $DetalleAuto;
+        $Obser = "";
+        $DetalleFin = $ObserAuto;
     }
     if($tipoMetal==1){
         $tablaArticulos .= '<tr>
@@ -157,10 +153,8 @@ foreach ($resultado as $row) {
                         <td>' . $FECHAALM . '</td>
                         <td>' . $CONTRATO . '</td>
                         <td>' . $NombreCompleto . '</td>
+                        <td>' . $celular . '</td>
                         <td>' . $PRESTAMO . '</td>
-                        <td>' . $Plazo . '</td>
-                        <td>' . $Periodo . '</td>
-                        <td>' . $TipoInteres . '</td>
                         <td>' . $Obser . '</td>
                         <td>' . $DetalleFin . '</td>
                         </tr>';

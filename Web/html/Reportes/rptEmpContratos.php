@@ -10,6 +10,7 @@
         <th>Vencimiento</th>
         <th>Almoneda</th>
         <th>Cliente</th>
+        <th>Celular</th>
         <th>Contrato</th>
         <th>Préstamo</th>
         <th>Detalle</th>

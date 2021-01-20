@@ -73,7 +73,7 @@ $spreadsheet->getActiveSheet()
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading
-$spreadsheet->getActiveSheet()->mergeCells("A1:L1");
+$spreadsheet->getActiveSheet()->mergeCells("A1:J1");
 
 // set font style
 $spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(13);
@@ -91,31 +91,27 @@ $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(13);
 $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
 $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
 $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(25);
-$spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(15);
-$spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(10);
-
 
 $spreadsheet->getActiveSheet()
         ->setCellValue('A2', 'FECHA')
         ->setCellValue('B2', 'VENCIMIENTO')
         ->setCellValue('C2', 'ALMONEDA')
-        ->setCellValue('D2', 'CONTRATO')
-        ->setCellValue('E2', 'CLIENTE')
-        ->setCellValue('F2', 'PRÉSTAMO')
-        ->setCellValue('G2', 'PLAZO')
-        ->setCellValue('H2', 'PERIODO')
-        ->setCellValue('I2', 'TIPO INTERÉS')
-        ->setCellValue('J2', 'DETALLE')
-        ->setCellValue('K2', 'OBSERVACIONES')
-        ->setCellValue('L2', 'TIPO');
+        ->setCellValue('D2', 'CLIENTE')
+        ->setCellValue('E2', 'CELULAR')
+        ->setCellValue('F2', 'CONTRATO')
+        ->setCellValue('G2', 'PRÉSTAMO')
+        ->setCellValue('H2', 'DETALLE')
+        ->setCellValue('I2', 'OBSERVACIONES')
+        ->setCellValue('J2', 'TIPO');
 
-$spreadsheet->getActiveSheet()->getStyle('A2:L2')->applyFromArray($tableHead);
+$spreadsheet->getActiveSheet()->getStyle('A2:J2')->applyFromArray($tableHead);
 
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Cli.celular,
                         Con.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO,
                         Art.descripcionCorta AS DESCRIPCION,
@@ -138,51 +134,46 @@ $query = $db->query($rptHisto);
 if($query->num_rows > 0) {
     $i = 3;
     while($row = $query->fetch_assoc()) {
-        $descripcionCorta = $row["descripcionCorta"];
-        $observaciones = $row["observaciones"];
-        $ObserAuto = $row["ObserAuto"];
-        $DetalleAuto = $row["DetalleAuto"];
+        $descripcionCorta = $row["DESCRIPCION"];
+
+
         $Form = $row["Form"];
         $PRESTAMOFORM = $row["PRESTAMO"];
-        //$PRESTAMOFORM = number_format($PRESTAMO, 2,'.',',');
-        //$PRESTAMOFORM = "$100,000.00";
 
         $Obser = "";
         $DetalleFin = "";
         if($Form==1){
-            $Obser = $descripcionCorta;
-            $DetalleFin = $observaciones;
+            $Obser =  $row["ObserArt"];
+            $DetalleFin = $descripcionCorta;
             $tipoArt = "METAL";
         }else if($Form==2){
-            $Obser = $descripcionCorta;
-            $DetalleFin = $observaciones;
+            $Obser =  $row["ObserArt"];
+            $DetalleFin = $descripcionCorta;
             $tipoArt = "ELECTRÓNICOS";
         }else if($Form ==3){
-            $Obser = $ObserAuto;
-            $DetalleFin = $DetalleAuto;
+            $Obser = $row["ObserAuto"];
+            $DetalleFin = "";
             $tipoArt = "AUTO";
         }
         $spreadsheet->getActiveSheet()
                 ->setCellValue('A'.$i , $row['FECHA'])
                 ->setCellValue('B'.$i , $row['FECHAVEN'])
                 ->setCellValue('C'.$i , $row['FECHAALM'])
-                ->setCellValue('D'.$i , $row['CONTRATO'])
-                ->setCellValue('E'.$i , $row['NombreCompleto'])
-                ->setCellValue('F'.$i , $PRESTAMOFORM)
-                ->setCellValue('G'.$i , $row['Plazo'])
-                ->setCellValue('H'.$i , $row['Periodo'])
-                ->setCellValue('I'.$i , $row['TipoInteres'])
-                ->setCellValue('J'.$i , $Obser)
-                ->setCellValue('K'.$i , $DetalleFin)
-                ->setCellValue('L'.$i , $tipoArt);
+                ->setCellValue('D'.$i , $row['NombreCompleto'])
+                ->setCellValue('E'.$i , $row['celular'])
+                ->setCellValue('F'.$i , $row['CONTRATO'])
+                ->setCellValue('G'.$i , $PRESTAMOFORM)
+                ->setCellValue('H'.$i , $DetalleFin)
+                ->setCellValue('I'.$i , $Obser)
+                ->setCellValue('J'.$i , $tipoArt);
 
         //set row style
         if ($i % 2 == 0) {
             //even row
-            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':L' . $i)->applyFromArray($evenRow);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':J' . $i)->applyFromArray($evenRow);
         } else {
             //odd row
-            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':L' . $i)->applyFromArray($oddRow);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':J' . $i)->applyFromArray($oddRow);
         }
         $i++;
     }
@@ -199,16 +190,14 @@ if($query->num_rows > 0) {
         ->setCellValue('G'.$i , "")
         ->setCellValue('H'.$i , "")
         ->setCellValue('I'.$i , "")
-        ->setCellValue('J'.$i , "")
-        ->setCellValue('K'.$i , "")
-        ->setCellValue('L'.$i , "");
-    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':L' . $i)->applyFromArray($evenRow);
+        ->setCellValue('J'.$i , "");
+    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':J' . $i)->applyFromArray($evenRow);
 
 }
 
 $firstRow = 2;
 $lastRow = $i - 1;
-$spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":L" . $lastRow);
+$spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":J" . $lastRow);
 
 
 $filename = 'Reporte_Contratos_Vencidos';

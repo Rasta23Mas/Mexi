@@ -118,6 +118,7 @@ class sqlReportesDAO
                         DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Cli.celular,
                         Con.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO,
                         Art.descripcionCorta AS DESCRIPCION,
@@ -142,6 +143,7 @@ class sqlReportesDAO
                     $jsondataperson["FECHAVEN"] = $fila["FECHAVEN"];
                     $jsondataperson["FECHAALM"] = $fila["FECHAALM"];
                     $jsondataperson["NombreCompleto"] = $fila["NombreCompleto"];
+                    $jsondataperson["celular"] = $fila["celular"];
                     $jsondataperson["CONTRATO"] = $fila["CONTRATO"];
                     $jsondataperson["PRESTAMO"] = $fila["PRESTAMO"];
                     $jsondataperson["DESCRIPCION"] = $fila["DESCRIPCION"];

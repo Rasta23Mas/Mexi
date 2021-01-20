@@ -671,6 +671,7 @@ function fnTBodyContratos(lista) {
             "<td>" + elem.FECHAVEN + "</td>" +
             "<td>" + elem.FECHAALM + "</td>" +
             "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.celular + "</td>" +
             "<td>" + elem.CONTRATO + "</td>" +
             "<td align='right'>" + prestamoCon + "</td>" +
             "<td>" + elem.DESCRIPCION + "</td>" +

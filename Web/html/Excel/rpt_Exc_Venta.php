@@ -98,7 +98,7 @@ $spreadsheet->getActiveSheet()
     ->setCellValue('G2', 'UTILIDAD')
     ->setCellValue('H2', 'USUARIO');
 
-$spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
+$spreadsheet->getActiveSheet()->getStyle('A2:H2')->applyFromArray($tableHead);
 
 ////$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptRef = "SELECT id_Bazar,DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
