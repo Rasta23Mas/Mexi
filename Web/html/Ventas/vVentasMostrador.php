@@ -3,7 +3,6 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
-include_once(VENT_PATH . "modalRegCliVen.php");
 include_once(VENT_PATH . "modalBusClienteVen.php");
 include_once(VENT_PATH . "modalEditCliVen.php");
 include_once(VENT_PATH . "modalDescuentoVenta.php");
@@ -95,9 +94,9 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                     <tbody>
                     <tr class="headt">
                         <td colspan="6">
-                            <input type="button" class="btn btn-success "
-                                   data-toggle="modal" data-target="#modalRegistroNuevo"
-                                   value="Agregar">
+                            <input type="button" class="btn btn-success"
+                                   value="Agregar"
+                                   onclick="location.href='../Ventas/vVentasClientes.php'">
                             <input type="button" class="btn btn-warning "
                                    data-toggle="modal" data-target="#modalEditarNuevo" id="btnEditar"
                                    value="Editar" onclick="modalEditarCliente($('#idClienteSeleccion').val())" disabled>

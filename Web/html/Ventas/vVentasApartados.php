@@ -3,7 +3,6 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dirs.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
 $idCierreCaja = $_SESSION['idCierreCaja'];
 include_once(SQL_PATH . "sqlUsuarioDAO.php");
-include_once(VENT_PATH . "modalRegCliVen.php");
 include_once(VENT_PATH . "modalBusClienteVen.php");
 include_once(VENT_PATH . "modalEditCliVen.php");
 include_once(VENT_PATH . "modalPrecioVenta.php");
@@ -91,18 +90,17 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Menu.php');
                     <tbody>
                     <tr class="headt">
                         <td colspan="5" align="left">
-                            <input type="button" class="btn btn-success "
-                                   data-toggle="modal" data-target="#modalRegistroNuevo"
-                                   value="Agregar">
+                            <input type="button" class="btn btn-success"
+                                   value="Agregar"
+                                   onclick="location.href='../Ventas/vVentasClientes.php'">
+
                             <input type="button" class="btn btn-warning "
                                    data-toggle="modal" data-target="#modalEditarNuevo" id="btnEditar"
                                    value="Editar" onclick="modalEditarCliente($('#idClienteSeleccion').val())" disabled>
                             <input type="button" class="btn btn-primary "
                                    data-toggle="modal" data-target="#modalBusquedaCliente"
                                    onclick="mostrarTodos($('#idNombres').val())"
-                                   value="Ver todos">
-                            <!--                            <input type="button" class="btn btn-warning" value="Configurarar Rangos" onclick="configurarRango()">&nbsp;
-                            -->                        </td>
+                                   value="Ver todos">   </td>
                         <td align="right" colspan="3">
                             <label>Fecha:</label>
                             <label id="idFechaHoy"></label>&nbsp;

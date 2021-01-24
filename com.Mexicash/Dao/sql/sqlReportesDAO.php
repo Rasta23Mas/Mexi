@@ -490,7 +490,7 @@ class sqlReportesDAO
                         SUM(Con.utilidad)  AS TOT_UTIL   
                     FROM contrato_mov_baz_tbl AS Con
                     LEFT JOIN bit_cierrecaja AS BitC on Con.id_CierreCaja = BitC.id_CierreCaja 
-                    AND Bitc.sucursal=$sucursal
+                    AND BitC.sucursal=$sucursal
                     LEFT JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
                     WHERE DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
                     AND DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 
@@ -509,7 +509,7 @@ class sqlReportesDAO
 Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu.usuario
                     FROM contrato_mov_baz_tbl AS Con
                     LEFT JOIN bit_cierrecaja AS BitC on Con.id_CierreCaja = BitC.id_CierreCaja 
-                    AND Bitc.sucursal=$sucursal
+                    AND BitC.sucursal=$sucursal
                     LEFT JOIN usuarios_tbl AS Usu on BitC.usuario = Usu.id_User
                     WHERE DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  >=  '$fechaIni'
                     AND DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d')  <=  '$fechaFin' 

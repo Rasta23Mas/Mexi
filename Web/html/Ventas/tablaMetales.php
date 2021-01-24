@@ -17,8 +17,9 @@ include_once(SQL_PATH . "sqlArticulosDAO.php");
         <th colspan="10"  style="text-align: center">Consulta de Artículos</th>
     </tr>
     <tr>
-        <th>Código</th>
+
         <th>Contrato</th>
+        <th>Código</th>
         <th>Artículo</th>
         <th>Tipo</th>
         <th>Precio Empeño</th>

@@ -623,3 +623,101 @@ function buscarClienteEditado($clienteEditado) {
         }
     });
 }
+
+
+//Funcion agregar cliente
+function fnAgregarClienteVentas() {
+    //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
+    var idNombre = $("#idNombre").val();
+    var idApPat = $("#idApPat").val();
+    var idSexo = $("#idSexo").val();
+    var idFechaNac = $("#idFechaNac").val();
+    var idCelular = $("#idCelular").val();
+    var idIdentificacion = $("#idIdentificacion").val();
+    var idNumIdentificacion = $("#idNumIdentificacion").val();
+    var idEstado = $("#idEstado").val();
+    var idMunicipio = $("#idMunicipio").val();
+    var idLocalidad = $("#idLocalidad").val();
+    var idCalle = $("#idCalle").val();
+    var idNumExt = $("#idNumExt").val();
+    var validacion = true;
+    if (idNombre == "" || idNombre == null) {
+        alert("Por favor ingrese un nombre.");
+        validacion = false;
+    } else if (idApPat == "" || idApPat == null) {
+        alert("Por favor ingrese apellido paterno.");
+        validacion = false;
+    } else if (idSexo == 0 || idSexo == null) {
+        alert("Por favor seleccione el campo sexo.");
+        validacion = false;
+    } else if (idFechaNac == "" || idFechaNac == null) {
+        alert("Por favor ingrese fecha de nacimiento.");
+        validacion = false;
+    } else if (idCelular == "" || idCelular == null) {
+        alert("Por favor ingrese numero celular.");
+        validacion = false;
+    } else if (idIdentificacion == 0 || idIdentificacion == null) {
+        alert("Por favor ingrese tipo de identificacion.");
+        validacion = false;
+    } else if (idNumIdentificacion == "" || idNumIdentificacion == null) {
+        alert("Por favor ingrese número de identificación.");
+        validacion = false;
+    } else if (idEstado == 0 || idEstado == null) {
+        alert("Por favor seleccione un estado.");
+        validacion = false;
+    } else if (idMunicipio == 0 || idMunicipio == null) {
+        alert("Por favor seleccione un municipio.");
+        validacion = false;
+    } else if (idLocalidad == 0 || idLocalidad == null) {
+        alert("Por favor seleccione una Localidad.");
+        validacion = false;
+    } else if (idCalle == "" || idCalle == null) {
+        alert("Por favor ingrese la calle.");
+        validacion = false;
+    } else if (idNumExt == "" || idNumExt == null) {
+        alert("Por favor ingrese número exterior.");
+        validacion = false;
+    }
+
+
+    if (validacion == true) {
+        var dataEnviar = {
+            "idNombre": idNombre,
+            "idApPat": idApPat,
+            "idApMat": $("#idApMat").val(),
+            "idSexo": idSexo,
+            "idFechaNac": idFechaNac,
+            "idRfc": $("#idRfc").val(),
+            "idCurp": $("#idCurp").val(),
+            "idCelular": idCelular,
+            "idTelefono": $("#idTelefono").val(),
+            "idCorreo": $("#idCorreo").val(),
+            "idOcupacion": $("#idOcupacion").val(),
+            "idIdentificacion": idIdentificacion,
+            "idNumIdentificacion": idNumIdentificacion,
+            "idEstado": idEstado,
+            "idMunicipio": idMunicipio,
+            "idLocalidad": idLocalidad,
+            "idCalle": idCalle,
+            "idCP": $("#idCP").val(),
+            "idNumExt": idNumExt,
+            "idNumInt": $("#idNumInt").val(),
+            "idPromocion": $("#idPromocion").val(),
+            "idMensajeInterno": $("#idMensajeInterno").val().trim()
+        };
+        $.ajax({
+            data: dataEnviar,
+            url: '../../../com.Mexicash/Controlador/Cliente/RegistroCliente.php',
+            type: 'post',
+            success: function (response) {
+                if (response == 1) {
+                    $("#idFormClienteVen")[0].reset();
+                    alertify.success("Cliente agregado.");
+                } else {
+                    alertify.error("Error al agregar cliente.");
+                }
+            },
+        })
+    }
+
+}
