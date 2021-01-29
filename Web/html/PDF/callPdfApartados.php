@@ -63,8 +63,9 @@ $Fecha_Creacion = date("d-m-Y", strtotime($fecha_Modificacion));
 $tablaArticulos = '';
 
 $query = "SELECT Art.id_serie, Art.descripcionCorta,Art.vitrinaVenta FROM articulo_bazar_tbl AS Art
-                INNER JOIN  bit_ventas AS Ven ON Art.id_ArticuloBazar =  Ven.id_ArticuloBazar
-                WHERE id_Bazar = $id_Bazar";
+                INNER JOIN  bit_ventas AS Ven ON Art.id_ArticuloBazar =  Ven.id_ArticuloBazar 
+                AND Ven.sucursal=$sucursal
+                WHERE id_Bazar = $id_Bazar and Art.sucursal=$sucursal";
 $tablaArt = $db->query($query);
 
 foreach ($tablaArt as $row) {

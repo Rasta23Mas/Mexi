@@ -170,7 +170,7 @@ $contenido = '<html>
          }
        
          .letraNormalNegritaCantil{
-          font-size: .5em;
+          font-size: .6em;
           font-weight: bold;
          }
          
@@ -189,14 +189,14 @@ $contenido = '<html>
 <form>';
 
 if($sucursal==1){
-    $contenido .= '<table width="50%" border="1">
+    $contenido .= '<table width="20%" border="1">
                 <tbody>
                     <tr>
                         <td align="center" >
-                        <table width="40%" border="0" class="letraNormalNegritaCantil">
+                        <table width="20%" border="0" class="letraNormalNegritaCantil">
                           <tr>
                     <td colspan="3" align="center">
-                        <label>TEST2 GAMA VAZQUEZ</label>
+                        <label>TEST3 GAMA VAZQUEZ</label>
                     </td>
                 </tr>';
 }else{
@@ -420,7 +420,7 @@ $nombreContrato = 'Desempeno_Num_' . $id_Recibo . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 if($sucursal==1){
-    $customPaper = array(0,0,300,900);
+    $customPaper = array(0,0,500,900);
     $dompdf->setPaper($customPaper);
 }else if($sucursal==2){
     $customPaper = array(0,0,300,650);

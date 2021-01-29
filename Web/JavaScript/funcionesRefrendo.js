@@ -122,13 +122,20 @@ function estatusContrato() {
                         var tipoMovimiento = datos[i].tipoMovimiento;
                         if (tipoMovimiento == 3 || tipoMovimiento == 4 || tipoMovimiento == 7 || tipoMovimiento == 8) {
                             tipoMovimientoGbl = tipoMovimiento;
-                            buscarCliente();
-                            buscarDatosContrato();
-                            if (tipoContrato == 1) {
-                                buscarDetalle();
-                            } else if (tipoContrato == 2) {
-                                buscarDetalleAuto();
+                            var fechaAlmoneda = datos[i].fecha_almoneda;
+                            if(fechaAlmoneda=='0000-00-00'){
+                                alert("El contrato no se puede refrendar por que ya esta en bazar.");
+                                cancelar();
+                            }else{
+                                buscarCliente();
+                                buscarDatosContrato();
+                                if (tipoContrato == 1) {
+                                    buscarDetalle();
+                                } else if (tipoContrato == 2) {
+                                    buscarDetalleAuto();
+                                }
                             }
+
 
                         } else {
                             alert("El contrato No. : " + contratoGbl + ", creado el " + Fecha + "\n" +

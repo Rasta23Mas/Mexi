@@ -11,22 +11,6 @@ if (!isset($_SESSION)) {
 $usuario = $_SESSION["idUsuario"];
 $sucursal = $_SESSION["sucursal"];
 
-$FECHA = "";
-$FECHAVEN = "";
-$FECHAALM ="";
-$CONTRATO = "";
-$NombreCompleto = "";
-$PRESTAMO = "";
-$Plazo = "";
-$Periodo = "";
-$TipoInteres = "";
-$ObserElec = "";
-$ObserMetal = "";
-$ObserAuto = "";
-$DetalleAuto = "";
-$Detalle ="";
-$Form ="";
-
 $contenido = '<html>
 <head>
     <meta charset="utf-8">
@@ -61,16 +45,11 @@ $contenido .= '
                         <thead style="background: dodgerblue; color:white;">
                             <tr align="center">
                                 <th>Fecha</th>
-                                <th>Vencimiento</th>
-                                <th>Almoneda</th>
                                 <th>Contrato</th>
-                                <th>Cliente</th>
-                                <th>Préstamo</th>
-                                <th>Plazo</th>
-                                <th>Periodo</th>
-                                <th>Tipo Interés</th>
-                                <th>Observaciones</th>
+                                <th>Serie</th>
+                                <th>Precio Venta</th>
                                 <th>Detalle</th>
+                                <th>Descripcion</th>
                             </tr>
                         </thead>
                         <tbody id="idTBodyInventario"  align="center">';
@@ -83,86 +62,31 @@ $query = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_Con
                         LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
                         WHERE Con.fisico = 1 AND  ART.sucursal = $sucursal ";
 $resultado = $db->query($query);
-$tipoMetal = 0;
-$tipoElectro = 0;
-$tipoAuto = 0;
 $tablaArticulos = '';
-
 foreach ($resultado as $row) {
     $FECHA = $row["FECHA"];
-    $FECHAVEN = $row["FECHAVEN"];
-    $FECHAALM = $row["FECHAALM"];
-    $CONTRATO = $row["CONTRATO"];
-    $NombreCompleto = $row["NombreCompleto"];
-    $PRESTAMO = $row["PRESTAMO"];
-    $Plazo = $row["Plazo"];
-    $Periodo = $row["Periodo"];
-    $TipoInteres = $row["TipoInteres"];
-    $ObserElec = $row["ObserElec"];
-    $descripcionCorta = $row["descripcionCorta"];
-    $ObserAuto = $row["ObserAuto"];
-    $DetalleAuto = $row["DetalleAuto"];
-    $Observaciones = $row["Observaciones"];
-    $Form = $row["Form"];
-
-    $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
-
-    $Obser = "";
-    $DetalleFin = "";
-    if($Form==1){
-        $tipoMetal++;
-        $Obser = $descripcionCorta;
-        $DetalleFin = $Observaciones;
-    }else if($Form==2){
-        $tipoMetal=0;
-        $tipoElectro++;
-        $Obser = $descripcionCorta;
-        $DetalleFin = $Observaciones;
-    }else if($Form ==3){
-        $tipoMetal=0;
-        $tipoElectro=0;
-        $tipoAuto++;
-        $Obser = $ObserAuto;
-        $DetalleFin = $DetalleAuto;
-    }
-    if($tipoMetal==1){
-        $tablaArticulos .= '<tr>
-        <td colspan="11" style="background: dodgerblue; color:white; text-align: center" > METAL </td>
-        </tr>';
-    }else if($tipoElectro==1){
-        $tablaArticulos .= '<tr>
-        <td colspan="11" style="background: dodgerblue; color:white; text-align: center"> ELECTRÓNICOS </td>
-        </tr>';
-    }else if($tipoAuto==1){
-        $tablaArticulos .= '<tr>
-        <td colspan="11" style="background: dodgerblue; color:white; text-align: center"> AUTO </td>
-        </tr>';
-    }
+    $id_Contrato = $row["id_Contrato"];
+    $id_serie = $row["id_serie"];
+    $precio_venta = $row["precio_venta"];
+    $Detalle = $row["Detalle"];
+    $CatDesc = $row["CatDesc"];
 
     $tablaArticulos .= '<tr><td >' . $FECHA . '</td>
-                        <td>' . $FECHAVEN . '</td>
-                        <td>' . $FECHAALM . '</td>
-                        <td>' . $CONTRATO . '</td>
-                        <td>' . $NombreCompleto . '</td>
-                        <td>' . $PRESTAMO . '</td>
-                        <td>' . $Plazo . '</td>
-                        <td>' . $Periodo . '</td>
-                        <td>' . $TipoInteres . '</td>
-                        <td>' . $Obser . '</td>
-                        <td>' . $DetalleFin . '</td>
+                        <td>' . $id_Contrato . '</td>
+                        <td>' . $id_serie . '</td>
+                        <td>$' . $precio_venta . '</td>
+                        <td>' . $Detalle . '</td>
+                        <td>' . $CatDesc . '</td>
                         </tr>';
 }
-
-
-
-
-
 
 $contenido .= $tablaArticulos;
 $contenido .='
                         </tbody>
                         </table>';
 $contenido .= '</form></body></html>';
+echo $contenido;
+exit;
 
 $nombreContrato = 'Reporte_Inventario.pdf';
 $dompdf = new DOMPDF();

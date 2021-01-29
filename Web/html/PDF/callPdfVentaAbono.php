@@ -20,7 +20,7 @@ if (isset($_GET['idBazar'])) {
 
 $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC.rfc,Baz.id_Bazar,
             Baz.fecha_Creacion, CONCAT (Cli.apellido_Mat, ' ',Cli.apellido_Pat,' ', Cli.nombre) as NombreCompleto,
-           Baz.faltaPagar,USU.usuario
+           Baz.faltaPagar,USU.usuario,Baz.id_Apartado AS Apartado
             FROM contrato_mov_baz_tbl as Baz 
             LEFT JOIN cat_sucursal CSUC ON Baz.sucursal=CSUC.id_Sucursal
             LEFT JOIN cliente_tbl AS Cli on Baz.cliente = Cli.id_Cliente
@@ -40,6 +40,7 @@ foreach ($resultado as $row) {
     $NombreCompleto = $row["NombreCompleto"];
     $faltaPagar = $row["faltaPagar"];
     $usuario = $row["usuario"];
+    $Apartado = $row["Apartado"];
 }
 
 $faltaPagar = number_format($faltaPagar, 2, '.', ',');
@@ -47,10 +48,15 @@ $faltaPagar = number_format($faltaPagar, 2, '.', ',');
 $Fecha_Creacion = date("d-m-Y", strtotime($fecha_Modificacion));
 
 $tablaArticulos = '';
+if($Apartado==0){
+    $idBazarBuscar = $id_Bazar;
+}else{
+    $idBazarBuscar = $Apartado;
+}
 
 $query = "SELECT Art.id_serie, Art.descripcionCorta,Art.vitrinaVenta FROM articulo_bazar_tbl AS Art
                 INNER JOIN  bit_ventas AS Ven ON Art.id_ArticuloBazar =  Ven.id_ArticuloBazar
-                WHERE id_Bazar = $id_Bazar";
+                WHERE id_Bazar = $idBazarBuscar AND Art.sucursal=$sucursal";
 $tablaArt = $db->query($query);
 
 foreach ($tablaArt as $row) {
@@ -108,7 +114,7 @@ $contenido .= '<table width="100%" border="0">
          <table width="100%" border="0" class="letraNormalNegrita">
                 <tr>
                     <td colspan="3" align="center">
-                        <label>' . $NombreCasa . '</label>
+                        <label>' . $NombreCasa . 'x2</label>
                     </td>
                 </tr>
                 <tr>
@@ -267,7 +273,7 @@ $contenido .= '
 $contenido .= '</tbody></table></form></body></html>';
 /*echo $contenido;
 exit();*/
-$nombreContrato = 'Venta_Num_' . $id_Bazar . ".pdf";
+$nombreContrato = 'Venta_A_Num_' . $id_Bazar . ".pdf";
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 if($sucursal==1){

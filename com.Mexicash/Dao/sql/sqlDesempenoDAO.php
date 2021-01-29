@@ -56,7 +56,7 @@ class sqlDesempenoDAO
             $sucursal = $_SESSION["sucursal"];
             $buscar = "SELECT Mov.id_contrato as Contrato, Mov.fecha_Movimiento  as Fecha,
                         CONCAT (Cli.nombre, ' ',Cli.apellido_Pat,' ', Cli.apellido_Mat) as NombreCompleto,
-                        CatM.descripcion as Movimiento, Mov.tipo_movimiento as tipoMovimiento
+                        CatM.descripcion as Movimiento, Mov.tipo_movimiento as tipoMovimiento, Con.fecha_almoneda
                         FROM contrato_mov_tbl as Mov
                         INNER JOIN contratos_tbl as Con on Mov.id_contrato = Con.id_Contrato  and Con.sucursal=$sucursal 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente and Cli.sucursal=$sucursal 
@@ -72,7 +72,8 @@ class sqlDesempenoDAO
                         "Fecha" => $row["Fecha"],
                         "NombreCompleto" => $row["NombreCompleto"],
                         "Movimiento" => $row["Movimiento"],
-                        "tipoMovimiento" => $row["tipoMovimiento"]
+                        "tipoMovimiento" => $row["tipoMovimiento"],
+                        "fecha_almoneda" => $row["fecha_almoneda"]
                     ];
                     array_push($datos, $data);
                 }
