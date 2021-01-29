@@ -55,7 +55,7 @@ $contenido .= '
                         <tbody id="idTBodyInventario"  align="center">';
 $query = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_Contrato,
                         CONCAT (id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) as id_serie,
-                        vitrina AS precio_venta, 
+                        prestamo  AS precio_venta, 
                         descripcionCorta as Detalle,CAT.descripcion as CatDesc
                         FROM articulo_tbl AS ART 
                         LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
