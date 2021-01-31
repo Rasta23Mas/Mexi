@@ -159,7 +159,7 @@ class sqlVentasDAO
         $datos = array();
         try {
             $buscar = "SELECT fecha_Creacion,subTotal,iva,total,apartado,abono,tipo_movimiento,faltaPagar
-                        FROM contrato_mov_baz_tbl WHERE id_Apartado = $id_Bazar AND sucursal=$sucursal AND tipo_movimiento=22 || tipo_movimiento=23";
+                        FROM contrato_mov_baz_tbl WHERE id_Apartado = $id_Bazar AND sucursal=$sucursal AND (tipo_movimiento=22 || tipo_movimiento=23)";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
 

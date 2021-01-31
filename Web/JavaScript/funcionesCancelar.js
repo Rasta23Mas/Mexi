@@ -460,9 +460,7 @@ function tokenCancelar() {
                 $("#idToken").val(response);
                 // var token = parseInt(response);
                 var token = response;
-                if (token > 30) {
-                    alert("Los Token se estan terminando, favor de avisar al administrador");
-                }
+
                 alertify.success("Código correcto.");
 
                 if(ventaMovimientoCancelarglb==6){

@@ -104,6 +104,7 @@ class sqlMovimientosDAO
             $idCierreCaja = $_SESSION['idCierreCaja'];
             $fechaHoy = date('Y-m-d H:i:s');
             $fechaHoyShort = date('Y-m-d');
+            $sucursal = $_SESSION["sucursal"];
             $flagFecha = 0;
             $fechaUpdateRealizado = 0;
             if($idRefrendoMigracion!=0){
@@ -119,7 +120,7 @@ class sqlMovimientosDAO
                                          fecha_almoneda = '$fechaAlmoneda',
                                          fecha_fisico_fin = '$fechaAlmoneda',
                                          id_cat_estatus = 2
-                                        WHERE id_Contrato =$id_contrato";
+                                        WHERE id_Contrato =$id_contrato and sucursal = $sucursal";
                 $flagFecha= 1;
             }else if($tipo_movimiento==5||$tipo_movimiento==9) {
                 //Desempeño
@@ -129,7 +130,7 @@ class sqlMovimientosDAO
                                          fecha_fisico_fin = '$fechaHoyShort',
                                          id_cat_estatus = 3,
                                          fisico= 0
-                                        WHERE id_Contrato =$id_contrato";
+                                        WHERE id_Contrato =$id_contrato and sucursal = $sucursal";
                 $flagFecha= 1;
             }else if($tipo_movimiento==21) {
                 //Desempeño si interes
@@ -139,7 +140,7 @@ class sqlMovimientosDAO
                                          fecha_fisico_fin = '$fechaHoyShort',
                                          id_cat_estatus = 3,
                                          fisico= 0
-                                         WHERE id_Contrato =$id_contrato";
+                                         WHERE id_Contrato =$id_contrato and sucursal = $sucursal";
                 $flagFecha= 1;
             }
 
@@ -157,7 +158,7 @@ class sqlMovimientosDAO
                 $fechaUpdateRealizado = 1;
             }
             if($fechaUpdateRealizado==1){
-                $sucursal = $_SESSION["sucursal"];
+
                 $id_contrato = trim($id_contrato);
 
                 $buscarContrato = "select max(id_movimiento) as ID_Movimiento from contrato_mov_tbl where sucursal = $sucursal";

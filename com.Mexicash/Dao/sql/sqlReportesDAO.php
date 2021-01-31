@@ -434,11 +434,11 @@ class sqlReportesDAO
             $jsondata = array();
             if ($busqueda == 1) {
                 $count = "SELECT COUNT(id_Articulo) as  totalCount,
-                        SUM(vitrina)  AS TOT_VENTAS   
+                        SUM(prestamo)  AS TOT_VENTAS   
                             FROM articulo_tbl AS ART 
                             LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
                             LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
-                            WHERE Con.fisico = 1
+                            WHERE Con.fisico = 1 AND ART.id_Estatus != 20 
                             AND  ART.sucursal = $sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
@@ -452,7 +452,7 @@ class sqlReportesDAO
                         FROM articulo_tbl AS ART 
                         LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
                         LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
-                        WHERE Con.fisico = 1 AND  ART.sucursal = $sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                        WHERE Con.fisico = 1 AND ART.id_Estatus != 20 AND  ART.sucursal = $sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while ($fila = $resultado->fetch_assoc()) {
