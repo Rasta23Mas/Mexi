@@ -745,7 +745,9 @@ function fnCierreTodasLasCajas() {
     })
 }
 function guardarBazar() {
-    //1 llena movimientos de dotacion y retiro
+    //Se suspende el guardado de bazar hasta que esten todos los emeños correctos
+
+    /*//1 llena movimientos de dotacion y retiro
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Cierre/GuardarBazar.php',
         type: 'post',
@@ -753,16 +755,16 @@ function guardarBazar() {
         success: function (response) {
             if (response == -1) {
                 alert("Error al guardar bazar")
-            } else if (response == 0) {
+            } else if (response == 0) {*/
                 BitacoraUsuarioCierreSucursal();
                 cargarPDFCaja();
-            } else {
+    /*        } else {
                 alertify.success("Se guardaron en bazar los articulos.")
                 cargarPDFCaja();
                 actualizarBazar();
             }
         },
-    })
+    })*/
 }
 
 function actualizarBazar() {
