@@ -101,7 +101,7 @@ $rptHisto = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_
                         FROM articulo_tbl AS ART 
                         LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
                         LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
-                        WHERE Con.fisico = 1 AND  ART.sucursal = $sucursal  ";
+                        WHERE Con.fisico = 1 AND  ART.sucursal = $sucursal AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 ) ";
 $query = $db->query($rptHisto);
 
 

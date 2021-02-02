@@ -106,7 +106,7 @@ class sqlReportesDAO
      					AND Aut.sucursal=$sucursal
                         WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
                         AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
-                        AND Con.sucursal = $sucursal 
+                        AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
                         ORDER BY Con.id_contrato";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
@@ -133,7 +133,7 @@ class sqlReportesDAO
      					AND Aut.sucursal=$sucursal
                         WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
                         AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
-                        AND Con.sucursal = $sucursal 
+                        AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
                         ORDER BY Con.id_contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
@@ -439,7 +439,7 @@ class sqlReportesDAO
                             LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
                             LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
                             WHERE Con.fisico = 1 AND ART.id_Estatus != 20 
-                            AND  ART.sucursal = $sucursal";
+                            AND  ART.sucursal = $sucursal AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 )";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
@@ -452,7 +452,8 @@ class sqlReportesDAO
                         FROM articulo_tbl AS ART 
                         LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
                         LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
-                        WHERE Con.fisico = 1 AND ART.id_Estatus != 20 AND  ART.sucursal = $sucursal LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                        WHERE Con.fisico = 1 AND ART.id_Estatus != 20 AND  ART.sucursal = $sucursal
+                        AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 )LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while ($fila = $resultado->fetch_assoc()) {

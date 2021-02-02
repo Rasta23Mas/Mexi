@@ -126,7 +126,7 @@ $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
      					AND Aut.sucursal=$sucursal
                         WHERE CURDATE() BETWEEN DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') 
                         AND DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d')
-                        AND Con.sucursal = $sucursal 
+                        AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
                         ORDER BY Con.id_contrato ";
 $query = $db->query($rptHisto);
 
