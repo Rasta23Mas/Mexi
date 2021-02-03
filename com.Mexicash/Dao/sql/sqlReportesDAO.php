@@ -345,11 +345,13 @@ class sqlReportesDAO
                 $jsondata["TOT_VENTAS"] = $fila["TOT_VENTAS"];
 
             } else {
-                $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
+                $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
+       prestamo,
+       vitrinaVenta AS precio_venta, 
                         descripcionCorta as Detalle,CAT.descripcion as CatDesc
                         FROM articulo_bazar_tbl as Baz
                         LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
-                        WHERE fisico= 1 AND HayMovimiento=0 AND Baz.sucursal=$sucursal
+                        WHERE tipo_movimiento!= 6 AND Baz.sucursal=$sucursal
                         LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
@@ -358,6 +360,7 @@ class sqlReportesDAO
                     $jsondataperson["FECHA"] = $fila["FECHA"];
                     $jsondataperson["id_Contrato"] = $fila["id_Contrato"];
                     $jsondataperson["id_serie"] = $fila["id_serie"];
+                    $jsondataperson["prestamo"] = $fila["prestamo"];
                     $jsondataperson["precio_venta"] = $fila["precio_venta"];
                     $jsondataperson["Detalle"] = $fila["Detalle"];
                     $jsondataperson["CatDesc"] = $fila["CatDesc"];

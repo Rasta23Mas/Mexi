@@ -64,11 +64,11 @@ $contenido .= '
                             </tr>
                         </thead>
                         <tbody id="idTBodyInventario"  align="center"> ';
-$query = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,vitrinaVenta AS precio_venta, 
+$query = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,prestamo,vitrinaVenta AS precio_venta, 
                         descripcionCorta as Detalle,CAT.descripcion as CatDesc
                         FROM articulo_bazar_tbl as Baz
                         LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
-                        WHERE fisico= 1 AND HayMovimiento=0 AND Baz.sucursal=$sucursal";
+                        WHERE tipo_movimiento!= 6  AND Baz.sucursal=$sucursal";
 $resultado = $db->query($query);
 
 $tablaArticulos = '';
@@ -78,6 +78,7 @@ foreach ($resultado as $row) {
     $id_Contrato = $row["id_Contrato"];
     $id_serie = $row["id_serie"];
     $Detalle = $row["Detalle"];
+    $prestamo = $row["prestamo"];
     $precio_venta = $row["precio_venta"];
     $CatDesc = $row["CatDesc"];
 
@@ -88,6 +89,7 @@ foreach ($resultado as $row) {
                         <td>' . $id_Contrato . '</td>
                         <td>' . $id_serie . '</td>
                         <td>' . $Detalle . '</td>
+                        <td>$' . $prestamo . '</td>
                         <td>$' . $precio_venta . '</td>
                         <td>' . $CatDesc . '</td>
                         </tr>';

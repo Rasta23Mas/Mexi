@@ -10,6 +10,7 @@
         <th>Contrato</th>
         <th>Serie</th>
         <th width="800px">Detalle</th>
+        <th>Prestamo</th>
         <th>Venta</th>
         <th>Tipo Adquisición</th>
     </tr>

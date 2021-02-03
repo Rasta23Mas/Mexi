@@ -96,7 +96,7 @@ $rptRef = "SELECT DATE_FORMAT(fecha_creacion,'%Y-%m-%d') as FECHA, id_Contrato,i
                         vitrina_venta AS precio_venta, 
                         descripcionCorta as Detalle
                         FROM auto_bazar_tbl as Baz
-                        WHERE fisico= 1 AND HayMovimiento=0 AND Baz.sucursal=$sucursal";
+                        tipo_movimiento!= 6  AND Baz.sucursal=$sucursal";
 $query = $db->query($rptRef);
 
 

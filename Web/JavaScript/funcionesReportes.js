@@ -1537,12 +1537,15 @@ function fnTBodyBazarAuto(lista) {
 
     $.each(lista, function (ind, elem) {
         var venta = elem.precio_venta;
-        venta = formatoMoneda(venta)
+        venta = formatoMoneda(venta);
+        var pres = elem.prestamo;
+        pres = formatoMoneda(pres)
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
             "<td>" + elem.id_Contrato + "</td>" +
             "<td>" + elem.id_serie + "</td>" +
             "<td align='left'>" + elem.Detalle + "</td>" +
+            "<td align='right'>" + pres + "</td>" +
             "<td align='right'>" + venta + "</td>" +
             "<td><label>Migración</label></td>" +
             "</tr>").appendTo($("#idTBodyBazar"));

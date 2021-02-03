@@ -124,9 +124,9 @@ class sqlMovimientosDAO
                 $flagFecha= 1;
             }else if($tipo_movimiento==5||$tipo_movimiento==9) {
                 //Desempeño
+                //fecha_vencimiento = '$fechaVencimiento', Ya no se actualiza para que no afecte el contrato original
+                //fecha_almoneda = '$fechaAlmoneda',
                 $updateFecha = "UPDATE contratos_tbl SET
-                                         fecha_vencimiento = '$fechaVencimiento',
-                                         fecha_almoneda = '$fechaAlmoneda',
                                          fecha_fisico_fin = '$fechaHoyShort',
                                          id_cat_estatus = 3,
                                          fisico= 0
@@ -135,8 +135,6 @@ class sqlMovimientosDAO
             }else if($tipo_movimiento==21) {
                 //Desempeño si interes
                 $updateFecha = "UPDATE contratos_tbl SET
-                                         fecha_vencimiento = '$fechaVencimiento',
-                                         fecha_almoneda = '$fechaAlmoneda',
                                          fecha_fisico_fin = '$fechaHoyShort',
                                          id_cat_estatus = 3,
                                          fisico= 0
