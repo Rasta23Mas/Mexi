@@ -89,19 +89,17 @@ $spreadsheet->getActiveSheet()
         ->setCellValue('C2', 'SERIE')
         ->setCellValue('D2', 'PRECIO VENTA')
         ->setCellValue('E2', 'DETALLE')
-        ->setCellValue('F2', 'DESCRIPCION');
+        ->setCellValue('F2', '--');
 
 $spreadsheet->getActiveSheet()->getStyle('A2:F2')->applyFromArray($tableHead);
 
 $rptHisto = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_Contrato,
-                        CONCAT (id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,
-                        id_SerieArticulo) as id_serie,
-                        prestamo  AS precio_venta, 
-                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        CONCAT (id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) as id_serie,
+                        prestamo  AS precio_venta, ART.descripcionCorta AS Detalle
                         FROM articulo_tbl AS ART 
                         LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
-                        LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
-                        WHERE Con.fisico = 1 AND  ART.sucursal = $sucursal AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 ) ";
+                        WHERE Con.fisico = 1 AND ART.id_Estatus != 20 AND  ART.sucursal = $sucursal
+                        AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 )  ";
 $query = $db->query($rptHisto);
 
 
@@ -116,8 +114,7 @@ if($query->num_rows > 0) {
                 ->setCellValue('B'.$i , $row['id_Contrato'])
                 ->setCellValue('C'.$i , $row['id_serie'])
                 ->setCellValue('D'.$i , $precio_venta)
-                ->setCellValue('E'.$i , $row["Detalle"])
-                ->setCellValue('F'.$i , $row['CatDesc']);
+                ->setCellValue('E'.$i , $row["Detalle"]);
 
         //set row style
         if ($i % 2 == 0) {

@@ -49,18 +49,16 @@ $contenido .= '
                                 <th>Serie</th>
                                 <th>Precio Venta</th>
                                 <th>Detalle</th>
-                                <th>Descripcion</th>
                             </tr>
                         </thead>
                         <tbody id="idTBodyInventario"  align="center">';
 $query = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_Contrato,
                         CONCAT (id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) as id_serie,
-                        prestamo  AS precio_venta, 
-                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        prestamo  AS precio_venta, ART.descripcionCorta AS Detalle
                         FROM articulo_tbl AS ART 
                         LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
-                        LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
-                        WHERE Con.fisico = 1 AND  ART.sucursal = $sucursal AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 ) ";
+                        WHERE Con.fisico = 1 AND ART.id_Estatus != 20 AND  ART.sucursal = $sucursal
+                        AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 ) ";
 $resultado = $db->query($query);
 $tablaArticulos = '';
 foreach ($resultado as $row) {
@@ -69,14 +67,12 @@ foreach ($resultado as $row) {
     $id_serie = $row["id_serie"];
     $precio_venta = $row["precio_venta"];
     $Detalle = $row["Detalle"];
-    $CatDesc = $row["CatDesc"];
 
     $tablaArticulos .= '<tr><td >' . $FECHA . '</td>
                         <td>' . $id_Contrato . '</td>
                         <td>' . $id_serie . '</td>
                         <td>$' . $precio_venta . '</td>
                         <td>' . $Detalle . '</td>
-                        <td>' . $CatDesc . '</td>
                         </tr>';
 }
 

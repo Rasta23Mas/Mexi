@@ -246,6 +246,7 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
         if (total == 0) {
             alert("Sin resultados en la busqueda.")
         } else {
+
             if (tipoReporte == 1) {
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
@@ -501,6 +502,7 @@ function fnCreaPaginador(totalItems) {
 }
 
 function fnCargaPagina(pagina) {
+
     var desde = pagina * itemsPorPaginaGlb;
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
@@ -769,14 +771,17 @@ function fnTBodyBazar(lista) {
 
     $.each(lista, function (ind, elem) {
         var venta = elem.precio_venta;
-        venta = formatoMoneda(venta)
+        venta = formatoMoneda(venta);
+        var pres = elem.prestamo;
+        pres = formatoMoneda(pres)
+
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
             "<td>" + elem.id_Contrato + "</td>" +
             "<td>" + elem.id_serie + "</td>" +
             "<td align='left'>" + elem.Detalle + "</td>" +
+            "<td align='right'>" + pres + "</td>" +
             "<td align='right'>" + venta + "</td>" +
-            "<td>" + elem.CatDesc + "</td>" +
             "</tr>").appendTo($("#idTBodyBazar"));
     });
 }
@@ -811,6 +816,7 @@ function fnTBodyInventario(lista) {
 
     $.each(lista, function (ind, elem) {
         var venta = elem.precio_venta;
+
         venta = formatoMoneda(venta)
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
@@ -818,7 +824,6 @@ function fnTBodyInventario(lista) {
             "<td>" + elem.id_serie + "</td>" +
             "<td align='left'>" + elem.Detalle + "</td>" +
             "<td align='right'>" + venta + "</td>" +
-            "<td>" + elem.CatDesc + "</td>" +
             "</tr>").appendTo($("#idTBodyInventario"));
     });
 }
@@ -1547,7 +1552,6 @@ function fnTBodyBazarAuto(lista) {
             "<td align='left'>" + elem.Detalle + "</td>" +
             "<td align='right'>" + pres + "</td>" +
             "<td align='right'>" + venta + "</td>" +
-            "<td><label>Migración</label></td>" +
             "</tr>").appendTo($("#idTBodyBazar"));
     });
 }

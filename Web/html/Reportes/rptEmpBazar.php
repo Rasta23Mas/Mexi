@@ -12,7 +12,6 @@
         <th width="800px">Detalle</th>
         <th>Prestamo</th>
         <th>Venta</th>
-        <th>Tipo Adquisición</th>
     </tr>
     </thead>
     <tbody id="idTBodyBazar" class="letraChica" align="center">

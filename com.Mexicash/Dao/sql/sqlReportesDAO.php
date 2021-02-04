@@ -337,7 +337,6 @@ class sqlReportesDAO
                 $count = "SELECT COUNT(Baz.id_Contrato) as  totalCount,
                         SUM(vitrinaVenta)  AS TOT_VENTAS  
                         FROM articulo_bazar_tbl as Baz
-                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
                         WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
@@ -348,9 +347,8 @@ class sqlReportesDAO
                 $BusquedaQuery = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
        prestamo,
        vitrinaVenta AS precio_venta, 
-                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        descripcionCorta as Detalle
                         FROM articulo_bazar_tbl as Baz
-                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
                         WHERE tipo_movimiento!= 6 AND Baz.sucursal=$sucursal
                         LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
@@ -363,7 +361,6 @@ class sqlReportesDAO
                     $jsondataperson["prestamo"] = $fila["prestamo"];
                     $jsondataperson["precio_venta"] = $fila["precio_venta"];
                     $jsondataperson["Detalle"] = $fila["Detalle"];
-                    $jsondataperson["CatDesc"] = $fila["CatDesc"];
                     $jsondataList[] = $jsondataperson;
                 }
                 $jsondata["lista"] = array_values($jsondataList);
@@ -440,7 +437,6 @@ class sqlReportesDAO
                         SUM(prestamo)  AS TOT_VENTAS   
                             FROM articulo_tbl AS ART 
                             LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
-                            LEFT JOIN cat_adquisicion AS CAT on ART.Adquisiciones_Tipo = CAT.id_Adquisicion
                             WHERE Con.fisico = 1 AND ART.id_Estatus != 20 
                             AND  ART.sucursal = $sucursal AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 )";
                 $resultado = $this->conexion->query($count);
@@ -450,13 +446,11 @@ class sqlReportesDAO
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(ART.fecha_creacion,'%Y-%m-%d') as FECHA, ART.id_Contrato,
                         CONCAT (id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) as id_serie,
-                        prestamo  AS precio_venta, 
-                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+                        prestamo  AS precio_venta, ART.descripcionCorta AS Detalle
                         FROM articulo_tbl AS ART 
                         LEFT JOIN contratos_tbl AS Con on ART.id_Contrato = Con.id_Contrato AND Con.sucursal = $sucursal
-                        LEFT JOIN cat_adquisicion AS CAT on tipoArticulo = CAT.id_Adquisicion
                         WHERE Con.fisico = 1 AND ART.id_Estatus != 20 AND  ART.sucursal = $sucursal
-                        AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 )LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                        AND (Con.id_cat_estatus=1 OR Con.id_cat_estatus=2 ) LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while ($fila = $resultado->fetch_assoc()) {
@@ -466,7 +460,6 @@ class sqlReportesDAO
                     $jsondataperson["id_serie"] = $fila["id_serie"];
                     $jsondataperson["precio_venta"] = $fila["precio_venta"];
                     $jsondataperson["Detalle"] = $fila["Detalle"];
-                    $jsondataperson["CatDesc"] = $fila["CatDesc"];
                     $jsondataList[] = $jsondataperson;
                 }
                 $jsondata["lista"] = array_values($jsondataList);

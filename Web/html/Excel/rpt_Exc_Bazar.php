@@ -89,15 +89,15 @@ $spreadsheet->getActiveSheet()
     ->setCellValue('D2', 'DETALLE')
     ->setCellValue('E2', 'PRESTAMO')
     ->setCellValue('F2', 'PRECIO VENTA')
-    ->setCellValue('G2', 'TIPO ADQUISICIÓN');
+    ->setCellValue('G2', '--');
 
 $spreadsheet->getActiveSheet()->getStyle('A2:F2')->applyFromArray($tableHead);
 
-$rptRef = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,prestamo,
-                        vitrinaVenta AS precio_venta, 
-                        descripcionCorta as Detalle,CAT.descripcion as CatDesc
+$rptRef = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_serie,
+       prestamo,
+       vitrinaVenta AS precio_venta, 
+                        descripcionCorta as Detalle
                         FROM articulo_bazar_tbl as Baz
-                        LEFT JOIN cat_adquisicion AS CAT on Baz.id_serieTipo = CAT.id_Adquisicion
                         WHERE tipo_movimiento!= 6 AND Baz.sucursal=$sucursal";
 $query = $db->query($rptRef);
 
@@ -112,8 +112,7 @@ if($query->num_rows > 0) {
             ->setCellValue('C'.$i , $row['id_serie'])
             ->setCellValue('D'.$i , $row['Detalle'])
             ->setCellValue('E'.$i , $row['prestamo'])
-            ->setCellValue('F'.$i , $row['precio_venta'])
-            ->setCellValue('G'.$i , $row['CatDesc']);
+            ->setCellValue('F'.$i , $row['precio_venta']);
 
         //set row style
         if ($i % 2 == 0) {
