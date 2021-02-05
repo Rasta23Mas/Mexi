@@ -1087,8 +1087,9 @@ class sqlCierreDAO
         try {
             $fechaCreacion = date('Y-m-d');
             $sucursal = $_SESSION["sucursal"];
+            $respuesta = 1;
 //el tipo se cambio a 25 para eliminarlos repetidos si se repite
-            $insertaBazar = "INSERT INTO articulo_bazar_tbl(id_Contrato, id_serie, id_Articulo, tipo_movimiento,
+            /*$insertaBazar = "INSERT INTO articulo_bazar_tbl(id_Contrato, id_serie, id_Articulo, tipo_movimiento,
                                 fecha_Bazar, tipoArticulo, tipo, kilataje, calidad, cantidad, peso, peso_Piedra,
                                 piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,vitrinaVenta, precioCat,
                                 observaciones, detalle, fecha_creacion,descripcionCorta,sucursal)
@@ -1100,6 +1101,7 @@ class sqlCierreDAO
                             FROM articulo_tbl as Art
                             INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato AND Con.sucursal=$sucursal
                         WHERE Con.fecha_almoneda<='$fechaCreacion' AND Con.fecha_almoneda!='0000-00-00' and Art.sucursal=$sucursal";
+
             if ($ps = $this->conexion->prepare($insertaBazar)) {
                 if ($ps->execute()) {
                     $respuesta = mysqli_stmt_affected_rows($ps);
@@ -1108,7 +1110,7 @@ class sqlCierreDAO
                 }
             } else {
                 $respuesta = -1;
-            }
+            }*/
         } catch (Exception $exc) {
             $respuesta = 4;
             echo $exc->getMessage();
