@@ -1087,13 +1087,13 @@ class sqlCierreDAO
         try {
             $fechaCreacion = date('Y-m-d');
             $sucursal = $_SESSION["sucursal"];
-
+//el tipo se cambio a 25 para eliminarlos repetidos si se repite
             $insertaBazar = "INSERT INTO articulo_bazar_tbl(id_Contrato, id_serie, id_Articulo, tipo_movimiento,
                                 fecha_Bazar, tipoArticulo, tipo, kilataje, calidad, cantidad, peso, peso_Piedra,
                                 piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,vitrinaVenta, precioCat,
                                 observaciones, detalle, fecha_creacion,descripcionCorta,sucursal)
                             SELECT Art.id_Contrato, CONCAT (id_SerieSucursal, Adquisiciones_Tipo, id_SerieContrato,id_SerieArticulo) as idSerie,
-                                id_Articulo,24,fecha_almoneda, tipoArticulo, tipo, kilataje, calidad, cantidad,
+                                id_Articulo,25,fecha_almoneda, tipoArticulo, tipo, kilataje, calidad, cantidad,
                                 peso, peso_Piedra, piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,vitrina,
                                 precioCat, observaciones, detalle, Art.fecha_creacion,Art.descripcionCorta,
                                 Art.sucursal

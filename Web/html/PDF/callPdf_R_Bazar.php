@@ -59,6 +59,7 @@ $contenido .= '
                                 <th>Contrato</th>
                                 <th>Serie</th>
                                 <th>Detalle</th>
+                                <th>Prestamo</th>
                                 <th>Precio Venta</th>
                             </tr>
                         </thead>

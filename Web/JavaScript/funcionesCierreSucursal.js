@@ -703,7 +703,9 @@ function guardarCierreSucursal() {
         data: dataEnviar,
         success: function (response) {
             if (response > 0) {
-                guardarBazar();
+                //guardarBazar();
+                BitacoraUsuarioCierreSucursal();
+                cargarPDFCaja();
                 fnCierreTodasLasCajas();
             } else {
                 alertify.error("Error de conexion, intente más tarde.")
@@ -712,26 +714,6 @@ function guardarCierreSucursal() {
     });
 }
 
-/*
-function fnCierreCajas(estatus,user,tipo) {
-    var dataEnviar = {
-        "estatus": estatus,
-        "user": user,
-        "tipo": tipo,
-    };
-    $.ajax({
-        data: dataEnviar,
-        url: '../../../com.Mexicash/Controlador/Cierre/ConCierreCajaIndispensable.php',
-        type: 'post',
-        dataType: "json",
-        success: function (response) {
-            if (response > 0) {
-                alertify.success("Se cerraron la caja.")
-            }
-        },
-    })
-}
-*/
 function fnCierreTodasLasCajas() {
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Cierre/ConCierreCajas.php',
@@ -744,10 +726,11 @@ function fnCierreTodasLasCajas() {
         },
     })
 }
-function guardarBazar() {
+
+/*function guardarBazar() {
     //Se suspende el guardado de bazar hasta que esten todos los emeños correctos
 
-    /*//1 llena movimientos de dotacion y retiro
+    /!*!//1 llena movimientos de dotacion y retiro
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Cierre/GuardarBazar.php',
         type: 'post',
@@ -755,17 +738,17 @@ function guardarBazar() {
         success: function (response) {
             if (response == -1) {
                 alert("Error al guardar bazar")
-            } else if (response == 0) {*/
+            } else if (response == 0) {*!/
                 BitacoraUsuarioCierreSucursal();
                 cargarPDFCaja();
-    /*        } else {
+    /!*        } else {
                 alertify.success("Se guardaron en bazar los articulos.")
                 cargarPDFCaja();
                 actualizarBazar();
             }
         },
-    })*/
-}
+    })*!/
+}*/
 
 function actualizarBazar() {
     //1 llena movimientos de dotacion y retiro
