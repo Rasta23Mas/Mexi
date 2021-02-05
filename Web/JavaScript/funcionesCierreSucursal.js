@@ -748,7 +748,7 @@ function fnCierreTodasLasCajas() {
             }
         },
     })*!/
-}*/
+}
 
 function actualizarBazar() {
     //1 llena movimientos de dotacion y retiro
@@ -762,7 +762,7 @@ function actualizarBazar() {
             }
         },
     })
-}
+}*/
 
 function BitacoraUsuarioCierreSucursal() {
     //id_Movimiento = 18 Ciere de Caja
