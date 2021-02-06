@@ -197,6 +197,11 @@ function fnSelectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = true;
         $("#divRpt").load('rptEmpBazar.php');
+    } else if (reporte == 31) {
+        nameForm += "Pasar a Bazar";
+        $("#divRpt").load('rptEmpContratos.php');
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = true;
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
@@ -211,7 +216,7 @@ function fnLlenarReporte() {
     var tipoReporte = $('#idTipoReporte').val();
 
     var busqueda = 1;
-    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28) {
+    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28|| tipoReporte == 31) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
@@ -429,6 +434,10 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalApart').innerHTML = TOT_APAR;
                 document.getElementById('totalAbono').innerHTML = TOT_ABON;
                 document.getElementById('totalUtil').innerHTML = TOT_UTIL;
+            } else if (tipoReporte == 31) {
+                var TOT_PRESTAMO = data.TOT_PRESTAMO;
+                TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
+                document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
             }
 
             fnCreaPaginador(total);
@@ -550,7 +559,7 @@ function fnCargaPagina(pagina) {
             fnTBodyCorporativo(lista);
         } else if (tipoReporte == 12) {
             fnTBodyTknDescuento(lista);
-        }  else if (tipoReporte == 13) {
+        } else if (tipoReporte == 13) {
             fnTBodyTknDescuento(lista);
         } else if (tipoReporte == 14) {
             fnTBodyTknDescuento(lista);
@@ -570,7 +579,7 @@ function fnCargaPagina(pagina) {
             fnTBodyTknDescuento(lista);
         } else if (tipoReporte == 22) {
             fnTBodyTknDescuento(lista);
-        }else if (tipoReporte == 23) {
+        } else if (tipoReporte == 23) {
             fnTBodyCaja(lista);
         } else if (tipoReporte == 24) {
             fnTBodySucursal(lista);
@@ -578,6 +587,8 @@ function fnCargaPagina(pagina) {
             fnTBodyEmpeno(lista);
         } else if (tipoReporte == 28) {
             fnTBodyBazarAuto(lista);
+        }else if (tipoReporte == 31) {
+            fnTBodyPasarBazar(lista);
         }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
@@ -1229,11 +1240,17 @@ function exportar(expor) {
         } else {
             window.open('../PDF/callPdf_R_Bazar.php');
         }
-    }else if (tipoReporte == 28) {
+    } else if (tipoReporte == 28) {
         if (expor == 1) {
             window.open('../Excel/rpt_Exc_BazarAuto.php?sucursal=' + sucursal);
         } else {
             window.open('../PDF/callPdf_R_BazarAuto.php');
+        }
+    } else if (tipoReporte == 31) {
+        if (expor == 1) {
+            window.open('../Excel/rpt_Exc_PasarBazar.php?sucursal=' + sucursal);
+        } else {
+            window.open('../PDF/callPdf_R_PasarBazar.php');
         }
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
@@ -1556,34 +1573,33 @@ function fnTBodyBazarAuto(lista) {
     });
 }
 
-function exportarFinanciero(tipoExportar) {
-    //tipoExportar = 1 Excel //2 PDF
-    var fechaIni = $("#idFechaInicial").val();
-    var fechaFin = $("#idFechaFinal").val();
-    var tipo = $('#idTipoReporteFin').val();
-    var sucursal = $('#idSucursal').val();
-    var nombre = $("#NombreReporte").text();
-    if (fechaFin !== "" && fechaIni !== "") {
-        fechaIni = fechaSQL(fechaIni);
-        fechaFin = fechaSQL(fechaFin);
-        if (tipoExportar == 1) {
-            if (tipo == 1) {
-                window.open('../Excel/rpt_Exc_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
-            } else if (tipo == 2) {
-                window.open('../Excel/rpt_Exc_Corporativo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
-            }
-        } else if (tipoExportar == 2) {
-            if (tipo == 1) {
-                window.open('../PDF/callPdf_R_Ingresos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
-            } else if (tipo == 2) {
-                window.open('../PDF/callPdf_R_Corporativo.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal + '&nombre=' + nombre);
-            }
+function fnTBodyPasarBazar(lista) {
+    $("#idTBodyContrato").html("");
+    $.each(lista, function (ind, elem) {
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var formulario = elem.Form;
+        var obs = "";
+        if (formulario == 1) {
+            obs = elem.ObserArt;
+        } else {
+            obs = elem.ObserAuto;
         }
-
-    } else {
-        alertify.error("Seleccione fecha de inicio y fecha final.");
-    }
-
+        if (obs == null) {
+            obs = "";
+        }
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.celular + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td>" + obs + "</td>" +
+            "</tr>").appendTo($("#idTBodyContrato"));
+    });
 }
 
 

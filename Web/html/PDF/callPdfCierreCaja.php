@@ -233,7 +233,7 @@ $contenido = '<html>
 <body>
 <form>';
 $contenido .= '
-<table align="center" border="1" width="100%" class="letraGrandeNegrita">
+<table align="center" border="0" width="100%" class="letraGrandeNegrita">
         <tbody>
                 <tr>
                     <td colspan="3" align="center" >

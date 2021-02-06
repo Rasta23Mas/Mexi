@@ -1058,4 +1058,77 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
         echo json_encode($jsondata);
     }
 
+    public function sqlReportePasarBazar($busqueda, $limit, $offset)
+    {
+        try {
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if ($busqueda == 1) {
+                $count = "
+                        SELECT COUNT(id_Articulo) as  totalCount,
+                        SUM(Con.total_Prestamo)  AS TOT_PRESTAMO 
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+                        AND Art.sucursal=$sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
+     					AND Aut.sucursal=$sucursal
+                        WHERE DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') < CURDATE()  
+                        AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
+                        ORDER BY Con.id_contrato";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_PRESTAMO"] = $fila["TOT_PRESTAMO"];
+
+            } else {
+                $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
+                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
+                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
+                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
+                        Cli.celular,
+                        Con.id_contrato AS CONTRATO,
+                        Con.total_Prestamo AS PRESTAMO,
+                        Art.descripcionCorta AS DESCRIPCION,
+                        Art.observaciones as ObserArt,
+                        Aut.observaciones as ObserAuto,
+                        Con.id_Formulario as Form
+                        FROM contratos_tbl AS Con 
+                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
+                        AND Art.sucursal=$sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
+     					AND Aut.sucursal=$sucursal
+                        WHERE DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') < CURDATE()  
+                        AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
+                        ORDER BY Con.id_contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                    OFFSET " . $this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while ($fila = $resultado->fetch_assoc()) {
+                    $jsondataperson = array();
+                    $jsondataperson["FECHA"] = $fila["FECHA"];
+                    $jsondataperson["FECHAVEN"] = $fila["FECHAVEN"];
+                    $jsondataperson["FECHAALM"] = $fila["FECHAALM"];
+                    $jsondataperson["NombreCompleto"] = $fila["NombreCompleto"];
+                    $jsondataperson["celular"] = $fila["celular"];
+                    $jsondataperson["CONTRATO"] = $fila["CONTRATO"];
+                    $jsondataperson["PRESTAMO"] = $fila["PRESTAMO"];
+                    $jsondataperson["DESCRIPCION"] = $fila["DESCRIPCION"];
+                    $jsondataperson["ObserArt"] = $fila["ObserArt"];
+                    $jsondataperson["ObserAuto"] = $fila["ObserAuto"];
+                    $jsondataperson["Form"] = $fila["Form"];
+                    $jsondataList[] = $jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
+
+
 }
