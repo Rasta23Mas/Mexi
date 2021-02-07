@@ -197,11 +197,22 @@ function fnSelectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = true;
         $("#divRpt").load('rptEmpBazar.php');
+    } else if (reporte == 30) {
+        nameForm += "Utilidades"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptFinUtilidades.php');
     } else if (reporte == 31) {
         nameForm += "Pasar a Bazar";
         $("#divRpt").load('rptEmpContratos.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+    } else if (reporte == 32) {
+        nameForm += "Utilidades Venta"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = true;
+        $("#divRpt").load('rptFinUtilidadesVenta.php');
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
@@ -216,7 +227,7 @@ function fnLlenarReporte() {
     var tipoReporte = $('#idTipoReporte').val();
 
     var busqueda = 1;
-    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28|| tipoReporte == 31) {
+    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28 || tipoReporte == 31) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
@@ -251,7 +262,6 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
         if (total == 0) {
             alert("Sin resultados en la busqueda.")
         } else {
-
             if (tipoReporte == 1) {
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
@@ -434,7 +444,21 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalApart').innerHTML = TOT_APAR;
                 document.getElementById('totalAbono').innerHTML = TOT_ABON;
                 document.getElementById('totalUtil').innerHTML = TOT_UTIL;
-            } else if (tipoReporte == 31) {
+            } else if (tipoReporte == 30) {
+                var TOT_DES = data.TOT_DES;
+                var TOT_COS = data.TOT_COS;
+                var TOT_MOR = data.TOT_MOR;
+                TOT_DES = formatoMoneda(TOT_DES);
+                TOT_COS = formatoMoneda(TOT_COS);
+                TOT_MOR = formatoMoneda(TOT_MOR);
+                document.getElementById('totalDes').innerHTML = TOT_DES;
+                document.getElementById('totalCos').innerHTML = TOT_COS;
+                document.getElementById('totalMor').innerHTML = TOT_MOR;
+            }else if (tipoReporte == 31) {
+                var TOT_PRESTAMO = data.TOT_PRESTAMO;
+                TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
+                document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
+            }else if (tipoReporte == 32) {
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
@@ -587,8 +611,12 @@ function fnCargaPagina(pagina) {
             fnTBodyEmpeno(lista);
         } else if (tipoReporte == 28) {
             fnTBodyBazarAuto(lista);
-        }else if (tipoReporte == 31) {
+        } else if (tipoReporte == 30) {
+            fnTBodyUtilidades(lista);
+        } else if (tipoReporte == 31) {
             fnTBodyPasarBazar(lista);
+        } else if (tipoReporte == 32) {
+            fnTBodyUtilidadesVenta(lista);
         }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
@@ -1318,6 +1346,12 @@ function exportar(expor) {
                 } else {
                     window.open('../PDF/callPdf_R_Empeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
+            } else if (tipoReporte == 30) {
+                if (expor == 1) {
+                    window.open('../Excel/rpt_Exc_Empenos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                } else {
+                    window.open('../PDF/callPdf_R_Empeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                }
             }
         } else {
             alertify.error("Seleccione fecha de inicio y fecha final.");
@@ -1330,87 +1364,6 @@ function selectReporteMon() {
     var nombre = $('select[name="nombreReporte"] option:selected').text();
     var titulo = "Autorizaciones : " + nombre;
     document.getElementById('NombreReporte').innerHTML = titulo;
-}
-
-
-//Reporte MONITOREO
-function cargarRptMon(fechaIni, fechaFin) {
-    var tipoReporte = $('#idTipoReporteMon').val();
-    var dataEnviar = {
-        "tipoReporte": tipoReporte,
-        "fechaIni": fechaIni,
-        "fechaFin": fechaFin,
-    };
-    $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Reportes/tblReportesMon.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                // alert(datos)
-                var html = '';
-                var i = 0;
-                alert("Refrescando tabla.");
-                for (i; i < datos.length; i++) {
-                    var id_BitacoraToken = datos[i].id_BitacoraToken;
-                    var id_Contrato = datos[i].id_Contrato;
-                    var tipo_formulario = datos[i].tipo_formulario;
-                    var token = datos[i].token;
-                    var descripcion = datos[i].descripcion;
-                    var descuento = datos[i].descuento;
-                    var interes = datos[i].interes;
-                    var Descr = datos[i].Descripcion;
-                    var user = datos[i].usuario;
-                    var importe_flujo = datos[i].importe_flujo;
-                    var id_flujo = datos[i].id_flujo;
-                    var Fecha = datos[i].Fecha;
-                    var tipoContrato = "";
-
-                    if (tipo_formulario == 1) {
-                        tipoContrato = "METALES";
-                    } else if (tipo_formulario == 2) {
-                        tipoContrato = "ELECTRÓNICOS";
-                    } else if (tipo_formulario == 3) {
-                        tipoContrato = "AUTO";
-                    }
-
-
-                    if (tipo_formulario == null) {
-                        tipo_formulario = "";
-                    }
-                    if (descuento == null) {
-                        descuento = "";
-                    }
-                    if (interes == null) {
-                        interes = "";
-                    }
-                    if (importe_flujo == null) {
-                        importe_flujo = "";
-                    }
-                    if (id_flujo == null) {
-                        id_flujo = "";
-                    }
-
-                    html += '<tr>' +
-                        '<td >' + id_BitacoraToken + '</td>' +
-                        '<td>' + id_Contrato + '</td>' +
-                        '<td>' + tipoContrato + '</td>' +
-                        '<td>' + token + '</td>' +
-                        '<td>' + descripcion + '</td>' +
-                        '<td>' + descuento + '</td>' +
-                        '<td>' + interes + '</td>' +
-                        '<td>' + importe_flujo + '</td>' +
-                        '<td>' + id_flujo + '</td>' +
-                        '<td>' + Descr + '</td>' +
-                        '<td>' + user + '</td>' +
-                        '<td>' + Fecha + '</td>' +
-                        '</tr>';
-                }
-                $('#idTBodyMonitoreo').html(html);
-            }
-        }
-    );
-    $("#divRptMonitoreo").load('rptMonitoreo.php');
 }
 
 function exportarMonitoreo(tipoExportar) {
@@ -1435,124 +1388,6 @@ function exportarMonitoreo(tipoExportar) {
 
 }
 
-// FINANCIERO
-function selectReporteFin() {
-    var nombre = $('select[name="nombreReporte"] option:selected').text();
-    var titulo = "Financieros : " + nombre;
-    document.getElementById('NombreReporte').innerHTML = titulo;
-}
-
-function llenarReporteFinanciero() {
-    var fechaIni = $("#idFechaInicial").val();
-    var fechaFin = $("#idFechaFinal").val();
-    var tipoReporte = $('#idTipoReporteFin').val();
-
-    if (fechaFin !== "" && fechaIni !== "") {
-        fechaIni = fechaSQL(fechaIni);
-        fechaFin = fechaSQL(fechaFin);
-        if (tipoReporte == 1) {
-            cargarRptFinIng(fechaIni, fechaFin, tipoReporte)
-        } else if (tipoReporte == 2) {
-            cargarRptFinIng(fechaIni, fechaFin, tipoReporte)
-        }
-    } else {
-        alertify.error("Seleccione fecha de inicio y fecha final.");
-    }
-}
-
-//Reporte MONITOREO
-function cargarRptFinIng(fechaIni, fechaFin, tipoReporte) {
-
-    var dataEnviar = {
-        "tipoReporte": tipoReporte,
-        "fechaIni": fechaIni,
-        "fechaFin": fechaFin,
-    };
-    $.ajax({
-            type: "POST",
-            url: '../../../com.Mexicash/Controlador/Reportes/tblReportesFin.php',
-            data: dataEnviar,
-            dataType: "json",
-            success: function (datos) {
-                var html = '';
-                var i = 0;
-                alert("Refrescando tabla.");
-                for (i; i < datos.length; i++) {
-                    var id_CierreSucursal = datos[i].id_CierreSucursal;
-                    var Desem = datos[i].Desem;
-                    var AbonoRef = datos[i].AbonoRef;
-                    var Inte = datos[i].Inte;
-                    var costoContrato = datos[i].costoContratoFin;
-                    var Iva = datos[i].Iva;
-                    var Ventas = datos[i].Ventas;
-                    var IvaVenta = datos[i].IvaVenta;
-                    var Utilidad = datos[i].Utilidad;
-                    var Apartados = datos[i].Apartados;
-                    var AbonoVen = datos[i].AbonoVen;
-                    var Fecha = datos[i].Fecha;
-
-                    if (Desem == null) {
-                        Desem = 0;
-                    }
-                    if (AbonoRef == null) {
-                        AbonoRef = 0;
-                    }
-                    if (Inte == null) {
-                        Inte = 0;
-                    }
-                    if (costoContrato == null) {
-                        costoContrato = 0;
-                    }
-                    if (Iva == null) {
-                        Iva = 0;
-                    }
-                    if (Ventas == null) {
-                        Ventas = 0;
-                    }
-                    if (IvaVenta == null) {
-                        IvaVenta = 0;
-                    }
-                    if (Utilidad == null) {
-                        Utilidad = 0;
-                    }
-                    if (Apartados == null) {
-                        Apartados = 0;
-                    }
-                    if (AbonoVen == null) {
-                        AbonoVen = 0;
-                    }
-                    Desem = formatoMoneda(Desem);
-                    AbonoRef = formatoMoneda(AbonoRef);
-                    Inte = formatoMoneda(Inte);
-                    costoContrato = formatoMoneda(costoContrato);
-                    Iva = formatoMoneda(Iva);
-                    Ventas = formatoMoneda(Ventas);
-                    IvaVenta = formatoMoneda(IvaVenta);
-                    Utilidad = formatoMoneda(Utilidad);
-                    Apartados = formatoMoneda(Apartados);
-                    AbonoVen = formatoMoneda(AbonoVen);
-
-                    html += '<tr>' +
-                        '<td >' + id_CierreSucursal + '</td>' +
-                        '<td>' + Desem + '</td>' +
-                        '<td>' + costoContrato + '</td>' +
-                        '<td>' + AbonoRef + '</td>' +
-                        '<td>' + Inte + '</td>' +
-                        '<td>' + Iva + '</td>' +
-                        '<td>' + Ventas + '</td>' +
-                        '<td>' + IvaVenta + '</td>' +
-                        '<td>' + Apartados + '</td>' +
-                        '<td>' + AbonoVen + '</td>' +
-                        '<td>' + Utilidad + '</td>' +
-                        '<td>' + Fecha + '</td>' +
-                        '</tr>';
-                }
-                $('#idTBodyIngresos').html(html);
-            }
-        }
-    );
-    $("#divRptFinancieros").load('rptFinIngresos.php');
-}
 
 function fnTBodyBazarAuto(lista) {
     $("#idTBodyBazar").html("");
@@ -1573,7 +1408,48 @@ function fnTBodyBazarAuto(lista) {
     });
 }
 
+
+function fnTBodyUtilidades(lista) {
+    //Reporte Utilidades 30
+    $("#idTBodyUtilidad").html("");
+    $.each(lista, function (ind, elem) {
+        var tipo_mov = elem.tipo_movimiento;
+        var moratorios = elem.e_moratorios;
+        moratorios = parseFloat(moratorios);
+
+        var tot_ref = 0;
+        var tot_des = 0;
+        if(tipo_mov==4){
+            var intereses = elem.e_intereses;
+            var iva = elem.e_iva;
+            intereses = parseFloat(intereses);
+            iva = parseFloat(iva);
+            tot_ref = intereses - iva;
+            tot_ref =  tot_ref + moratorios;
+
+        }else if(tipo_mov==5){
+            var desempeno = elem.e_pagoDesempeno;
+            var costoContrato = elem.e_costoContrato;
+            desempeno = parseFloat(desempeno);
+            costoContrato = parseFloat(costoContrato);
+            tot_des = desempeno +costoContrato;
+            tot_des = tot_des + moratorios;
+        }
+        var tot_refMon = formatoMoneda(tot_ref);
+        var tot_desMon = formatoMoneda(tot_des);
+
+        $("<tr>" +
+            "<td>" + elem.Movimiento + "</td>" +
+            "<td>" + elem.id_movimiento + "</td>" +
+            "<td>" + elem.id_contrato + "</td>" +
+            "<td align='right'>" + tot_refMon + "</td>" +
+            "<td align='right'>" + tot_desMon + "</td>" +
+            "</tr>").appendTo($("#idTBodyUtilidad"));
+    });
+}
+
 function fnTBodyPasarBazar(lista) {
+    //Reporte Pasar a Bazar 31
     $("#idTBodyContrato").html("");
     $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
@@ -1599,6 +1475,26 @@ function fnTBodyPasarBazar(lista) {
             "<td>" + elem.DESCRIPCION + "</td>" +
             "<td>" + obs + "</td>" +
             "</tr>").appendTo($("#idTBodyContrato"));
+    });
+}
+
+function fnTBodyUtilidadesVenta(lista) {
+    //Reporte Utilidades 30
+    $("#idTBodyUtilidad").html("");
+
+    $.each(lista, function (ind, elem) {
+        var venta = elem.precio_venta;
+        venta = formatoMoneda(venta);
+        var pres = elem.prestamo;
+        pres = formatoMoneda(pres)
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.id_Contrato + "</td>" +
+            "<td>" + elem.id_serie + "</td>" +
+            "<td align='left'>" + elem.Detalle + "</td>" +
+            "<td align='right'>" + pres + "</td>" +
+            "<td align='right'>" + venta + "</td>" +
+            "</tr>").appendTo($("#idTBodyUtilidad"));
     });
 }
 
