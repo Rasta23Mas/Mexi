@@ -79,7 +79,7 @@ if ($tipoReporte == 1) {
 }else if ($tipoReporte == 31) {
     $sqlReportesDAO->sqlReportePasarBazar($busqueda,$limit,$offset);
 }else if ($tipoReporte == 32) {
-    $sqlReportesDAO->sqlReporteEmpeno($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+    $sqlReportesDAO->sqlReporteUtilidadVenta($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }
 
 ?>

@@ -1187,4 +1187,58 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
     }
 
 
+    public function sqlReporteUtilidadVenta($busqueda, $fechaIni, $fechaFin, $limit, $offset)
+    {
+        try {
+            //Reporte30
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if ($busqueda == 1) {
+                $count = "SELECT COUNT(id_movimiento) as  totalCount,
+                        SUM(e_pagoDesempeno)  AS TOT_DES,
+                        SUM(e_costoContrato)  AS TOT_COS,
+                        SUM(e_moratorios)  AS TOT_MOR
+                        FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
+                        DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                             
+                        BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id_contrato ";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+                $jsondata["TOT_DES"] = $fila["TOT_DES"];
+                $jsondata["TOT_COS"] = $fila["TOT_COS"];
+                $jsondata["TOT_MOR"] = $fila["TOT_MOR"];
+
+            } else {
+                $BusquedaQuery = "SELECT  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')  AS Movimiento,id_movimiento, id_contrato, tipo_movimiento,
+                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, e_moratorios
+                                    FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
+                                    DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                                
+                                    BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id_contrato 
+                                    LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                                    OFFSET " . $this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while ($fila = $resultado->fetch_assoc()) {
+                    $jsondataperson = array();
+                    $jsondataperson["Movimiento"] = $fila["Movimiento"];
+                    $jsondataperson["id_movimiento"] = $fila["id_movimiento"];
+                    $jsondataperson["id_contrato"] = $fila["id_contrato"];
+                    $jsondataperson["tipo_movimiento"] = $fila["tipo_movimiento"];
+                    $jsondataperson["e_intereses"] = $fila["e_intereses"];
+                    $jsondataperson["e_iva"] = $fila["e_iva"];
+                    $jsondataperson["e_pagoDesempeno"] = $fila["e_pagoDesempeno"];
+                    $jsondataperson["e_costoContrato"] = $fila["e_costoContrato"];
+                    $jsondataperson["e_moratorios"] = $fila["e_moratorios"];
+                    $jsondataList[] = $jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
+
 }
