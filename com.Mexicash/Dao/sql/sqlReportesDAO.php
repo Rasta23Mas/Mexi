@@ -1071,7 +1071,7 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                         SUM(e_moratorios)  AS TOT_MOR
                         FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
                         DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                             
-                        BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id_contrato ";
+                        BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY fecha_Movimiento ";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
@@ -1084,7 +1084,7 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                                     e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, e_moratorios
                                     FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
                                     DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                                
-                                    BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id_contrato 
+                                    BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY fecha_Movimiento 
                                     LIMIT " . $this->conexion->real_escape_string($limit) . " 
                                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
@@ -1131,6 +1131,7 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
      					AND Aut.sucursal=$sucursal
                         WHERE DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') < CURDATE()  
                         AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
+                        AND (id_cat_estatus!=20)
                         ORDER BY Con.id_contrato";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
@@ -1157,6 +1158,7 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
      					AND Aut.sucursal=$sucursal
                         WHERE DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') < CURDATE()  
                         AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
+                        AND (id_cat_estatus!=20)
                         ORDER BY Con.id_contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);

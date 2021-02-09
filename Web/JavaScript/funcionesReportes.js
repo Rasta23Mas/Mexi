@@ -208,6 +208,7 @@ function fnSelectReporte() {
         $("#divRpt").load('rptEmpContratos.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
+        fechasDis = true;
     } else if (reporte == 32) {
         nameForm += "Utilidades Venta"
         document.getElementById('NombreReporte').innerHTML = nameForm;
@@ -1348,9 +1349,9 @@ function exportar(expor) {
                 }
             } else if (tipoReporte == 30) {
                 if (expor == 1) {
-                    window.open('../Excel/rpt_Exc_Empenos.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_Utilidades.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 } else {
-                    window.open('../PDF/callPdf_R_Empeno.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                    window.open('../PDF/callPdf_R_Utilidades.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
             }
         } else {
