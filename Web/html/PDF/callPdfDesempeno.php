@@ -96,7 +96,7 @@ foreach ($resultado as $row) {
     $NombreUsuario = $row["NombreUsuario"];
     $subTotal = $row["pag_subtotal"];
     $Total = $row["pag_total"];
-    $subTotal = $subTotal + $moratorios;
+   // $subTotal = $subTotal + $moratorios;
     //$subTotal = $abonoCapital + $intereses+ $almacenaje+$seguro+$desempeñoExt+$moratorios+$otrosCobros;
     $abonoCapital = round($abonoCapital, 2);
     $intereses = round($intereses, 2);

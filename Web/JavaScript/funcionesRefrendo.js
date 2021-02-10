@@ -786,7 +786,8 @@ function descuentoNuevo(e) {
 }
 
 function descuentoTabla() {
-    var totalInteres = $("#totalInteresNuevoNota").val();
+   // var totalInteres = $("#totalInteresNuevoNota").val();
+    var totalInteres = $("#interesNuevoNota").val();
     var tasaTotal = $("#idTblTasa").val();
     totalInteres = Number(totalInteres);
     tasaTotal = Number(tasaTotal);

@@ -212,7 +212,8 @@ function fnSelectReporte() {
     } else if (reporte == 32) {
         nameForm += "Utilidades Venta"
         document.getElementById('NombreReporte').innerHTML = nameForm;
-        fechas = true;
+        fechas = false;
+        fechasDis = true;
         $("#divRpt").load('rptFinUtilidadesVenta.php');
     }
 
@@ -444,17 +445,21 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalApart').innerHTML = TOT_APAR;
                 document.getElementById('totalAbono').innerHTML = TOT_ABON;
                 document.getElementById('totalUtil').innerHTML = TOT_UTIL;
-            } else if (tipoReporte == 30) {
-
             }else if (tipoReporte == 31) {
 
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
             }else if (tipoReporte == 32) {
-                var TOT_PRESTAMO = data.TOT_PRESTAMO;
-                TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
-                document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
+                var TOT = data.TOT;
+                var TOT_PRES = data.TOT_PRES;
+                var TOT_UTIL = data.TOT_UTIL;
+                TOT = formatoMoneda(TOT);
+                TOT_PRES = formatoMoneda(TOT_PRES);
+                TOT_UTIL = formatoMoneda(TOT_UTIL);
+                document.getElementById('totalPresVen').innerHTML = TOT;
+                document.getElementById('totalVen').innerHTML = TOT_PRES;
+                document.getElementById('totalUtilVen').innerHTML = TOT_UTIL;
             }
 
             fnCreaPaginador(total);
@@ -1482,21 +1487,22 @@ function fnTBodyPasarBazar(lista) {
 
 function fnTBodyUtilidadesVenta(lista) {
     //Reporte Utilidades 30
-    $("#idTBodyUtilidad").html("");
+    $("#idTBodyUtilidadVenta").html("");
 
     $.each(lista, function (ind, elem) {
-        var venta = elem.precio_venta;
-        venta = formatoMoneda(venta);
-        var pres = elem.prestamo;
-        pres = formatoMoneda(pres)
+        var total = elem.total;
+        var totalPrestamo = elem.totalPrestamo;
+        var utilidad = elem.utilidad;
+        total = formatoMoneda(total);
+        totalPrestamo = formatoMoneda(totalPrestamo);
+        utilidad = formatoMoneda(utilidad);
         $("<tr>" +
-            "<td>" + elem.FECHA + "</td>" +
-            "<td>" + elem.id_Contrato + "</td>" +
-            "<td>" + elem.id_serie + "</td>" +
-            "<td align='left'>" + elem.Detalle + "</td>" +
-            "<td align='right'>" + pres + "</td>" +
-            "<td align='right'>" + venta + "</td>" +
-            "</tr>").appendTo($("#idTBodyUtilidad"));
+            "<td>" + elem.Movimiento + "</td>" +
+            "<td>" + elem.id_Bazar + "</td>" +
+            "<td align='right'>" + totalPrestamo + "</td>" +
+            "<td align='right'>" + total + "</td>" +
+            "<td align='right'>" + utilidad + "</td>" +
+            "</tr>").appendTo($("#idTBodyUtilidadVenta"));
     });
 }
 

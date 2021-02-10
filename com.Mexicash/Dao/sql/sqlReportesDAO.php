@@ -1191,40 +1191,37 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(id_movimiento) as  totalCount,
-                        SUM(e_pagoDesempeno)  AS TOT_DES,
-                        SUM(e_costoContrato)  AS TOT_COS,
-                        SUM(e_moratorios)  AS TOT_MOR
-                        FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
-                        DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                             
-                        BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id_contrato ";
+                $count = "SELECT COUNT(id) as  totalCount,
+                        SUM(total)  AS TOT,
+                        SUM(totalPrestamo)  AS TOT_PRES,
+                        SUM(utilidad)  AS TOT_UTIL
+                        FROM contrato_mov_baz_tbl 
+                        WHERE sucursal=$sucursal AND tipo_movimiento=6 AND
+                        DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')                                
+                        BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id ";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
-                $jsondata["TOT_DES"] = $fila["TOT_DES"];
-                $jsondata["TOT_COS"] = $fila["TOT_COS"];
-                $jsondata["TOT_MOR"] = $fila["TOT_MOR"];
+                $jsondata["TOT"] = $fila["TOT"];
+                $jsondata["TOT_PRES"] = $fila["TOT_PRES"];
+                $jsondata["TOT_UTIL"] = $fila["TOT_UTIL"];
 
             } else {
-                $BusquedaQuery = "SELECT  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')  AS Movimiento,id_movimiento, id_contrato, tipo_movimiento,
-                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, e_moratorios
-                                    FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
-                                    DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                                
-                                    BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id_contrato 
+                $BusquedaQuery = "SELECT  DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')  AS Movimiento,id_Bazar, 
+                                    total,totalPrestamo,utilidad FROM contrato_mov_baz_tbl
+                                    WHERE sucursal=$sucursal AND tipo_movimiento=6 AND
+                                    DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')                                
+                                    BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id_Bazar 
                                     LIMIT " . $this->conexion->real_escape_string($limit) . " 
                                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while ($fila = $resultado->fetch_assoc()) {
                     $jsondataperson = array();
                     $jsondataperson["Movimiento"] = $fila["Movimiento"];
-                    $jsondataperson["id_movimiento"] = $fila["id_movimiento"];
-                    $jsondataperson["id_contrato"] = $fila["id_contrato"];
-                    $jsondataperson["tipo_movimiento"] = $fila["tipo_movimiento"];
-                    $jsondataperson["e_intereses"] = $fila["e_intereses"];
-                    $jsondataperson["e_iva"] = $fila["e_iva"];
-                    $jsondataperson["e_pagoDesempeno"] = $fila["e_pagoDesempeno"];
-                    $jsondataperson["e_costoContrato"] = $fila["e_costoContrato"];
-                    $jsondataperson["e_moratorios"] = $fila["e_moratorios"];
+                    $jsondataperson["id_Bazar"] = $fila["id_Bazar"];
+                    $jsondataperson["total"] = $fila["total"];
+                    $jsondataperson["totalPrestamo"] = $fila["totalPrestamo"];
+                    $jsondataperson["utilidad"] = $fila["utilidad"];
                     $jsondataList[] = $jsondataperson;
                 }
                 $jsondata["lista"] = array_values($jsondataList);

@@ -490,6 +490,7 @@ function buscarDatosContrato() {
                     //NUEVA NOTA
 
                     totalInteresNuevoNota = interesNuevoNota + moratoriosNuevoNota + interesAutoNuevoNota;
+                    totalInteresNuevoNota = Math.round(totalInteresNuevoNota * 100) / 100;
                     interesPagarNuevoNota = totalInteresNuevoNota;
                     totalPagarNuevoNota = totalInteresNuevoNota;
                     var saldoPendiente = prestamoNuevoNota;
@@ -746,11 +747,13 @@ function descuentoNuevo(e) {
 
                 $("#totalInteresNuevoNota").val(totalInteresDescuento);
                 $("#idIVAValue").val(ivaValue);
-                descuentoTabla();
+
                 if(descuento==0){
                     $("#idValidaToken").val(0);
                 }else{
                     $("#idValidaToken").val(1);
+                    descuentoTabla();
+
                 }
             } else {
                 alert("El descuento no puede ser mayor al interes.");
@@ -765,7 +768,8 @@ function descuentoNuevo(e) {
 }
 
 function descuentoTabla() {
-    var totalInteres = $("#totalInteresNuevoNota").val();
+    //var totalInteres = $("#totalInteresNuevoNota").val();
+    var totalInteres = $("#interesNuevoNota").val();
     var tasaTotal = $("#idTblTasa").val();
     totalInteres = Number(totalInteres);
     tasaTotal = Number(tasaTotal);

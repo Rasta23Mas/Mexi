@@ -6,13 +6,14 @@
 <table class="table table-hover table-condensed table-bordered letraChica" width="100%">
     <thead style="background: dodgerblue; color:white;">
     <tr align="center">
-        <th>CONTRATO</th>
+        <th>FECHA</th>
+        <th>VENTA</th>
         <th>PRESTAMO</th>
         <th>VENTA</th>
         <th>UTILIDAD</th>
     </tr>
     </thead>
-    <tbody id="idTBodyIngresos" class="letraChica" align="center">
+    <tbody id="idTBodyUtilidadVenta" class="letraChica" align="center">
     </tbody>
 </table>
 <table class="table table-hover table-condensed table-bordered letraChica" width="100%">
