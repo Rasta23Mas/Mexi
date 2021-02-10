@@ -226,7 +226,6 @@ function fnLlenarReporte() {
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
-
     var busqueda = 1;
     if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28 || tipoReporte == 31) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
@@ -446,16 +445,9 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalAbono').innerHTML = TOT_ABON;
                 document.getElementById('totalUtil').innerHTML = TOT_UTIL;
             } else if (tipoReporte == 30) {
-                var TOT_DES = data.TOT_DES;
-                var TOT_COS = data.TOT_COS;
-                var TOT_MOR = data.TOT_MOR;
-                TOT_DES = formatoMoneda(TOT_DES);
-                TOT_COS = formatoMoneda(TOT_COS);
-                TOT_MOR = formatoMoneda(TOT_MOR);
-                document.getElementById('totalDes').innerHTML = TOT_DES;
-                document.getElementById('totalCos').innerHTML = TOT_COS;
-                document.getElementById('totalMor').innerHTML = TOT_MOR;
+
             }else if (tipoReporte == 31) {
+
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
@@ -1307,7 +1299,6 @@ function exportar(expor) {
                 if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Compra.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 } else {
-                    alert("entra");
                     window.open('../PDF/callPdf_R_Compra.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
             } else if (tipoReporte == 9) {
@@ -1416,25 +1407,35 @@ function fnTBodyUtilidades(lista) {
     $.each(lista, function (ind, elem) {
         var tipo_mov = elem.tipo_movimiento;
         var moratorios = elem.e_moratorios;
+        var intereses = elem.e_intereses;
+        var iva = elem.e_iva;
+        var costoContrato = elem.e_costoContrato;
         moratorios = parseFloat(moratorios);
-
+        intereses = parseFloat(intereses);
+        iva = parseFloat(iva);
+        costoContrato = parseFloat(costoContrato);
         var tot_ref = 0;
         var tot_des = 0;
         if(tipo_mov==4){
-            var intereses = elem.e_intereses;
-            var iva = elem.e_iva;
-            intereses = parseFloat(intereses);
-            iva = parseFloat(iva);
-            tot_ref = intereses - iva;
-            tot_ref =  tot_ref + moratorios;
+
+
+            if(costoContrato==0){
+                tot_ref = intereses - iva;
+                tot_ref =  tot_ref + moratorios;
+            }else{
+                tot_ref = costoContrato;
+            }
+
 
         }else if(tipo_mov==5){
+            var intereses = elem.e_intereses;
+            var iva = elem.e_iva;
+            var iter = intereses - iva;
             var desempeno = elem.e_pagoDesempeno;
-            var costoContrato = elem.e_costoContrato;
+            var prestamo_Informativo = elem.prestamo_Informativo;
             desempeno = parseFloat(desempeno);
-            costoContrato = parseFloat(costoContrato);
-            tot_des = desempeno +costoContrato;
-            tot_des = tot_des + moratorios;
+            tot_des = desempeno +costoContrato + moratorios +iter;
+            tot_des = tot_des - prestamo_Informativo;
         }
         var tot_refMon = formatoMoneda(tot_ref);
         var tot_desMon = formatoMoneda(tot_des);

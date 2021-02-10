@@ -1065,23 +1065,17 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "SELECT COUNT(id_movimiento) as  totalCount,
-                        SUM(e_pagoDesempeno)  AS TOT_DES,
-                        SUM(e_costoContrato)  AS TOT_COS,
-                        SUM(e_moratorios)  AS TOT_MOR
+                $count = "SELECT COUNT(id_movimiento) as  totalCount
                         FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
                         DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                             
                         BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY fecha_Movimiento ";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
-                $jsondata["TOT_DES"] = $fila["TOT_DES"];
-                $jsondata["TOT_COS"] = $fila["TOT_COS"];
-                $jsondata["TOT_MOR"] = $fila["TOT_MOR"];
 
             } else {
                 $BusquedaQuery = "SELECT  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')  AS Movimiento,id_movimiento, id_contrato, tipo_movimiento,
-                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, e_moratorios
+                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, e_moratorios,prestamo_Informativo
                                     FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
                                     DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                                
                                     BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY fecha_Movimiento 
@@ -1099,6 +1093,7 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                     $jsondataperson["e_pagoDesempeno"] = $fila["e_pagoDesempeno"];
                     $jsondataperson["e_costoContrato"] = $fila["e_costoContrato"];
                     $jsondataperson["e_moratorios"] = $fila["e_moratorios"];
+                    $jsondataperson["prestamo_Informativo"] = $fila["prestamo_Informativo"];
                     $jsondataList[] = $jsondataperson;
                 }
                 $jsondata["lista"] = array_values($jsondataList);
@@ -1121,14 +1116,14 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
             $jsondata = array();
             if ($busqueda == 1) {
                 $count = "
-                        SELECT COUNT(id_Articulo) as  totalCount,
+                        SELECT COUNT(Con.id_contrato) as  totalCount,
                         SUM(Con.total_Prestamo)  AS TOT_PRESTAMO 
-                        FROM contratos_tbl AS Con 
+                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-                        AND Art.sucursal=$sucursal
+                        AND Con.sucursal =Art.sucursal
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
-     					AND Aut.sucursal=$sucursal
+     					 AND Con.sucursal =Aut.sucursal
                         WHERE DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') < CURDATE()  
                         AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
                         AND (id_cat_estatus!=20)
@@ -1153,9 +1148,9 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
                         LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-                        AND Art.sucursal=$sucursal
+                        AND Con.sucursal =Art.sucursal
      					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
-     					AND Aut.sucursal=$sucursal
+     					AND Con.sucursal =Aut.sucursal
                         WHERE DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') < CURDATE()  
                         AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
                         AND (id_cat_estatus!=20)

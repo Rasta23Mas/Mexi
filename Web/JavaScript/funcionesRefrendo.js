@@ -121,7 +121,6 @@ function estatusContrato() {
                         var Movimiento = datos[i].Movimiento;
                         var tipoMovimiento = datos[i].tipoMovimiento;
                         var estatusCon = datos[i].id_cat_estatus;
-                        alert(tipoMovimiento)
                         if (tipoMovimiento == 3 || tipoMovimiento == 4 || tipoMovimiento == 7 || tipoMovimiento == 8) {
                             tipoMovimientoGbl = tipoMovimiento;
                             var fechaAlmoneda = datos[i].fecha_almoneda;

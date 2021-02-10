@@ -96,7 +96,7 @@ foreach ($resultado as $row) {
     $NombreUsuario = $row["NombreUsuario"];
     $subTotal = $row["pag_subtotal"];
     $Total = $row["pag_total"];
-
+    $subTotal = $subTotal + $moratorios;
     //$subTotal = $abonoCapital + $intereses+ $almacenaje+$seguro+$desempeñoExt+$moratorios+$otrosCobros;
     $abonoCapital = round($abonoCapital, 2);
     $intereses = round($intereses, 2);
@@ -196,7 +196,7 @@ if($sucursal==1){
                         <table width="20%" border="0" class="letraNormalNegritaCantil">
                           <tr>
                     <td colspan="3" align="center">
-                        <label>TEST3 GAMA VAZQUEZ</label>
+                        <label>MIRIAM GAMA VAZQUEZ</label>
                     </td>
                 </tr>';
 }else{
