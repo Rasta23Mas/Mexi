@@ -8,7 +8,6 @@
     <tr align="center">
         <th>Fecha</th>
         <th>Fecha Mov.</th>
-        <th>Fecha Venc.</th>
         <th>Contrato</th>
         <th>Préstamo</th>
         <th>Intereses</th>
@@ -20,6 +19,7 @@
         <th>SubTotal</th>
         <th>Iva Int</th>
         <th>Total Cobrado</th>
+        <th>Total Utilidad</th>
     </tr>
     </thead>
     <tbody id="idTBodyRefrendo" class="letraChica" align="center">

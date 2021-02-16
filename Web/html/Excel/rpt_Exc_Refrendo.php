@@ -101,18 +101,18 @@ $spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
 $spreadsheet->getActiveSheet()
     ->setCellValue('A2', 'FECHA')
     ->setCellValue('B2', 'MOVIMIENTO')
-    ->setCellValue('C2', 'VENCIMIENTO')
-    ->setCellValue('D2', 'CONTRATO')
-    ->setCellValue('E2', 'PRÉSTAMO')
-    ->setCellValue('F2', 'INTERÉS')
-    ->setCellValue('G2', 'ALMACENAJE')
-    ->setCellValue('H2', 'SEGURO')
-    ->setCellValue('I2', 'ABONO')
-    ->setCellValue('J2', 'DESCUENTO')
-    ->setCellValue('K2', 'COSTO')
-    ->setCellValue('L2', 'SUBTOTAL')
-    ->setCellValue('M2', 'IVA')
-    ->setCellValue('N2', 'TOTAL')
+    ->setCellValue('C2', 'CONTRATO')
+    ->setCellValue('D2', 'PRÉSTAMO')
+    ->setCellValue('E2', 'INTERÉS')
+    ->setCellValue('F2', 'ALMACENAJE')
+    ->setCellValue('G2', 'SEGURO')
+    ->setCellValue('H2', 'ABONO')
+    ->setCellValue('I2', 'DESCUENTO')
+    ->setCellValue('J2', 'COSTO')
+    ->setCellValue('K2', 'SUBTOTAL')
+    ->setCellValue('L2', 'IVA')
+    ->setCellValue('M2', 'TOTAL')
+    ->setCellValue('N2', 'UTILIDAD')
     ->setCellValue('O2', 'TIPO');
 
 $spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
@@ -120,13 +120,12 @@ $spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptRef = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
-                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         ConM.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO, 
                         ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
                         ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
                         ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
-                         ConM.pag_subtotal,  ConM.pag_total
+                        ConM.pag_subtotal,  ConM.pag_total,ConM.e_intereses,ConM.e_moratorios
                         FROM contrato_mov_tbl AS ConM
                         INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
@@ -140,7 +139,7 @@ if($query->num_rows > 0) {
     while($row = $query->fetch_assoc()) {
         $Form = $row["FORMU"];
 
-        //$PRESTAMOFORM = "$100,000.00";
+
 
         $tipoArt = "";
         if($Form==1){
@@ -151,21 +150,32 @@ if($query->num_rows > 0) {
             $tipoArt = "AUTO";
         }
 
+        $CostoContrato = $row['COSTO'];
+        $moratorios = $row['e_moratorios'];
+        $e_intereses = $row['e_intereses'];
+        $iva = $row['IVA'];
+       if($CostoContrato==0){
+           $utilidad = $e_intereses - $iva;
+           $utilidad = $utilidad + $moratorios;
+        }else{
+           $utilidad =  $CostoContrato;
+       }
+
         $spreadsheet->getActiveSheet()
             ->setCellValue('A'.$i , $row['FECHA'])
             ->setCellValue('B'.$i , $row['FECHAMOV'])
-            ->setCellValue('C'.$i , $row['FECHAVEN'])
-            ->setCellValue('D'.$i , $row['CONTRATO'])
-            ->setCellValue('E'.$i , $row['PRESTAMO'])
-            ->setCellValue('F'.$i , $row['INTERESES'])
-            ->setCellValue('G'.$i , $row['ALMACENAJE'])
-            ->setCellValue('H'.$i , $row['SEGURO'])
-            ->setCellValue('I'.$i , $row['ABONO'])
-            ->setCellValue('J'.$i , $row['DESCU'])
-            ->setCellValue('K'.$i , $row['COSTO'])
-            ->setCellValue('L'.$i , $row['SUBTOTAL'])
-            ->setCellValue('M'.$i , $row['IVA'])
-            ->setCellValue('N'.$i , $row['TOTAL'])
+            ->setCellValue('C'.$i , $row['CONTRATO'])
+            ->setCellValue('D'.$i , $row['PRESTAMO'])
+            ->setCellValue('E'.$i , $row['INTERESES'])
+            ->setCellValue('F'.$i , $row['ALMACENAJE'])
+            ->setCellValue('G'.$i , $row['SEGURO'])
+            ->setCellValue('H'.$i , $row['ABONO'])
+            ->setCellValue('I'.$i , $row['DESCU'])
+            ->setCellValue('J'.$i , $CostoContrato)
+            ->setCellValue('K'.$i , $row['pag_subtotal'])
+            ->setCellValue('L'.$i , $iva)
+            ->setCellValue('M'.$i , $row['pag_total'])
+            ->setCellValue('N'.$i , $utilidad)
             ->setCellValue('O'.$i , $tipoArt);
 
         //set row style

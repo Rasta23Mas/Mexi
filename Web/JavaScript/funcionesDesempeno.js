@@ -121,13 +121,17 @@ function estatusContrato() {
                         var Movimiento = datos[i].Movimiento;
                         var tipoMovimiento = datos[i].tipoMovimiento;
                         var estatusCon = datos[i].id_cat_estatus;
-                        if (tipoMovimiento == 3 || tipoMovimiento == 4 || tipoMovimiento == 7 || tipoMovimiento == 8) {
+                        if (tipoMovimiento == "3" || tipoMovimiento == "4"
+                            || tipoMovimiento == "7" || tipoMovimiento == "8") {
                             tipoMovimientoGbl = tipoMovimiento;
                             var fechaAlmoneda = datos[i].fecha_almoneda;
-                            if(estatusCon == 3 || estatusCon == 4 ){
+                            if(estatusCon == "3" ){
+                                alert("El contrato no se puede refrendar por que ya desempeño.");
+                                cancelar();
+                            }else if(estatusCon == "4"){
                                 alert("El contrato no se puede refrendar por que ya esta en bazar.");
                                 cancelar();
-                            }else {
+                            }else{
                                 buscarCliente();
                                 buscarDatosContrato();
                                 if (tipoContrato == 1) {

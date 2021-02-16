@@ -774,6 +774,19 @@ function fnTBodyRefrendo(lista) {
         var costoCon = elem.COSTO;
         var subtotalCon = elem.pag_subtotal;
         var totalCon = elem.pag_total;
+        var interesesConIVA = elem.e_intereses;
+        var moratorios = elem.e_moratorios;
+        var totalUtil = 0;
+        interesesConIVA = parseFloat(interesesConIVA);
+        moratorios = parseFloat(moratorios);
+        ivaCon = parseFloat(ivaCon);
+        costoCon = parseFloat(costoCon);
+        if(costoCon==0) {
+            totalUtil = interesesConIVA - ivaCon;
+            totalUtil = totalUtil + moratorios;
+        }else{
+            totalUtil = costoCon;
+        }
         prestamoCon = formatoMoneda(prestamoCon);
         interesesCon = formatoMoneda(interesesCon);
         almacenajeCon = formatoMoneda(almacenajeCon);
@@ -784,10 +797,11 @@ function fnTBodyRefrendo(lista) {
         costoCon = formatoMoneda(costoCon);
         subtotalCon = formatoMoneda(subtotalCon);
         totalCon = formatoMoneda(totalCon);
+        totalUtil = formatoMoneda(totalUtil);
+
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
             "<td>" + elem.FECHAMOV + "</td>" +
-            "<td>" + elem.FECHAVEN + "</td>" +
             "<td>" + elem.CONTRATO + "</td>" +
             "<td align='right'>" + prestamoCon + "</td>" +
             "<td align='right'>" + interesesCon + "</td>" +
@@ -799,6 +813,7 @@ function fnTBodyRefrendo(lista) {
             "<td align='right'>" + costoCon + "</td>" +
             "<td align='right'>" + subtotalCon + "</td>" +
             "<td align='right'>" + totalCon + "</td>" +
+            "<td align='right'>" + totalUtil + "</td>" +
             "</tr>").appendTo($("#idTBodyRefrendo"));
     });
 }
