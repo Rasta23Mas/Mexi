@@ -174,7 +174,6 @@ class sqlReportesDAO
                         SUM(ConM.e_interes)  AS TOT_INTERES,
                         SUM(ConM.e_almacenaje)  AS TOT_ALM,
                         SUM(ConM.e_seguro)  AS TOT_SEG,
-                        SUM(ConM.e_abono)  AS TOT_ABONO,
                         SUM(ConM.s_descuento_aplicado)  AS TOT_DESC,
                         SUM(ConM.e_iva)  AS TOT_IVA,
                         SUM(ConM.e_costoContrato)  AS TOT_COSTO,
@@ -192,7 +191,6 @@ class sqlReportesDAO
                 $jsondata["TOT_INTERES"] = $fila["TOT_INTERES"];
                 $jsondata["TOT_ALM"] = $fila["TOT_ALM"];
                 $jsondata["TOT_SEG"] = $fila["TOT_SEG"];
-                $jsondata["TOT_ABONO"] = $fila["TOT_ABONO"];
                 $jsondata["TOT_DESC"] = $fila["TOT_DESC"];
                 $jsondata["TOT_IVA"] = $fila["TOT_IVA"];
                 $jsondata["TOT_COSTO"] = $fila["TOT_COSTO"];
@@ -202,13 +200,12 @@ class sqlReportesDAO
             } else {
                 $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
-                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         ConM.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO, 
                         ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
-                        ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
+                        ConM.e_seguro AS SEGURO,  ConM.e_pagoDesempeno as DES,ConM.s_descuento_aplicado as DESCU,
                         ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
-                         ConM.pag_subtotal,  ConM.pag_total
+                        ConM.pag_subtotal,  ConM.pag_total,ConM.e_intereses, ConM.e_moratorios,ConM.prestamo_Informativo
                         FROM contrato_mov_tbl AS ConM
                         INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
@@ -220,19 +217,21 @@ class sqlReportesDAO
                     $jsondataperson = array();
                     $jsondataperson["FECHA"] = $fila["FECHA"];
                     $jsondataperson["FECHAMOV"] = $fila["FECHAMOV"];
-                    $jsondataperson["FECHAVEN"] = $fila["FECHAVEN"];
                     $jsondataperson["CONTRATO"] = $fila["CONTRATO"];
                     $jsondataperson["PRESTAMO"] = $fila["PRESTAMO"];
                     $jsondataperson["INTERESES"] = $fila["INTERESES"];
                     $jsondataperson["ALMACENAJE"] = $fila["ALMACENAJE"];
                     $jsondataperson["SEGURO"] = $fila["SEGURO"];
-                    $jsondataperson["ABONO"] = $fila["ABONO"];
+                    $jsondataperson["DES"] = $fila["DES"];
                     $jsondataperson["DESCU"] = $fila["DESCU"];
                     $jsondataperson["IVA"] = $fila["IVA"];
                     $jsondataperson["COSTO"] = $fila["COSTO"];
                     $jsondataperson["FORMU"] = $fila["FORMU"];
                     $jsondataperson["pag_subtotal"] = $fila["pag_subtotal"];
                     $jsondataperson["pag_total"] = $fila["pag_total"];
+                    $jsondataperson["e_intereses"] = $fila["e_intereses"];
+                    $jsondataperson["e_moratorios"] = $fila["e_moratorios"];
+                    $jsondataperson["prestamo_Informativo"] = $fila["prestamo_Informativo"];
                     $jsondataList[] = $jsondataperson;
                 }
                 $jsondata["lista"] = array_values($jsondataList);

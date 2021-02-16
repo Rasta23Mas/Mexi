@@ -8,18 +8,17 @@
     <tr align="center">
         <th>Fecha</th>
         <th>Fecha Mov.</th>
-        <th>Fecha Venc.</th>
         <th>Contrato</th>
         <th>Préstamo</th>
         <th>Intereses</th>
         <th>Almacenaje</th>
         <th>Seguro</th>
-        <th>Abono Capital</th>
         <th>Desc</th>
         <th>Costo C</th>
         <th>SubTotal</th>
         <th>Iva Int</th>
         <th>Total Cobrado</th>
+        <th>Utilidad</th>
     </tr>
     </thead>
     <tbody id="idTBodyDesempeno" class="letraChica" align="center">
@@ -31,7 +30,6 @@
         <td align="right"><b>Total Intereses:<b>&nbsp;&nbsp; <label id="totaltInteres"></label></td>
         <td align="right"><b>Total Alm:<b>&nbsp;&nbsp; <label id="totalAlmacenaje"></label></td>
         <td align="right"><b>Total Seguro:<b>&nbsp;&nbsp; <label id="totalSeguro"></label></td>
-        <td align="right"><b>Total Abono:<b>&nbsp;&nbsp; <label id="totalAbono"></label></td>
         <td align="right"><b>Total Desc:<b>&nbsp;&nbsp; <label id="totalDescuento"></label></td>
         <td align="right"><b>Total Costo:<b>&nbsp;&nbsp; <label id="totalCosto"></label></td>
         <td align="right"><b>Total Subtotal:<b>&nbsp;&nbsp; <label id="totalSubtotal"></label></td>

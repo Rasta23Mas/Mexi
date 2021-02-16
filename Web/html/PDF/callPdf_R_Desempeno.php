@@ -71,35 +71,33 @@ $contenido .= '
                             <tr align="center">
                                 <th>Fecha</th>
         <th>Fecha Mov.</th>
-        <th>Fecha Venc.</th>
         <th>Contrato</th>
         <th>Préstamo</th>
         <th>Intereses</th>
         <th>Almacenaje</th>
         <th>Seguro</th>
-        <th>Abono Capital</th>
         <th>Desc</th>
         <th>Costo C</th>
         <th>SubTotal</th>
         <th>Iva Int</th>
         <th>Total Cobrado</th>
+        <th>Utilidad</th>
                             </tr>
                         </thead>
                         <tbody id="idTBodyHistorico"  align="center"> ';
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
-                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         ConM.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO, 
                         ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
-                        ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
+                        ConM.e_seguro AS SEGURO, ConM.e_pagoDesempeno as DES,ConM.s_descuento_aplicado as DESCU,
                         ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
-                         ConM.pag_subtotal,  ConM.pag_total
+                         ConM.pag_subtotal,  ConM.pag_total,ConM.e_intereses, ConM.e_moratorios,ConM.prestamo_Informativo
                         FROM contrato_mov_tbl AS ConM
                         INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 5 OR ConM.tipo_movimiento = 9 )  
-                        ORDER BY ConM.id_contrato ";
+                        ORDER BY ConM.id_contrato,ConM.id_contrato ";
 $resultado = $db->query($query);
 $tipoMetal = 0;
 $tipoElectro = 0;
@@ -109,30 +107,43 @@ $tablaArticulos = '';
 foreach ($resultado as $row) {
     $FECHA = $row["FECHA"];
     $FECHAMOV = $row["FECHAMOV"];
-    $FECHAVEN = $row["FECHAVEN"];
     $CONTRATO = $row["CONTRATO"];
     $PRESTAMO = $row["PRESTAMO"];
     $INTERESES = $row["INTERESES"];
     $ALMACENAJE = $row["ALMACENAJE"];
     $SEGURO = $row["SEGURO"];
-    $ABONO = $row["ABONO"];
     $DESC = $row["DESCU"];
-    $IVA = $row["IVA"];
-    $COSTO = $row["COSTO"];
+    $iva = $row["IVA"];
+    $CostoContrato = $row["COSTO"];
     $Form = $row["FORMU"];
     $SUBTOTAL = $row["pag_subtotal"];
     $TOTAL = $row["pag_total"];
+    $moratorios = $row['e_moratorios'];
+    $e_intereses = $row['e_intereses'];
+    $desempeno = $row['DES'];
+    $prestamo_Informativo = $row['prestamo_Informativo'];
+
+    if($CostoContrato==0){
+        $utilidad = $e_intereses - $iva;
+        $utilidad  = $utilidad + $moratorios;
+    }else{
+        $utilidad =  $CostoContrato;
+    }
+
+    $tot_des = $desempeno + $utilidad;
+    $tot_des = $tot_des - $prestamo_Informativo;
 
     $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
     $INTERESES = number_format($INTERESES, 2,'.',',');
     $ALMACENAJE = number_format($ALMACENAJE, 2,'.',',');
     $SEGURO = number_format($SEGURO, 2,'.',',');
-    $ABONO = number_format($ABONO, 2,'.',',');
     $DESC = number_format($DESC, 2,'.',',');
-    $IVA = number_format($IVA, 2,'.',',');
-    $COSTO = number_format($COSTO, 2,'.',',');
+    $iva = number_format($iva, 2,'.',',');
+    $CostoContrato = number_format($CostoContrato, 2,'.',',');
     $SUBTOTAL = number_format($SUBTOTAL, 2,'.',',');
     $TOTAL = number_format($TOTAL, 2,'.',',');
+    $tot_des = number_format($tot_des, 2,'.',',');
+
 
     if($Form==1){
         $tipoMetal++;
@@ -160,18 +171,17 @@ foreach ($resultado as $row) {
 
     $tablaArticulos .= '<tr><td >' . $FECHA . '</td>
                         <td>' . $FECHAMOV . '</td>
-                        <td>' . $FECHAVEN . '</td>
                         <td>' . $CONTRATO . '</td>
                         <td>' . $PRESTAMO . '</td>
                         <td>' . $INTERESES . '</td>
                         <td>' . $ALMACENAJE . '</td>
                         <td>' . $SEGURO . '</td>
-                        <td>' . $ABONO . '</td>
                         <td>' . $DESC . '</td>
                         <td>' . $COSTO . '</td>
                         <td>' . $SUBTOTAL . '</td>
                         <td>' . $IVA . '</td>
                         <td>' . $TOTAL . '</td>
+                         <td>' . $tot_des . '</td>
                         </tr>';
 }
 
@@ -185,7 +195,8 @@ $contenido .='
                         </tbody>
                         </table>';
 $contenido .= '</form></body></html>';
-
+//echo $contenido;
+//exit;
 $nombreContrato = 'Reporte_Desempeno.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);

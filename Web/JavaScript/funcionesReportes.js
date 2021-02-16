@@ -272,11 +272,11 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
             } else if (tipoReporte == 3) {
+                //DESEMPEÑO
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 var TOT_INTERES = data.TOT_INTERES;
                 var TOT_ALM = data.TOT_ALM;
                 var TOT_SEG = data.TOT_SEG;
-                var TOT_ABONO = data.TOT_ABONO;
                 var TOT_DESC = data.TOT_DESC;
                 var TOT_IVA = data.TOT_IVA;
                 var TOT_COSTO = data.TOT_COSTO;
@@ -286,7 +286,6 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 TOT_INTERES = formatoMoneda(TOT_INTERES);
                 TOT_ALM = formatoMoneda(TOT_ALM);
                 TOT_SEG = formatoMoneda(TOT_SEG);
-                TOT_ABONO = formatoMoneda(TOT_ABONO);
                 TOT_DESC = formatoMoneda(TOT_DESC);
                 TOT_IVA = formatoMoneda(TOT_IVA);
                 TOT_COSTO = formatoMoneda(TOT_COSTO);
@@ -296,13 +295,13 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totaltInteres').innerHTML = TOT_INTERES;
                 document.getElementById('totalAlmacenaje').innerHTML = TOT_ALM;
                 document.getElementById('totalSeguro').innerHTML = TOT_SEG;
-                document.getElementById('totalAbono').innerHTML = TOT_ABONO;
                 document.getElementById('totalDescuento').innerHTML = TOT_DESC;
                 document.getElementById('totalCosto').innerHTML = TOT_COSTO;
                 document.getElementById('totalSubtotal').innerHTML = TOT_SUB;
                 document.getElementById('totalIva').innerHTML = TOT_IVA;
                 document.getElementById('totalCobrado').innerHTML = TOT_TOTAL;
             } else if (tipoReporte == 4) {
+                //REFRENDOS
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 var TOT_INTERES = data.TOT_INTERES;
                 var TOT_ALM = data.TOT_ALM;
@@ -445,12 +444,12 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalApart').innerHTML = TOT_APAR;
                 document.getElementById('totalAbono').innerHTML = TOT_ABON;
                 document.getElementById('totalUtil').innerHTML = TOT_UTIL;
-            }else if (tipoReporte == 31) {
+            } else if (tipoReporte == 31) {
 
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
-            }else if (tipoReporte == 32) {
+            } else if (tipoReporte == 32) {
                 var TOT = data.TOT;
                 var TOT_PRES = data.TOT_PRES;
                 var TOT_UTIL = data.TOT_UTIL;
@@ -726,37 +725,53 @@ function fnTBodyDesempeno(lista) {
         var interesesCon = elem.INTERESES;
         var almacenajeCon = elem.ALMACENAJE;
         var seguroCon = elem.SEGURO;
-        var abonoCon = elem.ABONO;
+        var desempeno = elem.DES;
         var descuCon = elem.DESCU;
         var ivaCon = elem.IVA;
         var costoCon = elem.COSTO;
         var subtotalCon = elem.pag_subtotal;
         var totalCon = elem.pag_total;
+        var intereses = elem.e_intereses;
+        var moratorios = elem.e_moratorios;
+        var prestamo_Informativo = elem.prestamo_Informativo;
+        var tot_inter = 0;
+        if (costoCon == 0) {
+            tot_inter = intereses - ivaCon;
+        } else {
+            tot_inter = costoCon;
+        }
+        desempeno = parseFloat(desempeno);
+        prestamo_Informativo = parseFloat(prestamo_Informativo);
+        moratorios = parseFloat(moratorios);
+        prestamo_Informativo = parseFloat(prestamo_Informativo);
+        tot_inter = parseFloat(tot_inter);
+        var tot_des = desempeno + tot_inter + moratorios;
+        tot_des = tot_des - prestamo_Informativo;
         prestamoCon = formatoMoneda(prestamoCon);
         interesesCon = formatoMoneda(interesesCon);
         almacenajeCon = formatoMoneda(almacenajeCon);
         seguroCon = formatoMoneda(seguroCon);
-        abonoCon = formatoMoneda(abonoCon);
         descuCon = formatoMoneda(descuCon);
         ivaCon = formatoMoneda(ivaCon);
         costoCon = formatoMoneda(costoCon);
         subtotalCon = formatoMoneda(subtotalCon);
         totalCon = formatoMoneda(totalCon);
+        tot_des = formatoMoneda(tot_des);
+
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
             "<td>" + elem.FECHAMOV + "</td>" +
-            "<td>" + elem.FECHAVEN + "</td>" +
             "<td>" + elem.CONTRATO + "</td>" +
             "<td align='right'>" + prestamoCon + "</td>" +
             "<td align='right'>" + interesesCon + "</td>" +
             "<td align='right'>" + almacenajeCon + "</td>" +
             "<td align='right'>" + seguroCon + "</td>" +
-            "<td align='right'>" + abonoCon + "</td>" +
             "<td align='right'>" + descuCon + "</td>" +
             "<td align='right'>" + ivaCon + "</td>" +
             "<td align='right'>" + costoCon + "</td>" +
             "<td align='right'>" + subtotalCon + "</td>" +
             "<td align='right'>" + totalCon + "</td>" +
+            "<td align='right'>" + tot_des + "</td>" +
             "</tr>").appendTo($("#idTBodyDesempeno"));
     });
 }
@@ -781,10 +796,10 @@ function fnTBodyRefrendo(lista) {
         moratorios = parseFloat(moratorios);
         ivaCon = parseFloat(ivaCon);
         costoCon = parseFloat(costoCon);
-        if(costoCon==0) {
+        if (costoCon == 0) {
             totalUtil = interesesConIVA - ivaCon;
             totalUtil = totalUtil + moratorios;
-        }else{
+        } else {
             totalUtil = costoCon;
         }
         prestamoCon = formatoMoneda(prestamoCon);
@@ -1436,25 +1451,31 @@ function fnTBodyUtilidades(lista) {
         costoContrato = parseFloat(costoContrato);
         var tot_ref = 0;
         var tot_des = 0;
-        if(tipo_mov==4){
+        if (tipo_mov == 4) {
 
 
-            if(costoContrato==0){
+            if (costoContrato == 0) {
                 tot_ref = intereses - iva;
-                tot_ref =  tot_ref + moratorios;
-            }else{
+                tot_ref = tot_ref + moratorios;
+            } else {
                 tot_ref = costoContrato;
             }
 
 
-        }else if(tipo_mov==5){
+        } else if (tipo_mov == 5) {
             var intereses = elem.e_intereses;
             var iva = elem.e_iva;
-            var iter = intereses - iva;
             var desempeno = elem.e_pagoDesempeno;
             var prestamo_Informativo = elem.prestamo_Informativo;
+            var tot_inter = 0;
+            if (costoContrato == 0) {
+                tot_inter = intereses - iva;
+            } else {
+                tot_inter = costoContrato;
+            }
             desempeno = parseFloat(desempeno);
-            tot_des = desempeno +costoContrato + moratorios +iter;
+            tot_inter = parseFloat(tot_inter);
+            tot_des = desempeno + tot_inter + moratorios;
             tot_des = tot_des - prestamo_Informativo;
         }
         var tot_refMon = formatoMoneda(tot_ref);

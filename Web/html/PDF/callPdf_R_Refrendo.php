@@ -73,7 +73,6 @@ $contenido .= '
                             <tr align="center">
                                 <th>Fecha</th>
         <th>Fecha Mov.</th>
-        <th>Fecha Venc.</th>
         <th>Contrato</th>
         <th>Préstamo</th>
         <th>Intereses</th>
@@ -85,23 +84,23 @@ $contenido .= '
         <th>SubTotal</th>
         <th>Iva Int</th>
         <th>Total Cobrado</th>
+        <th>Utilidad</th>
                             </tr>
                         </thead>
                         <tbody id="idTBodyHistorico"  align="center"> ';
 $query = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
-                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         ConM.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO, 
                         ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
                         ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
                         ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
-                         ConM.pag_subtotal,  ConM.pag_total
+                         ConM.pag_subtotal,  ConM.pag_total,ConM.e_intereses,ConM.e_moratorios
                         FROM contrato_mov_tbl AS ConM
                         INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
                         AND ConM.sucursal = $sucursal AND ( ConM.tipo_movimiento = 4 OR ConM.tipo_movimiento = 8 )  
-                        ORDER BY ConM.id_contrato";
+                        ORDER BY Con.id_Formulario,ConM.id_contrato";
 $resultado = $db->query($query);
 $tipoMetal = 0;
 $tipoElectro = 0;
@@ -111,7 +110,6 @@ $tablaArticulos = '';
 foreach ($resultado as $row) {
     $FECHA = $row["FECHA"];
     $FECHAMOV = $row["FECHAMOV"];
-    $FECHAVEN = $row["FECHAVEN"];
     $CONTRATO = $row["CONTRATO"];
     $PRESTAMO = $row["PRESTAMO"];
     $INTERESES = $row["INTERESES"];
@@ -125,6 +123,15 @@ foreach ($resultado as $row) {
     $IVA = $row["IVA"];
     $TOTAL = $row["pag_total"];
 
+    $e_intereses = $row["e_intereses"];
+    $moratorios = $row["e_moratorios"];
+    if($COSTO==0){
+        $utilidad = $e_intereses - $IVA;
+        $utilidad = $utilidad + $moratorios;
+    }else{
+        $utilidad = $COSTO;
+    }
+
     $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
     $INTERESES = number_format($INTERESES, 2,'.',',');
     $ALMACENAJE = number_format($ALMACENAJE, 2,'.',',');
@@ -135,6 +142,7 @@ foreach ($resultado as $row) {
     $COSTO = number_format($COSTO, 2,'.',',');
     $SUBTOTAL = number_format($SUBTOTAL, 2,'.',',');
     $TOTAL = number_format($TOTAL, 2,'.',',');
+    $utilidad = number_format($utilidad, 2,'.',',');
 
     if($Form==1){
         $tipoMetal++;
@@ -162,7 +170,6 @@ foreach ($resultado as $row) {
 
     $tablaArticulos .= '<tr><td >' . $FECHA . '</td>
                         <td>' . $FECHAMOV . '</td>
-                        <td>' . $FECHAVEN . '</td>
                         <td>' . $CONTRATO . '</td>
                         <td>' . $PRESTAMO . '</td>
                         <td>' . $INTERESES . '</td>
@@ -174,6 +181,7 @@ foreach ($resultado as $row) {
                         <td>' . $SUBTOTAL . '</td>
                         <td>' . $IVA . '</td>
                         <td>' . $TOTAL . '</td>
+                        <td>' . $utilidad . '</td>
                         </tr>';
 }
 

@@ -73,7 +73,7 @@ $spreadsheet->getActiveSheet()
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading
-$spreadsheet->getActiveSheet()->mergeCells("A1:O1");
+$spreadsheet->getActiveSheet()->mergeCells("A1:N1");
 
 // set font style
 $spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(13);
@@ -95,38 +95,35 @@ $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(20);
 $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(20);
 $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
 $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
-$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
 
 
 $spreadsheet->getActiveSheet()
     ->setCellValue('A2', 'FECHA')
     ->setCellValue('B2', 'MOVIMIENTO')
-    ->setCellValue('C2', 'VENCIMIENTO')
-    ->setCellValue('D2', 'CONTRATO')
-    ->setCellValue('E2', 'PRÉSTAMO')
-    ->setCellValue('F2', 'INTERÉS')
-    ->setCellValue('G2', 'ALMACENAJE')
-    ->setCellValue('H2', 'SEGURO')
-    ->setCellValue('I2', 'ABONO')
-    ->setCellValue('J2', 'DESCUENTO')
-    ->setCellValue('K2', 'COSTO')
-    ->setCellValue('L2', 'SUBTOTAL')
-    ->setCellValue('M2', 'IVA')
-    ->setCellValue('N2', 'TOTAL')
-    ->setCellValue('O2', 'TIPO');
+    ->setCellValue('C2', 'CONTRATO')
+    ->setCellValue('D2', 'PRÉSTAMO')
+    ->setCellValue('E2', 'INTERÉS')
+    ->setCellValue('F2', 'ALMACENAJE')
+    ->setCellValue('G2', 'SEGURO')
+    ->setCellValue('H2', 'DESCUENTO')
+    ->setCellValue('I2', 'COSTO')
+    ->setCellValue('J2', 'SUBTOTAL')
+    ->setCellValue('K2', 'IVA')
+    ->setCellValue('L2', 'TOTAL')
+    ->setCellValue('M2', 'UTILIDAD')
+    ->setCellValue('N2', 'TIPO');
 
-$spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
+$spreadsheet->getActiveSheet()->getStyle('A2:N2')->applyFromArray($tableHead);
 
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptRef = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') AS FECHAMOV,
-                        DATE_FORMAT(ConM.fechaVencimiento,'%Y-%m-%d') AS FECHAVEN, 
                         ConM.id_contrato AS CONTRATO,
                         Con.total_Prestamo AS PRESTAMO, 
                         ConM.e_interes AS INTERESES,  ConM.e_almacenaje AS ALMACENAJE, 
-                        ConM.e_seguro AS SEGURO,  ConM.e_abono as ABONO,ConM.s_descuento_aplicado as DESCU,
+                        ConM.e_seguro AS SEGURO, ConM.e_pagoDesempeno as DES,ConM.s_descuento_aplicado as DESCU,
                         ConM.e_iva as IVA, ConM.e_costoContrato AS COSTO, Con.id_Formulario as FORMU,
-                         ConM.pag_subtotal,  ConM.pag_total
+                         ConM.pag_subtotal,  ConM.pag_total,ConM.e_intereses, ConM.e_moratorios,ConM.prestamo_Informativo
                         FROM contrato_mov_tbl AS ConM
                         INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
@@ -151,30 +148,45 @@ if($query->num_rows > 0) {
             $tipoArt = "AUTO";
         }
 
+        $CostoContrato = $row['COSTO'];
+        $moratorios = $row['e_moratorios'];
+        $e_intereses = $row['e_intereses'];
+        $desempeno = $row['DES'];
+        $iva = $row['IVA'];
+        $prestamo_Informativo = $row['prestamo_Informativo'];
+        if($CostoContrato==0){
+            $utilidad = $e_intereses - $iva;
+            $utilidad  = $utilidad + $moratorios;
+        }else{
+            $utilidad =  $CostoContrato;
+        }
+
+        $tot_des = $desempeno + $utilidad;
+        $tot_des = $tot_des - $prestamo_Informativo;
+
         $spreadsheet->getActiveSheet()
             ->setCellValue('A'.$i , $row['FECHA'])
             ->setCellValue('B'.$i , $row['FECHAMOV'])
-            ->setCellValue('C'.$i , $row['FECHAVEN'])
-            ->setCellValue('D'.$i , $row['CONTRATO'])
-            ->setCellValue('E'.$i , $row['PRESTAMO'])
-            ->setCellValue('F'.$i , $row['INTERESES'])
-            ->setCellValue('G'.$i , $row['ALMACENAJE'])
-            ->setCellValue('H'.$i , $row['SEGURO'])
-            ->setCellValue('I'.$i , $row['ABONO'])
-            ->setCellValue('J'.$i , $row['DESCU'])
-            ->setCellValue('K'.$i , $row['COSTO'])
-            ->setCellValue('L'.$i , $row['SUBTOTAL'])
-            ->setCellValue('M'.$i , $row['IVA'])
-            ->setCellValue('N'.$i , $row['TOTAL'])
-            ->setCellValue('O'.$i , $tipoArt);
+            ->setCellValue('C'.$i , $row['CONTRATO'])
+            ->setCellValue('D'.$i , $row['PRESTAMO'])
+            ->setCellValue('E'.$i , $row['INTERESES'])
+            ->setCellValue('F'.$i , $row['ALMACENAJE'])
+            ->setCellValue('G'.$i , $row['SEGURO'])
+            ->setCellValue('H'.$i , $row['DESCU'])
+            ->setCellValue('I'.$i , $CostoContrato)
+            ->setCellValue('J'.$i , $row['pag_subtotal'])
+            ->setCellValue('K'.$i ,$iva)
+            ->setCellValue('L'.$i , $row['pag_total'])
+            ->setCellValue('M'.$i , $tot_des)
+            ->setCellValue('N'.$i , $tipoArt);
 
         //set row style
         if ($i % 2 == 0) {
             //even row
-            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':O' . $i)->applyFromArray($evenRow);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':N' . $i)->applyFromArray($evenRow);
         } else {
             //odd row
-            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':O' . $i)->applyFromArray($oddRow);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':N' . $i)->applyFromArray($oddRow);
         }
         $i++;
     }
@@ -195,15 +207,14 @@ if($query->num_rows > 0) {
         ->setCellValue('K'.$i , "")
         ->setCellValue('L'.$i , "")
         ->setCellValue('M'.$i , "")
-        ->setCellValue('N'.$i , "")
-        ->setCellValue('O'.$i , "");
-    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':O' . $i)->applyFromArray($evenRow);
+        ->setCellValue('N'.$i , "");
+    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':N' . $i)->applyFromArray($evenRow);
 
 }
 
 $firstRow = 2;
 $lastRow = $i - 1;
-$spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":O" . $lastRow);
+$spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":N" . $lastRow);
 
 
 $filename = 'Reporte_Desempeno';
