@@ -27,7 +27,7 @@ $query = "SELECT CSUC.NombreCasa, CSUC.Nombre,CSUC.direccion, CSUC.telefono,CSUC
              LEFT JOIN cat_sucursal CSUC ON COM.sucursal=CSUC.id_Sucursal 
              LEFT JOIN cat_vendedores AS Ven on COM.idVendedorArt = Ven.id_Vendedor 
              LEFT JOIN usuarios_tbl as USU on COM.usuario = USU.id_User 
-            WHERE id_Compra=$idContratoCompra ";
+            WHERE id_Compra=$idContratoCompra and COM.sucursal=$sucursal";
 $resultado = $db->query($query);
 $descripcionCorta = "";
 $observaciones = "";
@@ -59,7 +59,7 @@ $Fecha_Creacion = date("d-m-Y", strtotime($fecha_Modificacion));
 $tablaArticulos = '';
 
 $query = "SELECT Art.id_serie, Art.descripcionCorta,Art.vitrinaVenta FROM articulo_bazar_tbl AS Art
-                WHERE id_Contrato = $idContratoCompra";
+                WHERE id_Contrato = $idContratoCompra and sucursal=$sucursal and id_serieTipo=2";
 $tablaArt = $db->query($query);
 
 foreach ($tablaArt as $row) {
