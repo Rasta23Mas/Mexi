@@ -178,7 +178,7 @@ class sqlUsuarioDAO
 
                         } else {
                             //La sucursal ya cerro operaciones
-                            if($usuario==2){
+                            if($tipoUser==2){
                                 $_SESSION['idCierreSucursal'] = $idCierreSucursal;
                                 $_SESSION['idCierreCaja'] = 0;
                                 $Validar = 1;
@@ -337,7 +337,7 @@ class sqlUsuarioDAO
 
                     } else {
                         //La sucursal ya cerro operaciones
-                        if($usuario==2){
+                        if($tipoUser==2){
                             $_SESSION['idCierreSucursal'] = $idCierreSucursal;
                             $_SESSION['idCierreCaja'] = 0;
                             $Validar = 1;
