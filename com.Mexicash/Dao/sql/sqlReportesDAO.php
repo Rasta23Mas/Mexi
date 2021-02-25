@@ -261,7 +261,7 @@ class sqlReportesDAO
                         SUM(ConM.e_iva)  AS TOT_IVA,
                         SUM(ConM.e_costoContrato)  AS TOT_COSTO,
                         SUM(ConM.pag_subtotal)  AS TOT_SUB,
-                        SUM(ConM.pag_total)  AS TOT_TOTAL,
+                        SUM(ConM.pag_total)  AS TOT_TOTAL
                         FROM contrato_mov_tbl AS ConM
                         INNER JOIN contratos_tbl AS Con ON ConM.id_contrato = Con.id_Contrato AND Con.sucursal=$sucursal
                         WHERE DATE_FORMAT(ConM.fecha_Movimiento,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin'
@@ -337,7 +337,7 @@ class sqlReportesDAO
                 $count = "SELECT COUNT(Baz.id_Contrato) as  totalCount,
                         SUM(vitrinaVenta)  AS TOT_VENTAS  
                         FROM articulo_bazar_tbl as Baz
-                        WHERE tipo_movimiento!= 6 and Baz.sucursal=$sucursal";
+                        WHERE (tipo_movimiento= 24||tipo_movimiento=23||tipo_movimiento=22) and Baz.sucursal=$sucursal";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
@@ -349,7 +349,7 @@ class sqlReportesDAO
        vitrinaVenta AS precio_venta, 
                         descripcionCorta as Detalle
                         FROM articulo_bazar_tbl as Baz
-                        WHERE tipo_movimiento!= 6 AND Baz.sucursal=$sucursal
+                        WHERE (tipo_movimiento= 24||tipo_movimiento=23||tipo_movimiento=22) AND Baz.sucursal=$sucursal
                         LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);

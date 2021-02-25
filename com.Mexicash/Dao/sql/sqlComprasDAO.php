@@ -23,16 +23,21 @@ class sqlComprasDAO
     //Busqueda de Contrato
     function sqlBuscarIdBazarCompras()
     {
-        $idBazar = 0;
+        $datos = array();
         //Modifique los estatus de usuario
         try {
             $sucursal = $_SESSION["sucursal"];
             $idCierreCaja = $_SESSION['idCierreCaja'];
-            $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND sucursal=$sucursal";
+            $buscar = "SELECT id,id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND sucursal=$sucursal";
             $statement = $this->conexion->query($buscar);
             if ($statement->num_rows > 0) {
-                $fila = $statement->fetch_object();
-                $idCompra = $fila->id_Compra;
+                while ($row = $statement->fetch_assoc()) {
+                    $data = [
+                        "id" => $row["id"],
+                        "id_Compra" => $row["id_Compra"]
+                    ];
+                    array_push($datos, $data);
+                }
             } else {
                 $fechaCreacion = date('Y-m-d H:i:s');
 
@@ -54,14 +59,17 @@ class sqlComprasDAO
                         VALUES ($IdCompraMax,0,$idCierreCaja,$sucursal,'$fechaCreacion',$usuario)";
                 if ($ps = $this->conexion->prepare($insertaCarrito)) {
                     if ($ps->execute()) {
-                        $buscar = "SELECT id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND sucursal=$sucursal";
+                        $buscar = "SELECT id,id_Compra FROM contrato_mov_com_tbl WHERE tipo_movimiento=0 AND sucursal=$sucursal";
                         $statement = $this->conexion->query($buscar);
                         if ($statement->num_rows > 0) {
-                            $fila = $statement->fetch_object();
-                            $idCompra = $fila->id_Compra;
+                            while ($row = $statement->fetch_assoc()) {
+                                $data = [
+                                    "id" => $row["id"],
+                                    "id_Compra" => $row["id_Compra"]
+                                ];
+                                array_push($datos, $data);
+                            }
                         }
-                    } else {
-                        $idCompra = 0;
                     }
                 }
             }
@@ -70,10 +78,10 @@ class sqlComprasDAO
         } finally {
             $this->db->closeDB();
         }
-        echo $idCompra;
+        echo json_encode($datos);
     }
 
-    function sqlGuardarCompra($tipoMovimiento,$idVendedor,$subTotal,$iva,$total,$efectivo,$cambio,$idContratoCompra)
+    function sqlGuardarCompra($tipoMovimiento,$idVendedor,$subTotal,$iva,$total,$efectivo,$cambio,$idContratoCompra,$idCompraGlb)
     {
         // TODO: Implement guardaCiente() method.
         try {
@@ -83,7 +91,7 @@ class sqlComprasDAO
 
             $updateContratoBaz = "UPDATE contrato_mov_com_tbl SET tipo_movimiento = $tipoMovimiento,idVendedorArt=$idVendedor, subTotal=$subTotal,
                                 iva=$iva,total=$total,efectivo=$efectivo,cambio=$cambio
-                                WHERE id_Compra=$idContratoCompra";
+                                WHERE id=$idCompraGlb AND  sucursal=$sucursal  ";
             if ($ps = $this->conexion->prepare($updateContratoBaz)) {
                 if ($ps->execute()) {
                     $updateBitVentas = "UPDATE articulo_bazar_tbl SET id_Contrato = $idContratoCompra

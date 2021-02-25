@@ -10,7 +10,7 @@ $total = $_POST['total'];
 $efectivo = $_POST['efectivo'];
 $cambio = $_POST['cambio'];
 $idContratoCompra = $_POST['idContratoCompra'];
-
+$idCompraGlb = $_POST['idCompraGlb'];
 
 $sqlCompra = new sqlComprasDAO();
-$sqlCompra->sqlGuardarCompra($tipoMovimiento,$idVendedor,$subTotal,$iva,$total,$efectivo,$cambio,$idContratoCompra);
+$sqlCompra->sqlGuardarCompra($tipoMovimiento,$idVendedor,$subTotal,$iva,$total,$efectivo,$cambio,$idContratoCompra,$idCompraGlb);

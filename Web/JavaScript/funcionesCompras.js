@@ -9,6 +9,7 @@ var sucursalGlb = 0;
 var efectivoGlb = 0;
 var cambioGlb = -1;
 var idContratoCompraGlb = 0;
+var idCompraGlb = 0;
 var idTokenGlb = 0;
 var idTokenDescGlb = 0;
 var tipoMovimientoGlb = 0;
@@ -20,12 +21,18 @@ function fnBuscaridBazarCompras(sucursal) {
     $.ajax({
         url: '../../../com.Mexicash/Controlador/Compras/ConBuscarIdCompras.php',
         type: 'post',
-        success: function (respuesta) {
-            if (respuesta == 0) {
+        dataType: "json",
+        success: function (datos) {
+            if (datos.length == 0) {
                 location.reload()
             } else {
-                idContratoCompraGlb = respuesta;
-                idContratoCompraGlb = parseInt(idContratoCompraGlb)
+                var i = 0;
+                for (i; i < datos.length; i++) {
+                    idCompraGlb = datos[i].id;
+                    idContratoCompraGlb = datos[i].id_Compra;
+                    idCompraGlb = parseInt(idCompraGlb)
+                    idContratoCompraGlb = parseInt(idContratoCompraGlb)
+                }
             }
         },
     })
@@ -272,6 +279,7 @@ function fnAgregarArtCompra() {
         if (vitrina !== "") {
             var formElectronico = $("#idTipoElectronico").val();
             var formMetal = $("#idTipoMetal").val();
+            var precioCompra = $("#idPrecioCompra").val();
             if (formMetal !== 0 || formElectronico !== 0) {
                 var idSucursalSerie = "0" + sucursalGlb;
                 if (formMetal > 0) {
@@ -281,60 +289,68 @@ function fnAgregarArtCompra() {
                         alertify.error("Favor de agregar la descripción de la prenda.");
                     } else {
                         //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
-
-                        idArticuloGlb++;
-                        var idArticulo = String(idArticuloGlb);
-                        idArticulo = idArticulo.padStart(2, "0");
-                        var idContratoSerie = String(idContratoCompraGlb);
-                        idContratoSerie = idContratoSerie.padStart(6, "0");
-                        var descTipoMetal = $('select[name="cmbTipoMetal"] option:selected').text();
-                        var descKilataje = $('select[name="cmbKilataje"] option:selected').text();
-                        var descCalidad = $('select[name="cmbCalidad"] option:selected').text();
-                        var descDetalle = $("#idDetallePrenda").val();
-                        var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + " " + descDetalle;
-                        var id_serieTipo = 2;
-                        var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
-
-                        var dataEnviar = {
-                            "idTipoEnviar": 1,
-                            "idTipoMetal": formMetal,
-                            "idKilataje": $("#idKilataje").val(),
-                            "idCalidad": $("#idCalidad").val(),
-                            "idCantidad": $("#idCantidad").val(),
-                            "idPeso": $("#idPeso").val(),
-                            "idPesoPiedra": $("#idPesoPiedra").val(),
-                            "idPiedras": $("#idPiedras").val(),
-                            "idVitrina": $("#idVitrina").val(),
-                            "idPrecioCompra": $("#idPrecioCompra").val(),
-                            "idObs": $("#idObs").val(),
-                            "idDetallePrenda": $("#idDetallePrenda").val(),
-                            "idContrato": 0,
-                            "SerieBazar": SerieBazar,
-                            "id_serieTipo": id_serieTipo,
-                            "tipo_movimiento": tipoMovimientoGlb,
-                            "descripcionCorta": descripcionCorta,
-                        };
-                        $.ajax({
-                            data: dataEnviar,
-                            url: '../../../com.Mexicash/Controlador/Compras/ConArticuloCompra.php',
-                            type: 'post',
-                            success: function (response) {
-                                if (response == 1) {
-                                    fnCargarArticulos();
-                                    fnLimpiarSinResetearIdArticulo();
-                                    alertify.success("Articulo agregado exitosamente.");
-                                } else {
-                                    alertify.error("Error al agregar articulo.");
-                                }
-                            },
-                        })
+                        if (precioCompra == "") {
+                            alertify.error("Favor de agregar precio de la compra.");
+                        } else {
+                            idArticuloGlb++;
+                            var idArticulo = String(idArticuloGlb);
+                            idArticulo = idArticulo.padStart(2, "0");
+                            var idContratoSerie = String(idContratoCompraGlb);
+                            idContratoSerie = idContratoSerie.padStart(6, "0");
+                            var descTipoMetal = $('select[name="cmbTipoMetal"] option:selected').text();
+                            var descKilataje = $('select[name="cmbKilataje"] option:selected').text();
+                            var descCalidad = $('select[name="cmbCalidad"] option:selected').text();
+                            var descDetalle = $("#idDetallePrenda").val();
+                            var descripcionCorta = descTipoMetal + " " + descKilataje + " " + descCalidad + " " + descDetalle;
+                            var id_serieTipo = 2;
+                            var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
+                            var dataEnviar = {
+                                "idTipoEnviar": 1,
+                                "idTipoMetal": formMetal,
+                                "idKilataje": $("#idKilataje").val(),
+                                "idCalidad": $("#idCalidad").val(),
+                                "idCantidad": $("#idCantidad").val(),
+                                "idPeso": $("#idPeso").val(),
+                                "idPesoPiedra": $("#idPesoPiedra").val(),
+                                "idPiedras": $("#idPiedras").val(),
+                                "idVitrina": $("#idVitrina").val(),
+                                "idPrecioCompra": precioCompra,
+                                "idObs": $("#idObs").val(),
+                                "idDetallePrenda": $("#idDetallePrenda").val(),
+                                "idContrato": 0,
+                                "SerieBazar": SerieBazar,
+                                "id_serieTipo": id_serieTipo,
+                                "tipo_movimiento": tipoMovimientoGlb,
+                                "descripcionCorta": descripcionCorta,
+                            };
+                            $.ajax({
+                                data: dataEnviar,
+                                url: '../../../com.Mexicash/Controlador/Compras/ConArticuloCompra.php',
+                                type: 'post',
+                                success: function (response) {
+                                    alert(response)
+                                    if (response == 1) {
+                                        fnCargarArticulos();
+                                        fnLimpiarSinResetearIdArticulo();
+                                        alertify.success("Articulo agregado exitosamente.");
+                                    } else {
+                                        alertify.error("Error al agregar articulo.");
+                                    }
+                                },
+                            })
+                        }
                     }
+                }
 
-                } else if (formElectronico > 0) {
-                    var detalle = $("#detallePrendaE").val();
-                    tipoMovimientoGlb = 29;
-                    if (detalle == "") {
-                        alertify.error("Favor de agregar la descripción de la prenda.");
+
+            } else if (formElectronico > 0) {
+                var detalle = $("#detallePrendaE").val();
+                tipoMovimientoGlb = 29;
+                if (detalle == "") {
+                    alertify.error("Favor de agregar la descripción de la prenda.");
+                } else {
+                    if (precioCompra == "") {
+                        alertify.error("Favor de agregar precio de la compra.");
                     } else {
                         idArticuloGlb++;
 
@@ -386,10 +402,10 @@ function fnAgregarArtCompra() {
                             },
                         })
                     }
-                } else {
-                    alertify.error("Por Favor. Selecciona un tipo de articulo.");
-                }
 
+                }
+            } else {
+                alertify.error("Por Favor. Selecciona un tipo de articulo.");
             }
         } else {
             alertify.error("Por Favor. Ingresa precio vitrina.");
@@ -800,7 +816,7 @@ function cmbModeloVEmpeFromModal(tipoId, marcaId) {
 }
 
 function fnValidaciones() {
-  $("#modalCompras").modal();
+    $("#modalCompras").modal();
 }
 
 function fnTokenCompras() {
@@ -839,15 +855,17 @@ function fnTokenCompras() {
 //Genera contrato
 function fnGenerarCompra() {
     //FEErr01
+    alert(idCompraGlb)
     var dataEnviar = {
         "tipoMovimiento": tipoMovimientoGlb,
         "idVendedor": $("#idVendedor").val(),
         "subTotal": subTotalGlb,
         "iva": ivaGlb,
         "total": totalGlb,
-        "efectivo":efectivoGlb,
+        "efectivo": efectivoGlb,
         "cambio": cambioGlb,
         "idContratoCompra": idContratoCompraGlb,
+        "idCompraGlb": idCompraGlb,
     };
     $.ajax({
         data: dataEnviar,
@@ -856,7 +874,7 @@ function fnGenerarCompra() {
         success: function (contrato) {
             if (contrato > 0) {
                 fnUpdateTokenCom();
-                fnCierreCajaIndispensable(1,0,0);
+                fnCierreCajaIndispensable(1, 0, 0);
 
             } else {
                 alertify.error("Error al generar contrato.");
@@ -894,7 +912,7 @@ function fnBitacoraCompra(token) {
     var dataEnviar = {
         "id_Movimiento": tipoMovimientoGlb,
         "idContratoCompra": idContratoCompraGlb,
-        "id_vendedor":  $("#idVendedor").val(),
+        "id_vendedor": $("#idVendedor").val(),
         "idToken": token,
     };
 
@@ -918,6 +936,7 @@ function verPDFCompra() {
     alert("Compra realizada.");
     fnRecargarCompras();
 }
+
 function fnRecargarCompras() {
     location.reload();
 }
