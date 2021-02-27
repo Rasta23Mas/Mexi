@@ -70,7 +70,7 @@ if($Apartado==0){
 $query = "SELECT Art.id_serie, Art.descripcionCorta,Art.vitrinaVenta 
 FROM articulo_bazar_tbl AS Art 
 INNER JOIN bit_ventas AS Ven ON Art.id_ArticuloBazar = Ven.id_ArticuloBazar AND Ven.sucursal=$sucursal 
-WHERE id_Bazar = $idBazarBuscar AND Art.sucursal=$sucursal";
+WHERE id_ventas = $idBazarBuscar AND Art.sucursal=$sucursal";
 //echo $query;
 $tablaArt = $db->query($query);
 
