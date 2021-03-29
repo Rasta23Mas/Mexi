@@ -112,17 +112,18 @@ $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
                         Con.id_contrato AS CONTRATO,
                         Art.prestamo AS PRESTAMO,
+                        Con.total_Prestamo AS PRESTAMOAUTO,
                         Art.descripcionCorta AS DESCRIPCION,
+                        CONCAT (Aut.marca , ' ',Aut.modelo,' ', Aut.anio,' ', Aut.color) as DESCRIPCIONAUTO,
                         Art.observaciones as ObserArt,
                         Aut.observaciones as ObserAuto,
                         Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato  AND Con.sucursal = Art.sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato AND Con.sucursal = Aut.sucursal
                         WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
-                        BETWEEN '$fechaIni' AND '$fechaFin' 
-                        AND Art.sucursal = $sucursal AND Con.sucursal=$sucursal
+                        BETWEEN '$fechaIni' AND '$fechaFin' AND Con.sucursal=$sucursal
                         ORDER BY Con.id_contrato";
 
 $query = $db->query($rptHisto);
@@ -131,29 +132,36 @@ $query = $db->query($rptHisto);
 if($query->num_rows > 0) {
     $i = 3;
     while($row = $query->fetch_assoc()) {
-        $descripcionCorta = $row["descripcionCorta"];
+        $descripcionCorta = $row["DESCRIPCION"];
+        $descripcionCortaAuto = $row["DESCRIPCIONAUTO"];
         $observaciones = $row["ObserArt"];
         $ObserAuto = $row["ObserAuto"];
         $Form = $row["Form"];
         $PRESTAMO = $row["PRESTAMO"];
-        $PRESTAMOFORM = number_format($PRESTAMO, 2,'.',',');
-        //$PRESTAMOFORM = "$100,000.00";
+        $PRESTAMOAUTO = $row["PRESTAMOAUTO"];
+        $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
+        $PRESTAMOAUTO = number_format($PRESTAMOAUTO, 2,'.',',');
+
 
         $Obser = "";
         $DetalleFin = "";
         $tipoArt = "";
+        $pres = "";
         if($Form==1){
             $Obser = $descripcionCorta;
             $DetalleFin = $observaciones;
             $tipoArt = "METAL";
+            $pres = $PRESTAMO;
         }else if($Form==2){
             $Obser = $descripcionCorta;
             $DetalleFin = $observaciones;
             $tipoArt = "ELECTRÓNICOS";
+            $pres = $PRESTAMO;
         }else if($Form ==3){
-            $Obser = $descripcionCorta;
+            $Obser = $descripcionCortaAuto;
             $DetalleFin = $ObserAuto;
             $tipoArt = "AUTO";
+            $pres = $PRESTAMOAUTO;
         }
         $spreadsheet->getActiveSheet()
                 ->setCellValue('A'.$i , $row['FECHA'])
@@ -161,7 +169,7 @@ if($query->num_rows > 0) {
                 ->setCellValue('C'.$i , $row['FECHAALM'])
                 ->setCellValue('D'.$i , $row['NombreCompleto'])
                 ->setCellValue('E'.$i , $row['CONTRATO'])
-                ->setCellValue('F'.$i , $PRESTAMOFORM)
+                ->setCellValue('F'.$i , $pres)
                 ->setCellValue('G'.$i , $Obser)
                 ->setCellValue('H'.$i , $DetalleFin)
                 ->setCellValue('I'.$i , $tipoArt);

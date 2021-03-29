@@ -1250,15 +1250,21 @@ function fnTBodyEmpeno(lista) {
     $("#idTBodyEmpeno").html("");
     $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
+        var prestamoConAuto = elem.PRESTAMOAUTO;
         prestamoCon = formatoMoneda(prestamoCon);
+        prestamoConAuto = formatoMoneda(prestamoConAuto);
         var formulario = elem.Form;
         var obs = " ";
-        if (formulario == 1) {
-            obs = elem.ObserArt;
-        } else if (formulario == 2) {
-            obs = elem.ObserArt;
-        } else {
+        var prest = " ";
+        var desc = " ";
+        if (formulario == 3) {
             obs = elem.ObserAuto;
+            prest = prestamoConAuto;
+            desc = elem.DESCRIPCIONAUTO
+        } else {
+            obs = elem.ObserArt;
+            prest = prestamoCon;
+            desc= elem.DESCRIPCION
         }
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
@@ -1266,8 +1272,8 @@ function fnTBodyEmpeno(lista) {
             "<td>" + elem.FECHAALM + "</td>" +
             "<td align='left'>" + elem.NombreCompleto + "</td>" +
             "<td>" + elem.CONTRATO + "</td>" +
-            "<td align='right'>" + prestamoCon + "</td>" +
-            "<td align='left'>" + elem.DESCRIPCION + "</td>" +
+            "<td align='right'>" + prest + "</td>" +
+            "<td align='left'>" + desc + "</td>" +
             "<td>" + obs + "</td>" +
             "</tr>").appendTo($("#idTBodyEmpeno"));
     });

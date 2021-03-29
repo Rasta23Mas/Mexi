@@ -280,6 +280,7 @@ function fnAgregarArtCompra() {
             var formElectronico = $("#idTipoElectronico").val();
             var formMetal = $("#idTipoMetal").val();
             var precioCompra = $("#idPrecioCompra").val();
+
             if (formMetal !== 0 || formElectronico !== 0) {
                 var idSucursalSerie = "0" + sucursalGlb;
                 if (formMetal > 0) {
@@ -340,69 +341,66 @@ function fnAgregarArtCompra() {
                             })
                         }
                     }
-                }
-
-
-            } else if (formElectronico > 0) {
-                var detalle = $("#detallePrendaE").val();
-                tipoMovimientoGlb = 29;
-                if (detalle == "") {
-                    alertify.error("Favor de agregar la descripción de la prenda.");
-                } else {
-                    if (precioCompra == "") {
-                        alertify.error("Favor de agregar precio de la compra.");
+                } else if (formElectronico > 0) {
+                    var detalle = $("#detallePrendaE").val();
+                    tipoMovimientoGlb = 29;
+                    if (detalle == "") {
+                        alertify.error("Favor de agregar la descripción de la prenda.");
                     } else {
-                        idArticuloGlb++;
+                        if (precioCompra == "") {
+                            alertify.error("Favor de agregar precio de la compra.");
+                        } else {
+                            idArticuloGlb++;
 
-                        var idArticulo = String(idArticuloGlb);
-                        idArticulo = idArticulo.padStart(2, "0");
-                        var idContrato = String(idContratoCompraGlb);
-                        var idContratoSerie = idContrato.padStart(6, "0");
-                        var descTipoElectro = $('select[name="cmbTipoElectronico"] option:selected').text();
-                        var descMarca = $('select[name="marcaSelect"] option:selected').text();
-                        var descModelo = $('select[name="modeloSelect"] option:selected').text();
-                        var descDetalle = $("#idDetallePrendaElectronico").val();
-                        var descripcionCorta = descTipoElectro + " " + descMarca + " " + descModelo + " " + descDetalle;
-                        var id_serieTipo = 2;
+                            var idArticulo = String(idArticuloGlb);
+                            idArticulo = idArticulo.padStart(2, "0");
+                            var idContrato = String(idContratoCompraGlb);
+                            var idContratoSerie = idContrato.padStart(6, "0");
+                            var descTipoElectro = $('select[name="cmbTipoElectronico"] option:selected').text();
+                            var descMarca = $('select[name="marcaSelect"] option:selected').text();
+                            var descModelo = $('select[name="modeloSelect"] option:selected').text();
+                            var descDetalle = $("#idDetallePrendaElectronico").val();
+                            var descripcionCorta = descTipoElectro + " " + descMarca + " " + descModelo + " " + descDetalle;
+                            var id_serieTipo = 2;
 
-                        var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
-                        var serie = $("#idSerie").val();
-                        //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
-                        var dataEnviar = {
-                            "idTipoEnviar": 2,
-                            "idTipoElectronico": formElectronico,
-                            "idMarca": $("#idMarca").val(),
-                            "idEstado": $("#idEstado").val(),
-                            "idModelo": $("#idModelo").val(),
-                            "idSerie": serie,
-                            "idVitrina": $("#idVitrinaElectronico").val(),
-                            "idPrecioCat": $("#idPrecioCat").val(),
-                            "idObsElectronico": $("#idObsElectronico").val(),
-                            "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
-                            "idPrecioCompra": $("#idPrecioCompra").val(),
-                            "idContrato": 0,
-                            "SerieBazar": SerieBazar,
-                            "id_serieTipo": id_serieTipo,
-                            "tipo_movimiento": tipoMovimientoGlb,
-                            "descripcionCorta": descripcionCorta,
+                            var SerieBazar = idSucursalSerie + "0" + id_serieTipo + idContratoSerie + idArticulo;
+                            var serie = $("#idSerie").val();
+                            //  si es metal envia tipoAtticulo como 1 si es Electronico corresponde el 2
+                            var dataEnviar = {
+                                "idTipoEnviar": 2,
+                                "idTipoElectronico": formElectronico,
+                                "idMarca": $("#idMarca").val(),
+                                "idEstado": $("#idEstado").val(),
+                                "idModelo": $("#idModelo").val(),
+                                "idSerie": serie,
+                                "idVitrina": $("#idVitrinaElectronico").val(),
+                                "idPrecioCat": $("#idPrecioCat").val(),
+                                "idObsElectronico": $("#idObsElectronico").val(),
+                                "idDetallePrendaElectronico": $("#idDetallePrendaElectronico").val(),
+                                "idPrecioCompra": $("#idPrecioCompra").val(),
+                                "idContrato": 0,
+                                "SerieBazar": SerieBazar,
+                                "id_serieTipo": id_serieTipo,
+                                "tipo_movimiento": tipoMovimientoGlb,
+                                "descripcionCorta": descripcionCorta,
 
-                        };
-                        $.ajax({
-                            data: dataEnviar,
-                            url: '../../../com.Mexicash/Controlador/Compras/ConArticuloCompra.php',
-                            type: 'post',
-                            success: function (response) {
-                                if (response == 1) {
-                                    fnCargarArticulos();
-                                    fnLimpiarSinResetearIdArticulo();
-                                    alertify.success("Articulo agregado exitosamente.");
-                                } else {
-                                    alertify.error("Error al agregar articulo.");
-                                }
-                            },
-                        })
+                            };
+                            $.ajax({
+                                data: dataEnviar,
+                                url: '../../../com.Mexicash/Controlador/Compras/ConArticuloCompra.php',
+                                type: 'post',
+                                success: function (response) {
+                                    if (response == 1) {
+                                        fnCargarArticulos();
+                                        fnLimpiarSinResetearIdArticulo();
+                                        alertify.success("Articulo agregado exitosamente.");
+                                    } else {
+                                        alertify.error("Error al agregar articulo.");
+                                    }
+                                },
+                            })
+                        }
                     }
-
                 }
             } else {
                 alertify.error("Por Favor. Selecciona un tipo de articulo.");
@@ -415,6 +413,7 @@ function fnAgregarArtCompra() {
     }
 
 }
+
 
 function fnLimpiarSinResetearIdArticulo() {
     <!--   Limpiar Metales-->

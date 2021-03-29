@@ -958,10 +958,11 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                         SUM(Con.total_Prestamo)  AS TOT_PRESTAMO  
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
-                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') BETWEEN '$fechaIni' AND '$fechaFin' 
-                        AND Art.sucursal = $sucursal AND Con.sucursal=$sucursal";
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato  AND Con.sucursal = Art.sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato AND Con.sucursal = Aut.sucursal
+                        WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
+                        BETWEEN '$fechaIni' AND '$fechaFin' AND Con.sucursal=$sucursal
+                        ORDER BY Con.id_contrato";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
@@ -974,17 +975,18 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
                         Con.id_contrato AS CONTRATO,
                         Art.prestamo AS PRESTAMO,
+                        Con.total_Prestamo AS PRESTAMOAUTO,
                         Art.descripcionCorta AS DESCRIPCION,
+                        CONCAT (Aut.marca , ' ',Aut.modelo,' ', Aut.anio,' ', Aut.color) as DESCRIPCIONAUTO,
                         Art.observaciones as ObserArt,
                         Aut.observaciones as ObserAuto,
                         Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato 
+                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato  AND Con.sucursal = Art.sucursal
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato AND Con.sucursal = Aut.sucursal
                         WHERE DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
-                        BETWEEN '$fechaIni' AND '$fechaFin' 
-                        AND Art.sucursal = $sucursal AND Con.sucursal=$sucursal
+                        BETWEEN '$fechaIni' AND '$fechaFin' AND Con.sucursal=$sucursal
                         ORDER BY Con.id_contrato
                         LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
@@ -997,7 +999,9 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                     $jsondataperson["NombreCompleto"] = $fila["NombreCompleto"];
                     $jsondataperson["CONTRATO"] = $fila["CONTRATO"];
                     $jsondataperson["PRESTAMO"] = $fila["PRESTAMO"];
+                    $jsondataperson["PRESTAMOAUTO"] = $fila["PRESTAMOAUTO"];
                     $jsondataperson["DESCRIPCION"] = $fila["DESCRIPCION"];
+                    $jsondataperson["DESCRIPCIONAUTO"] = $fila["DESCRIPCIONAUTO"];
                     $jsondataperson["ObserArt"] = $fila["ObserArt"];
                     $jsondataperson["ObserAuto"] = $fila["ObserAuto"];
                     $jsondataperson["Form"] = $fila["Form"];
