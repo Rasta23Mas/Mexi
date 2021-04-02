@@ -1320,7 +1320,13 @@ function exportar(expor) {
         } else {
             window.open('../PDF/callPdf_R_PasarBazar.php');
         }
-    } else {
+    } else if (tipoReporte == 33) {
+        if (expor == 1) {
+            window.open('../Excel/rpt_Exc_Inventario_Auto.php?sucursal=' + sucursal);
+        } else {
+            window.open('../PDF/callPdf_R_Inventario_Auto.php');
+        }
+    }else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
