@@ -111,14 +111,14 @@ $rptHisto = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
                         DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
                         CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
                         Con.id_contrato AS CONTRATO,
-                        Art.prestamo AS PRESTAMO,
-                        Art.descripcionCorta AS DESCRIPCION,
-                        Art.observaciones as ObserArt,
+                        Con.total_Prestamo AS PRESTAMOAUTO,
+                        CONCAT (Aut.marca , ' ',Aut.modelo,' ', Aut.anio,' ', Aut.color) as DESCRIPCIONAUTO,
+                        Aut.observaciones as ObserAuto,
                         Con.id_Formulario as Form
                         FROM contratos_tbl AS Con 
                         INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato  AND Con.sucursal = Art.sucursal
-                        WHERE Con.id_Formulario!=3 AND DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
+     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato AND Con.sucursal = Aut.sucursal
+                        WHERE Con.id_Formulario=3 AND DATE_FORMAT(Con.fecha_creacion,'%Y-%m-%d') 
                         BETWEEN '$fechaIni' AND '$fechaFin' AND Con.sucursal=$sucursal
                         ORDER BY Con.id_contrato";
 
@@ -128,27 +128,22 @@ $query = $db->query($rptHisto);
 if($query->num_rows > 0) {
     $i = 3;
     while($row = $query->fetch_assoc()) {
-        $descripcionCorta = $row["DESCRIPCION"];
-        $observaciones = $row["ObserArt"];
+        $descripcionCortaAuto = $row["DESCRIPCIONAUTO"];
+        $ObserAuto = $row["ObserAuto"];
         $Form = $row["Form"];
-        $PRESTAMO = $row["PRESTAMO"];
-        $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
+        $PRESTAMOAUTO = $row["PRESTAMOAUTO"];
+        $PRESTAMOAUTO = number_format($PRESTAMOAUTO, 2,'.',',');
 
 
         $Obser = "";
         $DetalleFin = "";
         $tipoArt = "";
         $pres = "";
-        if($Form==1){
-            $Obser = $descripcionCorta;
-            $DetalleFin = $observaciones;
-            $tipoArt = "METAL";
-            $pres = $PRESTAMO;
-        }else if($Form==2){
-            $Obser = $descripcionCorta;
-            $DetalleFin = $observaciones;
-            $tipoArt = "ELECTRÓNICOS";
-            $pres = $PRESTAMO;
+       if($Form ==3){
+            $Obser = $descripcionCortaAuto;
+            $DetalleFin = $ObserAuto;
+            $tipoArt = "AUTO";
+            $pres = $PRESTAMOAUTO;
         }
         $spreadsheet->getActiveSheet()
                 ->setCellValue('A'.$i , $row['FECHA'])
@@ -193,7 +188,7 @@ $lastRow = $i - 1;
 $spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":I" . $lastRow);
 
 
-$filename = 'Reporte_Empenos';
+$filename = 'Reporte_Empenos_Auto';
 
 //header('Content-Type: application/vnd.ms-excel');
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

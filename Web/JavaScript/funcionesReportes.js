@@ -1391,6 +1391,12 @@ function exportar(expor) {
                 } else {
                     window.open('../PDF/callPdf_R_Utilidades.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }
+            }else if (tipoReporte == 34) {
+                if (expor == 1) {
+                    window.open('../Excel/rpt_Exc_Empenos_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                } else {
+                    window.open('../PDF/callPdf_R_Empeno_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                }
             }
         } else {
             alertify.error("Seleccione fecha de inicio y fecha final.");
