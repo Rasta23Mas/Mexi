@@ -80,6 +80,10 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReportePasarBazar($busqueda,$limit,$offset);
 }else if ($tipoReporte == 32) {
     $sqlReportesDAO->sqlReporteUtilidadVenta($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+}else if ($tipoReporte == 33) {
+    $sqlReportesDAO->sqlReporteInventariosAutos($busqueda,$limit,$offset);
+}else if ($tipoReporte == 34) {
+    $sqlReportesDAO->sqlReporteEmpenoAuto($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }
 
 ?>

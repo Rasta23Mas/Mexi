@@ -215,6 +215,17 @@ function fnSelectReporte() {
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptFinUtilidadesVenta.php');
+    } else if (reporte == 33) {
+        nameForm += "Inventarios Autos"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = true;
+        $("#divRpt").load('rptEmpInventarioAuto.php');
+    } else if (reporte == 34) {
+        nameForm += "Empeño Autos"
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+        $("#divRpt").load('rptEmpEmpenoAuto.php');
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
@@ -228,7 +239,7 @@ function fnLlenarReporte() {
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
     var busqueda = 1;
-    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28 || tipoReporte == 31) {
+    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28 || tipoReporte == 31|| tipoReporte == 33) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
@@ -459,6 +470,14 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalPresVen').innerHTML = TOT;
                 document.getElementById('totalVen').innerHTML = TOT_PRES;
                 document.getElementById('totalUtilVen').innerHTML = TOT_UTIL;
+            }else if (tipoReporte == 33) {
+                var TOT_PRES = data.TOT_PRES;
+                TOT_PRES = formatoMoneda(TOT_PRES);
+                document.getElementById('totalPrestamo').innerHTML = TOT_PRES;
+            }else if (tipoReporte == 34) {
+                var TOT_PRESTAMO = data.TOT_PRESTAMO;
+                TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
+                document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
             }
 
             fnCreaPaginador(total);
@@ -614,6 +633,10 @@ function fnCargaPagina(pagina) {
             fnTBodyPasarBazar(lista);
         } else if (tipoReporte == 32) {
             fnTBodyUtilidadesVenta(lista);
+        }else if (tipoReporte == 33) {
+            fnTBodyInventarioAuto(lista);
+        }else if (tipoReporte == 34) {
+            fnTBodyEmpenoAuto(lista);
         }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
@@ -1239,22 +1262,16 @@ function fnTBodyEmpeno(lista) {
     $("#idTBodyEmpeno").html("");
     $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
-        var prestamoConAuto = elem.PRESTAMOAUTO;
         prestamoCon = formatoMoneda(prestamoCon);
-        prestamoConAuto = formatoMoneda(prestamoConAuto);
         var formulario = elem.Form;
         var obs = " ";
         var prest = " ";
         var desc = " ";
-        if (formulario == 3) {
-            obs = elem.ObserAuto;
-            prest = prestamoConAuto;
-            desc = elem.DESCRIPCIONAUTO
-        } else {
+
             obs = elem.ObserArt;
             prest = prestamoCon;
             desc= elem.DESCRIPCION
-        }
+
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
             "<td>" + elem.FECHAVEN + "</td>" +
@@ -1532,6 +1549,52 @@ function fnTBodyUtilidadesVenta(lista) {
             "<td align='right'>" + total + "</td>" +
             "<td align='right'>" + utilidad + "</td>" +
             "</tr>").appendTo($("#idTBodyUtilidadVenta"));
+    });
+}
+
+function fnTBodyInventarioAuto(lista) {
+    $("#idTBodyInventarioAuto").html("");
+
+    $.each(lista, function (ind, elem) {
+        var prestamo = elem.total_Prestamo;
+
+        prestamo = formatoMoneda(prestamo)
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.id_Contrato + "</td>" +
+            "<td align='right'>" + prestamo + "</td>" +
+            "<td>" + elem.marca + "</td>" +
+            "<td>" + elem.modelo + "</td>" +
+            "<td>" + elem.anio + "</td>" +
+            "<td>" + elem.color + "</td>" +
+            "<td>" + elem.placas + "</td>" +
+            "<td>" + elem.observaciones + "</td>" +
+            "</tr>").appendTo($("#idTBodyInventarioAuto"));
+    });
+}
+
+function fnTBodyEmpenoAuto(lista) {
+    $("#idTBodyEmpenoAuto").html("");
+    $.each(lista, function (ind, elem) {
+        var prestamoConAuto = elem.PRESTAMOAUTO;
+        prestamoConAuto = formatoMoneda(prestamoConAuto);
+        var obs = " ";
+        var prest = " ";
+        var desc = " ";
+            obs = elem.ObserAuto;
+            prest = prestamoConAuto;
+            desc = elem.DESCRIPCIONAUTO
+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td align='left'>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prest + "</td>" +
+            "<td align='left'>" + desc + "</td>" +
+            "<td>" + obs + "</td>" +
+            "</tr>").appendTo($("#idTBodyEmpenoAuto"));
     });
 }
 
