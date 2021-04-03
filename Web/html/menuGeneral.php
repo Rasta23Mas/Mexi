@@ -121,6 +121,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=2">Inventarios</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=3">Financieros</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=5">Cierres</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=6">Autos</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCatalogos">
