@@ -209,6 +209,7 @@ function historial(clienteEmpeno) {
                         var Observ = "";
                         var Detalle = "";
                         var tipoArticulo = "";
+
                         if (Form == 3) {
                             Observ = datos[i].ObserAuto;
                             Detalle = datos[i].DetalleAuto;
@@ -236,7 +237,7 @@ function historial(clienteEmpeno) {
                             '</tr>';
                     }
                 }
-                historialCount($clienteEmpeno);
+                historialCount(clienteEmpeno);
                 $('#idTBodyHistorial').html(html);
             }
         });
@@ -245,9 +246,9 @@ function historial(clienteEmpeno) {
 }
 
 //Funcion ver count de historial de un cliente
-function historialCount($clienteEmpeno) {
+function historialCount(clienteEmpeno) {
     var dataEnviar = {
-        "clienteEmpeno": $clienteEmpeno,
+        "clienteEmpeno": clienteEmpeno,
     };
     $.ajax({
         type: "POST",
