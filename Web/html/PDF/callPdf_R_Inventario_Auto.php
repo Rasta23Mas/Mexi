@@ -95,8 +95,6 @@ $contenido .='
                         </tbody>
                         </table>';
 $contenido .= '</form></body></html>';
-echo $contenido;
-exit;
 
 $nombreContrato = 'Reporte_Inventario_Auto.pdf';
 $dompdf = new DOMPDF();

@@ -99,7 +99,7 @@ $spreadsheet->getActiveSheet()
     ->setCellValue('I2', 'OBSERVACIONES');
 
 
-$spreadsheet->getActiveSheet()->getStyle('A2:F2')->applyFromArray($tableHead);
+$spreadsheet->getActiveSheet()->getStyle('A2:I2')->applyFromArray($tableHead);
 
 $rptHisto = "SELECT DATE_FORMAT(Aut.fecha_creacion,'%Y-%m-%d') as FECHA, Aut.id_Contrato,
                         total_Prestamo, Aut.marca, Aut.modelo,Aut.anio,Aut.color,
