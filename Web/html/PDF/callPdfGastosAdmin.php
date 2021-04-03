@@ -93,10 +93,7 @@ foreach ($resultado as $row) {
     $Total = $row["pag_total"];
     $subTotal = $row["pag_subtotal"];
     $CostoContrato = $row["e_costoContrato"];
-    $subTotal= round($subTotal,2);
-    $CostoContrato= round($CostoContrato,2);
-    $Total= round($Total,2);
-    $descuentoAplicado= round($descuentoAplicado,2);
+
 }
 
 if($tipoReporte==1){
@@ -106,7 +103,16 @@ if($tipoReporte==1){
 }else{
     $nombreReporte="DESEMPEÑO";
     $nombreReporteAr="DESEMPENO";
+    if($CostoContrato!=0){
+        $subTotal = $prestamo + $CostoContrato;
+    }
 }
+
+$subTotal= round($subTotal,2);
+$CostoContrato= round($CostoContrato,2);
+$Total= round($Total,2);
+$descuentoAplicado= round($descuentoAplicado,2);
+
 $query = "SELECT  Ar.descripcionCorta AS DescripcionCorta,  Ar.observaciones AS Obs
                     FROM contratos_tbl as Con 
                     INNER JOIN articulo_tbl as Ar on Con.id_Contrato =  Ar.id_Contrato AND Ar.sucursal= $sucursal
@@ -121,6 +127,9 @@ foreach ($tablaArt as $row) {
     $detallePiePagina .= $DescripcionCorta . '/' . $observaciones;
 
 }
+
+
+
 
 $prestamo = number_format($prestamo, 2,'.',',');
 $descuentoAplicado = number_format($descuentoAplicado, 2,'.',',');

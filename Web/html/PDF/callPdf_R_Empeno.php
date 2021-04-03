@@ -120,7 +120,7 @@ foreach ($resultado as $row) {
 
     $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
     $PRESTAMOAUTO = number_format($PRESTAMOAUTO, 2,'.',',');
-
+    
     $Obser = "";
     $DetalleFin = "";
     $PRES  = "";

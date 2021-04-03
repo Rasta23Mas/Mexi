@@ -98,6 +98,7 @@ function fnBusquedaVenta() {
 }
 
 function fnBusquedaDatosCliente(idVenta) {
+    alert(idVenta)
     var idVentaBusqueda = "";
     if(idVenta==0){
         idVentaBusqueda = $("#idVentaConsulta").val();

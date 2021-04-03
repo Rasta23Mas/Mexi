@@ -1151,7 +1151,11 @@ function BitacoraUsuarioRefrendo() {
 }
 
 function verPDFDesempeno(contratoGbl) {
-    window.open('../PDF/callPdfDesempeno.php?pdf=1&contrato=' + contratoGbl);
+    if (GastosAdminGlb == 1) {
+        window.open('../PDF/callPdfGastosAdmin.php?pdf=1&contrato=' + contratoGbl + '&tipo=2');
+    } else {
+        window.open('../PDF/callPdfDesempeno.php?pdf=1&contrato=' + contratoGbl);
+    }
 }
 
 function MovimientosRefrendoSinInteres() {

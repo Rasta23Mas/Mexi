@@ -144,7 +144,7 @@ function fnLoginAdministradores(sucursal) {
         data: dataEnviar,
         url: '../../../com.Mexicash/Controlador/Usuario/NuevoLogginValidaSiYaInicio.php',
         success: function (Validar) {
-            alert(Validar)
+            //alert(Validar)
             //$Validar = 1; Todo ok dejalo iniciar sesion
             //$Validar = 2; La sucursal ya cerro sesión
             //$Validar = 3; Ocurrio un error al insertar la sesión de caja

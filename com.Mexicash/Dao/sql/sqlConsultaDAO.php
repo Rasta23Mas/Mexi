@@ -187,7 +187,7 @@ class sqlConsultaDAO
             $buscar = "SELECT ART.id_serie, ART.descripcionCorta,ART.vitrina, ART.vitrinaVenta  
                         FROM articulo_bazar_tbl ART
                         INNER JOIN bit_ventas as VEN ON ART.id_ArticuloBazar = VEN.id_ArticuloBazar AND ART.sucursal = VEN.sucursal
-                        WHERE VEN.id_ventas  = $idVentaBusqueda AND VEN.sucursal = $sucursal";
+                        WHERE VEN.id_Bazar  = $idVentaBusqueda AND VEN.sucursal = $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {
                 while ($row = $rs->fetch_assoc()) {
