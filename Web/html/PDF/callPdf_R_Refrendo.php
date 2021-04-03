@@ -84,7 +84,6 @@ $contenido .= '
         <th>SubTotal</th>
         <th>Iva Int</th>
         <th>Total Cobrado</th>
-        <th>Utilidad</th>
                             </tr>
                         </thead>
                         <tbody id="idTBodyHistorico"  align="center"> ';
@@ -125,12 +124,7 @@ foreach ($resultado as $row) {
 
     $e_intereses = $row["e_intereses"];
     $moratorios = $row["e_moratorios"];
-    if($COSTO==0){
-        $utilidad = $e_intereses - $IVA;
-        $utilidad = $utilidad + $moratorios;
-    }else{
-        $utilidad = $COSTO;
-    }
+
 
     $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
     $INTERESES = number_format($INTERESES, 2,'.',',');
@@ -142,7 +136,6 @@ foreach ($resultado as $row) {
     $COSTO = number_format($COSTO, 2,'.',',');
     $SUBTOTAL = number_format($SUBTOTAL, 2,'.',',');
     $TOTAL = number_format($TOTAL, 2,'.',',');
-    $utilidad = number_format($utilidad, 2,'.',',');
 
     if($Form==1){
         $tipoMetal++;
@@ -181,7 +174,6 @@ foreach ($resultado as $row) {
                         <td>' . $SUBTOTAL . '</td>
                         <td>' . $IVA . '</td>
                         <td>' . $TOTAL . '</td>
-                        <td>' . $utilidad . '</td>
                         </tr>';
 }
 

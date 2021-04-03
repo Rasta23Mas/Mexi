@@ -81,7 +81,6 @@ $contenido .= '
         <th>SubTotal</th>
         <th>Iva Int</th>
         <th>Total Cobrado</th>
-        <th>Utilidad</th>
                             </tr>
                         </thead>
                         <tbody id="idTBodyHistorico"  align="center"> ';
@@ -130,8 +129,7 @@ foreach ($resultado as $row) {
         $utilidad =  $CostoContrato;
     }
 
-    $tot_des = $desempeno + $utilidad;
-    $tot_des = $tot_des - $prestamo_Informativo;
+
 
     $PRESTAMO = number_format($PRESTAMO, 2,'.',',');
     $INTERESES = number_format($INTERESES, 2,'.',',');
@@ -181,7 +179,6 @@ foreach ($resultado as $row) {
                         <td>' . $SUBTOTAL . '</td>
                         <td>' . $IVA . '</td>
                         <td>' . $TOTAL . '</td>
-                         <td>' . $tot_des . '</td>
                         </tr>';
 }
 

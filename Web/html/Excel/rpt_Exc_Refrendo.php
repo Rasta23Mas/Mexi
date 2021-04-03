@@ -73,7 +73,7 @@ $spreadsheet->getActiveSheet()
 //->setCellValue('A1', "Reporte Histórico del ". $fechaIni ." al ". $fechaFin);
 
 //merge heading
-$spreadsheet->getActiveSheet()->mergeCells("A1:O1");
+$spreadsheet->getActiveSheet()->mergeCells("A1:N1");
 
 // set font style
 $spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setSize(13);
@@ -95,7 +95,6 @@ $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(20);
 $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(20);
 $spreadsheet->getActiveSheet()->getColumnDimension('M')->setWidth(15);
 $spreadsheet->getActiveSheet()->getColumnDimension('N')->setWidth(15);
-$spreadsheet->getActiveSheet()->getColumnDimension('O')->setWidth(15);
 
 
 $spreadsheet->getActiveSheet()
@@ -112,8 +111,7 @@ $spreadsheet->getActiveSheet()
     ->setCellValue('K2', 'SUBTOTAL')
     ->setCellValue('L2', 'IVA')
     ->setCellValue('M2', 'TOTAL')
-    ->setCellValue('N2', 'UTILIDAD')
-    ->setCellValue('O2', 'TIPO');
+    ->setCellValue('N2', 'TIPO');
 
 $spreadsheet->getActiveSheet()->getStyle('A2:O2')->applyFromArray($tableHead);
 
@@ -154,12 +152,7 @@ if($query->num_rows > 0) {
         $moratorios = $row['e_moratorios'];
         $e_intereses = $row['e_intereses'];
         $iva = $row['IVA'];
-       if($CostoContrato==0){
-           $utilidad = $e_intereses - $iva;
-           $utilidad = $utilidad + $moratorios;
-        }else{
-           $utilidad =  $CostoContrato;
-       }
+
 
         $spreadsheet->getActiveSheet()
             ->setCellValue('A'.$i , $row['FECHA'])
@@ -175,16 +168,15 @@ if($query->num_rows > 0) {
             ->setCellValue('K'.$i , $row['pag_subtotal'])
             ->setCellValue('L'.$i , $iva)
             ->setCellValue('M'.$i , $row['pag_total'])
-            ->setCellValue('N'.$i , $utilidad)
-            ->setCellValue('O'.$i , $tipoArt);
+            ->setCellValue('N'.$i , $tipoArt);
 
         //set row style
         if ($i % 2 == 0) {
             //even row
-            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':O' . $i)->applyFromArray($evenRow);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':N' . $i)->applyFromArray($evenRow);
         } else {
             //odd row
-            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':O' . $i)->applyFromArray($oddRow);
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':N' . $i)->applyFromArray($oddRow);
         }
         $i++;
     }
@@ -205,15 +197,14 @@ if($query->num_rows > 0) {
         ->setCellValue('K'.$i , "")
         ->setCellValue('L'.$i , "")
         ->setCellValue('M'.$i , "")
-        ->setCellValue('N'.$i , "")
-        ->setCellValue('O'.$i , "");
-    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':O' . $i)->applyFromArray($evenRow);
+        ->setCellValue('N'.$i , "");
+    $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':N' . $i)->applyFromArray($evenRow);
 
 }
 
 $firstRow = 2;
 $lastRow = $i - 1;
-$spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":O" . $lastRow);
+$spreadsheet->getActiveSheet()->setAutoFilter("A" . $firstRow . ":N" . $lastRow);
 
 
 $filename = 'Reporte_Refrendo';

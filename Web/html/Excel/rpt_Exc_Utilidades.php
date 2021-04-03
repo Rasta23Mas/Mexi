@@ -102,10 +102,10 @@ $spreadsheet->getActiveSheet()->getStyle('A2:E2')->applyFromArray($tableHead);
 
 //$query = $db->query("SELECT * FROM products ORDER BY id DESC");
 $rptIng = "SELECT  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')  AS Movimiento,id_movimiento, id_contrato, tipo_movimiento,
-                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, e_moratorios
+                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato,prestamo_Informativo
                                     FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
                                     DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                                
-                                    BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY fecha_Movimiento  ";
+                                    BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY fecha_Movimiento ";
 
 $query = $db->query($rptIng);
 
@@ -114,12 +114,26 @@ if($query->num_rows > 0) {
     $i = 3;
     while($row = $query->fetch_assoc()) {
         $tipoMov =  $row['tipo_movimiento'];
+        $e_costoContrato =   $row['e_costoContrato'];
+        $e_pagoDesempeno =  $row['e_pagoDesempeno'];
+        $prestamo_Informativo =   $row['prestamo_Informativo'];
+        $tot_ref = 0;
+        $tot_des = 0;
         if($tipoMov==4){
+            if ($e_costoContrato == 0) {
+                $tot_ref = $row['e_intereses'] -  $row['e_iva'];
+            } else {
+                $tot_ref = $e_costoContrato;
+            }
             $tot_ref = $row['e_intereses'] - $row['e_iva'];
-            $tot_ref = $tot_ref +  $row['e_moratorios'];
         }else if ($tipoMov==5){
-            $tot_des = $row['e_pagoDesempeno'] + $row['e_costoContrato'];
-            $tot_des = $tot_des +  $row['e_moratorios'];
+            if ($e_costoContrato == 0) {
+                $tot_inter =$row['e_intereses'] -  $row['e_iva'];
+            } else {
+                $tot_inter = $e_costoContrato;
+            }
+            $tot_des = $e_pagoDesempeno + $tot_inter;
+            $tot_des = $tot_des - $prestamo_Informativo;
         }
 
         $spreadsheet->getActiveSheet()

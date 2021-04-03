@@ -1079,7 +1079,7 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
 
             } else {
                 $BusquedaQuery = "SELECT  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')  AS Movimiento,id_movimiento, id_contrato, tipo_movimiento,
-                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, e_moratorios,prestamo_Informativo
+                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, prestamo_Informativo
                                     FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
                                     DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                                
                                     BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY fecha_Movimiento 
@@ -1096,7 +1096,6 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                     $jsondataperson["e_iva"] = $fila["e_iva"];
                     $jsondataperson["e_pagoDesempeno"] = $fila["e_pagoDesempeno"];
                     $jsondataperson["e_costoContrato"] = $fila["e_costoContrato"];
-                    $jsondataperson["e_moratorios"] = $fila["e_moratorios"];
                     $jsondataperson["prestamo_Informativo"] = $fila["prestamo_Informativo"];
                     $jsondataList[] = $jsondataperson;
                 }

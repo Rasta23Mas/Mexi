@@ -745,8 +745,7 @@ function fnTBodyDesempeno(lista) {
         moratorios = parseFloat(moratorios);
         prestamo_Informativo = parseFloat(prestamo_Informativo);
         tot_inter = parseFloat(tot_inter);
-        var tot_des = desempeno + tot_inter + moratorios;
-        tot_des = tot_des - prestamo_Informativo;
+
         prestamoCon = formatoMoneda(prestamoCon);
         interesesCon = formatoMoneda(interesesCon);
         almacenajeCon = formatoMoneda(almacenajeCon);
@@ -756,7 +755,6 @@ function fnTBodyDesempeno(lista) {
         costoCon = formatoMoneda(costoCon);
         subtotalCon = formatoMoneda(subtotalCon);
         totalCon = formatoMoneda(totalCon);
-        tot_des = formatoMoneda(tot_des);
 
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
@@ -771,7 +769,6 @@ function fnTBodyDesempeno(lista) {
             "<td align='right'>" + costoCon + "</td>" +
             "<td align='right'>" + subtotalCon + "</td>" +
             "<td align='right'>" + totalCon + "</td>" +
-            "<td align='right'>" + tot_des + "</td>" +
             "</tr>").appendTo($("#idTBodyDesempeno"));
     });
 }
@@ -791,17 +788,11 @@ function fnTBodyRefrendo(lista) {
         var totalCon = elem.pag_total;
         var interesesConIVA = elem.e_intereses;
         var moratorios = elem.e_moratorios;
-        var totalUtil = 0;
         interesesConIVA = parseFloat(interesesConIVA);
         moratorios = parseFloat(moratorios);
         ivaCon = parseFloat(ivaCon);
         costoCon = parseFloat(costoCon);
-        if (costoCon == 0) {
-            totalUtil = interesesConIVA - ivaCon;
-            totalUtil = totalUtil + moratorios;
-        } else {
-            totalUtil = costoCon;
-        }
+
         prestamoCon = formatoMoneda(prestamoCon);
         interesesCon = formatoMoneda(interesesCon);
         almacenajeCon = formatoMoneda(almacenajeCon);
@@ -812,7 +803,6 @@ function fnTBodyRefrendo(lista) {
         costoCon = formatoMoneda(costoCon);
         subtotalCon = formatoMoneda(subtotalCon);
         totalCon = formatoMoneda(totalCon);
-        totalUtil = formatoMoneda(totalUtil);
 
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
@@ -828,7 +818,6 @@ function fnTBodyRefrendo(lista) {
             "<td align='right'>" + costoCon + "</td>" +
             "<td align='right'>" + subtotalCon + "</td>" +
             "<td align='right'>" + totalCon + "</td>" +
-            "<td align='right'>" + totalUtil + "</td>" +
             "</tr>").appendTo($("#idTBodyRefrendo"));
     });
 }
@@ -1383,7 +1372,7 @@ function exportar(expor) {
                 if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Utilidades.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 } else {
-                    window.open('../PDF/callPdf_R_Utilidades.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                    window.open('../PDF/callPdf_R_Utilidades.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }
             }
         } else {
@@ -1458,15 +1447,11 @@ function fnTBodyUtilidades(lista) {
         var tot_ref = 0;
         var tot_des = 0;
         if (tipo_mov == 4) {
-
-
             if (costoContrato == 0) {
                 tot_ref = intereses - iva;
-                tot_ref = tot_ref + moratorios;
             } else {
                 tot_ref = costoContrato;
             }
-
 
         } else if (tipo_mov == 5) {
             var intereses = elem.e_intereses;
@@ -1479,9 +1464,11 @@ function fnTBodyUtilidades(lista) {
             } else {
                 tot_inter = costoContrato;
             }
+
+
             desempeno = parseFloat(desempeno);
             tot_inter = parseFloat(tot_inter);
-            tot_des = desempeno + tot_inter + moratorios;
+            tot_des = desempeno + tot_inter;
             tot_des = tot_des - prestamo_Informativo;
         }
         var tot_refMon = formatoMoneda(tot_ref);

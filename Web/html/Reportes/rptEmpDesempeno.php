@@ -18,7 +18,6 @@
         <th>SubTotal</th>
         <th>Iva Int</th>
         <th>Total Cobrado</th>
-        <th>Utilidad</th>
     </tr>
     </thead>
     <tbody id="idTBodyDesempeno" class="letraChica" align="center">

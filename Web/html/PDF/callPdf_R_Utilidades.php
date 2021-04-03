@@ -68,67 +68,60 @@ $contenido .= '
                             </tr>
                         </thead>
                         <tbody id="idTBodyIngresos"  align="center">';
-$rptIng = "SELECT  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')  AS Movimiento,id_movimiento, id_contrato, tipo_movimiento,
-                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato, e_moratorios
+$rptUtil = "SELECT  DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')  AS Movimiento,id_movimiento, id_contrato, tipo_movimiento,
+                                    e_intereses,e_iva,e_pagoDesempeno,e_costoContrato,prestamo_Informativo
                                     FROM contrato_mov_tbl WHERE sucursal=$sucursal AND (tipo_movimiento=4 || tipo_movimiento=5) AND
                                     DATE_FORMAT(fecha_Movimiento,'%Y-%m-%d')                                
                                     BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY fecha_Movimiento  ";
-$resultado = $db->query($rptIng);
-$tipoMetal = 0;
-$tipoElectro = 0;
-$tipoAuto = 0;
+echo $rptUtil;
+$resultado = $db->query($rptUtil);
 $tablaArticulos = '';
 
 foreach ($resultado as $row) {
-    $Desem = $row["Desem"];
-    $AbonoRef = $row["AbonoRef"];
-    $Inte = $row["Inte"];
-    $costoContrato = $row["costoContrato"];
-    $Iva = $row["Iva"];
-    $Ventas = $row["Ventas"];
-    $IvaVenta = $row["IvaVenta"];
-    $Utilidad = $row["Utilidad"];
-    $Apartados = $row["Apartados"];
-    $AbonoVen = $row["AbonoVen"];
+    $Movimiento= $row["Movimiento"];
+    $id_movimiento = $row["id_movimiento"];
+    $id_contrato = $row["id_contrato"];
+    $tipo_movimiento = $row["tipo_movimiento"];
+    $e_intereses = $row["e_intereses"];
+    $e_iva = $row["e_iva"];
+    $e_pagoDesempeno = $row["e_pagoDesempeno"];
+    $e_costoContrato = $row["e_costoContrato"];
+    $prestamo_Informativo = $row["prestamo_Informativo"];
+    $tot_ref = 0;
+    $tot_des = 0;
+    if($tipo_movimiento==4){
+        if ($e_costoContrato == 0) {
+            $tot_ref = $e_intereses - $e_iva;
+        } else {
+            $tot_ref = $e_costoContrato;
+        }
+    }else if($tipo_movimiento==5){
+        if ($e_costoContrato == 0) {
+            $tot_inter = $e_intereses - $e_iva;
+        } else {
+            $tot_inter = $e_costoContrato;
+        }
+        $tot_des = $e_pagoDesempeno + $tot_inter;
+        $tot_des = $tot_des - $prestamo_Informativo;
+    }
 
-    $Desem = number_format($Desem, 2,'.',',');
-    $AbonoRef = number_format($AbonoRef, 2,'.',',');
-    $Inte = number_format($Inte, 2,'.',',');
-    $costoContrato = number_format($costoContrato, 2,'.',',');
-    $Iva = number_format($Iva, 2,'.',',');
-    $Ventas = number_format($Ventas, 2,'.',',');
-    $IvaVenta = number_format($IvaVenta, 2,'.',',');
-    $Utilidad = number_format($Utilidad, 2,'.',',');
-    $Apartados = number_format($Apartados, 2,'.',',');
-    $AbonoVen = number_format($AbonoVen, 2,'.',',');
+    $tot_ref = number_format($tot_ref, 2,'.',',');
+    $tot_des = number_format($tot_des, 2,'.',',');
 
-    $tablaArticulos .= '<tr><td >' . $row["id_CierreSucursal"] . '</td>
-                        <td>' . $Desem . '</td>
-                        <td>' . $AbonoRef . '</td>
-                        <td>' . $Inte . '</td>
-                        <td>' . $costoContrato . '</td>
-                        <td>$' . $Iva . '</td>
-                        <td>$' . $Ventas . '</td>
-                        <td>$' . $IvaVenta . '</td>
-                        <td>' . $Utilidad. '</td>
-                        <td>' . $Apartados . '</td>
-                        <td>' . $AbonoVen . '</td>
-                        <td>' . $row["Fecha"] . '</td>
+    $tablaArticulos .= '<tr><td >' . $Movimiento . '</td>
+                        <td>' . $id_movimiento . '</td>
+                        <td>' . $id_contrato . '</td>
+                        <td>$' . $tot_ref . '</td>
+                        <td>$' . $tot_des . '</td>
                         </tr>';
 }
-
-
-
-
-
 
 $contenido .= $tablaArticulos;
 $contenido .='
                         </tbody>
                         </table>';
 $contenido .= '</form></body></html>';
-
-$nombreContrato = 'Reporte_Ingresos.pdf';
+$nombreContrato = 'Reporte_Utilidades.pdf';
 $dompdf = new DOMPDF();
 $dompdf->load_html($contenido);
 $dompdf->setPaper('letter', 'landscape');
