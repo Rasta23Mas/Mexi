@@ -201,8 +201,8 @@ class sqlContratoDAO
                         CONCAT(id_SerieSucursal,Adquisiciones_Tipo,id_SerieContrato,id_SerieArticulo) AS Serie
                         FROM contratos_tbl as Con 
                         INNER JOIN cliente_tbl AS Cli on Con.id_Cliente = Cli.id_Cliente
-                        INNER JOIN articulo_tbl as Art on Con.id_Contrato =  Art.id_Contrato
-                        WHERE Con.id_Contrato =$idContratoBusqueda AND Con.tipoContrato = $tipoContratoGlobal AND Art.sucursal= $sucursal
+                        INNER JOIN articulo_tbl as Art on Con.id_Contrato =  Art.id_Contrato AND Con.sucursal = Art.sucursal
+                        WHERE Con.id_Contrato =$idContratoBusqueda AND Con.tipoContrato = $tipoContratoGlobal
                         AND Con.sucursal= $sucursal";
             $rs = $this->conexion->query($buscar);
             if ($rs->num_rows > 0) {

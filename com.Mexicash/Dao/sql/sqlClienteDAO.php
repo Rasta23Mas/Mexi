@@ -493,65 +493,65 @@ WHERE id_Cliente = '$idClienteEditar' AND sucursal=".$sucursal;
             $Articulo=1;
             $Auto=2;
             $Venta = 6;
-            $buscarEmpe = "SELECT COUNT(Con.id_contrato) AS TotalEmpenos 
+            $buscarEmpe = "SELECT COUNT(Con.id_Contrato) AS TotalEmpenos 
                  FROM contratos_tbl AS Con
-                 WHERE Con.sucursal=$sucursal AND Con.tipo_Contrato=$Articulo AND  
+                 WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Articulo AND  
                        Con.id_Cliente = $clienteEmpeno AND Con.id_cat_estatus=$Empeno";
             $statement = $this->conexion->query($buscarEmpe);
             $fila = $statement->fetch_object();
             $TotalEmpenos = $fila->TotalEmpenos;
 
-            $buscarEmpeAuto = "SELECT COUNT(Con.id_contrato) AS TotalEmpenos 
+            $buscarEmpeAuto = "SELECT COUNT(Con.id_Contrato) AS TotalEmpenos 
                  FROM contratos_tbl AS Con
-                 WHERE Con.sucursal=$sucursal AND Con.tipo_Contrato=$Auto AND  
+                 WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Auto AND  
                        Con.id_Cliente = $clienteEmpeno AND Con.id_cat_estatus=$Empeno";
             $statement = $this->conexion->query($buscarEmpeAuto);
             $fila = $statement->fetch_object();
             $TotalEmpenosAuto = $fila->TotalEmpenos;
 
-            $buscarRefrendo = "SELECT COUNT(Con.id_contrato) AS TotalEmpenos 
+            $buscarRefrendo = "SELECT COUNT(Con.id_Contrato) AS TotalRefrendo 
                  FROM contratos_tbl AS Con
-                 WHERE Con.sucursal=$sucursal AND Con.tipo_Contrato=$Articulo AND  
+                 WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Articulo AND  
                        Con.id_Cliente = $clienteEmpeno AND Con.id_cat_estatus=$Refrendo";
             $statement = $this->conexion->query($buscarRefrendo);
             $fila = $statement->fetch_object();
             $TotalRefrendo = $fila->TotalRefrendo;
 
-            $buscarRefrendoAuto = "SELECT COUNT(Con.id_contrato) AS TotalEmpenos 
+            $buscarRefrendoAuto = "SELECT COUNT(Con.id_Contrato) AS TotalRefrendo 
                  FROM contratos_tbl AS Con
-                 WHERE Con.sucursal=$sucursal AND Con.tipo_Contrato=$Auto AND  
+                 WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Auto AND  
                        Con.id_Cliente = $clienteEmpeno AND Con.id_cat_estatus=$Refrendo";
             $statement = $this->conexion->query($buscarRefrendoAuto);
             $fila = $statement->fetch_object();
             $TotalRefrendoAuto = $fila->TotalRefrendo;
 
-            $buscarDesemp = "SELECT COUNT(Con.id_contrato) AS TotalEmpenos 
+            $buscarDesemp = "SELECT COUNT(Con.id_Contrato) AS TotalDesemp 
                  FROM contratos_tbl AS Con
-                 WHERE Con.sucursal=$sucursal AND Con.tipo_Contrato=$Articulo AND  
+                 WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Articulo AND  
                        Con.id_Cliente = $clienteEmpeno AND Con.id_cat_estatus=$Desempeno";
             $statement = $this->conexion->query($buscarDesemp);
             $fila = $statement->fetch_object();
             $TotalDesemp = $fila->TotalDesemp;
 
-            $buscarDesempAuto = "SELECT COUNT(Con.id_contrato) AS TotalEmpenos 
+            $buscarDesempAuto = "SELECT COUNT(Con.id_Contrato) AS TotalDesemp 
                  FROM contratos_tbl AS Con
-                 WHERE Con.sucursal=$sucursal AND Con.tipo_Contrato=$Auto AND  
+                 WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Auto AND  
                        Con.id_Cliente = $clienteEmpeno AND Con.id_cat_estatus=$Desempeno";
             $statement = $this->conexion->query($buscarDesempAuto);
             $fila = $statement->fetch_object();
             $TotalDesempAuto = $fila->TotalDesemp;
 
-            $buscarBazar = "SELECT COUNT(Con.id_contrato) AS TotalEmpenos 
+            $buscarBazar = "SELECT COUNT(Con.id_Contrato) AS TotalBazar 
                  FROM contratos_tbl AS Con
-                 WHERE Con.sucursal=$sucursal AND Con.tipo_Contrato=$Articulo AND  
+                 WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Articulo AND  
                        Con.id_Cliente = $clienteEmpeno AND Con.id_cat_estatus=$Bazar";
             $statement = $this->conexion->query($buscarBazar);
             $fila = $statement->fetch_object();
             $TotalBazar = $fila->TotalBazar;
 
-            $buscarBazarAuto = "SELECT COUNT(Con.id_contrato) AS TotalEmpenos 
+            $buscarBazarAuto = "SELECT COUNT(Con.id_Contrato) AS TotalBazarAuto  
                  FROM contratos_tbl AS Con
-                 WHERE Con.sucursal=$sucursal AND Con.tipo_Contrato=$Auto AND  
+                 WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Auto AND  
                        Con.id_Cliente = $clienteEmpeno AND Con.id_cat_estatus=$Bazar";
             $statement = $this->conexion->query($buscarBazarAuto);
             $fila = $statement->fetch_object();

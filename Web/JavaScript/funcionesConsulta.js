@@ -237,6 +237,7 @@ function cargarTablaContrato(idContratoBusqueda) {
 }
 
 function cargarTablaDetalleNombre(idContratoBusqueda) {
+
     var dataEnviar = {
         "idContratoBusqueda": idContratoBusqueda,
         "tipoContratoGlobal": tipoContratoGlobal
@@ -245,9 +246,10 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Contrato/tblDetalleContrato.php',
         data: dataEnviar,
-        dataType: "json",
+        //dataType: "json",
 
         success: function (datos) {
+            alert(datos)
             alert("Refrescando tabla detalle de contrato.");
             var html = '';
             var i = 0;
