@@ -259,12 +259,25 @@ function historialCount(clienteEmpeno) {
             var html = '';
             var i = 0;
             for (i; i < datos.length; i++) {
+                var Total = datos[i].Total;
                 var TotalEmpeno = datos[i].TotalEmpeno;
                 var TotalDesem = datos[i].TotalDesem;
                 var TotalRefrendo = datos[i].TotalRefrendo;
                 var TotalAlmoneda = datos[i].TotalAlmoneda;
                 var TotalVenta = datos[i].TotalVenta;
 
+               if(Total==0){
+                   $('#modalHistorial').css('background-color', '#32D406');
+               }else {
+                   var Porcentaje = (TotalAlmoneda * 100)/Total;
+                   if (Porcentaje == 0) {
+                       $('#modalHistorial').css('background-color', '#32D406');
+                   }else if (Porcentaje <= 50) {
+                       $('#modalHistorial').css('background-color', '#FF4000');
+                   }else if (Porcentaje >50) {
+                       $('#modalHistorial').css('background-color', '#ED061E');
+                   }
+               }
 
                 if (TotalEmpeno == null) {
                     TotalEmpeno = '0';

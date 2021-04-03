@@ -493,6 +493,15 @@ WHERE id_Cliente = '$idClienteEditar' AND sucursal=".$sucursal;
             $Articulo=1;
             $Auto=2;
             $Venta = 6;
+            $buscarEmpe = "SELECT COUNT(Con.id_Contrato) AS Total
+                 FROM contratos_tbl AS Con
+                 WHERE Con.sucursal=$sucursal AND  
+                       Con.id_Cliente = $clienteEmpeno";
+            $statement = $this->conexion->query($buscarEmpe);
+            $fila = $statement->fetch_object();
+            $Total = $fila->Total;
+
+
             $buscarEmpe = "SELECT COUNT(Con.id_Contrato) AS TotalEmpenos 
                  FROM contratos_tbl AS Con
                  WHERE Con.sucursal=$sucursal AND Con.tipoContrato=$Articulo AND  
@@ -578,6 +587,7 @@ WHERE id_Cliente = '$idClienteEditar' AND sucursal=".$sucursal;
 
 
             $data = [
+                "Total" => $Total,
                 "TotalEmpeno" => $totalFinalEmpe,
                 "TotalRefrendo" => $totalFinalRefre,
                 "TotalDesem" => $totalFinalDesem,
