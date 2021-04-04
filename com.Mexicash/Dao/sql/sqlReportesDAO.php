@@ -1533,7 +1533,8 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                 $count = "SELECT COUNT(id_AutoBazar) as  totalCount
                         FROM auto_bazar_tbl 
                         WHERE DATE_FORMAT(fecha_creacion,'%Y-%m-%d') = CURDATE()  
-                        AND sucursal = $sucursal AND Fisico=1 AND HayMovimiento=0";
+                        AND sucursal = $sucursal AND Fisico=1 AND HayMovimiento=0 
+                        AND tipo_movimiento=24";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
@@ -1543,7 +1544,8 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                         id_Contrato, descripcionCorta,  prestamo, vitrinaVenta,estatus_Contrato						
                         FROM auto_bazar_tbl 
                         WHERE DATE_FORMAT(fecha_creacion,'%Y-%m-%d') = CURDATE()  
-                        AND sucursal = $sucursal AND Fisico=1 AND HayMovimiento=0
+                        AND sucursal = $sucursal AND Fisico=1 AND HayMovimiento=0 
+                        AND tipo_movimiento=24
                         ORDER BY id_Contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
@@ -1735,7 +1737,6 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
 
             $updateContrato = "UPDATE contratos_tbl SET fisico=1,id_cat_estatus=$Estatus 
                                 WHERE sucursal=$sucursal AND id_Contrato=$contrato and tipoContrato = 2";
-
             if ($ps = $this->conexion->prepare($updateContrato)) {
                 if ($ps->execute()) {
                     if (mysqli_stmt_affected_rows($ps) > 0) {

@@ -577,7 +577,6 @@ function fnCreaPaginador(totalItems) {
 }
 
 function fnCargaPagina(pagina) {
-
     var desde = pagina * itemsPorPaginaGlb;
     var fechaIni = $("#idFechaInicial").val();
     var fechaFin = $("#idFechaFinal").val();
@@ -1742,7 +1741,7 @@ function fnTBodyRegresarBazarAuto(lista) {
 
         var contrato = elem.Contrato;
         var estatus = elem.Estatus;
-        var form = 1;
+        var form = 2;
 
         $("<tr>" +
             "<td>" + elem.Fecha + "</td>" +
@@ -1819,9 +1818,17 @@ function fnRecargarRegresarContrato(contrato,form,Estatus) {
             if (response == -1) {
                 alertify.error("Error al actualizar el contrato.");
             } else if (response == -2) {
-                alertify.error("Error al eliminar el artículo de bazar.");
+                if(form==1){
+                    alertify.error("Error al eliminar el artículo de bazar.");
+                }else if (form==2){
+                    alertify.error("Error al eliminar el auto de bazar.");
+                }
             }else if (response == 1) {
-                alertify.success("Artículo eliminado con éxito.");
+                if(form==1){
+                    alertify.success("Artículo eliminado con éxito.");
+                }else if (form==2){
+                    alertify.success("Auto eliminado con éxito.");
+                }
                 fnLlenarReporte()
             }
         }
