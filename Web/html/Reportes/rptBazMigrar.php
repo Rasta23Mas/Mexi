@@ -17,7 +17,7 @@
         <th>Migrar</th>
     </tr>
     </thead>
-    <tbody id="idTBodyContrato" class="letraChica" align="center">
+    <tbody id="idTBodyMigrar" class="letraChica" align="center">
     </tbody>
 </table>
 <div class="col-md-12 text-center">

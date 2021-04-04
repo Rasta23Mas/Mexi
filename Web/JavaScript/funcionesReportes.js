@@ -233,7 +233,7 @@ function fnSelectReporte() {
         fechas = false;
         fechasDis = true;
     } else if (reporte == 36) {
-        nameForm += "Regresar a Bazar";
+        nameForm += "Regresar de Bazar";
         $("#divRpt").load('rptBazRegresar.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
@@ -245,7 +245,7 @@ function fnSelectReporte() {
         fechas = false;
         fechasDis = true;
     } else if (reporte == 38) {
-        nameForm += "Regresar a Bazar Auto";
+        nameForm += "Regresar de Bazar Auto";
         $("#divRpt").load('rptBazRegresar.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
@@ -1646,7 +1646,7 @@ function fnTBodyEmpenoAuto(lista) {
 
 function fnTBodyMigrarBazar(lista) {
     //Reporte Pasar a Bazar 35
-    $("#idTBodyContrato").html("");
+    $("#idTBodyMigrar").html("");
     $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
         prestamoCon = formatoMoneda(prestamoCon);
@@ -1665,32 +1665,36 @@ function fnTBodyMigrarBazar(lista) {
             "<td align='center'>" +
             "<img src='../../style/Img/enviar.jpg'   alt='Migrar' onclick='fnMigrarConfirme(" + Contrato + "," + form + "," + Estatus + ")'>" +
             "</td>" +
-            "</tr>").appendTo($("#idTBodyContrato"));
+            "</tr>").appendTo($("#idTBodyMigrar"));
     });
 }
 
 function fnTBodyRegresarBazar(lista) {
     //Reporte Pasar a Bazar 36
-    $("#idTBodyContrato").html("");
+    $("#idTBodyBack").html("");
     $.each(lista, function (ind, elem) {
-        var prestamoCon = elem.PRESTAMO;
-        prestamoCon = formatoMoneda(prestamoCon);
-        var articulo = elem.CONTRATO;
 
+        var prestamoBaz = elem.prestamo;
+        var vitrinaBaz = elem.vitrinaVenta;
+
+        prestamoBaz = formatoMoneda(prestamoBaz);
+        vitrinaBaz = formatoMoneda(vitrinaBaz);
+
+
+        var contrato = elem.Contrato;
+        var estatus = elem.Estatus;
+        var form = 1;
 
         $("<tr>" +
-            "<td>" + elem.FECHA + "</td>" +
-            "<td>" + elem.FECHAVEN + "</td>" +
-            "<td>" + elem.FECHAALM + "</td>" +
-            "<td>" + elem.NombreCompleto + "</td>" +
-            "<td>" + elem.celular + "</td>" +
-            "<td>" + elem.CONTRATO + "</td>" +
-            "<td align='right'>" + prestamoCon + "</td>" +
-            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td>" + elem.Fecha + "</td>" +
+            "<td>" + contrato + "</td>" +
+            "<td align='right'>" + prestamoBaz + "</td>" +
+            "<td align='right'>" + vitrinaBaz + "</td>" +
+            "<td>" + elem.Descripcion + "</td>" +
             "<td align='center'>" +
-            "<img src='../../style/Img/back.jpg'   alt='Regresar' onclick='verFotosContrato(" + articulo + ")'>" +
+            "<img src='../../style/Img/back.jpg'   alt='Regresar' onclick='fnRegresarConfirme(" + contrato + "," + form + "," + estatus + ")'>" +
             "</td>" +
-            "</tr>").appendTo($("#idTBodyContrato"));
+            "</tr>").appendTo($("#idTBodyBack"));
     });
 }
 
@@ -1772,6 +1776,40 @@ function fnRecargarMigrarContrato(contrato,form,Estatus) {
                 alertify.error("Error al agregar el artículo a bazar.");
             }else if (response == 1) {
                 alertify.success("Artículo agregado con éxito.");
+                fnLlenarReporte()
+            }
+        }
+    });
+
+}
+
+function fnRegresarConfirme(contrato,form,Estatus) {
+    alertify.confirm('Bazar',
+        'Todos los articulos de este contrato serán eliminados del Bazar',
+        function () {
+            fnRecargarRegresarContrato(contrato,form,Estatus)
+        },
+        function () {
+            alertify.error('Cancelado')
+        });
+}
+function fnRecargarRegresarContrato(contrato,form,Estatus) {
+    var dataEnviar = {
+        "contrato": contrato,
+        "tipoContrato": form,
+        "Estatus": Estatus
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Reportes/ConRegresarBazar.php',
+        type: 'post',
+        success: function (response) {
+            if (response == -1) {
+                alertify.error("Error al actualizar el contrato.");
+            } else if (response == -2) {
+                alertify.error("Error al eliminar el artículo de bazar.");
+            }else if (response == 1) {
+                alertify.success("Artículo eliminado con éxito.");
                 fnLlenarReporte()
             }
         }

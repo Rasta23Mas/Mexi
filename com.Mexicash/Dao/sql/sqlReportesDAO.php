@@ -1413,61 +1413,31 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
             $sucursal = $_SESSION["sucursal"];
             $jsondata = array();
             if ($busqueda == 1) {
-                $count = "
-                        SELECT COUNT(Con.id_contrato) as  totalCount,
-                        SUM(Con.total_Prestamo)  AS TOT_PRESTAMO 
-                         FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-                        AND Con.sucursal =Art.sucursal
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
-     					 AND Con.sucursal =Aut.sucursal
-                        WHERE DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') < CURDATE()  
-                        AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
-                        AND (id_cat_estatus!=20)
-                        ORDER BY Con.id_contrato";
+                $count = "SELECT COUNT(id_ArticuloBazar) as  totalCount
+                        FROM articulo_bazar_tbl 
+                        WHERE DATE_FORMAT(fecha_creacion,'%Y-%m-%d') = CURDATE()  
+                        AND sucursal = $sucursal AND Fisico=1 AND HayMovimiento=0";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
-                $jsondata["TOT_PRESTAMO"] = $fila["TOT_PRESTAMO"];
 
             } else {
-                $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
-                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
-                        Cli.celular,
-                        Con.id_contrato AS CONTRATO,
-                        Con.total_Prestamo AS PRESTAMO,
-                        Art.descripcionCorta AS DESCRIPCION,
-                        Art.observaciones as ObserArt,
-                        Aut.observaciones as ObserAuto,
-                        Con.id_Formulario as Form
-                        FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato 
-                        AND Con.sucursal =Art.sucursal
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato
-     					AND Con.sucursal =Aut.sucursal
-                        WHERE DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') < CURDATE()  
-                        AND Con.sucursal = $sucursal AND (id_cat_estatus=1 OR id_cat_estatus=2)
-                        AND (id_cat_estatus!=20)
-                        ORDER BY Con.id_contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                $BusquedaQuery = "SELECT DATE_FORMAT(fecha_creacion,'%Y-%m-%d') as Fecha_Bazar,
+                        id_Contrato, descripcionCorta,  prestamo, vitrinaVenta,estatus_Contrato						
+                        FROM articulo_bazar_tbl 
+                        WHERE DATE_FORMAT(fecha_creacion,'%Y-%m-%d') = CURDATE()  
+                        AND sucursal = $sucursal AND Fisico=1 AND HayMovimiento=0
+                        ORDER BY id_Contrato LIMIT " . $this->conexion->real_escape_string($limit) . " 
                     OFFSET " . $this->conexion->real_escape_string($offset);
                 $resultado = $this->conexion->query($BusquedaQuery);
                 while ($fila = $resultado->fetch_assoc()) {
                     $jsondataperson = array();
-                    $jsondataperson["FECHA"] = $fila["FECHA"];
-                    $jsondataperson["FECHAVEN"] = $fila["FECHAVEN"];
-                    $jsondataperson["FECHAALM"] = $fila["FECHAALM"];
-                    $jsondataperson["NombreCompleto"] = $fila["NombreCompleto"];
-                    $jsondataperson["celular"] = $fila["celular"];
-                    $jsondataperson["CONTRATO"] = $fila["CONTRATO"];
-                    $jsondataperson["PRESTAMO"] = $fila["PRESTAMO"];
-                    $jsondataperson["DESCRIPCION"] = $fila["DESCRIPCION"];
-                    $jsondataperson["ObserArt"] = $fila["ObserArt"];
-                    $jsondataperson["ObserAuto"] = $fila["ObserAuto"];
-                    $jsondataperson["Form"] = $fila["Form"];
+                    $jsondataperson["Fecha"] = $fila["Fecha_Bazar"];
+                    $jsondataperson["Contrato"] = $fila["id_Contrato"];
+                    $jsondataperson["Descripcion"] = $fila["descripcionCorta"];
+                    $jsondataperson["prestamo"] = $fila["prestamo"];
+                    $jsondataperson["vitrinaVenta"] = $fila["vitrinaVenta"];
+                    $jsondataperson["Estatus"] = $fila["estatus_Contrato"];
                     $jsondataList[] = $jsondataperson;
                 }
                 $jsondata["lista"] = array_values($jsondataList);
@@ -1681,71 +1651,102 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
         echo $verdad;
     }
 
-    public function sqlMigrarBazarAuto($contrato)
-    {
+    public function sqlMigrarBazarAuto($contrato,$Estatus){
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
         try {
             $sucursal = $_SESSION["sucursal"];
-            $jsondata = array();
-            if ($busqueda == 1) {
-                $count = "SELECT COUNT(Con.id_Contrato) as  totalCount,
-                        SUM(Con.total_Prestamo)  AS TOT_PRESTAMO
-                        FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente AND Cli.sucursal=$sucursal
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato And Art.sucursal=$sucursal
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato AND Aut.sucursal=$sucursal
-                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin  AND Con.sucursal=$sucursal";
-                $resultado = $this->conexion->query($count);
-                $fila = $resultado->fetch_assoc();
-                $jsondata['totalCount'] = $fila['totalCount'];
-                $jsondata["TOT_PRESTAMO"] = $fila["TOT_PRESTAMO"];
 
-            } else {
-                $BusquedaQuery = "SELECT DATE_FORMAT(Con.fecha_Creacion,'%Y-%m-%d') as FECHA,
-                        DATE_FORMAT(Con.fecha_vencimiento,'%Y-%m-%d') AS FECHAVEN, 
-                        DATE_FORMAT(Con.fecha_almoneda,'%Y-%m-%d') AS FECHAALM,  
-                        CONCAT (Cli.apellido_Pat , ' ',Cli.apellido_Mat,' ', Cli.nombre) as NombreCompleto,
-                        Con.id_contrato AS CONTRATO,
-                        Con.total_Prestamo AS PRESTAMO,
-                        Art.descripcionCorta AS DESCRIPCION,
-                        Art.observaciones as ObserArt,
-                        Aut.observaciones as ObserAuto,
-                        CONCAT ( Aut.marca,' ', Aut.modelo, ' ',Aut.color, ' ' , Aut.placas) as detalleAuto,
-                        Con.id_Formulario as Form
-                        FROM contratos_tbl AS Con 
-                        INNER JOIN cliente_tbl as Cli on Con.id_Cliente = Cli.id_Cliente AND Cli.sucursal=$sucursal
-                        LEFT JOIN articulo_tbl as Art on Con.id_Contrato = Art.id_Contrato And Art.sucursal=$sucursal
-     					LEFT JOIN auto_tbl as Aut on Con.id_Contrato = Aut.id_Contrato AND Aut.sucursal=$sucursal
-                        WHERE '$fechaIni' >= Con.fecha_fisico_ini
-                        AND '$fechaFin'  <= Con.fecha_fisico_fin  AND Con.sucursal=$sucursal
-                        ORDER BY Con.id_contrato
-                        LIMIT " . $this->conexion->real_escape_string($limit) . " 
-                    OFFSET " . $this->conexion->real_escape_string($offset);
-                $resultado = $this->conexion->query($BusquedaQuery);
-                while ($fila = $resultado->fetch_assoc()) {
-                    $jsondataperson = array();
-                    $jsondataperson["FECHA"] = $fila["FECHA"];
-                    $jsondataperson["FECHAVEN"] = $fila["FECHAVEN"];
-                    $jsondataperson["FECHAALM"] = $fila["FECHAALM"];
-                    $jsondataperson["NombreCompleto"] = $fila["NombreCompleto"];
-                    $jsondataperson["CONTRATO"] = $fila["CONTRATO"];
-                    $jsondataperson["PRESTAMO"] = $fila["PRESTAMO"];
-                    $jsondataperson["DESCRIPCION"] = $fila["DESCRIPCION"];
-                    $jsondataperson["ObserArt"] = $fila["ObserArt"];
-                    $jsondataperson["ObserAuto"] = $fila["ObserAuto"];
-                    $jsondataperson["detalleAuto"] = $fila["detalleAuto"];
-                    $jsondataperson["Form"] = $fila["Form"];
-                    $jsondataList[] = $jsondataperson;
+
+            $updateMigracion = "UPDATE contratos_tbl SET fisico=0,id_cat_estatus=4 
+                                WHERE sucursal=$sucursal AND id_Contrato=$contrato";
+
+            if ($ps = $this->conexion->prepare($updateMigracion)) {
+                if ($ps->execute()) {
+                    if (mysqli_stmt_affected_rows($ps) > 0) {
+                        $insertaMigracion = "INSERT INTO articulo_bazar_tbl(id_Contrato, id_serie, id_Articulo, tipo_movimiento,
+                                 tipoArticulo, tipo, kilataje, calidad, cantidad, peso, peso_Piedra,
+                                piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,vitrinaVenta, precioCat,
+                                observaciones, detalle,descripcionCorta,sucursal,estatus_Contrato)
+                            SELECT Art.id_Contrato, CONCAT (id_SerieSucursal, Adquisiciones_Tipo, id_SerieContrato,id_SerieArticulo) as idSerie,
+                                id_Articulo,25, tipoArticulo, tipo, kilataje, calidad, cantidad,
+                                peso, peso_Piedra, piedras, marca, modelo, num_Serie, prestamo, avaluo, vitrina,vitrina,
+                                precioCat, observaciones, detalle, Art.descripcionCorta,
+                                Art.sucursal,$Estatus
+                            FROM articulo_tbl as Art
+                            INNER JOIN contratos_tbl as Con on Art.id_Contrato = Con.id_contrato AND Con.sucursal= Art.sucursal
+                            WHERE Art.sucursal=$sucursal AND Con.id_Contrato= $contrato";
+                        if ($ps = $this->conexion->prepare($insertaMigracion)) {
+                            if ($ps->execute()) {
+                                $verdad = 1;
+                            }else{
+                                $verdad = -1;
+                            }
+                        }else{
+                            $verdad = -2;
+                        }
+                    }else{
+                        $verdad = -2;
+                    }
+                } else {
+                    $verdad = -2;
                 }
-                $jsondata["lista"] = array_values($jsondataList);
+            } else {
+                $verdad = -2;
             }
+
         } catch (Exception $exc) {
+            $verdad = -1;
             echo $exc->getMessage();
         } finally {
             $this->db->closeDB();
         }
+        //return $verdad;
+        echo $verdad;
+    }
 
-        echo json_encode($jsondata);
+    public function sqlRegresarBazar($contrato,$Estatus){
+        //Funcion Verificada
+        // TODO: Implement guardaCiente() method.
+        try {
+            $sucursal = $_SESSION["sucursal"];
+
+            $updateContrato = "UPDATE contratos_tbl SET fisico=1,id_cat_estatus=$Estatus 
+                                WHERE sucursal=$sucursal AND id_Contrato=$contrato";
+
+            if ($ps = $this->conexion->prepare($updateContrato)) {
+                if ($ps->execute()) {
+                    if (mysqli_stmt_affected_rows($ps) > 0) {
+                        $updateBazar = "UPDATE articulo_bazar_tbl SET tipo_movimiento=44,
+                              HayMovimiento=1,Fisico=0 
+                                WHERE sucursal=$sucursal AND id_Contrato=$contrato";
+                        if ($ps = $this->conexion->prepare($updateBazar)) {
+                            if ($ps->execute()) {
+                                $verdad = 1;
+                            }else{
+                                $verdad = -1;
+                            }
+                        }else{
+                            $verdad = -2;
+                        }
+                    }else{
+                        $verdad = -2;
+                    }
+                } else {
+                    $verdad = -2;
+                }
+            } else {
+                $verdad = -2;
+            }
+
+        } catch (Exception $exc) {
+            $verdad = -1;
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+        //return $verdad;
+        echo $verdad;
     }
 
 
