@@ -59,6 +59,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=4">Monitoreo</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=5">Cierres</a></li>
                     <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=6">Autos</a></li>
+                    <li><a class="dropdown-item" href="../Reportes/vReportes.php?tipoReporte=7">Bazar</a></li>
+
                 </ul>
             </li>
             <li class="nav-item dropdown" id="menuCatalogos">

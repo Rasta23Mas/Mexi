@@ -84,6 +84,14 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteInventariosAutos($busqueda,$limit,$offset);
 }else if ($tipoReporte == 34) {
     $sqlReportesDAO->sqlReporteEmpenoAuto($busqueda,$fechaIni,$fechaFin,$limit,$offset);
+}else if ($tipoReporte == 35) {
+    $sqlReportesDAO->sqlReporteMigrarBazar($busqueda,$limit,$offset);
+}else if ($tipoReporte == 36) {
+    $sqlReportesDAO->sqlReporteRegresarBazar($busqueda,$limit,$offset);
+}else if ($tipoReporte == 37) {
+    $sqlReportesDAO->sqlReporteMigrarAuto($busqueda,$limit,$offset);
+}else if ($tipoReporte == 38) {
+    $sqlReportesDAO->sqlReporteRegresarAuto($busqueda,$limit,$offset);
 }
 
 ?>

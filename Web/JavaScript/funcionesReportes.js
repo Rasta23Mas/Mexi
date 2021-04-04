@@ -204,7 +204,7 @@ function fnSelectReporte() {
         fechasDis = true;
         $("#divRpt").load('rptFinUtilidades.php');
     } else if (reporte == 31) {
-        nameForm += "Pasar a Bazar";
+        nameForm += "Almoneda Vencida";
         $("#divRpt").load('rptEmpContratos.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
@@ -226,6 +226,30 @@ function fnSelectReporte() {
         fechas = false;
         fechasDis = true;
         $("#divRpt").load('rptEmpEmpenoAuto.php');
+    } else if (reporte == 35) {
+        nameForm += "Migrar a Bazar";
+        $("#divRpt").load('rptBazMigrar.php');
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+    } else if (reporte == 36) {
+        nameForm += "Regresar a Bazar";
+        $("#divRpt").load('rptBazRegresar.php');
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+    } else if (reporte == 37) {
+        nameForm += "Migrar a Bazar Auto";
+        $("#divRpt").load('rptBazMigrar.php');
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
+    } else if (reporte == 38) {
+        nameForm += "Regresar a Bazar Auto";
+        $("#divRpt").load('rptBazRegresar.php');
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
@@ -239,7 +263,9 @@ function fnLlenarReporte() {
     var fechaFin = $("#idFechaFinal").val();
     var tipoReporte = $('#idTipoReporte').val();
     var busqueda = 1;
-    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28 || tipoReporte == 31|| tipoReporte == 33) {
+    if (tipoReporte == 2 || tipoReporte == 5 || tipoReporte == 7 || tipoReporte == 28
+        || tipoReporte == 31 || tipoReporte == 33 || tipoReporte == 35 || tipoReporte == 36
+        || tipoReporte == 37 || tipoReporte == 38) {
         fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin);
     } else {
         if (fechaFin !== "" && fechaIni !== "") {
@@ -470,11 +496,11 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 document.getElementById('totalPresVen').innerHTML = TOT;
                 document.getElementById('totalVen').innerHTML = TOT_PRES;
                 document.getElementById('totalUtilVen').innerHTML = TOT_UTIL;
-            }else if (tipoReporte == 33) {
+            } else if (tipoReporte == 33) {
                 var TOT_PRES = data.TOT_PRES;
                 TOT_PRES = formatoMoneda(TOT_PRES);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRES;
-            }else if (tipoReporte == 34) {
+            } else if (tipoReporte == 34) {
                 var TOT_PRESTAMO = data.TOT_PRESTAMO;
                 TOT_PRESTAMO = formatoMoneda(TOT_PRESTAMO);
                 document.getElementById('totalPrestamo').innerHTML = TOT_PRESTAMO;
@@ -633,10 +659,18 @@ function fnCargaPagina(pagina) {
             fnTBodyPasarBazar(lista);
         } else if (tipoReporte == 32) {
             fnTBodyUtilidadesVenta(lista);
-        }else if (tipoReporte == 33) {
+        } else if (tipoReporte == 33) {
             fnTBodyInventarioAuto(lista);
-        }else if (tipoReporte == 34) {
+        } else if (tipoReporte == 34) {
             fnTBodyEmpenoAuto(lista);
+        } else if (tipoReporte == 35) {
+            fnTBodyMigrarBazar(lista);
+        } else if (tipoReporte == 36) {
+            fnTBodyRegresarBazar(lista);
+        }else if (tipoReporte == 37) {
+            fnTBodyMigrarBazarAuto(lista);
+        }else if (tipoReporte == 38) {
+            fnTBodyRegresarBazarAuto(lista);
         }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
@@ -1268,9 +1302,9 @@ function fnTBodyEmpeno(lista) {
         var prest = " ";
         var desc = " ";
 
-            obs = elem.ObserArt;
-            prest = prestamoCon;
-            desc= elem.DESCRIPCION
+        obs = elem.ObserArt;
+        prest = prestamoCon;
+        desc = elem.DESCRIPCION
 
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
@@ -1326,7 +1360,7 @@ function exportar(expor) {
         } else {
             window.open('../PDF/callPdf_R_Inventario_Auto.php');
         }
-    }else {
+    } else {
         if (fechaFin !== "" && fechaIni !== "") {
             fechaIni = fechaSQL(fechaIni);
             fechaFin = fechaSQL(fechaFin);
@@ -1397,7 +1431,7 @@ function exportar(expor) {
                 } else {
                     window.open('../PDF/callPdf_R_Utilidades.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }
-            }else if (tipoReporte == 34) {
+            } else if (tipoReporte == 34) {
                 if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Empenos_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 } else {
@@ -1593,9 +1627,9 @@ function fnTBodyEmpenoAuto(lista) {
         var obs = " ";
         var prest = " ";
         var desc = " ";
-            obs = elem.ObserAuto;
-            prest = prestamoConAuto;
-            desc = elem.DESCRIPCIONAUTO
+        obs = elem.ObserAuto;
+        prest = prestamoConAuto;
+        desc = elem.DESCRIPCIONAUTO
 
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
@@ -1610,6 +1644,140 @@ function fnTBodyEmpenoAuto(lista) {
     });
 }
 
+function fnTBodyMigrarBazar(lista) {
+    //Reporte Pasar a Bazar 35
+    $("#idTBodyContrato").html("");
+    $.each(lista, function (ind, elem) {
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var Contrato = elem.CONTRATO;
+        var form = 1 ;
+        var Estatus = elem.Estatus;
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.celular + "</td>" +
+            "<td>" + Contrato + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td align='center'>" +
+            "<img src='../../style/Img/enviar.jpg'   alt='Migrar' onclick='fnMigrarConfirme(" + Contrato + "," + form + "," + Estatus + ")'>" +
+            "</td>" +
+            "</tr>").appendTo($("#idTBodyContrato"));
+    });
+}
+
+function fnTBodyRegresarBazar(lista) {
+    //Reporte Pasar a Bazar 36
+    $("#idTBodyContrato").html("");
+    $.each(lista, function (ind, elem) {
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var articulo = elem.CONTRATO;
+
+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.celular + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td align='center'>" +
+            "<img src='../../style/Img/back.jpg'   alt='Regresar' onclick='verFotosContrato(" + articulo + ")'>" +
+            "</td>" +
+            "</tr>").appendTo($("#idTBodyContrato"));
+    });
+}
+
+function fnTBodyMigrarBazarAuto(lista) {
+    //Reporte Pasar a Bazar 35
+    $("#idTBodyContrato").html("");
+    $.each(lista, function (ind, elem) {
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var Contrato = elem.CONTRATO;
+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.celular + "</td>" +
+            "<td>" + Contrato + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td align='center'>" +
+            "<img src='../../style/Img/enviar.jpg'   alt='Migrar' onclick='fnRecargarMigrarContrato(" + Contrato + ")'>" +
+            "</td>" +
+            "</tr>").appendTo($("#idTBodyContrato"));
+    });
+}
+
+function fnTBodyRegresarBazarAuto(lista) {
+    //Reporte Pasar a Bazar 36
+    $("#idTBodyContrato").html("");
+    $.each(lista, function (ind, elem) {
+        var prestamoCon = elem.PRESTAMO;
+        prestamoCon = formatoMoneda(prestamoCon);
+        var articulo = elem.CONTRATO;
+
+
+        $("<tr>" +
+            "<td>" + elem.FECHA + "</td>" +
+            "<td>" + elem.FECHAVEN + "</td>" +
+            "<td>" + elem.FECHAALM + "</td>" +
+            "<td>" + elem.NombreCompleto + "</td>" +
+            "<td>" + elem.celular + "</td>" +
+            "<td>" + elem.CONTRATO + "</td>" +
+            "<td align='right'>" + prestamoCon + "</td>" +
+            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td align='center'>" +
+            "<img src='../../style/Img/back.jpg'   alt='Regresar' onclick='verFotosContrato(" + articulo + ")'>" +
+            "</td>" +
+            "</tr>").appendTo($("#idTBodyContrato"));
+    });
+}
+
+function fnMigrarConfirme(contrato,form,Estatus) {
+    alertify.confirm('Bazar',
+        'Todos los articulos de este contrato serán agregados a Bazar',
+        function () {
+            fnRecargarMigrarContrato(contrato,form,Estatus)
+        },
+        function () {
+            alertify.error('Cancelado')
+        });
+}
+function fnRecargarMigrarContrato(contrato,form,Estatus) {
+
+
+    var dataEnviar = {
+        "contrato": contrato,
+        "tipoContrato": form,
+        "Estatus": Estatus
+    };
+    $.ajax({
+        data: dataEnviar,
+        url: '../../../com.Mexicash/Controlador/Reportes/ConMigrarBazar.php',
+        type: 'post',
+        success: function (response) {
+            if (response == -1) {
+                alertify.error("Error al actualizar el contrato.");
+            } else if (response == -2) {
+                alertify.error("Error al agregar el artículo a bazar.");
+            }else if (response == 1) {
+                alertify.success("Artículo agregado con éxito.");
+                fnLlenarReporte()
+            }
+        }
+    });
+
+}
 
 function fnRecargarReportes() {
     alert("Reporte en construcción");
