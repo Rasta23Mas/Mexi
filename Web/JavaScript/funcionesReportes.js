@@ -240,13 +240,13 @@ function fnSelectReporte() {
         fechasDis = true;
     } else if (reporte == 37) {
         nameForm += "Migrar a Bazar Auto";
-        $("#divRpt").load('rptBazMigrar.php');
+        $("#divRpt").load('rptBazMigrarAuto.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
     } else if (reporte == 38) {
         nameForm += "Regresar de Bazar Auto";
-        $("#divRpt").load('rptBazRegresar.php');
+        $("#divRpt").load('rptBazRegresarAuto.php');
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
@@ -1700,12 +1700,13 @@ function fnTBodyRegresarBazar(lista) {
 
 function fnTBodyMigrarBazarAuto(lista) {
     //Reporte Pasar a Bazar 35
-    $("#idTBodyContrato").html("");
+    $("#idTBodyMigrar").html("");
     $.each(lista, function (ind, elem) {
         var prestamoCon = elem.PRESTAMO;
         prestamoCon = formatoMoneda(prestamoCon);
         var Contrato = elem.CONTRATO;
-
+        var form = 2 ;
+        var Estatus = elem.Estatus;
         $("<tr>" +
             "<td>" + elem.FECHA + "</td>" +
             "<td>" + elem.FECHAVEN + "</td>" +
@@ -1714,36 +1715,45 @@ function fnTBodyMigrarBazarAuto(lista) {
             "<td>" + elem.celular + "</td>" +
             "<td>" + Contrato + "</td>" +
             "<td align='right'>" + prestamoCon + "</td>" +
-            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td>" + elem.marca + "</td>" +
+            "<td>" + elem.modelo + "</td>" +
+            "<td>" + elem.anio + "</td>" +
+            "<td>" + elem.color + "</td>" +
+            "<td>" + elem.placas + "</td>" +
+            "<td>" + elem.observaciones + "</td>" +
             "<td align='center'>" +
-            "<img src='../../style/Img/enviar.jpg'   alt='Migrar' onclick='fnRecargarMigrarContrato(" + Contrato + ")'>" +
+            "<img src='../../style/Img/enviar.jpg'   alt='Migrar' onclick='fnMigrarConfirme(" + Contrato + "," + form + "," + Estatus + ")'>" +
             "</td>" +
-            "</tr>").appendTo($("#idTBodyContrato"));
+            "</tr>").appendTo($("#idTBodyMigrar"));
     });
 }
 
 function fnTBodyRegresarBazarAuto(lista) {
     //Reporte Pasar a Bazar 36
-    $("#idTBodyContrato").html("");
+    $("#idTBodyBack").html("");
     $.each(lista, function (ind, elem) {
-        var prestamoCon = elem.PRESTAMO;
-        prestamoCon = formatoMoneda(prestamoCon);
-        var articulo = elem.CONTRATO;
 
+        var prestamoBaz = elem.prestamo;
+        var vitrinaBaz = elem.vitrinaVenta;
+
+        prestamoBaz = formatoMoneda(prestamoBaz);
+        vitrinaBaz = formatoMoneda(vitrinaBaz);
+
+
+        var contrato = elem.Contrato;
+        var estatus = elem.Estatus;
+        var form = 1;
 
         $("<tr>" +
-            "<td>" + elem.FECHA + "</td>" +
-            "<td>" + elem.FECHAVEN + "</td>" +
-            "<td>" + elem.FECHAALM + "</td>" +
-            "<td>" + elem.NombreCompleto + "</td>" +
-            "<td>" + elem.celular + "</td>" +
-            "<td>" + elem.CONTRATO + "</td>" +
-            "<td align='right'>" + prestamoCon + "</td>" +
-            "<td>" + elem.DESCRIPCION + "</td>" +
+            "<td>" + elem.Fecha + "</td>" +
+            "<td>" + contrato + "</td>" +
+            "<td align='right'>" + prestamoBaz + "</td>" +
+            "<td align='right'>" + vitrinaBaz + "</td>" +
+            "<td>" + elem.Descripcion + "</td>" +
             "<td align='center'>" +
-            "<img src='../../style/Img/back.jpg'   alt='Regresar' onclick='verFotosContrato(" + articulo + ")'>" +
+            "<img src='../../style/Img/back.jpg'   alt='Regresar' onclick='fnRegresarConfirme(" + contrato + "," + form + "," + estatus + ")'>" +
             "</td>" +
-            "</tr>").appendTo($("#idTBodyContrato"));
+            "</tr>").appendTo($("#idTBodyBack"));
     });
 }
 
@@ -1757,8 +1767,9 @@ function fnMigrarConfirme(contrato,form,Estatus) {
             alertify.error('Cancelado')
         });
 }
-function fnRecargarMigrarContrato(contrato,form,Estatus) {
 
+function fnRecargarMigrarContrato(contrato,form,Estatus) {
+    $("#idTBodyMigrar").html("");
 
     var dataEnviar = {
         "contrato": contrato,
@@ -1794,6 +1805,7 @@ function fnRegresarConfirme(contrato,form,Estatus) {
         });
 }
 function fnRecargarRegresarContrato(contrato,form,Estatus) {
+    $("#idTBodyBack").html("");
     var dataEnviar = {
         "contrato": contrato,
         "tipoContrato": form,

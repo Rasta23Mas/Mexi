@@ -11,7 +11,7 @@ $sqlReportesDAO = new sqlReportesDAO();
 if ($tipoContrato == 1) {
     $sqlReportesDAO->sqlRegresarBazar($contrato,$Estatus);
 }else if ($tipoContrato == 2) {
-    $sqlReportesDAO->sqlRegresarBazarAuto($contrato);
+    $sqlReportesDAO->sqlRegresarBazarAuto($contrato,$Estatus);
 }
 
 ?>
