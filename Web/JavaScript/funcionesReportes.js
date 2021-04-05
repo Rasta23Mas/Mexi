@@ -1448,9 +1448,9 @@ function exportar(expor) {
                alert("Esta función esta deshabilitada para estos reportes")
             }else if (tipoReporte == 39) {
                 if (expor == 1) {
-                    window.open('../Excel/rpt_Exc_Empenos_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                    window.open('../Excel/rpt_Exc_BazarFechas.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 } else {
-                    window.open('../PDF/callPdf_R_Empeno_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                    window.open('../PDF/callPdf_R_BazarFechas.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
             }
         } else {
