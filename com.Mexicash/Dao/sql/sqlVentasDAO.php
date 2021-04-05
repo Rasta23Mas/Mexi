@@ -425,9 +425,9 @@ class sqlVentasDAO
             $IdBazarMax++;
             $usuario = $_SESSION["idUsuario"];
             $insertaAbono = "INSERT INTO contrato_mov_baz_tbl 
-                       (id_Bazar,cliente,tipo_movimiento,efectivo,cambio,abono,abono_Total,faltaPagar,
+                       (id_Bazar,cliente,tipo_movimiento,subTotal,total,efectivo,cambio,abono,abono_Total,faltaPagar,
                         id_Apartado,fecha_Creacion,sucursal,id_CierreCaja,vendedor)
-                        VALUES ($IdBazarMax,$id_Cliente,$tipo_movimiento, $efectivo,$cambio,$abono,$abono_Total,$faltaPagar,
+                        VALUES ($IdBazarMax,$id_Cliente,$tipo_movimiento, $abono,$abono,$efectivo,$cambio,$abono,$abono_Total,$faltaPagar,
                                 $idBazar,'$fechaCreacion',$sucursal,$idCierreCaja,$usuario)";
             if ($ps = $this->conexion->prepare($insertaAbono)) {
                 if ($ps->execute()) {

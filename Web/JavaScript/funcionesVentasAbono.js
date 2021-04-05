@@ -295,10 +295,6 @@ function guardarAbono() {
             var efectivo = $("#idEfectivoValue").val();
             var cambio = $("#idCambioValue").val();
             var id_Bazar = $("#idFolioBazar").val();
-            var subtotal = $("#idSubTotalValue").val();
-            var iva = $("#idIvaValue").val();
-            var descuento = $("#idDescuentoValue").val();
-            var total = $("#idTotalValue").val();
             abonoAnterior = Math.floor(abonoAnterior * 100) / 100;
             abono = Math.floor(abono * 100) / 100;
             var abonoTotal = abonoAnterior + abono;
