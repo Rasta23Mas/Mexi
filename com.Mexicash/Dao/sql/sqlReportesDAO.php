@@ -1772,4 +1772,50 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
         echo $verdad;
     }
 
+    public function sqlReporteBazarHoy($busqueda, $fechaIni, $fechaFin, $limit, $offset)
+    {
+        try {
+            //Reporte30
+            $sucursal = $_SESSION["sucursal"];
+            $jsondata = array();
+            if ($busqueda == 1) {
+                $count = "SELECT COUNT(id_ArticuloBazar) as  totalCount
+                        FROM articulo_bazar_tbl 
+                        WHERE DATE_FORMAT(fecha_creacion,'%Y-%m-%d') 
+                        BETWEEN '$fechaIni' AND '$fechaFin' AND sucursal=$sucursal ";
+                $resultado = $this->conexion->query($count);
+                $fila = $resultado->fetch_assoc();
+                $jsondata['totalCount'] = $fila['totalCount'];
+
+            } else {
+                $BusquedaQuery = " SELECT DATE_FORMAT(fecha_creacion,'%Y-%m-%d') as Fecha_Bazar,
+                        id_Contrato, descripcionCorta,  prestamo, vitrinaVenta,estatus_Contrato						
+                        FROM articulo_bazar_tbl 
+                        WHERE DATE_FORMAT(fecha_creacion,'%Y-%m-%d') 
+                        BETWEEN '$fechaIni' AND '$fechaFin' AND sucursal=$sucursal 
+                        Order by id_Contrato
+                        LIMIT " . $this->conexion->real_escape_string($limit) . " 
+                    OFFSET " . $this->conexion->real_escape_string($offset);
+                $resultado = $this->conexion->query($BusquedaQuery);
+                while ($fila = $resultado->fetch_assoc()) {
+                    $jsondataperson = array();
+                    $jsondataperson["Fecha"] = $fila["Fecha_Bazar"];
+                    $jsondataperson["Contrato"] = $fila["id_Contrato"];
+                    $jsondataperson["Descripcion"] = $fila["descripcionCorta"];
+                    $jsondataperson["prestamo"] = $fila["prestamo"];
+                    $jsondataperson["vitrinaVenta"] = $fila["vitrinaVenta"];
+                    $jsondataperson["Estatus"] = $fila["estatus_Contrato"];
+                    $jsondataList[] = $jsondataperson;
+                }
+                $jsondata["lista"] = array_values($jsondataList);
+            }
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        } finally {
+            $this->db->closeDB();
+        }
+
+        echo json_encode($jsondata);
+    }
+
 }

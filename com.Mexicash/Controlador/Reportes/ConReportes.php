@@ -92,6 +92,8 @@ if ($tipoReporte == 1) {
     $sqlReportesDAO->sqlReporteMigrarAuto($busqueda,$limit,$offset);
 }else if ($tipoReporte == 38) {
     $sqlReportesDAO->sqlReporteRegresarAuto($busqueda,$limit,$offset);
+}else if ($tipoReporte == 39) {
+    $sqlReportesDAO->sqlReporteBazarHoy($busqueda,$fechaIni,$fechaFin,$limit,$offset);
 }
 
 ?>

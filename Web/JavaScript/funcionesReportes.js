@@ -250,6 +250,12 @@ function fnSelectReporte() {
         document.getElementById('NombreReporte').innerHTML = nameForm;
         fechas = false;
         fechasDis = true;
+    } else if (reporte == 39) {
+        nameForm += "Reportes de Bazar por fecha";
+        $("#divRpt").load('rptBazFechas.php');
+        document.getElementById('NombreReporte').innerHTML = nameForm;
+        fechas = false;
+        fechasDis = true;
     }
 
     $("#idFechaInicial").datepicker('option', 'disabled', fechas);
@@ -670,6 +676,8 @@ function fnCargaPagina(pagina) {
             fnTBodyMigrarBazarAuto(lista);
         }else if (tipoReporte == 38) {
             fnTBodyRegresarBazarAuto(lista);
+        }else if (tipoReporte == 39) {
+            fnTBodyBazarFecha(lista);
         }
     }).fail(function (jqXHR, textStatus, textError) {
         alert("Error al realizar la peticion cuantos".textError);
@@ -1436,6 +1444,14 @@ function exportar(expor) {
                 } else {
                     window.open('../PDF/callPdf_R_Empeno_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
                 }
+            }else if (tipoReporte == 35 ||tipoReporte == 36||tipoReporte == 37||tipoReporte == 38) {
+               alert("Esta función esta deshabilitada para estos reportes")
+            }else if (tipoReporte == 39) {
+                if (expor == 1) {
+                    window.open('../Excel/rpt_Exc_Empenos_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                } else {
+                    window.open('../PDF/callPdf_R_Empeno_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin);
+                }
             }
         } else {
             alertify.error("Seleccione fecha de inicio y fecha final.");
@@ -1753,6 +1769,28 @@ function fnTBodyRegresarBazarAuto(lista) {
             "<img src='../../style/Img/back.jpg'   alt='Regresar' onclick='fnRegresarConfirme(" + contrato + "," + form + "," + estatus + ")'>" +
             "</td>" +
             "</tr>").appendTo($("#idTBodyBack"));
+    });
+}
+
+function fnTBodyBazarFecha(lista) {
+    //Reporte Pasar a Bazar 39
+    $("#idTBodyFechas").html("");
+    $.each(lista, function (ind, elem) {
+
+        var prestamoBaz = elem.prestamo;
+        var vitrinaBaz = elem.vitrinaVenta;
+        prestamoBaz = formatoMoneda(prestamoBaz);
+        vitrinaBaz = formatoMoneda(vitrinaBaz);
+
+        var contrato = elem.Contrato;
+
+        $("<tr>" +
+            "<td>" + elem.Fecha + "</td>" +
+            "<td>" + contrato + "</td>" +
+            "<td align='right'>" + prestamoBaz + "</td>" +
+            "<td align='right'>" + vitrinaBaz + "</td>" +
+            "<td>" + elem.Descripcion + "</td>" +
+            "</tr>").appendTo($("#idTBodyFechas"));
     });
 }
 
