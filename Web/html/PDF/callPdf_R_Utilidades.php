@@ -101,8 +101,14 @@ foreach ($resultado as $row) {
         } else {
             $tot_inter = $e_costoContrato;
         }
-        $tot_des = $e_pagoDesempeno + $tot_inter;
-        $tot_des = $tot_des - $prestamo_Informativo;
+
+        if($prestamo_Informativo>$e_pagoDesempeno ){
+            $tot_des = $tot_inter;
+        }else{
+            $tot_des = $e_pagoDesempeno + $tot_inter;
+            $tot_des = $tot_des - $prestamo_Informativo;
+        }
+
     }
 
     $tot_ref = number_format($tot_ref, 2,'.',',');

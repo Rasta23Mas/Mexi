@@ -132,8 +132,14 @@ if($query->num_rows > 0) {
             } else {
                 $tot_inter = $e_costoContrato;
             }
-            $tot_des = $e_pagoDesempeno + $tot_inter;
-            $tot_des = $tot_des - $prestamo_Informativo;
+
+            if($prestamo_Informativo>$e_pagoDesempeno ){
+                $tot_des = $tot_inter;
+            }else{
+                $tot_des = $e_pagoDesempeno + $tot_inter;
+                $tot_des = $tot_des - $prestamo_Informativo;
+            }
+
         }
 
         $spreadsheet->getActiveSheet()

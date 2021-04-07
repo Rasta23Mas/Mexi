@@ -1543,11 +1543,16 @@ function fnTBodyUtilidades(lista) {
                 tot_inter = costoContrato;
             }
 
-
             desempeno = parseFloat(desempeno);
             tot_inter = parseFloat(tot_inter);
-            tot_des = desempeno + tot_inter;
-            tot_des = tot_des - prestamo_Informativo;
+
+            if(prestamo_Informativo>desempeno ){
+                tot_des = tot_inter;
+            }else{
+                tot_des = desempeno + tot_inter;
+                tot_des = tot_des - prestamo_Informativo;
+            }
+
         }
         var tot_refMon = formatoMoneda(tot_ref);
         var tot_desMon = formatoMoneda(tot_des);
