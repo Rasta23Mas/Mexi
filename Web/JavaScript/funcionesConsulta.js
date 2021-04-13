@@ -246,10 +246,9 @@ function cargarTablaDetalleNombre(idContratoBusqueda) {
         type: "POST",
         url: '../../../com.Mexicash/Controlador/Contrato/tblDetalleContrato.php',
         data: dataEnviar,
-        //dataType: "json",
+        dataType: "json",
 
         success: function (datos) {
-            alert(datos)
             alert("Refrescando tabla detalle de contrato.");
             var html = '';
             var i = 0;
