@@ -499,8 +499,8 @@ function fnLlenaReport(busqueda, tipoReporte, fechaIni, fechaFin) {
                 TOT = formatoMoneda(TOT);
                 TOT_PRES = formatoMoneda(TOT_PRES);
                 TOT_UTIL = formatoMoneda(TOT_UTIL);
-                document.getElementById('totalPresVen').innerHTML = TOT;
-                document.getElementById('totalVen').innerHTML = TOT_PRES;
+                document.getElementById('totalPresVen').innerHTML = TOT_PRES;
+                document.getElementById('totalVen').innerHTML = TOT;
                 document.getElementById('totalUtilVen').innerHTML = TOT_UTIL;
             } else if (tipoReporte == 33) {
                 var TOT_PRES = data.TOT_PRES;
@@ -1438,6 +1438,12 @@ function exportar(expor) {
                 } else {
                     window.open('../PDF/callPdf_R_Utilidades.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
                 }
+            } else if (tipoReporte == 32) {
+                if (expor == 1) {
+                    window.open('../Excel/rpt_Exc_UtilidadesVenta.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                } else {
+                    window.open('../PDF/callPdf_R_UtilidadesVenta.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
+                }
             } else if (tipoReporte == 34) {
                 if (expor == 1) {
                     window.open('../Excel/rpt_Exc_Empenos_Auto.php?fechaIni=' + fechaIni + '&fechaFin=' + fechaFin + '&sucursal=' + sucursal);
@@ -1598,7 +1604,7 @@ function fnTBodyPasarBazar(lista) {
 }
 
 function fnTBodyUtilidadesVenta(lista) {
-    //Reporte Utilidades 30
+    //Reporte Utilidades 32
     $("#idTBodyUtilidadVenta").html("");
 
     $.each(lista, function (ind, elem) {

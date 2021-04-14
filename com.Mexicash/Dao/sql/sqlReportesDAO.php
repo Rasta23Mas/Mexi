@@ -1189,9 +1189,9 @@ Con.subTotal,Con.descuento_Venta,Con.total, Con.totalPrestamo, Con.utilidad, Usu
                         SUM(totalPrestamo)  AS TOT_PRES,
                         SUM(utilidad)  AS TOT_UTIL
                         FROM contrato_mov_baz_tbl 
-                        WHERE sucursal=$sucursal AND tipo_movimiento=6 AND
-                        DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')                                
-                        BETWEEN '$fechaIni' AND '$fechaFin'   ORDER BY id ";
+                       WHERE sucursal=$sucursal AND tipo_movimiento=6 AND
+                                    DATE_FORMAT(fecha_Creacion,'%Y-%m-%d')                                
+                                    BETWEEN '$fechaIni' AND '$fechaFin' ORDER BY id ";
                 $resultado = $this->conexion->query($count);
                 $fila = $resultado->fetch_assoc();
                 $jsondata['totalCount'] = $fila['totalCount'];
