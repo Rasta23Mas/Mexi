@@ -23,7 +23,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
     <script src="../../JavaScript/funcionesGenerales.js"></script>
     <script type="application/javascript">
         $(document).ready(function () {
-        $("#menuDotaciones").show();
+            $("#menuDotaciones").show();
         })
     </script>
 </head>
@@ -108,6 +108,15 @@ include_once ($_SERVER['DOCUMENT_ROOT'] . '/Security.php');
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="../Admin/vCancelado.php">Cancelar</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown" id="menuVentas">
+                <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    Precio
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="../Ventas/vVentasModificarPrecio.php">Modificar Precio</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
