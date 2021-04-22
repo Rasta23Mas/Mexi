@@ -69,7 +69,7 @@ $query = "SELECT DATE_FORMAT(fecha_Bazar,'%Y-%m-%d') as FECHA, id_Contrato,id_se
        vitrinaVenta AS precio_venta, 
                         descripcionCorta as Detalle
                         FROM articulo_bazar_tbl as Baz
-                        WHERE tipo_movimiento!= 6 AND Baz.sucursal=$sucursal";
+                        WHERE (tipo_movimiento= 24||tipo_movimiento=23||tipo_movimiento=22) AND Baz.sucursal=$sucursal";
 $resultado = $db->query($query);
 
 $tablaArticulos = '';
