@@ -335,7 +335,7 @@ class sqlReportesDAO
             $jsondata = array();
             if ($busqueda == 1) {
                 $count = "SELECT COUNT(Baz.id_Contrato) as  totalCount,
-                        SUM(vitrinaVenta)  AS TOT_VENTAS  
+                        SUM(prestamo)  AS TOT_VENTAS  
                         FROM articulo_bazar_tbl as Baz
                         WHERE (tipo_movimiento= 24||tipo_movimiento=23||tipo_movimiento=22) and Baz.sucursal=$sucursal";
                 $resultado = $this->conexion->query($count);
